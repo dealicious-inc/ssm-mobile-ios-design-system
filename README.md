@@ -1,1 +1,3 @@
-# ssm-mobile-ios-design-system
+# DealiDesignKit
+
+A description of this package.

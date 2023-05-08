@@ -17,6 +17,7 @@ enum DealiFont {
     case b2
     case b3
     case b4
+    case c1
     
     var style: DealiFontProperty.Style {
         switch self {
@@ -24,6 +25,8 @@ enum DealiFont {
             return DealiFontProperty.h1
         case .h2:
             return DealiFontProperty.h2
+        case .c1:
+            return DealiFontProperty.c1
         default:
             return DealiFontProperty.b4
         }
@@ -52,8 +55,9 @@ struct DealiFontProperty {
     static let b1 = Style(size: 14.0, lineHeight: 28.0)
     static let b2 = Style(size: 12.0, lineHeight: 20.0)
     static let b3 = Style(size: 10.0, lineHeight: 18.0)
-    static let b4 = Style(size: 8.0, lineHeight: 14.0)
-    
+    static let b4 = Style(size: 12.0, lineHeight: 18.0)
+    static let c1 = Style(size: 10.0, lineHeight: 14.0)
+ 
     static let fontDescriptor = UIFontDescriptor.dealiFontDescriptor
 }
 

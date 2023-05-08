@@ -62,3 +62,41 @@ extension UIFontDescriptor {
         return UIFontDescriptor().addingAttributes([.family: "Pretendard JP"])
     }()
 }
+
+public func registerDealiSystemFonts() {
+    // 폰트 정보 (OTF 확장자)
+    let fonts = [
+        "PretendardJP-Black.otf",
+        "PretendardJP-Bold.otf",
+        "PretendardJP-ExtraBold.otf",
+        "PretendardJP-ExtraLight.otf",
+        "PretendardJP-Light.otf",
+        "PretendardJP-Medium.otf",
+        "PretendardJP-Regular.otf",
+        "PretendardJP-SemiBold.otf",
+        "PretendardJP-Thin.otf"
+    ]
+    
+    // 폰트 등록하기.
+    for font in fonts {
+        UIFont.registerFont(bundle: Bundle.module, fontName: font)
+    }
+}
+
+extension UIFont {
+    static func registerFont(bundle: Bundle, fontName: String) {
+        let pathForResourceString = bundle.path(forResource: fontName, ofType: nil)
+        let fontData = NSData(contentsOfFile: pathForResourceString!)
+        let dataProvider = CGDataProvider(data: fontData!)
+        let fontRef = CGFont(dataProvider!)
+        var errorRef: Unmanaged<CFError>? = nil
+        
+        if let fontRef = fontRef,
+            (CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false) {
+            print("Failed to register font - register graphics font failed - this font may have already been registered in the main bundle.")
+        }
+        else {
+            print("Failed to register font - bundle identifier invalid.")
+        }
+    }
+}

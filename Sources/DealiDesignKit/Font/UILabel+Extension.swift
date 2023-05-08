@@ -15,16 +15,18 @@ public extension UILabel {
         set(newValue) {
             
             let style = NSMutableParagraphStyle()
-            style.maximumLineHeight = self.font.dealiLineHeight ?? 0.0
-            style.minimumLineHeight = self.font.dealiLineHeight ?? 0.0
+            style.maximumLineHeight = self.font.dealiLineHeight ?? self.font.lineHeight
+            style.minimumLineHeight = self.font.dealiLineHeight ?? self.font.lineHeight
+            style.alignment = self.textAlignment
             
             let attributes: [NSAttributedString.Key: Any] = [
                 .paragraphStyle: style,
-                .baselineOffset: ((self.font.dealiLineHeight ?? 0.0) - self.font.lineHeight) / 4,
+                .baselineOffset: ((self.font.dealiLineHeight ?? self.font.lineHeight) - self.font.lineHeight) / 4,
             ]
             
             let attrString = NSAttributedString(string: newValue ?? "",
                                                 attributes: attributes)
+            self.text = newValue
             self.attributedText = attrString
         }
     }

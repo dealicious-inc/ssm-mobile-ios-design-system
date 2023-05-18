@@ -25,10 +25,22 @@ enum DealiFont {
             return DealiFontProperty.h1
         case .h2:
             return DealiFontProperty.h2
+        case .sh1:
+            return DealiFontProperty.sh1
+        case .sh2:
+            return DealiFontProperty.sh2
+        case .sh3:
+            return DealiFontProperty.sh3
+        case .b1:
+            return DealiFontProperty.b1
+        case .b2:
+            return DealiFontProperty.b2
+        case .b3:
+            return DealiFontProperty.b3
+        case .b4:
+            return DealiFontProperty.b4
         case .c1:
             return DealiFontProperty.c1
-        default:
-            return DealiFontProperty.b4
         }
     }
     

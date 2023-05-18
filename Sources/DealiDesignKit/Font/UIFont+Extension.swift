@@ -24,33 +24,43 @@ public extension UIFont {
 
 public extension UIFont {
     
-    // ver 01
-    static let h1: UIFont = { return DealiFont.h1.font }()
+    static let h1Bold: UIFont = { return DealiFont.h1.font.bold }()
     
-    // ver 02
-    static let sh1: UIFont = {
-        let style = DealiFontProperty.sh1
-        
-        let fontDescriptor = DealiFontProperty.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.regular]])
-        let font = UIFont(descriptor: fontDescriptor, size: style.size)
-        font.dealiLineHeight = style.lineHeight
-        
-        return font
-    }()
+    static let h2Bold: UIFont = { return DealiFont.h2.font.bold }()
+    
+    static let sh1Bold: UIFont = { return DealiFont.sh1.font.bold }()
+    static let sh1Medium: UIFont = { return DealiFont.sh1.font.medium }()
+    
+    static let sh2Bold: UIFont = { return DealiFont.sh2.font.bold }()
+    static let sh2Regular: UIFont = { return DealiFont.sh2.font.regular }()
+    
+    static let sh3Bold: UIFont = { return DealiFont.sh3.font.bold }()
+    static let sh3Regular: UIFont = { return DealiFont.sh3.font.regular }()
+    
+    static let b1Bold: UIFont = { return DealiFont.b1.font.bold }()
+    static let b1Regular: UIFont = { return DealiFont.b1.font.regular }()
+    
+    static let b2Bold: UIFont = { return DealiFont.b2.font.bold }()
+    static let b2Medium: UIFont = { return DealiFont.b2.font.medium }()
+    static let b2Regular: UIFont = { return DealiFont.b2.font.regular }()
+    
+    static let b3Bold: UIFont = { return DealiFont.b3.font.bold }()
+    static let b3Medium: UIFont = { return DealiFont.b3.font.medium }()
+    static let b3Regular: UIFont = { return DealiFont.b3.font.regular }()
+    
+    static let b4Bold: UIFont = { return DealiFont.b4.font.bold }()
+    static let b4Medium: UIFont = { return DealiFont.b4.font.medium }()
+    static let b4Regular: UIFont = { return DealiFont.b4.font.regular }()
+    
+    static let c1Bold: UIFont = { return DealiFont.c1.font.bold }()
+    static let c1Regular: UIFont = { return DealiFont.c1.font.regular }()
+}
 
-    // ver 03
-    static let b4: UIFont = {
-        let fontDescriptor = UIFontDescriptor.dealiFontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.regular]])
-        let font = UIFont(descriptor: fontDescriptor, size: 12.0)
-        font.dealiLineHeight = 18.0
-        
-        return font
-    }()
-    
+fileprivate extension UIFont {
     var regular: UIFont { return withWeight(.regular) }
     var medium: UIFont { return withWeight(.medium) }
     var bold: UIFont { return withWeight(.bold) }
-
+    
     private func withWeight(_ weight: UIFont.Weight) -> UIFont {
         var attributes = fontDescriptor.fontAttributes
         var traits = (attributes[.traits] as? [UIFontDescriptor.TraitKey: Any]) ?? [:]
@@ -67,5 +77,3 @@ public extension UIFont {
         return font
     }
 }
-
-

@@ -95,24 +95,28 @@ public func registerDealiSystemFonts() {
     
     // 폰트 등록하기.
     for font in fonts {
-        UIFont.registerFont(bundle: Bundle.module, fontName: font)
+        UIFont.registerFont(fontName: font)
     }
 }
 
 extension UIFont {
-    static func registerFont(bundle: Bundle, fontName: String) {
-        let pathForResourceString = bundle.path(forResource: fontName, ofType: nil)
-        let fontData = NSData(contentsOfFile: pathForResourceString!)
-        let dataProvider = CGDataProvider(data: fontData!)
-        let fontRef = CGFont(dataProvider!)
-        var errorRef: Unmanaged<CFError>? = nil
-        
-        if let fontRef = fontRef,
-            (CTFontManagerRegisterGraphicsFont(fontRef, &errorRef) == false) {
-            print("Failed to register font - register graphics font failed - this font may have already been registered in the main bundle.")
+    static func registerFont(fontName: String) {
+        guard let pathForResourceString = Bundle.module.path(forResource: fontName, ofType: nil), let url = URL(string: pathForResourceString) else {
+            print("could not find font file")
+            return
         }
-        else {
-            print("Failed to register font - bundle identifier invalid.")
+        print("registering font at \(url.absoluteString)")
+        guard let fontDataProvider = CGDataProvider(url: url as CFURL) else {
+            print("Could not create font data provider for \(url).")
+            return
+        }
+        guard let font = CGFont(fontDataProvider) else {
+            print("could not create font")
+            return
+        }
+        var error: Unmanaged<CFError>?
+        if !CTFontManagerRegisterGraphicsFont(font, &error) {
+            print(error!.takeUnretainedValue())
         }
     }
 }

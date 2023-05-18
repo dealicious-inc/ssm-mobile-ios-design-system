@@ -9,19 +9,26 @@
 /* Begin PBXBuildFile section */
 		042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8A82A14C7D500370706 /* AppDelegate.swift */; };
 		042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AA2A14C7D500370706 /* SceneDelegate.swift */; };
-		042EA8AD2A14C7D500370706 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AC2A14C7D500370706 /* ViewController.swift */; };
+		042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AC2A14C7D500370706 /* MainViewController.swift */; };
 		042EA8B22A14C7D700370706 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B12A14C7D700370706 /* Assets.xcassets */; };
 		042EA8B52A14C7D700370706 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */; };
+		042EA8BE2A14C9A600370706 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 042EA8BD2A14C9A600370706 /* DealiDesignKit */; };
+		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
+		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
+		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DealiDesignSystemSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042EA8A82A14C7D500370706 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		042EA8AA2A14C7D500370706 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		042EA8AC2A14C7D500370706 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		042EA8AC2A14C7D500370706 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		042EA8B12A14C7D700370706 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042EA8B42A14C7D700370706 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042EA8B62A14C7D700370706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
+		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042EA8BE2A14C9A600370706 /* DealiDesignKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +48,7 @@
 			children = (
 				042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */,
 				042EA8A62A14C7D500370706 /* Products */,
+				042EA8BF2A14D38500370706 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +63,48 @@
 		042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				042EA8A82A14C7D500370706 /* AppDelegate.swift */,
-				042EA8AA2A14C7D500370706 /* SceneDelegate.swift */,
-				042EA8AC2A14C7D500370706 /* ViewController.swift */,
-				042EA8B12A14C7D700370706 /* Assets.xcassets */,
-				042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */,
+				04AD45112A15EF1000093BEB /* Others */,
+				04AD45102A15EF0400093BEB /* Views */,
+				04AD450F2A15EEF900093BEB /* ViewControllers */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
 			);
 			path = DealiDesignSystemSampleApp;
+			sourceTree = "<group>";
+		};
+		042EA8BF2A14D38500370706 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
+				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		04AD45102A15EF0400093BEB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				042EA8C02A15AD5200370706 /* MainView.swift */,
+				04AD45142A15EF5900093BEB /* TypographyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04AD45112A15EF1000093BEB /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				042EA8A82A14C7D500370706 /* AppDelegate.swift */,
+				042EA8AA2A14C7D500370706 /* SceneDelegate.swift */,
+				042EA8B12A14C7D700370706 /* Assets.xcassets */,
+				042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */,
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,6 +123,9 @@
 			dependencies = (
 			);
 			name = DealiDesignSystemSampleApp;
+			packageProductDependencies = (
+				042EA8BD2A14C9A600370706 /* DealiDesignKit */,
+			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +154,9 @@
 				Base,
 			);
 			mainGroup = 042EA89C2A14C7D500370706;
+			packageReferences = (
+				042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */,
+			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,9 +183,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042EA8AD2A14C7D500370706 /* ViewController.swift in Sources */,
+				042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */,
+				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
+				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
+				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,13 +250,14 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -258,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -344,6 +397,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dealicious-inc/deali-design-system-ios";
+			requirement = {
+				branch = dev;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		042EA8BD2A14C9A600370706 /* DealiDesignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */;
+			productName = DealiDesignKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 042EA89D2A14C7D500370706 /* Project object */;
 }

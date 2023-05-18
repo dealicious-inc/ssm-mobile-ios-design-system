@@ -101,13 +101,13 @@ public func registerDealiSystemFonts() {
 
 extension UIFont {
     static func registerFont(fontName: String) {
-        guard let pathForResourceString = Bundle.module.path(forResource: fontName, ofType: nil), let url = URL(string: pathForResourceString) else {
+        guard let pathForResourceString = Bundle.module.path(forResource: fontName, ofType: nil) else {
             print("could not find font file")
             return
         }
-        print("registering font at \(url.absoluteString)")
-        guard let fontDataProvider = CGDataProvider(url: url as CFURL) else {
-            print("Could not create font data provider for \(url).")
+        print("registering font at \(pathForResourceString)")
+        guard let fontDataProvider = CGDataProvider(data: NSData(contentsOfFile: pathForResourceString)!) else {
+            print("Could not create font data provider for \(pathForResourceString).")
             return
         }
         guard let font = CGFont(fontDataProvider) else {

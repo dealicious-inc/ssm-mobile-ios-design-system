@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum DealiFont: String, CaseIterable {
+public enum DealiFont: String, CaseIterable {
     case h1Bold
     case h2Bold
     case sh1Bold, sh1Medium

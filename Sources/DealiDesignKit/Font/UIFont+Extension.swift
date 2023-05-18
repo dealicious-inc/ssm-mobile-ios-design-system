@@ -23,57 +23,35 @@ public extension UIFont {
 }
 
 public extension UIFont {
+    static let h1Bold: UIFont = { return DealiFont.h1Bold.font }()
     
-    static let h1Bold: UIFont = { return DealiFont.h1.font.bold }()
+    static let h2Bold: UIFont = { return DealiFont.h2Bold.font }()
     
-    static let h2Bold: UIFont = { return DealiFont.h2.font.bold }()
+    static let sh1Bold: UIFont = { return DealiFont.sh1Bold.font }()
+    static let sh1Medium: UIFont = { return DealiFont.sh1Medium.font }()
     
-    static let sh1Bold: UIFont = { return DealiFont.sh1.font.bold }()
-    static let sh1Medium: UIFont = { return DealiFont.sh1.font.medium }()
+    static let sh2Bold: UIFont = { return DealiFont.sh2Bold.font }()
+    static let sh2Regular: UIFont = { return DealiFont.sh2Regular.font }()
     
-    static let sh2Bold: UIFont = { return DealiFont.sh2.font.bold }()
-    static let sh2Regular: UIFont = { return DealiFont.sh2.font.regular }()
+    static let sh3Bold: UIFont = { return DealiFont.sh3Bold.font }()
+    static let sh3Regular: UIFont = { return DealiFont.sh3Regular.font }()
     
-    static let sh3Bold: UIFont = { return DealiFont.sh3.font.bold }()
-    static let sh3Regular: UIFont = { return DealiFont.sh3.font.regular }()
+    static let b1Bold: UIFont = { return DealiFont.b1Bold.font }()
+    static let b1Regular: UIFont = { return DealiFont.b1Regular.font }()
     
-    static let b1Bold: UIFont = { return DealiFont.b1.font.bold }()
-    static let b1Regular: UIFont = { return DealiFont.b1.font.regular }()
+    static let b2Bold: UIFont = { return DealiFont.b2Bold.font }()
+    static let b2Medium: UIFont = { return DealiFont.b2Medium.font }()
+    static let b2Regular: UIFont = { return DealiFont.b2Regular.font }()
     
-    static let b2Bold: UIFont = { return DealiFont.b2.font.bold }()
-    static let b2Medium: UIFont = { return DealiFont.b2.font.medium }()
-    static let b2Regular: UIFont = { return DealiFont.b2.font.regular }()
+    static let b3Bold: UIFont = { return DealiFont.b3Bold.font }()
+    static let b3Medium: UIFont = { return DealiFont.b3Medium.font }()
+    static let b3Regular: UIFont = { return DealiFont.b3Regulr.font }()
     
-    static let b3Bold: UIFont = { return DealiFont.b3.font.bold }()
-    static let b3Medium: UIFont = { return DealiFont.b3.font.medium }()
-    static let b3Regular: UIFont = { return DealiFont.b3.font.regular }()
+    static let b4Bold: UIFont = { return DealiFont.b4Bold.font }()
+    static let b4Medium: UIFont = { return DealiFont.b4Medium.font }()
+    static let b4Regular: UIFont = { return DealiFont.b4Regular.font }()
     
-    static let b4Bold: UIFont = { return DealiFont.b4.font.bold }()
-    static let b4Medium: UIFont = { return DealiFont.b4.font.medium }()
-    static let b4Regular: UIFont = { return DealiFont.b4.font.regular }()
-    
-    static let c1Bold: UIFont = { return DealiFont.c1.font.bold }()
-    static let c1Regular: UIFont = { return DealiFont.c1.font.regular }()
+    static let c1Bold: UIFont = { return DealiFont.c1Bold.font }()
+    static let c1Regular: UIFont = { return DealiFont.c1Regular.font }()
 }
 
-fileprivate extension UIFont {
-    var regular: UIFont { return withWeight(.regular) }
-    var medium: UIFont { return withWeight(.medium) }
-    var bold: UIFont { return withWeight(.bold) }
-    
-    private func withWeight(_ weight: UIFont.Weight) -> UIFont {
-        var attributes = fontDescriptor.fontAttributes
-        var traits = (attributes[.traits] as? [UIFontDescriptor.TraitKey: Any]) ?? [:]
-
-        traits[.weight] = weight
-
-        attributes[.name] = nil
-        attributes[.traits] = traits
-        attributes[.family] = familyName
-
-        let descriptor = UIFontDescriptor(fontAttributes: attributes)
-        let font = UIFont(descriptor: descriptor, size: pointSize)
-        font.dealiLineHeight = self.dealiLineHeight
-        return font
-    }
-}

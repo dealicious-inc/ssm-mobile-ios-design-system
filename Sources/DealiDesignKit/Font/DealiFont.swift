@@ -7,49 +7,106 @@
 
 import UIKit
 
-enum DealiFont {
-    case h1
-    case h2
-    case sh1
-    case sh2
-    case sh3
-    case b1
-    case b2
-    case b3
-    case b4
-    case c1
+enum DealiFont: String, CaseIterable {
+    case h1Bold
+    case h2Bold
+    case sh1Bold, sh1Medium
+    case sh2Bold, sh2Regular
+    case sh3Bold, sh3Regular
+    case b1Bold, b1Regular
+    case b2Bold, b2Medium, b2Regular
+    case b3Bold, b3Medium, b3Regulr
+    case b4Bold, b4Medium, b4Regular
+    case c1Bold, c1Regular
     
     var style: DealiFontProperty.Style {
         switch self {
-        case .h1:
+        case .h1Bold:
             return DealiFontProperty.h1
-        case .h2:
+        case .h2Bold:
             return DealiFontProperty.h2
-        case .sh1:
+        case .sh1Bold, .sh1Medium:
             return DealiFontProperty.sh1
-        case .sh2:
+        case .sh2Bold, .sh2Regular:
             return DealiFontProperty.sh2
-        case .sh3:
+        case .sh3Bold, .sh3Regular:
             return DealiFontProperty.sh3
-        case .b1:
+        case .b1Bold, .b1Regular:
             return DealiFontProperty.b1
-        case .b2:
+        case .b2Bold, .b2Medium, .b2Regular:
             return DealiFontProperty.b2
-        case .b3:
+        case .b3Bold, .b3Medium, .b3Regulr:
             return DealiFontProperty.b3
-        case .b4:
+        case .b4Bold, .b4Medium, .b4Regular:
             return DealiFontProperty.b4
-        case .c1:
+        case .c1Bold, .c1Regular:
             return DealiFontProperty.c1
         }
     }
     
     var font: UIFont {
-        let fontDescriptor = DealiFontProperty.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.bold]])
+        var weight: UIFont.Weight
+        
+        if self.rawValue.contains("Bold") {
+            weight = .bold
+        } else if self.rawValue.contains("Medium") {
+            weight = .medium
+        } else {
+            weight = .regular
+        }
+        
+        let fontDescriptor = DealiFontProperty.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
         let font = UIFont(descriptor: fontDescriptor, size: self.style.size)
         font.dealiLineHeight = self.style.lineHeight
         
         return font
+    }
+    
+    var fontTitle: String {
+        switch self {
+        case .h1Bold:
+            return "H1_32_B"
+        case .h2Bold:
+            return "H2_24_B"
+        case .sh1Bold:
+            return "SH1_20_B"
+        case .sh1Medium:
+            return "SH1_20_M"
+        case .sh2Bold:
+            return "SH2_18_B"
+        case .sh2Regular:
+            return "SH2_18_R"
+        case .sh3Bold:
+            return "SH3_16_B"
+        case .sh3Regular:
+            return "SH3_16_R"
+        case .b1Bold:
+            return "B1_15_B"
+        case .b1Regular:
+            return "B1_15_R"
+        case .b2Bold:
+            return "B2_14_B"
+        case .b2Medium:
+            return "B2_14_M"
+        case .b2Regular:
+            return "B2_14_R"
+        case .b3Bold:
+            return "B3_13_B"
+        case .b3Medium:
+            return "B3_13_M"
+        case .b3Regulr:
+            return "B3_13_R"
+        case .b4Bold:
+            return "B4_12_B"
+        case .b4Medium:
+            return "B4_12_M"
+        case .b4Regular:
+            return "B4_12_R"
+        case .c1Bold:
+            return "C1_10_B"
+        case .c1Regular:
+            return "C1_10_R"
+        }
     }
 }
 
@@ -105,7 +162,7 @@ extension UIFont {
             print("could not find font file")
             return
         }
-        print("registering font at \(pathForResourceString)")
+        
         guard let fontDataProvider = CGDataProvider(data: NSData(contentsOfFile: pathForResourceString)!) else {
             print("Could not create font data provider for \(pathForResourceString).")
             return
@@ -118,5 +175,27 @@ extension UIFont {
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
             print(error!.takeUnretainedValue())
         }
+    }
+}
+
+fileprivate extension UIFont {
+    var regular: UIFont { return withWeight(.regular) }
+    var medium: UIFont { return withWeight(.medium) }
+    var bold: UIFont { return withWeight(.bold) }
+    
+    private func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        var attributes = fontDescriptor.fontAttributes
+        var traits = (attributes[.traits] as? [UIFontDescriptor.TraitKey: Any]) ?? [:]
+
+        traits[.weight] = weight
+
+        attributes[.name] = nil
+        attributes[.traits] = traits
+        attributes[.family] = familyName
+
+        let descriptor = UIFontDescriptor(fontAttributes: attributes)
+        let font = UIFont(descriptor: descriptor, size: pointSize)
+        font.dealiLineHeight = self.dealiLineHeight
+        return font
     }
 }

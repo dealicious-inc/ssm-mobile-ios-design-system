@@ -44,7 +44,7 @@ public enum DealiFont: String, CaseIterable {
         }
     }
     
-    var font: UIFont {
+    public var font: UIFont {
         var weight: UIFont.Weight
         
         if self.rawValue.contains("Bold") {
@@ -62,7 +62,7 @@ public enum DealiFont: String, CaseIterable {
         return font
     }
     
-    var fontTitle: String {
+    public var fontTitle: String {
         switch self {
         case .h1Bold:
             return "H1_32_B"

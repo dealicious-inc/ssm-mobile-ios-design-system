@@ -24,6 +24,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         
         self.mainView.fontButton.addTarget(self, action: #selector(fontButtonPressed), for: .touchUpInside)
+        self.mainView.colorButton.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
     }
 }
 
@@ -31,5 +32,9 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     @objc func fontButtonPressed() {
         self.navigationController?.pushViewController(TypographyViewController(), animated: true)
+    }
+    
+    @objc func colorButtonPressed() {
+        self.navigationController?.pushViewController(ColorViewController(), animated: true)
     }
 }

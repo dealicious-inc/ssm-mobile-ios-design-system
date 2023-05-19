@@ -14,6 +14,7 @@ final class MainView: UIView {
     private let flexContainer = UIView()
     
     let fontButton = UIButton()
+    let colorButton = UIButton()
     
     init() {
         super.init(frame: .zero)
@@ -29,6 +30,7 @@ final class MainView: UIView {
             .paddingHorizontal(20.0)
             .define {
                 $0.addItem(self.fontButton).height(50.0).backgroundColor(.red).cornerRadius(8.0).marginTop(20.0)
+                $0.addItem(self.colorButton).height(50.0).backgroundColor(.red).cornerRadius(8.0).marginTop(20.0)
             }
     }
     
@@ -36,6 +38,11 @@ final class MainView: UIView {
         self.fontButton.do {
             $0.titleLabel?.font = .b1Bold
             $0.setTitle("1. Typography", for: .normal)
+        }
+        
+        self.colorButton.do {
+            $0.titleLabel?.font = .b1Bold
+            $0.setTitle("2. Color", for: .normal)
         }
     }
     

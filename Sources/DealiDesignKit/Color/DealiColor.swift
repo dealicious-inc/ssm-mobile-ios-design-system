@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum DealiColor: String, CaseIterable {
+public enum DealiColor: String, CaseIterable {
     case pink10, pink60, pink90
     
     case black10, black20, black40, black100
@@ -24,7 +24,7 @@ enum DealiColor: String, CaseIterable {
 }
 
 extension DealiColor {
-    var color: UIColor {
+    public  var color: UIColor {
         switch self {
         case .pink10:
             return UIColor(rgb: 0xFEECEF)

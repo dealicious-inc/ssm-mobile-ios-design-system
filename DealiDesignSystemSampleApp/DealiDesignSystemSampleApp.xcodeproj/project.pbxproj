@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041ABC042A174598001772F3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC032A174598001772F3 /* RxCocoa */; };
+		041ABC062A174598001772F3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC052A174598001772F3 /* RxRelay */; };
+		041ABC082A174598001772F3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC072A174598001772F3 /* RxSwift */; };
 		042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8A82A14C7D500370706 /* AppDelegate.swift */; };
 		042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AA2A14C7D500370706 /* SceneDelegate.swift */; };
 		042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AC2A14C7D500370706 /* MainViewController.swift */; };
@@ -36,6 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
+				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
+				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
 				042EA8BE2A14C9A600370706 /* DealiDesignKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +131,9 @@
 			name = DealiDesignSystemSampleApp;
 			packageProductDependencies = (
 				042EA8BD2A14C9A600370706 /* DealiDesignKit */,
+				041ABC032A174598001772F3 /* RxCocoa */,
+				041ABC052A174598001772F3 /* RxRelay */,
+				041ABC072A174598001772F3 /* RxSwift */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -156,6 +165,7 @@
 			mainGroup = 042EA89C2A14C7D500370706;
 			packageReferences = (
 				042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */,
+				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
@@ -399,6 +409,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dealicious-inc/deali-design-system-ios";
@@ -410,6 +428,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		041ABC032A174598001772F3 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		041ABC052A174598001772F3 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		041ABC072A174598001772F3 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		042EA8BD2A14C9A600370706 /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */;

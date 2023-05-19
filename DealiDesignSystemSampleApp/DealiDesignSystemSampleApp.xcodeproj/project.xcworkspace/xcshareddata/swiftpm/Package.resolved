@@ -6,7 +6,7 @@
       "location" : "https://github.com/dealicious-inc/deali-design-system-ios",
       "state" : {
         "branch" : "dev",
-        "revision" : "e8dd0bfa27cc2d349044ddf8fb02c3ccbc126155"
+        "revision" : "abb4303f59b323c639c81688344b63e0902fc43d"
       }
     },
     {
@@ -25,6 +25,15 @@
       "state" : {
         "revision" : "ce929a6ecdc6701adee9bdf9d949e0036f567ca7",
         "version" : "1.10.4"
+      }
+    },
+    {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift",
+      "state" : {
+        "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
+        "version" : "6.6.0"
       }
     },
     {

@@ -27,12 +27,13 @@ public final class SmallPrimaryFulledGrayTag: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .lightGray
+        self.backgroundColor = DealiColor.gray10.color
         self.layer.cornerRadius = 4.0
+        self.layer.masksToBounds = true
         
         self.addSubview(self.contentLabel)
         self.contentLabel.then {
-            $0.textColor = .gray
+            $0.textColor = DealiColor.gray10.color
             $0.font = .b4Regular
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(4.0)

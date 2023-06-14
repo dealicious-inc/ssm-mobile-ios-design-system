@@ -8,11 +8,11 @@
 import UIKit
 import SwiftUI
 
-protocol ColorConfigurable: RawRepresentable where RawValue == Int {
+public protocol ColorConfigurable: RawRepresentable where RawValue == Int {
     var color: UIColor { get }
 }
 
-extension ColorConfigurable {
+public extension ColorConfigurable {
     var color: UIColor {
         return UIColor(rgb: self.rawValue)
     }

@@ -33,7 +33,7 @@ public final class SmallPrimaryFulledGrayTag: UIView {
         
         self.addSubview(self.contentLabel)
         self.contentLabel.then {
-            $0.textColor = DealiColor.gray10.color
+            $0.textColor = DealiColor.gray80.color
             $0.font = .b4Regular
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(4.0)

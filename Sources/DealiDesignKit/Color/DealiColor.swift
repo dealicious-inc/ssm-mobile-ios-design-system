@@ -6,7 +6,28 @@
 //
 
 import UIKit
+import SwiftUI
 
+protocol ColorConfigurable: RawRepresentable where RawValue == Int {
+    var color: UIColor { get }
+}
+
+extension ColorConfigurable {
+    var color: UIColor {
+        return UIColor(rgb: self.rawValue)
+    }
+}
+
+public enum DColor: Int, ColorConfigurable {
+    case primary01 = 0xFEECE1
+    case primary02 = 0xFB4760
+    case primary03 = 0xEC2843
+    case primary04 = 0xFEECEF
+    case primary05 = 0xFFFFFF
+    case primary06 = 0x000000
+}
+
+// MARK: - 색 계열별 분류
 public enum DealiColor: String, CaseIterable {
     case pink10, pink60, pink90
     

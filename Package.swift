@@ -27,7 +27,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DealiDesignKit",
-            dependencies: ["SnapKit", "Then", "FlexLayout", "PinLayout", "RxSwift", .product(name: "RxCocoa", package: "RxSwift")],
+            dependencies: ["SnapKit", "Then", "FlexLayout", "PinLayout", "RxSwift"], //, .product(name: "RxCocoa", package: "RxSwift")],
             resources: [.process("Resources/PretendardFonts")]
             ),
         

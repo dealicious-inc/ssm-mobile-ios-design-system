@@ -7,7 +7,7 @@
 
 import UIKit
 import RxSwift
-import RxCocoa
+//import RxCocoa
 import Then
 import SnapKit
 
@@ -24,19 +24,19 @@ public class TextInput: UIView {
     
     private let disposeBag = DisposeBag()
     
-    public struct RX {
-        public var isFocused: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
-    }
-    
-    public let rx = RX()
-    
+//    public struct RX {
+//        public var isFocused: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
+//    }
+//
+//    public let rx = RX()
+//
     let textField = UITextField()
     let inputStackView = UIStackView()
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.subscribeRx()
+//        self.subscribeRx()
         
         self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 1.0
@@ -58,36 +58,36 @@ public class TextInput: UIView {
         }
     }
     
-    func subscribeRx() {
-        self.textField.rx.controlEvent(.editingDidBegin)
-            .map { true }
-            .bind(to: self.rx.isFocused)
-            .disposed(by: self.disposeBag)
-        
-        let editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
-        let editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
-
-        Observable.of(editingDidEnd, editingDidEndOnExit).merge()
-            .map { false }
-            .bind(to: self.rx.isFocused)
-            .disposed(by: self.disposeBag)
-        
-        self.rx.isFocused
-            .asDriver()
-            .drive { [weak self] isFocused in
-                guard let self else { return }
-                
-                if isFocused {
-                    self.layer.borderColor = DColor.line01.cgColor
-                } else {
-                    self.layer.borderColor = DColor.line04.cgColor
-
-                }
-            }
-            .disposed(by: self.disposeBag)
-        
-        
-    }
+//    func subscribeRx() {
+//        self.textField.rx.controlEvent(.editingDidBegin)
+//            .map { true }
+//            .bind(to: self.rx.isFocused)
+//            .disposed(by: self.disposeBag)
+//
+//        let editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
+//        let editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
+//
+//        Observable.of(editingDidEnd, editingDidEndOnExit).merge()
+//            .map { false }
+//            .bind(to: self.rx.isFocused)
+//            .disposed(by: self.disposeBag)
+//
+//        self.rx.isFocused
+//            .asDriver()
+//            .drive { [weak self] isFocused in
+//                guard let self else { return }
+//
+//                if isFocused {
+//                    self.layer.borderColor = DColor.line01.cgColor
+//                } else {
+//                    self.layer.borderColor = DColor.line04.cgColor
+//
+//                }
+//            }
+//            .disposed(by: self.disposeBag)
+//
+//
+//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import RxSwift
+//import RxSwift
 //import RxCocoa
 import Then
 import SnapKit
@@ -22,7 +22,7 @@ public class TextInput: UIView {
     
     // 2. 오른쪽 악세서리 뷰 타입 - 글자수, x 버튼, 없음,
     
-    private let disposeBag = DisposeBag()
+//    private let disposeBag = DisposeBag()
     
 //    public struct RX {
 //        public var isFocused: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)

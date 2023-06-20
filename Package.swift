@@ -20,14 +20,16 @@ let package = Package(
         .package(url: "https://github.com/devxoul/Then", .upToNextMajor(from: "2.0.0")),
         .package(url: "https://github.com/layoutBox/FlexLayout.git", from: "1.3.18"),
         .package(url: "https://github.com/layoutBox/PinLayout", from: "1.10.4"),
-//        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.5.0")
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.5.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxGesture.git", from: "4.0.4")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DealiDesignKit",
-            dependencies: ["SnapKit", "Then", "FlexLayout", "PinLayout"], // , "RxSwift"], //, .product(name: "RxCocoa", package: "RxSwift")],
+            
+            dependencies: ["SnapKit", "Then", "FlexLayout", "PinLayout", "RxSwift", .product(name: "RxCocoa", package: "RxSwift"), "RxGesture"],
             resources: [.process("Resources/PretendardFonts")]
             ),
         

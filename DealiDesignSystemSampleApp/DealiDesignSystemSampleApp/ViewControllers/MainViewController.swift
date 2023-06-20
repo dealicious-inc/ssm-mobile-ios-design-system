@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 import DealiDesignKit
 
@@ -25,6 +26,8 @@ final class MainViewController: UIViewController {
         
         self.mainView.fontButton.addTarget(self, action: #selector(fontButtonPressed), for: .touchUpInside)
         self.mainView.colorButton.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
+        self.mainView.uiElementButton.addTarget(self, action: #selector(uiElementsButtonPressed), for: .touchUpInside)
+        
     }
 }
 
@@ -36,5 +39,9 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func uiElementsButtonPressed() {
+        self.navigationController?.pushViewController(UIElementsViewController(), animated: true)
     }
 }

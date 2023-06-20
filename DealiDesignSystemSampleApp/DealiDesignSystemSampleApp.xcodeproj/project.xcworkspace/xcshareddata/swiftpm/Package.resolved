@@ -6,7 +6,7 @@
       "location" : "https://github.com/dealicious-inc/deali-design-system-ios",
       "state" : {
         "branch" : "dev",
-        "revision" : "7d7376c6e3f917274d7d7a891eacc409735e8769"
+        "revision" : "99fc204031d7c25885fc65a06af7ac5be1275a8a"
       }
     },
     {
@@ -25,6 +25,15 @@
       "state" : {
         "revision" : "ce929a6ecdc6701adee9bdf9d949e0036f567ca7",
         "version" : "1.10.4"
+      }
+    },
+    {
+      "identity" : "rxgesture",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RxSwiftCommunity/RxGesture.git",
+      "state" : {
+        "revision" : "1b137c576b4aaaab949235752278956697c9e4a0",
+        "version" : "4.0.4"
       }
     },
     {

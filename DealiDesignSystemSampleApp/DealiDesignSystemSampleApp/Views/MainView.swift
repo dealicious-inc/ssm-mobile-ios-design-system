@@ -9,12 +9,14 @@ import UIKit
 
 import FlexLayout
 import PinLayout
+import DealiDesignKit
 
 final class MainView: UIView {
     private let flexContainer = UIView()
     
     let fontButton = UIButton()
     let colorButton = UIButton()
+    let uiElementButton = UIButton()
     
     init() {
         super.init(frame: .zero)
@@ -29,8 +31,9 @@ final class MainView: UIView {
             .direction(.column)
             .paddingHorizontal(20.0)
             .define {
-                $0.addItem(self.fontButton).height(50.0).backgroundColor(.red).cornerRadius(8.0).marginTop(20.0)
-                $0.addItem(self.colorButton).height(50.0).backgroundColor(.red).cornerRadius(8.0).marginTop(20.0)
+                $0.addItem(self.fontButton).height(50.0).backgroundColor(DColor.secondary01).cornerRadius(8.0).marginTop(20.0)
+                $0.addItem(self.colorButton).height(50.0).backgroundColor(DColor.secondary01).cornerRadius(8.0).marginTop(20.0)
+                $0.addItem(self.uiElementButton).height(50.0).backgroundColor(DColor.secondary01).cornerRadius(8.0).marginTop(20.0)
             }
     }
     
@@ -43,6 +46,11 @@ final class MainView: UIView {
         self.colorButton.do {
             $0.titleLabel?.font = .b1Bold
             $0.setTitle("2. Color", for: .normal)
+        }
+        
+        self.uiElementButton.do {
+            $0.titleLabel?.font = .b1Bold
+            $0.setTitle("10. UI Elements", for: .normal)
         }
     }
     

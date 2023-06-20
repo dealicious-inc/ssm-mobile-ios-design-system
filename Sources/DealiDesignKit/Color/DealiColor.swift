@@ -23,11 +23,11 @@ public struct DColor {
     public static let secondary05: UIColor = Secondary.secondary05.color
     public static let secondary06: UIColor = Secondary.secondary06.color
     
-    public static let text01: UIColor = Text.text01.color
-    public static let text02: UIColor = Text.text02.color
-    public static let text03: UIColor = Text.text03.color
-    public static let text04: UIColor = Text.text04.color
-    public static let text05: UIColor = Text.text05.color
+    public static let text01: UIColor = TextColor.text01.color
+    public static let text02: UIColor = TextColor.text02.color
+    public static let text03: UIColor = TextColor.text03.color
+    public static let text04: UIColor = TextColor.text04.color
+    public static let text05: UIColor = TextColor.text05.color
     
     public static let divider01: UIColor = Divider.divider01.color
     public static let divider02: UIColor = Divider.divider02.color
@@ -80,7 +80,7 @@ enum Secondary: Int, ColorConfigurable {
     case secondary06 = 0xFFECDB
 }
 
-enum Text: Int, ColorConfigurable {
+enum TextColor: Int, ColorConfigurable {
    case text01 = 0x222222
    case text02 = 0x686E7B
    case text03 = 0x8F97A7

@@ -30,6 +30,15 @@ public final class CheckboxWithText: UIView {
         }
     }
     
+    public var isSelected: Bool {
+        switch self.status {
+        case .normal(let isSelected):
+            return isSelected
+        case .disabled:
+            return false
+        }
+    }
+    
     private let disposeBag = DisposeBag()
     private let titleLabel = UILabel()
     private let checkbox = Checkbox()

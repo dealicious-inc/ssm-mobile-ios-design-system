@@ -15,16 +15,20 @@ import SnapKit
  */
 public final class CheckboxWithText: UIView {
     
-    public var status: CheckboxStatus = .normal(isSelected: false) {
-        didSet {
-            self.checkbox.status = self.status
-            self.setAppearance(for: self.status)
+    public var status: CheckboxStatus {
+        get {
+            self.checkbox.status
+        } set {
+            self.checkbox.status = newValue
+            self.setAppearance(for: newValue)
         }
     }
     
-    public var title: String = "" {
-        didSet {
-            self.titleLabel.text = self.title
+    public var title: String? {
+        get {
+            self.titleLabel.text
+        } set {
+            self.titleLabel.text = newValue
             self.titleLabel.sizeToFit()
             self.invalidateIntrinsicContentSize()
         }
@@ -98,55 +102,61 @@ public final class CheckboxWithText: UIView {
     }
 }
 
-//
-//#if canImport(SwiftUI) && DEBUG
-//import SwiftUI
-//
-//struct CheckboxPreview: PreviewProvider {
-//    static var testString = "Text"
-//    static var disableState: CheckboxStatus = .disabled
-//
-//    static var previews: some View {
-//        VStack(alignment: .leading) {
-//            Text("체크박스")
-//
-//            HStack {
-//                UIViewPreview {
-//                    let checkbox = Checkbox()
-//                    return checkbox
-//                }
-//
-//                UIViewPreview {
-//                    let checkbox = Checkbox()
-//                    checkbox.status = .normal(isSelected: true)
-//                    return checkbox
-//                }
-//
-//                UIViewPreview {
-//                    let checkbox = Checkbox()
-//                    checkbox.status = .disabled
-//                    return checkbox
-//                }
-//
-//            }
-//
-//            Text("체크박스 + 텍스트")
-//            UIViewPreview {
-//                let checkboxWithText = CheckboxWithText()
-//                checkboxWithText.title = testString
-//                return checkboxWithText
-//            }
-//            .padding(.bottom, 10.0)
-//
-//            UIViewPreview {
-//                let checkboxWithText = CheckboxWithText()
-//                checkboxWithText.title = testString
-//                checkboxWithText.status = .disabled
-//                return checkboxWithText
-//            }
-//        }
-//        .padding(10.0)
-//        .previewLayout(.sizeThatFits)
-//    }
-//}
-//#endif
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct CheckboxPreview: PreviewProvider {
+    static var testString = "김수한무거북이와 두루미"
+    static var disableState: CheckboxStatus = .disabled
+
+    static var previews: some View {
+        VStack(alignment: .leading) {
+            Text("체크박스")
+
+            HStack {
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    return checkbox
+                }
+
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.status = .normal(isSelected: true)
+                    return checkbox
+                }
+
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.status = .disabled
+                    return checkbox
+                }
+
+            }
+
+            Text("체크박스 + 텍스트")
+            UIViewPreview {
+                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: false))
+                return checkboxWithText
+            }
+            .padding(.bottom, 10.0)
+            
+            UIViewPreview {
+                let checkboxWithText = CheckboxWithText()
+                checkboxWithText.title = testString
+                return checkboxWithText
+            }
+            .padding(.bottom, 10.0)
+
+            UIViewPreview {
+                let checkboxWithText = CheckboxWithText()
+                checkboxWithText.title = testString
+                checkboxWithText.status = .disabled
+                return checkboxWithText
+            }
+        }
+        .padding(10.0)
+        .previewLayout(.sizeThatFits)
+    }
+}
+#endif

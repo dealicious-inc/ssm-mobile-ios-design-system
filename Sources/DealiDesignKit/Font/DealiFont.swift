@@ -44,6 +44,21 @@ public enum DealiFont: String, CaseIterable {
         }
     }
     
+    public var systemFont: UIFont {
+        var weight: UIFont.Weight
+        
+        if self.rawValue.contains("Bold") {
+            weight = .bold
+        } else if self.rawValue.contains("Medium") {
+            weight = .medium
+        } else {
+            weight = .regular
+        }
+        
+        let font = UIFont.systemFont(ofSize: self.style.size, weight: weight)
+        return font
+    }
+    
     public var font: UIFont {
         var weight: UIFont.Weight
         

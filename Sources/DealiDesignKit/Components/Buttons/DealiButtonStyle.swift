@@ -97,7 +97,7 @@ public indirect enum DealiButtonStyle: Equatable {
     }
     
     var hasBorder: Bool {
-        self.baseStyle == .outlined
+        self.baseStyle == .outlined || self.baseStyle == .tonal
     }
     
     var defaultBorderColor: CGColor {

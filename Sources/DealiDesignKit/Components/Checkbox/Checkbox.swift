@@ -51,9 +51,9 @@ public enum CheckboxStatus: Equatable {
     var textColor: UIColor {
         switch self {
         case .normal(_):
-            return DColor.text01
+            return DealiColor.text01
         case .disabled:
-            return DColor.text05
+            return DealiColor.text05
         }
     }
 }

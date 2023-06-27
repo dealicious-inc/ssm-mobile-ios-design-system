@@ -40,7 +40,7 @@ public class TextInput: UIView {
         
         self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = DColor.line04.cgColor
+        self.layer.borderColor = DealiColor.line04.cgColor
         self.layer.masksToBounds = true
         
         self.addSubview(self.inputStackView)
@@ -54,7 +54,7 @@ public class TextInput: UIView {
         
         self.inputStackView.addArrangedSubview(self.textField)
         self.textField.do {
-            $0.font = DealiFont.b2Bold.font
+            $0.font = DealiFont.b2Bold.systemFont
         }
     }
     
@@ -78,9 +78,9 @@ public class TextInput: UIView {
 //                guard let self else { return }
 //
 //                if isFocused {
-//                    self.layer.borderColor = DColor.line01.cgColor
+//                    self.layer.borderColor = DealiColor.line01.cgColor
 //                } else {
-//                    self.layer.borderColor = DColor.line04.cgColor
+//                    self.layer.borderColor = DealiColor.line04.cgColor
 //
 //                }
 //            }

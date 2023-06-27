@@ -72,7 +72,7 @@ public final class CheckboxWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.font = DealiFont.b3Regulr.font
+            $0.font = DealiFont.b3Regulr.systemFont
             $0.text = self.title
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)

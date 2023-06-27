@@ -7,21 +7,21 @@
 
 import UIKit
 
-public struct DColor {
+public struct DealiColor {
     
     // 사용의 편의를 위함
-    public static let primary01: UIColor = Primary.primary01.color
-    public static let primary02: UIColor = Primary.primary02.color
-    public static let primary03: UIColor = Primary.primary03.color
-    public static let primary04: UIColor = Primary.primary04.color
-    public static let primary05: UIColor = Primary.primary05.color
+    public static let primary01: UIColor = PrimaryColor.primary01.color
+    public static let primary02: UIColor = PrimaryColor.primary02.color
+    public static let primary03: UIColor = PrimaryColor.primary03.color
+    public static let primary04: UIColor = PrimaryColor.primary04.color
+    public static let primary05: UIColor = PrimaryColor.primary05.color
     
-    public static let secondary01: UIColor = Secondary.secondary01.color
-    public static let secondary02: UIColor = Secondary.secondary02.color
-    public static let secondary03: UIColor = Secondary.secondary03.color
-    public static let secondary04: UIColor = Secondary.secondary04.color
-    public static let secondary05: UIColor = Secondary.secondary05.color
-    public static let secondary06: UIColor = Secondary.secondary06.color
+    public static let secondary01: UIColor = SecondaryColor.secondary01.color
+    public static let secondary02: UIColor = SecondaryColor.secondary02.color
+    public static let secondary03: UIColor = SecondaryColor.secondary03.color
+    public static let secondary04: UIColor = SecondaryColor.secondary04.color
+    public static let secondary05: UIColor = SecondaryColor.secondary05.color
+    public static let secondary06: UIColor = SecondaryColor.secondary06.color
     
     public static let text01: UIColor = TextColor.text01.color
     public static let text02: UIColor = TextColor.text02.color
@@ -29,28 +29,28 @@ public struct DColor {
     public static let text04: UIColor = TextColor.text04.color
     public static let text05: UIColor = TextColor.text05.color
     
-    public static let divider01: UIColor = Divider.divider01.color
-    public static let divider02: UIColor = Divider.divider02.color
-    public static let divider03: UIColor = Divider.divider03.color
+    public static let divider01: UIColor = DividerColor.divider01.color
+    public static let divider02: UIColor = DividerColor.divider02.color
+    public static let divider03: UIColor = DividerColor.divider03.color
     
-    public static let line01: UIColor = Line.line01.color
-    public static let line02: UIColor = Line.line02.color
-    public static let line03: UIColor = Line.line03.color
-    public static let line04: UIColor = Line.line04.color
+    public static let line01: UIColor = LineColor.line01.color
+    public static let line02: UIColor = LineColor.line02.color
+    public static let line03: UIColor = LineColor.line03.color
+    public static let line04: UIColor = LineColor.line04.color
     
-    public static let bg01: UIColor = BG.bg01.color
-    public static let bg02: UIColor = BG.bg02.color
-    public static let bg03: UIColor = BG.bg03.color
-    public static let bg04: UIColor = BG.bg04.color
-    public static let bg05: UIColor = BG.bg05.color
-    public static let bg06: UIColor = BG.bg06.color
-    public static let bg07: UIColor = BG.bg07.color
-    public static let bg08: UIColor = BG.bg08.color
+    public static let bg01: UIColor = BGColor.bg01.color
+    public static let bg02: UIColor = BGColor.bg02.color
+    public static let bg03: UIColor = BGColor.bg03.color
+    public static let bg04: UIColor = BGColor.bg04.color
+    public static let bg05: UIColor = BGColor.bg05.color
+    public static let bg06: UIColor = BGColor.bg06.color
+    public static let bg07: UIColor = BGColor.bg07.color
+    public static let bg08: UIColor = BGColor.bg08.color
 
-    public static let error: UIColor = Service.error.color
-    public static let warning: UIColor = Service.warning.color
-    public static let linkAndInfo: UIColor = Service.linkAndInfo.color
-    public static let success: UIColor = Service.success.color
+    public static let error: UIColor = ServiceColor.error.color
+    public static let warning: UIColor = ServiceColor.warning.color
+    public static let linkAndInfo: UIColor = ServiceColor.linkAndInfo.color
+    public static let success: UIColor = ServiceColor.success.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
@@ -63,7 +63,7 @@ extension ColorConfigurable {
     }
 }
 
-enum Primary: Int, ColorConfigurable {
+enum PrimaryColor: Int, ColorConfigurable {
     case primary01 = 0xFB4760
     case primary02 = 0xEC2843
     case primary03 = 0xFEECEF
@@ -71,7 +71,7 @@ enum Primary: Int, ColorConfigurable {
     case primary05 = 0x000000
 }
 
-enum Secondary: Int, ColorConfigurable {
+enum SecondaryColor: Int, ColorConfigurable {
     case secondary01 = 0x3668F4
     case secondary02 = 0x0E46E4
     case secondary03 = 0xEAEFFF
@@ -88,20 +88,20 @@ enum TextColor: Int, ColorConfigurable {
    case text05 = 0xBEC5D2
 }
 
-enum Divider: Int, ColorConfigurable {
+enum DividerColor: Int, ColorConfigurable {
     case divider01 = 0xDFE3ED
     case divider02 = 0xEBEEF6
     case divider03 = 0xF5F6FB
 }
 
-enum Line: Int, ColorConfigurable {
+enum LineColor: Int, ColorConfigurable {
     case line01 = 0x222222
     case line02 = 0xBEC5D2
     case line03 = 0xDFE3ED
     case line04 = 0xEBEEF6
 }
 
-enum BG: Int, ColorConfigurable {
+enum BGColor: Int, ColorConfigurable {
     case bg01 = 0x222222
     case bg02 = 0xA6ADBD
     case bg03 = 0xBEC5D2
@@ -112,7 +112,7 @@ enum BG: Int, ColorConfigurable {
     case bg08 = 0xF6F6F7
 }
 
-enum Service: Int, ColorConfigurable {
+enum ServiceColor: Int, ColorConfigurable {
     case error = 0xFA1818
     case warning = 0xFFD600
     case linkAndInfo = 0x2B66FD
@@ -121,7 +121,7 @@ enum Service: Int, ColorConfigurable {
 
 
 // MARK: - 색 계열별 분류
-public enum DealiColor: String, CaseIterable {
+public enum TempDealiColor: String, CaseIterable {
     case pink10, pink60, pink90
     
     case black10, black20, black40, black100
@@ -137,7 +137,7 @@ public enum DealiColor: String, CaseIterable {
     case error, info, waring, success
 }
 
-extension DealiColor {
+extension TempDealiColor {
     public  var color: UIColor {
         switch self {
         case .pink10:

@@ -31,7 +31,7 @@ final class ColorView: UIView {
             .wrap(.wrap)
             .justifyContent(.center)
             .define { flex in
-                DealiColor.allCases.forEach {
+                TempDealiColor.allCases.forEach {
                     flex.addItem(ColorCardView(color: $0)).width(40%).margin(10)
                 }
             }
@@ -58,7 +58,7 @@ final class ColorCardView: UIView {
     let colorView = UIView()
     let titleLabel = UILabel()
     
-    init(color: DealiColor) {
+    init(color: TempDealiColor) {
         super.init(frame: .zero)
         
         self.addSubview(self.flexContainer)
@@ -66,7 +66,7 @@ final class ColorCardView: UIView {
             .direction(.column)
             .padding(15.0)
             .cornerRadius(6.0)
-            .backgroundColor(DealiColor.gray10.color)
+            .backgroundColor(TempDealiColor.gray10.color)
             .define {
                 $0.addItem(self.colorView).aspectRatio(200.0 / 150.0).backgroundColor(color.color).cornerRadius(6.0).height(75%)
                 $0.addItem(self.titleLabel.then {

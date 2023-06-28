@@ -1,8 +1,8 @@
 //
-//  Checkbox.swift
+//  RadioButton.swift
 //  
 //
-//  Created by 윤조현 on 2023/06/20.
+//  Created by 윤조현 on 2023/06/28.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
-public enum CheckboxStatus: Equatable, StatusToggable {
+public enum RadioButtonStatus: Equatable, StatusToggable {
     case normal(isSelected: Bool)
     case disabled
     
@@ -29,16 +29,16 @@ public enum CheckboxStatus: Equatable, StatusToggable {
     var imageName: String {
         switch self {
         case .normal(let isSelected):
-            return isSelected ? "ic_checkbox_on_ver01" : "ic_checkbox_off_ver01"
+            return isSelected ? "ic_Checkcircle_on_24" : "ic_Checkcircle_off_24"
         case .disabled:
-            return "ic_checkbox_disabled_ver01"
+            return "ic_Checkcircle_disabled_24"
         }
     }
     
     var textColor: UIColor {
         switch self {
-        case .normal(_):
-            return DealiColor.text01
+        case .normal(let isSelected):
+            return isSelected ? DealiColor.primary01 : DealiColor.text01
         case .disabled:
             return DealiColor.text05
         }
@@ -46,11 +46,11 @@ public enum CheckboxStatus: Equatable, StatusToggable {
 }
 
 /**
- 설명: UI Elements - Checkbox
+ 설명: UI Elements - RadioButton
  */
-public class Checkbox: UIView {
+public class RadioButton: UIView {
     
-    public var status: CheckboxStatus = .normal(isSelected: false) {
+    public var status: RadioButtonStatus = .normal(isSelected: false) {
         didSet {
             self.setAppearance(for: status)
         }
@@ -90,7 +90,6 @@ public class Checkbox: UIView {
     func subscribeRx() {
         self.imageView.rx.tapGestureOnTop()
             .when(.recognized)
-            .debug("++++ 체크박스만")
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
@@ -98,7 +97,7 @@ public class Checkbox: UIView {
             .disposed(by: self.disposeBag)
     }
     
-    private func setAppearance(for status: CheckboxStatus) {
+    private func setAppearance(for status: StatusToggable) {
         self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)?.withAlignmentRectInsets(UIEdgeInsets(top: -4.0, left: 0.0, bottom: -4.0, right: 0.0))
            
     }
@@ -107,3 +106,34 @@ public class Checkbox: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct RadioButtonPreview: PreviewProvider {
+    static var previews: some View {
+    
+        VStack {
+            UIViewPreview {
+                RadioButton()
+            }
+            
+            UIViewPreview {
+                let radioButton = RadioButton()
+                radioButton.status = .normal(isSelected: true)
+                return radioButton
+            }
+            
+            UIViewPreview {
+                let radioButton = RadioButton()
+                radioButton.status = .disabled
+                return radioButton            }
+            
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+        .previewDisplayName("DealiButtonStyle")
+    }
+}
+#endif
+

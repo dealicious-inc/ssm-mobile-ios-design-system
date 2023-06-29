@@ -16,7 +16,7 @@ public enum RadioButtonStatus: Equatable, StatusToggable {
     case normal(isSelected: Bool)
     case disabled
     
-    mutating func changeStatus() {
+    public mutating func changeStatus() {
         switch self {
         case .normal(var isSelected):
             isSelected.toggle()

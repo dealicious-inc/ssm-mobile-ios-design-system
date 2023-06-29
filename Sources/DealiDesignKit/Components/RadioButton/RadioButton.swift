@@ -29,9 +29,9 @@ public enum RadioButtonStatus: Equatable, StatusToggable {
     var imageName: String {
         switch self {
         case .normal(let isSelected):
-            return isSelected ? "ic_Checkcircle_on_24" : "ic_Checkcircle_off_24"
+            return isSelected ? "ic_checkbox_on_ver01" : "ic_checkbox_off_ver01"
         case .disabled:
-            return "ic_Checkcircle_disabled_24"
+            return "ic_checkbox_disabled_ver01"
         }
     }
     

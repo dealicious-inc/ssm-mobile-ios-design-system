@@ -38,10 +38,19 @@ public final class RadioButtonWithText: UIView {
             self.titleLabel.text
         } set {
             self.titleLabel.text = newValue
-            self.titleLabel.sizeToFit()
             self.invalidateIntrinsicContentSize()
         }
     }
+    
+    public var font: UIFont? {
+        get {
+            self.titleLabel.font
+        } set {
+            self.titleLabel.font = newValue
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+
     
     public var isSelected: Bool {
         switch self.status {
@@ -57,6 +66,8 @@ public final class RadioButtonWithText: UIView {
     private let radioButton = RadioButton()
     
     public override var intrinsicContentSize: CGSize {
+        self.titleLabel.sizeToFit()
+
         let width = self.titleLabel.frame.width + 24.0 + 8.0
         let height = self.titleLabel.frame.height
         return CGSize(width: width, height: max(24.0, height))

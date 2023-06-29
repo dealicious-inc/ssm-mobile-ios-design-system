@@ -29,7 +29,15 @@ public final class CheckboxWithText: UIView {
             self.titleLabel.text
         } set {
             self.titleLabel.text = newValue
-            self.titleLabel.sizeToFit()
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
+    public var font: UIFont? {
+        get {
+            self.titleLabel.font
+        } set {
+            self.titleLabel.font = newValue
             self.invalidateIntrinsicContentSize()
         }
     }
@@ -48,6 +56,8 @@ public final class CheckboxWithText: UIView {
     private let checkbox = Checkbox()
     
     public override var intrinsicContentSize: CGSize {
+        self.titleLabel.sizeToFit()
+        
         let width = self.titleLabel.frame.width + 24.0 + 8.0
         let height = self.titleLabel.frame.height
         return CGSize(width: width, height: max(24.0, height))
@@ -152,6 +162,8 @@ struct CheckboxPreview: PreviewProvider {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
                 checkboxWithText.status = .disabled
+                checkboxWithText.font = DealiFont.b1Bold.systemFont
+
                 return checkboxWithText
             }
         }

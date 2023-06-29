@@ -98,7 +98,7 @@ public class RadioButton: UIView {
     }
     
     private func setAppearance(for status: StatusToggable) {
-        self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)?.withAlignmentRectInsets(UIEdgeInsets(top: -4.0, left: 0.0, bottom: -4.0, right: 0.0))
+        self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)
            
     }
     

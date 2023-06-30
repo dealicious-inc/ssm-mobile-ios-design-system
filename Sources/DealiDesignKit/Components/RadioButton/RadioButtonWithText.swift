@@ -54,15 +54,11 @@ public final class RadioButtonWithText: UIView {
 
     
     public var isSelected: Bool {
-        get {
-            switch self.status {
-            case .normal(let isSelected):
-                return isSelected
-            case .disabled:
-                return false
-            }
-        } set {
-            self.isSelected = newValue
+        switch self.status {
+        case .normal(let isSelected):
+            return isSelected
+        case .disabled:
+            return false
         }
     }
     
@@ -131,7 +127,11 @@ public extension Reactive where Base: RadioButtonWithText {
     var isSelected: ControlProperty<Bool> {
         let source = BehaviorSubject<Bool>(value: base.isSelected)
         let observer = Binder(base) { view, value in
-            view.isSelected = value
+            if base.status == .disabled {
+                view.status = .disabled
+            } else {
+                view.status = .normal(isSelected: value)
+            }
         }
         return ControlProperty(values: source, valueSink: observer)
     }
@@ -151,6 +151,8 @@ struct RadioButtonWithTextPreview: PreviewProvider {
             Text("RadioButtonWithText")
             UIViewPreview {
                 let radioButtonWithText = RadioButtonWithText()
+                radioButtonWithText.title = testString
+                radioButtonWithText.status = .normal(isSelected: true)
 
                 return radioButtonWithText
             }

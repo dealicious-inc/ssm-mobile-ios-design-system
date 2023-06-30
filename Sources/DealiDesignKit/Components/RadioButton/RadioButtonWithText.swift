@@ -150,6 +150,8 @@ struct RadioButtonWithTextPreview: PreviewProvider {
 
             Text("RadioButtonWithText")
             UIViewPreview {
+                let radioButtonWithText = RadioButtonWithText()
+
                 return radioButtonWithText
             }
             .padding(.bottom, 10.0)

@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import RxGesture
 
 /// 디자인시스템 RadioButton + Text 적용
@@ -53,11 +54,15 @@ public final class RadioButtonWithText: UIView {
 
     
     public var isSelected: Bool {
-        switch self.status {
-        case .normal(let isSelected):
-            return isSelected
-        case .disabled:
-            return false
+        get {
+            switch self.status {
+            case .normal(let isSelected):
+                return isSelected
+            case .disabled:
+                return false
+            }
+        } set {
+            self.isSelected = newValue
         }
     }
     
@@ -104,7 +109,7 @@ public final class RadioButtonWithText: UIView {
     }
     
     private func subscribeRx() {
-        self.rx.tapGestureOnTop()
+        self.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -113,12 +118,22 @@ public final class RadioButtonWithText: UIView {
             .disposed(by: self.disposeBag)
     }
     
-    private func setAppearance(for status: StatusToggable) {
+    private func setAppearance(for status: RadioButtonStatus) {
         self.titleLabel.textColor = status.textColor
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public extension Reactive where Base: RadioButtonWithText {
+    var isSelected: ControlProperty<Bool> {
+        let source = BehaviorSubject<Bool>(value: base.isSelected)
+        let observer = Binder(base) { view, value in
+            view.isSelected = value
+        }
+        return ControlProperty(values: source, valueSink: observer)
     }
 }
 
@@ -135,7 +150,6 @@ struct RadioButtonWithTextPreview: PreviewProvider {
 
             Text("RadioButtonWithText")
             UIViewPreview {
-                let radioButtonWithText = RadioButtonWithText(title: testString, status: .normal(isSelected: true))
                 return radioButtonWithText
             }
             .padding(.bottom, 10.0)

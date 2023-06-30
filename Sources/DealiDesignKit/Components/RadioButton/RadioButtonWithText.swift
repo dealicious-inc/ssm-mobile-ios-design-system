@@ -107,6 +107,7 @@ public final class RadioButtonWithText: UIView {
     private func subscribeRx() {
         self.rx.tapGesture()
             .when(.recognized)
+            .filter { _ in self.status != .disabled }
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
@@ -120,20 +121,6 @@ public final class RadioButtonWithText: UIView {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-public extension Reactive where Base: RadioButtonWithText {
-    var isSelected: ControlProperty<Bool> {
-        let source = BehaviorSubject<Bool>(value: base.isSelected)
-        let observer = Binder(base) { view, value in
-            if base.status == .disabled {
-                view.status = .disabled
-            } else {
-                view.status = .normal(isSelected: value)
-            }
-        }
-        return ControlProperty(values: source, valueSink: observer)
     }
 }
 

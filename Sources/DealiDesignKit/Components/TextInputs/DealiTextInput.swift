@@ -238,6 +238,10 @@ public extension Reactive where Base: DealiTextInput {
     var inputText: ControlProperty<String?> {
         return base.textField.rx.text
     }
+    
+    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
+        return base.textField.rx.controlEvent(controlEvents)
+    }
 }
 
 #if canImport(SwiftUI) && DEBUG

@@ -120,7 +120,10 @@ public final class RadioButtonWithText: UIView {
     }
     
     private func setAppearance(for status: RadioButtonStatus) {
-        guard self.isTextColorChangable else { return }
+        guard self.isTextColorChangable else {
+            self.titleLabel.textColor = RadioButtonStatus.normal(isSelected: false).textColor
+            return
+        }
         self.titleLabel.textColor = status.textColor
     }
     

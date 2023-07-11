@@ -7,10 +7,35 @@
 
 import UIKit
 
-public indirect enum DealiButtonStyle: Equatable {
-    case large(style: DealiButtonStyle)
-    case medium(style: DealiButtonStyle)
-    case small(style: DealiButtonStyle)
+/// 디자인시스템 Buttons 에 적용되는 스타일.
+///
+/// 크기(large, medium, small)과 모양(filled, outlined, tonal, text)를 곱한 경우의 수가 있다.
+///
+/// `DealiButtonStyle` 에 정의된 크기 속성에 associated type으로 모양(filled, outlined, tonal, text) 속성을 넣어서 사용한다.
+///
+/// ```swift
+/// // 예시
+/// let myButton = DealiButton()
+/// myButton.style = .medium(style: .filled)
+/// ```
+///
+/// 크기와 상관 없는 속성 편집할 경우 `baseStyle` 사용해 처리
+/// ```swift
+/// var defaultBackgroundColor: UIColor {
+///      switch self.baseStyle {
+///      case .filled:
+///          return DealiColor.primary01
+///      case .tonal:
+///          return DealiColor.bg07
+///      default:
+///          return DealiColor.primary04
+///      }
+/// }
+/// ```
+public enum DealiButtonStyle: Equatable {
+    indirect case large(style: DealiButtonStyle)
+    indirect case medium(style: DealiButtonStyle)
+    indirect case small(style: DealiButtonStyle)
     
     case filled
     case outlined

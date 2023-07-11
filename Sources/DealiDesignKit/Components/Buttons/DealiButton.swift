@@ -17,17 +17,17 @@ public enum DealiButtonStatus: Equatable {
 
 /// 디자인시스템 Buttons 적용
 ///
-/// 두 가지 방법으로 사용가능
-/// 1. 초기화 시에 `style`과  `title`  정의
-/// ```swift
-/// init(_ style: DealiButtonStyle, title: String?)
-/// ```
+/// 두 가지 방법 중 하나로 ``style`` 과 ``title`` 을 정의하여 사용가능
+/// 1. 초기화 시에 `style`과  `title` 정의
+///     ```swift
+///     init(_ style: DealiButtonStyle, title: String?)
+///     ```
 /// 2. 초기화 이후 `style`과  `title` 속성 설정
-///```swift
-/// let myButton = DealiButton()
-/// myButton.style = .medium(style: .filled)
-/// myButton.title = "로그인 하기"
-/// ```
+///     ```swift
+///     let myButton = DealiButton()
+///     myButton.style = .medium(style: .filled)
+///     myButton.title = "로그인 하기"
+///     ```
 public class DealiButton: UIButton {
     public var style: DealiButtonStyle = .large(style: .filled) {
         didSet {

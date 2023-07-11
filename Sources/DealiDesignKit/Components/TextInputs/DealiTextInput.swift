@@ -30,7 +30,7 @@ public final class DealiTextInput: UIView {
         public var isError: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
     }
 
-    public let rx = RX()
+    public let reactive = RX()
 
     public var placeholder: String? {
         didSet {
@@ -40,6 +40,14 @@ public final class DealiTextInput: UIView {
                 .foregroundColor: DealiColor.text03
             ]
             self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+        }
+    }
+    
+    public var text: String? {
+        get {
+            self.textField.text
+        } set {
+            self.textField.text = newValue
         }
     }
     
@@ -69,7 +77,7 @@ public final class DealiTextInput: UIView {
         }
     }
     
-    private let textField = UITextField()
+    var textField = UITextField()
     private let inputStackView = UIStackView()
     private let deleteButton = UIButton()
     private let errorView = UIView()
@@ -156,10 +164,10 @@ public final class DealiTextInput: UIView {
         let editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit).map { false }
 
         Observable.of(editingDidBegin, editingDidEnd, editingDidEndOnExit).merge()
-            .bind(to: self.rx.isFocused)
+            .bind(to: self.reactive.isFocused)
             .disposed(by: self.disposeBag)
 
-        self.rx.isFocused
+        self.reactive.isFocused
             .asDriver()
             .drive { [weak self] isFocused in
                 guard let self else { return }
@@ -168,7 +176,7 @@ public final class DealiTextInput: UIView {
             }
             .disposed(by: self.disposeBag)
         
-        self.rx.isError
+        self.reactive.isError
             .asDriver()
             .distinctUntilChanged()
             .drive { [weak self] isError in
@@ -178,7 +186,7 @@ public final class DealiTextInput: UIView {
                 if isError {
                     self.layer.borderColor = DealiColor.error.cgColor
                 } else {
-                    self.setNormalAppearance(isFocused: self.rx.isFocused.value)
+                    self.setNormalAppearance(isFocused: self.reactive.isFocused.value)
                 }
             }
             .disposed(by: self.disposeBag)
@@ -191,18 +199,44 @@ public final class DealiTextInput: UIView {
             })
             .disposed(by: self.disposeBag)
         
-        #if DEBUG
-        // 테스트용
-        self.textField.rx.text
-            .orEmpty
-            .map { $0.count > 10 }
-            .bind(to: self.rx.isError)
-            .disposed(by: self.disposeBag)
-        #endif
+//        #if DEBUG
+//        // 테스트용
+//        self.rx.inputText
+//            .orEmpty
+//            .map { $0.count > 10 }
+//            .bind(to: self.reactive.isError)
+//            .disposed(by: self.disposeBag)
+//        #endif
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension DealiTextInput: UITextInputTraits {
+    
+    public var returnKeyType: UIReturnKeyType {
+        get {
+            self.textField.returnKeyType
+        } set {
+            self.textField.returnKeyType = newValue
+        }
+    }
+    
+    public var isSecureTextEntry: Bool {
+        get {
+            self.textField.isSecureTextEntry
+        } set {
+            self.textField.isSecureTextEntry = newValue
+        }
+    }
+
+}
+
+public extension Reactive where Base: DealiTextInput {
+    var inputText: ControlProperty<String?> {
+        return base.textField.rx.text
     }
 }
 
@@ -219,8 +253,16 @@ struct TextInputPreview: PreviewProvider {
                 UIViewPreview {
                     let textInput = DealiTextInput().then {
                         $0.placeholder = "테스트"}
+
                     return textInput
                 
+                }
+                
+                UIViewPreview {
+                    let textInput = DealiTextInput()
+                    textInput.placeholder = "비밀번호"
+                    textInput.isSecureTextEntry = true
+                    return textInput
                 }
                 
             }

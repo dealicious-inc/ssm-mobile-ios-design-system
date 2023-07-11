@@ -52,7 +52,6 @@ public final class RadioButtonWithText: UIView {
         }
     }
 
-    
     public var isSelected: Bool {
         switch self.status {
         case .normal(let isSelected):
@@ -61,6 +60,9 @@ public final class RadioButtonWithText: UIView {
             return false
         }
     }
+    
+    /// 선택 상태에 따른 글자 색 변경 여부. 기본값은 true
+    public var isTextColorChangable: Bool = true
     
     private let disposeBag = DisposeBag()
     private let titleLabel = UILabel()
@@ -95,6 +97,8 @@ public final class RadioButtonWithText: UIView {
             $0.textAlignment = .left
             $0.font = DealiFont.b3Regulr.systemFont
             $0.text = self.title
+            /// 기본값 부여
+            $0.textColor = RadioButtonStatus.normal(isSelected: false).textColor
         }.snp.makeConstraints {
             $0.left.equalTo(self.radioButton.snp.right).offset(8.0)
             $0.centerY.equalToSuperview()
@@ -116,6 +120,7 @@ public final class RadioButtonWithText: UIView {
     }
     
     private func setAppearance(for status: RadioButtonStatus) {
+        guard self.isTextColorChangable else { return }
         self.titleLabel.textColor = status.textColor
     }
     

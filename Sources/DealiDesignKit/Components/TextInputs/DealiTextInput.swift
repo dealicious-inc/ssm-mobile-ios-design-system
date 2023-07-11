@@ -209,6 +209,7 @@ public final class DealiTextInput: UIView {
 //        #endif
     }
     
+    @discardableResult
     override public func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
 

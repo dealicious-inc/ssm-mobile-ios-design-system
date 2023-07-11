@@ -209,6 +209,12 @@ public final class DealiTextInput: UIView {
 //        #endif
     }
     
+    override public func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+
+        return self.textField.becomeFirstResponder()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

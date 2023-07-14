@@ -1,12 +1,3 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## PR 마감기한
 YYYY.MM.DD(요일)
 

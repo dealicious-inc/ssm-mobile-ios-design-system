@@ -55,12 +55,18 @@ public struct DealiColor {
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
     var color: UIColor { get }
+    var rgb: Int { get }
+    var alpha: Double { get }
 }
 
 extension ColorConfigurable {
     var color: UIColor {
-        return UIColor(rgb: self.rawValue)
+        return UIColor(rgb: self.rawValue, alpha: self.alpha)
     }
+    
+    var rgb: Int { return self.rawValue }
+    
+    var alpha: Double { return 1.0 }
 }
 
 enum PrimaryColor: Int, ColorConfigurable {
@@ -119,4 +125,40 @@ enum ServiceColor: Int, ColorConfigurable {
     case success = 0x1BDA17
 }
 
-
+enum EtcColor: Int, ColorConfigurable {
+    case etc01
+    case etc02
+    case etc03
+    case etc04
+    case etc05
+    
+    var rgb: Int {
+        switch self {
+        case .etc01:
+            return 0x000000
+        case .etc02:
+            return 0x000000
+        case .etc03:
+            return 0x000000
+        case .etc04:
+            return 0xFFFFFF
+        case .etc05:
+            return 0xFFFFFF
+        }
+    }
+    
+    var alpha: Double {
+        switch self {
+        case .etc01:
+            return 0.2
+        case .etc02:
+            return 0.2
+        case .etc03:
+            return 0.4
+        case .etc04:
+            return 0.2
+        case .etc05:
+            return 0.5
+        }
+    }
+}

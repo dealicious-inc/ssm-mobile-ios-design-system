@@ -59,7 +59,7 @@ public class DealiButton: UIButton {
     }
     
     func setAppearance() {
-        self.backgroundColor = self.style.defaultBackgroundColorgit 
+        self.backgroundColor = self.style.defaultBackgroundColor
         
         let horizontalPadding = self.style.padding.horizontal
         let verticalPadding = self.style.padding.vertical

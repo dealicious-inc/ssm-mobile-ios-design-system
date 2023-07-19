@@ -51,6 +51,12 @@ public struct DealiColor {
     public static let warning: UIColor = ServiceColor.warning.color
     public static let linkAndInfo: UIColor = ServiceColor.linkAndInfo.color
     public static let success: UIColor = ServiceColor.success.color
+    
+    public static let etc01: UIColor = EtcColor.etc01.color
+    public static let etc02: UIColor = EtcColor.etc02.color
+    public static let etc03: UIColor = EtcColor.etc03.color
+    public static let etc04: UIColor = EtcColor.etc04.color
+    public static let etc05: UIColor = EtcColor.etc05.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {

@@ -156,7 +156,7 @@ enum EtcColor: Int, ColorConfigurable {
     var alpha: Double {
         switch self {
         case .etc01:
-            return 0.2
+            return 0.1
         case .etc02:
             return 0.2
         case .etc03:

@@ -12,13 +12,18 @@ DealiDesignKit 은 `dev`, `release` 브랜치로 나누어 사용합니다.
 
 ## 신상마켓 프로젝트에 사용하는 방법
 - 프로젝트 진행 중일 시: Package의 **`dev` 브랜치의 최신 커밋을 바라보도록** Swift Package 를 연동합니다.
+  ![스크린샷 2023-07-20 오전 11 06 48](https://github.com/dealicious-inc/ssm-mobile-ios-design-system/assets/72622744/819880be-37d7-4c3f-80fe-e47e8f7d3b7b)
+
+  
 - 앱스토어 검수 등록 시: **`release` 브랜치의 최신 커밋을 바라보도록** 합니다.
 
 
 ## 개발에 도움이 되는 팁
-SwiftPackage 특성상 변경사항을 확인하기 위해서는 커밋을 하고, SwiftPackage 를 사용하는 쪽에서 package update를 한 후 새로 빌드해서 확인하는 과정을 거쳐야 합니다. 따라서 작은 수정사항을 확인하기 위해서도 지나치게 많은 커밋과 업데이트, 빌드가 필요했습니다. 이를 줄이기 위해 `UIView` 를 SwiftUI의 preview 를 사용해 커밋하기 전에 UI 및 간단한 인터렉션을 확인할 수 있도록 하였습니다. 
+### 1. SwiftUI Preview 활용하기
+> SwiftPackage 특성상 변경사항을 확인하기 위해서는 커밋을 하고, SwiftPackage 를 사용하는 쪽에서 package update를 한 후 새로 빌드해서 확인하는 과정을 거쳐야 합니다. 따라서 작은 수정사항을 확인하기 위해서도 지나치게 많은 커밋과 업데이트, 빌드가 필요했습니다. 이를 줄이기 위해 `UIViewRepresentable` protocol을 준수하는 `UIViewPreview` 를 만들었습니다. 이를 통해 `UIView` 를 SwiftUI의 뷰로 변환해 프리뷰를 사용해 커밋하기 전에 UI 및 간단한 인터렉션을 확인할 수 있도록 하였습니다. 
 
-### 사용 예시 - `CheckboxWithText` 프리뷰
+사용 시에는 UIView 를 `UIViewPreview` 로 감싸고 프리뷰를 만들어 사용합니다. 아래 예시를 참고해 주세요. 
+#### 사용 예시 - `CheckboxWithText` 프리뷰
 프리뷰 코드
 ```swift
 

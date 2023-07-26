@@ -52,3 +52,46 @@ public extension UIFont {
         }
     }
 }
+
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct FontPreview: PreviewProvider {
+    
+    static var previews: some View {
+        VStack(alignment: .leading) {
+            Text("Deali Font Style")
+                .font(.system(size: 30.0, weight: .bold))
+            
+            Divider()
+            
+            Text("h1b32")
+                .bold()
+            UIViewPreview {
+                let textView = UITextView()
+                textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
+                textView.font = .h1b32
+                
+                return textView
+            }
+            
+            Divider()
+            
+            Text("h2b24")
+                .bold()
+            UIViewPreview {
+                let textView = UITextView()
+                textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
+                textView.font = .h2b24
+                
+                return textView
+            }
+            
+            Spacer()
+        }
+        .padding(10.0)
+        .previewLayout(.sizeThatFits)
+    }
+}
+#endif

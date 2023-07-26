@@ -57,6 +57,7 @@ public struct DealiColor {
     public static let etc03: UIColor = EtcColor.etc03.color
     public static let etc04: UIColor = EtcColor.etc04.color
     public static let etc05: UIColor = EtcColor.etc05.color
+    public static let etc06: UIColor = EtcColor.etc06.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {

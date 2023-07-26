@@ -206,7 +206,7 @@ enum EtcColor: Int, ColorConfigurable {
         case .etc06:
             return 0.7
         case .etc07:
-            return 0.7
+            return 0.9
         }
     }
 }

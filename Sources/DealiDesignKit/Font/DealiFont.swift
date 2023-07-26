@@ -157,7 +157,6 @@ public func registerDealiSystemFonts() {
         "PretendardJP-Bold.otf",
         "PretendardJP-Medium.otf",
         "PretendardJP-Regular.otf",
-        "PretendardJP-Thin.otf"
     ]
     
     // 폰트 등록하기.

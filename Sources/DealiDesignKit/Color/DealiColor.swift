@@ -84,8 +84,8 @@ enum PrimaryColor: Int, ColorConfigurable {
 }
 
 enum SecondaryColor: Int, ColorConfigurable {
-    case secondary01 = 0x3668F4
-    case secondary02 = 0x0E46E4
+    case secondary01 = 0x4759FB
+    case secondary02 = 0x2B3EE6
     case secondary03 = 0xEAEFFF
     case secondary04 = 0xFF7C44
     case secondary05 = 0xFF6827

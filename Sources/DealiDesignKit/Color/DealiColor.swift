@@ -80,6 +80,7 @@ extension ColorConfigurable {
 
 protocol ColorsConfigurable: RawRepresentable where RawValue == Int {
     var colors: [UIColor] { get }
+    var gradient: [Int] { get }
 }
 
 extension ColorsConfigurable {
@@ -90,6 +91,8 @@ extension ColorsConfigurable {
         }
         return colorArray
     }
+    
+//    var gradient: Int { return self.rawValue }
 }
 
 enum PrimaryColor: Int, ColorConfigurable {

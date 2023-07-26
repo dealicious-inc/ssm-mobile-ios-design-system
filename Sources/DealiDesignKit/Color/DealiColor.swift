@@ -137,6 +137,7 @@ enum EtcColor: Int, ColorConfigurable {
     case etc03
     case etc04
     case etc05
+    case etc06
     
     var rgb: Int {
         switch self {
@@ -150,6 +151,8 @@ enum EtcColor: Int, ColorConfigurable {
             return 0xFFFFFF
         case .etc05:
             return 0xFFFFFF
+        case .etc06:
+            return 0x000000
         }
     }
     
@@ -165,6 +168,8 @@ enum EtcColor: Int, ColorConfigurable {
             return 0.2
         case .etc05:
             return 0.5
+        case .etc06:
+            return 0.7
         }
     }
 }

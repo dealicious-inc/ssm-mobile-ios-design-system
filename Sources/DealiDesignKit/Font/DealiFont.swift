@@ -16,7 +16,7 @@ import UIKit
 /// let label = UILabel()
 /// label.font = .h1b32
 /// ```
-enum DealiFont: String, CaseIterable {
+public enum DealiFont: String, CaseIterable {
     case h1Bold
     case h2Bold
     case sh1Bold, sh1Medium
@@ -70,7 +70,7 @@ enum DealiFont: String, CaseIterable {
         return font
     }
     
-    var font: UIFont {
+    public var font: UIFont {
         var weight: UIFont.Weight
         
         if self.rawValue.contains("Bold") {

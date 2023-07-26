@@ -60,6 +60,7 @@ public struct DealiColor {
     public static let etc04: UIColor = EtcColor.etc04.color
     public static let etc05: UIColor = EtcColor.etc05.color
     public static let etc06: UIColor = EtcColor.etc06.color
+    public static let etc07: UIColor = EtcColor.etc07.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
@@ -169,6 +170,7 @@ enum EtcColor: Int, ColorConfigurable {
     case etc04
     case etc05
     case etc06
+    case etc07
     
     var rgb: Int {
         switch self {
@@ -184,6 +186,8 @@ enum EtcColor: Int, ColorConfigurable {
             return 0xFFFFFF
         case .etc06:
             return 0x000000
+        case .etc07:
+            return 0xFFFFFF
         }
     }
     
@@ -200,6 +204,8 @@ enum EtcColor: Int, ColorConfigurable {
         case .etc05:
             return 0.5
         case .etc06:
+            return 0.7
+        case .etc07:
             return 0.7
         }
     }

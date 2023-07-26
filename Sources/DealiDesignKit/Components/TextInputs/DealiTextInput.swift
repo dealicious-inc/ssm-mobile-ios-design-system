@@ -104,7 +104,7 @@ public final class DealiTextInput: UIView {
         
         self.inputStackView.addArrangedSubview(self.textField)
         self.textField.do {
-            $0.font = DealiFont.b2Bold.systemFont
+            $0.font = .b2sb14
             $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             $0.autocorrectionType = .no
             $0.autocapitalizationType = .none

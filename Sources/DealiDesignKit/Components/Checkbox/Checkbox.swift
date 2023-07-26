@@ -12,6 +12,14 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
+
+/*
+ - 디폴트는? 터치동작하게 두고, 막을 수 있도록
+ - 클릭 여부를 알 수 있는 방법
+ - UI Touch event 를 등록할 수 있게
+ -
+ */
+
 public enum CheckboxStatus: Equatable, StatusToggable {
     case normal(isSelected: Bool)
     case disabled

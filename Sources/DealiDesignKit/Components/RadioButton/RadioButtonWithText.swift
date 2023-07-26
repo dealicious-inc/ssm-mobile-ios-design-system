@@ -95,7 +95,7 @@ public final class RadioButtonWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.font = DealiFont.b3Regulr.systemFont
+            $0.font = .b3r13
             $0.text = self.title
             /// 기본값 부여
             $0.textColor = RadioButtonStatus.normal(isSelected: false).textColor

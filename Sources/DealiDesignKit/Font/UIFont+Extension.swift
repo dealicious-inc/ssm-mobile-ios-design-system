@@ -7,6 +7,37 @@
 
 import UIKit
 
+
+public extension UIFont {
+    static let h1b32: UIFont = DealiFont.h1Bold.systemFont
+    
+    static let h2b24: UIFont = DealiFont.h2Bold.systemFont
+    
+    static let sh1b20: UIFont = DealiFont.sh1Bold.systemFont
+    static let sh1m20: UIFont = DealiFont.sh1Medium.systemFont
+    
+    static let sh2b18: UIFont = DealiFont.sh2Bold.systemFont
+    static let sh2r18: UIFont = DealiFont.sh2Regular.systemFont
+    
+    static let sh3b16: UIFont = DealiFont.sh3Bold.systemFont
+    static let sh3r16: UIFont = DealiFont.sh3Regular.systemFont
+    
+    static let b1sb15: UIFont = DealiFont.b1SemiBold.systemFont
+    static let b1r15: UIFont = DealiFont.b1Regular.systemFont
+    
+    static let b2sb14: UIFont = DealiFont.b2SemiBold.systemFont
+    static let b2r14: UIFont = DealiFont.b2Regular.systemFont
+
+    static let b3sb13: UIFont = DealiFont.b3SemiBold.systemFont
+    static let b3r13: UIFont = DealiFont.b3Regular.systemFont
+   
+    static let b4sb12: UIFont = DealiFont.b4SemiBold.systemFont
+    static let b4r12: UIFont = DealiFont.b4Regular.systemFont
+
+    static let c1b10: UIFont = DealiFont.c1Bold.systemFont
+    static let c1r10: UIFont = DealiFont.c1Regular.systemFont
+}
+
 public extension UIFont {
     
     private struct AssociatedKeys {
@@ -21,37 +52,3 @@ public extension UIFont {
         }
     }
 }
-
-public extension UIFont {
-    static let h1Bold: UIFont = { return DealiFont.h1Bold.font }()
-    
-    static let h2Bold: UIFont = { return DealiFont.h2Bold.font }()
-    
-    static let sh1Bold: UIFont = { return DealiFont.sh1Bold.font }()
-    static let sh1Medium: UIFont = { return DealiFont.sh1Medium.font }()
-    
-    static let sh2Bold: UIFont = { return DealiFont.sh2Bold.font }()
-    static let sh2Regular: UIFont = { return DealiFont.sh2Regular.font }()
-    
-    static let sh3Bold: UIFont = { return DealiFont.sh3Bold.font }()
-    static let sh3Regular: UIFont = { return DealiFont.sh3Regular.font }()
-    
-    static let b1Bold: UIFont = { return DealiFont.b1Bold.font }()
-    static let b1Regular: UIFont = { return DealiFont.b1Regular.font }()
-    
-    static let b2Bold: UIFont = { return DealiFont.b2Bold.font }()
-    static let b2Medium: UIFont = { return DealiFont.b2Medium.font }()
-    static let b2Regular: UIFont = { return DealiFont.b2Regular.font }()
-    
-    static let b3Bold: UIFont = { return DealiFont.b3Bold.font }()
-    static let b3Medium: UIFont = { return DealiFont.b3Medium.font }()
-    static let b3Regular: UIFont = { return DealiFont.b3Regulr.font }()
-    
-    static let b4Bold: UIFont = { return DealiFont.b4Bold.font }()
-    static let b4Medium: UIFont = { return DealiFont.b4Medium.font }()
-    static let b4Regular: UIFont = { return DealiFont.b4Regular.font }()
-    
-    static let c1Bold: UIFont = { return DealiFont.c1Bold.font }()
-    static let c1Regular: UIFont = { return DealiFont.c1Regular.font }()
-}
-

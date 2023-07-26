@@ -82,7 +82,7 @@ public final class CheckboxWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.font = DealiFont.b3Regulr.systemFont
+            $0.font = .b3r13
             $0.text = self.title
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)
@@ -162,7 +162,7 @@ struct CheckboxPreview: PreviewProvider {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
                 checkboxWithText.status = .disabled
-                checkboxWithText.font = DealiFont.b1Bold.systemFont
+                checkboxWithText.font = .b1sb15
 
                 return checkboxWithText
             }

@@ -148,23 +148,23 @@ public enum DealiButtonStyle: Equatable {
     var font: UIFont {
         switch self {
         case .large(_):
-            return DealiFont.b1Bold.systemFont
+            return .b1sb15
         case .medium(let style):
             switch style {
             case .text:
-                return DealiFont.b2Regular.systemFont
+                return .b2r14
             default:
-                return DealiFont.b2Bold.systemFont
+                return .b2sb14
             }
         case .small(let style):
             switch style {
             case .text:
-                return DealiFont.b4Regular.systemFont
+                return .b4r12
             default:
-                return DealiFont.b4Medium.systemFont
+                return .b4sb12
             }
         default:
-            return DealiFont.b4Medium.systemFont
+            return .b4sb12
         }
     }
     

@@ -7,16 +7,25 @@
 
 import UIKit
 
-public enum DealiFont: String, CaseIterable {
+/// 디자인시스템 Font에 적용되는 스타일. 스타일 관리용으로 내부적으로만 사용. 실제 사용은 UIFont extension에 정의된 정적변수를 사용한다.
+///
+/// `DealiButtonStyle` 에 정의된 크기 속성에 associated type으로 모양(filled, outlined, tonal, text) 속성을 넣어서 사용한다.
+///
+/// ```swift
+/// // 예시
+/// let label = UILabel()
+/// label.font = .h1b32
+/// ```
+enum DealiFont: String, CaseIterable {
     case h1Bold
     case h2Bold
     case sh1Bold, sh1Medium
     case sh2Bold, sh2Regular
     case sh3Bold, sh3Regular
-    case b1Bold, b1Regular
-    case b2Bold, b2Medium, b2Regular
-    case b3Bold, b3Medium, b3Regulr
-    case b4Bold, b4Medium, b4Regular
+    case b1SemiBold, b1Regular
+    case b2SemiBold, b2Regular
+    case b3SemiBold, b3Regular
+    case b4SemiBold, b4Regular
     case c1Bold, c1Regular
     
     var style: DealiFontProperty.Style {
@@ -31,26 +40,28 @@ public enum DealiFont: String, CaseIterable {
             return DealiFontProperty.sh2
         case .sh3Bold, .sh3Regular:
             return DealiFontProperty.sh3
-        case .b1Bold, .b1Regular:
+        case .b1SemiBold, .b1Regular:
             return DealiFontProperty.b1
-        case .b2Bold, .b2Medium, .b2Regular:
+        case .b2SemiBold, .b2Regular:
             return DealiFontProperty.b2
-        case .b3Bold, .b3Medium, .b3Regulr:
+        case .b3SemiBold, .b3Regular:
             return DealiFontProperty.b3
-        case .b4Bold, .b4Medium, .b4Regular:
+        case .b4SemiBold, .b4Regular:
             return DealiFontProperty.b4
         case .c1Bold, .c1Regular:
             return DealiFontProperty.c1
         }
     }
     
-    public var systemFont: UIFont {
+    var systemFont: UIFont {
         var weight: UIFont.Weight
         
         if self.rawValue.contains("Bold") {
             weight = .bold
         } else if self.rawValue.contains("Medium") {
             weight = .medium
+        } else if self.rawValue.contains("SemiBold") {
+            weight = .semibold
         } else {
             weight = .regular
         }
@@ -59,13 +70,15 @@ public enum DealiFont: String, CaseIterable {
         return font
     }
     
-    public var font: UIFont {
+    var font: UIFont {
         var weight: UIFont.Weight
         
         if self.rawValue.contains("Bold") {
             weight = .bold
         } else if self.rawValue.contains("Medium") {
             weight = .medium
+        } else if self.rawValue.contains("SemiBold") {
+            weight = .semibold
         } else {
             weight = .regular
         }
@@ -77,52 +90,6 @@ public enum DealiFont: String, CaseIterable {
         return font
     }
     
-    public var fontTitle: String {
-        switch self {
-        case .h1Bold:
-            return "H1_32_B"
-        case .h2Bold:
-            return "H2_24_B"
-        case .sh1Bold:
-            return "SH1_20_B"
-        case .sh1Medium:
-            return "SH1_20_M"
-        case .sh2Bold:
-            return "SH2_18_B"
-        case .sh2Regular:
-            return "SH2_18_R"
-        case .sh3Bold:
-            return "SH3_16_B"
-        case .sh3Regular:
-            return "SH3_16_R"
-        case .b1Bold:
-            return "B1_15_B"
-        case .b1Regular:
-            return "B1_15_R"
-        case .b2Bold:
-            return "B2_14_B"
-        case .b2Medium:
-            return "B2_14_M"
-        case .b2Regular:
-            return "B2_14_R"
-        case .b3Bold:
-            return "B3_13_B"
-        case .b3Medium:
-            return "B3_13_M"
-        case .b3Regulr:
-            return "B3_13_R"
-        case .b4Bold:
-            return "B4_12_B"
-        case .b4Medium:
-            return "B4_12_M"
-        case .b4Regular:
-            return "B4_12_R"
-        case .c1Bold:
-            return "C1_10_B"
-        case .c1Regular:
-            return "C1_10_R"
-        }
-    }
 }
 
 struct DealiFontProperty {
@@ -157,6 +124,7 @@ public func registerDealiSystemFonts() {
         "PretendardJP-Bold.otf",
         "PretendardJP-Medium.otf",
         "PretendardJP-Regular.otf",
+        "PretendardJP-SemiBold.otf"
     ]
     
     // 폰트 등록하기.

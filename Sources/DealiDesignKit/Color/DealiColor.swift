@@ -16,6 +16,8 @@ public struct DealiColor {
     public static let primary04: UIColor = PrimaryColor.primary04.color
     public static let primary05: UIColor = PrimaryColor.primary05.color
     
+    public static let primaryGradient: [UIColor] = Gradient.primaryGradient.colors
+    
     public static let secondary01: UIColor = SecondaryColor.secondary01.color
     public static let secondary02: UIColor = SecondaryColor.secondary02.color
     public static let secondary03: UIColor = SecondaryColor.secondary03.color
@@ -76,12 +78,37 @@ extension ColorConfigurable {
     var alpha: Double { return 1.0 }
 }
 
+protocol ColorsConfigurable: RawRepresentable where RawValue == Int {
+    var colors: [UIColor] { get }
+}
+
+extension ColorsConfigurable {
+    var colors: [UIColor] {
+        var colorArray: [UIColor] = []
+        for hex in self.rawValue {
+            colorArray.append(UIColor(rgb: hex, alpha: 1.0))
+        }
+        return colorArray
+    }
+}
+
 enum PrimaryColor: Int, ColorConfigurable {
     case primary01 = 0xFB4760
     case primary02 = 0xEC2843
     case primary03 = 0xFEECEF
     case primary04 = 0xFFFFFF
     case primary05 = 0x000000
+}
+
+enum Gradient: Int, ColorsConfigurable {
+    case primaryGradient
+    
+    var gradient: Int {
+        switch self {
+        case .primaryGradient:
+            return [0xFB4760, 0xFE1EA4]
+        }
+    }
 }
 
 enum SecondaryColor: Int, ColorConfigurable {

@@ -103,7 +103,7 @@ enum PrimaryColor: Int, ColorConfigurable {
 enum Gradient: Int, ColorsConfigurable {
     case primaryGradient
     
-    var gradient: Int {
+    var gradient: [Int] {
         switch self {
         case .primaryGradient:
             return [0xFB4760, 0xFE1EA4]

@@ -85,7 +85,7 @@ protocol ColorsConfigurable: RawRepresentable where RawValue == Int {
 extension ColorsConfigurable {
     var colors: [UIColor] {
         var colorArray: [UIColor] = []
-        for hex in self.rawValue {
+        for hex in self.gradient {
             colorArray.append(UIColor(rgb: hex, alpha: 1.0))
         }
         return colorArray

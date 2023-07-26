@@ -154,15 +154,9 @@ extension UIFontDescriptor {
 public func registerDealiSystemFonts() {
     // 폰트 정보 (OTF 확장자)
     let fonts = [
-        "PretendardJP-Black.otf",
         "PretendardJP-Bold.otf",
-        "PretendardJP-ExtraBold.otf",
-        "PretendardJP-ExtraLight.otf",
-        "PretendardJP-Light.otf",
         "PretendardJP-Medium.otf",
         "PretendardJP-Regular.otf",
-        "PretendardJP-SemiBold.otf",
-        "PretendardJP-Thin.otf"
     ]
     
     // 폰트 등록하기.

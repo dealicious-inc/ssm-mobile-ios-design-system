@@ -70,7 +70,7 @@ protocol ColorConfigurable: RawRepresentable where RawValue == Int {
 
 extension ColorConfigurable {
     var color: UIColor {
-        return UIColor(rgb: self.rawValue, alpha: self.alpha)
+        return UIColor(rgb: self.rgb, alpha: self.alpha)
     }
     
     var rgb: Int { return self.rawValue }

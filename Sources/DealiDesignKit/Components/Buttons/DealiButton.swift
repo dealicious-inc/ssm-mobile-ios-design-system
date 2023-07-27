@@ -89,10 +89,10 @@ public class DealiButton: UIButton {
 
             self.setImage(leftIconImage.withTintColor(self.style.textColor), for: .normal)
             self.setImage(leftIconImage.withTintColor(self.style.pressedTextColor), for: .highlighted)
-            self.setImage(leftIconImage.withTintColor(self.style.disabledTextColor), for: .selected)
+            self.setImage(leftIconImage.withTintColor(self.style.disabledTextColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
         } else if let rightIconImage = self.rightIconImage {
-            self.imageEdgeInsets = .init(top: 0.0, left: -internalSpacing, bottom: 0.0, right: internalSpacing)
+            self.imageEdgeInsets = .init(top: 0.0, left: internalSpacing, bottom: 0.0, right: -internalSpacing)
 
             self.setImage(rightIconImage.withTintColor(self.style.textColor), for: .normal)
             self.setImage(rightIconImage.withTintColor(self.style.pressedTextColor), for: .highlighted)
@@ -147,6 +147,12 @@ public class DealiButton: UIButton {
 //            super.isEnabled = newValue
 //        }
 //    }
+    
+    public override var isEnabled: Bool {
+        didSet {
+            self.isUserInteractionEnabled = self.isEnabled
+        }
+    }
     
 }
 
@@ -250,7 +256,7 @@ struct ButtonPreview: PreviewProvider {
                 let button = DealiButton(title: "Disabled 버튼")
                 button.style = style
                 button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
-                button.isEnabled = false
+                button.isEnabled = true
                 return button
             }
         }

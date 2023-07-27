@@ -192,7 +192,7 @@ public enum DealiButtonStyle: Equatable {
     struct DealiButtonPadding {
         var horizontal: CGFloat = 0.0
         var vertical: CGFloat = 0.0
-        var internalSpacing: CGFloat = 0.0
+        var internalSpacing: CGFloat = 4.0
         
     }
 }

@@ -51,6 +51,22 @@ public extension UIFont {
             objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+
+    func getPretendard(of weight: UIFont.Weight) -> UIFont {
+        var font: UIFont!
+        
+        if weight == .bold {
+            font = UIFont(name: "PretendardJP-Bold", size: 0.0)
+        } else if weight == .medium {
+            font = UIFont(name: "PretendardJP-Medium", size: 0.0)
+        } else if weight == .semibold {
+            font = UIFont(name: "PretendardJP-SemiBold", size: 0.0)
+        } else {
+            font = UIFont(name: "PretendardJP-Regular", size: 0.0)
+        }
+        
+        return font
+    }
 }
 
 

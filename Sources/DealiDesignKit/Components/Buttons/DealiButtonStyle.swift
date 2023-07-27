@@ -58,6 +58,8 @@ public enum DealiButtonStyle: Equatable {
             return DealiColor.primary01
         case .tonal:
             return DealiColor.bg07
+        case .text:
+            return UIColor.clear
         default:
             return DealiColor.primary04
         }
@@ -69,6 +71,8 @@ public enum DealiButtonStyle: Equatable {
             return DealiColor.primary02
         case .tonal:
             return DealiColor.bg07
+        case .text:
+            return UIColor.clear
         default:
             return DealiColor.primary04
         }
@@ -80,6 +84,8 @@ public enum DealiButtonStyle: Equatable {
             return DealiColor.bg04
         case .tonal:
             return DealiColor.bg07
+        case .text:
+            return UIColor.clear
         default:
             return DealiColor.primary04
         }

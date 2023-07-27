@@ -164,6 +164,7 @@ struct ButtonPreview: PreviewProvider {
                     buttonStyle(style: .large(style: .filled))
                     buttonStyle(style: .large(style: .outlined))
                     buttonStyle(style: .large(style: .tonal))
+                    buttonStyle(style: .large(style: .text))
                 }
                 
                 Group {
@@ -173,6 +174,7 @@ struct ButtonPreview: PreviewProvider {
                     buttonStyle(style: .medium(style: .filled))
                     buttonStyle(style: .medium(style: .outlined))
                     buttonStyle(style: .medium(style: .tonal))
+                    buttonStyle(style: .medium(style: .text))
                 }
                 
                 Group {
@@ -182,6 +184,7 @@ struct ButtonPreview: PreviewProvider {
                     buttonStyle(style: .small(style: .filled))
                     buttonStyle(style: .small(style: .outlined))
                     buttonStyle(style: .small(style: .tonal))
+                    buttonStyle(style: .small(style: .text))
                 }
             }
         }

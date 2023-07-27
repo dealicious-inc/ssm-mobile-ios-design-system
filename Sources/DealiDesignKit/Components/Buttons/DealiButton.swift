@@ -70,7 +70,7 @@ public class DealiButton: UIButton {
     }
     
     func setAppearance() {
-
+        
         self.setBackgroundColor(self.style.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.style.pressedBackgroundColor, for: .highlighted)
         self.setBackgroundColor(self.style.disabledBackgroundColor, for: .disabled)
@@ -108,7 +108,7 @@ public class DealiButton: UIButton {
         
         self.setTitleColor(self.style.textColor, for: .normal)
         self.setTitleColor(self.style.pressedTextColor, for: .highlighted)
-        self.setTitleColor(self.style.disabledTextColor, for: .selected)
+        self.setTitleColor(self.style.disabledTextColor, for: .disabled)
         self.titleLabel?.font = self.style.font
         
     }

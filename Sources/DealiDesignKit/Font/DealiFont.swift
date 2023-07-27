@@ -71,20 +71,18 @@ public enum DealiFont: String, CaseIterable {
     }
     
     public var font: UIFont {
-        var weight: UIFont.Weight
+        var font: UIFont!
         
         if self.rawValue.contains("Bold") {
-            weight = .bold
+            font = UIFont(name: "PretendardJP-Bold", size: self.style.size)
         } else if self.rawValue.contains("Medium") {
-            weight = .medium
+            font = UIFont(name: "PretendardJP-Medium", size: self.style.size)
         } else if self.rawValue.contains("SemiBold") {
-            weight = .semibold
+            font = UIFont(name: "PretendardJP-SemiBold", size: self.style.size)
         } else {
-            weight = .regular
+            font = UIFont(name: "PretendardJP-Regular", size: self.style.size)
         }
         
-        let fontDescriptor = DealiFontProperty.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
-        let font = UIFont(descriptor: fontDescriptor, size: self.style.size)
         font.dealiLineHeight = self.style.lineHeight
         
         return font

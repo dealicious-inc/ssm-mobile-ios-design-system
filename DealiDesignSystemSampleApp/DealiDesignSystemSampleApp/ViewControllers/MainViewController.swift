@@ -12,10 +12,11 @@ import DealiDesignKit
 
 final class MainViewController: UIViewController {
 
-    let mainView = MainView()
     
     override func loadView() {
-        self.view = mainView
+        self.view = .init()
+        
+        self.view.backgroundColor = DealiColor.primary01
         
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"
@@ -23,9 +24,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.mainView.fontButton.addTarget(self, action: #selector(fontButtonPressed), for: .touchUpInside)
-        self.mainView.colorButton.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
+
         
     }
 }

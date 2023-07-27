@@ -10,7 +10,7 @@ import UIKit
 public struct DealiColor {
     
     // 사용의 편의를 위함
-    public static let primary01: UIColor = PrimaryColor.primary01.color
+    public static let primary01: UIColor = .blue
     public static let primary02: UIColor = PrimaryColor.primary02.color
     public static let primary03: UIColor = PrimaryColor.primary03.color
     public static let primary04: UIColor = PrimaryColor.primary04.color

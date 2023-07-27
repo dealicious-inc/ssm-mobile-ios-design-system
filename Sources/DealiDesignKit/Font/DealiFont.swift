@@ -74,13 +74,13 @@ public enum DealiFont: String, CaseIterable {
         var font: UIFont!
         
         if self.rawValue.contains("Bold") {
-            font = .getPretendard(.bold)
+            font = .getPretendard(weight: .bold, size: self.style.size)
         } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(.medium)
+            font = .getPretendard(weight: .medium, size: self.style.size)
         } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(.semibold)
+            font = .getPretendard(weight: .semibold, size: self.style.size)
         } else {
-            font = .getPretendard(.regular)
+            font = .getPretendard(weight: .regular, size: self.style.size)
         }
         
         font.dealiLineHeight = self.style.lineHeight

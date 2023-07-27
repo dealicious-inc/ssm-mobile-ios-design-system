@@ -52,17 +52,17 @@ public extension UIFont {
         }
     }
 
-    func getPretendard(of weight: UIFont.Weight) -> UIFont {
+    static func getPretendard(weight: UIFont.Weight, size: CGFloat) -> UIFont {
         var font: UIFont!
         
         if weight == .bold {
-            font = UIFont(name: "PretendardJP-Bold", size: 0.0)
+            font = UIFont(name: "PretendardJP-Bold", size: size)
         } else if weight == .medium {
-            font = UIFont(name: "PretendardJP-Medium", size: 0.0)
+            font = UIFont(name: "PretendardJP-Medium", size: size)
         } else if weight == .semibold {
-            font = UIFont(name: "PretendardJP-SemiBold", size: 0.0)
+            font = UIFont(name: "PretendardJP-SemiBold", size: size)
         } else {
-            font = UIFont(name: "PretendardJP-Regular", size: 0.0)
+            font = UIFont(name: "PretendardJP-Regular", size: size)
         }
         
         return font

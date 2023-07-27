@@ -113,44 +113,21 @@ public class DealiButton: UIButton {
         
     }
     
-//    public override var isHighlighted: Bool {
-//        get {
-//            return super.isHighlighted
-//        }
-//        set {
-//            if newValue {
-//                backgroundColor = self.style.pressedBackgroundColor
-//            } else {
-//                backgroundColor = self.isEnabled ? self.style.defaultBackgroundColor : self.style.disabledBackgroundColor
-//            }
-//            super.isHighlighted = newValue
-//        }
-//    }
-    
-//    public override var isEnabled: Bool {
-//        get {
-//            return super.isEnabled
-//        }
-//        set {
-//            self.isUserInteractionEnabled = isEnabled
-//
-//            if newValue == false {
-////                backgroundColor =  self.style.disabledBackgroundColor
-////                self.setTitleColor(self.style.disabledTextColor, for: .normal)
-//
-//                if self.style.hasBorder {
-//                    self.layer.borderColor = self.style.disabledBorderColor
-//                    self.layer.borderWidth = 1.0
-//                }
-//            }
-//
-//            super.isEnabled = newValue
-//        }
-//    }
-    
     public override var isEnabled: Bool {
-        didSet {
-            self.isUserInteractionEnabled = self.isEnabled
+        get {
+            return super.isEnabled
+        }
+        set {
+            self.isUserInteractionEnabled = isEnabled
+
+            if newValue == false {
+                if self.style.hasBorder {
+                    self.layer.borderColor = self.style.disabledBorderColor
+                    self.layer.borderWidth = 1.0
+                }
+            }
+
+            super.isEnabled = newValue
         }
     }
     

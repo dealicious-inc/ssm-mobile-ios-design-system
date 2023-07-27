@@ -113,7 +113,7 @@ struct DealiFontProperty {
 }
 
 extension UIFontDescriptor {
-    static let dealiFontDescriptor: UIFontDescriptor = {
+    public static let dealiFontDescriptor: UIFontDescriptor = {
         return UIFontDescriptor().addingAttributes([.family: "Pretendard JP"])
     }()
 }

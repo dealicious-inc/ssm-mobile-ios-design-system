@@ -20,7 +20,7 @@
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
-		FCBECBC02A72B47C00933FC6 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCBECBBF2A72B47C00933FC6 /* DealiDesignKit */; };
+		FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC048A2A72B9E10004E5DB /* DealiDesignKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +36,7 @@
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
-		FCBECBBE2A72B44F00933FC6 /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ../DealiDesignKit; sourceTree = "<group>"; };
+		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +47,7 @@
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
 				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
-				FCBECBC02A72B47C00933FC6 /* DealiDesignKit in Frameworks */,
+				FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,7 +57,7 @@
 		042EA89C2A14C7D500370706 = {
 			isa = PBXGroup;
 			children = (
-				FCBECBBE2A72B44F00933FC6 /* DealiDesignKit */,
+				FCEC04882A72B9A60004E5DB /* Packages */,
 				042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */,
 				042EA8A62A14C7D500370706 /* Products */,
 				042EA8BF2A14D38500370706 /* Frameworks */,
@@ -121,6 +121,14 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		FCEC04882A72B9A60004E5DB /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				FCEC04892A72B9A60004E5DB /* DealiDesignKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -141,7 +149,7 @@
 				041ABC032A174598001772F3 /* RxCocoa */,
 				041ABC052A174598001772F3 /* RxRelay */,
 				041ABC072A174598001772F3 /* RxSwift */,
-				FCBECBBF2A72B47C00933FC6 /* DealiDesignKit */,
+				FCEC048A2A72B9E10004E5DB /* DealiDesignKit */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -444,7 +452,7 @@
 			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		FCBECBBF2A72B47C00933FC6 /* DealiDesignKit */ = {
+		FCEC048A2A72B9E10004E5DB /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DealiDesignKit;
 		};

@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ 설명: 색상관련 VC
+ */
 final class ColorViewController: UIViewController {
     let colorView = ColorView()
     

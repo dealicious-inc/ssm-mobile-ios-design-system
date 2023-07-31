@@ -1,6 +1,33 @@
 {
   "pins" : [
     {
+      "identity" : "deali-design-system-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dealicious-inc/deali-design-system-ios",
+      "state" : {
+        "branch" : "dev",
+        "revision" : "99fc204031d7c25885fc65a06af7ac5be1275a8a"
+      }
+    },
+    {
+      "identity" : "flexlayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/layoutBox/FlexLayout.git",
+      "state" : {
+        "revision" : "650710606830afa83382eee63c0214c4ed8f7b11",
+        "version" : "1.3.32"
+      }
+    },
+    {
+      "identity" : "pinlayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/layoutBox/PinLayout",
+      "state" : {
+        "revision" : "ce929a6ecdc6701adee9bdf9d949e0036f567ca7",
+        "version" : "1.10.4"
+      }
+    },
+    {
       "identity" : "rxgesture",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxGesture.git",
@@ -12,7 +39,7 @@
     {
       "identity" : "rxswift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "location" : "https://github.com/ReactiveX/RxSwift",
       "state" : {
         "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
         "version" : "6.6.0"

@@ -7,6 +7,37 @@
 
 import UIKit
 
+
+public extension UIFont {
+    static let h1b32: UIFont = DealiFont.h1Bold.systemFont
+    
+    static let h2b24: UIFont = DealiFont.h2Bold.systemFont
+    
+    static let sh1b20: UIFont = DealiFont.sh1Bold.systemFont
+    static let sh1m20: UIFont = DealiFont.sh1Medium.systemFont
+    
+    static let sh2b18: UIFont = DealiFont.sh2Bold.systemFont
+    static let sh2r18: UIFont = DealiFont.sh2Regular.systemFont
+    
+    static let sh3b16: UIFont = DealiFont.sh3Bold.systemFont
+    static let sh3r16: UIFont = DealiFont.sh3Regular.systemFont
+    
+    static let b1sb15: UIFont = DealiFont.b1SemiBold.systemFont
+    static let b1r15: UIFont = DealiFont.b1Regular.systemFont
+    
+    static let b2sb14: UIFont = DealiFont.b2SemiBold.systemFont
+    static let b2r14: UIFont = DealiFont.b2Regular.systemFont
+
+    static let b3sb13: UIFont = DealiFont.b3SemiBold.systemFont
+    static let b3r13: UIFont = DealiFont.b3Regular.systemFont
+   
+    static let b4sb12: UIFont = DealiFont.b4SemiBold.systemFont
+    static let b4r12: UIFont = DealiFont.b4Regular.systemFont
+
+    static let c1b10: UIFont = DealiFont.c1Bold.systemFont
+    static let c1r10: UIFont = DealiFont.c1Regular.systemFont
+}
+
 public extension UIFont {
     
     private struct AssociatedKeys {
@@ -22,50 +53,45 @@ public extension UIFont {
     }
 }
 
-public extension UIFont {
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct FontPreview: PreviewProvider {
     
-    // ver 01
-    static let h1: UIFont = { return DealiFont.h1.font }()
-    
-    // ver 02
-    static let sh1: UIFont = {
-        let style = DealiFontProperty.sh1
-        
-        let fontDescriptor = DealiFontProperty.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.regular]])
-        let font = UIFont(descriptor: fontDescriptor, size: style.size)
-        font.dealiLineHeight = style.lineHeight
-        
-        return font
-    }()
-
-    // ver 03
-    static let b4: UIFont = {
-        let fontDescriptor = UIFontDescriptor.dealiFontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.regular]])
-        let font = UIFont(descriptor: fontDescriptor, size: 12.0)
-        font.dealiLineHeight = 18.0
-        
-        return font
-    }()
-    
-    var regular: UIFont { return withWeight(.regular) }
-    var medium: UIFont { return withWeight(.medium) }
-    var bold: UIFont { return withWeight(.bold) }
-
-    private func withWeight(_ weight: UIFont.Weight) -> UIFont {
-        var attributes = fontDescriptor.fontAttributes
-        var traits = (attributes[.traits] as? [UIFontDescriptor.TraitKey: Any]) ?? [:]
-
-        traits[.weight] = weight
-
-        attributes[.name] = nil
-        attributes[.traits] = traits
-        attributes[.family] = familyName
-
-        let descriptor = UIFontDescriptor(fontAttributes: attributes)
-        let font = UIFont(descriptor: descriptor, size: pointSize)
-        font.dealiLineHeight = self.dealiLineHeight
-        return font
+    static var previews: some View {
+        VStack(alignment: .leading) {
+            Text("Deali Font Style")
+                .font(.system(size: 30.0, weight: .bold))
+            
+            Divider()
+            
+            Text("h1b32")
+                .bold()
+            UIViewPreview {
+                let textView = UITextView()
+                textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
+                textView.font = .h1b32
+                
+                return textView
+            }
+            
+            Divider()
+            
+            Text("h2b24")
+                .bold()
+            UIViewPreview {
+                let textView = UITextView()
+                textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
+                textView.font = .h2b24
+                
+                return textView
+            }
+            
+            Spacer()
+        }
+        .padding(10.0)
+        .previewLayout(.sizeThatFits)
     }
 }
-
-
+#endif

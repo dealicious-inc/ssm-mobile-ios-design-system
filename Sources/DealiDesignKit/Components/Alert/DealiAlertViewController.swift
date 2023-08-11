@@ -34,8 +34,9 @@ final class DealiAlert: NSObject {
 final class DealiAlertViewController: UIViewController {
 
     private let contentView = UIView()
-    private let contentStackView = UIStackView()
     private let titleLabel = UILabel()
+    
+    private let messageContentStackView = UIStackView()
     private let messageLabel = UILabel()
     
     private let cancelButton = DealiButton()
@@ -49,15 +50,8 @@ final class DealiAlertViewController: UIViewController {
             if let title = self.alertTitle {
                 self.titleLabel.isHidden = false
                 self.titleLabel.text = title
-                
-                self.contentStackView.snp.updateConstraints {
-                    $0.top.equalToSuperview().offset(24.0)
-                }
             } else {
                 self.titleLabel.isHidden = true
-                self.contentStackView.snp.updateConstraints {
-                    $0.top.equalToSuperview().offset(28.0)
-                }
             }
         }
     }
@@ -96,6 +90,19 @@ final class DealiAlertViewController: UIViewController {
     /// content 영역 이외의 영턱 터치시 cancelAction 실행과 alert닫기
     var cancelAndCloseOnOutsideTouch: Bool = false
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.providesPresentationContextTransitionStyle = true
+        self.definesPresentationContext = true
+        self.modalPresentationStyle = .overFullScreen
+        self.modalTransitionStyle = .crossDissolve
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -116,18 +123,7 @@ final class DealiAlertViewController: UIViewController {
             $0.height.lessThanOrEqualTo(456.0)
         }
         
-        self.contentView.addSubview(self.contentStackView)
-        self.contentStackView.then {
-            $0.axis = .vertical
-            $0.alignment = .fill
-            $0.distribution = .fill
-            $0.spacing = 24.0
-        }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(24.0)
-            $0.left.bottom.right.equalToSuperview().inset(20.0)
-        }
-        
-        self.contentStackView.addArrangedSubview(self.titleLabel)
+        self.contentView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .sh1sb20
             $0.textColor = DealiColor.text01
@@ -135,31 +131,19 @@ final class DealiAlertViewController: UIViewController {
             $0.numberOfLines = 0
             $0.text = "Temp Alert Title"
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        self.contentStackView.setCustomSpacing(20.0, after: self.titleLabel)
-        
-        self.contentStackView.addArrangedSubview(self.messageLabel)
-        self.messageLabel.then {
-            $0.font = .sh3r16
-            $0.textColor = DealiColor.text03
-            $0.textAlignment = .left
-            $0.numberOfLines = 0
-            $0.text = "Temp Alert Message"
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(20.0)
+            $0.top.equalToSuperview().offset(24.0)
         }
         
         let buttonStackView = UIStackView()
-        self.contentStackView.addArrangedSubview(buttonStackView)
+        self.contentView.addSubview(buttonStackView)
         buttonStackView.then {
             $0.axis = .horizontal
             $0.alignment = .fill
             $0.distribution = .fillEqually
             $0.spacing = 8.0
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview().inset(20.0)
         }
         
         buttonStackView.addArrangedSubview(self.cancelButton)
@@ -179,6 +163,46 @@ final class DealiAlertViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
         }
+        
+        let messageContentScrollView = UIScrollView()
+        self.contentView.addSubview(messageContentScrollView)
+        messageContentScrollView.then {
+            $0.bounces = false
+            $0.showsVerticalScrollIndicator = false
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(20.0)
+            $0.bottom.equalTo(buttonStackView.snp.top).offset(-24.0)
+        }
+        
+        let messageContentView = UIView()
+        messageContentScrollView.addSubview(messageContentView)
+        messageContentView.snp.makeConstraints {
+            $0.top.bottom.left.right.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        messageContentView.addSubview(self.messageContentStackView)
+        self.messageContentStackView.then {
+            $0.axis = .vertical
+            $0.alignment = .fill
+            $0.distribution = .fill
+            $0.spacing = 6.0
+        }.snp.makeConstraints {
+            $0.top.bottom.left.right.equalToSuperview()
+        }
+        self.messageContentStackView.addArrangedSubview(self.messageLabel)
+        self.messageLabel.then {
+            $0.font = .sh3r16
+            $0.textColor = DealiColor.text03
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
+            $0.text = "Temp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message\nTemp Alert Message"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        
     }
 
     @objc func cancelButtonAction() {

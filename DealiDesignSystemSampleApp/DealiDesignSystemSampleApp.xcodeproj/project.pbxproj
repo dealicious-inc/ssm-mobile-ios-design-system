@@ -20,6 +20,7 @@
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
+		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
 		FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC048A2A72B9E10004E5DB /* DealiDesignKit */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
+		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
 		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
 				041ABC0B2A175E19001772F3 /* ColorViewController.swift */,
+				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				041ABC0A2A175E0A001772F3 /* ColorView.swift in Sources */,
+				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,

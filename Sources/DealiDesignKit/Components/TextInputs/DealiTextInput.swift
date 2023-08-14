@@ -199,14 +199,6 @@ public final class DealiTextInput: UIView {
             })
             .disposed(by: self.disposeBag)
         
-//        #if DEBUG
-//        // 테스트용
-//        self.rx.inputText
-//            .orEmpty
-//            .map { $0.count > 10 }
-//            .bind(to: self.reactive.isError)
-//            .disposed(by: self.disposeBag)
-//        #endif
     }
     
     @discardableResult

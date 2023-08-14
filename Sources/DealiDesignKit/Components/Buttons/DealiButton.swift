@@ -104,6 +104,8 @@ public class DealiButton: UIButton {
         if self.style.hasBorder {
             self.layer.borderColor = self.style.defaultBorderColor
             self.layer.borderWidth = 1.0
+        } else {
+            self.layer.borderWidth = 0.0
         }
         
         self.setTitleColor(self.style.textColor, for: .normal)

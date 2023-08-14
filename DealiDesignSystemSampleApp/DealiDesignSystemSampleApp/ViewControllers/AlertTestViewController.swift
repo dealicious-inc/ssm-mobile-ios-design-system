@@ -63,5 +63,11 @@ class AlertTestViewController: UIViewController {
 extension AlertTestViewController {
     @objc func alertButton01Pressed() {
         print("alertButton01Pressed")
+
+        DealiAlert.show(message: "Alert 테스트중",
+                        cancelButtonTitle: "취소",
+                        confirmButtonTitle: "확인",
+                        alertPresentingViewController: self,
+                        cancelAction: nil, confirmAction: nil)
     }
 }

@@ -57,6 +57,16 @@ class AlertTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
+        let alertButton02 = DealiButton()
+        contentStackView.addArrangedSubview(alertButton02)
+        alertButton02.then {
+            $0.style = .large(style: .filled)
+            $0.title = "alert02"
+            $0.addTarget(self, action: #selector(alertButton02Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -66,6 +76,17 @@ extension AlertTestViewController {
 
         DealiAlert.show(message: "Alert 테스트중",
                         cancelButtonTitle: "취소",
+                        confirmButtonTitle: "확인",
+                        alertPresentingViewController: self,
+                        cancelAction: nil, confirmAction: nil)
+    }
+    
+    @objc func alertButton02Pressed() {
+        print("alertButton02Pressed")
+
+        DealiAlert.show(title: "Title입니다.",
+                        message: "Alert 테스트중",
+                        cancelButtonTitle: nil,
                         confirmButtonTitle: "확인",
                         alertPresentingViewController: self,
                         cancelAction: nil, confirmAction: nil)

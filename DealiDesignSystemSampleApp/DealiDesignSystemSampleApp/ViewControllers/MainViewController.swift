@@ -16,10 +16,21 @@ final class MainViewController: UIViewController {
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = DealiColor.primary01
+        self.view.backgroundColor = DealiColor.primary04
         
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"
+        
+        let alertButton = DealiButton()
+        self.view.addSubview(alertButton)
+        alertButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "Alert"
+            $0.addTarget(self, action: #selector(alertButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(100.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
     }
     
     override func viewDidLoad() {
@@ -37,6 +48,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func alertButtonPressed() {
+        self.navigationController?.pushViewController(AlertTestViewController(), animated: true)
     }
 
 }

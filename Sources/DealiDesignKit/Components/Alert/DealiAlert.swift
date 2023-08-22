@@ -18,6 +18,20 @@ import UIKit
 
 public class DealiAlert: NSObject {
     
+    // 1버튼 확인 버튼
+    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) {
+        
+        self.show(title: title,
+                  message: message,
+                  cancelButtonTitle: nil,
+                  confirmButtonTitle: confirmButtonTitle,
+                  closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                  cancelAndCloseOnOutsideTouch: cancelAndCloseOnOutsideTouch,
+                  alertPresentingViewController: alertPresentingViewController,
+                  cancelAction: nil,
+                  confirmAction: confirmAction)
+    }
+    
     public class func show(title: String? = nil, message: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let style = NSMutableParagraphStyle()

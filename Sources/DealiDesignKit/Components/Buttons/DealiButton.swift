@@ -29,8 +29,30 @@ public enum DealiButtonStatus: Equatable {
 ///     myButton.title = "로그인 하기"
 ///     ```
 public class DealiButton: UIButton {
-    public var style: DealiButtonStyle = .large(style: .filled) {
+//    public var style: DealiButtonStyle = .large(style: .filled) {
+//        didSet {
+//            self.setAppearance()
+//        }
+//    }
+    private var preset = DealiButtonStyle()
+    
+    public var size: DealiButtonSizeType = .large {
         didSet {
+            self.preset.size = self.size
+            self.setAppearance()
+        }
+    }
+    
+    public var style: DealiButtonStyleType = .filled {
+        didSet {
+            self.preset.style = self.style
+            self.setAppearance()
+        }
+    }
+    
+    public var color: DealiButtonColorType = .default {
+        didSet {
+            self.preset.color = self.color
             self.setAppearance()
         }
     }
@@ -53,65 +75,42 @@ public class DealiButton: UIButton {
         }
     }
     
-    public init(_ style: DealiButtonStyle = .large(style: .filled), title: String? = "") {
-        super.init(frame: .zero)
-        self.style = style
-        self.title = title
-        
-        self.setTitle(title, for: .normal)
-        
-        self.setAppearance()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        self.setAppearance()
-    }
-    
     func setAppearance() {
         
-        self.setBackgroundColor(self.style.defaultBackgroundColor, for: .normal)
-        self.setBackgroundColor(self.style.pressedBackgroundColor, for: .highlighted)
-        self.setBackgroundColor(self.style.disabledBackgroundColor, for: .disabled)
-
-        self.layer.cornerRadius = 6.0
-        self.layer.masksToBounds = true
+        self.setBackgroundColor(self.preset.colorPreset.defaultBackgroundColor, for: .normal)
+        self.setBackgroundColor(self.preset.colorPreset.pressedBackgroundColor, for: .highlighted)
+        self.setBackgroundColor(self.preset.colorPreset.disabledBackgroundColor, for: .disabled)
         
-        let horizontalPadding = self.style.padding.horizontal
-        let verticalPadding = self.style.padding.vertical
-
-        let internalSpacing = self.style.padding.internalSpacing
+        let horizontalPadding = self.preset.appearanceConfig.horizontalPadding
+        let verticalPadding = self.preset.appearanceConfig.verticalPadding
+        let internalSpacing = self.preset.appearanceConfig.internalSpacing
 
         self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
         if let leftIconImage = self.leftIconImage {
             self.imageEdgeInsets = .init(top: 0.0, left: -internalSpacing, bottom: 0.0, right: internalSpacing)
 
-            self.setImage(leftIconImage.withTintColor(self.style.textColor), for: .normal)
-            self.setImage(leftIconImage.withTintColor(self.style.pressedTextColor), for: .highlighted)
-            self.setImage(leftIconImage.withTintColor(self.style.disabledTextColor), for: .disabled)
+            self.setImage(leftIconImage.withTintColor(self.preset.colorPreset.defaultTitleColor), for: .normal)
+            self.setImage(leftIconImage.withTintColor(self.preset.colorPreset.pressedTitleColor), for: .highlighted)
+            self.setImage(leftIconImage.withTintColor(self.preset.colorPreset.disabledTitleColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
         } else if let rightIconImage = self.rightIconImage {
             self.imageEdgeInsets = .init(top: 0.0, left: internalSpacing, bottom: 0.0, right: -internalSpacing)
 
-            self.setImage(rightIconImage.withTintColor(self.style.textColor), for: .normal)
-            self.setImage(rightIconImage.withTintColor(self.style.pressedTextColor), for: .highlighted)
-            self.setImage(rightIconImage.withTintColor(self.style.disabledTextColor), for: .disabled)
+            self.setImage(rightIconImage.withTintColor(self.preset.colorPreset.defaultTitleColor), for: .normal)
+            self.setImage(rightIconImage.withTintColor(self.preset.colorPreset.pressedTitleColor), for: .highlighted)
+            self.setImage(rightIconImage.withTintColor(self.preset.colorPreset.disabledTitleColor), for: .disabled)
             self.semanticContentAttribute = .forceRightToLeft
         }
-
         
-        if self.style.hasBorder {
-            self.layer.borderColor = self.style.defaultBorderColor
-            self.layer.borderWidth = 1.0
-        } else {
-            self.layer.borderWidth = 0.0
-        }
+        self.layer.masksToBounds = true
+        self.layer.borderColor = self.preset.colorPreset.defaultBorderColor
+        self.layer.cornerRadius = self.preset.appearanceConfig.cornerRadius
+        self.layer.borderWidth = self.preset.appearanceConfig.borderWidth
         
-        self.setTitleColor(self.style.textColor, for: .normal)
-        self.setTitleColor(self.style.pressedTextColor, for: .highlighted)
-        self.setTitleColor(self.style.disabledTextColor, for: .disabled)
-        self.titleLabel?.font = self.style.font
+        self.setTitleColor(self.preset.colorPreset.defaultTitleColor, for: .normal)
+        self.setTitleColor(self.preset.colorPreset.pressedTitleColor, for: .highlighted)
+        self.setTitleColor(self.preset.colorPreset.disabledTitleColor, for: .disabled)
+        self.titleLabel?.font = self.preset.appearanceConfig.font
         
     }
     
@@ -123,10 +122,8 @@ public class DealiButton: UIButton {
             self.isUserInteractionEnabled = isEnabled
 
             if newValue == false {
-                if self.style.hasBorder {
-                    self.layer.borderColor = self.style.disabledBorderColor
-                    self.layer.borderWidth = 1.0
-                }
+                self.layer.borderColor = self.preset.colorPreset.disabledBorderColor
+                self.layer.borderWidth = self.preset.appearanceConfig.borderWidth
             }
 
             super.isEnabled = newValue
@@ -162,31 +159,31 @@ struct ButtonPreview: PreviewProvider {
                 Group {
                     Text("Large")
                         .font(.system(size: 20.0, weight: .bold))
-                    
-                    buttonStyle(style: .large(style: .filled))
-                    buttonStyle(style: .large(style: .outlined))
-                    buttonStyle(style: .large(style: .tonal))
-                    buttonStyle(style: .large(style: .text))
+                    buttonStyle(size: .large, style: .filled)
+                    buttonStyle(size: .large, style: .outlined)
+                    buttonStyle(size: .large, style: .tonal)
+                    buttonStyle(size: .large, style: .text)
                 }
                 
                 Group {
                     Text("Medium")
                         .font(.system(size: 20.0, weight: .bold))
                     
-                    buttonStyle(style: .medium(style: .filled))
-                    buttonStyle(style: .medium(style: .outlined))
-                    buttonStyle(style: .medium(style: .tonal))
-                    buttonStyle(style: .medium(style: .text))
+                    buttonStyle(size: .medium, style: .filled)
+                    buttonStyle(size: .medium, style: .outlined)
+                    buttonStyle(size: .medium, style: .tonal)
+                    buttonStyle(size: .medium, style: .text)
                 }
                 
                 Group {
                     Text("Small")
                         .font(.system(size: 20.0, weight: .bold))
-                    
-                    buttonStyle(style: .small(style: .filled))
-                    buttonStyle(style: .small(style: .outlined))
-                    buttonStyle(style: .small(style: .tonal))
-                    buttonStyle(style: .small(style: .text))
+
+                    buttonStyle(size: .small, style: .filled)
+                    buttonStyle(size: .small, style: .outlined)
+                    buttonStyle(size: .small, style: .tonal)
+                    buttonStyle(size: .small, style: .text)
+
                 }
             }
         }
@@ -196,47 +193,65 @@ struct ButtonPreview: PreviewProvider {
     }
     
     
-    @ViewBuilder static func buttonStyle(style: DealiButtonStyle) -> some View {
+    @ViewBuilder static func buttonStyle(size: DealiButtonSizeType, style: DealiButtonStyleType, color: DealiButtonColorType = .default) -> some View {
         VStack(alignment: .leading) {
             Text(String(describing: style))
             UIViewPreview {
-                let button = DealiButton(title: "Default 버튼")
+                let button = DealiButton()
+                button.title = "Default 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 return button
             }
             
             UIViewPreview {
-                let button = DealiButton(title: "Pressed 버튼")
+                let button = DealiButton()
+                button.title = "Pressed 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 button.isHighlighted = true
                 return button
             }
             
             UIViewPreview {
-                let button = DealiButton(title: "Disabled 버튼")
+                let button = DealiButton()
+                button.title = "Disabled 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 button.isEnabled = false
                 return button
             }
             
             UIViewPreview {
-                let button = DealiButton(title: "Default 버튼")
+                let button = DealiButton()
+                button.title = "Default 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
                 return button
             }
             
             UIViewPreview {
-                let button = DealiButton(title: "Pressed 버튼")
+                let button = DealiButton()
+                button.title = "Pressed 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
                 button.isHighlighted = true
                 return button
             }
             
             UIViewPreview {
-                let button = DealiButton(title: "Disabled 버튼")
+                let button = DealiButton()
+                button.title = "Disabled 버튼"
+                button.size = size
                 button.style = style
+                button.color = color
                 button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
                 button.isEnabled = true
                 return button

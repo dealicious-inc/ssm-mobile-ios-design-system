@@ -51,7 +51,8 @@ class AlertTestViewController: UIViewController {
         let alertButton01 = DealiButton()
         contentStackView.addArrangedSubview(alertButton01)
         alertButton01.then {
-            $0.style = .large(style: .filled)
+            $0.size = .large
+            $0.style = .filled
             $0.title = "alert01"
             $0.addTarget(self, action: #selector(alertButton01Pressed), for: .touchUpInside)
         }.snp.makeConstraints {
@@ -61,7 +62,8 @@ class AlertTestViewController: UIViewController {
         let alertButton02 = DealiButton()
         contentStackView.addArrangedSubview(alertButton02)
         alertButton02.then {
-            $0.style = .large(style: .filled)
+            $0.size = .large
+            $0.style = .filled
             $0.title = "alert02"
             $0.addTarget(self, action: #selector(alertButton02Pressed), for: .touchUpInside)
         }.snp.makeConstraints {

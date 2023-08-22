@@ -184,7 +184,8 @@ final class DealiAlertViewController: UIViewController {
         if let cancelButtonTitle = self.cancelButtonTitle {
             buttonStackView.addArrangedSubview(self.cancelButton)
             self.cancelButton.then {
-                $0.style = .medium(style: .outlined)
+                $0.size = .medium
+                $0.style = .outlined
                 $0.title = cancelButtonTitle
                 $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {
@@ -195,7 +196,8 @@ final class DealiAlertViewController: UIViewController {
         if let confirmButtonTitle = self.confirmButtonTitle {
             buttonStackView.addArrangedSubview(self.confirmButton)
             self.confirmButton.then {
-                $0.style = .medium(style: .filled)
+                $0.size = .medium
+                $0.style = .filled
                 $0.title = confirmButtonTitle
                 $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {

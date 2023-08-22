@@ -32,178 +32,182 @@ import UIKit
 ///      }
 /// }
 /// ```
-public enum DealiButtonStyle: Equatable {
-    indirect case large(style: DealiButtonStyle)
-    indirect case medium(style: DealiButtonStyle)
-    indirect case small(style: DealiButtonStyle)
-    
+
+public enum DealiButtonSizeType: Equatable {
+    case large
+    case medium
+    case small
+}
+
+public enum DealiButtonStyleType: Equatable {
     case filled
     case outlined
     case tonal
     case text
+}
+
+public enum DealiButtonColorType: Equatable {
+    case `default`
+}
+
+struct DealiButtonStyle {
     
-    var baseStyle: DealiButtonStyle {
-        switch self {
-        case .large(let style), .medium(let style), .small(let style):
-            return style
-        default:
-            return self
+    var size: DealiButtonSizeType = .large {
+        didSet {
+            self.appearanceConfig = DealiButtonAppearanceConfig.appearanceConfigPreset(size: self.size, style: self.style)
         }
     }
     
-    // MARK: BackgroundColor
-    var defaultBackgroundColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.primary01
-        case .tonal:
-            return DealiColor.bg07
-        case .text:
-            return UIColor.clear
-        default:
-            return DealiColor.primary04
+    var style: DealiButtonStyleType = .filled {
+        didSet {
+            self.appearanceConfig = DealiButtonAppearanceConfig.appearanceConfigPreset(size: self.size, style: self.style)
+            self.colorPreset = DealiButtonColorPreset.colorPreset(style: self.style, color: self.color)
         }
     }
     
-    var pressedBackgroundColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.primary02
-        case .tonal:
-            return DealiColor.bg07
-        case .text:
-            return UIColor.clear
-        default:
-            return DealiColor.primary04
+    var color: DealiButtonColorType = .default {
+        didSet {
+            self.colorPreset = DealiButtonColorPreset.colorPreset(style: self.style, color: self.color)
         }
     }
     
-    var disabledBackgroundColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.bg04
-        case .tonal:
-            return DealiColor.bg07
-        case .text:
-            return UIColor.clear
-        default:
-            return DealiColor.primary04
-        }
-    }
+    var appearanceConfig: DealiButtonAppearanceConfig = DealiButtonAppearanceConfig()
+    var colorPreset: DealiButtonColorPreset = DealiButtonColorPreset()
+}
+
+/**
+ 설명: 버튼을 그릴때 지정되는 컬러를 제외한 속성 구조체
+ */
+struct DealiButtonAppearanceConfig {
+    var horizontalPadding: CGFloat = 0.0
+    var verticalPadding: CGFloat = 0.0
+    var internalSpacing: CGFloat = 4.0
+    var cornerRadius: CGFloat = 6.0
+    var borderWidth: CGFloat = 1.0
+    var hasBorder: Bool = false
+    var font: UIFont = .b4sb12
     
-    // MARK: TextColor
-    var textColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.primary04
-        case .outlined:
-            return DealiColor.primary01
-        case .tonal:
-            return DealiColor.text02
-        default:
-            return DealiColor.text02
-        }
-    }
-    
-    var disabledTextColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.primary04
-        default:
-            return DealiColor.text05
-        }
-    }
-    
-    var pressedTextColor: UIColor {
-        switch self.baseStyle {
-        case .filled:
-            return DealiColor.primary04
-        case .outlined:
-            return DealiColor.primary01
-        case .tonal, .text:
-            return DealiColor.text01
-        default:
-            return DealiColor.text01
-        }
-    }
-    
-    var hasBorder: Bool {
-        self.baseStyle == .outlined || self.baseStyle == .tonal
-    }
-    
-    var defaultBorderColor: CGColor {
-        switch self.baseStyle {
-        case .outlined:
-            return DealiColor.primary01.cgColor
-        case .tonal:
-            return DealiColor.line03.cgColor
-        default:
-            return DealiColor.primary04.cgColor
-        }
-    }
-    
-    var disabledBorderColor: CGColor {
-        switch self.baseStyle {
-        case .outlined, .tonal:
-            return DealiColor.line03.cgColor
-        default:
-            return DealiColor.primary04.cgColor
-        }
-    }
-    
-    var font: UIFont {
-        switch self {
-        case .large(_):
-            return .b1sb15
-        case .medium(let style):
+    static func appearanceConfigPreset(size: DealiButtonSizeType, style: DealiButtonStyleType) -> DealiButtonAppearanceConfig {
+        var preset = DealiButtonAppearanceConfig()
+        
+        switch size {
+        case .large:
+            preset.font = .b1sb15
+            
             switch style {
             case .text:
-                return .b2r14
+                preset.horizontalPadding = 0.0
+                preset.verticalPadding = 15.0
             default:
-                return .b2sb14
+                preset.horizontalPadding = 40.0
+                preset.verticalPadding = 15.0
             }
-        case .small(let style):
+        case .medium:
             switch style {
             case .text:
-                return .b4r12
+                preset.font = .b2r14
             default:
-                return .b4sb12
+                preset.font = .b2sb14
             }
-        default:
-            return .b4sb12
-        }
-    }
-    
-    var padding: DealiButtonPadding {
-        switch self {
-        case .large(let style):
             switch style {
-            case .filled, .outlined, .tonal:
-                return DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
             case .text:
-                return DealiButtonPadding(horizontal: 16.0, vertical: 15.0)
+                preset.horizontalPadding = 0.0
+                preset.verticalPadding = 13.0
             default:
-                return DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-            }
-        case .medium(_):
-            return DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
-        case .small(let style):
-            switch style {
-            case .filled:
-                return DealiButtonPadding(horizontal: 16.0, vertical: 13.0)
-            default:
-                return DealiButtonPadding(horizontal: 12.0, vertical: 13.0)
+                preset.horizontalPadding = 20.0
+                preset.verticalPadding = 13.0
             }
             
-        default:
-            return DealiButtonPadding()
+        case .small:
+            switch style {
+            case .text:
+                preset.font = .b4r12
+            default:
+                preset.font = .b4sb12
+            }
+            
+            switch style {
+            case .filled:
+                preset.horizontalPadding = 16.0
+                preset.verticalPadding = 13.0
+            case .text:
+                preset.horizontalPadding = 0.0
+                preset.verticalPadding = 13.0
+            default:
+                preset.horizontalPadding = 12.0
+                preset.verticalPadding = 13.0
+            }
         }
-    }
-    
-    struct DealiButtonPadding {
-        var horizontal: CGFloat = 0.0
-        var vertical: CGFloat = 0.0
-        var internalSpacing: CGFloat = 4.0
         
+        preset.borderWidth = ((style == .filled || style == .text) ? 0.0 : 1.0)
+        preset.hasBorder = (style == .outlined || style == .tonal)
+        
+        return preset
+    }
+}
+
+/**
+ 설명: 버튼에 적용되는 color preset
+ */
+struct DealiButtonColorPreset {
+    var defaultTitleColor: UIColor = .clear
+    var disabledTitleColor: UIColor = .clear
+    var pressedTitleColor: UIColor = .clear
+    
+    var defaultBackgroundColor: UIColor = .clear
+    var disabledBackgroundColor: UIColor = .clear
+    var pressedBackgroundColor: UIColor = .clear
+    
+    var defaultBorderColor: CGColor = UIColor.clear.cgColor
+    var disabledBorderColor: CGColor = UIColor.clear.cgColor
+    var pressedBorderColor: CGColor = UIColor.clear.cgColor
+    
+    static func colorPreset(style: DealiButtonStyleType, color: DealiButtonColorType) -> DealiButtonColorPreset {
+        
+        var preset = DealiButtonColorPreset()
+        
+        switch color {
+        case .default:
+            switch style {
+            case .filled:
+                preset.defaultTitleColor = DealiColor.primary04
+                preset.disabledTitleColor = DealiColor.primary04
+                preset.pressedTitleColor = DealiColor.primary04
+                
+                preset.defaultBackgroundColor = DealiColor.primary01
+                preset.disabledBackgroundColor = DealiColor.bg04
+                preset.pressedBackgroundColor = DealiColor.primary02
+            case .outlined:
+                preset.defaultTitleColor = DealiColor.primary01
+                preset.disabledTitleColor = DealiColor.text05
+                preset.pressedTitleColor = DealiColor.primary01
+                
+                preset.defaultBackgroundColor = DealiColor.primary04
+                preset.disabledBackgroundColor = DealiColor.primary04
+                preset.pressedBackgroundColor = DealiColor.primary04
+                
+                preset.defaultBorderColor = DealiColor.primary01.cgColor
+                preset.disabledBorderColor = DealiColor.line03.cgColor
+                preset.pressedBorderColor = DealiColor.primary02.cgColor
+            case .tonal:
+                preset.defaultTitleColor = DealiColor.text02
+                preset.disabledTitleColor = DealiColor.text05
+                preset.pressedTitleColor = DealiColor.text01
+                
+                preset.defaultBackgroundColor = DealiColor.bg07
+                preset.disabledBackgroundColor = DealiColor.bg07
+                preset.pressedBackgroundColor = DealiColor.bg07
+                
+                preset.defaultBorderColor = DealiColor.line03.cgColor
+                preset.disabledBorderColor = DealiColor.line03.cgColor
+                preset.pressedBorderColor = DealiColor.line03.cgColor
+            case .text:
+                preset.defaultTitleColor = DealiColor.text02
+                preset.disabledTitleColor = DealiColor.text05
+                preset.pressedTitleColor = DealiColor.text01
+            }
+        }
+        
+        return preset
     }
 }

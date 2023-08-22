@@ -24,7 +24,8 @@ final class MainViewController: UIViewController {
         let alertButton = DealiButton()
         self.view.addSubview(alertButton)
         alertButton.then {
-            $0.style = .medium(style: .filled)
+            $0.size = .medium
+            $0.style = .filled
             $0.title = "Alert"
             $0.addTarget(self, action: #selector(alertButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {

@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = DealiColor.primary01
+        self.view.backgroundColor = DealiColor.primary04
         
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"

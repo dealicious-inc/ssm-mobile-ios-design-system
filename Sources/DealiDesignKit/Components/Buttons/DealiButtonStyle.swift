@@ -48,6 +48,7 @@ public enum DealiButtonStyleType: Equatable {
 
 public enum DealiButtonColorType: Equatable {
     case `default`
+    case gradient
 }
 
 struct DealiButtonStyle {
@@ -80,67 +81,64 @@ struct DealiButtonStyle {
  */
 struct DealiButtonAppearanceConfig {
     var horizontalPadding: CGFloat = 0.0
-    var verticalPadding: CGFloat = 0.0
     var internalSpacing: CGFloat = 4.0
+    var buttonHeight: CGFloat = 0.0
     var cornerRadius: CGFloat = 6.0
     var borderWidth: CGFloat = 1.0
-    var hasBorder: Bool = false
-    var font: UIFont = .b4sb12
+    var titleFont: UIFont = .b4sb12
+    var subTitleFont: UIFont = .c1r10
     
     static func appearanceConfigPreset(size: DealiButtonSizeType, style: DealiButtonStyleType) -> DealiButtonAppearanceConfig {
         var preset = DealiButtonAppearanceConfig()
         
         switch size {
         case .large:
-            preset.font = .b1sb15
+            preset.titleFont = .b1sb15
+            preset.buttonHeight = 50.0
             
             switch style {
             case .text:
                 preset.horizontalPadding = 0.0
-                preset.verticalPadding = 15.0
             default:
                 preset.horizontalPadding = 40.0
-                preset.verticalPadding = 15.0
             }
         case .medium:
+            preset.buttonHeight = 46.0
+            
             switch style {
             case .text:
-                preset.font = .b2r14
+                preset.titleFont = .b2r14
             default:
-                preset.font = .b2sb14
+                preset.titleFont = .b2sb14
             }
             switch style {
             case .text:
                 preset.horizontalPadding = 0.0
-                preset.verticalPadding = 13.0
             default:
                 preset.horizontalPadding = 20.0
-                preset.verticalPadding = 13.0
             }
             
         case .small:
+            preset.buttonHeight = 32.0
+            
             switch style {
             case .text:
-                preset.font = .b4r12
+                preset.titleFont = .b4r12
             default:
-                preset.font = .b4sb12
+                preset.titleFont = .b4sb12
             }
             
             switch style {
             case .filled:
                 preset.horizontalPadding = 16.0
-                preset.verticalPadding = 13.0
             case .text:
                 preset.horizontalPadding = 0.0
-                preset.verticalPadding = 13.0
             default:
                 preset.horizontalPadding = 12.0
-                preset.verticalPadding = 13.0
             }
         }
         
         preset.borderWidth = ((style == .filled || style == .text) ? 0.0 : 1.0)
-        preset.hasBorder = (style == .outlined || style == .tonal)
         
         return preset
     }
@@ -205,6 +203,19 @@ struct DealiButtonColorPreset {
                 preset.defaultTitleColor = DealiColor.text02
                 preset.disabledTitleColor = DealiColor.text05
                 preset.pressedTitleColor = DealiColor.text01
+            }
+            
+        case .gradient:
+            switch style {
+            case .filled:
+                preset.defaultTitleColor = DealiColor.primary04
+                preset.disabledTitleColor = DealiColor.primary04
+                preset.pressedTitleColor = DealiColor.primary04
+                
+                preset.disabledBackgroundColor = DealiColor.bg04
+                preset.pressedBackgroundColor = DealiColor.primary02
+            default:
+                break
             }
         }
         

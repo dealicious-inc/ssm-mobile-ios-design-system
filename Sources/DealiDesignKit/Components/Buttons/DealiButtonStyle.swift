@@ -181,16 +181,24 @@ public enum DealiButtonStyle: Equatable {
             case .filled, .outlined, .tonal:
                 return DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
             case .text:
-                return DealiButtonPadding(horizontal: 16.0, vertical: 15.0)
+                return DealiButtonPadding(horizontal: 0.0, vertical: 15.0)
             default:
                 return DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
             }
-        case .medium(_):
-            return DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
+        case .medium(let style):
+            switch style {
+            case .text:
+                return DealiButtonPadding(horizontal: 0.0, vertical: 13.0)
+            default:
+                return DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
+            }
+            
         case .small(let style):
             switch style {
             case .filled:
                 return DealiButtonPadding(horizontal: 16.0, vertical: 13.0)
+            case .text:
+                return DealiButtonPadding(horizontal: 0.0, vertical: 13.0)
             default:
                 return DealiButtonPadding(horizontal: 12.0, vertical: 13.0)
             }

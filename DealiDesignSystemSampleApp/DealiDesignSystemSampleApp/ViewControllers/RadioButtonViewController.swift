@@ -41,6 +41,7 @@ final class RadioButtonViewController: UIViewController {
             $0.text = "그룹 내 1"
         }.snp.makeConstraints {
             $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().inset(30.0)
             $0.left.equalToSuperview().inset(30.0)
         }
         

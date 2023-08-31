@@ -31,6 +31,13 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    public var attributedText: NSAttributedString? {
+        didSet {
+            self.titleLabel.attributedText = attributedText
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
     /// 선택 상태에 따른 글자 색 변경 여부. 기본값은 true
     public var isTextColorChangable: Bool = true
     
@@ -69,17 +76,21 @@ public class DealiRadioButtonWithText: UIControl {
                 
         self.addSubview(self.radioButton)
         self.radioButton.snp.makeConstraints {
+            $0.left.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
         
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
+            $0.numberOfLines = 3
             $0.font = .b3r13
-            $0.text = self.text
+            $0.lineBreakMode = .byWordWrapping
         }.snp.makeConstraints {
             $0.left.equalTo(self.radioButton.snp.right).offset(8.0)
+            $0.right.equalToSuperview()
             $0.centerY.equalToSuperview()
+            $0.top.bottom.right.equalToSuperview()
         }
         
         
@@ -106,6 +117,8 @@ import SwiftUI
 
 struct DealiRadioButtonWithTextPreview: PreviewProvider {
     static var testString = "김수한무거북이와 두루미"
+    
+   
     static var disableState: CheckboxStatus = .disabled
 
     static var previews: some View {
@@ -131,6 +144,7 @@ struct DealiRadioButtonWithTextPreview: PreviewProvider {
             UIViewPreview {
                 let radioButtonWithText = DealiRadioButtonWithText()
                 radioButtonWithText.text = testString
+                radioButtonWithText.attributedText = .init()
                 radioButtonWithText.isEnabled = false
                 return radioButtonWithText
             }

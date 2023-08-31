@@ -58,6 +58,7 @@ public class DealiRadioButtonWithText: UIControl {
     private func setupView() {
         self.radioButton.isSelected = self.isSelected
         self.radioButton.isEnabled = self.isEnabled
+        self.radioButton.isUserInteractionEnabled = false
         self.titleLabel.textColor = self.textColor
     }
     
@@ -97,8 +98,6 @@ public class DealiRadioButtonWithText: UIControl {
         self.isSelected.toggle()
     }
 }
-
-
 
 
 #if canImport(SwiftUI) && DEBUG

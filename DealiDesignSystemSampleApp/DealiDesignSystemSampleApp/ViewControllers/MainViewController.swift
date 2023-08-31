@@ -31,6 +31,17 @@ final class MainViewController: UIViewController {
             $0.top.equalToSuperview().offset(100.0)
             $0.left.right.equalToSuperview().inset(20.0)
         }
+        
+        let radioButton = DealiButton()
+        self.view.addSubview(radioButton)
+        radioButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "RadioButton"
+            $0.addTarget(self, action: #selector(radioButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalTo(alertButton.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
     }
     
     override func viewDidLoad() {
@@ -52,6 +63,10 @@ extension MainViewController {
     
     @objc func alertButtonPressed() {
         self.navigationController?.pushViewController(AlertTestViewController(), animated: true)
+    }
+    
+    @objc func radioButtonPressed() {
+        self.navigationController?.pushViewController(RadioButtonViewController(), animated: true)
     }
 
 }

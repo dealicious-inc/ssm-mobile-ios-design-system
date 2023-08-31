@@ -12,7 +12,6 @@ public class DealiRadioButtonWithText: UIControl {
     public override var isSelected: Bool {
         didSet {
             self.setupView()
-            self.sendActions(for: .valueChanged)
         }
     }
     
@@ -96,6 +95,8 @@ public class DealiRadioButtonWithText: UIControl {
 
     @objc private func handleTap() {
         self.isSelected.toggle()
+        self.sendActions(for: .valueChanged)
+
     }
 }
 

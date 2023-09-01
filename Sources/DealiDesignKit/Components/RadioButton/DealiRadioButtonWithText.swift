@@ -83,7 +83,7 @@ public class DealiRadioButtonWithText: UIControl {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.numberOfLines = 3
+            $0.numberOfLines = 0
             $0.font = .b3r13
             $0.lineBreakMode = .byWordWrapping
         }.snp.makeConstraints {

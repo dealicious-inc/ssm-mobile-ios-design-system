@@ -38,7 +38,7 @@ final class RadioButtonViewController: UIViewController {
         
         contentView.addSubview(self.firstRadioButtonWithText)
         self.firstRadioButtonWithText.then {
-            $0.text = "그룹 내 1"
+            $0.text = "그룹 내 1 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
         }.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(30.0)
@@ -47,10 +47,10 @@ final class RadioButtonViewController: UIViewController {
         
         contentView.addSubview(self.secondRadioButtonWithText)
         self.secondRadioButtonWithText.then {
-            $0.addTarget(self, action: #selector(radioButtonWithTextValueChanged), for: .valueChanged)
-            $0.text = "그룹내 2"
+//            $0.addTarget(self, action: #selector(radioButtonWithTextValueChanged), for: .valueChanged)
+            $0.text = "그룹내 2 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
         }.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(30.0)
+            $0.left.right.equalToSuperview().inset(30.0)
             $0.top.equalTo(self.firstRadioButtonWithText.snp.bottom).offset(20.0)
         }
         

@@ -7,6 +7,13 @@
 
 import UIKit
 
+/// 디자인시스템 RadioButton + Text 적용
+///
+/// 선택, 미선택 시 보내는 `.valueChanged` 값을 받아서 변경 사항을 처리할 수 있습니다.
+/// 
+/// 활성, 비활성은 UIControl 의 속성인 `isEnabled` 를 사용합니다.
+///
+/// `text`에 String 값을 넣거나 `attributedText` 에 NSAttributedString 값을 넣어 사용합니다.
 public class DealiRadioButtonWithText: UIControl {
     
     public override var isSelected: Bool {
@@ -53,9 +60,15 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.invalidateIntrinsicContentSize()
+    }
+    
     public override var intrinsicContentSize: CGSize {
         self.titleLabel.sizeToFit()
-
         let width = self.titleLabel.frame.width + 24.0 + 8.0
         let height = self.titleLabel.frame.height
         return CGSize(width: width, height: max(24.0, height))
@@ -85,18 +98,15 @@ public class DealiRadioButtonWithText: UIControl {
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.font = .b3r13
-            $0.lineBreakMode = .byWordWrapping
+            $0.lineBreakMode = .byCharWrapping
         }.snp.makeConstraints {
-            $0.left.equalTo(self.radioButton.snp.right).offset(8.0)
+            $0.left.equalToSuperview().inset(32.0)
             $0.right.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.top.bottom.right.equalToSuperview()
         }
         
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        self.addGestureRecognizer(tapGesture)
-        
+        self.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
         self.setupView()
     }
     
@@ -104,7 +114,7 @@ public class DealiRadioButtonWithText: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func handleTap() {
+    @objc func handleTap() {
         self.isSelected.toggle()
         self.sendActions(for: .valueChanged)
 

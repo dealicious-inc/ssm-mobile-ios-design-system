@@ -38,20 +38,23 @@ final class RadioButtonViewController: UIViewController {
         
         contentView.addSubview(self.firstRadioButtonWithText)
         self.firstRadioButtonWithText.then {
+            $0.addTarget(self, action: #selector(firstRadioButtonWithTextValueChanged), for: .valueChanged)
             $0.text = "그룹 내 1 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
         }.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(30.0)
+//            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().inset(200.0)
             $0.left.equalToSuperview().inset(30.0)
+            $0.right.equalToSuperview().inset(30.0)
         }
         
         contentView.addSubview(self.secondRadioButtonWithText)
         self.secondRadioButtonWithText.then {
-//            $0.addTarget(self, action: #selector(radioButtonWithTextValueChanged), for: .valueChanged)
+            $0.addTarget(self, action: #selector(secondRadioButtonWithTextValueChanged), for: .valueChanged)
             $0.text = "그룹내 2 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(30.0)
             $0.top.equalTo(self.firstRadioButtonWithText.snp.bottom).offset(20.0)
+
         }
         
         contentView.addSubview(self.radioButton)
@@ -79,15 +82,15 @@ final class RadioButtonViewController: UIViewController {
         }
     }
     
-    @objc func radioButtonValueChanged() {
-        if self.radioButton.isSelected {
+    @objc func firstRadioButtonWithTextValueChanged() {
+        if self.firstRadioButtonWithText.isSelected {
             print("11라디오 버튼 선택")
         } else {
             print("11라디오 버튼 선택 해제")
         }
     }
     
-    @objc func radioButtonWithTextValueChanged() {
+    @objc func secondRadioButtonWithTextValueChanged() {
         if self.secondRadioButtonWithText.isSelected {
             print("22라디오 버튼 선택")
         } else {

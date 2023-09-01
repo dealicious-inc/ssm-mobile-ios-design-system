@@ -8,7 +8,9 @@
 import UIKit
 
 public class UIControlManager {
+    /// 그룹 내 하나만 선택할 수 있는 UIControl 그룹 관리용
     private var exclusiveControls: [UIControl] = []
+    /// 그룹 내 여러 개 선택할 수 있는 UIControl 그룹 관리용
     private var inclusiveControls: [UIControl] = []
     
     public init() { }

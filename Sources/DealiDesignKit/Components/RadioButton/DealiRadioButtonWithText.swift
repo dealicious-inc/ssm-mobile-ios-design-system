@@ -22,6 +22,8 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    var fromSelf: Bool = true
+    
     public override var isEnabled: Bool {
         didSet {
             self.setupView()
@@ -60,13 +62,6 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
-    
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        
-        self.invalidateIntrinsicContentSize()
-    }
-    
     public override var intrinsicContentSize: CGSize {
         self.titleLabel.sizeToFit()
         let width = self.titleLabel.frame.width + 24.0 + 8.0
@@ -75,22 +70,32 @@ public class DealiRadioButtonWithText: UIControl {
     }
     
     private func setupView() {
-        self.radioButton.isSelected = self.isSelected
-        self.radioButton.isEnabled = self.isEnabled
-        self.radioButton.isUserInteractionEnabled = false
+        self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
         self.titleLabel.textColor = self.textColor
     }
     
     private let titleLabel = UILabel()
-    private let radioButton = DealiRadioButton()
+    private let imageView = UIImageView()
+    
+    private var imageName: String {
+        if self.isEnabled == false {
+            return "ic_Checkcircle_disabled_24"
+        } else if self.isSelected {
+            return "ic_Checkcircle_on_24"
+        } else {
+            return "ic_Checkcircle_off_24"
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
-        self.addSubview(self.radioButton)
-        self.radioButton.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.centerY.equalToSuperview()
+        self.addSubview(self.imageView)
+        self.imageView.then {
+            $0.contentMode = .scaleAspectFit
+        }.snp.makeConstraints {
+            $0.left.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
         self.addSubview(self.titleLabel)
@@ -117,7 +122,6 @@ public class DealiRadioButtonWithText: UIControl {
     @objc func handleTap() {
         self.isSelected.toggle()
         self.sendActions(for: .valueChanged)
-
     }
 }
 

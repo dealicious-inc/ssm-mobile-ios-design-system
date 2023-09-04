@@ -120,7 +120,6 @@ public class DealiButton: UIButton {
             return super.isEnabled
         }
         set {
-            self.isUserInteractionEnabled = isEnabled
 
             if newValue == false {
                 if self.style.hasBorder {

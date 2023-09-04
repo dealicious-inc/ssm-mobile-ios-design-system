@@ -40,7 +40,7 @@ public class UIControlManager {
         }
     }
 
-    // MARK: selected exclusive 
+    // MARK: selected exclusive
     public var selectedControls: [UIControl] {
         return self.exclusiveControls.filter({ $0.isSelected == true })
     }

@@ -37,6 +37,15 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    public var font: UIFont {
+        get {
+            self.titleLabel.font
+        } set {
+            self.titleLabel.font = newValue
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
     public var text: String? {
         get {
             self.titleLabel.text

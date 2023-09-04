@@ -125,6 +125,7 @@ public class DealiRadioButtonWithText: UIControl {
             $0.right.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.top.bottom.right.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24.0)
         }
         
         self.addTarget(self, action: #selector(handleTap), for: .touchUpInside)

@@ -22,12 +22,18 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
-    var fromSelf: Bool = true
-    
     public override var isEnabled: Bool {
         didSet {
             self.setupView()
             self.isUserInteractionEnabled = isEnabled
+        }
+    }
+    
+    public var edgeInset: UIEdgeInsets = .zero {
+        didSet {
+            self.containerView.snp.updateConstraints {
+                $0.edges.equalToSuperview().inset(self.edgeInset)
+            }
         }
     }
     
@@ -62,10 +68,13 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    private let containerView = UIView()
+    
     public override var intrinsicContentSize: CGSize {
         self.titleLabel.sizeToFit()
-        let width = self.titleLabel.frame.width + 24.0 + 8.0
-        let height = self.titleLabel.frame.height
+        let width = self.titleLabel.frame.width + 24.0 + 8.0 + self.edgeInset.left + self.edgeInset.right
+        let height = self.titleLabel.frame.height + self.edgeInset.top + self.edgeInset.bottom
+        
         return CGSize(width: width, height: max(24.0, height))
     }
     
@@ -90,7 +99,12 @@ public class DealiRadioButtonWithText: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
-        self.addSubview(self.imageView)
+        self.addSubview(self.containerView)
+        self.containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(self.edgeInset)
+        }
+        
+        self.containerView.addSubview(self.imageView)
         self.imageView.then {
             $0.contentMode = .scaleAspectFit
         }.snp.makeConstraints {
@@ -98,7 +112,7 @@ public class DealiRadioButtonWithText: UIControl {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        self.addSubview(self.titleLabel)
+        self.containerView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
             $0.numberOfLines = 0

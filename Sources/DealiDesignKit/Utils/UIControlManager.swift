@@ -28,7 +28,22 @@ public class UIControlManager {
             }
         }
     }
+    
+    // MARK: exclusive selection
+    public func select(control: UIControl, shouldDeselectOthers: Bool = true) {
+        for esControl in exclusiveControls {
+            if esControl == control {
+                esControl.isSelected = true
+            } else if shouldDeselectOthers == true {
+                esControl.isSelected = false
+            }
+        }
+    }
 
+    // MARK: selected exclusive 
+    public var selectedControls: [UIControl] {
+        return self.exclusiveControls.filter({ $0.isSelected == true })
+    }
     
     // MARK: inclusive selection 관리용(ex-CheckBox)
     public func selectAll() {

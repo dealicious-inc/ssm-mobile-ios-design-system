@@ -100,10 +100,12 @@ public class DealiRadioButtonWithText: UIControl {
         super.init(frame: frame)
                 
         self.addSubview(self.containerView)
-        self.containerView.snp.makeConstraints {
+        self.containerView.then{
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(self.edgeInset)
         }
-        
+
         self.containerView.addSubview(self.imageView)
         self.imageView.then {
             $0.contentMode = .scaleAspectFit

@@ -26,16 +26,16 @@ public struct DealiColor {
     public static let secondary06: UIColor = SecondaryColor.secondary06.color
     
     /// Gray
-    public static let g05: UIColor = GrayColor.G05.color
-    public static let g10: UIColor = GrayColor.G10.color
-    public static let g20: UIColor = GrayColor.G20.color
-    public static let g30: UIColor = GrayColor.G30.color
-    public static let g40: UIColor = GrayColor.G40.color
-    public static let g50: UIColor = GrayColor.G50.color
-    public static let g60: UIColor = GrayColor.G60.color
-    public static let g70: UIColor = GrayColor.G70.color
-    public static let g80: UIColor = GrayColor.G80.color
-    public static let g100: UIColor = GrayColor.G100.color
+    public static let g05: UIColor = GrayColor.g05.color
+    public static let g10: UIColor = GrayColor.g10.color
+    public static let g20: UIColor = GrayColor.g20.color
+    public static let g30: UIColor = GrayColor.g30.color
+    public static let g40: UIColor = GrayColor.g40.color
+    public static let g50: UIColor = GrayColor.g50.color
+    public static let g60: UIColor = GrayColor.g60.color
+    public static let g70: UIColor = GrayColor.g70.color
+    public static let g80: UIColor = GrayColor.g80.color
+    public static let g100: UIColor = GrayColor.g100.color
 
     public static let error: UIColor = ServiceColor.error.color
     public static let warning: UIColor = ServiceColor.warning.color
@@ -43,15 +43,15 @@ public struct DealiColor {
     public static let success: UIColor = ServiceColor.success.color
     
     /// Etc
-    public static let etc01: UIColor = EtcColor.Etc01.color
-    public static let etc02: UIColor = EtcColor.Etc02.color
-    public static let etc03: UIColor = EtcColor.Etc03.color
-    public static let etc04: UIColor = EtcColor.Etc04.color
-    public static let etc05: UIColor = EtcColor.Etc05.color
-    public static let etc06: UIColor = EtcColor.Etc06.color
-    public static let etc07: UIColor = EtcColor.Etc07.color
-    public static let etc08: UIColor = EtcColor.Etc08.color
-    public static let etc09: UIColor = EtcColor.Etc09.color
+    public static let etc01: UIColor = EtcColor.etc01.color
+    public static let etc02: UIColor = EtcColor.etc02.color
+    public static let etc03: UIColor = EtcColor.etc03.color
+    public static let etc04: UIColor = EtcColor.etc04.color
+    public static let etc05: UIColor = EtcColor.etc05.color
+    public static let etc06: UIColor = EtcColor.etc06.color
+    public static let etc07: UIColor = EtcColor.etc07.color
+    public static let etc08: UIColor = EtcColor.etc08.color
+    public static let etc09: UIColor = EtcColor.etc09.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
@@ -116,16 +116,16 @@ enum SecondaryColor: Int, ColorConfigurable {
 }
 
 enum GrayColor: Int, ColorConfigurable {
-    case G05 = 0xF6F6F7
-    case G10 = 0xF5F6FB
-    case G20 = 0xEBEEF6
-    case G30 = 0xDFE3ED
-    case G40 = 0xD0D6E1
-    case G50 = 0xBEC5D2
-    case G60 = 0xA6ADBD
-    case G70 = 0x8F97A7
-    case G80 = 0x686E7B
-    case G100 = 0x222222
+    case g05 = 0xF6F6F7
+    case g10 = 0xF5F6FB
+    case g20 = 0xEBEEF6
+    case g30 = 0xDFE3ED
+    case g40 = 0xD0D6E1
+    case g50 = 0xBEC5D2
+    case g60 = 0xA6ADBD
+    case g70 = 0x8F97A7
+    case g80 = 0x686E7B
+    case g100 = 0x222222
 }
 
 enum ServiceColor: Int, ColorConfigurable {
@@ -136,58 +136,58 @@ enum ServiceColor: Int, ColorConfigurable {
 }
 
 enum EtcColor: Int, ColorConfigurable {
-    case Etc01
-    case Etc02
-    case Etc03
-    case Etc04
-    case Etc05
-    case Etc06
-    case Etc07
-    case Etc08
-    case Etc09
+    case etc01
+    case etc02
+    case etc03
+    case etc04
+    case etc05
+    case etc06
+    case etc07
+    case etc08
+    case etc09
     
     var rgb: Int {
         switch self {
-        case .Etc01:
+        case .etc01:
             return 0x000000
-        case .Etc02:
+        case .etc02:
             return 0x000000
-        case .Etc03:
+        case .etc03:
             return 0x000000
-        case .Etc04:
+        case .etc04:
             return 0xFFFFFF
-        case .Etc05:
+        case .etc05:
             return 0xFFFFFF
-        case .Etc06:
+        case .etc06:
             return 0x000000
-        case .Etc07:
+        case .etc07:
             return 0xFFFFFF
-        case .Etc08:
+        case .etc08:
             return 0xFFFFFF
-        case .Etc09:
+        case .etc09:
             return 0xFFFFFF
         }
     }
     
     var alpha: Double {
         switch self {
-        case .Etc01:
+        case .etc01:
             return 0.1
-        case .Etc02:
+        case .etc02:
             return 0.2
-        case .Etc03:
+        case .etc03:
             return 0.4
-        case .Etc04:
+        case .etc04:
             return 0.2
-        case .Etc05:
+        case .etc05:
             return 0.5
-        case .Etc06:
+        case .etc06:
             return 0.7
-        case .Etc07:
+        case .etc07:
             return 0.9
-        case .Etc08:
+        case .etc08:
             return 0.05
-        case .Etc09:
+        case .etc09:
             return 0.1
         }
     }

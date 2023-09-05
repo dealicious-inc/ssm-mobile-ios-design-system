@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 public extension UIFont {
     static let h1b32: UIFont = DealiFont.h1Bold.systemFont // 이제 사용안되는 폰트
     static let h1sb32: UIFont = DealiFont.h1SemiBold.systemFont

@@ -25,42 +25,33 @@ public struct DealiColor {
     public static let secondary05: UIColor = SecondaryColor.secondary05.color
     public static let secondary06: UIColor = SecondaryColor.secondary06.color
     
-    public static let text01: UIColor = TextColor.text01.color
-    public static let text02: UIColor = TextColor.text02.color
-    public static let text03: UIColor = TextColor.text03.color
-    public static let text04: UIColor = TextColor.text04.color
-    public static let text05: UIColor = TextColor.text05.color
-    
-    public static let divider01: UIColor = DividerColor.divider01.color
-    public static let divider02: UIColor = DividerColor.divider02.color
-    public static let divider03: UIColor = DividerColor.divider03.color
-    
-    public static let line01: UIColor = LineColor.line01.color
-    public static let line02: UIColor = LineColor.line02.color
-    public static let line03: UIColor = LineColor.line03.color
-    public static let line04: UIColor = LineColor.line04.color
-    
-    public static let bg01: UIColor = BGColor.bg01.color
-    public static let bg02: UIColor = BGColor.bg02.color
-    public static let bg03: UIColor = BGColor.bg03.color
-    public static let bg04: UIColor = BGColor.bg04.color
-    public static let bg05: UIColor = BGColor.bg05.color
-    public static let bg06: UIColor = BGColor.bg06.color
-    public static let bg07: UIColor = BGColor.bg07.color
-    public static let bg08: UIColor = BGColor.bg08.color
+    /// Gray
+    public static let g05: UIColor = GrayColor.G05.color
+    public static let g10: UIColor = GrayColor.G10.color
+    public static let g20: UIColor = GrayColor.G20.color
+    public static let g30: UIColor = GrayColor.G30.color
+    public static let g40: UIColor = GrayColor.G40.color
+    public static let g50: UIColor = GrayColor.G50.color
+    public static let g60: UIColor = GrayColor.G60.color
+    public static let g70: UIColor = GrayColor.G70.color
+    public static let g80: UIColor = GrayColor.G80.color
+    public static let g100: UIColor = GrayColor.G100.color
 
     public static let error: UIColor = ServiceColor.error.color
     public static let warning: UIColor = ServiceColor.warning.color
     public static let linkAndInfo: UIColor = ServiceColor.linkAndInfo.color
     public static let success: UIColor = ServiceColor.success.color
     
-    public static let etc01: UIColor = EtcColor.etc01.color
-    public static let etc02: UIColor = EtcColor.etc02.color
-    public static let etc03: UIColor = EtcColor.etc03.color
-    public static let etc04: UIColor = EtcColor.etc04.color
-    public static let etc05: UIColor = EtcColor.etc05.color
-    public static let etc06: UIColor = EtcColor.etc06.color
-    public static let etc07: UIColor = EtcColor.etc07.color
+    /// Etc
+    public static let etc01: UIColor = EtcColor.Etc01.color
+    public static let etc02: UIColor = EtcColor.Etc02.color
+    public static let etc03: UIColor = EtcColor.Etc03.color
+    public static let etc04: UIColor = EtcColor.Etc04.color
+    public static let etc05: UIColor = EtcColor.Etc05.color
+    public static let etc06: UIColor = EtcColor.Etc06.color
+    public static let etc07: UIColor = EtcColor.Etc07.color
+    public static let etc08: UIColor = EtcColor.Etc08.color
+    public static let etc09: UIColor = EtcColor.Etc09.color
 }
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
@@ -93,7 +84,7 @@ extension ColorsConfigurable {
         return colorArray
     }
     
-//    var gradient: Int { return self.rawValue }
+    //    var gradient: Int { return self.rawValue }
 }
 
 enum PrimaryColor: Int, ColorConfigurable {
@@ -124,36 +115,17 @@ enum SecondaryColor: Int, ColorConfigurable {
     case secondary06 = 0xFFECDB
 }
 
-enum TextColor: Int, ColorConfigurable {
-   case text01 = 0x222222
-   case text02 = 0x686E7B
-   case text03 = 0x8F97A7
-   case text04 = 0xA6ADBD
-   case text05 = 0xBEC5D2
-}
-
-enum DividerColor: Int, ColorConfigurable {
-    case divider01 = 0xDFE3ED
-    case divider02 = 0xEBEEF6
-    case divider03 = 0xF5F6FB
-}
-
-enum LineColor: Int, ColorConfigurable {
-    case line01 = 0x222222
-    case line02 = 0xBEC5D2
-    case line03 = 0xDFE3ED
-    case line04 = 0xEBEEF6
-}
-
-enum BGColor: Int, ColorConfigurable {
-    case bg01 = 0x222222
-    case bg02 = 0xA6ADBD
-    case bg03 = 0xBEC5D2
-    case bg04 = 0xD0D6E1
-    case bg05 = 0xDFE3ED
-    case bg06 = 0xEBEEF6
-    case bg07 = 0xF5F6FB
-    case bg08 = 0xF6F6F7
+enum GrayColor: Int, ColorConfigurable {
+    case G05 = 0xF6F6F7
+    case G10 = 0xF5F6FB
+    case G20 = 0xEBEEF6
+    case G30 = 0xDFE3ED
+    case G40 = 0xD0D6E1
+    case G50 = 0xBEC5D2
+    case G60 = 0xA6ADBD
+    case G70 = 0x8F97A7
+    case G80 = 0x686E7B
+    case G100 = 0x222222
 }
 
 enum ServiceColor: Int, ColorConfigurable {
@@ -164,49 +136,59 @@ enum ServiceColor: Int, ColorConfigurable {
 }
 
 enum EtcColor: Int, ColorConfigurable {
-    case etc01
-    case etc02
-    case etc03
-    case etc04
-    case etc05
-    case etc06
-    case etc07
+    case Etc01
+    case Etc02
+    case Etc03
+    case Etc04
+    case Etc05
+    case Etc06
+    case Etc07
+    case Etc08
+    case Etc09
     
     var rgb: Int {
         switch self {
-        case .etc01:
+        case .Etc01:
             return 0x000000
-        case .etc02:
+        case .Etc02:
             return 0x000000
-        case .etc03:
+        case .Etc03:
             return 0x000000
-        case .etc04:
+        case .Etc04:
             return 0xFFFFFF
-        case .etc05:
+        case .Etc05:
             return 0xFFFFFF
-        case .etc06:
+        case .Etc06:
             return 0x000000
-        case .etc07:
+        case .Etc07:
+            return 0xFFFFFF
+        case .Etc08:
+            return 0xFFFFFF
+        case .Etc09:
             return 0xFFFFFF
         }
     }
     
     var alpha: Double {
         switch self {
-        case .etc01:
+        case .Etc01:
             return 0.1
-        case .etc02:
+        case .Etc02:
             return 0.2
-        case .etc03:
+        case .Etc03:
             return 0.4
-        case .etc04:
+        case .Etc04:
             return 0.2
-        case .etc05:
+        case .Etc05:
             return 0.5
-        case .etc06:
+        case .Etc06:
             return 0.7
-        case .etc07:
+        case .Etc07:
             return 0.9
+        case .Etc08:
+            return 0.05
+        case .Etc09:
+            return 0.1
         }
     }
 }

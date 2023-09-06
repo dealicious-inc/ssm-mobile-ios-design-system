@@ -9,22 +9,45 @@ import UIKit
 
 public struct DealiColor {
     
+    public static func primaryColor(value: PrimaryColor) -> UIColor {
+        return value.color
+    }
+//    public static func primaryColor(_ value: PrimaryColor) -> UIColor {
+//        return value.color
+//    }
+//
+//    public static func secondaryColor(_ value: SecondaryColor) -> UIColor {
+//        return value.color
+//    }
+//
+//    public static func grayColor(_ value: GrayColor) -> UIColor {
+//        return value.color
+//    }
+//
+//    public static func serviceColor(_ value: ServiceColor) -> UIColor {
+//        return value.color
+//    }
+//
+//    public static func etcColor(_ value: EtcColor) -> UIColor {
+//        return value.color
+//    }
+    
     // 사용의 편의를 위함
     public static let primary01: UIColor = PrimaryColor.primary01.color
     public static let primary02: UIColor = PrimaryColor.primary02.color
     public static let primary03: UIColor = PrimaryColor.primary03.color
     public static let primary04: UIColor = PrimaryColor.primary04.color
     public static let primary05: UIColor = PrimaryColor.primary05.color
-    
+
     public static let primaryGradient: [UIColor] = Gradient.primaryGradient.colors
-    
+
     public static let secondary01: UIColor = SecondaryColor.secondary01.color
     public static let secondary02: UIColor = SecondaryColor.secondary02.color
     public static let secondary03: UIColor = SecondaryColor.secondary03.color
     public static let secondary04: UIColor = SecondaryColor.secondary04.color
     public static let secondary05: UIColor = SecondaryColor.secondary05.color
     public static let secondary06: UIColor = SecondaryColor.secondary06.color
-    
+
     /// Gray
     public static let g05: UIColor = GrayColor.g05.color
     public static let g10: UIColor = GrayColor.g10.color
@@ -41,7 +64,7 @@ public struct DealiColor {
     public static let warning: UIColor = ServiceColor.warning.color
     public static let linkAndInfo: UIColor = ServiceColor.linkAndInfo.color
     public static let success: UIColor = ServiceColor.success.color
-    
+
     /// Etc
     public static let etc01: UIColor = EtcColor.etc01.color
     public static let etc02: UIColor = EtcColor.etc02.color
@@ -87,7 +110,7 @@ extension ColorsConfigurable {
     //    var gradient: Int { return self.rawValue }
 }
 
-enum PrimaryColor: Int, ColorConfigurable {
+public enum PrimaryColor: Int, ColorConfigurable {
     case primary01 = 0xFB4760
     case primary02 = 0xEC2843
     case primary03 = 0xFEECEF

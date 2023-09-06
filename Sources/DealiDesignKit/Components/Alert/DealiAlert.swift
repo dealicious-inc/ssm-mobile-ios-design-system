@@ -38,7 +38,7 @@ public class DealiAlert: NSObject {
         style.lineSpacing = 4.0
         style.alignment = .left
         
-        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.text03, .paragraphStyle: style])
+        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
         
         
         let alertViewController = DealiAlertViewController()
@@ -128,7 +128,7 @@ final class DealiAlertViewController: UIViewController {
             self.contentStackView.addArrangedSubview(self.titleLabel)
             self.titleLabel.then {
                 $0.font = .sh1sb20
-                $0.textColor = DealiColor.text01
+                $0.textColor = DealiColor.g100
                 $0.textAlignment = .left
                 $0.numberOfLines = 0
                 $0.text = self.alertTitle
@@ -162,7 +162,7 @@ final class DealiAlertViewController: UIViewController {
         self.messageContentStackView.addArrangedSubview(self.messageLabel)
         self.messageLabel.then {
             $0.font = .sh3r16
-            $0.textColor = DealiColor.text03
+            $0.textColor = DealiColor.g70
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.attributedText = self.alertMessage

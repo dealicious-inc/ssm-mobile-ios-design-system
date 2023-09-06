@@ -38,9 +38,9 @@ public enum RadioButtonStatus: Equatable, StatusToggable {
     var textColor: UIColor {
         switch self {
         case .normal(let isSelected):
-            return isSelected ? DealiColor.primary01 : DealiColor.text01
+            return isSelected ? DealiColor.primary01 : DealiColor.g100
         case .disabled:
-            return DealiColor.text05
+            return DealiColor.g50
         }
     }
 }

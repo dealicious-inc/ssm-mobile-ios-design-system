@@ -46,9 +46,9 @@ public enum CheckboxStatus: Equatable, StatusToggable {
     var textColor: UIColor {
         switch self {
         case .normal(_):
-            return DealiColor.text01
+            return DealiColor.g100
         case .disabled:
-            return DealiColor.text05
+            return DealiColor.g50
         }
     }
 }

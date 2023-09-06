@@ -57,7 +57,7 @@ public enum DealiButtonStyle: Equatable {
         case .filled:
             return DealiColor.primary01
         case .tonal:
-            return DealiColor.bg07
+            return DealiColor.g10
         case .text:
             return UIColor.clear
         default:
@@ -70,7 +70,7 @@ public enum DealiButtonStyle: Equatable {
         case .filled:
             return DealiColor.primary02
         case .tonal:
-            return DealiColor.bg07
+            return DealiColor.g10
         case .text:
             return UIColor.clear
         default:
@@ -81,9 +81,9 @@ public enum DealiButtonStyle: Equatable {
     var disabledBackgroundColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.bg04
+            return DealiColor.g40
         case .tonal:
-            return DealiColor.bg07
+            return DealiColor.g10
         case .text:
             return UIColor.clear
         default:
@@ -99,9 +99,9 @@ public enum DealiButtonStyle: Equatable {
         case .outlined:
             return DealiColor.primary01
         case .tonal:
-            return DealiColor.text02
+            return DealiColor.g80
         default:
-            return DealiColor.text02
+            return DealiColor.g80
         }
     }
     
@@ -110,7 +110,7 @@ public enum DealiButtonStyle: Equatable {
         case .filled:
             return DealiColor.primary04
         default:
-            return DealiColor.text05
+            return DealiColor.g50
         }
     }
     
@@ -121,9 +121,9 @@ public enum DealiButtonStyle: Equatable {
         case .outlined:
             return DealiColor.primary01
         case .tonal, .text:
-            return DealiColor.text01
+            return DealiColor.g100
         default:
-            return DealiColor.text01
+            return DealiColor.g100
         }
     }
     
@@ -136,7 +136,7 @@ public enum DealiButtonStyle: Equatable {
         case .outlined:
             return DealiColor.primary01.cgColor
         case .tonal:
-            return DealiColor.line03.cgColor
+            return DealiColor.g30.cgColor
         default:
             return DealiColor.primary04.cgColor
         }
@@ -145,7 +145,7 @@ public enum DealiButtonStyle: Equatable {
     var disabledBorderColor: CGColor {
         switch self.baseStyle {
         case .outlined, .tonal:
-            return DealiColor.line03.cgColor
+            return DealiColor.g30.cgColor
         default:
             return DealiColor.primary04.cgColor
         }

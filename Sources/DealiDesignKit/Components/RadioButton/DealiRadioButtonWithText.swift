@@ -66,14 +66,14 @@ public class DealiRadioButtonWithText: UIControl {
     public var isTextColorChangable: Bool = true
     
     private var textColor: UIColor {
-        guard isTextColorChangable else { return DealiColor.text01 }
+        guard isTextColorChangable else { return DealiColor.g100 }
     
         if self.isEnabled == false {
-            return DealiColor.text05
+            return DealiColor.g50
         } else if self.isSelected {
             return DealiColor.primary01
         } else {
-            return DealiColor.text01
+            return DealiColor.g100
         }
     }
     

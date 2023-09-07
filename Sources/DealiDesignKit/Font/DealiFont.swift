@@ -9,8 +9,6 @@ import UIKit
 
 /// 디자인시스템 Font에 적용되는 스타일. 스타일 관리용으로 내부적으로만 사용. 실제 사용은 UIFont extension에 정의된 정적변수를 사용한다.
 ///
-/// `DealiButtonStyle` 에 정의된 크기 속성에 associated type으로 모양(filled, outlined, tonal, text) 속성을 넣어서 사용한다.
-///
 /// ```swift
 /// // 예시
 /// let label = UILabel()

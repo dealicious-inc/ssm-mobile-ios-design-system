@@ -16,7 +16,7 @@ import UIKit
 /// let label = UILabel()
 /// label.font = .h1b32
 /// ```
-public enum DealiFont: String, CaseIterable {
+enum DealiFont: String, CaseIterable {
     case h1Bold // 이제 사용 안 햐는 폰트 h1Bold
     case h1SemiBold
     case h2Bold // 이제 사용 안 히는 폰트 h2Bold

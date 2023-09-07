@@ -17,19 +17,19 @@ import UIKit
 /// label.font = .h1b32
 /// ```
 public enum DealiFont: String, CaseIterable {
-    case h1Bold // 이제 사용안되는 폰트 h1Bold
+    case h1Bold // 이제 사용 안 햐는 폰트 h1Bold
     case h1SemiBold
-    case h2Bold // 이제 사용안되는 폰트 h2Bold
+    case h2Bold // 이제 사용 안 히는 폰트 h2Bold
     case h2SemiBold
     case h3SemiBold
-    case sh1Bold, sh1SemiBold, sh1Medium, sh1Regular // 이제 사용안되는 폰트 sh1Bold sh1Medium
-    case sh2Bold, sh2SemiBold, sh2Regular // 이제 사용안되는 폰트 sh2Bold
-    case sh3Bold, sh3SemiBold, sh3Regular // 이제 사용안되는 폰트 sh3Bold
+    case sh1Bold, sh1SemiBold, sh1Medium, sh1Regular // 이제 사용 안 하는 폰트 sh1Bold sh1Medium
+    case sh2Bold, sh2SemiBold, sh2Regular // 이제 사용 안 하는 폰트 sh2Bold
+    case sh3Bold, sh3SemiBold, sh3Regular // 이제 사용 안 하는 폰트 sh3Bold
     case b1SemiBold, b1Regular
     case b2SemiBold, b2Regular
     case b3SemiBold, b3Regular
     case b4SemiBold, b4Regular
-    case c1Bold, c1Regular
+    case c1SemiBold, c1Regular
     
     var style: DealiFontProperty.Style {
         switch self {
@@ -53,7 +53,7 @@ public enum DealiFont: String, CaseIterable {
             return DealiFontProperty.b3
         case .b4SemiBold, .b4Regular:
             return DealiFontProperty.b4
-        case .c1Bold, .c1Regular:
+        case .c1SemiBold, .c1Regular:
             return DealiFontProperty.c1
         }
     }

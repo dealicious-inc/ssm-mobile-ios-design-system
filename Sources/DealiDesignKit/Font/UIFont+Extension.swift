@@ -41,7 +41,7 @@ public extension UIFont {
     static let b4sb12: UIFont = DealiFont.b4SemiBold.systemFont
     static let b4r12: UIFont = DealiFont.b4Regular.systemFont
 
-    static let c1b10: UIFont = DealiFont.c1Bold.systemFont
+    static let c1sb10: UIFont = DealiFont.c1SemiBold.systemFont
     static let c1r10: UIFont = DealiFont.c1Regular.systemFont
 }
 

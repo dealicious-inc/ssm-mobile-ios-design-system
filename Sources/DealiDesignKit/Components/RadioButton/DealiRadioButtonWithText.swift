@@ -71,7 +71,7 @@ public class DealiRadioButtonWithText: UIControl {
         if self.isEnabled == false {
             return DealiColor.g50
         } else if self.isSelected {
-            return DealiColor.primary01
+            return DealiColor.g100
         } else {
             return DealiColor.g100
         }

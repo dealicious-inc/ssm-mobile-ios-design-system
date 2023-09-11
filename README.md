@@ -12,7 +12,6 @@ DealiDesignKit 은 `dev`, `release` 브랜치로 나누어 사용합니다.
 
 ## 신상마켓 프로젝트에 사용하는 방법
 - 프로젝트 진행 중일 시: Package의 **`dev` 브랜치의 최신 커밋을 바라보도록** Swift Package 를 연동합니다.
-  ![스크린샷 2023-07-20 오전 11 06 48](https://github.com/dealicious-inc/ssm-mobile-ios-design-system/assets/72622744/819880be-37d7-4c3f-80fe-e47e8f7d3b7b)
 
   
 - 앱스토어 검수 등록 시: **`release` 브랜치의 최신 커밋을 바라보도록** 합니다.
@@ -24,7 +23,7 @@ DealiDesignKit 은 `dev`, `release` 브랜치로 나누어 사용합니다.
 
 사용 시에는 UIView 를 `UIViewPreview` 로 감싸고 프리뷰를 만들어 사용합니다. 아래 예시를 참고해 주세요. 
 #### 사용 예시 - `CheckboxWithText` 프리뷰
-프리뷰 코드
+- 프리뷰 코드
 ```swift
 
 #if canImport(SwiftUI) && DEBUG
@@ -38,7 +37,7 @@ struct CheckboxPreview: PreviewProvider {
         VStack(alignment: .leading) {
             Text("체크박스 + 텍스트")
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: false))
+                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: true))
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
@@ -66,6 +65,6 @@ struct CheckboxPreview: PreviewProvider {
 #endif
 
 ```
-프리뷰 내용
+- 프리뷰 내용
 
-![스크린샷 2023-07-19 오후 4 55 56](https://github.com/dealicious-inc/ssm-mobile-ios-design-system/assets/72622744/9bb6d1d1-4194-4228-a0df-848aa83b40f1)
+![CheckboxWithText Preview](https://github.com/dealicious-inc/ssm-mobile-ios-design-system/assets/72622744/013f4088-ccec-4ccd-bd06-9156532e715c)

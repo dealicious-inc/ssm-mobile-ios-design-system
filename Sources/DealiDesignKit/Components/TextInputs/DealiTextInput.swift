@@ -37,7 +37,7 @@ public final class DealiTextInput: UIView {
             guard let placeholder else { return }
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: DealiFont.b2Regular.systemFont,
-                .foregroundColor: DealiColor.text03
+                .foregroundColor: DealiColor.g70
             ]
             self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         }
@@ -89,7 +89,7 @@ public final class DealiTextInput: UIView {
         
         self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = DealiColor.line04.cgColor
+        self.layer.borderColor = DealiColor.g20.cgColor
         self.layer.masksToBounds = true
         
         self.addSubview(self.inputStackView)
@@ -149,10 +149,10 @@ public final class DealiTextInput: UIView {
     
     func setNormalAppearance(isFocused: Bool) {
         if isFocused {
-            self.layer.borderColor = DealiColor.line01.cgColor
+            self.layer.borderColor = DealiColor.g100.cgColor
             self.deleteButton.isHidden = false
         } else {
-            self.layer.borderColor = DealiColor.line04.cgColor
+            self.layer.borderColor = DealiColor.g20.cgColor
             self.deleteButton.isHidden = true
         }
         

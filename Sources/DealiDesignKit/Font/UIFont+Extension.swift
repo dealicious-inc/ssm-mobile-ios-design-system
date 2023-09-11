@@ -7,26 +7,32 @@
 
 import UIKit
 
-
 public extension UIFont {
-    static let h1b32: UIFont = DealiFont.h1Bold.systemFont // 이제 사용안되는 폰트
+    // @iOS 파트 미사용 왜 남겨두었는지?? 일단 deprecated 표시는 해뒀음
+    @available(*, deprecated, renamed: "h1sb32")
+    static let h1b32: UIFont = DealiFont.h1Bold.systemFont
     static let h1sb32: UIFont = DealiFont.h1SemiBold.systemFont
     
-    static let h2b24: UIFont = DealiFont.h2Bold.systemFont // 이제 사용안되는 폰트
+    @available(*, deprecated, renamed: "h2sb24")
+    static let h2b24: UIFont = DealiFont.h2Bold.systemFont
     static let h2sb24: UIFont = DealiFont.h2SemiBold.systemFont
     
     static let h3sb28: UIFont = DealiFont.h3SemiBold.systemFont
     
-    static let sh1b20: UIFont = DealiFont.sh1Bold.systemFont // 이제 사용안되는 폰트
+    @available(*, deprecated, renamed: "sh1sb20")
+    static let sh1b20: UIFont = DealiFont.sh1Bold.systemFont
     static let sh1sb20: UIFont = DealiFont.sh1SemiBold.systemFont
-    static let sh1m20: UIFont = DealiFont.sh1Medium.systemFont // 이제 사용안되는 폰트
+    @available(*, deprecated, renamed: "sh1r20")
+    static let sh1m20: UIFont = DealiFont.sh1Medium.systemFont
     static let sh1r20: UIFont = DealiFont.sh1Regular.systemFont
     
-    static let sh2b18: UIFont = DealiFont.sh2Bold.systemFont // 이제 사용안되는 폰트
+    @available(*, deprecated, renamed: "sh2sb18")
+    static let sh2b18: UIFont = DealiFont.sh2Bold.systemFont
     static let sh2sb18: UIFont = DealiFont.sh2SemiBold.systemFont
     static let sh2r18: UIFont = DealiFont.sh2Regular.systemFont
     
-    static let sh3b16: UIFont = DealiFont.sh3Bold.systemFont // 이제 사용안되는 폰트
+    @available(*, deprecated, renamed: "sh3sb16")
+    static let sh3b16: UIFont = DealiFont.sh3Bold.systemFont
     static let sh3sb16: UIFont = DealiFont.sh3SemiBold.systemFont
     static let sh3r16: UIFont = DealiFont.sh3Regular.systemFont
     
@@ -42,7 +48,7 @@ public extension UIFont {
     static let b4sb12: UIFont = DealiFont.b4SemiBold.systemFont
     static let b4r12: UIFont = DealiFont.b4Regular.systemFont
 
-    static let c1b10: UIFont = DealiFont.c1Bold.systemFont
+    static let c1sb10: UIFont = DealiFont.c1SemiBold.systemFont
     static let c1r10: UIFont = DealiFont.c1Regular.systemFont
 }
 

@@ -17,12 +17,12 @@
 		042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AC2A14C7D500370706 /* MainViewController.swift */; };
 		042EA8B22A14C7D700370706 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B12A14C7D700370706 /* Assets.xcassets */; };
 		042EA8B52A14C7D700370706 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */; };
-		042EA8BE2A14C9A600370706 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 042EA8BD2A14C9A600370706 /* DealiDesignKit */; };
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
-		FC7547BC2A43E7060053F750 /* UIElementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7547BB2A43E7060053F750 /* UIElementsViewController.swift */; };
-		FC7547BE2A43E73B0053F750 /* UIElementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7547BD2A43E73B0053F750 /* UIElementsView.swift */; };
+		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
+		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
+		FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC048A2A72B9E10004E5DB /* DealiDesignKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +38,9 @@
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
-		FC7547BB2A43E7060053F750 /* UIElementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementsViewController.swift; sourceTree = "<group>"; };
-		FC7547BD2A43E73B0053F750 /* UIElementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementsView.swift; sourceTree = "<group>"; };
+		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
+		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
+		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +51,7 @@
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
 				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
-				042EA8BE2A14C9A600370706 /* DealiDesignKit in Frameworks */,
+				FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +61,7 @@
 		042EA89C2A14C7D500370706 = {
 			isa = PBXGroup;
 			children = (
+				FCEC04882A72B9A60004E5DB /* Packages */,
 				042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */,
 				042EA8A62A14C7D500370706 /* Products */,
 				042EA8BF2A14D38500370706 /* Frameworks */,
@@ -95,10 +97,11 @@
 		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
 				041ABC0B2A175E19001772F3 /* ColorViewController.swift */,
-				FC7547BB2A43E7060053F750 /* UIElementsViewController.swift */,
+				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -109,7 +112,6 @@
 				042EA8C02A15AD5200370706 /* MainView.swift */,
 				04AD45142A15EF5900093BEB /* TypographyView.swift */,
 				041ABC092A175E0A001772F3 /* ColorView.swift */,
-				FC7547BD2A43E73B0053F750 /* UIElementsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -123,6 +125,14 @@
 				042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */,
 			);
 			path = Others;
+			sourceTree = "<group>";
+		};
+		FCEC04882A72B9A60004E5DB /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				FCEC04892A72B9A60004E5DB /* DealiDesignKit */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,10 +152,10 @@
 			);
 			name = DealiDesignSystemSampleApp;
 			packageProductDependencies = (
-				042EA8BD2A14C9A600370706 /* DealiDesignKit */,
 				041ABC032A174598001772F3 /* RxCocoa */,
 				041ABC052A174598001772F3 /* RxRelay */,
 				041ABC072A174598001772F3 /* RxSwift */,
+				FCEC048A2A72B9E10004E5DB /* DealiDesignKit */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -176,7 +186,6 @@
 			);
 			mainGroup = 042EA89C2A14C7D500370706;
 			packageReferences = (
-				042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */,
 				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
@@ -207,11 +216,11 @@
 			files = (
 				042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
-				FC7547BC2A43E7060053F750 /* UIElementsViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				041ABC0A2A175E0A001772F3 /* ColorView.swift in Sources */,
-				FC7547BE2A43E73B0053F750 /* UIElementsView.swift in Sources */,
+				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
+				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
@@ -433,14 +442,6 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dealicious-inc/deali-design-system-ios";
-			requirement = {
-				branch = dev;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -459,9 +460,8 @@
 			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		042EA8BD2A14C9A600370706 /* DealiDesignKit */ = {
+		FCEC048A2A72B9E10004E5DB /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 042EA8BC2A14C9A600370706 /* XCRemoteSwiftPackageReference "deali-design-system-ios" */;
 			productName = DealiDesignKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -11,11 +11,13 @@ import UIKit
  설명: 색상관련 VC
  */
 final class ColorViewController: UIViewController {
-    let colorView = ColorView()
     
     override func loadView() {
-        self.view = colorView
+        super.loadView()
         
         self.title = "Color"
+        
     }
+    
+    
 }

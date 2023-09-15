@@ -95,7 +95,7 @@ final class DealiAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = DealiColor.b70
+        self.view.backgroundColor = DealiColor.etc06
     }
     
     override func loadView() {

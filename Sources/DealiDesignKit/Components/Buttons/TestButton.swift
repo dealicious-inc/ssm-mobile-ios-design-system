@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 public class TestButton<Config: ButtonConfigurable>: DealiButton {
     
     typealias State = Config.State
@@ -22,7 +23,7 @@ public class TestButton<Config: ButtonConfigurable>: DealiButton {
     override func setAppearance() {
         self.setBackgroundColor(State.default.backgroundColor, for: .normal)
         self.setBackgroundColor(State.hoverAndPressed.backgroundColor, for: .highlighted)
-        self.setBackgroundColor(State.hoverAndPressed.backgroundColor, for: .disabled)
+        self.setBackgroundColor(State.disabled.backgroundColor, for: .disabled)
         self.layer.cornerRadius = 6.0
         self.layer.masksToBounds = true
         
@@ -59,18 +60,6 @@ public class TestButton<Config: ButtonConfigurable>: DealiButton {
     }
 }
 
-/*
- 속성
- 
- Style = Filled / FilledTonal / Outline / Text
- Size = Large / Medium / Small
- Color = Primary01~/Secondery01~
- State = Default / Hover&Pressed / Disabled / Loading
- Show Icon = Right / Left / None
- 
- */
-
-
  public protocol ViewConfigurable {
     var font: UIFont? { get }
     var padding: DealiButtonPadding { get }
@@ -78,17 +67,14 @@ public class TestButton<Config: ButtonConfigurable>: DealiButton {
      init()
 }
 
-/*
-크기에 따른 속성값
- */
 public protocol ButtonConfigurable: ViewConfigurable {
-    associatedtype State: ButtonStateProtocol
+    associatedtype State: ButtonState
 }
 
 /*
  버튼 상태에 따른 속성값 저장
  */
-public protocol ButtonStateProtocol {
+public protocol ButtonState {
     static var `default`: Self { get }
     static var hoverAndPressed: Self { get }
     static var disabled: Self { get }
@@ -97,14 +83,10 @@ public protocol ButtonStateProtocol {
     var backgroundColor: UIColor { get }
     var textColor: UIColor { get }
     var borderColor: CGColor { get }
-    
-    
 }
 
-public struct FiiledLargeConfig<Color: ButtonStateProtocol>: ButtonConfigurable {
-    
-    public typealias State = Color
-    
+public struct FiiledLargeConfig<State: ButtonState>: ButtonConfigurable {
+        
     public init() {
         self.font = UIFont.b1sb15
         self.padding =  DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
@@ -113,7 +95,7 @@ public struct FiiledLargeConfig<Color: ButtonStateProtocol>: ButtonConfigurable 
     public var padding: DealiButtonPadding = DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
 }
 
-public enum FilledPrimary01State: ButtonStateProtocol {
+public enum FilledPrimary01State: ButtonState {
     case `default`
     case hoverAndPressed
     case disabled
@@ -146,7 +128,7 @@ public enum FilledPrimary01State: ButtonStateProtocol {
 }
 
 
-public enum FilledPrimary02State: ButtonStateProtocol {
+public enum FilledPrimary02State: ButtonState {
     case `default`
     case hoverAndPressed
     case disabled
@@ -155,12 +137,11 @@ public enum FilledPrimary02State: ButtonStateProtocol {
     public var backgroundColor: UIColor {
         switch self {
         case .default, .loading:
-            return DealiColor.primary01
+            return DealiColor.b40
         case .hoverAndPressed:
-            return DealiColor.primary02
+            return DealiColor.b70
         case .disabled:
-            return DealiColor.g40
-            
+            return DealiColor.b20
         }
     }
     
@@ -171,7 +152,7 @@ public enum FilledPrimary02State: ButtonStateProtocol {
         case .hoverAndPressed:
             return DealiColor.primary04
         case .disabled:
-            return DealiColor.primary04
+            return DealiColor.w50
         }
     }
     
@@ -203,3 +184,46 @@ final public class btnFilledLargePrimary02: TestButton<FiiledLargeConfig<FilledP
     }
     
 }
+
+final public class btnFilledTonalLargePrimary01: DealiButton {
+    
+    public init() {
+        super.init()
+        self.style = .large(style: .tonal)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+final public class btnOutlineLargePrimary01: DealiButton {
+    
+    public init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+final public class btnTextLargePrimary01: DealiButton {
+    
+    public init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+// MARK: - Medium Buttons
+
+// MARK: - Small Buttons

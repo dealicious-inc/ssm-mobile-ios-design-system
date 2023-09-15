@@ -42,6 +42,17 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(alertButton.snp.bottom).offset(20.0)
             $0.left.right.equalToSuperview().inset(20.0)
         }
+        
+        let buttonComponentsButton = DealiButton()
+        self.view.addSubview(buttonComponentsButton)
+        buttonComponentsButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "Button Components"
+            $0.addTarget(self, action: #selector(buttonComponentButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalTo(radioButton.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
     }
     
     override func viewDidLoad() {
@@ -55,6 +66,10 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     @objc func fontButtonPressed() {
         self.navigationController?.pushViewController(TypographyViewController(), animated: true)
+    }
+    
+    @objc func buttonComponentButtonPressed() {
+        self.navigationController?.pushViewController(ButtonViewController(), animated: true)
     }
     
     @objc func colorButtonPressed() {

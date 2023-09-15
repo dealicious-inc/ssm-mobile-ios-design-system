@@ -38,6 +38,7 @@ public enum DealiButtonStyle: Equatable {
     indirect case small(style: DealiButtonStyle)
     
     case filled
+    case filledTonal
     case outlined
     case tonal
     case text
@@ -208,10 +209,10 @@ public enum DealiButtonStyle: Equatable {
         }
     }
     
-    struct DealiButtonPadding {
-        var horizontal: CGFloat = 0.0
-        var vertical: CGFloat = 0.0
-        var internalSpacing: CGFloat = 4.0
-        
-    }
+}
+public struct DealiButtonPadding {
+    var horizontal: CGFloat = 0.0
+    var vertical: CGFloat = 0.0
+    var internalSpacing: CGFloat = 4.0
+    
 }

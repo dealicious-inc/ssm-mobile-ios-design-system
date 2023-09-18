@@ -32,6 +32,13 @@ public class TestButton<Config: ButtonConfigurable>: DealiButton {
         self.setTitleColor(State.disabled.textColor, for: .disabled)
         self.titleLabel?.font = Config().font
         self.setPadding()
+        
+        if self.style.hasBorder {
+            self.layer.borderColor = State.default.borderColor
+            self.layer.borderWidth = 1.0
+        } else {
+            self.layer.borderWidth = 0.0
+        }
     }
     
     func setPadding() {
@@ -85,81 +92,6 @@ public protocol ButtonState {
     var borderColor: CGColor { get }
 }
 
-public struct FiiledLargeConfig<State: ButtonState>: ButtonConfigurable {
-        
-    public init() {
-        self.font = UIFont.b1sb15
-        self.padding =  DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-    }
-    public var font: UIFont? = UIFont.b1sb15
-    public var padding: DealiButtonPadding = DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-}
-
-public enum FilledPrimary01State: ButtonState {
-    case `default`
-    case hoverAndPressed
-    case disabled
-    case loading
-    
-    public var backgroundColor: UIColor {
-        switch self {
-        case .default, .loading:
-            return DealiColor.primary01
-        case .hoverAndPressed:
-            return DealiColor.primary02
-        case .disabled:
-            return DealiColor.g40
-            
-        }
-    }
-    
-    public var textColor: UIColor {
-        switch self {
-        case .default, .loading:
-            return DealiColor.primary04
-        case .hoverAndPressed:
-            return DealiColor.primary04
-        case .disabled:
-            return DealiColor.primary04
-        }
-    }
-    
-    public var borderColor: CGColor { return DealiColor.primary04.cgColor }
-}
-
-
-public enum FilledPrimary02State: ButtonState {
-    case `default`
-    case hoverAndPressed
-    case disabled
-    case loading
-    
-    public var backgroundColor: UIColor {
-        switch self {
-        case .default, .loading:
-            return DealiColor.b40
-        case .hoverAndPressed:
-            return DealiColor.b70
-        case .disabled:
-            return DealiColor.b20
-        }
-    }
-    
-    public var textColor: UIColor {
-        switch self {
-        case .default, .loading:
-            return DealiColor.primary04
-        case .hoverAndPressed:
-            return DealiColor.primary04
-        case .disabled:
-            return DealiColor.w50
-        }
-    }
-    
-    public var borderColor: CGColor { return DealiColor.primary04.cgColor }
-}
-
-
 // MARK: - Large Buttons
 final public class btnFilledLargePrimary01: TestButton<FiiledLargeConfig<FilledPrimary01State>> {
         
@@ -182,14 +114,56 @@ final public class btnFilledLargePrimary02: TestButton<FiiledLargeConfig<FilledP
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
-final public class btnFilledTonalLargePrimary01: DealiButton {
+final public class btnFilledTonalLargePrimary01: TestButton<FiiledLargeConfig<FilledTonalPrimary01State>> {
     
-    public init() {
+    public override init() {
         super.init()
-        self.style = .large(style: .tonal)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnFilledTonalLargePrimary02: TestButton<FiiledLargeConfig<FilledTonalPrimary02State>> {
+    
+    public override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnFilledTonalLargeSecondary01: TestButton<FiiledLargeConfig<FilledTonalSecondary01State>> {
+    
+    public override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnFilledTonalLargeSecondary02: TestButton<FiiledLargeConfig<FilledTonalSecondary02State>> {
+    
+    public override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnFilledTonalLargeSecondary03: TestButton<FiiledLargeConfig<FilledTonalSecondary03State>> {
+    
+    public override init() {
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -198,9 +172,10 @@ final public class btnFilledTonalLargePrimary01: DealiButton {
 }
 
 
-final public class btnOutlineLargePrimary01: DealiButton {
+
+final public class btnOutlineLargePrimary01: TestButton<FiiledLargeConfig<OutlinePrimary01State>> {
     
-    public init() {
+    public override init() {
         super.init()
         self.style = .large(style: .outlined)
     }
@@ -210,10 +185,69 @@ final public class btnOutlineLargePrimary01: DealiButton {
     }
 }
 
-
-final public class btnTextLargePrimary01: DealiButton {
+final public class btnOutlineLargePrimary02: TestButton<FiiledLargeConfig<OutlinePrimary02State>> {
     
-    public init() {
+    public override init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnOutlineLargeSecondary01: TestButton<FiiledLargeConfig<OutlineSecondary01State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnOutlineLargeSecondary02: TestButton<FiiledLargeConfig<OutlineSecondary02State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnOutlineLargeSecondary03: TestButton<FiiledLargeConfig<OutlineSecondary03State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnOutlineLargeSecondary04: TestButton<FiiledLargeConfig<OutlineSecondary04State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .outlined)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargePrimary01: TestButton<TextLargeConfig<TextPrimary01State>> {
+    
+    public override init() {
         super.init()
         self.style = .large(style: .text)
     }
@@ -223,7 +257,77 @@ final public class btnTextLargePrimary01: DealiButton {
     }
 }
 
+final public class btnTextLargePrimary02: TestButton<TextLargeConfig<TextPrimary02State>> {
 
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargeSecondary01: TestButton<TextLargeConfig<TextSecondary01State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargeSecondary02: TestButton<TextLargeConfig<TextSecondary02State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargeSecondary03: TestButton<TextLargeConfig<TextSecondary03State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargeSecondary04: TestButton<TextLargeConfig<TextSecondary04State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final public class btnTextLargeSecondary05: TestButton<TextLargeConfig<TextSecondary05State>> {
+    
+    public override init() {
+        super.init()
+        self.style = .large(style: .text)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 // MARK: - Medium Buttons
 
 // MARK: - Small Buttons

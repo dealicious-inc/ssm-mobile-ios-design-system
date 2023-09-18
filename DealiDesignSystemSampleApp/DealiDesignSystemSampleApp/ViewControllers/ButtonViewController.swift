@@ -8,6 +8,7 @@
 import UIKit
 import DealiDesignKit
 
+
 class ButtonViewController: UIViewController {
     
     private let stackView = UIStackView()
@@ -15,19 +16,40 @@ class ButtonViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.backgroundColor = .lightGray
+        self.view.backgroundColor = .systemGray2
         
-        self.view.addSubview(self.stackView)
+        let scrollView = UIScrollView()
+        
+        self.view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        let contentView = UIView()
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        
+        scrollView.addSubview(self.stackView)
         self.stackView.then {
             $0.axis = .vertical
             $0.spacing = 20.0
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(20.0)
+            $0.edges.equalToSuperview().inset(20.0)
         }
         
         
-        let buttonArray = [btnFilledLargePrimary01(), btnFilledLargePrimary02(), btnFilledTonalLargePrimary01(), btnOutlineLargePrimary01(), btnTextLargePrimary01()]
+        let buttonArray = [
+            btnFilledLargePrimary01(), btnFilledLargePrimary02(),
+            btnFilledTonalLargePrimary01(), btnFilledTonalLargePrimary02(),
+            btnFilledTonalLargeSecondary01(), btnFilledTonalLargeSecondary02(), btnFilledTonalLargeSecondary03(),
+            btnOutlineLargePrimary01(), btnOutlineLargePrimary02(),
+            btnOutlineLargeSecondary01(), btnOutlineLargeSecondary02(), btnOutlineLargeSecondary03(), btnOutlineLargeSecondary04(),
+            btnTextLargePrimary01(), btnTextLargePrimary02(),
+            btnTextLargeSecondary01(), btnTextLargeSecondary02(), btnTextLargeSecondary03(), btnTextLargeSecondary04(), btnTextLargeSecondary05()
+        ]
         
         buttonArray.forEach { button in
             button.title = String(describing: type(of: button))

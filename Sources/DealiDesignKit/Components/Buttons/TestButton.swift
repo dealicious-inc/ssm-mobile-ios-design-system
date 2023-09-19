@@ -93,6 +93,28 @@ public protocol ButtonState {
 }
 
 // MARK: - Large Buttons
+
+// 방법 1 - decorator 패턴 사용해 만들기. 나쁘지 않으나, 클래스로 래핑 시 지저분해진다.
+let button = BaseButton()
+let filledPrimary01Button = FilledPrimary01Decorator(decoratedButton: button)
+let filledPrimary01LargeButton = LargeDecorator(decoratedButton: filledPrimary01Button)
+
+// 방법 2 - 노가다. 뇌빼고 할 수 있음
+public class btnTest: BaseButton {
+    public init() {
+        super.init()
+        
+        self.defaultTextColor = FilledPrimary01State.default.backgroundColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// 방법 3 -
+
+// 방법 4 - 제네릭 타입을 받은 클래스(TestButton) 만들고, TestButton에서 제네릭한 속성값 받아서 처리. 상속해서 원하는 값 넣어서 사용.
 final public class btnFilledLargePrimary01: TestButton<FiiledLargeConfig<FilledPrimary01State>> {
         
     public override init() {
@@ -102,7 +124,6 @@ final public class btnFilledLargePrimary01: TestButton<FiiledLargeConfig<FilledP
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 final public class btnFilledLargePrimary02: TestButton<FiiledLargeConfig<FilledPrimary02State>> {

@@ -41,8 +41,8 @@ class ButtonViewController: UIViewController {
         }
         
         
-        let buttonArray = [
-            btnFilledLargePrimary01(), btnFilledLargePrimary02(),
+        
+        let buttonArray = [btnFilledLargePrimary01(), btnFilledLargePrimary02(),
             btnFilledTonalLargePrimary01(), btnFilledTonalLargePrimary02(),
             btnFilledTonalLargeSecondary01(), btnFilledTonalLargeSecondary02(), btnFilledTonalLargeSecondary03(),
             btnOutlineLargePrimary01(), btnOutlineLargePrimary02(),
@@ -52,7 +52,7 @@ class ButtonViewController: UIViewController {
         ]
         
         buttonArray.forEach { button in
-            button.title = String(describing: type(of: button))
+            button.setTitle(String(describing: type(of: button)), for: .normal)
             self.stackView.addArrangedSubview(button)
         }
 

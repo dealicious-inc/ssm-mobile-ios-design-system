@@ -25,7 +25,8 @@ public struct DealiColor {
     public static let secondary05: UIColor = SecondaryColor.secondary05.color
     public static let secondary06: UIColor = SecondaryColor.secondary06.color
     
-    /// Gray
+    
+    // MARK: Gray
     public static let g05: UIColor = GrayColor.g05.color
     public static let g10: UIColor = GrayColor.g10.color
     public static let g20: UIColor = GrayColor.g20.color
@@ -42,15 +43,50 @@ public struct DealiColor {
     public static let linkAndInfo: UIColor = ServiceColor.linkAndInfo.color
     public static let success: UIColor = ServiceColor.success.color
     
-    /// Etc
+    // MARK: Etc
+    public static let b70: UIColor = EtcColor.b70.color
+    public static let b50: UIColor = EtcColor.b50.color
+    public static let b40: UIColor = EtcColor.b40.color
+    public static let b30: UIColor = EtcColor.b30.color
+    public static let b20: UIColor = EtcColor.b20.color
+    public static let b10: UIColor = EtcColor.b10.color
+    public static let b5: UIColor = EtcColor.b5.color
+    public static let w90: UIColor = EtcColor.w90.color
+    public static let w70: UIColor = EtcColor.w70.color
+    public static let w50: UIColor = EtcColor.w50.color
+    public static let w30: UIColor = EtcColor.w30.color
+    public static let w20: UIColor = EtcColor.w20.color
+    public static let w15: UIColor = EtcColor.w15.color
+    public static let w10: UIColor = EtcColor.w10.color
+    public static let w5: UIColor = EtcColor.w5.color
+
+    
+    
+    @available(*, deprecated, renamed: "b10")
     public static let etc01: UIColor = EtcColor.etc01.color
+
+    @available(*, deprecated, renamed: "b20")
     public static let etc02: UIColor = EtcColor.etc02.color
+
+    @available(*, deprecated, renamed: "b40")
     public static let etc03: UIColor = EtcColor.etc03.color
+    
+    @available(*, deprecated, renamed: "w20")
     public static let etc04: UIColor = EtcColor.etc04.color
+    
+    @available(*, deprecated, renamed: "w50")
     public static let etc05: UIColor = EtcColor.etc05.color
+    
+    @available(*, deprecated, renamed: "b70")
     public static let etc06: UIColor = EtcColor.etc06.color
+    
+    @available(*, deprecated, renamed: "w90")
     public static let etc07: UIColor = EtcColor.etc07.color
+    
+    @available(*, deprecated, renamed: "w5")
     public static let etc08: UIColor = EtcColor.etc08.color
+    
+    @available(*, deprecated, renamed: "w10")
     public static let etc09: UIColor = EtcColor.etc09.color
 }
 
@@ -146,26 +182,21 @@ enum EtcColor: Int, ColorConfigurable {
     case etc08
     case etc09
     
+    case b70, b50, b40, b30, b20, b10, b5
+    case w90, w70, w50, w30, w20, w15, w10, w5
+    
     var rgb: Int {
         switch self {
-        case .etc01:
+        case .etc01, .etc02, .etc03, .etc06:
             return 0x000000
-        case .etc02:
+        case .etc04, .etc05, .etc07, .etc08, .etc09:
+            return 0xFFFFFF
+            
+        case .b5, .b10, .b20, .b30, .b40, .b50, .b70:
             return 0x000000
-        case .etc03:
-            return 0x000000
-        case .etc04:
+        case .w90, .w70, .w50, .w30, .w20, .w15, .w10, .w5:
             return 0xFFFFFF
-        case .etc05:
-            return 0xFFFFFF
-        case .etc06:
-            return 0x000000
-        case .etc07:
-            return 0xFFFFFF
-        case .etc08:
-            return 0xFFFFFF
-        case .etc09:
-            return 0xFFFFFF
+            
         }
     }
     
@@ -189,6 +220,83 @@ enum EtcColor: Int, ColorConfigurable {
             return 0.05
         case .etc09:
             return 0.1
+            
+        case .b70:
+            return 0.70
+        case .b50:
+            return 0.50
+        case .b40:
+            return 0.40
+        case .b30:
+            return 0.30
+        case .b20:
+            return 0.20
+        case .b10:
+            return 0.10
+        case .b5:
+            return 0.05
+        case .w90:
+            return 0.90
+        case .w70:
+            return 0.70
+        case .w50:
+            return 0.50
+        case .w30:
+            return 0.30
+        case .w20:
+            return 0.20
+        case .w15:
+            return 0.15
+        case .w10:
+            return 0.10
+        case .w5:
+            return 0.05
         }
     }
 }
+
+
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct ColorPreview: PreviewProvider {
+    static var testString = "김수한무거북이와 두루미"
+    static var disableState: CheckboxStatus = .disabled
+
+    static var previews: some View {
+        VStack(alignment: .leading) {
+            Text("etc 컬러")
+            
+            HStack {
+                ZStack {
+                    UIViewPreview {
+                        let view = UIView()
+                        view.backgroundColor = DealiColor.b70
+                        return view
+                    }
+                    
+                    Text("b70")
+                    
+                }
+                
+                ZStack {
+                    UIViewPreview {
+                        let view = UIView()
+                        view.backgroundColor = DealiColor.b50
+                        return view
+                    }
+                    
+                    Text("b50")
+                    
+                }
+                
+            }
+            
+        }
+            .padding(10.0)
+            .previewLayout(.sizeThatFits)
+        }
+    }
+
+#endif

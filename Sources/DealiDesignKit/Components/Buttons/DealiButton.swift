@@ -7,14 +7,6 @@
 
 import UIKit
 
-public enum DealiButtonStatus: Equatable {
-    case `default`
-    case hoverAndPressed
-    case disabled
-    case loading
-}
-
-
 /// 디자인시스템 Buttons 적용
 ///
 /// 두 가지 방법 중 하나로 ``style`` 과 ``title`` 을 정의하여 사용가능

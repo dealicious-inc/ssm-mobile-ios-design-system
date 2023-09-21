@@ -101,7 +101,7 @@ struct FontPreview: PreviewProvider {
             UIViewPreview {
                 let textView = UITextView()
                 textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
-                textView.font = .h1b32
+                textView.font = .h1sb32
                 
                 return textView
             }
@@ -113,7 +113,7 @@ struct FontPreview: PreviewProvider {
             UIViewPreview {
                 let textView = UITextView()
                 textView.text = "ABC 123 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 God blessed the East Sea and Mt."
-                textView.font = .h2b24
+                textView.font = .h2sb24
                 
                 return textView
             }

@@ -50,8 +50,8 @@ public enum FilledTonalSize: ButtonSizeConfig {
             )
         case .small:
             return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
+                font: UIFont.b4sb12,
+                padding: DealiButtonPadding(horizontal: 16.0, vertical: 13.0)
             )
         }
         

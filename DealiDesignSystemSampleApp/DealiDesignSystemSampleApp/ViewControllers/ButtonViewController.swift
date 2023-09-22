@@ -40,7 +40,9 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        let buttonArray = [btnFilledLargePrimary01(), btnFilledLargePrimary02(),
+        var buttonArray: [UIButton] = []
+        
+        let largeButtonArray: [UIButton] = [btnFilledLargePrimary01(), btnFilledLargePrimary02(),
             btnFilledTonalLargePrimary01(), btnFilledTonalLargePrimary02(),
             btnFilledTonalLargeSecondary01(), btnFilledTonalLargeSecondary02(), btnFilledTonalLargeSecondary03(),
             btnOutlineLargePrimary01(), btnOutlineLargePrimary02(),
@@ -48,6 +50,14 @@ class ButtonViewController: UIViewController {
             btnTextLargePrimary01(), btnTextLargePrimary02(),
             btnTextLargeSecondary01(), btnTextLargeSecondary02(), btnTextLargeSecondary03(), btnTextLargeSecondary04(), btnTextLargeSecondary05()
         ]
+        
+        let mediumButtonArray: [UIButton] = [btnFilledMediumPrimary01(), btnFilledMediumPrimary02()]
+        let smallButtonArray: [UIButton] = [btnFilledSmallPrimary01(), btnFilledSmallPrimary02()]
+        
+        buttonArray += largeButtonArray
+        buttonArray += mediumButtonArray
+        buttonArray += smallButtonArray
+        
         
         buttonArray.forEach { button in
             button.setTitle(String(describing: type(of: button)), for: .normal)

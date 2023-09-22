@@ -40,7 +40,7 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        let buttonArray = [FilledButton(color: .primary02, size: .large), btnFilledLargePrimary01(), btnFilledLargePrimary02(),
+        let buttonArray = [btnFilledLargePrimary01(), btnFilledLargePrimary02(),
             btnFilledTonalLargePrimary01(), btnFilledTonalLargePrimary02(),
             btnFilledTonalLargeSecondary01(), btnFilledTonalLargeSecondary02(), btnFilledTonalLargeSecondary03(),
             btnOutlineLargePrimary01(), btnOutlineLargePrimary02(),

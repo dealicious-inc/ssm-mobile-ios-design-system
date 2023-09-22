@@ -1,13 +1,37 @@
 //
-//  FilledTonalButton.swift
+//  SystemButton.swift
 //
 //
-//  Created by 윤조현 on 2023/09/21.
+//  Created by 윤조현 on 2023/09/22.
 //
 
 import UIKit
 
-public class FilledTonalButton: UIButton {
+public protocol ButtonColorConfig {
+    var attribute: ButtonColor { get }
+}
+
+public struct ButtonColor {
+    var defaultBackgroundColor: UIColor
+    var disabledBackgroundColor: UIColor
+    var defaultTextColor: UIColor
+    var disabledTextColor: UIColor
+    var defaultBorderColor: CGColor = UIColor.clear.cgColor
+    var disabledBorderColor: CGColor = UIColor.clear.cgColor
+}
+
+public protocol ButtonSizeConfig {
+    var attribute: ButtonSize { get }
+}
+
+
+public struct ButtonSize {
+    var font: UIFont
+    var padding: DealiButtonPadding
+}
+
+
+public class SystemButton: UIButton {
     public var title: String? = "" {
         didSet {
             self.setTitle(title, for: .normal)
@@ -26,17 +50,41 @@ public class FilledTonalButton: UIButton {
         }
     }
     
-    public var color: FilledTonalColorType
-    public var size: FilledTonalSizeType
+    public var color: ButtonColorConfig
+    public var size: ButtonSizeConfig
+    
+    private let highlightView = UIView()
+    
+    public init(color: ButtonColorConfig, size: ButtonSizeConfig, title: String? = "") {
+        self.color = color
+        self.size = size
+        self.title = title
+        
+        super.init(frame: .zero)
+        
+        self.addSubview(self.highlightView)
+        self.highlightView.then {
+            $0.backgroundColor = DealiColor.b10
+            $0.isUserInteractionEnabled = false
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        self.setAppearance()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override var isEnabled: Bool {
         get {
             return super.isEnabled
         }
         set {
-            
             if newValue == false {
-                self.layer.borderColor = UIColor.lightGray.cgColor
+                self.layer.borderColor = self.color.attribute.disabledBorderColor
                 self.layer.borderWidth = 1.0
             }
             
@@ -44,17 +92,15 @@ public class FilledTonalButton: UIButton {
         }
     }
     
-    public init(color: FilledTonalColorType, size: FilledTonalSizeType, title: String? = "") {
-        self.color = color
-        self.size = size
-        self.title = title
-        
-        super.init(frame: .zero)
-        
-        self.setAppearance()
+    public override var isHighlighted: Bool {
+        didSet {
+            self.highlightView.isHidden = !self.isHighlighted
+            
+        }
     }
     
     func setAppearance() {
+        
         self.setBackgroundColor(self.color.attribute.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.color.attribute.disabledBackgroundColor, for: .disabled)
         self.setTitleColor(self.color.attribute.defaultTextColor, for: .normal)
@@ -64,6 +110,8 @@ public class FilledTonalButton: UIButton {
         self.layer.masksToBounds = true
         
         self.titleLabel?.font = self.size.attribute.font
+        self.layer.borderColor = self.color.attribute.defaultBorderColor
+        self.layer.borderWidth = 1.0
 
         let horizontalPadding = self.size.attribute.padding.horizontal
         let verticalPadding = self.size.attribute.padding.vertical
@@ -85,63 +133,7 @@ public class FilledTonalButton: UIButton {
             self.setImage(rightIconImage.withTintColor(self.color.attribute.disabledBackgroundColor), for: .disabled)
             self.semanticContentAttribute = .forceRightToLeft
         }
-
         
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
-
-public enum FilledTonalColorType {
-    case primary01
-    case primary02
-    
-    var attribute: ButtonColor {
-        switch self {
-        case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.primary03,
-                disabledBackgroundColor:  DealiColor.g20,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50
-            )
-        case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.w20,
-                disabledBackgroundColor: DealiColor.w20,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.w50
-            )
-        }
-    }
-}
-
-public enum FilledTonalSizeType {
-    case large
-    case medium
-    case small
-    
-    var attribute: ButtonSize {
-        switch self {
-        case .large:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-            )
-        case .medium:
-            return ButtonSize(
-                font: UIFont.b2sb14,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
-            )
-        case .small:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-            )
-        }
-        
     }
 }

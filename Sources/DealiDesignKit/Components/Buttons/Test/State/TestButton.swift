@@ -94,44 +94,7 @@ public protocol ButtonState {
 
 // MARK: - Large Buttons
 
-// 방법 1 - decorator 패턴 사용해 만들기. 나쁘지 않으나, btnFilledLargePrimary01 과 같은 네이밍으로 클래스 만들어야하는 경우 지저분해진다.
-let button = BaseButton()
-let filledPrimary01Button = FilledPrimary01Decorator(decoratedButton: button)
-let filledPrimary01LargeButton = LargeDecorator(decoratedButton: filledPrimary01Button)
 
-// 방법 2 - 매 클래스를 만들 때마다 모든 속성 init 에서 생성하기. 노가다. 뇌빼고 할 수 있음
-
-public class btnFilledLargePrimary01: MyButton {
-    public init() {
-        super.init(attribute: ButtonAttribute(
-            defaultTextColor: DealiColor.b40,
-            disabledTextColor: DealiColor.g40,
-            defaultBackgroundColor: DealiColor.primary04,
-            disabledBackgroundColor: DealiColor.primary04,
-            font: UIFont.b1sb15,
-            padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-        ))
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// 방법 3 - 제네릭 타입을 받은 클래스(TestButton) 만들고(네이밍은 확정되면 변경할 예정) TestButton에서 제네릭한 속성값 받아서 처리. 상속해서 원하는 값 넣어서 사용.
-// 단점. 공통화에 예외가 너무나 많다. 결국은 노가다가 더 편할지도
-
-
-final public class btnFilledLargePrimary02: TestButton<FiiledLargeConfig<FilledPrimary02State>> {
-        
-    public override init() {
-        super.init()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 final public class btnFilledTonalLargePrimary01: TestButton<FiiledLargeConfig<FilledTonalPrimary01State>> {
     

@@ -51,8 +51,24 @@ class ButtonViewController: UIViewController {
             btnTextLargeSecondary01(), btnTextLargeSecondary02(), btnTextLargeSecondary03(), btnTextLargeSecondary04(), btnTextLargeSecondary05()
         ]
         
-        let mediumButtonArray: [UIButton] = [btnFilledMediumPrimary01(), btnFilledMediumPrimary02()]
-        let smallButtonArray: [UIButton] = [btnFilledSmallPrimary01(), btnFilledSmallPrimary02()]
+        let mediumButtonArray: [UIButton] = [btnFilledMediumPrimary01(), btnFilledMediumPrimary02(),
+                                             btnFilledTonalMediumPrimary01(), btnFilledTonalMediumPrimary02(),
+                                             btnFilledTonalMediumSecondary01(), btnFilledTonalMediumSecondary02(), btnFilledTonalMediumSecondary03(),
+                                             btnOutlineMediumPrimary01(), btnOutlineMediumPrimary02(),
+                                             btnOutlineMediumSecondary01(), btnOutlineMediumSecondary02(), btnOutlineMediumSecondary03(), btnOutlineMediumSecondary04(),
+                                             btnTextMediumPrimary01(), btnTextMediumPrimary02(),
+                                             btnTextMediumSecondary01(), btnTextMediumSecondary02(), btnTextMediumSecondary03(), btnTextMediumSecondary04(), btnTextMediumSecondary05()
+                                             ]
+        
+        let smallButtonArray: [UIButton] = [btnFilledSmallPrimary01(), btnFilledSmallPrimary02(),
+                                            btnFilledTonalSmallPrimary01(), btnFilledTonalSmallPrimary02(),
+                                            btnFilledTonalSmallSecondary01(), btnFilledTonalSmallSecondary02(), btnFilledTonalSmallSecondary03(),
+                                            btnOutlineSmallPrimary01(), btnOutlineSmallPrimary02(),
+                                            btnOutlineSmallSecondary01(), btnOutlineSmallSecondary02(), btnOutlineSmallSecondary03(), btnOutlineSmallSecondary04(),
+                                            btnTextSmallPrimary01(), btnTextSmallPrimary02(),
+                                            btnTextSmallSecondary01(), btnTextSmallSecondary02(), btnTextSmallSecondary03(), btnTextSmallSecondary04(), btnTextSmallSecondary05()
+                                        ]
+        
         
         buttonArray += largeButtonArray
         buttonArray += mediumButtonArray

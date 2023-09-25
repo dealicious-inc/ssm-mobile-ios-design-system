@@ -16,8 +16,8 @@ public struct ButtonColor {
     var disabledBackgroundColor: UIColor
     var defaultTextColor: UIColor
     var disabledTextColor: UIColor
-    var defaultBorderColor: CGColor = UIColor.clear.cgColor
-    var disabledBorderColor: CGColor = UIColor.clear.cgColor
+    var defaultBorderColor: UIColor = UIColor.clear
+    var disabledBorderColor: UIColor = UIColor.clear
 }
 
 public protocol ButtonSizeConfig {
@@ -84,7 +84,7 @@ public class SystemButton: UIButton {
         }
         set {
             if newValue == false {
-                self.layer.borderColor = self.color.attribute.disabledBorderColor
+                self.layer.borderColor = self.color.attribute.disabledBorderColor.cgColor
                 self.layer.borderWidth = 1.0
             }
             
@@ -110,7 +110,7 @@ public class SystemButton: UIButton {
         self.layer.masksToBounds = true
         
         self.titleLabel?.font = self.size.attribute.font
-        self.layer.borderColor = self.color.attribute.defaultBorderColor
+        self.layer.borderColor = self.color.attribute.defaultBorderColor.cgColor
         self.layer.borderWidth = 1.0
 
         let horizontalPadding = self.size.attribute.padding.horizontal

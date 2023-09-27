@@ -23,8 +23,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor:  .clear,
                 defaultTextColor: DealiColor.primary01,
                 disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.primary01.cgColor,
-                disabledBorderColor: DealiColor.g30.cgColor
+                defaultBorderColor: DealiColor.primary01,
+                disabledBorderColor: DealiColor.g30
             )
         case .primary02:
             return ButtonColor(
@@ -32,8 +32,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor: .clear,
                 defaultTextColor: DealiColor.primary04,
                 disabledTextColor: DealiColor.w50,
-                defaultBorderColor: DealiColor.primary04.cgColor,
-                disabledBorderColor: DealiColor.w50.cgColor
+                defaultBorderColor: DealiColor.primary04,
+                disabledBorderColor: DealiColor.w50
             )
         case .secondary01:
             return ButtonColor(
@@ -41,8 +41,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor: .clear,
                 defaultTextColor: DealiColor.secondary01,
                 disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.secondary01.cgColor,
-                disabledBorderColor: DealiColor.g30.cgColor
+                defaultBorderColor: DealiColor.secondary01,
+                disabledBorderColor: DealiColor.g30
             )
         case .secondary02:
             return ButtonColor(
@@ -50,8 +50,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor: .clear,
                 defaultTextColor: DealiColor.g100,
                 disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g100.cgColor,
-                disabledBorderColor: DealiColor.g30.cgColor
+                defaultBorderColor: DealiColor.g100,
+                disabledBorderColor: DealiColor.g30
             )
         case .secondary03:
             return ButtonColor(
@@ -59,8 +59,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor: .clear,
                 defaultTextColor: DealiColor.g100,
                 disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g30.cgColor,
-                disabledBorderColor: DealiColor.g20.cgColor
+                defaultBorderColor: DealiColor.g30,
+                disabledBorderColor: DealiColor.g20
             )
         case .secondary04:
             return ButtonColor(
@@ -68,8 +68,8 @@ public enum OutlineColor: ButtonColorConfig {
                 disabledBackgroundColor: .clear,
                 defaultTextColor: DealiColor.g80,
                 disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g30.cgColor,
-                disabledBorderColor: DealiColor.g20.cgColor
+                defaultBorderColor: DealiColor.g30,
+                disabledBorderColor: DealiColor.g20
             )
         }
     }

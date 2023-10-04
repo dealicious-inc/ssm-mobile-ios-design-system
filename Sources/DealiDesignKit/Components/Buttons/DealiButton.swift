@@ -29,7 +29,7 @@ public class DealiButton: UIButton {
     
     public var title: String? = "" {
         didSet {
-            self.setTitle(title, for: .normal)
+            self.setAppearance()
         }
     }
     
@@ -61,11 +61,26 @@ public class DealiButton: UIButton {
         self.setAppearance()
     }
     
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if leftIconImage != nil {
+            self.semanticContentAttribute = .forceLeftToRight
+        }
+        
+        if rightIconImage != nil {
+            self.semanticContentAttribute = .forceRightToLeft
+        }
+    }
+    
+    
     func setAppearance() {
         
         self.setBackgroundColor(self.style.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.style.pressedBackgroundColor, for: .highlighted)
         self.setBackgroundColor(self.style.disabledBackgroundColor, for: .disabled)
+        self.setTitle(self.title, for: .normal)
+        self.titleLabel?.sizeToFit()
 
         self.layer.cornerRadius = 6.0
         self.layer.masksToBounds = true

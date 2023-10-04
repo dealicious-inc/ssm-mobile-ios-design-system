@@ -34,7 +34,7 @@ public struct ButtonSize {
 public class SystemButton: UIButton {
     public var title: String? = "" {
         didSet {
-            self.setTitle(title, for: .normal)
+            self.setAppearance()
         }
     }
     
@@ -99,12 +99,25 @@ public class SystemButton: UIButton {
         }
     }
     
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if leftIconImage != nil {
+            self.semanticContentAttribute = .forceLeftToRight
+        }
+        
+        if rightIconImage != nil {
+            self.semanticContentAttribute = .forceRightToLeft
+        }
+    }
+    
     func setAppearance() {
         
         self.setBackgroundColor(self.color.attribute.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.color.attribute.disabledBackgroundColor, for: .disabled)
         self.setTitleColor(self.color.attribute.defaultTextColor, for: .normal)
         self.setTitleColor(self.color.attribute.disabledBackgroundColor, for: .disabled)
+        self.setTitle(title, for: .normal)
         
         self.layer.cornerRadius = 6.0
         self.layer.masksToBounds = true
@@ -117,23 +130,57 @@ public class SystemButton: UIButton {
         let verticalPadding = self.size.attribute.padding.vertical
 
         let internalSpacing = self.size.attribute.padding.internalSpacing
+        let halfInternalSpacing = internalSpacing / 2
 
         self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
         
         if let leftIconImage = self.leftIconImage {
-            self.imageEdgeInsets = .init(top: 0.0, left: -internalSpacing, bottom: 0.0, right: internalSpacing)
+            self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding + halfInternalSpacing, bottom: verticalPadding, right: horizontalPadding + halfInternalSpacing)
+
+            self.imageEdgeInsets = .init(top: 0.0, left: -halfInternalSpacing, bottom: 0.0, right: halfInternalSpacing)
+            self.titleEdgeInsets = .init(top: 0.0, left: halfInternalSpacing, bottom: 0.0, right: -halfInternalSpacing)
 
             self.setImage(leftIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
             self.setImage(leftIconImage.withTintColor(self.color.attribute.disabledBackgroundColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
-        } else if let rightIconImage = self.rightIconImage {
-            self.imageEdgeInsets = .init(top: 0.0, left: internalSpacing, bottom: 0.0, right: -internalSpacing)
+        }
+        
+        if let rightIconImage = self.rightIconImage {
+            self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding + halfInternalSpacing, bottom: verticalPadding, right: horizontalPadding + halfInternalSpacing)
+
+            self.imageEdgeInsets = .init(top: 0.0, left: halfInternalSpacing, bottom: 0.0, right: -halfInternalSpacing)
+            self.titleEdgeInsets = .init(top: 0.0, left: -halfInternalSpacing, bottom: 0.0, right: halfInternalSpacing)
 
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
             self.setImage(rightIconImage.withTintColor(self.color.attribute.disabledBackgroundColor), for: .disabled)
             self.semanticContentAttribute = .forceRightToLeft
         }
         
+        self.invalidateIntrinsicContentSize()
+        
+    }
+    
+    override public var intrinsicContentSize: CGSize {
+        guard let titleLabel else { return .zero }
+        titleLabel.sizeToFit()
+        
+        var width: CGFloat = 0.0
+        var height: CGFloat = 0.0
+        
+        let padding = self.size.attribute.padding
+        
+        width = titleLabel.frame.width + padding.horizontal * 2
+        height = titleLabel.frame.height + padding.vertical * 2
 
+        
+        if let leftIconImage {
+            width += leftIconImage.size.width
+        }
+        
+        if let rightIconImage {
+            width += rightIconImage.size.width
+
+        }
+        return CGSize(width: width, height: height)
     }
 }

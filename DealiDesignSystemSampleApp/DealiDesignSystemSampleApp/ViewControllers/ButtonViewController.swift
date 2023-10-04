@@ -56,7 +56,13 @@ class ButtonViewController: UIViewController {
                                              btnFilledTonalMediumSecondary01(), btnFilledTonalMediumSecondary02(), btnFilledTonalMediumSecondary03(),
                                              btnOutlineMediumPrimary01(), btnOutlineMediumPrimary02(),
                                              btnOutlineMediumSecondary01(), btnOutlineMediumSecondary02(), btnOutlineMediumSecondary03(), btnOutlineMediumSecondary04(),
-                                             btnTextMediumPrimary01(), btnTextMediumPrimary02(),
+                                             btnTextMediumPrimary01(),   btnTextMediumPrimary02().then {
+            
+            let image =  UIImage(named: "ic_arrow_right")
+            $0.rightIconImage = image
+            
+            
+        },
                                              btnTextMediumSecondary01(), btnTextMediumSecondary02(), btnTextMediumSecondary03(), btnTextMediumSecondary04(), btnTextMediumSecondary05()
                                              ]
         

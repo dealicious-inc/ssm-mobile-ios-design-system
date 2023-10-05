@@ -52,24 +52,13 @@ public class SystemButton: UIButton {
     
     public var color: ButtonColorConfig
     public var size: ButtonSizeConfig
-    
-    private let highlightView = UIView()
-    
+        
     public init(color: ButtonColorConfig, size: ButtonSizeConfig, title: String? = "") {
         self.color = color
         self.size = size
         self.title = title
         
         super.init(frame: .zero)
-        
-        self.addSubview(self.highlightView)
-        self.highlightView.then {
-            $0.backgroundColor = DealiColor.b10
-            $0.isUserInteractionEnabled = false
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
         
         self.setAppearance()
     }
@@ -83,25 +72,27 @@ public class SystemButton: UIButton {
             return super.isEnabled
         }
         set {
+            super.isEnabled = newValue
+            
             if newValue == false {
                 self.layer.borderColor = self.color.attribute.disabledBorderColor.cgColor
                 self.layer.borderWidth = 1.0
             }
             
-            super.isEnabled = newValue
         }
     }
     
     public override var isHighlighted: Bool {
         didSet {
-            self.highlightView.isHidden = !self.isHighlighted
-            
+            guard isHighlighted != oldValue else { return }
+            self.backgroundColor = isHighlighted ? DealiColor.b10 : self.color.attribute.defaultBackgroundColor
         }
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
         
+
         if leftIconImage != nil {
             self.semanticContentAttribute = .forceLeftToRight
         }
@@ -116,8 +107,10 @@ public class SystemButton: UIButton {
         self.setBackgroundColor(self.color.attribute.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.color.attribute.disabledBackgroundColor, for: .disabled)
         self.setTitleColor(self.color.attribute.defaultTextColor, for: .normal)
-        self.setTitleColor(self.color.attribute.disabledBackgroundColor, for: .disabled)
+        self.setTitleColor(self.color.attribute.defaultTextColor, for: .highlighted)
+        self.setTitleColor(self.color.attribute.disabledTextColor, for: .disabled)
         self.setTitle(title, for: .normal)
+        self.setTitle(title, for: .disabled)
         
         self.layer.cornerRadius = 6.0
         self.layer.masksToBounds = true
@@ -141,7 +134,9 @@ public class SystemButton: UIButton {
             self.titleEdgeInsets = .init(top: 0.0, left: halfInternalSpacing, bottom: 0.0, right: -halfInternalSpacing)
 
             self.setImage(leftIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
-            self.setImage(leftIconImage.withTintColor(self.color.attribute.disabledBackgroundColor), for: .disabled)
+            self.setImage(leftIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .highlighted)
+
+            self.setImage(leftIconImage.withTintColor(self.color.attribute.disabledTextColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
         }
         
@@ -149,38 +144,60 @@ public class SystemButton: UIButton {
             self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding + halfInternalSpacing, bottom: verticalPadding, right: horizontalPadding + halfInternalSpacing)
 
             self.imageEdgeInsets = .init(top: 0.0, left: halfInternalSpacing, bottom: 0.0, right: -halfInternalSpacing)
+            
             self.titleEdgeInsets = .init(top: 0.0, left: -halfInternalSpacing, bottom: 0.0, right: halfInternalSpacing)
 
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
-            self.setImage(rightIconImage.withTintColor(self.color.attribute.disabledBackgroundColor), for: .disabled)
+            self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .highlighted)
+            
+            self.setImage(rightIconImage.withTintColor(self.color.attribute.disabledTextColor), for: .disabled)
             self.semanticContentAttribute = .forceRightToLeft
+            
         }
         
-        self.invalidateIntrinsicContentSize()
+//        self.invalidateIntrinsicContentSize()
         
     }
     
-    override public var intrinsicContentSize: CGSize {
-        guard let titleLabel else { return .zero }
-        titleLabel.sizeToFit()
-        
-        var width: CGFloat = 0.0
-        var height: CGFloat = 0.0
-        
-        let padding = self.size.attribute.padding
-        
-        width = titleLabel.frame.width + padding.horizontal * 2
-        height = titleLabel.frame.height + padding.vertical * 2
+//    override public var intrinsicContentSize: CGSize {
+//        guard let titleLabel else { return .zero }
+//        titleLabel.sizeToFit()
+//        
+//        var width: CGFloat = 0.0
+//        var height: CGFloat = 0.0
+//        
+//        let padding = self.size.attribute.padding
+//        
+//        width = titleLabel.frame.width + padding.horizontal * 2
+//        height = titleLabel.frame.height + padding.vertical * 2
+//
+//        
+//        if let leftIconImage {
+//            width += leftIconImage.size.width
+//        }
+//        
+//        if let rightIconImage {
+//            width += rightIconImage.size.width
+//
+//        }
+//        return CGSize(width: width, height: height)
+//    }
+}
 
-        
-        if let leftIconImage {
-            width += leftIconImage.size.width
-        }
-        
-        if let rightIconImage {
-            width += rightIconImage.size.width
-
-        }
-        return CGSize(width: width, height: height)
+@available(iOS 17, *)
+#Preview(traits: .sizeThatFitsLayout) {
+    let button = btnFilledLargePrimary01()
+    button.title = "계좌 등록하기"
+    button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
+    button.isEnabled = false
+    let view = UIView()
+    view.backgroundColor = .gray
+    view.frame = CGRect(origin: .zero, size: .init(width: 200.0, height: 50.0))
+    view.addSubview(button)
+    button.snp.makeConstraints {
+        $0.centerY.equalToSuperview()
+        $0.right.equalToSuperview()
     }
+    
+    return view
 }

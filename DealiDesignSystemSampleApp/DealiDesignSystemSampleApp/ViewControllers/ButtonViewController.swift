@@ -7,7 +7,7 @@
 
 import UIKit
 import DealiDesignKit
-
+import SnapKit
 
 class ButtonViewController: UIViewController {
     
@@ -60,8 +60,6 @@ class ButtonViewController: UIViewController {
             
             let image =  UIImage(named: "ic_arrow_right")
             $0.rightIconImage = image
-            
-            
         },
                                              btnTextMediumSecondary01(), btnTextMediumSecondary02(), btnTextMediumSecondary03(), btnTextMediumSecondary04(), btnTextMediumSecondary05()
                                              ]

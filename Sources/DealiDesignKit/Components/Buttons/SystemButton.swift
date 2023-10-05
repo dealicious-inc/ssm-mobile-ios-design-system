@@ -154,42 +154,16 @@ public class SystemButton: UIButton {
             self.semanticContentAttribute = .forceRightToLeft
             
         }
-        
-//        self.invalidateIntrinsicContentSize()
-        
+                
     }
-    
-//    override public var intrinsicContentSize: CGSize {
-//        guard let titleLabel else { return .zero }
-//        titleLabel.sizeToFit()
-//        
-//        var width: CGFloat = 0.0
-//        var height: CGFloat = 0.0
-//        
-//        let padding = self.size.attribute.padding
-//        
-//        width = titleLabel.frame.width + padding.horizontal * 2
-//        height = titleLabel.frame.height + padding.vertical * 2
-//
-//        
-//        if let leftIconImage {
-//            width += leftIconImage.size.width
-//        }
-//        
-//        if let rightIconImage {
-//            width += rightIconImage.size.width
-//
-//        }
-//        return CGSize(width: width, height: height)
-//    }
 }
 
 @available(iOS 17, *)
 #Preview(traits: .sizeThatFitsLayout) {
-    let button = btnFilledLargePrimary01()
+    let button = btnTextMediumPrimary02()
     button.title = "계좌 등록하기"
     button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
-    button.isEnabled = false
+
     let view = UIView()
     view.backgroundColor = .gray
     view.frame = CGRect(origin: .zero, size: .init(width: 200.0, height: 50.0))

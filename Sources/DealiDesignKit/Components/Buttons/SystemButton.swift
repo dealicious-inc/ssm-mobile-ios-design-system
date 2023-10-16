@@ -30,6 +30,23 @@ public struct ButtonSize {
     var padding: DealiButtonPadding
 }
 
+public struct ButtonStyle {
+    var font: UIFont
+    var height: CGFloat
+    var cornerRadius: CGFloat
+    var sidePadding: CGFloat
+}
+
+public struct ButtonImage {
+    enum EDirection {
+        case left
+        case right
+    }
+    var image: UIImage
+    var size: CGSize
+    var space: CGFloat
+    var direction: EDirection
+}
 
 public class SystemButton: UIButton {
     public var title: String? = "" {
@@ -138,6 +155,7 @@ public class SystemButton: UIButton {
 
             self.setImage(leftIconImage.withTintColor(self.color.attribute.disabledTextColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
+<<<<<<< Updated upstream
         }
         
         if let rightIconImage = self.rightIconImage {
@@ -147,6 +165,11 @@ public class SystemButton: UIButton {
             
             self.titleEdgeInsets = .init(top: 0.0, left: -halfInternalSpacing, bottom: 0.0, right: halfInternalSpacing)
 
+=======
+        } else if let rightIconImage = self.rightIconImage {
+            self.imageEdgeInsets = .init(top: 0.0, left: internalSpacing, bottom: 0.0, right: -internalSpacing)
+            
+>>>>>>> Stashed changes
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .highlighted)
             

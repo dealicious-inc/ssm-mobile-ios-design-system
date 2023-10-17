@@ -40,7 +40,27 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
+        let button =  TestButton(color: FilledTonalColor.primary01, size: FilledSize.large).then {
+            $0.title = "disabled"
+            $0.isEnabled = false
+            $0.leftIconImage = UIImage(named: "ic_arrow_right")
+            $0.rightIconImage = UIImage(named: "ic_arrow_right")
+        }
+        
+        self.stackView.addArrangedSubview(button)
+        
+        let button2 =  TestButton(color: FilledTonalColor.primary01, size: FilledSize.large).then {
+            $0.title = "disabled22"
+            $0.isEnabled = false
+//            $0.leftIconImage = UIImage(named: "ic_arrow_right")
+            $0.rightIconImage = UIImage(named: "ic_arrow_right")
+        }
+        
+        self.stackView.addArrangedSubview(button2)
+        
+        
         var buttonArray: [UIButton] = []
+    
         
         let largeButtonArray: [UIButton] = [btnFilledLargePrimary01(), btnFilledLargePrimary02(),
             btnFilledTonalLargePrimary01(), btnFilledTonalLargePrimary02(),

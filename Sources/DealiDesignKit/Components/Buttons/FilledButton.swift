@@ -41,7 +41,7 @@ public enum FilledSize: ButtonSizeConfig {
         case .large:
             return ButtonSize(
                 font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 15.0, height: 50.0, contentHorizontalOffset: 4.0)
+                padding: DealiButtonPadding(horizontal: 20.0, vertical: 15.0)
             )
         case .medium:
             return ButtonSize(

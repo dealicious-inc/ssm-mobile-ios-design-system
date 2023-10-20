@@ -25,7 +25,7 @@ public class TestButton: UIButton {
             self.leftView.isHidden = false
             self.leftView.image = leftIconImage.withTintColor(self.buttonTitleLabel.textColor)
             
-            self.chageLayout()
+            self.changeLayout()
             
         }
     }
@@ -40,11 +40,11 @@ public class TestButton: UIButton {
             self.rightView.isHidden = false
             self.rightView.image = rightIconImage.withTintColor(self.buttonTitleLabel.textColor)
             
-            self.chageLayout()
+            self.changeLayout()
         }
     }
     
-    func chageLayout() {
+    func changeLayout() {
         if self.leftIconImage != nil {
             if self.rightIconImage == nil {
                 self.contentStackView.snp.updateConstraints {

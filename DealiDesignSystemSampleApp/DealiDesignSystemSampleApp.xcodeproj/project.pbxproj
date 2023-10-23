@@ -20,6 +20,7 @@
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
+		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 		FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC048A2A72B9E10004E5DB /* DealiDesignKit */; };
@@ -38,6 +39,7 @@
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
+		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				041ABC0B2A175E19001772F3 /* ColorViewController.swift */,
 				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
 				4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */,
+				5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
+				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,

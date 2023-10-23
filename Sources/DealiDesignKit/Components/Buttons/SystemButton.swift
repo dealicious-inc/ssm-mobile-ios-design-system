@@ -155,21 +155,11 @@ public class SystemButton: UIButton {
 
             self.setImage(leftIconImage.withTintColor(self.color.attribute.disabledTextColor), for: .disabled)
             self.semanticContentAttribute = .forceLeftToRight
-<<<<<<< Updated upstream
-        }
-        
-        if let rightIconImage = self.rightIconImage {
-            self.contentEdgeInsets = .init(top: verticalPadding, left: horizontalPadding + halfInternalSpacing, bottom: verticalPadding, right: horizontalPadding + halfInternalSpacing)
 
-            self.imageEdgeInsets = .init(top: 0.0, left: halfInternalSpacing, bottom: 0.0, right: -halfInternalSpacing)
             
-            self.titleEdgeInsets = .init(top: 0.0, left: -halfInternalSpacing, bottom: 0.0, right: halfInternalSpacing)
-
-=======
         } else if let rightIconImage = self.rightIconImage {
             self.imageEdgeInsets = .init(top: 0.0, left: internalSpacing, bottom: 0.0, right: -internalSpacing)
-            
->>>>>>> Stashed changes
+
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .normal)
             self.setImage(rightIconImage.withTintColor(self.color.attribute.defaultTextColor), for: .highlighted)
             

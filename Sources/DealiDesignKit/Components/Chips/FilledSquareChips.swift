@@ -7,85 +7,99 @@
 
 import UIKit
 
-class FilledSquareChips: NSObject {
-
-}
-
-final public class chipsFilledSquareLargePrimary01: SystemButton {
-    public init() {
-        super.init(color: ChipsFilledSquareColor.primary01, size: ChipsFilledSquareSize.large)
-        self.layer.cornerRadius = 4.0
+extension DealiControl {
+    public static func chipsFilledSquareLargePrimary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.large,
+                                      color: ChipsFilledSquareColor.primary01,
+                                      cornerRadius: .fixed(4.0))
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class chipsFilledSquareLargePrimary02: SystemButton {
-    public init() {
-        super.init(color: ChipsFilledSquareColor.primary02, size: ChipsFilledSquareSize.large)
-        self.layer.cornerRadius = 4.0
+    public static func chipsFilledSquareLargePrimary02() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.large,
+                                      color: ChipsFilledSquareColor.primary02,
+                                      cornerRadius: .fixed(4.0))
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class chipsFilledSquareLargeScondary01: SystemButton {
-    public init() {
-        super.init(color: ChipsFilledSquareColor.scondary01, size: ChipsFilledSquareSize.large)
-        self.layer.cornerRadius = 4.0
+    public static func chipsFilledSquareLargeScondary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.large,
+                                      color: ChipsFilledSquareColor.scondary01,
+                                      cornerRadius: .fixed(4.0))
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public static func chipsFilledSquareMediumPrimary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.medium,
+                                      color: ChipsFilledSquareColor.primary01,
+                                      cornerRadius: .fixed(4.0))
+    }
+    
+    public static func chipsFilledSquareMediumScondary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.medium,
+                                      color: ChipsFilledSquareColor.scondary01,
+                                      cornerRadius: .fixed(4.0))
+    }
+    
+    public static func chipsFilledSquareSmallPrimary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.small,
+                                      color: ChipsFilledSquareColor.primary01,
+                                      cornerRadius: .fixed(4.0))
+    }
+    
+    public static func chipsFilledSquareSmallScondary01() -> ClickableComponentChip {
+        return ClickableComponentChip(font: .b2sb14,
+                                      size: ChipsSquareSize.small,
+                                      color: ChipsFilledSquareColor.scondary01,
+                                      cornerRadius: .fixed(4.0))
     }
 }
 
-public enum ChipsFilledSquareColor: ButtonColorConfig {
+public enum ChipsFilledSquareColor: ClickableColorConfig {
     case primary01
     case primary02
     case scondary01
     
-    public var attribute: ButtonColor {
+    public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.primary03,
-                disabledBackgroundColor:  DealiColor.g10,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: .clear),
+                                  selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
         case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.primary03,
-                disabledBackgroundColor:  DealiColor.g10,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary01, border: .clear),
+                                  selected: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary02, border: .clear),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
         case .scondary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.g10,
-                disabledBackgroundColor:  DealiColor.g100,
-                defaultTextColor: DealiColor.g10,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100, border: .clear),
+                                  selected: ClickableColorSet(background: DealiColor.g20, text: DealiColor.g100, border: .clear),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
         }
     }
 }
 
-public enum ChipsFilledSquareSize: ButtonSizeConfig {
+public enum ChipsFilledSquareSize: ClickableSizeConfig {
     case large
+    case medium
+    case small
     
-    public var attribute: ButtonSize {
+    public var attribute: ClickableSize {
         switch self {
         case .large:
-            return ButtonSize(
-                font: UIFont.b2sb14,
-                padding: DealiButtonPadding(horizontal: 12.0, vertical: 10.0)
-            )
+            return ClickableSize(height: .large,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+        case .medium:
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+        case .small:
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
         }
         
     }

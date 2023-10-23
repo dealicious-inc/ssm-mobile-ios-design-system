@@ -40,6 +40,14 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
+        let bb = DealiControl.chipsOutlineLargePrimary01().then {
+            $0.title = "테스트22!!"
+            $0.leftImage = UIImage(named: "ic_arrow_right")
+            $0.rightImage = UIImage(named: "ic_arrow_right")
+            $0.addTarget(self, action: #selector(btnFilledLargePrimary01Pressed), for: .touchUpInside)
+        }
+        self.stackView.addArrangedSubview(bb)
+        
         let button =  TestButton(color: FilledTonalColor.primary01, size: FilledSize.large).then {
             $0.title = "disabled"
             $0.isEnabled = false
@@ -112,6 +120,10 @@ class ButtonViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func btnFilledLargePrimary01Pressed() {
+        print("테스트~~~~~~~~")
     }
     
 }

@@ -127,6 +127,7 @@ struct CheckboxPreview: PreviewProvider {
             HStack {
                 UIViewPreview {
                     let checkbox = Checkbox()
+                    checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)                    
                     return checkbox
                 }
 

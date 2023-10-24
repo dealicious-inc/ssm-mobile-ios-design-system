@@ -29,7 +29,7 @@ public class DealiButton: UIButton {
     
     public var title: String? = "" {
         didSet {
-            self.setTitle(title, for: .normal)
+            self.setAppearance()
         }
     }
     
@@ -61,11 +61,26 @@ public class DealiButton: UIButton {
         self.setAppearance()
     }
     
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if leftIconImage != nil {
+            self.semanticContentAttribute = .forceLeftToRight
+        }
+        
+        if rightIconImage != nil {
+            self.semanticContentAttribute = .forceRightToLeft
+        }
+    }
+    
+    
     func setAppearance() {
         
         self.setBackgroundColor(self.style.defaultBackgroundColor, for: .normal)
         self.setBackgroundColor(self.style.pressedBackgroundColor, for: .highlighted)
         self.setBackgroundColor(self.style.disabledBackgroundColor, for: .disabled)
+        self.setTitle(self.title, for: .normal)
+        self.titleLabel?.sizeToFit()
 
         self.layer.cornerRadius = 6.0
         self.layer.masksToBounds = true
@@ -126,18 +141,18 @@ public class DealiButton: UIButton {
     
 }
 
-extension DealiButton {
+extension UIButton {
     func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
-            UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
-            guard let context = UIGraphicsGetCurrentContext() else { return }
-            context.setFillColor(color.cgColor)
-            context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
-            
-            let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-             
-            self.setBackgroundImage(backgroundImage, for: state)
-        }
+        UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        context.setFillColor(color.cgColor)
+        context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
+        
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.setBackgroundImage(backgroundImage, for: state)
+    }
 }
 
 #if canImport(SwiftUI) && DEBUG

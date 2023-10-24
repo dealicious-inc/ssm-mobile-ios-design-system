@@ -32,7 +32,32 @@ public class DealiAlert: NSObject {
                   confirmAction: confirmAction)
     }
     
-    public class func show(title: String? = nil, message: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    // 1버튼 확인 버튼
+    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) {
+        
+        let checkBoxView = CheckboxWithText()
+        checkBoxView.do {
+            $0.title = checkButtonTitle
+            $0.font = .b1sb15
+            $0.status = .normal(isSelected: true)
+        }
+        
+        self.show(title: title,
+                  message: message,
+                  insertViewArray: [checkBoxView],
+                  cancelButtonTitle: cancelButtonTitle,
+                  confirmButtonTitle: confirmButtonTitle,
+                  closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                  cancelAndCloseOnOutsideTouch: cancelAndCloseOnOutsideTouch,
+                  alertPresentingViewController: alertPresentingViewController,
+                  cancelAction: cancelAction) {
+            guard let action = confirmAction else { return }
+            action(checkBoxView.isSelected)
+            
+        }
+    }
+    
+    public class func show(title: String? = nil, message: String, insertViewArray: [UIView]? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 4.0
@@ -44,6 +69,7 @@ public class DealiAlert: NSObject {
         let alertViewController = DealiAlertViewController()
         alertViewController.alertTitle = title
         alertViewController.alertMessage = atMessage
+        alertViewController.insertViewArray = insertViewArray
         alertViewController.cancelButtonTitle = cancelButtonTitle
         alertViewController.confirmButtonTitle = confirmButtonTitle
         alertViewController.closeAlertOnOutsideTouch = closeAlertOnOutsideTouch
@@ -74,6 +100,7 @@ final class DealiAlertViewController: UIViewController {
     
     var alertTitle: String?
     var alertMessage: NSMutableAttributedString?
+    var insertViewArray: [UIView]?
     var cancelButtonTitle: String?
     var confirmButtonTitle: String?
     var closeAlertOnOutsideTouch: Bool = false
@@ -153,7 +180,7 @@ final class DealiAlertViewController: UIViewController {
             $0.axis = .vertical
             $0.alignment = .fill
             $0.distribution = .fill
-            $0.spacing = 6.0
+            $0.spacing = 8.0
         }.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview()
             $0.width.equalToSuperview()
@@ -168,6 +195,13 @@ final class DealiAlertViewController: UIViewController {
             $0.attributedText = self.alertMessage
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+        }
+        
+        for insertView in self.insertViewArray ?? [] {
+            self.messageContentStackView.addArrangedSubview(insertView)
+            insertView.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+            }
         }
         
         let buttonStackView = UIStackView()

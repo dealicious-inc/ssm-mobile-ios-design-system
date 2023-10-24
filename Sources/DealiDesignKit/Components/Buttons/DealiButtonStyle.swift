@@ -214,5 +214,24 @@ public struct DealiButtonPadding {
     var horizontal: CGFloat = 0.0
     var vertical: CGFloat = 0.0
     var internalSpacing: CGFloat = 4.0
+    var height: CGFloat = 50.0
+    var left: CGFloat = 0.0
+    var right: CGFloat = 0.0
+    /// 버튼의 컨텐츠를 오른쪽으로 얼마나 옮길지 결정하는 값.  오른쪽에만 아이콘 있을 경우의 (rightPadding - leftPadding) 값을 할당한다.
+    var contentHorizontalOffset = 0.0
+
+    var internalSpacingList: [CGFloat] = [4.0, 8.0]
     
+    init() {
+        
+    }
+    
+    init(horizontal: CGFloat, vertical: CGFloat, height: CGFloat = 0.0, contentHorizontalOffset: CGFloat = 0.0) {
+        self.horizontal = horizontal
+        self.vertical = vertical
+        self.left = horizontal
+        self.right = horizontal
+        self.height = height
+        self.contentHorizontalOffset = contentHorizontalOffset
+    }
 }

@@ -7,114 +7,97 @@
 
 import UIKit
 
-public enum FilledColor: ButtonColorConfig {
+extension DealiControl {
+    public static func btnFilledLargePrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledSize.large,
+                                        color: ButtonFilledColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledLargeGradient() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledSize.large,
+                                        color: ButtonFilledColor.gradient,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledLargePrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledSize.large,
+                                        color: ButtonFilledColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledMediumPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledSize.medium,
+                                        color: ButtonFilledColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledMediumPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledSize.medium,
+                                        color: ButtonFilledColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledSize.small,
+                                        color: ButtonFilledColor.primary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnFilledSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledSize.small,
+                                        color: ButtonFilledColor.primary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+}
+
+public enum ButtonFilledColor: ClickableColorConfig {
     case primary01
     case primary02
+    case gradient
     
-    public var attribute: ButtonColor {
+    public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.primary01,
-                disabledBackgroundColor:  DealiColor.g40,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.primary04
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary01, text: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: DealiColor.g40, text: DealiColor.primary04))
         case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.b40,
-                disabledBackgroundColor: DealiColor.b20,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.w50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.b40, text: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: DealiColor.b20, text: DealiColor.w50))
+        case .gradient:
+            return ClickableColor(normal: ClickableColorSet(gradientBackground: DealiColor.primaryGradient, background: .clear, text: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: DealiColor.g40, text: DealiColor.primary04))
         }
     }
 }
 
-public enum FilledSize: ButtonSizeConfig {
+public enum ButtonFilledSize: ClickableSizeConfig {
     case large
     case medium
     case small
     
-    public var attribute: ButtonSize {
+    public var attribute: ClickableSize {
         switch self {
         case .large:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 15.0)
-            )
+            return ClickableSize(height: .large,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .medium:
-            return ButtonSize(
-                font: UIFont.b2sb14,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
-            )
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .small:
-            return ButtonSize(
-                font: UIFont.b4sb12,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 7.0)
-            )
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
         }
         
-    }
-}
-
-
-public class btnFilledLargePrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary01, size: FilledSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledLargePrimary02: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary02, size: FilledSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledMediumPrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary01, size: FilledSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledMediumPrimary02: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary02, size: FilledSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledSmallPrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary01, size: FilledSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledSmallPrimary02: SystemButton {
-    public init() {
-        super.init(color: FilledColor.primary02, size: FilledSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

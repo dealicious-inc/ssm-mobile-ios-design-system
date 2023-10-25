@@ -12,8 +12,9 @@ public class DealiControl {
 }
 
 final public class ClickableComponentButton: ClickableComponent {
-    init(font: UIFont, size: ClickableSizeConfig, color: ClickableColorConfig, cornerRadius: ClickableComponent.Configuration.Corner?) {
+    init(font: UIFont, size: ClickableSizeConfig, color: ClickableColorConfig, cornerRadius: ClickableComponent.Configuration.Corner?, functionName: String = #function) {
         super.init(font: font, style: .button, height: size.attribute.height, padding: size.attribute.padding, color: color.attribute, cornerRadius: cornerRadius)
+        self.title = functionName
     }
     
     required init?(coder: NSCoder) {
@@ -34,11 +35,14 @@ final public class ClickableComponentChip: ClickableComponent {
 public class ClickableComponent: UIControl {
     
     private var configuration: ClickableComponent.Configuration?
+    private var gradientBackgroundLayer: CAGradientLayer?
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
     private let titleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
+    private var currentColor: ClickableColorSet?
+    
     public var titleAlignment: NSTextAlignment = .center {
         didSet{
             self.titleLabel.textAlignment = titleAlignment
@@ -55,28 +59,34 @@ public class ClickableComponent: UIControl {
     public var leftImage: UIImage? {
         didSet {
             self.contentStackView.snp.updateConstraints {
-                if leftImage != nil {
-                    $0.left.equalToSuperview().offset(self.configuration?.padding?.left.withImage ?? 0.0)
-                } else {
-                    $0.left.equalToSuperview().offset(self.configuration?.padding?.left.normal ?? 0.0)
+                if self.configuration?.style == .chip {
+                    if leftImage != nil {
+                        $0.left.equalToSuperview().offset(self.configuration?.padding?.left.withImage ?? 0.0)
+                    } else {
+                        $0.left.equalToSuperview().offset(self.configuration?.padding?.left.normal ?? 0.0)
+                    }
                 }
             }
             self.leftImageView.image = leftImage
             self.leftImageView.isHidden = (leftImage == nil)
+            self.updateColor(color: self.currentColor)
         }
     }
     
     public var rightImage: UIImage? {
         didSet {
             self.contentStackView.snp.updateConstraints {
-                if rightImage != nil {
-                    $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.withImage ?? 0.0))
-                } else {
-                    $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.normal ?? 0.0))
+                if self.configuration?.style == .chip {
+                    if rightImage != nil {
+                        $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.withImage ?? 0.0))
+                    } else {
+                        $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.normal ?? 0.0))
+                    }
                 }
             }
             self.rightImageView.image = rightImage
             self.rightImageView.isHidden = (rightImage == nil)
+            self.updateColor(color: self.currentColor)
         }
     }
     
@@ -140,6 +150,8 @@ public class ClickableComponent: UIControl {
                 self.layer.cornerRadius = radius
             case .capsule:
                 self.layer.cornerRadius = height/2.0
+            case .none:
+                self.layer.cornerRadius = 0.0
             }
             self.clipsToBounds = true
         }
@@ -196,15 +208,8 @@ public class ClickableComponent: UIControl {
             $0.isHidden = true
         }
 
+        self.setBackgroundGradient(color: configuration.color?.normal)
         self.updateColor(color: configuration.color?.normal)
-        
-    }
-    
-    init(configuration: ClickableComponent.Configuration, cornerRadius: CGFloat? = nil) {
-        super.init(frame: .zero)
-        
-        self.configuration = configuration
-        
         
     }
     
@@ -212,14 +217,30 @@ public class ClickableComponent: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        if let gradientBackgroundLayer = self.gradientBackgroundLayer {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            gradientBackgroundLayer.frame = self.bounds
+            CATransaction.commit()
+        }
+    }
+    
     private func updateColor(color: ClickableColorSet?) {
         guard let color else { return }
+        
+        self.currentColor = color
         
         if let borderColor = color.border {
             self.layer.borderColor = borderColor.cgColor
             self.layer.borderWidth = 1.0
         }
-        
+        if color.gradientBackground != nil {
+            self.gradientBackgroundLayer?.isHidden = false
+        } else {
+            self.gradientBackgroundLayer?.isHidden = true
+        }
         self.backgroundColor = color.background
         self.titleLabel.textColor = color.text
         if let leftImage = self.leftImage {
@@ -230,6 +251,27 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    private func setBackgroundGradient(color: ClickableColorSet?) {
+        guard let gradientColors = color?.gradientBackground, gradientColors.count > 0 else { return }
+        
+        if let gradientBackgroundLayer = self.gradientBackgroundLayer {
+            gradientBackgroundLayer.removeFromSuperlayer()
+            self.gradientBackgroundLayer = nil
+        }
+        
+        let layer = CAGradientLayer()
+        layer.do {
+            $0.colors = gradientColors.map({$0.cgColor})
+            $0.locations = [0.0, 1.0]
+            $0.startPoint = CGPoint(x: 0.0, y: 1.0)
+            $0.endPoint = CGPoint(x: 1.0, y: 1.0)
+            $0.frame = bounds
+//            $0.cornerRadius = cornerRadius
+        }
+        self.layer.insertSublayer(layer, at: 0)
+        self.gradientBackgroundLayer = layer
+    }
+    
 }
 
 extension ClickableComponent {
@@ -237,6 +279,7 @@ extension ClickableComponent {
     public struct Configuration {
         
         public enum Corner {
+            case none
             case fixed(_ radius: CGFloat)
             case capsule
         }
@@ -274,18 +317,6 @@ extension ClickableComponent {
             }
         }
         
-        public struct Color {
-            var background: UIColor
-            var text: UIColor
-            var border: UIColor?
-        }
-        
-        public struct Padding {
-            var normal: CGFloat
-            var withImage: CGFloat
-            var internalSpacing: CGFloat
-        }
-        
         public var style: Style = .button
         
         public var font: UIFont?
@@ -303,6 +334,7 @@ public protocol ClickableColorConfig {
 }
 
 public struct ClickableColorSet {
+    var gradientBackground: [UIColor]?
     var background: UIColor
     var text: UIColor
     var border: UIColor?
@@ -310,7 +342,7 @@ public struct ClickableColorSet {
 
 public struct ClickableColor {
     var normal: ClickableColorSet
-    var selected: ClickableColorSet?
+    var selected: ClickableColorSet? // chip만 사용. button 없음.
     var disabled: ClickableColorSet
 }
 
@@ -334,3 +366,4 @@ public struct ClickablePadding {
     var left: ClickablePaddingSet
     var right: ClickablePaddingSet
 }
+

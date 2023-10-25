@@ -7,241 +7,202 @@
 
 import UIKit
 
-public enum FilledTonalColor: ButtonColorConfig {
+extension DealiControl {
+    public static func btnFilledTonalLargePrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledTonalSize.large,
+                                        color: ButtonFilledTonalColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalLargePrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledTonalSize.large,
+                                        color: ButtonFilledTonalColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalLargeSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledTonalSize.large,
+                                        color: ButtonFilledTonalColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalLargeSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledTonalSize.large,
+                                        color: ButtonFilledTonalColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalLargeSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonFilledTonalSize.large,
+                                        color: ButtonFilledTonalColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalMediumPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledTonalSize.medium,
+                                        color: ButtonFilledTonalColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalMediumPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledTonalSize.medium,
+                                        color: ButtonFilledTonalColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalMediumSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledTonalSize.medium,
+                                        color: ButtonFilledTonalColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalMediumSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledTonalSize.medium,
+                                        color: ButtonFilledTonalColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalMediumSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonFilledTonalSize.medium,
+                                        color: ButtonFilledTonalColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnFilledTonalSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.small,
+                                        color: ButtonFilledTonalColor.primary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnFilledTonalSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.small,
+                                        color: ButtonFilledTonalColor.primary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnFilledTonalSmallSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.small,
+                                        color: ButtonFilledTonalColor.secondary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnFilledTonalSmallSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.small,
+                                        color: ButtonFilledTonalColor.secondary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnFilledTonalSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.small,
+                                        color: ButtonFilledTonalColor.secondary03,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnRoundFilledTonalSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.roundSmall,
+                                        color: ButtonFilledTonalColor.primary01,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundFilledTonalSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.roundSmall,
+                                        color: ButtonFilledTonalColor.primary02,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundFilledTonalSmallSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary01,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundFilledTonalSmallSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary02,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundFilledTonalSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonFilledTonalSize.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary03,
+                                        cornerRadius: .capsule)
+    }
+    
+}
+
+public enum ButtonFilledTonalColor: ClickableColorConfig {
     case primary01
     case primary02
     case secondary01
     case secondary02
     case secondary03
     
-    public var attribute: ButtonColor {
+    public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.primary03,
-                disabledBackgroundColor:  DealiColor.g20,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.w20,
-                disabledBackgroundColor: DealiColor.w20,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.w50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.w20, text: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: DealiColor.w20, text: DealiColor.w50))
         case .secondary01:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.g10,
-                disabledBackgroundColor: DealiColor.g10,
-                defaultTextColor: DealiColor.g100,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .secondary02:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.g10,
-                disabledBackgroundColor: DealiColor.g10,
-                defaultTextColor: DealiColor.g80,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g80),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .secondary03:
-            return ButtonColor(
-                defaultBackgroundColor: DealiColor.g10,
-                disabledBackgroundColor: DealiColor.g10,
-                defaultTextColor: DealiColor.g70,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g70),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         }
     }
 }
 
-
-public enum FilledTonal: ButtonSizeConfig {
+public enum ButtonFilledTonalSize: ClickableSizeConfig {
     case large
     case medium
     case small
+    case roundSmall
     
-    public var attribute: ButtonSize {
+    public var attribute: ClickableSize {
         switch self {
         case .large:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-            )
+            return ClickableSize(height: .large,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .medium:
-            return ButtonSize(
-                font: UIFont.b2sb14,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
-            )
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .small:
-            return ButtonSize(
-                font: UIFont.b4sb12,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 7.0)
-            )
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+        case .roundSmall:
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
         }
         
-    }
-}
-
-final public class btnFilledTonalLargePrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledTonalColor.primary01, size: FilledTonal.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalLargePrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.primary02, size: FilledTonal.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalLargeSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary01, size: FilledTonal.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalLargeSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary02, size: FilledTonal.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalLargeSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary03, size: FilledTonal.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-final public class btnFilledTonalMediumPrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledTonalColor.primary01, size: FilledTonal.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalMediumPrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.primary02, size: FilledTonal.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalMediumSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary01, size: FilledTonal.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalMediumSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary02, size: FilledTonal.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalMediumSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary03, size: FilledTonal.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalSmallPrimary01: SystemButton {
-    public init() {
-        super.init(color: FilledTonalColor.primary01, size: FilledTonal.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalSmallPrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.primary02, size: FilledTonal.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalSmallSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary01, size: FilledTonal.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalSmallSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary02, size: FilledTonal.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnFilledTonalSmallSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: FilledTonalColor.secondary03, size: FilledTonal.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -66,17 +66,17 @@ public enum ChipsFilledSquareColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: .clear),
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01),
                                   selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
-                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .primary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary01, border: .clear),
-                                  selected: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary02, border: .clear),
-                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary01),
+                                  selected: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary02),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .scondary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100, border: .clear),
-                                  selected: ClickableColorSet(background: DealiColor.g20, text: DealiColor.g100, border: .clear),
-                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100),
+                                  selected: ClickableColorSet(background: DealiColor.g20, text: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         }
     }
 }

@@ -7,7 +7,157 @@
 
 import UIKit
 
-public enum TextColor: ButtonColorConfig {
+extension DealiControl {
+    public static func btnTextLargePrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargePrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargeSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargeSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargeSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargeSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.secondary04,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextLargeSecondary05() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonTextSize.large,
+                                        color: ButtonTextColor.secondary05,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.secondary04,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextMediumSecondary05() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2r14,
+                                        size: ButtonTextSize.medium,
+                                        color: ButtonTextColor.secondary05,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnTextSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.primary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.primary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.secondary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.secondary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.secondary03,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.secondary04,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnTextSmallSecondary05() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3r13,
+                                        size: ButtonTextSize.small,
+                                        color: ButtonTextColor.secondary05,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+}
+
+public enum ButtonTextColor: ClickableColorConfig {
     case primary01
     case primary02
     case secondary01
@@ -16,317 +166,53 @@ public enum TextColor: ButtonColorConfig {
     case secondary04
     case secondary05
     
-    public var attribute: ButtonColor {
+    public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor:  .clear,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.w50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.w50))
         case .secondary01:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.secondary01,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.secondary01),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         case .secondary02:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g100,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         case .secondary03:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g80,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g80),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         case .secondary04:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g70,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g70),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         case .secondary05:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g60,
-                disabledTextColor: DealiColor.g50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g60),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50))
         }
     }
 }
 
-public enum TextSize: ButtonSizeConfig {
+public enum ButtonTextSize: ClickableSizeConfig {
     case large
     case medium
     case small
     
-    public var attribute: ButtonSize {
+    public var attribute: ClickableSize {
         switch self {
         case .large:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 15.0)
-            )
+            return ClickableSize(height: .large,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
         case .medium:
-            return ButtonSize(
-                font: UIFont.b2r14,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 13.0)
-            )
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
         case .small:
-            return ButtonSize(
-                font: UIFont.b3r13,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 7.0)
-            )
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
         }
         
-    }
-}
-
-final public class btnTextLargePrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.primary01, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargePrimary02: SystemButton {
-
-    public init() {
-        super.init(color: TextColor.primary02, size: TextSize.large)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargeSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary01, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargeSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary02, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargeSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary03, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargeSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary04, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextLargeSecondary05: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary05, size: TextSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-final public class btnTextMediumPrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.primary01, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumPrimary02: SystemButton {
-
-    public init() {
-        super.init(color: TextColor.primary02, size: TextSize.medium)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary01, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary02, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary03, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary04, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextMediumSecondary05: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary05, size: TextSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-final public class btnTextSmallPrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.primary01, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallPrimary02: SystemButton {
-
-    public init() {
-        super.init(color: TextColor.primary02, size: TextSize.small)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary01, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary02, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary03, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary04, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnTextSmallSecondary05: SystemButton {
-    
-    public init() {
-        super.init(color: TextColor.secondary05, size: TextSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

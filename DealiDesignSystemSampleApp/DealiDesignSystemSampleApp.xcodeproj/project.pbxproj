@@ -173,6 +173,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
+				ORGANIZATIONNAME = "Dealicious Inc";
 				TargetAttributes = {
 					042EA8A42A14C7D500370706 = {
 						CreatedOnToolsVersion = 14.0;

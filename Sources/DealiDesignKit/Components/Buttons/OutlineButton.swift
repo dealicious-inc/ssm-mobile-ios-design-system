@@ -7,296 +7,234 @@
 
 import UIKit
 
-public enum OutlineColor: ButtonColorConfig {
+extension DealiControl {
+    public static func btnOutlineLargePrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineLargePrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineLargeSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineLargeSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineLargeSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineLargeSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b1sb15,
+                                        size: ButtonOutlineSize.large,
+                                        color: ButtonOutlineColor.secondary04,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.primary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.primary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.secondary01,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.secondary02,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.secondary03,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineMediumSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b2sb14,
+                                        size: ButtonOutlineSize.medium,
+                                        color: ButtonOutlineColor.secondary04,
+                                        cornerRadius: .fixed(6.0))
+    }
+    
+    public static func btnOutlineSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.primary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnOutlineSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.primary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnOutlineSmallSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.secondary01,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnOutlineSmallSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.secondary02,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnOutlineSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.secondary03,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnOutlineSmallSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.small,
+                                        color: ButtonOutlineColor.secondary04,
+                                        cornerRadius: .fixed(4.0))
+    }
+    
+    public static func btnRoundOutlineSmallPrimary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.primary01,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundOutlineSmallPrimary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.primary02,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundOutlineSmallSecondary01() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.secondary01,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundOutlineSmallSecondary02() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.secondary02,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundOutlineSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.secondary03,
+                                        cornerRadius: .capsule)
+    }
+    
+    public static func btnRoundOutlineSmallSecondary04() -> ClickableComponentButton {
+        return ClickableComponentButton(font: .b3sb13,
+                                        size: ButtonOutlineSize.roundSmall,
+                                        color: ButtonOutlineColor.secondary04,
+                                        cornerRadius: .capsule)
+    }
+
+}
+
+public enum ButtonOutlineColor: ClickableColorConfig {
     case primary01
     case primary02
     case secondary01
     case secondary02
     case secondary03
     case secondary04
-
-    public var attribute: ButtonColor {
+    
+    public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor:  .clear,
-                defaultTextColor: DealiColor.primary01,
-                disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.primary01,
-                disabledBorderColor: DealiColor.g30
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.primary01, border: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
         case .primary02:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.primary04,
-                disabledTextColor: DealiColor.w50,
-                defaultBorderColor: DealiColor.primary04,
-                disabledBorderColor: DealiColor.w50
-            )
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.primary04, border: DealiColor.primary04),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.w50, border: DealiColor.w50))
         case .secondary01:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.secondary01,
-                disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.secondary01,
-                disabledBorderColor: DealiColor.g30
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.secondary01, border: DealiColor.secondary01),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
         case .secondary02:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g100,
-                disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g100,
-                disabledBorderColor: DealiColor.g30
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
         case .secondary03:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g100,
-                disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g30,
-                disabledBorderColor: DealiColor.g20
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g30),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
         case .secondary04:
-            return ButtonColor(
-                defaultBackgroundColor: .clear,
-                disabledBackgroundColor: .clear,
-                defaultTextColor: DealiColor.g80,
-                disabledTextColor: DealiColor.g50,
-                defaultBorderColor: DealiColor.g30,
-                disabledBorderColor: DealiColor.g20
-            )
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g80, border: DealiColor.g30),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
         }
     }
 }
 
-public enum OutlineSize: ButtonSizeConfig {
+public enum ButtonOutlineSize: ClickableSizeConfig {
     case large
     case medium
     case small
+    case roundSmall
     
-    public var attribute: ButtonSize {
+    public var attribute: ClickableSize {
         switch self {
         case .large:
-            return ButtonSize(
-                font: UIFont.b1sb15,
-                padding: DealiButtonPadding(horizontal: 40.0, vertical: 15.0)
-            )
+            return ClickableSize(height: .large,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .medium:
-            return ButtonSize(
-                font: UIFont.b2sb14,
-                padding: DealiButtonPadding(horizontal: 20.0, vertical: 13.0)
-            )
+            return ClickableSize(height: .medium,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
         case .small:
-            return ButtonSize(
-                font: UIFont.b3sb13,
-                padding: DealiButtonPadding(horizontal: 16.0, vertical: 7.0)
-            )
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+        case .roundSmall:
+            return ClickableSize(height: .small,
+                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
         }
+        
     }
 }
-
-final public class btnOutlineLargePrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary01, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineLargePrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary02, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineLargeSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary01, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineLargeSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary02, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineLargeSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary03, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineLargeSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary04, size: OutlineSize.large)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-final public class btnOutlineMediumPrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary01, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineMediumPrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary02, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineMediumSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary01, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineMediumSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary02, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineMediumSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary03, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineMediumSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary04, size: OutlineSize.medium)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallPrimary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary01, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallPrimary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.primary02, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallSecondary01: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary01, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallSecondary02: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary02, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallSecondary03: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary03, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class btnOutlineSmallSecondary04: SystemButton {
-    
-    public init() {
-        super.init(color: OutlineColor.secondary04, size: OutlineSize.small)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-

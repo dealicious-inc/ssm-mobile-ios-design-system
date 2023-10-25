@@ -9,52 +9,38 @@ import UIKit
 
 extension DealiControl {
     public static func chipsFilledSquareLargePrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.large,
-                                      color: ChipsFilledSquareColor.primary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+                                      color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareLargePrimary02() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.large,
-                                      color: ChipsFilledSquareColor.primary02,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+                                      color: ChipsFilledSquareColor.primary02)
     }
     
     public static func chipsFilledSquareLargeScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.large,
-                                      color: ChipsFilledSquareColor.scondary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+                                      color: ChipsFilledSquareColor.scondary01)
     }
     
     public static func chipsFilledSquareMediumPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.medium,
-                                      color: ChipsFilledSquareColor.primary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.medium,
+                                      color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareMediumScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.medium,
-                                      color: ChipsFilledSquareColor.scondary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.medium,
+                                      color: ChipsFilledSquareColor.scondary01)
     }
     
     public static func chipsFilledSquareSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.small,
-                                      color: ChipsFilledSquareColor.primary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.small,
+                                      color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareSmallScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsSquareSize.small,
-                                      color: ChipsFilledSquareColor.scondary01,
-                                      cornerRadius: .fixed(4.0))
+        return ClickableComponentChip(settings: ChipsFilledSquareSettings.small,
+                                      color: ChipsFilledSquareColor.scondary01)
     }
 }
 
@@ -81,26 +67,38 @@ public enum ChipsFilledSquareColor: ClickableColorConfig {
     }
 }
 
-public enum ChipsFilledSquareSize: ClickableSizeConfig {
+public enum ChipsFilledSquareSettings: ClickableSettingsConfig {
     case large
     case medium
     case small
     
-    public var attribute: ClickableSize {
+    public var font: UIFont {
         switch self {
         case .large:
-            return ClickableSize(height: .large,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .medium:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .small:
-            return ClickableSize(height: .small,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+            return .b2sb14
         }
-        
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var cornerRadius: ClickableComponent.Configuration.Corner {
+        return .fixed(4.0)
+    }
+    
+    public var padding: ClickableComponent.Configuration.Padding {
+        return .square
     }
 }

@@ -9,150 +9,108 @@ import UIKit
 
 extension DealiControl {
     public static func btnTextLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.primary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.primary01)
     }
     
     public static func btnTextLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.primary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.primary02)
     }
     
     public static func btnTextLargeSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.secondary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.secondary01)
     }
     
     public static func btnTextLargeSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.secondary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.secondary02)
     }
     
     public static func btnTextLargeSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.secondary03,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.secondary03)
     }
     
     public static func btnTextLargeSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.secondary04,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.secondary04)
     }
     
     public static func btnTextLargeSecondary05() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonTextSize.large,
-                                        color: ButtonTextColor.secondary05,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.large,
+                                        color: ButtonTextColor.secondary05)
     }
     
     public static func btnTextMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.primary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.primary01)
     }
     
     public static func btnTextMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.primary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.primary02)
     }
     
     public static func btnTextMediumSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.secondary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.secondary01)
     }
     
     public static func btnTextMediumSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.secondary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.secondary02)
     }
     
     public static func btnTextMediumSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.secondary03,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.secondary03)
     }
     
     public static func btnTextMediumSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.secondary04,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.secondary04)
     }
     
     public static func btnTextMediumSecondary05() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2r14,
-                                        size: ButtonTextSize.medium,
-                                        color: ButtonTextColor.secondary05,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.medium,
+                                        color: ButtonTextColor.secondary05)
     }
     
     public static func btnTextSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.primary01,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.primary01)
     }
     
     public static func btnTextSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.primary02,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.primary02)
     }
     
     public static func btnTextSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.secondary01,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.secondary01)
     }
     
     public static func btnTextSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.secondary02,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.secondary02)
     }
     
     public static func btnTextSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.secondary03,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.secondary03)
     }
     
     public static func btnTextSmallSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.secondary04,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.secondary04)
     }
     
     public static func btnTextSmallSecondary05() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3r13,
-                                        size: ButtonTextSize.small,
-                                        color: ButtonTextColor.secondary05,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonTextSettings.small,
+                                        color: ButtonTextColor.secondary05)
     }
     
 }
@@ -193,26 +151,45 @@ public enum ButtonTextColor: ClickableColorConfig {
     }
 }
 
-public enum ButtonTextSize: ClickableSizeConfig {
+public enum ButtonTextSettings: ClickableSettingsConfig {
     case large
     case medium
     case small
     
-    public var attribute: ClickableSize {
+    public var font: UIFont {
         switch self {
         case .large:
-            return ClickableSize(height: .large,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
+            return .b1sb15
         case .medium:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
+            return .b2r14
         case .small:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)))
+            return .b3r13
         }
-        
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var cornerRadius: ClickableComponent.Configuration.Corner {
+        switch self {
+        case .large:
+            return .fixed(6.0)
+        case .medium:
+            return .fixed(6.0)
+        case .small:
+            return .fixed(4.0)
+        }
+    }
+    
+    public var padding: ClickableComponent.Configuration.Padding {
+        return .text
     }
 }

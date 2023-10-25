@@ -18,6 +18,19 @@ class ButtonViewController: UIViewController {
         
         self.view.backgroundColor = .systemGray2
         
+//        UISwitch* switchView = [[UISwitch alloc] init];
+//        UIBarButtonItem* switchItem = [[UIBarButtonItem alloc] initWithCustomView:switchView];
+//        self.navigationItem.rightBarButtonItem = switchItem;
+        
+        let switchView = UISwitch()
+        let switchItem = UIBarButtonItem(customView: switchView)
+        self.navigationItem.rightBarButtonItem = switchItem
+        switchView.do {
+            $0.onTintColor = DealiColor.primary01
+            $0.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
+        }
+        
+        
         let scrollView = UIScrollView()
         
         self.view.addSubview(scrollView)
@@ -132,6 +145,15 @@ class ButtonViewController: UIViewController {
     
     @objc func btnFilledLargePrimary01Pressed() {
         print("테스트~~~~~~~~")
+    }
+    
+    @objc func switchValueChanged(_ swc: UISwitch) {
+        self.stackView.subviews.forEach { view in
+            if let b = view as? ClickableComponentButton {
+                b.isEnabled = !swc.isOn
+            }
+        }
+        
     }
     
 }

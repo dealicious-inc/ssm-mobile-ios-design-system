@@ -12,8 +12,8 @@ public class DealiControl {
 }
 
 final public class ClickableComponentButton: ClickableComponent {
-    init(font: UIFont, size: ClickableSizeConfig, color: ClickableColorConfig, cornerRadius: ClickableComponent.Configuration.Corner?, functionName: String = #function) {
-        super.init(font: font, style: .button, height: size.attribute.height, padding: size.attribute.padding, color: color.attribute, cornerRadius: cornerRadius)
+    init(settings: ClickableSettingsConfig, color: ClickableColorConfig, functionName: String = #function) {
+        super.init(style: .button, settings: settings, color: color.attribute)
         self.title = functionName
     }
     
@@ -23,8 +23,8 @@ final public class ClickableComponentButton: ClickableComponent {
 }
 
 final public class ClickableComponentChip: ClickableComponent {
-    init(font: UIFont, size: ClickableSizeConfig, color: ClickableColorConfig, cornerRadius: ClickableComponent.Configuration.Corner?) {
-        super.init(font: font, style: .chip, height: size.attribute.height, padding: size.attribute.padding, color: color.attribute, cornerRadius: cornerRadius)
+    init(settings: ClickableSettingsConfig, color: ClickableColorConfig) {
+        super.init(style: .chip, settings: settings, color: color.attribute)
     }
     
     required init?(coder: NSCoder) {
@@ -128,12 +128,12 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    init(font: UIFont, style: ClickableComponent.Configuration.Style, height: ClickableComponent.Configuration.Height, padding: ClickablePadding, color: ClickableColor, cornerRadius: ClickableComponent.Configuration.Corner?) {
+    init(style: ClickableComponent.Configuration.Style, settings: ClickableSettingsConfig, color: ClickableColor) {
         super.init(frame: .zero)
         var configuration = ClickableComponent.Configuration()
         configuration.style = style
-        configuration.height = height
-        configuration.padding = padding
+        configuration.height = settings.height
+        configuration.padding = settings.padding.value(with: settings.height, style: style)
         configuration.color = color
         self.configuration = configuration
         
@@ -144,17 +144,17 @@ public class ClickableComponent: UIControl {
             height = configuration.height?.chipHeight ?? 0.0
         }
         
-        if let cornerRadius {
-            switch cornerRadius {
-            case .fixed(let radius):
-                self.layer.cornerRadius = radius
-            case .capsule:
-                self.layer.cornerRadius = height/2.0
-            case .none:
-                self.layer.cornerRadius = 0.0
-            }
+        switch settings.cornerRadius {
+        case .fixed(let radius):
+            self.layer.cornerRadius = radius
             self.clipsToBounds = true
+        case .capsule:
+            self.layer.cornerRadius = height/2.0
+            self.clipsToBounds = true
+        case .none:
+            self.layer.cornerRadius = 0.0
         }
+        
         
         self.addSubview(self.highlightView)
         self.highlightView.then {
@@ -193,7 +193,7 @@ public class ClickableComponent: UIControl {
         
         self.contentStackView.addArrangedSubview(self.titleLabel)
         self.titleLabel.do {
-            $0.font = font
+            $0.font = settings.font
             $0.isHidden = true
             if configuration.style == .button {
                 $0.textAlignment = .center
@@ -317,6 +317,80 @@ extension ClickableComponent {
             }
         }
         
+        public enum Padding {
+            case square
+            case raund
+            case text
+            
+            public func value(with height: ClickableComponent.Configuration.Height, style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch height {
+                case .large:
+                    return self.largePadding(with: style)
+                case .medium:
+                    return self.mediumPadding(with: style)
+                case .small:
+                    return self.smallPadding(with: style)
+                }
+            }
+            
+            private func largePadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    if style == .button {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
+                    } else {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    }
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+            
+            private func mediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    if style == .button {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
+                    } else {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    }
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+            
+            private func smallPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
+                case .raund:
+                    if style == .button {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    } else {
+                        return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                                right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
+                    }
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+        }
+
         public var style: Style = .button
         
         public var font: UIFont?
@@ -346,15 +420,12 @@ public struct ClickableColor {
     var disabled: ClickableColorSet
 }
 
-public protocol ClickableSizeConfig {
-    var attribute: ClickableSize { get }
+public protocol ClickableSettingsConfig {
+    var font: UIFont { get }
+    var height: ClickableComponent.Configuration.Height { get }
+    var cornerRadius: ClickableComponent.Configuration.Corner { get }
+    var padding: ClickableComponent.Configuration.Padding { get }
 }
-
-public struct ClickableSize {
-    var height: ClickableComponent.Configuration.Height
-    var padding: ClickablePadding
-}
-
 
 public struct ClickablePaddingSet {
     var normal: CGFloat
@@ -366,4 +437,3 @@ public struct ClickablePadding {
     var left: ClickablePaddingSet
     var right: ClickablePaddingSet
 }
-

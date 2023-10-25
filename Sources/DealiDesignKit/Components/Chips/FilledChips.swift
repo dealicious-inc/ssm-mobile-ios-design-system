@@ -9,24 +9,18 @@ import UIKit
 
 extension DealiControl {
     public static func chipsFilledLargePrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsFilledSize.large,
-                                      color: ChipsFilledColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsFilledSettings.large,
+                                      color: ChipsFilledColor.primary01)
     }
     
     public static func chipsFilledMediumPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsFilledSize.medium,
-                                      color: ChipsFilledColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsFilledSettings.medium,
+                                      color: ChipsFilledColor.primary01)
     }
     
     public static func chipsFilledSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsFilledSize.small,
-                                      color: ChipsFilledColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsFilledSettings.small,
+                                      color: ChipsFilledColor.primary01)
     }
 }
 
@@ -43,26 +37,38 @@ public enum ChipsFilledColor: ClickableColorConfig {
     }
 }
 
-public enum ChipsFilledSize: ClickableSizeConfig {
+public enum ChipsFilledSettings: ClickableSettingsConfig {
     case large
     case medium
     case small
     
-    public var attribute: ClickableSize {
+    public var font: UIFont {
         switch self {
         case .large:
-            return ClickableSize(height: .large,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .medium:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .small:
-            return ClickableSize(height: .small,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+            return .b2sb14
         }
-        
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var cornerRadius: ClickableComponent.Configuration.Corner {
+        return .capsule
+    }
+    
+    public var padding: ClickableComponent.Configuration.Padding {
+        return .raund
     }
 }

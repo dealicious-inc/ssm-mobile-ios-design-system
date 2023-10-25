@@ -9,24 +9,18 @@ import UIKit
 
 extension DealiControl {
     public static func chipsOutlineLargePrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsOutlineSize.large,
-                                      color: ChipsOutlineColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsOutlineSettings.large,
+                                      color: ChipsOutlineColor.primary01)
     }
     
     public static func chipsOutlineMediumPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsOutlineSize.medium,
-                                      color: ChipsOutlineColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsOutlineSettings.medium,
+                                      color: ChipsOutlineColor.primary01)
     }
     
     public static func chipsOutlineSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(font: .b2sb14,
-                                      size: ChipsOutlineSize.medium,
-                                      color: ChipsOutlineColor.primary01,
-                                      cornerRadius: .capsule)
+        return ClickableComponentChip(settings: ChipsOutlineSettings.small,
+                                      color: ChipsOutlineColor.primary01)
     }
 }
 
@@ -43,26 +37,40 @@ public enum ChipsOutlineColor: ClickableColorConfig {
     }
 }
 
-public enum ChipsOutlineSize: ClickableSizeConfig {
+
+public enum ChipsOutlineSettings: ClickableSettingsConfig {
     case large
     case medium
     case small
     
-    public var attribute: ClickableSize {
+    public var font: UIFont {
         switch self {
         case .large:
-            return ClickableSize(height: .large,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .medium:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .small:
-            return ClickableSize(height: .small,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+            return .b2sb14
         }
-        
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var cornerRadius: ClickableComponent.Configuration.Corner {
+        return .capsule
+    }
+    
+    public var padding: ClickableComponent.Configuration.Padding {
+        return .raund
     }
 }
+

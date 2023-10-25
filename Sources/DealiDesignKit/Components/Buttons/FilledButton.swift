@@ -9,52 +9,38 @@ import UIKit
 
 extension DealiControl {
     public static func btnFilledLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonFilledSize.large,
-                                        color: ButtonFilledColor.primary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+                                        color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledLargeGradient() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonFilledSize.large,
-                                        color: ButtonFilledColor.gradient,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+                                        color: ButtonFilledColor.gradient)
     }
     
     public static func btnFilledLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b1sb15,
-                                        size: ButtonFilledSize.large,
-                                        color: ButtonFilledColor.primary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+                                        color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2sb14,
-                                        size: ButtonFilledSize.medium,
-                                        color: ButtonFilledColor.primary01,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.medium,
+                                        color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b2sb14,
-                                        size: ButtonFilledSize.medium,
-                                        color: ButtonFilledColor.primary02,
-                                        cornerRadius: .fixed(6.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.medium,
+                                        color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3sb13,
-                                        size: ButtonFilledSize.small,
-                                        color: ButtonFilledColor.primary01,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.small,
+                                        color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(font: .b3sb13,
-                                        size: ButtonFilledSize.small,
-                                        color: ButtonFilledColor.primary02,
-                                        cornerRadius: .fixed(4.0))
+        return ClickableComponentButton(settings: ButtonFilledSettings.small,
+                                        color: ButtonFilledColor.primary02)
     }
 }
 
@@ -78,26 +64,45 @@ public enum ButtonFilledColor: ClickableColorConfig {
     }
 }
 
-public enum ButtonFilledSize: ClickableSizeConfig {
+public enum ButtonFilledSettings: ClickableSettingsConfig {
     case large
     case medium
     case small
     
-    public var attribute: ClickableSize {
+    public var font: UIFont {
         switch self {
         case .large:
-            return ClickableSize(height: .large,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
+            return .b1sb15
         case .medium:
-            return ClickableSize(height: .medium,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)))
+            return .b2sb14
         case .small:
-            return ClickableSize(height: .small,
-                                 padding: ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                           right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)))
+            return .b3sb13
         }
-        
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var cornerRadius: ClickableComponent.Configuration.Corner {
+        switch self {
+        case .large:
+            return .fixed(6.0)
+        case .medium:
+            return .fixed(6.0)
+        case .small:
+            return .fixed(4.0)
+        }
+    }
+    
+    public var padding: ClickableComponent.Configuration.Padding {
+        return .square
     }
 }

@@ -9,37 +9,37 @@ import UIKit
 
 extension DealiControl {
     public static func btnFilledLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+        return ClickableComponentButton(settings: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledLargeGradient() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+        return ClickableComponentButton(settings: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.gradient)
     }
     
     public static func btnFilledLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.large,
+        return ClickableComponentButton(settings: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.medium,
+        return ClickableComponentButton(settings: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.medium,
+        return ClickableComponentButton(settings: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.small,
+        return ClickableComponentButton(settings: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledSettings.small,
+        return ClickableComponentButton(settings: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary02)
     }
 }
@@ -64,7 +64,7 @@ public enum ButtonFilledColor: ClickableColorConfig {
     }
 }
 
-public enum ButtonFilledSettings: ClickableSettingsConfig {
+public enum ButtonFilledConfig: ClickableConfig {
     case large
     case medium
     case small

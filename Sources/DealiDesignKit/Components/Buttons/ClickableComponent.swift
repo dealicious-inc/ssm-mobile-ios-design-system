@@ -12,7 +12,7 @@ public class DealiControl {
 }
 
 final public class ClickableComponentButton: ClickableComponent {
-    init(settings: ClickableSettingsConfig, color: ClickableColorConfig, functionName: String = #function) {
+    init(settings: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .button, settings: settings, color: color.attribute)
         self.title = functionName
     }
@@ -23,7 +23,7 @@ final public class ClickableComponentButton: ClickableComponent {
 }
 
 final public class ClickableComponentChip: ClickableComponent {
-    init(settings: ClickableSettingsConfig, color: ClickableColorConfig) {
+    init(settings: ClickableConfig, color: ClickableColorConfig) {
         super.init(style: .chip, settings: settings, color: color.attribute)
     }
     
@@ -128,7 +128,7 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    init(style: ClickableComponent.Configuration.Style, settings: ClickableSettingsConfig, color: ClickableColor) {
+    init(style: ClickableComponent.Configuration.Style, settings: ClickableConfig, color: ClickableColor) {
         super.init(frame: .zero)
         var configuration = ClickableComponent.Configuration()
         configuration.style = style
@@ -420,7 +420,7 @@ public struct ClickableColor {
     var disabled: ClickableColorSet
 }
 
-public protocol ClickableSettingsConfig {
+public protocol ClickableConfig {
     var font: UIFont { get }
     var height: ClickableComponent.Configuration.Height { get }
     var cornerRadius: ClickableComponent.Configuration.Corner { get }

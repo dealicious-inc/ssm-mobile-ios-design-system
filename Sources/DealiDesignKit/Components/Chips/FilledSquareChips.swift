@@ -9,37 +9,37 @@ import UIKit
 
 extension DealiControl {
     public static func chipsFilledSquareLargePrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareLargePrimary02() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary02)
     }
     
     public static func chipsFilledSquareLargeScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.large,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
     public static func chipsFilledSquareMediumPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.medium,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareMediumScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.medium,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
     public static func chipsFilledSquareSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.small,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
     public static func chipsFilledSquareSmallScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsFilledSquareSettings.small,
+        return ClickableComponentChip(settings: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.scondary01)
     }
 }
@@ -67,7 +67,7 @@ public enum ChipsFilledSquareColor: ClickableColorConfig {
     }
 }
 
-public enum ChipsFilledSquareSettings: ClickableSettingsConfig {
+public enum ChipsFilledSquareConfig: ClickableConfig {
     case large
     case medium
     case small

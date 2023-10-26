@@ -9,122 +9,122 @@ import UIKit
 
 extension DealiControl {
     public static func btnOutlineLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.primary01)
     }
     
     public static func btnOutlineLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.primary02)
     }
     
     public static func btnOutlineLargeSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnOutlineLargeSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary02)
     }
     
     public static func btnOutlineLargeSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineLargeSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.large,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary04)
     }
     
     public static func btnOutlineMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.primary01)
     }
     
     public static func btnOutlineMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.primary02)
     }
     
     public static func btnOutlineMediumSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnOutlineMediumSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary02)
     }
     
     public static func btnOutlineMediumSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineMediumSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.medium,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary04)
     }
     
     public static func btnOutlineSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.primary01)
     }
     
     public static func btnOutlineSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.primary02)
     }
     
     public static func btnOutlineSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnOutlineSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary02)
     }
     
     public static func btnOutlineSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineSmallSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.small,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary04)
     }
     
     public static func btnRoundOutlineSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary01)
     }
     
     public static func btnRoundOutlineSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary02)
     }
     
     public static func btnRoundOutlineSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnRoundOutlineSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary02)
     }
     
     public static func btnRoundOutlineSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnRoundOutlineSmallSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonOutlineSettings.roundSmall,
+        return ClickableComponentButton(settings: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary04)
     }
 
@@ -162,7 +162,7 @@ public enum ButtonOutlineColor: ClickableColorConfig {
     }
 }
 
-public enum ButtonOutlineSettings: ClickableSettingsConfig {
+public enum ButtonOutlineConfig: ClickableConfig {
     case large
     case medium
     case small

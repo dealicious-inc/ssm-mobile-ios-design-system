@@ -47,6 +47,7 @@ public class ClickableComponent: UIControl {
     private let titleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
+    private let singleImageView = UIImageView()
     private var currentColor: ClickableColorSet?
     
     public var titleAlignment: NSTextAlignment = .center {
@@ -62,6 +63,50 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
+    public var singleImage: UIImage? {
+        didSet {
+            guard let image = singleImage else { return }
+            
+            var singleImagePadding: CGFloat {
+                switch self.configuration?.height {
+                case .large:
+                    if self.configuration?.cornerRadius.isCapsule == true {
+                        return 16.0
+                    } else {
+                        return 16.0
+                    }
+                case .medium:
+                    if self.configuration?.cornerRadius.isCapsule == true {
+                        return 12.0
+                    } else {
+                        return 12.0
+                    }
+                case .small:
+                    if self.configuration?.cornerRadius.isCapsule == true {
+                        return 8.0
+                    } else {
+                        return 8.0
+                    }
+                case .none:
+                    return 0.0
+                }
+            }
+            
+            self.contentStackView.removeFromSuperview()
+            self.singleImageView.removeFromSuperview()
+            self.addSubview(self.singleImageView)
+            self.singleImageView.then {
+                $0.image = image
+            }.snp.makeConstraints {
+                $0.left.right.equalToSuperview().inset(singleImagePadding)
+                $0.centerY.equalToSuperview()
+            }
+            self.updateColor(color: self.currentColor)
+        }
+    }
+    
+    /// 왼쪽 이미지(텍스트 포함)
     public var leftImage: UIImage? {
         didSet {
             self.contentStackView.snp.updateConstraints {
@@ -80,6 +125,7 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    /// 오른쪽 이미지(텍스트 포함)
     public var rightImage: UIImage? {
         didSet {
             self.contentStackView.snp.updateConstraints {
@@ -152,6 +198,7 @@ public class ClickableComponent: UIControl {
         configuration.padding = config.padding.value(with: config.height, style: style)
         configuration.color = color
         configuration.font = config.font
+        configuration.cornerRadius = config.cornerRadius
         self.configuration = configuration
         
         var height: CGFloat = 0.0
@@ -248,23 +295,28 @@ public class ClickableComponent: UIControl {
         
         self.currentColor = color
         
-        if let borderColor = color.border {
-            self.layer.borderColor = borderColor.cgColor
-            self.layer.borderWidth = 1.0
-        }
-        if color.gradientBackground != nil {
-            self.gradientBackgroundLayer?.isHidden = false
+        if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
+            self.singleImageView.image = singleImage.withTintColor(color.text)
         } else {
-            self.gradientBackgroundLayer?.isHidden = true
+            if let borderColor = color.border {
+                self.layer.borderColor = borderColor.cgColor
+                self.layer.borderWidth = 1.0
+            }
+            if color.gradientBackground != nil {
+                self.gradientBackgroundLayer?.isHidden = false
+            } else {
+                self.gradientBackgroundLayer?.isHidden = true
+            }
+            self.backgroundColor = color.background
+            self.titleLabel.textColor = color.text
+            if let leftImage = self.leftImage {
+                self.leftImageView.image = leftImage.withTintColor(color.text)
+            }
+            if let rightImage = self.rightImage {
+                self.rightImageView.image = rightImage.withTintColor(color.text)
+            }
         }
-        self.backgroundColor = color.background
-        self.titleLabel.textColor = color.text
-        if let leftImage = self.leftImage {
-            self.leftImageView.image = leftImage.withTintColor(color.text)
-        }
-        if let rightImage = self.rightImage {
-            self.rightImageView.image = rightImage.withTintColor(color.text)
-        }
+        
     }
     
     func updateHorizontalOffset() {
@@ -314,6 +366,14 @@ extension ClickableComponent {
             case none
             case fixed(_ radius: CGFloat)
             case capsule
+            var isCapsule: Bool {
+                switch self {
+                case .capsule:
+                    return true
+                default:
+                    return false
+                }
+            }
         }
         
         public enum Style {
@@ -428,9 +488,9 @@ extension ClickableComponent {
         public var font: UIFont?
         
         public var height: Height?
-  
         public var color: ClickableColor?
         public var padding: ClickablePadding?
+        public var cornerRadius: ClickableComponent.Configuration.Corner = .none
     }
     
 }

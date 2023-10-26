@@ -9,17 +9,17 @@ import UIKit
 
 extension DealiControl {
     public static func chipsSquareLargePrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsSquareConfig.large,
+        return ClickableComponentChip(config: ChipsSquareConfig.large,
                                       color: ChipsSquareColor.primary01)
     }
     
     public static func chipsSquareMediumPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsSquareConfig.medium,
+        return ClickableComponentChip(config: ChipsSquareConfig.medium,
                                       color: ChipsSquareColor.primary01)
     }
     
     public static func chipsSquareSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(settings: ChipsSquareConfig.small,
+        return ClickableComponentChip(config: ChipsSquareConfig.small,
                                       color: ChipsSquareColor.primary01)
     }
 }

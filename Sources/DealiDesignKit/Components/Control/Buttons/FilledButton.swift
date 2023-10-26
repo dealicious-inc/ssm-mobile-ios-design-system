@@ -9,37 +9,37 @@ import UIKit
 
 extension DealiControl {
     public static func btnFilledLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.large,
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledLargeGradient() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.large,
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.gradient)
     }
     
     public static func btnFilledLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.large,
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.small,
+        return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary01)
     }
     
     public static func btnFilledSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledConfig.small,
+        return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary02)
     }
 }

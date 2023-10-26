@@ -9,102 +9,102 @@ import UIKit
 
 extension DealiControl {
     public static func btnFilledTonalLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.large,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
     public static func btnFilledTonalLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.large,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
     public static func btnFilledTonalLargeSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.large,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
     public static func btnFilledTonalLargeSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.large,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
     public static func btnFilledTonalLargeSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.large,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
     public static func btnFilledTonalMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
     public static func btnFilledTonalMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
     public static func btnFilledTonalMediumSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
     public static func btnFilledTonalMediumSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
     public static func btnFilledTonalMediumSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.medium,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
     public static func btnFilledTonalSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.small,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
     public static func btnFilledTonalSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.small,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
     public static func btnFilledTonalSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.small,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
     public static func btnFilledTonalSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.small,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
     public static func btnFilledTonalSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.small,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
     public static func btnRoundFilledTonalSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.roundSmall,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
     public static func btnRoundFilledTonalSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.roundSmall,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
     public static func btnRoundFilledTonalSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.roundSmall,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
     public static func btnRoundFilledTonalSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.roundSmall,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
     public static func btnRoundFilledTonalSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(settings: ButtonFilledTonalConfig.roundSmall,
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     

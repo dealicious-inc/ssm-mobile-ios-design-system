@@ -12,8 +12,8 @@ public class DealiControl {
 }
 
 final public class ClickableComponentButton: ClickableComponent {
-    init(settings: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
-        super.init(style: .button, settings: settings, color: color.attribute)
+    init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
+        super.init(style: .button, config: config, color: color.attribute)
         self.title = functionName
     }
     
@@ -23,8 +23,8 @@ final public class ClickableComponentButton: ClickableComponent {
 }
 
 final public class ClickableComponentChip: ClickableComponent {
-    init(settings: ClickableConfig, color: ClickableColorConfig) {
-        super.init(style: .chip, settings: settings, color: color.attribute)
+    init(config: ClickableConfig, color: ClickableColorConfig) {
+        super.init(style: .chip, config: config, color: color.attribute)
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +70,7 @@ public class ClickableComponent: UIControl {
             self.leftImageView.image = leftImage
             self.leftImageView.isHidden = (leftImage == nil)
             self.updateColor(color: self.currentColor)
+            self.updateHorizontalOffset()
         }
     }
     
@@ -87,6 +88,16 @@ public class ClickableComponent: UIControl {
             self.rightImageView.image = rightImage
             self.rightImageView.isHidden = (rightImage == nil)
             self.updateColor(color: self.currentColor)
+            self.updateHorizontalOffset()
+        }
+    }
+    
+    private var horizontalOffset: CGFloat = 0.0 {
+        willSet {
+            guard newValue != horizontalOffset else { return }
+            self.contentStackView.snp.updateConstraints {
+                $0.centerX.equalToSuperview().offset(newValue)
+            }
         }
     }
     
@@ -123,18 +134,18 @@ public class ClickableComponent: UIControl {
     public override var isHighlighted: Bool {
         didSet {
             guard isHighlighted != oldValue else { return }
-//            self.backgroundColor = isHighlighted ? UIColor(rgb: 0x000000, alpha: 0.06) : ( self.isSelected ? self.configuration?.color?.selected?.background : self.configuration?.color?.normal.background)
             self.highlightView.alpha = isHighlighted ? 1.0 : 0.0
         }
     }
     
-    init(style: ClickableComponent.Configuration.Style, settings: ClickableConfig, color: ClickableColor) {
+    init(style: ClickableComponent.Configuration.Style, config: ClickableConfig, color: ClickableColor) {
         super.init(frame: .zero)
         var configuration = ClickableComponent.Configuration()
         configuration.style = style
-        configuration.height = settings.height
-        configuration.padding = settings.padding.value(with: settings.height, style: style)
+        configuration.height = config.height
+        configuration.padding = config.padding.value(with: config.height, style: style)
         configuration.color = color
+        configuration.font = config.font
         self.configuration = configuration
         
         var height: CGFloat = 0.0
@@ -144,7 +155,7 @@ public class ClickableComponent: UIControl {
             height = configuration.height?.chipHeight ?? 0.0
         }
         
-        switch settings.cornerRadius {
+        switch config.cornerRadius {
         case .fixed(let radius):
             self.layer.cornerRadius = radius
             self.clipsToBounds = true
@@ -176,7 +187,7 @@ public class ClickableComponent: UIControl {
             $0.height.equalTo(height)
             // 버튼은 컨텐츠 center / 칩은 이미지 좌우로 붙고 TitleLabel 늘어남
             if configuration.style == .button {
-                $0.centerX.equalToSuperview()
+                $0.centerX.equalToSuperview().offset(0.0)
                 $0.left.greaterThanOrEqualToSuperview().offset(12.0)
                 $0.right.lessThanOrEqualToSuperview().offset(-12.0)
             } else {
@@ -193,7 +204,7 @@ public class ClickableComponent: UIControl {
         
         self.contentStackView.addArrangedSubview(self.titleLabel)
         self.titleLabel.do {
-            $0.font = settings.font
+            $0.font = config.font
             $0.isHidden = true
             if configuration.style == .button {
                 $0.textAlignment = .center
@@ -210,7 +221,6 @@ public class ClickableComponent: UIControl {
 
         self.setBackgroundGradient(color: configuration.color?.normal)
         self.updateColor(color: configuration.color?.normal)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -249,6 +259,22 @@ public class ClickableComponent: UIControl {
         if let rightImage = self.rightImage {
             self.rightImageView.image = rightImage.withTintColor(color.text)
         }
+    }
+    
+    func updateHorizontalOffset() {
+        var leftOffset: CGFloat = 0.0
+        var rightOffset: CGFloat = 0.0
+        if self.leftImage != nil {
+            if let padding = self.configuration?.padding?.left {
+                leftOffset = ((padding.normal - padding.withImage) / 2.0)
+            }
+        }
+        if self.rightImage != nil {
+            if let padding = self.configuration?.padding?.right {
+                rightOffset = (padding.normal - padding.withImage) / 2.0
+            }
+        }
+        self.horizontalOffset = rightOffset - leftOffset
     }
     
     private func setBackgroundGradient(color: ClickableColorSet?) {

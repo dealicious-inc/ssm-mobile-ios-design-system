@@ -53,36 +53,8 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-//        let bb = DealiControl.chipsOutlineLargePrimary01().then {
-//            $0.title = "테스트22!!"
-//            $0.leftImage = UIImage(named: "ic_arrow_right")
-//            $0.rightImage = UIImage(named: "ic_arrow_right")
-//            $0.addTarget(self, action: #selector(btnFilledLargePrimary01Pressed), for: .touchUpInside)
-//        }
-//        self.stackView.addArrangedSubview(bb)
-//        
-//        let button =  TestButton(color: FilledTonalColor.primary01, size: FilledSize.large).then {
-//            $0.title = "disabled"
-//            $0.isEnabled = false
-//            $0.leftIconImage = UIImage(named: "ic_arrow_right")
-//            $0.rightIconImage = UIImage(named: "ic_arrow_right")
-//        }
-//        
-//        self.stackView.addArrangedSubview(button)
-//        
-//        let button2 =  TestButton(color: FilledTonalColor.primary01, size: FilledSize.large).then {
-//            $0.title = "disabled22"
-//            $0.isEnabled = false
-////            $0.leftIconImage = UIImage(named: "ic_arrow_right")
-//            $0.rightIconImage = UIImage(named: "ic_arrow_right")
-//        }
-//        
-//        self.stackView.addArrangedSubview(button2)
-        
-        
         var buttonArray: [UIView] = []
-    
-        
+
         let largeButtonArray: [UIView] = [DealiControl.btnFilledLargePrimary01(), DealiControl.btnFilledLargePrimary02(), DealiControl.btnFilledLargeGradient(),
                                           DealiControl.btnFilledTonalLargePrimary01(), DealiControl.btnFilledTonalLargePrimary02(),
                                           DealiControl.btnFilledTonalLargeSecondary01(), DealiControl.btnFilledTonalLargeSecondary02(), DealiControl.btnFilledTonalLargeSecondary03(),
@@ -91,17 +63,13 @@ class ButtonViewController: UIViewController {
                                           DealiControl.btnTextLargePrimary01(), DealiControl.btnTextLargePrimary02(),
                                           DealiControl.btnTextLargeSecondary01(), DealiControl.btnTextLargeSecondary02(), DealiControl.btnTextLargeSecondary03(), DealiControl.btnTextLargeSecondary04(), DealiControl.btnTextLargeSecondary05()
         ]
-        let test = DealiControl.btnTextMediumPrimary02().then {
-            let image =  UIImage(named: "ic_arrow_right")
-            $0.rightImage = image
-            $0.addTarget(self, action: #selector(btnTextMediumPrimary02Pressed(_:)), for: .touchUpInside)
-        }
+
         let mediumButtonArray: [UIView] = [DealiControl.btnFilledMediumPrimary01(), DealiControl.btnFilledMediumPrimary02(),
                                            DealiControl.btnFilledTonalMediumPrimary01(), DealiControl.btnFilledTonalMediumPrimary02(),
                                            DealiControl.btnFilledTonalMediumSecondary01(), DealiControl.btnFilledTonalMediumSecondary02(), DealiControl.btnFilledTonalMediumSecondary03(),
                                            DealiControl.btnOutlineMediumPrimary01(), DealiControl.btnOutlineMediumPrimary02(),
                                            DealiControl.btnOutlineMediumSecondary01(), DealiControl.btnOutlineMediumSecondary02(), DealiControl.btnOutlineMediumSecondary03(), DealiControl.btnOutlineMediumSecondary04(),
-                                           DealiControl.btnTextMediumPrimary01(),   test,
+                                           DealiControl.btnTextMediumPrimary01(),   DealiControl.btnTextMediumPrimary02(),
                                            DealiControl.btnTextMediumSecondary01(), DealiControl.btnTextMediumSecondary02(), DealiControl.btnTextMediumSecondary03(), DealiControl.btnTextMediumSecondary04(), DealiControl.btnTextMediumSecondary05()
                                              ]
         
@@ -141,10 +109,6 @@ class ButtonViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
-    @objc func btnFilledLargePrimary01Pressed() {
-        print("테스트~~~~~~~~")
     }
     
     @objc func switchValueChanged(_ swc: UISwitch) {

@@ -146,7 +146,8 @@ public class ClickableComponent: UIControl {
     
     private var horizontalOffset: CGFloat = 0.0 {
         willSet {
-            guard newValue != horizontalOffset else { return }
+            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 늘어남
+            guard let style = self.configuration?.style, style == .button, newValue != horizontalOffset else { return }
             self.contentStackView.snp.updateConstraints {
                 $0.centerX.equalToSuperview().offset(newValue)
             }
@@ -274,6 +275,7 @@ public class ClickableComponent: UIControl {
 
         self.setBackgroundGradient(color: configuration.color?.normal)
         self.updateColor(color: configuration.color?.normal)
+        
     }
     
     required init?(coder: NSCoder) {

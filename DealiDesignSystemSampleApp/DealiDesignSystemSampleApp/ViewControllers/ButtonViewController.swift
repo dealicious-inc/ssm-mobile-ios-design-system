@@ -49,6 +49,7 @@ class ButtonViewController: UIViewController {
         self.stackView.then {
             $0.axis = .vertical
             $0.spacing = 20.0
+            $0.alignment = .center
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20.0)
         }

@@ -14,7 +14,10 @@ public class DealiControl {
 final public class ClickableComponentButton: ClickableComponent {
     init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .button, config: config, color: color.attribute)
+#if DEBUG
         self.title = functionName
+#endif
+        
     }
     
     required init?(coder: NSCoder) {
@@ -23,8 +26,11 @@ final public class ClickableComponentButton: ClickableComponent {
 }
 
 final public class ClickableComponentChip: ClickableComponent {
-    init(config: ClickableConfig, color: ClickableColorConfig) {
+    init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .chip, config: config, color: color.attribute)
+#if DEBUG
+        self.title = functionName
+#endif
     }
     
     required init?(coder: NSCoder) {

@@ -52,12 +52,18 @@ public class ClickableComponent: UIControl {
     
     public var titleAlignment: NSTextAlignment = .center {
         didSet{
+            if self.singleImage != nil {
+                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
+            }
             self.titleLabel.textAlignment = titleAlignment
         }
     }
     
     public var title: String? {
         didSet {
+            if self.singleImage != nil {
+                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
+            }
             self.titleLabel.text = title
             self.titleLabel.isHidden = (title?.isEmpty ?? true)
         }
@@ -66,6 +72,11 @@ public class ClickableComponent: UIControl {
     /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
     public var singleImage: UIImage? {
         didSet {
+            
+            if self.title != nil || self.leftImage != nil || self.rightImage != nil {
+                fatalError("singleImage 사용하면 title, leftImage, rightImage 는 제거됩니다. 관련 코드 삭제 필요!!")
+            }
+            
             guard let image = singleImage else { return }
             
             var singleImagePadding: CGFloat {
@@ -109,6 +120,9 @@ public class ClickableComponent: UIControl {
     /// 왼쪽 이미지(텍스트 포함)
     public var leftImage: UIImage? {
         didSet {
+            if self.singleImage != nil {
+                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
+            }
             self.contentStackView.snp.updateConstraints {
                 if self.configuration?.style == .chip {
                     if leftImage != nil {
@@ -128,6 +142,9 @@ public class ClickableComponent: UIControl {
     /// 오른쪽 이미지(텍스트 포함)
     public var rightImage: UIImage? {
         didSet {
+            if self.singleImage != nil {
+                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가")
+            }
             self.contentStackView.snp.updateConstraints {
                 if self.configuration?.style == .chip {
                     if rightImage != nil {

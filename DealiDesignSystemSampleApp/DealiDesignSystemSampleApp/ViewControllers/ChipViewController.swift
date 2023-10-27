@@ -180,6 +180,7 @@ final class ChipContentView: UIView {
                     $0.title = "Disabled"
                     $0.isEnabled = false
                 } else {
+                    $0.title = nil
                     $0.singleImage = UIImage(named: "ic_refresh")
                 }
             }

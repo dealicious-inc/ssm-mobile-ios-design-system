@@ -17,7 +17,6 @@ final public class ClickableComponentButton: ClickableComponent {
 #if DEBUG
         self.title = functionName
 #endif
-        
     }
     
     required init?(coder: NSCoder) {
@@ -178,11 +177,20 @@ public class ClickableComponent: UIControl {
         set {
             super.isSelected = newValue
             
-            if newValue == true {
-                self.updateColor(color: self.configuration?.color?.selected)
+            if self.configuration?.style == .chip { // 칩만 selected 가능.
+                if self.isEnabled == true {
+                    if newValue == true {
+                        self.updateColor(color: self.configuration?.color?.selected)
+                        self.titleLabel.font = self.configuration?.font?.selected
+                    } else {
+                        self.updateColor(color: self.configuration?.color?.normal)
+                        self.titleLabel.font = self.configuration?.font?.normal
+                    }
+                }
             } else {
-                self.updateColor(color: self.configuration?.color?.normal)
+                fatalError("버튼은 selected 디자인 없음. isSelected 사용불가!!")
             }
+            
         }
     }
     
@@ -194,9 +202,16 @@ public class ClickableComponent: UIControl {
             super.isEnabled = newValue
             
             if newValue == true {
-                self.updateColor(color: self.configuration?.color?.normal)
+                if self.isSelected {
+                    self.updateColor(color: self.configuration?.color?.selected)
+                    self.titleLabel.font = self.configuration?.font?.selected
+                } else {
+                    self.updateColor(color: self.configuration?.color?.normal)
+                    self.titleLabel.font = self.configuration?.font?.normal
+                }
             } else {
                 self.updateColor(color: self.configuration?.color?.disabled)
+                self.titleLabel.font = self.configuration?.font?.disabled
             }
         }
     }
@@ -275,7 +290,7 @@ public class ClickableComponent: UIControl {
         
         self.contentStackView.addArrangedSubview(self.titleLabel)
         self.titleLabel.do {
-            $0.font = config.font
+            $0.font = config.font.normal
             $0.isHidden = true
             if configuration.style == .button {
                 $0.textAlignment = .center
@@ -374,7 +389,6 @@ public class ClickableComponent: UIControl {
         self.layer.insertSublayer(layer, at: 0)
         self.gradientBackgroundLayer = layer
     }
-    
 }
 
 extension ClickableComponent {
@@ -500,18 +514,33 @@ extension ClickableComponent {
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
                 }
             }
+            
         }
 
         public var style: Style = .button
         
-        public var font: UIFont?
+        public var font: ClickableFont?
         
         public var height: Height?
         public var color: ClickableColor?
         public var padding: ClickablePadding?
         public var cornerRadius: ClickableComponent.Configuration.Corner = .none
     }
+}
+
+public struct ClickableFont {
+    var normal: UIFont
+    var selected: UIFont?
+    var disabled: UIFont
     
+    static func button(font: UIFont) -> ClickableFont {
+        // 버튼은 selected 상태가 없음.
+        return ClickableFont(normal: font, selected: nil, disabled: font)
+    }
+    
+    static func chip(font: UIFont) -> ClickableFont {
+        return ClickableFont(normal: font, selected: font, disabled: font)
+    }
 }
 
 public protocol ClickableColorConfig {
@@ -532,7 +561,7 @@ public struct ClickableColor {
 }
 
 public protocol ClickableConfig {
-    var font: UIFont { get }
+    var font: ClickableFont { get }
     var height: ClickableComponent.Configuration.Height { get }
     var cornerRadius: ClickableComponent.Configuration.Corner { get }
     var padding: ClickableComponent.Configuration.Padding { get }

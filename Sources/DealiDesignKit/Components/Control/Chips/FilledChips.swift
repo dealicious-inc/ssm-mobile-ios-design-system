@@ -42,14 +42,14 @@ public enum ChipsFilledConfig: ClickableConfig {
     case medium
     case small
     
-    public var font: UIFont {
+    public var font: ClickableFont {
         switch self {
         case .large:
-            return .b2sb14
+            return ClickableFont.chip(font: .b2sb14)
         case .medium:
-            return .b2sb14
+            return ClickableFont.chip(font: .b2sb14)
         case .small:
-            return .b2sb14
+            return ClickableFont(normal: .b2r14, selected: .b3sb13, disabled: .b2r14)
         }
     }
     

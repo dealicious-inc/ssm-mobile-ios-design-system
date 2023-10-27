@@ -156,14 +156,14 @@ public enum ButtonTextConfig: ClickableConfig {
     case medium
     case small
     
-    public var font: UIFont {
+    public var font: ClickableFont {
         switch self {
         case .large:
-            return .b1sb15
+            return ClickableFont.button(font: .b1sb15)
         case .medium:
-            return .b2r14
+            return ClickableFont.button(font: .b2r14)
         case .small:
-            return .b3r13
+            return ClickableFont.button(font: .b3r13)
         }
     }
     

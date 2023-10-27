@@ -168,16 +168,16 @@ public enum ButtonOutlineConfig: ClickableConfig {
     case small
     case roundSmall
     
-    public var font: UIFont {
+    public var font: ClickableFont {
         switch self {
         case .large:
-            return .b1sb15
+            return ClickableFont.button(font: .b1sb15)
         case .medium:
-            return .b2sb14
+            return ClickableFont.button(font: .b2sb14)
         case .small:
-            return .b3sb13
+            return ClickableFont.button(font: .b3sb13)
         case .roundSmall:
-            return .b3sb13
+            return ClickableFont.button(font: .b3sb13)
         }
     }
     

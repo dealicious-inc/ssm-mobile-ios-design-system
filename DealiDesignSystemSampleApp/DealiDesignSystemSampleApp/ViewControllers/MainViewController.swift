@@ -53,6 +53,18 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(radioButton.snp.bottom).offset(20.0)
             $0.left.right.equalToSuperview().inset(20.0)
         }
+        
+        let chipComponentsButton = DealiButton()
+        self.view.addSubview(chipComponentsButton)
+        chipComponentsButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "Chip Components"
+            $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalTo(buttonComponentsButton.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -84,4 +96,7 @@ extension MainViewController {
         self.navigationController?.pushViewController(RadioButtonViewController(), animated: true)
     }
 
+    @objc func chipButtonPressed() {
+        self.navigationController?.pushViewController(ChipViewController(), animated: true)
+    }
 }

@@ -202,47 +202,47 @@ struct ButtonPreview1: PreviewProvider {
                 Text("DesignSystem Button Test")
                     .font(.system(size: 30.0, weight: .bold))
                 
-                UIViewPreview {
-                    let button = TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.title = "일반"
-                    return button
-                }
-                
-                UIViewPreview {
-                    let button = TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.title = "pressed"
-                    button.isHighlighted = true
-                    return button
-                }
-                
-                UIViewPreview {
-                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.title = "disabled"
-                    button.isEnabled = false
-                    return button
-                }
-                
-                UIViewPreview {
-                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
-                    button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
-                    button.title = "양쪽에 아이콘 있는 경우"
-                    return button
-                }
-                
-                UIViewPreview {
-                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
-                    button.title = "!한쪽에 아이콘 있는 경우"
-                    return button
-                }
-                
-                UIViewPreview {
-                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
-                    button.rightIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
-                    button.title = "한쪽에 아이콘 있는 경우"
-                    return button
-                }
+//                UIViewPreview {
+//                    let button = TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.title = "일반"
+//                    return button
+//                }
+//                
+//                UIViewPreview {
+//                    let button = TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.title = "pressed"
+//                    button.isHighlighted = true
+//                    return button
+//                }
+//                
+//                UIViewPreview {
+//                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.title = "disabled"
+//                    button.isEnabled = false
+//                    return button
+//                }
+//                
+//                UIViewPreview {
+//                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
+//                    button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
+//                    button.title = "양쪽에 아이콘 있는 경우"
+//                    return button
+//                }
+//                
+//                UIViewPreview {
+//                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
+//                    button.title = "!한쪽에 아이콘 있는 경우"
+//                    return button
+//                }
+//                
+//                UIViewPreview {
+//                    let button =  TestButton(color: FilledColor.primary01, size: FilledSize.large)
+//                    button.rightIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
+//                    button.title = "한쪽에 아이콘 있는 경우"
+//                    return button
+//                }
                 
             }
         }

@@ -12,7 +12,7 @@ public class DealiControl {
 }
 
 final public class ClickableComponentButton: ClickableComponent {
-    init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
+    public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .button, config: config, color: color.attribute)
 #if DEBUG
         self.title = functionName

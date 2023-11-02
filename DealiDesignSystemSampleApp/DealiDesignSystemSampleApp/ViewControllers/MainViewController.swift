@@ -65,6 +65,17 @@ final class MainViewController: UIViewController {
             $0.left.right.equalToSuperview().inset(20.0)
         }
         
+        let textInputComponentsButton = DealiButton()
+        self.view.addSubview(textInputComponentsButton)
+        textInputComponentsButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "TextInput Components"
+            $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalTo(chipComponentsButton.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -98,5 +109,9 @@ extension MainViewController {
 
     @objc func chipButtonPressed() {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
+    }
+    
+    @objc func textInputButtonPressed() {
+        self.navigationController?.pushViewController(TextInputViewController(), animated: true)
     }
 }

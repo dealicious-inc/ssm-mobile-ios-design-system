@@ -63,8 +63,6 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-    /// 텍스트 카운트
-    public var textCount: Int = 0
     /// 최소 글자수
     public var minLength = 0
     /// 최대 글자수
@@ -75,8 +73,10 @@ public final class DealiTextInput_v2: UIView {
     public var maxPrice = 10000000
     /// TextInput 기본으로 노출되는 helperText 세팅
     public var normalHelperText: String?
+    /// 텟스트 필드에 노출되는 문자 format
+    public var textInputFormat: ETextInputTextFormatType = .normal
     /// TextInputStatus 따라 ui처리
-    public var inputStatus: ETextInputStatus = .focusOut {
+    public var inputStatus: ETextInputStatus = .normal {
         didSet {
             
             let style = NSMutableParagraphStyle()
@@ -145,23 +145,6 @@ public final class DealiTextInput_v2: UIView {
             }.disposed(by: self.disposeBag)
         }
     }
-    //    private var helperText: String? {
-    //        didSet {
-    //            guard let helperText = self.helperText else { return }
-    //            self.helperTextLabel.isHidden = false
-    //            let style = NSMutableParagraphStyle()
-    //            style.lineSpacing = 4.0
-    //            style.lineHeightMultiple = 1.26
-    //            style.alignment = .left
-    //            if self.inputStatus == .normal {
-    //
-    //            }
-    //            self.helperTextLabel.attributedText = NSAttributedString(string: helperText, attributes: [.font: UIFont.b4r12, .foregroundColor: (self.inputStatus == .normal ? DealiColor.error : DealiColor.g70), .paragraphStyle: style])
-    //        }
-    //    }
-    
-
-    
     
     public init() {
         super.init(frame: .zero)
@@ -290,9 +273,17 @@ public final class DealiTextInput_v2: UIView {
             self.inputStatus = .focusOut
         }.disposed(by: self.disposeBag)
         
-        self.textField.rx.observe(String.self, "text").subscribe(with: self) { owner, text in
-            print("DealiTextInput_v2 = \(text)")
-        }.disposed(by: self.disposeBag)
+        /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
+        /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
+        self.textField.rx.text
+            .orEmpty
+            .changed
+            .skip(1)
+            .distinctUntilChanged()
+            .subscribe(with: self, onNext: { owner, text in
+            print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
+        }).disposed(by: self.disposeBag)
+        
     }
     
     public func configure(configure: DeailTextInputConfigureProtocol?) {
@@ -300,5 +291,6 @@ public final class DealiTextInput_v2: UIView {
         self.textField.keyboardType = configure.keyboardType
         self.textField.textContentType = configure.textContentType
         self.textField.isSecureTextEntry = configure.isSecureTextEntry
+        self.textInputFormat = configure.textInputFormat
     }
 }

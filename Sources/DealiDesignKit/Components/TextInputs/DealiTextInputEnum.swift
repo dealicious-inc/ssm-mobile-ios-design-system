@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 public enum ETextInputStatus: Equatable {
+    case normal
     case focusIn
     case focusOut
     case error(_ errorMessage: String?)
@@ -19,8 +20,18 @@ public enum ETextInputRightViewType {
     case none
     case success
     case failure
-    case time
+    case timer
     case custom(_ image: UIImage?)
+}
+
+public enum ETextInputTextFormatType {
+    case normal
+    case email
+    case url
+    case number
+    case phone
+    case price
+    case password
 }
 
 public enum ETextInputErrorToastType {

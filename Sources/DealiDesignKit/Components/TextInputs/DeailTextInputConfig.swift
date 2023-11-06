@@ -12,6 +12,7 @@ public protocol DeailTextInputConfigureProtocol {
     var keyboardType: UIKeyboardType { get }
     var textContentType: UITextContentType? { get }
     var isSecureTextEntry: Bool { get }
+    var textInputFormat: ETextInputTextFormatType { get }
 }
 
 extension DeailTextInputConfigureProtocol {
@@ -27,38 +28,38 @@ extension DeailTextInputConfigureProtocol {
 struct DeailTextInputTextConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .default
-    
+    var textInputFormat: ETextInputTextFormatType = .normal
     
 }
 
 struct DeailTextInputNumberConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .numberPad
-    
+    var textInputFormat: ETextInputTextFormatType = .number
 }
 
 struct DeailTextInputEmailConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .emailAddress
-    
+    var textInputFormat: ETextInputTextFormatType = .email
 }
 
 struct DeailTextInputUrlConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .URL
-    
+    var textInputFormat: ETextInputTextFormatType = .url
 }
 
 struct DeailTextInputPhoneConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .numberPad
-    
+    var textInputFormat: ETextInputTextFormatType = .phone
 }
 
 struct DeailTextInputPriceConfig: DeailTextInputConfigureProtocol {
     
     var keyboardType: UIKeyboardType = .numberPad
-    
+    var textInputFormat: ETextInputTextFormatType = .price
 }
 
 struct DeailTextInputPasswordConfig: DeailTextInputConfigureProtocol {
@@ -66,6 +67,7 @@ struct DeailTextInputPasswordConfig: DeailTextInputConfigureProtocol {
     var keyboardType: UIKeyboardType = .asciiCapable
     var textContentType: UITextContentType? = .oneTimeCode
     var isSecureTextEntry: Bool = true
+    var textInputFormat: ETextInputTextFormatType = .password
 }
 
 

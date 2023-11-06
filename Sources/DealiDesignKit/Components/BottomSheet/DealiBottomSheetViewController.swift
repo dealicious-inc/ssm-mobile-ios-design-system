@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-public class DealiBottomSheetViewController: UIViewController {
+open class DealiBottomSheetViewController: UIViewController {
     
     /// 우상단 닫기 버튼. default 는 미노출.
     public let closeButton = UIButton()
@@ -88,7 +88,7 @@ public class DealiBottomSheetViewController: UIViewController {
             $0.path = UIBezierPath(
                 roundedRect: self.sheetView.bounds,
                 byRoundingCorners: [UIRectCorner.topLeft, UIRectCorner.topRight],
-                cornerRadii: CGSize(width: 20.0, height: 20.0)
+                cornerRadii: CGSize(width: 16.0, height: 16.0)
             ).cgPath
         }
         

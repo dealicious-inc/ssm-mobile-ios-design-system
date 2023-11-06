@@ -27,7 +27,7 @@ open class DealiBottomSheetViewController: UIViewController {
     public let disposeBag = DisposeBag()
     
     private var cornerLayer: CAShapeLayer?
-
+    
     override open func loadView() {
         super.loadView()
         
@@ -141,9 +141,5 @@ open class DealiBottomSheetViewController: UIViewController {
         if self.sheetView.frame.contains(location) == false {
             self.dismissBottomSheet(completionHandler: self.cancelhandler)
         }
-    }
-    
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

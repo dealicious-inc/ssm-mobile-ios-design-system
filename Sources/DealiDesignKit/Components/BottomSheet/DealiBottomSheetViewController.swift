@@ -104,6 +104,7 @@ open class DealiBottomSheetViewController: UIViewController {
     }
 
     public func showBottomSheet() {
+        self.view.layoutIfNeeded()
         self.view.backgroundColor = DealiColor.b50
     
         self.sheetView.snp.remakeConstraints {
@@ -111,7 +112,10 @@ open class DealiBottomSheetViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let self else { return }
+            self.view.layoutIfNeeded()
+        })
     }
     
     public func dismissBottomSheet(completionHandler: (() -> Void)? = nil) {

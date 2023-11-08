@@ -97,6 +97,10 @@ extension MainViewController {
     }
 
     @objc func chipButtonPressed() {
-        self.navigationController?.pushViewController(ChipViewController(), animated: true)
+//        self.navigationController?.pushViewController(ChipViewController(), animated: true)
+        let vc = MyViewController()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true)
     }
 }

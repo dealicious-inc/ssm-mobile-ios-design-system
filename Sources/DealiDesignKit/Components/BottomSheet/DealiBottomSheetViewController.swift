@@ -38,12 +38,12 @@ open class DealiBottomSheetViewController: UIViewController {
             $0.modalTransitionStyle = .crossDissolve
         }
         
-        self.view.backgroundColor = DealiColor.b50
+        self.view.backgroundColor = .clear
         
         self.view.addSubview(self.sheetView)
         self.sheetView.then {
             $0.clipsToBounds = true
-            $0.backgroundColor = .clear
+            $0.backgroundColor = DealiColor.primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()

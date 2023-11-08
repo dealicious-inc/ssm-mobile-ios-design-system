@@ -43,7 +43,7 @@ open class DealiBottomSheetViewController: UIViewController {
         self.view.addSubview(self.sheetView)
         self.sheetView.then {
             $0.clipsToBounds = true
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -75,6 +75,8 @@ open class DealiBottomSheetViewController: UIViewController {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)
             $0.left.right.bottom.equalToSuperview()
         }
+        
+        self.modalPresentationStyle = .overCurrentContext
     }
     
     override public func viewDidLayoutSubviews() {
@@ -105,6 +107,12 @@ open class DealiBottomSheetViewController: UIViewController {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
         }
+        
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            guard let self else { return }
+            self.view.backgroundColor = DealiColor.b50
+            self.view.layoutIfNeeded()
+        })
     }
     
     public func dismissBottomSheet(completionHandler: (() -> Void)? = nil) {
@@ -115,6 +123,7 @@ open class DealiBottomSheetViewController: UIViewController {
         
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
             guard let self else { return }
+            self.view.backgroundColor = .clear
             self.view.layoutIfNeeded()
         }, completion: { [weak self] _ in
             guard let self else { return }

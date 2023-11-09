@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  BottomSheetViewController.swift
+//
 //
 //  Created by JohyeonYoon on 11/6/23.
 //
@@ -8,7 +8,7 @@
 import UIKit
 import DealiDesignKit
 
-class MyViewController: DealiBottomSheetViewController {
+class BottomSheetViewController: DealiBottomSheetViewController {
     override func loadView() {
         super.loadView()
         

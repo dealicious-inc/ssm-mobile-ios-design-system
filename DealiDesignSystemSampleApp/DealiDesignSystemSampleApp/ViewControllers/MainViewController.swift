@@ -76,6 +76,17 @@ final class MainViewController: UIViewController {
             $0.left.right.equalToSuperview().inset(20.0)
         }
         
+        let searchInputComponentsButton = DealiButton()
+        self.view.addSubview(searchInputComponentsButton)
+        searchInputComponentsButton.then {
+            $0.style = .medium(style: .filled)
+            $0.title = "SearchInput Components"
+            $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.equalTo(textInputComponentsButton.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -113,5 +124,9 @@ extension MainViewController {
     
     @objc func textInputButtonPressed() {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
+    }
+    
+    @objc func searchInputButtonPressed() {
+        self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
     }
 }

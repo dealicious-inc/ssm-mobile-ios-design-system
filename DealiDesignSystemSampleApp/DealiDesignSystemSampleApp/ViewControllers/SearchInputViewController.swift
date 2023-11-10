@@ -10,16 +10,12 @@ import UIKit
 import DealiDesignKit
 
 final class SearchInputViewController: UIViewController {
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "DealiSearchInput"
         self.view.backgroundColor = .white
-        
-        
     }
     
     override func loadView() {
@@ -53,9 +49,7 @@ final class SearchInputViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        
-        
-        let searchBarView = DealiSearchInput()
+        let searchBarView = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarView)
         searchBarView.then {
             $0.backgroundColor = .clear
@@ -64,7 +58,7 @@ final class SearchInputViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        let searchBarPlaceHolderView = DealiSearchInput(placeholderText: "상품을 검색해주세요.")
+        let searchBarPlaceHolderView = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
         contentStackView.addArrangedSubview(searchBarPlaceHolderView)
         searchBarPlaceHolderView.then {
             $0.backgroundColor = .clear
@@ -73,7 +67,7 @@ final class SearchInputViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryView = DealiSearchInput()
+        let searchBarSubCategoryView = DealiSearchInput(type: .subCategory(keyword: "아우터"), delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView)
         searchBarSubCategoryView.then {
             $0.backgroundColor = .clear
@@ -81,9 +75,12 @@ final class SearchInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
-        searchBarSubCategoryView.setSubCategoryView(with: "아우터")
         
-        let searchBarSubCategoryLongView = DealiSearchInput()
+        let searchBarSubCategoryLongView = DealiSearchInput(
+            type: .subCategory(keyword: "키워드가 들어가는데 엄청길어요")
+            , placeholderText: "상품을 검색해주세요."
+            , delegate: self
+        )
         contentStackView.addArrangedSubview(searchBarSubCategoryLongView)
         searchBarSubCategoryLongView.then {
             $0.backgroundColor = .clear
@@ -91,9 +88,19 @@ final class SearchInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
-        searchBarSubCategoryLongView.setSubCategoryView(with: "키워드가 들어가는데 엄청길어요")
     }
+}
 
+extension SearchInputViewController: DealiSearchInputDelegate {
+    func search(keyword: String?) {
+        guard let keyword = keyword else {
+            print("nil")
+            return
+        }
+        print(keyword)
+    }
     
-
+    func clear() {
+        print("clear !")
+    }
 }

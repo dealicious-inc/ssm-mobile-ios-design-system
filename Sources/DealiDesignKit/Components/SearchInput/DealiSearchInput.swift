@@ -6,8 +6,34 @@
 //
 
 import UIKit
+import Then
+import SnapKit
+import RxSwift
+import RxCocoa
+
+public protocol DealiSearchInputDelegate: AnyObject {
+    func search(keyword: String?)
+    func clear()
+}
 
 public final class DealiSearchInput: UIView {
+    
+    public enum SeachInputType {
+        case `default`
+        case subCategory(keyword: String)
+    }
+    
+    private enum SearchStatus {
+        case empty
+        case editing
+        
+        var image: UIImage {
+            switch self {
+            case .empty: return UIImage(named: "ic_search")!
+            case .editing: return UIImage(named: "ic_x")!
+            }
+        }
+    }
     
     private enum Constants {
         // search textfield
@@ -40,39 +66,39 @@ public final class DealiSearchInput: UIView {
         static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }
     
-    private enum SearchStatus {
-        case empty
-        case editing
-        
-        var image: UIImage {
-            switch self {
-            case .empty: return UIImage(named: "ic_search")!
-            case .editing: return UIImage(named: "ic_x")!
-            }
-        }
-    }
-    
     private let stackView = UIStackView()
     private let placeHolderLabel = UILabel()
     private let searchTextField = UITextField()
     private let searchImageView = UIImageView()
     
-    public convenience init(placeholderText: String = "") {
-        self.init(frame: .zero)
-        setPlaceHolder(text: placeholderText)
-    }
+    private var inputType: SeachInputType = .default
+    private weak var delegate: DealiSearchInputDelegate?
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let disposeBag = DisposeBag()
+    
+    public init(type: SeachInputType = .default
+                , placeholderText: String = ""
+                , delegate: DealiSearchInputDelegate? = nil) {
+        self.delegate = delegate
+        inputType = type
+        
+        super.init(frame: .zero)
         
         configure()
+        setPlaceHolder(text: placeholderText)
+        
+        switch type {
+        case .subCategory(let keyword):
+            setSubCategoryView(with: keyword)
+        default:
+            break
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - private setUI function
     private func configure(placeholder: String = "") {
         setContainerStackView()
         setTextField()
@@ -126,12 +152,17 @@ public final class DealiSearchInput: UIView {
             $0.isUserInteractionEnabled = true
             $0.backgroundColor = .clear
             $0.returnKeyType = .search
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            // TODO: @조서현 delegate 로 이벤트 받아서 이미지 변경 또는 clear처리 필요, search or clear시점에 action 추가 필요
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        searchTextField.rx.controlEvent(.editingChanged).asSignal().emit(with: self) { owner, _ in
+            owner.textFieldDidChange(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidEndOnExit).asSignal().emit(with: self) { owner, _ in
+            owner.textFieldShouldReturn(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
     }
     
     private func setSearchStatusImage() {
@@ -143,7 +174,14 @@ public final class DealiSearchInput: UIView {
             $0.width.height.equalTo(Constants.imageSize)
         }
         setSearchBarAs(status: .empty)
-        searchImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clearButtonTapped)))
+        
+        searchImageView.rx.tapGestureOnTop()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.textFieldClearTapped()
+            })
+            .disposed(by: self.disposeBag)
         
         // TODO: @조서현 textfield 상태에 따라서 이미지 변경되어야 함
     }
@@ -152,9 +190,7 @@ public final class DealiSearchInput: UIView {
         placeHolderLabel.text = text
     }
     
-    
-    // MARK: - public function
-    public func setSubCategoryView(with keyword: String) {
+    private func setSubCategoryView(with keyword: String) {
         let keywordView = UIView()
         stackView.insertArrangedSubview(keywordView, at: 0)
         keywordView.then {
@@ -185,15 +221,23 @@ public final class DealiSearchInput: UIView {
         }
         
         stackView.setCustomSpacing(8, after: keywordView)
-        // TODO: @조서현 search 이미지는 미노출되도록 수정 필요
-        searchImageView.image = nil
+        setSearchBarAs(status: .empty)
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        searchImageView.image = status.image
+        switch inputType {
+        case .default:
+            searchImageView.image = status.image
+        case .subCategory:
+            switch status {
+            case .empty:
+                searchImageView.image = nil
+            case .editing:
+                searchImageView.image = status.image
+            }
+        }
         placeHolderLabel.isHidden = status == .editing
     }
-    
 }
 
 extension UIView {
@@ -209,16 +253,15 @@ extension UIView {
     }
 }
 
-extension DealiSearchInput: UITextFieldDelegate {
-    
-    @objc
-    private func clearButtonTapped() {
+// MARK: - Actions
+extension DealiSearchInput {
+    private func textFieldClearTapped() {
         guard searchTextField.text != nil else { return }
         searchTextField.text = nil
         setSearchBarAs(status: .empty)
+        delegate?.clear()
     }
     
-    @objc
     private func textFieldDidChange(_ textField: UITextField) {
         if textField.text?.isEmpty == true {
             setSearchBarAs(status: .empty)
@@ -227,8 +270,9 @@ extension DealiSearchInput: UITextFieldDelegate {
         setSearchBarAs(status: .editing)
     }
     
-//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        <#code#>
-//    }
+    private func textFieldShouldReturn(_ textField: UITextField) {
+        textField.resignFirstResponder()
+        delegate?.search(keyword: textField.text)
+    }
     
 }

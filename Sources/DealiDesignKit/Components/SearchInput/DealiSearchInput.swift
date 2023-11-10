@@ -218,6 +218,10 @@ public final class DealiSearchInput: UIView {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
+        
+        let search = UIImage(named: "ic_search")
+        let clear = UIImage(named: "ic_x")
+        
         switch inputType {
         case .default:
             switch status {

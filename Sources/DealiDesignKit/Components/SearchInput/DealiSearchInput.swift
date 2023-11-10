@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by 조서현 on 2023/11/09.
 //
@@ -40,8 +40,22 @@ public final class DealiSearchInput: UIView {
         static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }
     
+    private enum SearchStatus {
+        case empty
+        case editing
+        
+        var image: UIImage {
+            switch self {
+            case .empty: return UIImage(named: "ic_search")!
+            case .editing: return UIImage(named: "ic_x")!
+            }
+        }
+    }
+    
     private let stackView = UIStackView()
     private let placeHolderLabel = UILabel()
+    private let searchTextField = UITextField()
+    private let searchImageView = UIImageView()
     
     public convenience init(placeholderText: String = "") {
         self.init(frame: .zero)
@@ -71,8 +85,8 @@ public final class DealiSearchInput: UIView {
             $0.backgroundColor = StackViewConstants.backgroundColor
             $0.setCornerRadius(StackViewConstants.radius)
             $0.spacing = StackViewConstants.spacing
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
+            $0.alignment = .fill
+            $0.distribution = .fill
             $0.layoutMargins = UIEdgeInsets(
                 top: StackViewConstants.layoutVMargin
                 , left: StackViewConstants.layoutHMargin
@@ -96,43 +110,40 @@ public final class DealiSearchInput: UIView {
             $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
         }
         
-//        let placeHolderLabel = UILabel()
         textInputContainer.addSubview(placeHolderLabel)
         placeHolderLabel.then {
             $0.textColor = Constants.placeholderColor
             $0.font = Constants.font
-            $0.isUserInteractionEnabled = false
+            $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        // TODO: @조서현 placeholderLabel에 textfield editing 관련 hidden 조건 action으로 걸어놓을것
-        
-        let textField = UITextField()
-        textInputContainer.addSubview(textField)
-        textField.then {
+        textInputContainer.addSubview(searchTextField)
+        searchTextField.then {
             $0.textColor = Constants.textColor
             $0.font = Constants.font
             $0.isUserInteractionEnabled = true
             $0.backgroundColor = .clear
-//            $0.delegate = self
+            $0.returnKeyType = .search
+            $0.delegate = self
+            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             // TODO: @조서현 delegate 로 이벤트 받아서 이미지 변경 또는 clear처리 필요, search or clear시점에 action 추가 필요
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        // TODO: @조서현 textfield editing action 추가 필요
-        
     }
     
     private func setSearchStatusImage() {
-        let imageView = UIImageView()
-        stackView.addArrangedSubview(imageView)
-        imageView.then {
-            $0.image = Constants.imageSearch
+        stackView.addArrangedSubview(searchImageView)
+        searchImageView.then {
+            $0.contentMode = .scaleAspectFit
+            $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
             $0.width.height.equalTo(Constants.imageSize)
         }
+        setSearchBarAs(status: .empty)
+        searchImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clearButtonTapped)))
         
         // TODO: @조서현 textfield 상태에 따라서 이미지 변경되어야 함
     }
@@ -153,10 +164,11 @@ public final class DealiSearchInput: UIView {
                 , borderWidth: SubCategoryConsants.borderWidth
                 , borderColor: SubCategoryConsants.borderColor
             )
+            $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         }.snp.makeConstraints {
             $0.width.lessThanOrEqualTo(SubCategoryConsants.maxWidth)
         }
-
+        
         let keywordLabel = UILabel()
         keywordView.addSubview(keywordLabel)
         keywordLabel.then {
@@ -165,14 +177,21 @@ public final class DealiSearchInput: UIView {
             $0.textAlignment = .center
             $0.lineBreakMode = .byTruncatingTail
             $0.text = keyword
+            $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(4)
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.centerX.equalToSuperview()
         }
         
-        
+        stackView.setCustomSpacing(8, after: keywordView)
         // TODO: @조서현 search 이미지는 미노출되도록 수정 필요
+        searchImageView.image = nil
+    }
+    
+    private func setSearchBarAs(status: SearchStatus) {
+        searchImageView.image = status.image
+        placeHolderLabel.isHidden = status == .editing
     }
     
 }
@@ -188,4 +207,28 @@ extension UIView {
         self.layer.masksToBounds = false
         self.clipsToBounds = true
     }
+}
+
+extension DealiSearchInput: UITextFieldDelegate {
+    
+    @objc
+    private func clearButtonTapped() {
+        guard searchTextField.text != nil else { return }
+        searchTextField.text = nil
+        setSearchBarAs(status: .empty)
+    }
+    
+    @objc
+    private func textFieldDidChange(_ textField: UITextField) {
+        if textField.text?.isEmpty == true {
+            setSearchBarAs(status: .empty)
+            return
+        }
+        setSearchBarAs(status: .editing)
+    }
+    
+//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        <#code#>
+//    }
+    
 }

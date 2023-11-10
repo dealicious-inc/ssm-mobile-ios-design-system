@@ -67,15 +67,16 @@ public class ClickableComponent: UIControl {
             self.titleLabel.isHidden = (title?.isEmpty ?? true)
         }
     }
+
     
     /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
-    public var singleImage: UIImage? {
+    public var singleImage: ClickableImage? {
         didSet {
             
             if self.title != nil || self.leftImage != nil || self.rightImage != nil {
                 fatalError("singleImage 사용하면 title, leftImage, rightImage 는 제거됩니다. 관련 코드 삭제 필요!!")
             }
-            
+        
             guard let image = singleImage else { return }
             
             var singleImagePadding: CGFloat {
@@ -107,7 +108,7 @@ public class ClickableComponent: UIControl {
             self.singleImageView.removeFromSuperview()
             self.addSubview(self.singleImageView)
             self.singleImageView.then {
-                $0.image = image
+                $0.image = image.uiImage
             }.snp.makeConstraints {
                 $0.left.right.equalToSuperview().inset(singleImagePadding)
                 $0.centerY.equalToSuperview()
@@ -116,8 +117,8 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    /// 왼쪽 이미지(텍스트 포함)
-    public var leftImage: UIImage? {
+    /// 왼쪽 이미지(텍스트 포함 / rightImage와 함께 사용 가능)
+    public var leftImage: ClickableImage? {
         didSet {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
@@ -131,15 +132,15 @@ public class ClickableComponent: UIControl {
                     }
                 }
             }
-            self.leftImageView.image = leftImage
+            self.leftImageView.image = leftImage?.uiImage
             self.leftImageView.isHidden = (leftImage == nil)
             self.updateColor(color: self.currentColor)
             self.updateHorizontalOffset()
         }
     }
     
-    /// 오른쪽 이미지(텍스트 포함)
-    public var rightImage: UIImage? {
+    /// 오른쪽 이미지(텍스트 포함 / leftImage와 함께 사용 가능)
+    public var rightImage: ClickableImage? {
         didSet {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가")
@@ -153,7 +154,7 @@ public class ClickableComponent: UIControl {
                     }
                 }
             }
-            self.rightImageView.image = rightImage
+            self.rightImageView.image = rightImage?.uiImage
             self.rightImageView.isHidden = (rightImage == nil)
             self.updateColor(color: self.currentColor)
             self.updateHorizontalOffset()
@@ -162,7 +163,7 @@ public class ClickableComponent: UIControl {
     
     private var horizontalOffset: CGFloat = 0.0 {
         willSet {
-            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 늘어남
+            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 Label이 늘어남
             guard let style = self.configuration?.style, style == .button, newValue != horizontalOffset else { return }
             self.contentStackView.snp.updateConstraints {
                 $0.centerX.equalToSuperview().offset(newValue)
@@ -283,8 +284,10 @@ public class ClickableComponent: UIControl {
         }
         
         self.contentStackView.addArrangedSubview(self.leftImageView)
-        self.leftImageView.do {
+        self.leftImageView.then {
             $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
         self.contentStackView.setCustomSpacing(configuration.padding?.left.internalSpacing ?? 0.0, after: self.leftImageView)
         
@@ -301,8 +304,10 @@ public class ClickableComponent: UIControl {
         self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.titleLabel)
         
         self.contentStackView.addArrangedSubview(self.rightImageView)
-        self.rightImageView.do {
+        self.rightImageView.then {
             $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
 
         self.setBackgroundGradient(color: configuration.color?.normal)
@@ -324,13 +329,16 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    /// 상태에 따른 content 색상 변경
     private func updateColor(color: ClickableColorSet?) {
         guard let color else { return }
         
         self.currentColor = color
         
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
-            self.singleImageView.image = singleImage.withTintColor(color.text)
+            if singleImage.needOriginColor == false {
+                self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
+            }
         } else {
             if let borderColor = color.border {
                 self.layer.borderColor = borderColor.cgColor
@@ -343,16 +351,16 @@ public class ClickableComponent: UIControl {
             }
             self.backgroundColor = color.background
             self.titleLabel.textColor = color.text
-            if let leftImage = self.leftImage {
-                self.leftImageView.image = leftImage.withTintColor(color.text)
+            if let leftImage = self.leftImage, leftImage.needOriginColor == false {
+                self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
             }
-            if let rightImage = self.rightImage {
-                self.rightImageView.image = rightImage.withTintColor(color.text)
+            if let rightImage = self.rightImage, rightImage.needOriginColor == false {
+                self.rightImageView.image = rightImage.uiImage?.withTintColor(color.text)
             }
         }
-        
     }
     
+    /// content 의 horizontal 위치 조정
     func updateHorizontalOffset() {
         var leftOffset: CGFloat = 0.0
         var rightOffset: CGFloat = 0.0
@@ -369,6 +377,7 @@ public class ClickableComponent: UIControl {
         self.horizontalOffset = rightOffset - leftOffset
     }
     
+    /// Gradient Background
     private func setBackgroundGradient(color: ClickableColorSet?) {
         guard let gradientColors = color?.gradientBackground, gradientColors.count > 0 else { return }
         
@@ -389,6 +398,32 @@ public class ClickableComponent: UIControl {
         self.layer.insertSublayer(layer, at: 0)
         self.gradientBackgroundLayer = layer
     }
+    
+    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
+    func setImage(_ image: UIImage?, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
+    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
+
+    }
+    
+    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 타이틀 색상을 변경할 수 없습니다.")
+    func setTitleColor(_ color: UIColor, for state: UIControl.State) {
+        
+    }
+    
 }
 
 extension ClickableComponent {
@@ -528,6 +563,7 @@ extension ClickableComponent {
     }
 }
 
+// MARK: - Font
 public struct ClickableFont {
     var normal: UIFont
     var selected: UIFont?
@@ -543,6 +579,7 @@ public struct ClickableFont {
     }
 }
 
+// MARK: - Color
 public protocol ClickableColorConfig {
     var attribute: ClickableColor { get }
 }
@@ -556,10 +593,11 @@ public struct ClickableColorSet {
 
 public struct ClickableColor {
     var normal: ClickableColorSet
-    var selected: ClickableColorSet? // chip만 사용. button 없음.
+    var selected: ClickableColorSet? // chip만 사용. button은 seleted 상태 없음.
     var disabled: ClickableColorSet
 }
 
+// MARK: - Config
 public protocol ClickableConfig {
     var font: ClickableFont { get }
     var height: ClickableComponent.Configuration.Height { get }
@@ -567,13 +605,35 @@ public protocol ClickableConfig {
     var padding: ClickableComponent.Configuration.Padding { get }
 }
 
+// MARK: - Padding
 public struct ClickablePaddingSet {
+    /// 이미지가 없는 경우 Padding
     var normal: CGFloat
+    /// 이미지가 있는 경우 Padding
     var withImage: CGFloat
+    /// 이미지와 타이틀 사이 spacing
     var internalSpacing: CGFloat
 }
 
 public struct ClickablePadding {
     var left: ClickablePaddingSet
     var right: ClickablePaddingSet
+}
+
+// MARK: - Image
+public struct ClickableImage {
+    /// 이미지명
+    var named: String
+    /// 이미지 색상 유지?
+    var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
+    public init(named name: String, needOriginColor: Bool = false) {
+        self.named = name
+        self.needOriginColor = needOriginColor
+    }
+}
+
+extension ClickableImage {
+    fileprivate var uiImage: UIImage? {
+        return UIImage(named: self.named)
+    }
 }

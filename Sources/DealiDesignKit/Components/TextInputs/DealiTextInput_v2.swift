@@ -19,7 +19,7 @@ public final class DealiTextInput_v2: UIView {
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()
     private let textField = UITextField()
-    private let textInputRightTimeLabel = UILabel()
+    private let textInputRightTimerLabel = UILabel()
     private let textInputRightImageView = UIImageView()
     
     private let disposeBag = DisposeBag()
@@ -63,6 +63,7 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
+    
     /// 최소 글자수
     public var minLength = 0
     /// 최대 글자수
@@ -119,7 +120,7 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-    /// 기보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
+    /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
         didSet {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
@@ -223,13 +224,14 @@ public final class DealiTextInput_v2: UIView {
             $0.top.bottom.equalToSuperview()
         }
         
-        textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
-        self.textInputRightTimeLabel.then {
+        textFieldContentStackView.addArrangedSubview(self.textInputRightTimerLabel)
+        self.textInputRightTimerLabel.then {
             $0.text = "00:00"
             $0.font = .b2r14
             $0.textColor = DealiColor.error
             $0.textAlignment = .center
             $0.sizeToFit()
+            $0.isHidden = true
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo("00:00".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
@@ -261,8 +263,6 @@ public final class DealiTextInput_v2: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
  
     private func RX() {
         self.textField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
@@ -293,4 +293,68 @@ public final class DealiTextInput_v2: UIView {
         self.textField.isSecureTextEntry = configure.isSecureTextEntry
         self.textInputFormat = configure.textInputFormat
     }
+   
+    // MARK: - Timer
+    /// textInput 에 시간제약이 필요할 때 사용하는 값. 초 단위로 입력한다.
+    public var targetTime: Int? {
+        didSet {
+            guard let targetTime else { return }
+            self.textInputRightTimerLabel.isHidden = false
+            self.leftTime = targetTime
+        }
+    }
+    
+    /// 타이머 남은 시간.
+    public private(set) var leftTime: Int = 0 {
+        didSet {
+            self.textInputRightTimerLabel.text = self.formatTime(seconds: leftTime)
+            
+            if self.leftTime == 0 {
+                self.task?.cancel()
+                self.inputStatus = .error("")
+            }
+        }
+    }
+    
+    private var task: Task<(), Error>?
+    
+    public func startTimer() {
+        guard self.targetTime != nil else { return }
+        
+        self.task = Task {
+            while self.leftTime > 0 {
+                try await Task.sleep(nanoseconds: 1_000_000_000)
+                self.leftTime -= 1
+                
+            }
+        }
+    }
+    
+    public func stopTimer() {
+        guard self.targetTime != nil else { return }
+        
+        self.task?.cancel()
+        
+    }
+    
+    public func resetTimer() {
+        guard let targetTime else { return }
+        
+        self.task?.cancel()
+        self.leftTime = targetTime
+    }
+    
+    func formatTime(seconds: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute, .second]
+
+        if let formattedString = formatter.string(from: TimeInterval(seconds)) {
+            return formattedString
+        } else {
+            return "00:00"
+        }
+    }
 }
+

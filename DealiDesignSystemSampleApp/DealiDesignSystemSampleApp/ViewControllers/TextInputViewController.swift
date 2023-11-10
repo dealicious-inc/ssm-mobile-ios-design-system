@@ -8,6 +8,7 @@
 
 import UIKit
 import DealiDesignKit
+import RxSwift
 
 final class TextInputViewController: UIViewController {
 
@@ -22,7 +23,28 @@ final class TextInputViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.timerTestView.startButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.timerTestView.textInput.startTimer()
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.timerTestView.pauseButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.timerTestView.textInput.stopTimer()
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.timerTestView.resetButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.timerTestView.textInput.resetTimer()
+            }
+            .disposed(by: self.disposeBag)
     }
+    
+    let timerTestView = TextInputTimerTestView()
+    private let disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
@@ -54,6 +76,12 @@ final class TextInputViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
+
+        contentStackView.addArrangedSubview(self.timerTestView)
+        self.timerTestView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         
         let textInput = DealiTextInput_v2.text()
         contentStackView.addArrangedSubview(textInput)
@@ -162,5 +190,55 @@ final class TextInputViewController: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+}
+
+
+class TextInputTimerTestView: UIView {
+    
+    let textInput = DealiTextInput_v2.text()
+    let startButton = DealiControl.btnOutlineMediumSecondary01()
+    let pauseButton = DealiControl.btnOutlineMediumSecondary01()
+    let resetButton = DealiControl.btnOutlineMediumSecondary01()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.addSubview(self.textInput)
+        self.textInput.then {
+            $0.title = "타이머 테스트 입력"
+            $0.placeholder = "Text Input"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.normalHelperText = "helper Text"
+            $0.targetTime = 3
+        }.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+        }
+        
+        let buttonStackView = UIStackView()
+        self.addSubview(buttonStackView)
+        
+        buttonStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 30.0
+            $0.distribution = .fillEqually
+        }.snp.makeConstraints {
+            $0.top.equalTo(self.textInput.snp.bottom).offset(30.0)
+            $0.left.right.bottom.equalToSuperview()
+        }
+        
+        buttonStackView.addArrangedSubview(self.startButton)
+        self.startButton.title = "시작"
+        
+        buttonStackView.addArrangedSubview(self.pauseButton)
+        self.pauseButton.title = "일시중지"
+
+        buttonStackView.addArrangedSubview(self.resetButton)
+        self.resetButton.title = "초기화"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

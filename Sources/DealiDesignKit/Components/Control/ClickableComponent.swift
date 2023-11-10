@@ -117,7 +117,7 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    /// 왼쪽 이미지(텍스트 포함)
+    /// 왼쪽 이미지(텍스트 포함 / rightImage와 함께 사용 가능)
     public var leftImage: ClickableImage? {
         didSet {
             if self.singleImage != nil {
@@ -139,7 +139,7 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    /// 오른쪽 이미지(텍스트 포함)
+    /// 오른쪽 이미지(텍스트 포함 / leftImage와 함께 사용 가능)
     public var rightImage: ClickableImage? {
         didSet {
             if self.singleImage != nil {
@@ -163,7 +163,7 @@ public class ClickableComponent: UIControl {
     
     private var horizontalOffset: CGFloat = 0.0 {
         willSet {
-            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 늘어남
+            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 Label이 늘어남
             guard let style = self.configuration?.style, style == .button, newValue != horizontalOffset else { return }
             self.contentStackView.snp.updateConstraints {
                 $0.centerX.equalToSuperview().offset(newValue)
@@ -329,6 +329,7 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    /// 상태에 따른 content 색상 변경
     private func updateColor(color: ClickableColorSet?) {
         guard let color else { return }
         
@@ -357,9 +358,9 @@ public class ClickableComponent: UIControl {
                 self.rightImageView.image = rightImage.uiImage?.withTintColor(color.text)
             }
         }
-        
     }
     
+    /// content 의 horizontal 위치 조정
     func updateHorizontalOffset() {
         var leftOffset: CGFloat = 0.0
         var rightOffset: CGFloat = 0.0
@@ -376,6 +377,7 @@ public class ClickableComponent: UIControl {
         self.horizontalOffset = rightOffset - leftOffset
     }
     
+    /// Gradient Background
     private func setBackgroundGradient(color: ClickableColorSet?) {
         guard let gradientColors = color?.gradientBackground, gradientColors.count > 0 else { return }
         
@@ -395,9 +397,33 @@ public class ClickableComponent: UIControl {
         }
         self.layer.insertSublayer(layer, at: 0)
         self.gradientBackgroundLayer = layer
-        
+    }
+    
+    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
+    func setImage(_ image: UIImage?, for state: UIControl.State) {
         
     }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
+    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
+
+    }
+    
+    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 타이틀 색상을 변경할 수 없습니다.")
+    func setTitleColor(_ color: UIColor, for state: UIControl.State) {
+        
+    }
+    
 }
 
 extension ClickableComponent {
@@ -567,7 +593,7 @@ public struct ClickableColorSet {
 
 public struct ClickableColor {
     var normal: ClickableColorSet
-    var selected: ClickableColorSet? // chip만 사용. button 없음.
+    var selected: ClickableColorSet? // chip만 사용. button은 seleted 상태 없음.
     var disabled: ClickableColorSet
 }
 
@@ -581,8 +607,11 @@ public protocol ClickableConfig {
 
 // MARK: - Padding
 public struct ClickablePaddingSet {
+    /// 이미지가 없는 경우 Padding
     var normal: CGFloat
+    /// 이미지가 있는 경우 Padding
     var withImage: CGFloat
+    /// 이미지와 타이틀 사이 spacing
     var internalSpacing: CGFloat
 }
 
@@ -593,8 +622,10 @@ public struct ClickablePadding {
 
 // MARK: - Image
 public struct ClickableImage {
+    /// 이미지명
     var named: String
-    var needOriginColor: Bool = false
+    /// 이미지 색상 유지?
+    var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
     public init(named name: String, needOriginColor: Bool = false) {
         self.named = name
         self.needOriginColor = needOriginColor

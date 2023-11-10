@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DealiSearchInput.swift
 //
 //
 //  Created by 조서현 on 2023/11/09.
@@ -10,6 +10,10 @@ import Then
 import SnapKit
 import RxSwift
 import RxCocoa
+
+/**
+ 설명: UI Elements - SearchInput
+ */
 
 public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
@@ -182,8 +186,6 @@ public final class DealiSearchInput: UIView {
                 self.textFieldClearTapped()
             })
             .disposed(by: self.disposeBag)
-        
-        // TODO: @조서현 textfield 상태에 따라서 이미지 변경되어야 함
     }
     
     private func setPlaceHolder(text: String) {
@@ -237,19 +239,6 @@ public final class DealiSearchInput: UIView {
             }
         }
         placeHolderLabel.isHidden = status == .editing
-    }
-}
-
-extension UIView {
-    func setCornerRadius(_ radius: CGFloat, borderWidth: CGFloat = 0, borderColor: UIColor? = .clear) {
-        if let _ = borderColor {
-            self.layer.borderColor = borderColor?.cgColor
-            self.layer.borderWidth = borderWidth
-        }
-        
-        self.layer.cornerRadius = radius
-        self.layer.masksToBounds = false
-        self.clipsToBounds = true
     }
 }
 

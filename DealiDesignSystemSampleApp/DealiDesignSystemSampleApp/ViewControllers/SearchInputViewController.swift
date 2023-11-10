@@ -58,6 +58,15 @@ final class SearchInputViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
+        let searchBarDefaultTextView = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", delegate: self)
+        contentStackView.addArrangedSubview(searchBarDefaultTextView)
+        searchBarDefaultTextView.then {
+            $0.backgroundColor = .clear
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
         let searchBarPlaceHolderView = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
         contentStackView.addArrangedSubview(searchBarPlaceHolderView)
         searchBarPlaceHolderView.then {
@@ -70,6 +79,15 @@ final class SearchInputViewController: UIViewController {
         let searchBarSubCategoryView = DealiSearchInput(type: .subCategory(keyword: "아우터"), delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView)
         searchBarSubCategoryView.then {
+            $0.backgroundColor = .clear
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        let searchBarSubCategoryDefaultTextView = DealiSearchInput(type: .subCategory(keyword: "아우터"), defaultKeyword: "패딩", delegate: self)
+        contentStackView.addArrangedSubview(searchBarSubCategoryDefaultTextView)
+        searchBarSubCategoryDefaultTextView.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

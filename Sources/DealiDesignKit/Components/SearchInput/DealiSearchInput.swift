@@ -81,6 +81,7 @@ public final class DealiSearchInput: UIView {
     private let disposeBag = DisposeBag()
     
     public init(type: SeachInputType = .default
+                , defaultKeyword: String = ""
                 , placeholderText: String = ""
                 , delegate: DealiSearchInputDelegate? = nil) {
         self.delegate = delegate
@@ -88,8 +89,7 @@ public final class DealiSearchInput: UIView {
         
         super.init(frame: .zero)
         
-        configure()
-        setPlaceHolder(text: placeholderText)
+        configure(keyword: defaultKeyword, placeholder: placeholderText)
         
         switch type {
         case .subCategory(let keyword):
@@ -103,9 +103,9 @@ public final class DealiSearchInput: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure(placeholder: String = "") {
+    private func configure(keyword: String, placeholder: String) {
         setContainerStackView()
-        setTextField()
+        setTextField(keyword: keyword, placeholder: placeholder)
         setSearchStatusImage()
     }
     
@@ -131,7 +131,7 @@ public final class DealiSearchInput: UIView {
         }
     }
     
-    private func setTextField() {
+    private func setTextField(keyword: String, placeholder: String) {
         let textInputContainer = UIView()
         stackView.addArrangedSubview(textInputContainer)
         textInputContainer.do {
@@ -145,6 +145,7 @@ public final class DealiSearchInput: UIView {
             $0.textColor = Constants.placeholderColor
             $0.font = Constants.font
             $0.backgroundColor = .clear
+            $0.text = placeholder
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -156,6 +157,7 @@ public final class DealiSearchInput: UIView {
             $0.isUserInteractionEnabled = true
             $0.backgroundColor = .clear
             $0.returnKeyType = .search
+            $0.text = keyword
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -177,7 +179,7 @@ public final class DealiSearchInput: UIView {
         }.snp.makeConstraints {
             $0.width.height.equalTo(Constants.imageSize)
         }
-        setSearchBarAs(status: .empty)
+        setSearchBarAs(status: searchTextField.text?.isEmpty == true ? .empty : .editing)
         
         searchImageView.rx.tapGestureOnTop()
             .when(.recognized)
@@ -186,10 +188,6 @@ public final class DealiSearchInput: UIView {
                 self.textFieldClearTapped()
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    private func setPlaceHolder(text: String) {
-        placeHolderLabel.text = text
     }
     
     private func setSubCategoryView(with keyword: String) {
@@ -223,7 +221,7 @@ public final class DealiSearchInput: UIView {
         }
         
         stackView.setCustomSpacing(8, after: keywordView)
-        setSearchBarAs(status: .empty)
+        setSearchBarAs(status: searchTextField.text?.isEmpty == true ? .empty : .editing)
     }
     
     private func setSearchBarAs(status: SearchStatus) {
@@ -238,7 +236,7 @@ public final class DealiSearchInput: UIView {
                 searchImageView.image = status.image
             }
         }
-        placeHolderLabel.isHidden = status == .editing
+        placeHolderLabel.isHidden = (status == .editing || searchTextField.text?.isEmpty == false)
     }
 }
 

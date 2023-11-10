@@ -30,6 +30,13 @@ public final class DealiSearchInput: UIView {
     private enum SearchStatus {
         case empty
         case editing
+        
+        var image: UIImage? {
+            switch self {
+            case .empty: return Constants.imageSearch
+            case .editing: return Constants.imageClear
+            }
+        }
     }
     
     private enum Constants {
@@ -39,6 +46,8 @@ public final class DealiSearchInput: UIView {
         static let textColor: UIColor = DealiColor.g100
         
         // search image
+        static let imageSearch: UIImage? = UIImage(named: "ic_search")
+        static let imageClear: UIImage? = UIImage(named: "ic_x")
         static let imageSize: CGFloat = 16
     }
     
@@ -65,9 +74,6 @@ public final class DealiSearchInput: UIView {
     private let placeHolderLabel = UILabel()
     private let searchTextField = UITextField()
     private let searchImageView = UIImageView()
-    
-    private let imageSearch = UIImage(named: "ic_search")
-    private let imageClear = UIImage(named: "ic_x")
     
     private var inputType: SeachInputType = .default
     private weak var delegate: DealiSearchInputDelegate?
@@ -218,24 +224,15 @@ public final class DealiSearchInput: UIView {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        
-        let search = UIImage(named: "ic_search")
-        let clear = UIImage(named: "ic_x")
-        
         switch inputType {
         case .default:
-            switch status {
-            case .empty:
-                searchImageView.image = imageSearch
-            case .editing:
-                searchImageView.image = imageClear
-            }
+            searchImageView.image = status.image
         case .subCategory:
             switch status {
             case .empty:
                 searchImageView.image = nil
             case .editing:
-                searchImageView.image = imageClear
+                searchImageView.image = status.image
             }
         }
         placeHolderLabel.isHidden = (status == .editing || searchTextField.text?.isEmpty == false)

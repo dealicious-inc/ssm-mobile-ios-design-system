@@ -18,6 +18,7 @@ import RxCocoa
 public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
     func clear()
+    func beginEditing()
 }
 
 public final class DealiSearchInput: UIView {
@@ -162,12 +163,20 @@ public final class DealiSearchInput: UIView {
             $0.edges.equalToSuperview()
         }
         
+        RX()
+    }
+    
+    private func RX() {
         searchTextField.rx.controlEvent(.editingChanged).asSignal().emit(with: self) { owner, _ in
             owner.textFieldDidChange(owner.searchTextField)
         }.disposed(by: self.disposeBag)
         
         searchTextField.rx.controlEvent(.editingDidEndOnExit).asSignal().emit(with: self) { owner, _ in
             owner.textFieldShouldReturn(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
+            owner.textFieldEditingDidBegin(owner.searchTextField)
         }.disposed(by: self.disposeBag)
     }
     
@@ -259,6 +268,10 @@ extension DealiSearchInput {
     private func textFieldShouldReturn(_ textField: UITextField) {
         textField.resignFirstResponder()
         delegate?.search(keyword: textField.text)
+    }
+    
+    private func textFieldEditingDidBegin(_ textField: UITextField) {
+        delegate?.beginEditing()
     }
     
 }

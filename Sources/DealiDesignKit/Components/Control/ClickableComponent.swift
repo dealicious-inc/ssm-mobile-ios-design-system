@@ -638,9 +638,3 @@ public struct ClickableImage {
         self.needOriginColor = needOriginColor
     }
 }
-
-//extension ClickableImage {
-//    fileprivate var uiImage: UIImage? {
-//        return UIImage(named: self.named)
-//    }
-//}

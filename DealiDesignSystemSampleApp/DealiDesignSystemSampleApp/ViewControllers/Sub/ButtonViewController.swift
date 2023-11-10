@@ -97,7 +97,7 @@ class ButtonViewController: UIViewController {
             } else if let new = button as? ClickableComponent {
                 switch Int.random(in: 0...2) {
                 case 0:
-                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
+                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
                 case 1:
                     new.rightImage = ClickableImage(named: "ic_arrow_right")
                 default:

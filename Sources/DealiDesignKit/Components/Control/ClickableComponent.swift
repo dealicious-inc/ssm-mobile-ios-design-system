@@ -626,14 +626,21 @@ public struct ClickableImage {
     var named: String
     /// 이미지 색상 유지?
     var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
+    fileprivate var uiImage: UIImage?
     public init(named name: String, needOriginColor: Bool = false) {
         self.named = name
+        self.needOriginColor = needOriginColor
+        self.uiImage = UIImage(named: name)
+    }
+    public init(_ image: UIImage?, needOriginColor: Bool = false) {
+        self.named = ""
+        self.uiImage = image
         self.needOriginColor = needOriginColor
     }
 }
 
-extension ClickableImage {
-    fileprivate var uiImage: UIImage? {
-        return UIImage(named: self.named)
-    }
-}
+//extension ClickableImage {
+//    fileprivate var uiImage: UIImage? {
+//        return UIImage(named: self.named)
+//    }
+//}

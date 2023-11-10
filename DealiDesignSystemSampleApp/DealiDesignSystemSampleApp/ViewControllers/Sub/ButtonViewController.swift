@@ -93,8 +93,17 @@ class ButtonViewController: UIViewController {
         buttonArray.forEach { button in
             if let old = button as? SystemButton {
                 old.setTitle(String(describing: type(of: button)), for: .normal)
+
             } else if let new = button as? ClickableComponent {
-//                new.title = "Default"
+                switch Int.random(in: 0...2) {
+                case 0:
+                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
+                case 1:
+                    new.rightImage = ClickableImage(named: "ic_arrow_right")
+                default:
+                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
+                    new.rightImage = ClickableImage(named: "ic_arrow_right")
+                }
             }
             
             self.stackView.addArrangedSubview(button)
@@ -103,7 +112,7 @@ class ButtonViewController: UIViewController {
     }
     
     @objc func btnTextMediumPrimary02Pressed(_ sender: ClickableComponentButton) {
-        sender.leftImage = UIImage(named: "ic_arrow_right")
+     
     }
 
     override func viewDidLoad() {

@@ -38,7 +38,7 @@ class ChipViewController: UIViewController {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(0.0)
         }
-      
+
         let chipsOutlineLargePrimary01 = ChipContentView(name: "chipsOutlineLargePrimary01", chipArray: (0..<4).map { _ in
             DealiControl.chipsOutlineLargePrimary01()
         })
@@ -181,7 +181,7 @@ final class ChipContentView: UIView {
                     $0.isEnabled = false
                 } else {
                     $0.title = nil
-                    $0.singleImage = UIImage(named: "ic_refresh")
+                    $0.singleImage = ClickableImage(named: "ic_refresh", needOriginColor: true)
                 }
             }
         }

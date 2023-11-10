@@ -31,10 +31,10 @@ public final class DealiSearchInput: UIView {
         case empty
         case editing
         
-        var image: UIImage {
+        var image: UIImage? {
             switch self {
-            case .empty: return UIImage(named: "ic_search")!
-            case .editing: return UIImage(named: "ic_x")!
+            case .empty: return Constants.imageSearch
+            case .editing: return Constants.imageClear
             }
         }
     }
@@ -46,8 +46,8 @@ public final class DealiSearchInput: UIView {
         static let textColor: UIColor = DealiColor.g100
         
         // search image
-        static let imageSearch: UIImage = UIImage(named: "ic_search")!
-        static let imageClear: UIImage = UIImage(named: "ic_x")!
+        static let imageSearch: UIImage? = UIImage(named: "ic_search")
+        static let imageClear: UIImage? = UIImage(named: "ic_x")
         static let imageSize: CGFloat = 16
     }
     
@@ -106,7 +106,7 @@ public final class DealiSearchInput: UIView {
     private func configure(keyword: String, placeholder: String) {
         setContainerStackView()
         setTextField(keyword: keyword, placeholder: placeholder)
-        setSearchStatusImage()
+        setSearchStatusImage(hasDefaultKeyboard: !keyword.isEmpty)
     }
     
     private func setContainerStackView() {
@@ -171,7 +171,7 @@ public final class DealiSearchInput: UIView {
         }.disposed(by: self.disposeBag)
     }
     
-    private func setSearchStatusImage() {
+    private func setSearchStatusImage(hasDefaultKeyboard: Bool) {
         stackView.addArrangedSubview(searchImageView)
         searchImageView.then {
             $0.contentMode = .scaleAspectFit
@@ -179,7 +179,7 @@ public final class DealiSearchInput: UIView {
         }.snp.makeConstraints {
             $0.width.height.equalTo(Constants.imageSize)
         }
-        setSearchBarAs(status: searchTextField.text?.isEmpty == true ? .empty : .editing)
+        setSearchBarAs(status: hasDefaultKeyboard ? .editing : .empty)
         
         searchImageView.rx.tapGestureOnTop()
             .when(.recognized)
@@ -221,7 +221,6 @@ public final class DealiSearchInput: UIView {
         }
         
         stackView.setCustomSpacing(8, after: keywordView)
-        setSearchBarAs(status: searchTextField.text?.isEmpty == true ? .empty : .editing)
     }
     
     private func setSearchBarAs(status: SearchStatus) {

@@ -74,43 +74,43 @@ struct DeailTextInputPasswordConfig: DeailTextInputConfigureProtocol {
 public extension DealiTextInput_v2 {
     static func text() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputTextConfig())
+        textInput.configure(with: DeailTextInputTextConfig())
         return textInput
     }
     
     static func email() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputEmailConfig())
+        textInput.configure(with: DeailTextInputEmailConfig())
         return textInput
     }
     
     static func number() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputNumberConfig())
+        textInput.configure(with: DeailTextInputNumberConfig())
         return textInput
     }
     
     static func phone() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputPhoneConfig())
+        textInput.configure(with: DeailTextInputPhoneConfig())
         return textInput
     }
     
     static func price() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputPriceConfig())
+        textInput.configure(with: DeailTextInputPriceConfig())
         return textInput
     }
     
     static func url() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputUrlConfig())
+        textInput.configure(with: DeailTextInputUrlConfig())
         return textInput
     }
     
     static func password() -> DealiTextInput_v2 {
         let textInput = DealiTextInput_v2()
-        textInput.configure(configure: DeailTextInputPasswordConfig())
+        textInput.configure(with: DeailTextInputPasswordConfig())
         return textInput
     }
     

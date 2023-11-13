@@ -82,6 +82,21 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let maxLengthTextInput = DealiTextInput_v2.text()
+        contentStackView.addArrangedSubview(maxLengthTextInput)
+        maxLengthTextInput.then {
+            $0.title = "최대 글자수 제한 텍스트필드"
+            $0.placeholder = "5자까지 입력가능"
+            $0.maxLength = 5
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            let button = DealiControl.btnOutlineMediumPrimary01()
+            button.title = "Default"
+            $0.actionButton = button
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         
         let textInput = DealiTextInput_v2.text()
         contentStackView.addArrangedSubview(textInput)

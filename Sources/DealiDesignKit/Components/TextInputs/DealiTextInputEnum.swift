@@ -5,7 +5,6 @@
 //  Created by hoji on 2023/11/02.
 //
 
-import Foundation
 import UIKit
 
 public enum ETextInputStatus: Equatable {
@@ -43,6 +42,7 @@ public enum ETextInputErrorToastType {
     case maxLength
     /// 가격 범위를 넘어서 입력했을경우
     case priceRange
+    /// 허용되는 문자 이외의 문자를 입력했을 경우
     case allowedCharacter
     /// 소수점이 먼저 입력되었을 경우
     case decimalPlaces

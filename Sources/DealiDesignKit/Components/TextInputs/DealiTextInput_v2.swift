@@ -18,11 +18,16 @@ public final class DealiTextInput_v2: UIView {
     
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()
-    private let textField = UITextField()
+    public let textField = UITextField()
     private let textInputRightTimerLabel = UILabel()
     private let textInputRightImageView = UIImageView()
+    /// 포커스인 시 지울 수 있도록 하는 버튼. 노출이 default.
+    private let clearButton = UIButton()
+    /// 클리어버튼 노출 여부. default 는 노출
+    public var showsClearButton: Bool = true
     
-    public var toastMsg: PublishRelay<ETextInputErrorToastType> = .init()
+//    public var toastMsg: PublishRelay<ETextInputErrorToastType> = .init()
+    public var changedText: Driver<String>!
     
     private let disposeBag = DisposeBag()
     
@@ -242,6 +247,15 @@ public final class DealiTextInput_v2: UIView {
         textFieldContentStackView.addArrangedSubview(self.textInputRightImageView)
         self.textInputRightImageView.then {
             $0.backgroundColor = .red
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
+        }
+        
+        textFieldContentStackView.addArrangedSubview(self.clearButton)
+        self.clearButton.then {
+            $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
+            $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -270,6 +284,9 @@ public final class DealiTextInput_v2: UIView {
         self.textField.rx.controlEvent(.editingDidBegin).asSignal()
             .emit(with: self) { owner, _ in
                 owner.inputStatus = .focusIn
+                if self.showsClearButton {
+                    owner.clearButton.isHidden = false
+                }
             }.disposed(by: self.disposeBag)
         
         // MARK: -  포커스 아웃 시 체크해야 하는 제약조건
@@ -279,6 +296,7 @@ public final class DealiTextInput_v2: UIView {
         )
         .emit(with: self) { owner, _ in
             owner.inputStatus = .focusOut
+            owner.clearButton.isHidden = true
         }
         .disposed(by: self.disposeBag)
         
@@ -291,25 +309,35 @@ public final class DealiTextInput_v2: UIView {
         /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
         /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
         
-        self.textField.rx.text.orEmpty.asObservable()
-            .scan("") { [weak self] (oldValue, newValue) in
-                guard let self else { return newValue }
-                return (self.isRestricted(newValue) ? oldValue : newValue)
-           }
-            .map { [weak self] value -> String? in
-                guard let self else { return value }
-                var newString = value
-                
-                // maxLength 검사
-                if newString.count > self.maxLength {
-                    self.toastMsg.accept(.maxLength)
-                    newString = newString.substring(to: self.maxLength)
-                }
-                
-                return newString
+        self.changedText = self.textField.rx.text.orEmpty.changed.asDriver().skip(1)
+        
+//        self.changedText = self.textField.rx.text.orEmpty.asObservable()
+//            .scan("") { [weak self] (oldValue, newValue) in
+//                guard let self else { return newValue }
+//                return (self.isRestricted(newValue) ? oldValue : newValue)
+//           }
+//            .map { [weak self] value -> String? in
+//                guard let self else { return value }
+//                var newString = value
+//                
+//                // maxLength 검사
+//                if newString.count > self.maxLength {
+//                    self.toastMsg.accept(.maxLength)
+//                    newString = newString.substring(to: self.maxLength)
+//                }
+//                
+//                return newString
+//            }
+//        
+//        self.changedText?
+//           .bind(to: self.textField.rx.text)
+//           .disposed(by: disposeBag)
+//        
+        self.clearButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.textField.text = nil
             }
-           .bind(to: self.textField.rx.text)
-           .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
     }
     
     /// 제한이 있을 때 해당 함수 overrride 해서 사용. 들어오면 안 되는 입력값 있을 경우 true 리턴.

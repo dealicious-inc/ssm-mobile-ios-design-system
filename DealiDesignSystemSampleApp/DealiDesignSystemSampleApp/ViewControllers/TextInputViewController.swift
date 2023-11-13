@@ -36,6 +36,12 @@ final class TextInputViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.timerTestView.textInput.changedText
+            .drive(onNext: { [weak self] text in
+                print("text: \(text)")
+            })
+            .disposed(by: self.disposeBag)
+            
         self.timerTestView.resetButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.timerTestView.textInput.resetTimer()

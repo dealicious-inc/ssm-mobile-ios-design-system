@@ -76,6 +76,8 @@ final class SearchInputViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
+        searchBarView3.updateKeyword("키워드 변경")
+        
         let searchBarView4 = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
         contentStackView.addArrangedSubview(searchBarView4)
         searchBarView4.then {

@@ -49,58 +49,67 @@ final class SearchInputViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let searchBarView = DealiSearchInput(delegate: self)
-        contentStackView.addArrangedSubview(searchBarView)
-        searchBarView.then {
+        let searchBarView1 = DealiSearchInput(delegate: self)
+        contentStackView.addArrangedSubview(searchBarView1)
+        searchBarView1.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarDefaultTextView = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", delegate: self)
-        contentStackView.addArrangedSubview(searchBarDefaultTextView)
-        searchBarDefaultTextView.then {
+        let searchBarView2 = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", delegate: self)
+        contentStackView.addArrangedSubview(searchBarView2)
+        searchBarView2.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarPlaceHolderView = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
-        contentStackView.addArrangedSubview(searchBarPlaceHolderView)
-        searchBarPlaceHolderView.then {
+        let searchBarView3 = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", resetKeywordWhenClearTapped: false, delegate: self)
+        contentStackView.addArrangedSubview(searchBarView3)
+        searchBarView3.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryView = DealiSearchInput(type: .subCategory(keyword: "아우터"), delegate: self)
-        contentStackView.addArrangedSubview(searchBarSubCategoryView)
-        searchBarSubCategoryView.then {
+        let searchBarView4 = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
+        contentStackView.addArrangedSubview(searchBarView4)
+        searchBarView4.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryDefaultTextView = DealiSearchInput(type: .subCategory(keyword: "아우터"), defaultKeyword: "패딩", delegate: self)
-        contentStackView.addArrangedSubview(searchBarSubCategoryDefaultTextView)
-        searchBarSubCategoryDefaultTextView.then {
+        let searchBarSubCategoryView1 = DealiSearchInput(type: .subCategory(keyword: "아우터"), delegate: self)
+        contentStackView.addArrangedSubview(searchBarSubCategoryView1)
+        searchBarSubCategoryView1.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryLongView = DealiSearchInput(
+        let searchBarSubCategoryView2 = DealiSearchInput(type: .subCategory(keyword: "아우터"), defaultKeyword: "패딩", delegate: self)
+        contentStackView.addArrangedSubview(searchBarSubCategoryView2)
+        searchBarSubCategoryView2.then {
+            $0.backgroundColor = .clear
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        let searchBarSubCategoryView3 = DealiSearchInput(
             type: .subCategory(keyword: "키워드가 들어가는데 엄청길어요")
             , placeholderText: "상품을 검색해주세요."
             , delegate: self
         )
-        contentStackView.addArrangedSubview(searchBarSubCategoryLongView)
-        searchBarSubCategoryLongView.then {
+        contentStackView.addArrangedSubview(searchBarSubCategoryView3)
+        searchBarSubCategoryView3.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

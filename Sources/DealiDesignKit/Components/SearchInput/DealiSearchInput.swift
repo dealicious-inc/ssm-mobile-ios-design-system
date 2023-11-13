@@ -78,15 +78,18 @@ public final class DealiSearchInput: UIView {
     
     private var inputType: SeachInputType = .default
     private weak var delegate: DealiSearchInputDelegate?
+    private var resetKeywordWhenClearTapped: Bool = true
     
     private let disposeBag = DisposeBag()
     
     public init(type: SeachInputType = .default
                 , defaultKeyword: String = ""
                 , placeholderText: String = ""
+                , resetKeywordWhenClearTapped: Bool = true
                 , delegate: DealiSearchInputDelegate? = nil) {
         self.delegate = delegate
-        inputType = type
+        self.inputType = type
+        self.resetKeywordWhenClearTapped = resetKeywordWhenClearTapped
         
         super.init(frame: .zero)
         
@@ -252,8 +255,10 @@ public final class DealiSearchInput: UIView {
 extension DealiSearchInput {
     private func textFieldClearTapped() {
         guard searchTextField.text != nil else { return }
-        searchTextField.text = nil
-        setSearchBarAs(status: .empty)
+        if resetKeywordWhenClearTapped {
+            searchTextField.text = nil
+            setSearchBarAs(status: .empty)
+        }
         delegate?.clear()
     }
     

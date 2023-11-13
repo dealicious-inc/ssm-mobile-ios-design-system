@@ -197,9 +197,9 @@ final class TextInputViewController: UIViewController {
 class TextInputTimerTestView: UIView {
     
     let textInput = DealiTextInput_v2.text()
-    let startButton = DealiControl.btnOutlineMediumSecondary01()
-    let pauseButton = DealiControl.btnOutlineMediumSecondary01()
-    let resetButton = DealiControl.btnOutlineMediumSecondary01()
+    let startButton = DealiControl.btnFilledTonalMediumSecondary01()
+    let pauseButton = DealiControl.btnFilledTonalMediumSecondary01()
+    let resetButton = DealiControl.btnFilledTonalMediumSecondary01()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -210,8 +210,9 @@ class TextInputTimerTestView: UIView {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            $0.normalHelperText = "helper Text"
-            $0.targetTime = 3
+            
+            $0.targetSeconds = 3
+            $0.timeoutErrorMsg = "시간초과 에러메시지"
         }.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
         }
@@ -221,7 +222,7 @@ class TextInputTimerTestView: UIView {
         
         buttonStackView.then {
             $0.axis = .horizontal
-            $0.spacing = 30.0
+            $0.spacing = 20.0
             $0.distribution = .fillEqually
         }.snp.makeConstraints {
             $0.top.equalTo(self.textInput.snp.bottom).offset(30.0)

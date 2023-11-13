@@ -295,14 +295,17 @@ public final class DealiTextInput_v2: UIView {
     }
    
     // MARK: - Timer
-    /// textInput 에 시간제약이 필요할 때 사용하는 값. 초 단위로 입력한다.
-    public var targetTime: Int? {
+    /// textInput 에 타이머 필요할 때 사용하는 값. 초 단위로 입력한다.
+    public var targetSeconds: Int? {
         didSet {
-            guard let targetTime else { return }
+            guard let targetSeconds else { return }
             self.textInputRightTimerLabel.isHidden = false
-            self.leftTime = targetTime
+            self.leftTime = targetSeconds
         }
     }
+    
+    /// 시간초과 시 helper text 에 보여줄 에러 문구
+    public var timeoutErrorMsg: String?
     
     /// 타이머 남은 시간.
     public private(set) var leftTime: Int = 0 {
@@ -311,7 +314,7 @@ public final class DealiTextInput_v2: UIView {
             
             if self.leftTime == 0 {
                 self.task?.cancel()
-                self.inputStatus = .error("")
+                self.inputStatus = .error(self.timeoutErrorMsg ?? "")
             }
         }
     }
@@ -319,29 +322,31 @@ public final class DealiTextInput_v2: UIView {
     private var task: Task<(), Error>?
     
     public func startTimer() {
-        guard self.targetTime != nil else { return }
+        guard self.targetSeconds != nil, self.task == nil else { return }
         
         self.task = Task {
             while self.leftTime > 0 {
                 try await Task.sleep(nanoseconds: 1_000_000_000)
                 self.leftTime -= 1
-                
             }
         }
     }
     
     public func stopTimer() {
-        guard self.targetTime != nil else { return }
+        guard self.targetSeconds != nil else { return }
         
         self.task?.cancel()
-        
+        self.task = nil
     }
     
     public func resetTimer() {
-        guard let targetTime else { return }
+        guard let targetSeconds else { return }
         
         self.task?.cancel()
-        self.leftTime = targetTime
+        self.task = nil
+        self.leftTime = targetSeconds
+        self.textField.endEditing(true)
+        self.inputStatus = .normal
     }
     
     func formatTime(seconds: Int) -> String {
@@ -356,5 +361,6 @@ public final class DealiTextInput_v2: UIView {
             return "00:00"
         }
     }
+    
+    
 }
-

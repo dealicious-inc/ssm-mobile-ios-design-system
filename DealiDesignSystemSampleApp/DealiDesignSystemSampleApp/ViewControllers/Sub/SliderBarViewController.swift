@@ -36,6 +36,16 @@ class SliderBarViewController: UIViewController {
             $0.centerY.equalToSuperview()
             $0.left.right.equalToSuperview()
         }
+        
+        let sliderBarWithIndicator = DealiSliderBarWithRangeIndicatorView()
+        self.view.addSubview(sliderBarWithIndicator)
+        sliderBarWithIndicator.then {
+            $0.rangeIndicatorArray = ["1만원", "2만원", "3만원", "5만원", "15만원", "25만원" ]
+        }.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.bottom).offset(30.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
     }
 
     override func viewDidLoad() {
@@ -46,7 +56,7 @@ class SliderBarViewController: UIViewController {
         self.sliderBar.maxValue
             .asDriver()
             .drive { value in
-                print("maxValue: \(value)")
+                debugPrint("maxValue: \(value)")
             }
             .disposed(by: self.disposeBag)
         
@@ -54,9 +64,8 @@ class SliderBarViewController: UIViewController {
         self.sliderBar.minValue
             .asDriver()
             .drive { value in
-                print("value: \(value)")
+                debugPrint("minValue: \(value)")
             }
             .disposed(by: self.disposeBag)
-        
     }
 }

@@ -80,6 +80,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(toggleButtonPressed), for: .touchUpInside)
         }
         
+        let sliderBarComponentButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(sliderBarComponentButton)
+        sliderBarComponentButton.do {
+            $0.title = "SliderBar"
+            $0.addTarget(self, action: #selector(sliderBarButtonPressed), for: .touchUpInside)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -117,5 +124,9 @@ extension MainViewController {
     
     @objc func toggleButtonPressed() {
         self.navigationController?.pushViewController(SwitchViewController(), animated: true)
+    }
+    
+    @objc func sliderBarButtonPressed() {
+        self.navigationController?.pushViewController(SliderBarViewController(), animated: true)
     }
 }

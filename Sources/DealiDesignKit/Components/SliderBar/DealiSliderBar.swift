@@ -94,6 +94,8 @@ public final class DealiSliderBar: UIControl {
         self.addSubview(self.activeRangeBarView)
         self.activeRangeBarView.then {
             $0.backgroundColor = DealiColor.primary01
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 3.0
         }.snp.makeConstraints {
             $0.left.equalTo(self.minThumbView)
             $0.right.equalTo(self.maxThumbView)

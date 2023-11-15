@@ -24,7 +24,7 @@ class SliderBarViewController: UIViewController {
         let contentView = UIView()
         self.view.addSubview(contentView)
         contentView.then {
-            $0.backgroundColor = .darkGray
+            $0.backgroundColor = .white
         }.snp.makeConstraints {
             $0.height.equalTo(30.0)
             $0.left.right.equalToSuperview().inset(20.0)

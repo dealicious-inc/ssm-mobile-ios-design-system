@@ -54,7 +54,6 @@ public final class DealiSliderBar: UIControl {
         
         self.addSubview(self.minThumbView)
         self.minThumbView.then {
-            $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 11.0
             $0.layer.shadowColor = UIColor.black.cgColor
             $0.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -73,10 +72,9 @@ public final class DealiSliderBar: UIControl {
         
         self.addSubview(self.maxThumbView)
         self.maxThumbView.then {
-            $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 11.0
             $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOffset = CGSize(width: 0, height: 1)
+            $0.layer.shadowOffset = CGSize(width: 1, height: 1)
             $0.layer.shadowOpacity = 0.22
             $0.layer.shadowRadius = 3.0
             $0.backgroundColor = DealiColor.primary04

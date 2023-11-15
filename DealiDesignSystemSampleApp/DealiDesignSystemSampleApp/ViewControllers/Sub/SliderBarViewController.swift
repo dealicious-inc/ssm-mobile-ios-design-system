@@ -14,6 +14,8 @@ import RxRelay
 class SliderBarViewController: UIViewController {
     
     let sliderBar = DealiSliderBar()
+    let sliderBarWithIndicator = DealiSliderBarWithRangeIndicatorView()
+
     private let disposeBag = DisposeBag()
     
     override func loadView() {
@@ -37,10 +39,9 @@ class SliderBarViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let sliderBarWithIndicator = DealiSliderBarWithRangeIndicatorView()
         self.view.addSubview(sliderBarWithIndicator)
         sliderBarWithIndicator.then {
-            $0.rangeIndicatorArray = ["1만원", "2만원", "3만원", "5만원", "15만원", "25만원" ]
+            $0.rangeIndicatorArray = ["1만원", "2만원", "3만원", "5만원", "15만원", "25만원"]
         }.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.bottom).offset(30.0)
             $0.left.right.equalToSuperview().inset(20.0)
@@ -53,18 +54,32 @@ class SliderBarViewController: UIViewController {
         
         self.title = "sliderBar"
         
-        self.sliderBar.maxValue
-            .asDriver()
-            .drive { value in
-                debugPrint("maxValue: \(value)")
-            }
-            .disposed(by: self.disposeBag)
+//        self.sliderBar.maxValue
+//            .asDriver()
+//            .drive { value in
+//                debugPrint("maxValue: \(value)")
+//            }
+//            .disposed(by: self.disposeBag)
+//        
+//        
+//        self.sliderBar.minValue
+//            .asDriver()
+//            .drive { value in
+//                debugPrint("minValue: \(value)")
+//            }
+//            .disposed(by: self.disposeBag)
         
-        
-        self.sliderBar.minValue
+        self.sliderBarWithIndicator.sliderBar.minValue
             .asDriver()
             .drive { value in
                 debugPrint("minValue: \(value)")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.sliderBarWithIndicator.sliderBar.maxValue
+            .asDriver()
+            .drive { value in
+                debugPrint("maxValue: \(value)")
             }
             .disposed(by: self.disposeBag)
     }

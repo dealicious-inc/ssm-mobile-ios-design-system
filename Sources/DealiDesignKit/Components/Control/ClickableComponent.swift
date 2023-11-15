@@ -44,6 +44,52 @@ final public class ClickableComponentChip: ClickableComponent {
     }
 }
 
+fileprivate final class ClickableIndicatorView: UIView {
+    private let indicatorImageView = UIImageView()
+
+    private var indicatorImage: UIImage? {
+        return UIImage(named: "loading")
+    }
+    
+    var color: UIColor = .white {
+        didSet {
+            self.indicatorImageView.image = self.indicatorImage?.withTintColor(color)
+        }
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.addSubview(self.indicatorImageView)
+        self.indicatorImageView.then {
+            $0.image = self.indicatorImage
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 21.0, height: 21.0))
+            $0.edges.equalTo(UIEdgeInsets.zero)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func startAnimating() {
+        self.alpha = 1.0
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = Double.pi * 2 //Minus can be Direction
+        rotationAnimation.duration = 1.5
+        rotationAnimation.repeatCount = .infinity
+        self.indicatorImageView.layer.add(rotationAnimation, forKey: nil)
+    }
+    
+    public func stopAnimating() {
+        self.alpha = 0.0
+        self.indicatorImageView.layer.removeAllAnimations()
+    }
+    
+}
+
+
 public class ClickableComponent: UIControl {
     
     private var configuration: ClickableComponent.Configuration?
@@ -53,7 +99,18 @@ public class ClickableComponent: UIControl {
     private let titleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
-    private let singleImageView = UIImageView()
+    
+    private lazy var singleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .center
+        return imageView
+    }()
+    
+    private lazy var indicator: ClickableIndicatorView = {
+        let indicatorView = ClickableIndicatorView()
+        return indicatorView
+    }()
+    
     private var currentColor: ClickableColorSet?
     
     public var titleAlignment: NSTextAlignment = .center {
@@ -78,7 +135,7 @@ public class ClickableComponent: UIControl {
 
     
     /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
-    public var singleImage: ClickableImage? {
+    public var singleImage: ClickableImage? { // 가이드상에는 Chip에만 있음.
         didSet {
             
             if self.title != nil || self.leftImage != nil || self.rightImage != nil {
@@ -87,45 +144,13 @@ public class ClickableComponent: UIControl {
         
             guard let image = singleImage else { return }
             
-            var singleImagePadding: CGFloat {
-                switch self.configuration?.height {
-                case .large:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 16.0
-                    } else {
-                        return 16.0
-                    }
-                case .medium:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 12.0
-                    } else {
-                        return 12.0
-                    }
-                case .small:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 8.0
-                    } else {
-                        return 8.0
-                    }
-                case .none:
-                    return 0.0
-                }
-            }
-            
             self.contentStackView.removeFromSuperview()
             self.singleImageView.removeFromSuperview()
             self.addSubview(self.singleImageView)
-            self.singleImageView.then {
+            self.singleImageView.do {
                 $0.image = image.uiImage
-                $0.contentMode = .center
-            }.snp.makeConstraints { [weak self] in
-                guard let self else { return }
-                $0.top.bottom.equalToSuperview()
-                $0.height.equalTo(self.configuration?.height?.button ?? 0.0)
-                $0.left.right.equalToSuperview().inset(singleImagePadding)
-                $0.width.equalTo(image.uiImage?.size.width ?? 0.0).priority(.required)
             }
-            self.updateColor(color: self.currentColor)
+            self.updateContent()
         }
     }
     
@@ -154,16 +179,16 @@ public class ClickableComponent: UIControl {
     }
     
     /// size
-    public var size: CGSize {
+    public var fixedSize: CGSize {
         if self.configuration?.style == .button {
-            return CGSize(width: self.width, height: self.configuration?.height?.button ?? 0)
+            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.button ?? 0)
         } else {
-            return CGSize(width: self.width, height: self.configuration?.height?.chip ?? 0)
+            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.chip ?? 0)
         }
     }
     
-    /// width가 content 에 맞게 고정
-    public var fixedWidth: Bool = false {
+    /// size가 content 에 맞게 고정
+    public var isFixedSize: Bool = false {
         didSet{
             guard self.singleImage == nil else { return }
             self.updateContentConstraints()
@@ -171,27 +196,33 @@ public class ClickableComponent: UIControl {
     }
     
     /// content width
-    public var width: CGFloat {
+    private var fixedWidth: CGFloat {
         guard let configuration = self.configuration else { return 0.0 }
         
         var width: CGFloat = 0.0
-        if let leftImage = self.leftImage {
-            width += configuration.padding?.left.withImage ?? 0.0
-            width += leftImage.uiImage?.size.width ?? 0.0
-        } else {
-            width += configuration.padding?.left.normal ?? 0.0
-        }
-        width += configuration.padding?.left.internalSpacing ?? 0.0
         
-        width += self.titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: configuration.height?.button ?? 0.0)).width
-        
-        if let rightImage = self.rightImage {
-            width += configuration.padding?.right.withImage ?? 0.0
-            width += rightImage.uiImage?.size.width ?? 0.0
+        if let singleImage = self.singleImage {
+            width += (configuration.singleImagePadding * 2.0)
+            width += singleImage.uiImage?.size.width ?? 0.0
         } else {
-            width += configuration.padding?.right.normal ?? 0.0
+            if let leftImage = self.leftImage {
+                width += configuration.padding?.left.withImage ?? 0.0
+                width += leftImage.uiImage?.size.width ?? 0.0
+            } else {
+                width += configuration.padding?.left.normal ?? 0.0
+            }
+            width += configuration.padding?.left.internalSpacing ?? 0.0
+            
+            width += self.titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: configuration.height?.button ?? 0.0)).width
+
+            if let rightImage = self.rightImage {
+                width += configuration.padding?.right.withImage ?? 0.0
+                width += rightImage.uiImage?.size.width ?? 0.0
+            } else {
+                width += configuration.padding?.right.normal ?? 0.0
+            }
+            width += configuration.padding?.right.internalSpacing ?? 0.0
         }
-        width += configuration.padding?.right.internalSpacing ?? 0.0
         
         return width
     }
@@ -388,7 +419,9 @@ public class ClickableComponent: UIControl {
         self.currentColor = color
         
         self.backgroundColor = color.background
-        
+        if self.configuration?.style == .button {
+            self.indicator.color = color.text
+        }
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
             if singleImage.needOriginColor == false {
                 self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
@@ -418,33 +451,48 @@ public class ClickableComponent: UIControl {
     private func updateContentConstraints() {
         guard let configuration = self.configuration else { return }
         
-        let leftPadding: CGFloat = ((self.leftImage != nil) ? configuration.padding?.left.withImage : configuration.padding?.left.normal) ?? 0.0
-        let rightPadding: CGFloat = ((self.rightImage != nil) ? configuration.padding?.right.withImage : configuration.padding?.right.normal) ?? 0.0
-
-        self.contentStackView.snp.remakeConstraints { [weak self] in
-            guard let self else { return }
-            $0.top.bottom.equalToSuperview()
+        if self.singleImage != nil {
             
-            if configuration.style == .button {
+            self.singleImageView.snp.remakeConstraints {
                 $0.height.equalTo(configuration.height?.button ?? 0.0)
-                $0.centerX.equalToSuperview().offset(self.horizontalOffset)
-                $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(self.horizontalOffset))
-                $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(self.horizontalOffset))
-            } else {
-                $0.height.equalTo(configuration.height?.chip ?? 0.0)
-                $0.left.equalToSuperview().offset(leftPadding)
-                $0.right.equalToSuperview().offset(-rightPadding)
+                $0.centerX.equalToSuperview()
+                $0.top.bottom.equalToSuperview()
+                $0.left.greaterThanOrEqualToSuperview().offset(configuration.singleImagePadding)
+                $0.right.lessThanOrEqualToSuperview().offset(-configuration.singleImagePadding)
             }
+            
+        } else {
+            
+            let leftPadding: CGFloat = ((self.leftImage != nil) ? configuration.padding?.left.withImage : configuration.padding?.left.normal) ?? 0.0
+            let rightPadding: CGFloat = ((self.rightImage != nil) ? configuration.padding?.right.withImage : configuration.padding?.right.normal) ?? 0.0
+
+            self.contentStackView.snp.remakeConstraints { [weak self] in
+                guard let self else { return }
+                $0.top.bottom.equalToSuperview()
+                
+                if configuration.style == .button {
+                    $0.height.equalTo(configuration.height?.button ?? 0.0)
+                    $0.centerX.equalToSuperview().offset(self.horizontalOffset)
+                    $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(self.horizontalOffset))
+                    $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(self.horizontalOffset))
+                } else {
+                    $0.height.equalTo(configuration.height?.chip ?? 0.0)
+                    $0.left.equalToSuperview().offset(leftPadding)
+                    $0.right.equalToSuperview().offset(-rightPadding)
+                }
+            }
+            
         }
+        
         // 전체 constraints에서 width constraint만 filter
         let widthconstraints = self.constraints.filter({ $0.firstAttribute.rawValue == 7 })
         // width constraints 제거
         self.removeConstraints(widthconstraints)
         // width constraint 다시 추가
-        if self.fixedWidth == true {
-            self.widthAnchor.constraint(equalToConstant: self.width).isActive = true
+        if self.isFixedSize == true {
+            self.widthAnchor.constraint(equalToConstant: self.fixedWidth).isActive = true
         } else {
-            self.widthAnchor.constraint(greaterThanOrEqualToConstant: self.width).isActive = true
+            self.widthAnchor.constraint(greaterThanOrEqualToConstant: self.fixedWidth).isActive = true
         }
         /*
          Author 박경우
@@ -474,6 +522,23 @@ public class ClickableComponent: UIControl {
         }
         self.layer.insertSublayer(layer, at: 0)
         self.gradientBackgroundLayer = layer
+    }
+    
+    // MARK: Indicator
+    open func indicatorStartAnimating() {
+        self.singleImageView.alpha = 0.0
+        self.contentStackView.alpha = 0.0
+        self.addSubview(self.indicator)
+        self.indicator.snp.remakeConstraints {
+            $0.center.equalToSuperview()
+        }
+        self.indicator.startAnimating()
+    }
+
+    open func indicatorStopAnimating() {
+        self.singleImageView.alpha = 1.0
+        self.contentStackView.alpha = 1.0
+        self.indicator.stopAnimating()
     }
     
     @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
@@ -506,6 +571,19 @@ public class ClickableComponent: UIControl {
 extension ClickableComponent {
     
     public struct Configuration {
+        
+        public var singleImagePadding: CGFloat {
+            switch self.height {
+            case .large:
+                return 16.0
+            case .medium:
+                return 12.0
+            case .small:
+                return 8.0
+            case .none:
+                return 0.0
+            }
+        }
         
         public enum Corner {
             case none

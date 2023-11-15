@@ -124,7 +124,12 @@ class ButtonViewController: UIViewController {
     @objc func switchValueChanged(_ swc: UISwitch) {
         self.stackView.subviews.forEach { view in
             if let b = view as? ClickableComponentButton {
-                b.isEnabled = !swc.isOn
+//                b.isEnabled = !swc.isOn
+                if swc.isOn {
+                    b.indicatorStartAnimating()
+                } else {
+                    b.indicatorStopAnimating()
+                }
             }
         }
         

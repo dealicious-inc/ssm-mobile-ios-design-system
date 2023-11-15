@@ -80,6 +80,19 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(toggleButtonPressed), for: .touchUpInside)
         }
         
+        let textInputComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(textInputComponentsButton)
+        textInputComponentsButton.do {
+            $0.title = "TextInput Components"
+            $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
+        }
+        
+        let searchInputComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(searchInputComponentsButton)
+        searchInputComponentsButton.do {
+            $0.title = "SearchInput Components"
+            $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -115,6 +128,14 @@ extension MainViewController {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
     }
     
+    @objc func textInputButtonPressed() {
+        self.navigationController?.pushViewController(TextInputViewController(), animated: true)
+    }
+    
+    @objc func searchInputButtonPressed() {
+        self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
+    }
+
     @objc func toggleButtonPressed() {
         self.navigationController?.pushViewController(SwitchViewController(), animated: true)
     }

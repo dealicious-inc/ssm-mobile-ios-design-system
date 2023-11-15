@@ -15,6 +15,10 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
     public var sliderBar = DealiSliderBar()
     public var rangeIndicatorArray: [String] = [] {
         didSet {
+            for subView in self.rangeContentStackView.arrangedSubviews {
+                subView.removeFromSuperview()
+            }
+            
             self.rangeIndicatorArray.forEach {
                 self.rangeContentStackView.addArrangedSubview(RangeIndicatorView(title: $0))
             }

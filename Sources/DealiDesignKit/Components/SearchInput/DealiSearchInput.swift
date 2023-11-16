@@ -15,15 +15,23 @@ import RxCocoa
  설명: UI Elements - SearchInput
  */
 
-public protocol DealiSearchInputDelegate: AnyObject {
+@objc public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
-    func clear()
-    func beginEditing()
+    @objc optional func clear()
+    @objc optional func beginEditing()
+    @objc optional func editingChanged(keyword: String?)
+}
+
+extension DealiSearchInputDelegate {
+    func search(keyword: String?) { return }
+    func clear() { return }
+    func beginEditing() { return }
+    func editingChanged(keyword: String?) { return }
 }
 
 public final class DealiSearchInput: UIView {
     
-    public enum SeachInputType {
+    public enum SearchInputType {
         case `default`
         case subCategory(keyword: String)
     }
@@ -76,13 +84,13 @@ public final class DealiSearchInput: UIView {
     private let searchTextField = UITextField()
     private let searchImageView = UIImageView()
     
-    private var inputType: SeachInputType = .default
+    private var inputType: SearchInputType = .default
     private weak var delegate: DealiSearchInputDelegate?
     private var resetKeywordWhenClearTapped: Bool = true
     
     private let disposeBag = DisposeBag()
     
-    public init(type: SeachInputType = .default
+    public init(type: SearchInputType = .default
                 , defaultKeyword: String = ""
                 , placeholderText: String = ""
                 , resetKeywordWhenClearTapped: Bool = true
@@ -181,6 +189,10 @@ public final class DealiSearchInput: UIView {
         searchTextField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             owner.textFieldEditingDidBegin(owner.searchTextField)
         }.disposed(by: self.disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingChanged).asSignal().emit(with: self) { owner, _ in
+//            owner.textFieldEditingDidBegin(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
     }
     
     private func setSearchStatusImage(hasDefaultKeyboard: Bool) {
@@ -247,7 +259,8 @@ public final class DealiSearchInput: UIView {
                 searchImageView.image = status.image
             }
         }
-        placeHolderLabel.isHidden = (status == .editing || searchTextField.text?.isEmpty == false)
+        
+        placeHolderLabel.isHidden = (status == .editing && searchTextField.text?.isEmpty == false)
     }
     
     public func updateKeyword(_ keyword: String) {
@@ -270,6 +283,7 @@ extension DealiSearchInput {
     }
     
     private func textFieldDidChange(_ textField: UITextField) {
+        delegate?.editingChanged?(keyword: textField.text)
         if textField.text?.isEmpty == true {
             setSearchBarAs(status: .empty)
             return
@@ -279,11 +293,18 @@ extension DealiSearchInput {
     
     private func textFieldShouldReturn(_ textField: UITextField) {
         textField.resignFirstResponder()
+        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
         delegate?.search(keyword: textField.text)
     }
     
     private func textFieldEditingDidBegin(_ textField: UITextField) {
+        setSearchBarAs(status: .editing)
         delegate?.beginEditing()
+    }
+    
+    // 외부에서 호출 가능한 Search TextField Action
+     public func searchBarIsFirstResponder() {
+        searchTextField.becomeFirstResponder()
     }
     
 }

@@ -19,6 +19,7 @@ public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
     func clear()
     func beginEditing()
+    func endEditing()
     func editingChanged(keyword: String?)
 }
 
@@ -288,6 +289,7 @@ extension DealiSearchInput {
     
     private func textFieldEditingDidEnd(_ textField: UITextField) {
         setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        delegate?.endEditing()
     }
     
     // 외부에서 호출 가능한 Search TextField Action
@@ -297,7 +299,7 @@ extension DealiSearchInput {
     
     public func updateKeyword(_ keyword: String) {
         searchTextField.text = keyword
-        setSearchBarAs(status: .editing)
+        setSearchBarAs(status: keyword.isEmpty ? .empty : .editing)
     }
     
     public func getSearchInputKeyword() -> String? {

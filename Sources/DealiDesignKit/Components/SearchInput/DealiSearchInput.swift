@@ -20,7 +20,6 @@ public protocol DealiSearchInputDelegate: AnyObject {
     func clear()
     func beginEditing()
     func editingChanged(keyword: String?)
-    func getCurrentKeyword(keyword: String?)
 }
 
 public final class DealiSearchInput: UIView {
@@ -301,7 +300,7 @@ extension DealiSearchInput {
         setSearchBarAs(status: .editing)
     }
     
-    public func getSearchInputKeyword() {
-        delegate?.getCurrentKeyword(keyword: searchTextField.text)
+    public func getSearchInputKeyword() -> String? {
+        searchTextField.text
     }
 }

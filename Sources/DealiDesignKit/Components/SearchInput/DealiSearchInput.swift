@@ -15,17 +15,11 @@ import RxCocoa
  설명: UI Elements - SearchInput
  */
 
-@objc public protocol DealiSearchInputDelegate: AnyObject {
+public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
-    @objc optional func clear()
-    @objc optional func beginEditing()
-    @objc optional func editingChanged(keyword: String?)
-}
-
-extension DealiSearchInputDelegate {
-    func clear() { }
-    func beginEditing() { }
-    func editingChanged(keyword: String?) { }
+    func clear()
+    func beginEditing()
+    func editingChanged(keyword: String?)
 }
 
 public final class DealiSearchInput: UIView {
@@ -278,7 +272,7 @@ extension DealiSearchInput {
     }
     
     private func textFieldDidChange(_ textField: UITextField) {
-        delegate?.editingChanged?(keyword: textField.text)
+        delegate?.editingChanged(keyword: textField.text)
         if textField.text?.isEmpty == true {
             setSearchBarAs(status: .empty)
             return

@@ -189,10 +189,6 @@ public final class DealiSearchInput: UIView {
         searchTextField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             owner.textFieldEditingDidBegin(owner.searchTextField)
         }.disposed(by: self.disposeBag)
-        
-        searchTextField.rx.controlEvent(.editingChanged).asSignal().emit(with: self) { owner, _ in
-//            owner.textFieldEditingDidBegin(owner.searchTextField)
-        }.disposed(by: self.disposeBag)
     }
     
     private func setSearchStatusImage(hasDefaultKeyboard: Bool) {

@@ -501,10 +501,6 @@ public class ClickableComponent: UIControl {
          외부에서 Clickable 의 constraints 을 설정하는 상황이 있을 수 있음.
          기존 constraints 를 유지하면서 width만 변경은 snapkit으로는 불가.
          */
-        self.contentStackView.backgroundColor = .purple
-        self.leftImageView.backgroundColor = .green
-        self.rightImageView.backgroundColor = .blue
-        self.titleLabel.backgroundColor = .yellow
     }
 
     /// Gradient Background

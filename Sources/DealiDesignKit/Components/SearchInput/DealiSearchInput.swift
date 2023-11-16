@@ -255,13 +255,6 @@ public final class DealiSearchInput: UIView {
         
         placeHolderLabel.isHidden = (status == .editing && searchTextField.text?.isEmpty == false)
     }
-    
-    public func updateKeyword(_ keyword: String) {
-        if !keyword.isEmpty {
-            searchTextField.text = keyword
-            setSearchBarAs(status: .editing)
-        }
-    }
 }
 
 // MARK: - Actions
@@ -298,8 +291,12 @@ extension DealiSearchInput {
     }
     
     // 외부에서 호출 가능한 Search TextField Action
-     public func searchBarIsFirstResponder() {
+     public func searchInputIsFirstResponder() {
         searchTextField.becomeFirstResponder()
     }
     
+    public func updateKeyword(_ keyword: String) {
+        searchTextField.text = keyword
+        setSearchBarAs(status: .editing)
+    }
 }

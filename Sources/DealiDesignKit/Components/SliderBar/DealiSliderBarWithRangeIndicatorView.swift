@@ -42,7 +42,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
             $0.distribution = .fillEqually
         }.snp.makeConstraints {
             $0.top.equalTo(self.sliderBar.snp.bottom).offset(4.0)
-            $0.left.right.equalToSuperview().inset(32.0)
+            $0.left.right.equalToSuperview().inset(21.0)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(28.0)
         }

@@ -126,9 +126,9 @@ class ButtonViewController: UIViewController {
             if let b = view as? ClickableComponentButton {
 //                b.isEnabled = !swc.isOn
                 if swc.isOn {
-                    b.indicatorStartAnimating()
+                    b.startIndicator()
                 } else {
-                    b.indicatorStopAnimating()
+                    b.stopIndicator()
                 }
             }
         }

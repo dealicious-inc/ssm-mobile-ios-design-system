@@ -525,7 +525,7 @@ public class ClickableComponent: UIControl {
     }
     
     // MARK: Indicator
-    open func indicatorStartAnimating() {
+    open func startIndicator() {
         self.singleImageView.alpha = 0.0
         self.contentStackView.alpha = 0.0
         self.addSubview(self.indicator)
@@ -535,7 +535,7 @@ public class ClickableComponent: UIControl {
         self.indicator.startAnimating()
     }
 
-    open func indicatorStopAnimating() {
+    open func stopIndicator() {
         self.singleImageView.alpha = 1.0
         self.contentStackView.alpha = 1.0
         self.indicator.stopAnimating()

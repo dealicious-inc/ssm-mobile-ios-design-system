@@ -213,9 +213,7 @@ public class ClickableComponent: UIControl {
                 width += configuration.padding?.left.normal ?? 0.0
             }
             
-            
-            width += self.titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: configuration.height?.button ?? 0.0)).width
-
+            width += ceil(self.titleLabel.intrinsicContentSize.width)
             if let rightImage = self.rightImage {
                 width += configuration.padding?.right.withImage ?? 0.0
                 width += rightImage.uiImage?.size.width ?? 0.0
@@ -224,7 +222,6 @@ public class ClickableComponent: UIControl {
                 width += configuration.padding?.right.normal ?? 0.0
             }
         }
-        
         return width
     }
     
@@ -358,6 +355,7 @@ public class ClickableComponent: UIControl {
         self.contentStackView.addArrangedSubview(self.leftImageView)
         self.leftImageView.then {
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -378,6 +376,7 @@ public class ClickableComponent: UIControl {
         self.contentStackView.addArrangedSubview(self.rightImageView)
         self.rightImageView.then {
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -466,16 +465,23 @@ public class ClickableComponent: UIControl {
             
             let leftPadding: CGFloat = ((self.leftImage != nil) ? configuration.padding?.left.withImage : configuration.padding?.left.normal) ?? 0.0
             let rightPadding: CGFloat = ((self.rightImage != nil) ? configuration.padding?.right.withImage : configuration.padding?.right.normal) ?? 0.0
-
+            
+            
             self.contentStackView.snp.remakeConstraints { [weak self] in
                 guard let self else { return }
                 $0.top.bottom.equalToSuperview()
-                
                 if configuration.style == .button {
                     $0.height.equalTo(configuration.height?.button ?? 0.0)
-                    $0.centerX.equalToSuperview().offset(self.horizontalOffset)
-                    $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(self.horizontalOffset))
-                    $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(self.horizontalOffset))
+                    if self.isFixedSize == true {
+                        $0.centerX.equalToSuperview()
+                        $0.left.equalToSuperview().offset(leftPadding)
+                        $0.right.equalToSuperview().offset(-rightPadding)
+                    } else {
+                        let horizontalOffset = self.horizontalOffset
+                        $0.centerX.equalToSuperview().offset(horizontalOffset)
+                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(horizontalOffset))
+                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(horizontalOffset))
+                    }
                 } else {
                     $0.height.equalTo(configuration.height?.chip ?? 0.0)
                     $0.left.equalToSuperview().offset(leftPadding)

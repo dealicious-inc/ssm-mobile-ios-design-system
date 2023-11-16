@@ -133,7 +133,7 @@ extension SearchInputViewController: DealiSearchInputDelegate {
         print("clear !")
     }
     
-    func beginEditing() {
-        print("begin Editing !")
-    }
+//    func beginEditing() {
+//        print("begin Editing !")
+//    }
 }

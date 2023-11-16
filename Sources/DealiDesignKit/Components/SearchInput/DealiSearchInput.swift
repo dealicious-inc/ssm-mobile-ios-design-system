@@ -23,15 +23,14 @@ import RxCocoa
 }
 
 extension DealiSearchInputDelegate {
-    func search(keyword: String?) { return }
-    func clear() { return }
-    func beginEditing() { return }
-    func editingChanged(keyword: String?) { return }
+    func clear() { }
+    func beginEditing() { }
+    func editingChanged(keyword: String?) { }
 }
 
 public final class DealiSearchInput: UIView {
     
-    public enum SearchInputType {
+    public enum SearchInputType: Equatable {
         case `default`
         case subCategory(keyword: String)
     }
@@ -131,7 +130,7 @@ public final class DealiSearchInput: UIView {
             $0.distribution = .fill
             $0.layoutMargins = UIEdgeInsets(
                 top: StackViewConstants.layoutVMargin
-                , left: StackViewConstants.layoutHMargin
+                , left: inputType == SearchInputType.default ? StackViewConstants.layoutHMargin : StackViewConstants.layoutVMargin
                 , bottom: StackViewConstants.layoutVMargin
                 , right: StackViewConstants.layoutHMargin
             )

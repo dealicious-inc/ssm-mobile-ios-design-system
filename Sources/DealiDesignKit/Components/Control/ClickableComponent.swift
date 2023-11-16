@@ -208,20 +208,21 @@ public class ClickableComponent: UIControl {
             if let leftImage = self.leftImage {
                 width += configuration.padding?.left.withImage ?? 0.0
                 width += leftImage.uiImage?.size.width ?? 0.0
+                width += configuration.padding?.left.internalSpacing ?? 0.0
             } else {
                 width += configuration.padding?.left.normal ?? 0.0
             }
-            width += configuration.padding?.left.internalSpacing ?? 0.0
+            
             
             width += self.titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: configuration.height?.button ?? 0.0)).width
 
             if let rightImage = self.rightImage {
                 width += configuration.padding?.right.withImage ?? 0.0
                 width += rightImage.uiImage?.size.width ?? 0.0
+                width += configuration.padding?.right.internalSpacing ?? 0.0
             } else {
                 width += configuration.padding?.right.normal ?? 0.0
             }
-            width += configuration.padding?.right.internalSpacing ?? 0.0
         }
         
         return width
@@ -500,6 +501,10 @@ public class ClickableComponent: UIControl {
          외부에서 Clickable 의 constraints 을 설정하는 상황이 있을 수 있음.
          기존 constraints 를 유지하면서 width만 변경은 snapkit으로는 불가.
          */
+        self.contentStackView.backgroundColor = .purple
+        self.leftImageView.backgroundColor = .green
+        self.rightImageView.backgroundColor = .blue
+        self.titleLabel.backgroundColor = .yellow
     }
 
     /// Gradient Background

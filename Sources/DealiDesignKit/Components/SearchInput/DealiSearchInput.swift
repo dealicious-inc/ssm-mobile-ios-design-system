@@ -182,6 +182,10 @@ public final class DealiSearchInput: UIView {
         searchTextField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             owner.textFieldEditingDidBegin(owner.searchTextField)
         }.disposed(by: self.disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidEnd).asSignal().emit(with: self) { owner, _ in
+            owner.textFieldEditingDidEnd(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
     }
     
     private func setSearchStatusImage(hasDefaultKeyboard: Bool) {
@@ -266,17 +270,15 @@ extension DealiSearchInput {
         guard searchTextField.text != nil else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
-            setSearchBarAs(status: .empty)
+            if !searchTextField.isEditing {
+                setSearchBarAs(status: .empty)
+            }
         }
         delegate?.clear()
     }
     
     private func textFieldDidChange(_ textField: UITextField) {
         delegate?.editingChanged(keyword: textField.text)
-        if textField.text?.isEmpty == true {
-            setSearchBarAs(status: .empty)
-            return
-        }
         setSearchBarAs(status: .editing)
     }
     
@@ -289,6 +291,10 @@ extension DealiSearchInput {
     private func textFieldEditingDidBegin(_ textField: UITextField) {
         setSearchBarAs(status: .editing)
         delegate?.beginEditing()
+    }
+    
+    private func textFieldEditingDidEnd(_ textField: UITextField) {
+        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
     }
     
     // 외부에서 호출 가능한 Search TextField Action

@@ -22,6 +22,8 @@ public final class DealiTextInput_v2: UIView {
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
     
+    public var textFieldDidEndEditing: Driver<Bool>!
+    
     private let disposeBag = DisposeBag()
     
     /// TextInput title 세팅
@@ -267,9 +269,16 @@ public final class DealiTextInput_v2: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
- 
     private func RX() {
+        self.textFieldDidEndEditing = Driver.merge(
+            self.textField.rx.controlEvent(.editingDidEndOnExit)
+                .map { true }
+                .asDriver(onErrorJustReturn: false),
+            self.textField.rx.controlEvent(.editingDidEnd)
+                .map { true }
+                .asDriver(onErrorJustReturn: false)
+        )
+        
         self.textField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             self.inputStatus = .focusIn
         }.disposed(by: self.disposeBag)
@@ -286,7 +295,7 @@ public final class DealiTextInput_v2: UIView {
             .skip(1)
             .distinctUntilChanged()
             .subscribe(with: self, onNext: { owner, text in
-                print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
+//                print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
                 if
                     owner.textInputFormat == .price,
                     let price = Int(text.replacingOccurrences(of: ",", with: ""))

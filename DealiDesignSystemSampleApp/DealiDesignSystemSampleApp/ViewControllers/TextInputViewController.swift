@@ -128,6 +128,7 @@ final class TextInputViewController: UIViewController {
             $0.title = "가격 텍스트 입력"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
+            $0.placeholder = "가격 입력"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

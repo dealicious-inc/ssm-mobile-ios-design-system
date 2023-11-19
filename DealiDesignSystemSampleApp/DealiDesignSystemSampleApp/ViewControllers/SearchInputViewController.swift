@@ -121,6 +121,10 @@ final class SearchInputViewController: UIViewController {
 }
 
 extension SearchInputViewController: DealiSearchInputDelegate {
+    func endEditing() {
+        
+    }
+    
     func search(keyword: String?) {
         guard let keyword = keyword else {
             print("nil")

@@ -54,6 +54,32 @@ class ButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
+        let testStackView = UIStackView()
+        self.stackView.addArrangedSubview(testStackView)
+        testStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 20.0
+            $0.alignment = .fill
+        }
+        
+        for i in 0..<2 {
+            let label = UILabel()
+            testStackView.addArrangedSubview(label)
+            label.do {
+                $0.text = "test_\(i)"
+            }
+        }
+        
+        let testButton = DealiControl.btnFilledLargePrimary02()
+        testStackView.addArrangedSubview(testButton)
+        testButton.do {
+            $0.isFixedSize = true
+            $0.title = "PDF 다운로드"
+            $0.leftImage = ClickableImage(UIImage(named: "ic_download")?.resize(CGSize(width: 16.0, height: 16.0)))
+        }
+        
+        return
+        
         var buttonArray: [UIView] = []
 
         let largeButtonArray: [UIView] = [DealiControl.btnFilledLargePrimary01(), DealiControl.btnFilledLargePrimary02(), DealiControl.btnFilledLargeGradient(),
@@ -124,10 +150,23 @@ class ButtonViewController: UIViewController {
     @objc func switchValueChanged(_ swc: UISwitch) {
         self.stackView.subviews.forEach { view in
             if let b = view as? ClickableComponentButton {
-                b.isEnabled = !swc.isOn
+//                b.isEnabled = !swc.isOn
+                if swc.isOn {
+                    b.startIndicator()
+                } else {
+                    b.stopIndicator()
+                }
             }
         }
         
     }
     
+}
+
+extension UIImage {
+    public func resize(_ size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
 }

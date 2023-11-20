@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 public class DealiControl {
     
@@ -15,7 +16,10 @@ final public class ClickableComponentButton: ClickableComponent {
     public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .button, config: config, color: color.attribute)
 #if DEBUG
-        self.title = functionName
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
+            self.title = functionName
+        }
 #endif
     }
     
@@ -28,7 +32,10 @@ final public class ClickableComponentChip: ClickableComponent {
     init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
         super.init(style: .chip, config: config, color: color.attribute)
 #if DEBUG
-        self.title = functionName
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
+            self.title = functionName
+        }
 #endif
     }
     
@@ -36,6 +43,52 @@ final public class ClickableComponentChip: ClickableComponent {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+fileprivate final class ClickableIndicatorView: UIView {
+    private let indicatorImageView = UIImageView()
+
+    private var indicatorImage: UIImage? {
+        return UIImage(named: "loading")
+    }
+    
+    var color: UIColor = .white {
+        didSet {
+            self.indicatorImageView.image = self.indicatorImage?.withTintColor(color)
+        }
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.addSubview(self.indicatorImageView)
+        self.indicatorImageView.then {
+            $0.image = self.indicatorImage
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 21.0, height: 21.0))
+            $0.edges.equalTo(UIEdgeInsets.zero)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func startAnimating() {
+        self.alpha = 1.0
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = Double.pi * 2 //Minus can be Direction
+        rotationAnimation.duration = 1.5
+        rotationAnimation.repeatCount = .infinity
+        self.indicatorImageView.layer.add(rotationAnimation, forKey: nil)
+    }
+    
+    public func stopAnimating() {
+        self.alpha = 0.0
+        self.indicatorImageView.layer.removeAllAnimations()
+    }
+    
+}
+
 
 public class ClickableComponent: UIControl {
     
@@ -46,7 +99,18 @@ public class ClickableComponent: UIControl {
     private let titleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
-    private let singleImageView = UIImageView()
+    
+    private lazy var singleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .center
+        return imageView
+    }()
+    
+    private lazy var indicator: ClickableIndicatorView = {
+        let indicatorView = ClickableIndicatorView()
+        return indicatorView
+    }()
+    
     private var currentColor: ClickableColorSet?
     
     public var titleAlignment: NSTextAlignment = .center {
@@ -65,12 +129,13 @@ public class ClickableComponent: UIControl {
             }
             self.titleLabel.text = title
             self.titleLabel.isHidden = (title?.isEmpty ?? true)
+            self.updateContent()
         }
     }
 
     
     /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
-    public var singleImage: ClickableImage? {
+    public var singleImage: ClickableImage? { // 가이드상에는 Chip에만 있음.
         didSet {
             
             if self.title != nil || self.leftImage != nil || self.rightImage != nil {
@@ -79,41 +144,13 @@ public class ClickableComponent: UIControl {
         
             guard let image = singleImage else { return }
             
-            var singleImagePadding: CGFloat {
-                switch self.configuration?.height {
-                case .large:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 16.0
-                    } else {
-                        return 16.0
-                    }
-                case .medium:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 12.0
-                    } else {
-                        return 12.0
-                    }
-                case .small:
-                    if self.configuration?.cornerRadius.isCapsule == true {
-                        return 8.0
-                    } else {
-                        return 8.0
-                    }
-                case .none:
-                    return 0.0
-                }
-            }
-            
             self.contentStackView.removeFromSuperview()
             self.singleImageView.removeFromSuperview()
             self.addSubview(self.singleImageView)
-            self.singleImageView.then {
+            self.singleImageView.do {
                 $0.image = image.uiImage
-            }.snp.makeConstraints {
-                $0.left.right.equalToSuperview().inset(singleImagePadding)
-                $0.centerY.equalToSuperview()
             }
-            self.updateColor(color: self.currentColor)
+            self.updateContent()
         }
     }
     
@@ -123,19 +160,9 @@ public class ClickableComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
             }
-            self.contentStackView.snp.updateConstraints {
-                if self.configuration?.style == .chip {
-                    if leftImage != nil {
-                        $0.left.equalToSuperview().offset(self.configuration?.padding?.left.withImage ?? 0.0)
-                    } else {
-                        $0.left.equalToSuperview().offset(self.configuration?.padding?.left.normal ?? 0.0)
-                    }
-                }
-            }
             self.leftImageView.image = leftImage?.uiImage
             self.leftImageView.isHidden = (leftImage == nil)
-            self.updateColor(color: self.currentColor)
-            self.updateHorizontalOffset()
+            self.updateContent()
         }
     }
     
@@ -145,30 +172,77 @@ public class ClickableComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가")
             }
-            self.contentStackView.snp.updateConstraints {
-                if self.configuration?.style == .chip {
-                    if rightImage != nil {
-                        $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.withImage ?? 0.0))
-                    } else {
-                        $0.right.equalToSuperview().offset(-(self.configuration?.padding?.right.normal ?? 0.0))
-                    }
-                }
-            }
             self.rightImageView.image = rightImage?.uiImage
             self.rightImageView.isHidden = (rightImage == nil)
-            self.updateColor(color: self.currentColor)
-            self.updateHorizontalOffset()
+            self.updateContent()
         }
     }
     
-    private var horizontalOffset: CGFloat = 0.0 {
-        willSet {
-            // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 Label이 늘어남
-            guard let style = self.configuration?.style, style == .button, newValue != horizontalOffset else { return }
-            self.contentStackView.snp.updateConstraints {
-                $0.centerX.equalToSuperview().offset(newValue)
+    /// size
+    public var fixedSize: CGSize {
+        if self.configuration?.style == .button {
+            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.button ?? 0)
+        } else {
+            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.chip ?? 0)
+        }
+    }
+    
+    /// size가 content 에 맞게 고정
+    public var isFixedSize: Bool = false {
+        didSet{
+            guard self.singleImage == nil else { return }
+            self.updateContentConstraints()
+        }
+    }
+    
+    /// content width
+    private var fixedWidth: CGFloat {
+        guard let configuration = self.configuration else { return 0.0 }
+        
+        var width: CGFloat = 0.0
+        
+        if let singleImage = self.singleImage {
+            width += (configuration.singleImagePadding * 2.0)
+            width += singleImage.uiImage?.size.width ?? 0.0
+        } else {
+            if let leftImage = self.leftImage {
+                width += configuration.padding?.left.withImage ?? 0.0
+                width += leftImage.uiImage?.size.width ?? 0.0
+                width += configuration.padding?.left.internalSpacing ?? 0.0
+            } else {
+                width += configuration.padding?.left.normal ?? 0.0
+            }
+            
+            width += ceil(self.titleLabel.intrinsicContentSize.width)
+            if let rightImage = self.rightImage {
+                width += configuration.padding?.right.withImage ?? 0.0
+                width += rightImage.uiImage?.size.width ?? 0.0
+                width += configuration.padding?.right.internalSpacing ?? 0.0
+            } else {
+                width += configuration.padding?.right.normal ?? 0.0
             }
         }
+        return width
+    }
+    
+    /// center 위치 offset (버튼만)
+    private var horizontalOffset: CGFloat {
+        // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 Label이 늘어남
+        guard let style = self.configuration?.style, style == .button else { return 0.0 }
+        
+        var leftOffset: CGFloat = 0.0
+        var rightOffset: CGFloat = 0.0
+        if self.leftImage != nil {
+            if let padding = self.configuration?.padding?.left {
+                leftOffset = ((padding.normal - padding.withImage) / 2.0)
+            }
+        }
+        if self.rightImage != nil {
+            if let padding = self.configuration?.padding?.right {
+                rightOffset = (padding.normal - padding.withImage) / 2.0
+            }
+        }
+        return rightOffset - leftOffset
     }
     
     public override var isSelected: Bool {
@@ -235,11 +309,18 @@ public class ClickableComponent: UIControl {
         configuration.cornerRadius = config.cornerRadius
         self.configuration = configuration
         
+        self.do {
+            $0.snp.contentHuggingHorizontalPriority = 1000.0
+            $0.snp.contentCompressionResistanceHorizontalPriority = 1000.0
+            $0.snp.contentHuggingVerticalPriority = 1000.0
+            $0.snp.contentCompressionResistanceVerticalPriority = 1000.0
+        }
+        
         var height: CGFloat = 0.0
         if configuration.style == .button {
-            height = configuration.height?.buttonHeight ?? 0.0
+            height = configuration.height?.button ?? 0.0
         } else {
-            height = configuration.height?.chipHeight ?? 0.0
+            height = configuration.height?.chip ?? 0.0
         }
         
         switch config.cornerRadius {
@@ -263,29 +344,18 @@ public class ClickableComponent: UIControl {
         }
         
         self.addSubview(self.contentStackView)
-        self.contentStackView.then {
+        self.contentStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
             $0.distribution = .equalCentering
             $0.spacing = 4.0
             $0.isUserInteractionEnabled = false
-        }.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.height.equalTo(height)
-            // 버튼은 컨텐츠 center / 칩은 이미지 좌우로 붙고 TitleLabel 늘어남
-            if configuration.style == .button {
-                $0.centerX.equalToSuperview().offset(0.0)
-                $0.left.greaterThanOrEqualToSuperview().offset(12.0)
-                $0.right.lessThanOrEqualToSuperview().offset(-12.0)
-            } else {
-                $0.left.equalToSuperview().offset(configuration.padding?.left.normal ?? 0.0)
-                $0.right.equalToSuperview().offset(-(configuration.padding?.right.normal ?? 0.0))
-            }
         }
         
         self.contentStackView.addArrangedSubview(self.leftImageView)
         self.leftImageView.then {
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -306,12 +376,13 @@ public class ClickableComponent: UIControl {
         self.contentStackView.addArrangedSubview(self.rightImageView)
         self.rightImageView.then {
             $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
-
+    
         self.setBackgroundGradient(color: configuration.color?.normal)
-        self.updateColor(color: configuration.color?.normal)
+        self.updateContent(with: configuration.color?.normal)
         
     }
     
@@ -321,6 +392,7 @@ public class ClickableComponent: UIControl {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        // 백그라운드가 Gradient 인 경우 frame 조정
         if let gradientBackgroundLayer = self.gradientBackgroundLayer {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
@@ -329,12 +401,27 @@ public class ClickableComponent: UIControl {
         }
     }
     
+    /// content 상태 업데이트
+    private func updateContent(with color: ClickableColorSet? = nil) {
+        if let color {
+            self.updateColor(color: color)
+        } else {
+            self.updateColor(color: self.currentColor)
+        }
+        
+        self.updateContentConstraints()
+    }
+    
     /// 상태에 따른 content 색상 변경
     private func updateColor(color: ClickableColorSet?) {
         guard let color else { return }
         
         self.currentColor = color
         
+        self.backgroundColor = color.background
+        if self.configuration?.style == .button {
+            self.indicator.color = color.text
+        }
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
             if singleImage.needOriginColor == false {
                 self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
@@ -349,7 +436,7 @@ public class ClickableComponent: UIControl {
             } else {
                 self.gradientBackgroundLayer?.isHidden = true
             }
-            self.backgroundColor = color.background
+            
             self.titleLabel.textColor = color.text
             if let leftImage = self.leftImage, leftImage.needOriginColor == false {
                 self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
@@ -360,23 +447,68 @@ public class ClickableComponent: UIControl {
         }
     }
     
-    /// content 의 horizontal 위치 조정
-    func updateHorizontalOffset() {
-        var leftOffset: CGFloat = 0.0
-        var rightOffset: CGFloat = 0.0
-        if self.leftImage != nil {
-            if let padding = self.configuration?.padding?.left {
-                leftOffset = ((padding.normal - padding.withImage) / 2.0)
+    /// 제약조건 업데이트
+    private func updateContentConstraints() {
+        guard let configuration = self.configuration else { return }
+        
+        if self.singleImage != nil {
+            
+            self.singleImageView.snp.remakeConstraints {
+                $0.height.equalTo(configuration.height?.button ?? 0.0)
+                $0.centerX.equalToSuperview()
+                $0.top.bottom.equalToSuperview()
+                $0.left.greaterThanOrEqualToSuperview().offset(configuration.singleImagePadding)
+                $0.right.lessThanOrEqualToSuperview().offset(-configuration.singleImagePadding)
             }
-        }
-        if self.rightImage != nil {
-            if let padding = self.configuration?.padding?.right {
-                rightOffset = (padding.normal - padding.withImage) / 2.0
+            
+        } else {
+            
+            let leftPadding: CGFloat = ((self.leftImage != nil) ? configuration.padding?.left.withImage : configuration.padding?.left.normal) ?? 0.0
+            let rightPadding: CGFloat = ((self.rightImage != nil) ? configuration.padding?.right.withImage : configuration.padding?.right.normal) ?? 0.0
+            
+            
+            self.contentStackView.snp.remakeConstraints { [weak self] in
+                guard let self else { return }
+                $0.top.bottom.equalToSuperview()
+                if configuration.style == .button {
+                    $0.height.equalTo(configuration.height?.button ?? 0.0)
+                    if self.isFixedSize == true {
+                        $0.centerX.equalToSuperview()
+                        $0.left.equalToSuperview().offset(leftPadding)
+                        $0.right.equalToSuperview().offset(-rightPadding)
+                    } else {
+                        let horizontalOffset = self.horizontalOffset
+                        $0.centerX.equalToSuperview().offset(horizontalOffset)
+                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(horizontalOffset))
+                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(horizontalOffset))
+                    }
+                } else {
+                    $0.height.equalTo(configuration.height?.chip ?? 0.0)
+                    $0.left.equalToSuperview().offset(leftPadding)
+                    $0.right.equalToSuperview().offset(-rightPadding)
+                }
             }
+            
         }
-        self.horizontalOffset = rightOffset - leftOffset
+        
+        // 전체 constraints에서 width constraint만 filter
+        let widthconstraints = self.constraints.filter({ $0.firstAttribute.rawValue == 7 })
+        // width constraints 제거
+        self.removeConstraints(widthconstraints)
+        // width constraint 다시 추가
+        if self.isFixedSize == true {
+            self.widthAnchor.constraint(equalToConstant: self.fixedWidth).isActive = true
+        } else {
+            self.widthAnchor.constraint(greaterThanOrEqualToConstant: self.fixedWidth).isActive = true
+        }
+        /*
+         Author 박경우
+         왜 snapkit도 안쓰고 이렇게 했나요?
+         외부에서 Clickable 의 constraints 을 설정하는 상황이 있을 수 있음.
+         기존 constraints 를 유지하면서 width만 변경은 snapkit으로는 불가.
+         */
     }
-    
+
     /// Gradient Background
     private func setBackgroundGradient(color: ClickableColorSet?) {
         guard let gradientColors = color?.gradientBackground, gradientColors.count > 0 else { return }
@@ -397,6 +529,23 @@ public class ClickableComponent: UIControl {
         }
         self.layer.insertSublayer(layer, at: 0)
         self.gradientBackgroundLayer = layer
+    }
+    
+    // MARK: Indicator
+    open func startIndicator() {
+        self.singleImageView.alpha = 0.0
+        self.contentStackView.alpha = 0.0
+        self.addSubview(self.indicator)
+        self.indicator.snp.remakeConstraints {
+            $0.center.equalToSuperview()
+        }
+        self.indicator.startAnimating()
+    }
+
+    open func stopIndicator() {
+        self.singleImageView.alpha = 1.0
+        self.contentStackView.alpha = 1.0
+        self.indicator.stopAnimating()
     }
     
     @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
@@ -430,6 +579,19 @@ extension ClickableComponent {
     
     public struct Configuration {
         
+        public var singleImagePadding: CGFloat {
+            switch self.height {
+            case .large:
+                return 16.0
+            case .medium:
+                return 12.0
+            case .small:
+                return 8.0
+            case .none:
+                return 0.0
+            }
+        }
+        
         public enum Corner {
             case none
             case fixed(_ radius: CGFloat)
@@ -454,7 +616,7 @@ extension ClickableComponent {
             case medium
             case large
             
-            var buttonHeight: CGFloat {
+            var button: CGFloat {
                 switch self {
                 case .large:
                     return 50.0
@@ -465,7 +627,7 @@ extension ClickableComponent {
                 }
             }
             
-            var chipHeight: CGFloat {
+            var chip: CGFloat {
                 switch self {
                 case .large:
                     return 46.0

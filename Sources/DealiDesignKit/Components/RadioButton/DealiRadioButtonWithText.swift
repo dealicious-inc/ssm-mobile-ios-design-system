@@ -62,6 +62,8 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
+    public var cannotDeselect: Bool = false
+    
     /// 선택 상태에 따른 글자 색 변경 여부. 기본값은 true
     public var isTextColorChangable: Bool = true
     
@@ -146,7 +148,10 @@ public class DealiRadioButtonWithText: UIControl {
     }
 
     @objc func handleTap() {
-        self.isSelected.toggle()
+        if !self.cannotDeselect || !self.isSelected {
+            self.isSelected.toggle()
+        }
+        
         self.sendActions(for: .valueChanged)
     }
 }
@@ -177,6 +182,7 @@ struct DealiRadioButtonWithTextPreview: PreviewProvider {
                 let radioButtonWithText = DealiRadioButtonWithText()
                 radioButtonWithText.text = testString
                 radioButtonWithText.isSelected = true
+                radioButtonWithText.cannotDeselect = true
                 return radioButtonWithText
             }
             .padding(.bottom, 10.0)

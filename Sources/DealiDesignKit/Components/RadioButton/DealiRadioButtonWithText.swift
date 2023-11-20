@@ -14,7 +14,7 @@ import UIKit
 /// 활성, 비활성은 UIControl 의 속성인 `isEnabled` 를 사용합니다.
 ///
 /// `text`에 String 값을 넣거나 `attributedText` 에 NSAttributedString 값을 넣어 사용합니다.
-public class DealiRadioButtonWithText: UIControl {
+open class DealiRadioButtonWithText: UIControl {
     
     public override var isSelected: Bool {
         didSet {
@@ -107,7 +107,7 @@ public class DealiRadioButtonWithText: UIControl {
         }
     }
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
                 
         self.addSubview(self.containerView)
@@ -143,7 +143,7 @@ public class DealiRadioButtonWithText: UIControl {
         self.setupView()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

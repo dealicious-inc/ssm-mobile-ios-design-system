@@ -82,8 +82,8 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
                 $0.left.right.bottom.equalToSuperview()
                 $0.height.equalTo(18.0)
                 $0.top.equalTo(indicatorView.snp.bottom).offset(4.0)
+                $0.width.equalTo(40.0)
             }
-            
         }
         
         private let titleLabel = UILabel()

@@ -19,21 +19,21 @@ import UIKit
 public class DealiAlert: NSObject {
     
     // 1버튼 확인 버튼
-    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) {
+    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) {
         
         self.show(title: title,
                   message: message,
                   cancelButtonTitle: nil,
                   confirmButtonTitle: confirmButtonTitle,
                   closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                  cancelAndCloseOnOutsideTouch: cancelAndCloseOnOutsideTouch,
+                  cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                   alertPresentingViewController: alertPresentingViewController,
                   cancelAction: nil,
                   confirmAction: confirmAction)
     }
     
     // 1버튼 확인 버튼
-    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) {
+    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) {
         
         let checkBoxView = CheckboxWithText()
         checkBoxView.do {
@@ -48,7 +48,7 @@ public class DealiAlert: NSObject {
                   cancelButtonTitle: cancelButtonTitle,
                   confirmButtonTitle: confirmButtonTitle,
                   closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                  cancelAndCloseOnOutsideTouch: cancelAndCloseOnOutsideTouch,
+                  cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                   alertPresentingViewController: alertPresentingViewController,
                   cancelAction: cancelAction) {
             guard let action = confirmAction else { return }
@@ -57,7 +57,7 @@ public class DealiAlert: NSObject {
         }
     }
     
-    public class func show(title: String? = nil, message: String, insertViewArray: [UIView]? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelAndCloseOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    public class func show(title: String? = nil, message: String, insertViewArray: [UIView]? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 4.0
@@ -73,7 +73,7 @@ public class DealiAlert: NSObject {
         alertViewController.cancelButtonTitle = cancelButtonTitle
         alertViewController.confirmButtonTitle = confirmButtonTitle
         alertViewController.closeAlertOnOutsideTouch = closeAlertOnOutsideTouch
-        alertViewController.cancelAndCloseOnOutsideTouch = cancelAndCloseOnOutsideTouch
+        alertViewController.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
         alertViewController.cancelAction = cancelAction
         alertViewController.confirmAction = confirmAction
         
@@ -88,8 +88,8 @@ final class DealiAlertViewController: UIViewController {
     private let contentStackView = UIStackView()
     
     lazy private var titleLabel = UILabel()
-    lazy private var cancelButton = DealiButton()
-    lazy private var confirmButton = DealiButton()
+    lazy private var cancelButton = DealiControl.btnOutlineMediumPrimary01()
+    lazy private var confirmButton = DealiControl.btnFilledMediumPrimary01()
     
     private let messageContentScrollView = UIScrollView()
     private let messageContentStackView = UIStackView()
@@ -103,8 +103,10 @@ final class DealiAlertViewController: UIViewController {
     var insertViewArray: [UIView]?
     var cancelButtonTitle: String?
     var confirmButtonTitle: String?
+    /// content이외 영영 터치로 alert을 닫을지 유무
     var closeAlertOnOutsideTouch: Bool = false
-    var cancelAndCloseOnOutsideTouch: Bool = false
+    /// content이외 영영 터치로 alert을 닫을때 cancel action을 호출할지 유무
+    var cancelActionOnOutsideTouch: Bool = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -218,7 +220,6 @@ final class DealiAlertViewController: UIViewController {
         if let cancelButtonTitle = self.cancelButtonTitle {
             buttonStackView.addArrangedSubview(self.cancelButton)
             self.cancelButton.then {
-                $0.style = .medium(style: .outlined)
                 $0.title = cancelButtonTitle
                 $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {
@@ -229,7 +230,6 @@ final class DealiAlertViewController: UIViewController {
         if let confirmButtonTitle = self.confirmButtonTitle {
             buttonStackView.addArrangedSubview(self.confirmButton)
             self.confirmButton.then {
-                $0.style = .medium(style: .filled)
                 $0.title = confirmButtonTitle
                 $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {
@@ -273,13 +273,11 @@ final class DealiAlertViewController: UIViewController {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false  else { return }
-        if self.closeAlertOnOutsideTouch == true {
-            self.dismiss(animated: true, completion: nil)
+        guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true  else { return }
+        if self.cancelActionOnOutsideTouch == true {
+            self.cancelButtonAction()
         } else {
-            if self.cancelAndCloseOnOutsideTouch == true {
-                self.cancelButtonAction()
-            }
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

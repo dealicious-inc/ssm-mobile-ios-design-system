@@ -45,6 +45,13 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let bottomSheetPopupButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(bottomSheetPopupButton)
+        bottomSheetPopupButton.do {
+            $0.title = "BottomSheetPopup"
+            $0.addTarget(self, action: #selector(bottomSheetPopupButtonPressed), for: .touchUpInside)
+        }
+        
         let alertButton = DealiControl.btnOutlineLargeSecondary01()
         contentStackView.addArrangedSubview(alertButton)
         alertButton.do {
@@ -121,6 +128,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func bottomSheetPopupButtonPressed() {
+        self.navigationController?.pushViewController(BottomSheetPopupTestViewController(), animated: true)
     }
     
     @objc func alertButtonPressed() {

@@ -39,7 +39,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
         self.addSubview(self.rangeContentStackView)
         self.rangeContentStackView.then {
             $0.axis = .horizontal
-            $0.distribution = .fillEqually
+            $0.distribution = .equalSpacing
         }.snp.makeConstraints {
             $0.top.equalTo(self.sliderBar.snp.bottom).offset(4.0)
             $0.left.right.equalToSuperview().inset(21.0)

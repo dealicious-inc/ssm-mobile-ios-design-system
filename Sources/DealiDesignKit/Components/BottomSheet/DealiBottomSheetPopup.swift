@@ -312,13 +312,3 @@ final class DealiBottomSheetPopupViewController: UIViewController {
         }
     }
 }
-
-//#if canImport(SwiftUI) && DEBUG
-//import SwiftUI
-//
-//struct BottomSheetPopupPreview: PreviewProvider {
-//    static var previews: some View {
-//        DealiBottomSheetPopupViewController().showPreview()
-//    }
-//}
-//#endif

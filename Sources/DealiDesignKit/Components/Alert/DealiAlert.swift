@@ -60,10 +60,10 @@ public class DealiAlert: NSObject {
     public class func show(title: String? = nil, message: String, insertViewArray: [UIView]? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = 4.0
         style.alignment = .left
+        style.lineHeightMultiple = 1.16
         
-        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: style])
         
         
         let alertViewController = DealiAlertViewController()

@@ -44,7 +44,7 @@ class SliderBarViewController: UIViewController {
             $0.rangeIndicatorArray = ["1만원", "3만원", "5만원", "15만원", "25만원"]
         }.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.bottom).offset(30.0)
-            $0.left.right.equalToSuperview().inset(20.0)
+            $0.left.right.equalToSuperview().inset(50.0)
         }
         
     }

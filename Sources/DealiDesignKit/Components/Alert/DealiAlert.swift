@@ -169,7 +169,6 @@ final class DealiAlertViewController: UIViewController {
                 $0.attributedText = alertTitle
             }.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
-                $0.height.equalTo(26.0)
             }
         }
         

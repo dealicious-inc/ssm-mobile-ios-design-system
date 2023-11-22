@@ -28,17 +28,24 @@ public class DealiBottomSheetPopup: NSObject {
         
         let bottomSheetPopupViewController = DealiBottomSheetPopupViewController()
         
-        if let message = message {
-            let style = NSMutableParagraphStyle()
-            style.alignment = .left
-            style.lineHeightMultiple = 1.16
+        if let title = title {
+            let titleStyle = NSMutableParagraphStyle()
+            titleStyle.alignment = .left
+            titleStyle.lineHeightMultiple = 1.21
             
-            let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: style])
-            
-            bottomSheetPopupViewController.popupMessage = atMessage
+            bottomSheetPopupViewController.popupTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
         }
         
-        bottomSheetPopupViewController.popupTitle = title
+        
+        if let message = message {
+            let messageStyle = NSMutableParagraphStyle()
+            messageStyle.alignment = .left
+            messageStyle.lineHeightMultiple = 1.16
+            
+            bottomSheetPopupViewController.popupMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
+        }
+        
+        
         bottomSheetPopupViewController.insertCustomView = insertCustomView
         bottomSheetPopupViewController.cancelButtonTitle = cancelButtonTitle
         bottomSheetPopupViewController.confirmButtonTitle = confirmButtonTitle
@@ -64,7 +71,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
     var cancelAction: (() -> Swift.Void)?
     var confirmAction: (() -> Swift.Void)?
     
-    var popupTitle: String?
+    var popupTitle: NSMutableAttributedString?
     var popupMessage: NSMutableAttributedString?
     /// custom view
     var insertCustomView: UIView?
@@ -148,28 +155,29 @@ final class DealiBottomSheetPopupViewController: UIViewController {
         }
         
         if let popupTitle = self.popupTitle {
-            let titllContainerView = UIView()
-            contentStackView.addArrangedSubview(titllContainerView)
-            titllContainerView.snp.makeConstraints {
+            let titleContainerStackView = UIStackView()
+            contentStackView.addArrangedSubview(titleContainerStackView)
+            titleContainerStackView.then {
+                $0.axis = .horizontal
+                $0.alignment = .center
+                $0.distribution = .equalSpacing
+                $0.spacing = 16.0
+            }.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
             
             let titleLabel = UILabel()
-            titllContainerView.addSubview(titleLabel)
+            titleContainerStackView.addArrangedSubview(titleLabel)
             titleLabel.then {
-                $0.font = .sh2sb18
-                $0.textColor = DealiColor.g100
-                $0.textAlignment = .left
-                $0.text = popupTitle
+                $0.numberOfLines = 0
+                $0.attributedText = popupTitle
             }.snp.makeConstraints {
-                $0.top.left.bottom.equalToSuperview()
-                $0.right.lessThanOrEqualToSuperview()
-                $0.height.equalTo(26.0)
+                $0.top.bottom.equalToSuperview()
             }
             
             if self.isCloseButtonExposure == true {
                 let closeButton = UIButton()
-                titllContainerView.addSubview(closeButton)
+                titleContainerStackView.addArrangedSubview(closeButton)
                 closeButton.then {
                     $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
                     $0.addTarget(self, action: #selector(closeButtonButtonAction), for: .touchUpInside)

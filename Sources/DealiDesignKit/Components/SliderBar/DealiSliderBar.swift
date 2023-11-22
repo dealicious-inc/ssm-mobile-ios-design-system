@@ -16,6 +16,10 @@ public final class DealiSliderBar: UIControl {
     public var minValue: BehaviorRelay<CGFloat> = .init(value: 0)
     public var maxValue: BehaviorRelay<CGFloat> = .init(value: 1)
     
+    // gesture 끝났을 때 각각 비율값을 보낸다.
+    public var minThumbGestureEnded: PublishRelay<CGFloat> = .init()
+    public var maxThumbGestureEnded: PublishRelay<CGFloat> = .init()
+
     private let minThumbView = UIView()
     private let maxThumbView = UIView()
     private var leftThumbOffset: CGFloat = 0.0
@@ -142,8 +146,11 @@ public final class DealiSliderBar: UIControl {
     private func didEndDragging(_ thumb: UIView) {
         if thumb.tag == 0 {
             self.leftThumbLastOffset = self.leftThumbOffset
+            self.minThumbGestureEnded.accept(self.minValue.value)
         } else {
             self.rightThumbLastOffset = self.rightThumbOffset
+            self.maxThumbGestureEnded.accept(self.maxValue.value)
+
         }
     }
 

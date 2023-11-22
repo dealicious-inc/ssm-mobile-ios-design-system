@@ -76,6 +76,21 @@ class SliderBarViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.sliderBarWithIndicator.sliderBar.minThumbGestureEnded
+            .asDriver(onErrorJustReturn: 0)
+            .drive { value in
+                debugPrint("minThumbView 놨음. 값: \(value)")
+            }
+            .disposed(by: self.disposeBag)
+
+        
+        self.sliderBarWithIndicator.sliderBar.maxThumbGestureEnded
+            .asDriver(onErrorJustReturn: 0)
+            .drive { value in
+                debugPrint("maxThumbView 놨음 값: \(value)")
+            }
+            .disposed(by: self.disposeBag)
+        
         self.sliderBarWithIndicator.sliderBar.maxValue
             .asDriver()
             .drive { value in

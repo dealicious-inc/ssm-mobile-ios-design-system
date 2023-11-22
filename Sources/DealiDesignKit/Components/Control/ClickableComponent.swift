@@ -454,7 +454,6 @@ public class ClickableComponent: UIControl {
         if self.singleImage != nil {
             
             self.singleImageView.snp.remakeConstraints {
-                $0.height.equalTo(configuration.height?.button ?? 0.0)
                 $0.centerX.equalToSuperview()
                 $0.top.bottom.equalToSuperview()
                 $0.left.greaterThanOrEqualToSuperview().offset(configuration.singleImagePadding)

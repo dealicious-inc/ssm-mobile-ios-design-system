@@ -160,7 +160,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
             titleContainerStackView.then {
                 $0.axis = .horizontal
                 $0.alignment = .center
-                $0.distribution = .equalSpacing
+                $0.distribution = .fill
                 $0.spacing = 16.0
             }.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
@@ -182,7 +182,6 @@ final class DealiBottomSheetPopupViewController: UIViewController {
                     $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
                     $0.addTarget(self, action: #selector(closeButtonButtonAction), for: .touchUpInside)
                 }.snp.makeConstraints {
-                    $0.right.equalToSuperview()
                     $0.centerY.equalToSuperview()
                     $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
                 }

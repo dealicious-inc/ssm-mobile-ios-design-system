@@ -35,16 +35,22 @@ public class DealiAlert: NSObject {
     // 1버튼 확인 버튼
     public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) {
         
+        let checkBoxContainerView = UIView()
+        
         let checkBoxView = CheckboxWithText()
-        checkBoxView.do {
+        checkBoxContainerView.addSubview(checkBoxView)
+        checkBoxView.then {
             $0.title = checkButtonTitle
             $0.font = .b1sb15
             $0.status = .normal(isSelected: true)
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10.0)
+            $0.left.right.bottom.equalToSuperview()
         }
         
         self.show(title: title,
                   message: message,
-                  insertViewArray: [checkBoxView],
+                  insertCustomView: checkBoxContainerView,
                   cancelButtonTitle: cancelButtonTitle,
                   confirmButtonTitle: confirmButtonTitle,
                   closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
@@ -57,19 +63,25 @@ public class DealiAlert: NSObject {
         }
     }
     
-    public class func show(title: String? = nil, message: String, insertViewArray: [UIView]? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
-        
-        let style = NSMutableParagraphStyle()
-        style.alignment = .left
-        style.lineHeightMultiple = 1.16
-        
-        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: style])
-        
+    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let alertViewController = DealiAlertViewController()
-        alertViewController.alertTitle = title
+        if let title = title {
+            let titleStyle = NSMutableParagraphStyle()
+            titleStyle.alignment = .left
+            titleStyle.lineHeightMultiple = 1.21
+            
+            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
+        }
+        
+        let messageStyle = NSMutableParagraphStyle()
+        messageStyle.alignment = .left
+        messageStyle.lineHeightMultiple = 1.16
+        
+        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
         alertViewController.alertMessage = atMessage
-        alertViewController.insertViewArray = insertViewArray
+        
+        alertViewController.insertCustomView = insertCustomView
         alertViewController.cancelButtonTitle = cancelButtonTitle
         alertViewController.confirmButtonTitle = confirmButtonTitle
         alertViewController.closeAlertOnOutsideTouch = closeAlertOnOutsideTouch
@@ -87,10 +99,6 @@ final class DealiAlertViewController: UIViewController {
     private let contentView = UIView()
     private let contentStackView = UIStackView()
     
-    lazy private var titleLabel = UILabel()
-    lazy private var cancelButton = DealiControl.btnOutlineMediumPrimary01()
-    lazy private var confirmButton = DealiControl.btnFilledMediumPrimary01()
-    
     private let messageContentScrollView = UIScrollView()
     private let messageContentStackView = UIStackView()
     private let messageLabel = UILabel()
@@ -98,9 +106,9 @@ final class DealiAlertViewController: UIViewController {
     var cancelAction: (() -> Swift.Void)?
     var confirmAction: (() -> Swift.Void)?
     
-    var alertTitle: String?
+    var alertTitle: NSMutableAttributedString?
     var alertMessage: NSMutableAttributedString?
-    var insertViewArray: [UIView]?
+    var insertCustomView: UIView?
     var cancelButtonTitle: String?
     var confirmButtonTitle: String?
     /// content이외 영영 터치로 alert을 닫을지 유무
@@ -145,27 +153,24 @@ final class DealiAlertViewController: UIViewController {
         self.contentView.addSubview(self.contentStackView)
         self.contentStackView.then {
             $0.axis = .vertical
-            $0.spacing = 24.0
+            $0.spacing = 14.0
             $0.alignment = .fill
             $0.distribution = .fill
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset((isAlerttitleContentExposure ? 20.0 : 28.0))
+            $0.top.equalToSuperview().offset((isAlerttitleContentExposure ? 24.0 : 28.0))
             $0.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
         if isAlerttitleContentExposure {
-            self.contentStackView.addArrangedSubview(self.titleLabel)
-            self.titleLabel.then {
-                $0.font = .sh1sb20
-                $0.textColor = DealiColor.g100
-                $0.textAlignment = .left
+            let titleLabel = UILabel()
+            self.contentStackView.addArrangedSubview(titleLabel)
+            titleLabel.then {
                 $0.numberOfLines = 0
-                $0.text = self.alertTitle
+                $0.attributedText = alertTitle
             }.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
+                $0.height.equalTo(26.0)
             }
-            
-            self.contentStackView.setCustomSpacing(20.0, after: self.titleLabel)
         }
         
         self.contentStackView.addArrangedSubview(self.messageContentScrollView)
@@ -190,36 +195,41 @@ final class DealiAlertViewController: UIViewController {
         
         self.messageContentStackView.addArrangedSubview(self.messageLabel)
         self.messageLabel.then {
-            $0.font = .sh3r16
-            $0.textColor = DealiColor.g70
-            $0.textAlignment = .left
             $0.numberOfLines = 0
-            $0.attributedText = self.alertMessage
+            $0.attributedText = alertMessage
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        for insertView in self.insertViewArray ?? [] {
-            self.messageContentStackView.addArrangedSubview(insertView)
-            insertView.snp.makeConstraints {
+        if let insertCustomView = self.insertCustomView {
+            self.messageContentStackView.addArrangedSubview(insertCustomView)
+            insertCustomView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
         }
         
+        let buttonContainerView = UIView()
+        self.contentStackView.addArrangedSubview(buttonContainerView)
+        buttonContainerView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let buttonStackView = UIStackView()
-        self.contentStackView.addArrangedSubview(buttonStackView)
+        buttonContainerView.addSubview(buttonStackView)
         buttonStackView.then {
             $0.axis = .horizontal
             $0.alignment = .fill
             $0.distribution = .fillEqually
             $0.spacing = 8.0
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+            $0.top.equalToSuperview().offset(10.0)
+            $0.left.right.bottom.equalToSuperview()
         }
         
         if let cancelButtonTitle = self.cancelButtonTitle {
-            buttonStackView.addArrangedSubview(self.cancelButton)
-            self.cancelButton.then {
+            let cancelButton = DealiControl.btnOutlineMediumPrimary01()
+            buttonStackView.addArrangedSubview(cancelButton)
+            cancelButton.then {
                 $0.title = cancelButtonTitle
                 $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {
@@ -228,8 +238,9 @@ final class DealiAlertViewController: UIViewController {
         }
         
         if let confirmButtonTitle = self.confirmButtonTitle {
-            buttonStackView.addArrangedSubview(self.confirmButton)
-            self.confirmButton.then {
+            let confirmButton = DealiControl.btnFilledMediumPrimary01()
+            buttonStackView.addArrangedSubview(confirmButton)
+            confirmButton.then {
                 $0.title = confirmButtonTitle
                 $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
             }.snp.makeConstraints {
@@ -282,12 +293,12 @@ final class DealiAlertViewController: UIViewController {
     }
 }
 
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct AlertPreview: PreviewProvider {
-    static var previews: some View {
-        DealiAlertViewController().showPreview()
-    }
-}
-#endif
+//#if canImport(SwiftUI) && DEBUG
+//import SwiftUI
+//
+//struct AlertPreview: PreviewProvider {
+//    static var previews: some View {
+//        DealiAlertViewController().showPreview()
+//    }
+//}
+//#endif

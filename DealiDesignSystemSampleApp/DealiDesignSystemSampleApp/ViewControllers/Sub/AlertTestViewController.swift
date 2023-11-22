@@ -91,7 +91,7 @@ extension AlertTestViewController {
     @objc func alertButton02Pressed() {
         print("alertButton02Pressed")
 
-        DealiAlert.showConfirm(title: "",
+        DealiAlert.showConfirm(title: "1버튼 Alert",
                                message: "확인버튼만 있는 팝업입니다.",
                                confirmButtonTitle: "확인",
                                alertPresentingViewController: self) {

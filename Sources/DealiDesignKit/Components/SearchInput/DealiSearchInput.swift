@@ -195,7 +195,7 @@ public final class DealiSearchInput: UIView {
             $0.contentMode = .scaleAspectFit
             $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
-            $0.width.height.equalTo(Constants.imageSize)
+            $0.width.equalTo(Constants.imageSize)
         }
         setSearchBarAs(status: hasDefaultKeyboard ? .editing : .empty)
         

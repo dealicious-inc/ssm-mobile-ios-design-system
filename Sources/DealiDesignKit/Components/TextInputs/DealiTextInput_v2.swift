@@ -59,8 +59,12 @@ public final class DealiTextInput_v2: UIView {
         didSet {
             guard let actionButton = self.actionButton else { return }
             self.textFieldButtonStackView.addArrangedSubview(actionButton)
-            actionButton.snp.makeConstraints {
-                $0.width.equalTo(87.0)
+            
+            actionButton.then {
+                if $0.isFixedSize == false {
+                    $0.isFixedSize = true
+                }
+            }.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
             }
         }

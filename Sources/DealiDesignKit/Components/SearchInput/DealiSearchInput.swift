@@ -19,11 +19,13 @@ public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
     func clear()
     func beginEditing()
+    func endEditing()
+    func editingChanged(keyword: String?)
 }
 
 public final class DealiSearchInput: UIView {
     
-    public enum SeachInputType {
+    public enum SearchInputType: Equatable {
         case `default`
         case subCategory(keyword: String)
     }
@@ -76,13 +78,40 @@ public final class DealiSearchInput: UIView {
     private let searchTextField = UITextField()
     private let searchImageView = UIImageView()
     
-    private var inputType: SeachInputType = .default
+    private var inputType: SearchInputType = .default
     private weak var delegate: DealiSearchInputDelegate?
     private var resetKeywordWhenClearTapped: Bool = true
     
     private let disposeBag = DisposeBag()
     
-    public init(type: SeachInputType = .default
+    /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
+    public var keyboardCloseButtonString: String? {
+        didSet {
+            guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
+            
+            let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
+            keyboardAccessoryView.do {
+                $0.backgroundColor = DealiColor.g20
+            }
+            
+            let keyboardCloseButton = DealiControl.btnTextSmallSecondary02()
+            keyboardAccessoryView.addSubview(keyboardCloseButton)
+            keyboardCloseButton.then {
+                $0.title = keyboardCloseButtonString
+            }.snp.makeConstraints {
+                $0.right.equalToSuperview().offset(-12.0)
+                $0.centerY.equalToSuperview()
+            }
+            
+            self.searchTextField.inputAccessoryView = keyboardAccessoryView
+            
+            keyboardCloseButton.rx.tap.subscribe(with: self) { owner, _ in
+                owner.searchTextField.endEditing(true)
+            }.disposed(by: self.disposeBag)
+        }
+    }
+    
+    public init(type: SearchInputType = .default
                 , defaultKeyword: String = ""
                 , placeholderText: String = ""
                 , resetKeywordWhenClearTapped: Bool = true
@@ -123,7 +152,7 @@ public final class DealiSearchInput: UIView {
             $0.distribution = .fill
             $0.layoutMargins = UIEdgeInsets(
                 top: StackViewConstants.layoutVMargin
-                , left: StackViewConstants.layoutHMargin
+                , left: inputType == SearchInputType.default ? StackViewConstants.layoutHMargin : StackViewConstants.layoutVMargin
                 , bottom: StackViewConstants.layoutVMargin
                 , right: StackViewConstants.layoutHMargin
             )
@@ -181,6 +210,10 @@ public final class DealiSearchInput: UIView {
         searchTextField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             owner.textFieldEditingDidBegin(owner.searchTextField)
         }.disposed(by: self.disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidEnd).asSignal().emit(with: self) { owner, _ in
+            owner.textFieldEditingDidEnd(owner.searchTextField)
+        }.disposed(by: self.disposeBag)
     }
     
     private func setSearchStatusImage(hasDefaultKeyboard: Bool) {
@@ -189,7 +222,7 @@ public final class DealiSearchInput: UIView {
             $0.contentMode = .scaleAspectFit
             $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
-            $0.width.height.equalTo(Constants.imageSize)
+            $0.width.equalTo(Constants.imageSize)
         }
         setSearchBarAs(status: hasDefaultKeyboard ? .editing : .empty)
         
@@ -247,14 +280,8 @@ public final class DealiSearchInput: UIView {
                 searchImageView.image = status.image
             }
         }
-        placeHolderLabel.isHidden = (status == .editing || searchTextField.text?.isEmpty == false)
-    }
-    
-    public func updateKeyword(_ keyword: String) {
-        if !keyword.isEmpty {
-            searchTextField.text = keyword
-            setSearchBarAs(status: .editing)
-        }
+        
+        placeHolderLabel.isHidden = (status == .editing && searchTextField.text?.isEmpty == false)
     }
 }
 
@@ -264,26 +291,45 @@ extension DealiSearchInput {
         guard searchTextField.text != nil else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
-            setSearchBarAs(status: .empty)
+            if !searchTextField.isEditing {
+                setSearchBarAs(status: .empty)
+            }
         }
         delegate?.clear()
     }
     
     private func textFieldDidChange(_ textField: UITextField) {
-        if textField.text?.isEmpty == true {
-            setSearchBarAs(status: .empty)
-            return
-        }
+        delegate?.editingChanged(keyword: textField.text)
         setSearchBarAs(status: .editing)
     }
     
     private func textFieldShouldReturn(_ textField: UITextField) {
         textField.resignFirstResponder()
+        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
         delegate?.search(keyword: textField.text)
     }
     
     private func textFieldEditingDidBegin(_ textField: UITextField) {
+        setSearchBarAs(status: .editing)
         delegate?.beginEditing()
     }
     
+    private func textFieldEditingDidEnd(_ textField: UITextField) {
+        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        delegate?.endEditing()
+    }
+    
+    // 외부에서 호출 가능한 Search TextField Action
+     public func searchInputIsFirstResponder() {
+        searchTextField.becomeFirstResponder()
+    }
+    
+    public func updateKeyword(_ keyword: String) {
+        searchTextField.text = keyword
+        setSearchBarAs(status: keyword.isEmpty ? .empty : .editing)
+    }
+    
+    public func getSearchInputKeyword() -> String? {
+        searchTextField.text
+    }
 }

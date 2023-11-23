@@ -472,7 +472,6 @@ public class ClickableComponent: UIControl {
                 if configuration.style == .button {
                     $0.height.equalTo(configuration.height?.button ?? 0.0)
                     if self.isFixedSize == true {
-                        $0.centerX.equalToSuperview()
                         $0.left.equalToSuperview().offset(leftPadding)
                         $0.right.equalToSuperview().offset(-rightPadding)
                     } else {

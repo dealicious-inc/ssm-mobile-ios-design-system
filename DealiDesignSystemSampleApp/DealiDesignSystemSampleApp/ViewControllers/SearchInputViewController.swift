@@ -82,6 +82,7 @@ final class SearchInputViewController: UIViewController {
         contentStackView.addArrangedSubview(searchBarView4)
         searchBarView4.then {
             $0.backgroundColor = .clear
+            $0.keyboardCloseButtonString = "닫기"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
@@ -121,6 +122,10 @@ final class SearchInputViewController: UIViewController {
 }
 
 extension SearchInputViewController: DealiSearchInputDelegate {
+    func endEditing() {
+        
+    }
+    
     func search(keyword: String?) {
         guard let keyword = keyword else {
             print("nil")
@@ -135,5 +140,9 @@ extension SearchInputViewController: DealiSearchInputDelegate {
     
     func beginEditing() {
         print("begin Editing !")
+    }
+    
+    func editingChanged(keyword: String?) {
+        
     }
 }

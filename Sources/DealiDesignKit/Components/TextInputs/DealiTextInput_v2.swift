@@ -22,6 +22,8 @@ public final class DealiTextInput_v2: UIView {
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
     
+    public var textFieldDidEndEditing: Driver<Bool>!
+    
     private let disposeBag = DisposeBag()
     
     /// TextInput title 세팅
@@ -57,8 +59,12 @@ public final class DealiTextInput_v2: UIView {
         didSet {
             guard let actionButton = self.actionButton else { return }
             self.textFieldButtonStackView.addArrangedSubview(actionButton)
-            actionButton.snp.makeConstraints {
-                $0.width.equalTo(87.0)
+            
+            actionButton.then {
+                if $0.isFixedSize == false {
+                    $0.isFixedSize = true
+                }
+            }.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
             }
         }
@@ -71,6 +77,8 @@ public final class DealiTextInput_v2: UIView {
     public var minPrice = 0
     /// 최대 금액 (type이 price일경우 사용)
     public var maxPrice = 10000000
+    /// 최소 최대 금액 밖의 가격은 입력이 안되도록
+    public var blockOutOfRangePriceInput: Bool = true
     /// TextInput 기본으로 노출되는 helperText 세팅
     public var normalHelperText: String?
     /// 텟스트 필드에 노출되는 문자 format
@@ -119,7 +127,7 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-    /// 기보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
+    /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
         didSet {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
@@ -219,6 +227,7 @@ public final class DealiTextInput_v2: UIView {
             $0.spellCheckingType = .no
             $0.textColor = DealiColor.g100
             $0.tintColor = DealiColor.g100
+            $0.delegate = self
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
         }
@@ -230,6 +239,7 @@ public final class DealiTextInput_v2: UIView {
             $0.textColor = DealiColor.error
             $0.textAlignment = .center
             $0.sizeToFit()
+            $0.isHidden = true
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo("00:00".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
@@ -238,6 +248,7 @@ public final class DealiTextInput_v2: UIView {
         textFieldContentStackView.addArrangedSubview(self.textInputRightImageView)
         self.textInputRightImageView.then {
             $0.backgroundColor = .red
+            $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -262,9 +273,16 @@ public final class DealiTextInput_v2: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
- 
     private func RX() {
+        self.textFieldDidEndEditing = Driver.merge(
+            self.textField.rx.controlEvent(.editingDidEndOnExit)
+                .map { true }
+                .asDriver(onErrorJustReturn: false),
+            self.textField.rx.controlEvent(.editingDidEnd)
+                .map { true }
+                .asDriver(onErrorJustReturn: false)
+        )
+        
         self.textField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             self.inputStatus = .focusIn
         }.disposed(by: self.disposeBag)
@@ -281,8 +299,15 @@ public final class DealiTextInput_v2: UIView {
             .skip(1)
             .distinctUntilChanged()
             .subscribe(with: self, onNext: { owner, text in
-            print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
-        }).disposed(by: self.disposeBag)
+//                print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
+                if
+                    owner.textInputFormat == .price,
+                    let price = Int(text.replacingOccurrences(of: ",", with: ""))
+                {
+                    owner.textField.text = price.commaString()
+                }
+            })
+            .disposed(by: self.disposeBag)
         
     }
     
@@ -292,5 +317,37 @@ public final class DealiTextInput_v2: UIView {
         self.textField.textContentType = configure.textContentType
         self.textField.isSecureTextEntry = configure.isSecureTextEntry
         self.textInputFormat = configure.textInputFormat
+    }
+}
+
+extension Int {
+    internal func commaString() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        numberFormatter.locale = Locale(identifier: "ko_KR")
+        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+    }
+}
+
+extension DealiTextInput_v2: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard self.textInputFormat == .price else { return true }
+        
+        let isNumber = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string))
+        
+        guard
+            self.blockOutOfRangePriceInput,
+            var currentPriceText = textField.text?.replacingOccurrences(of: ",", with: "")
+        else { return isNumber || string.isEmpty }
+        
+        if string.isEmpty {
+            currentPriceText.removeLast()
+        } else {
+            currentPriceText += string
+        }
+        
+        guard let price = Int(currentPriceText) else { return isNumber || string.isEmpty }
+        
+        return price <= maxPrice && price >= minPrice
     }
 }

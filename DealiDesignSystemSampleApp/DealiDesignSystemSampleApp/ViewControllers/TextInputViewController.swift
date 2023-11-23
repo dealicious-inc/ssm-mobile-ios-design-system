@@ -8,6 +8,7 @@
 
 import UIKit
 import DealiDesignKit
+import RxSwift
 
 final class TextInputViewController: UIViewController {
 
@@ -23,6 +24,8 @@ final class TextInputViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
+    var disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
@@ -128,6 +131,7 @@ final class TextInputViewController: UIViewController {
             $0.title = "가격 텍스트 입력"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
+            $0.placeholder = "가격 입력"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

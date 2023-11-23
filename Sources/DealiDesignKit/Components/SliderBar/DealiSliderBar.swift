@@ -16,13 +16,17 @@ public final class DealiSliderBar: UIControl {
     public var minValue: BehaviorRelay<CGFloat> = .init(value: 0)
     public var maxValue: BehaviorRelay<CGFloat> = .init(value: 1)
     
+    // gesture 끝났을 때 각각 비율값을 보낸다.
+    public var minThumbGestureEnded: PublishRelay<CGFloat> = .init()
+    public var maxThumbGestureEnded: PublishRelay<CGFloat> = .init()
+
     private let minThumbView = UIView()
     private let maxThumbView = UIView()
     private var leftThumbOffset: CGFloat = 0.0
     private var leftThumbLastOffset: CGFloat = 0.0
     
     private var rightThumbOffset: CGFloat = 0.0
-    private lazy var rightThumbLastOffset: CGFloat = self.barView.bounds.maxX - 22.0
+    private lazy var rightThumbLastOffset: CGFloat = self.barView.bounds.maxX
 
     private let barView = UIView()
     private let activeRangeBarView = UIView()
@@ -66,7 +70,8 @@ public final class DealiSliderBar: UIControl {
             
             $0.addGestureRecognizer(self.minPanGesture)
         }.snp.makeConstraints {
-            $0.top.left.bottom.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.centerX.equalTo(self.barView.snp.left)
             $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
         }
         
@@ -141,21 +146,25 @@ public final class DealiSliderBar: UIControl {
     private func didEndDragging(_ thumb: UIView) {
         if thumb.tag == 0 {
             self.leftThumbLastOffset = self.leftThumbOffset
+            self.minThumbGestureEnded.accept(self.minValue.value)
         } else {
             self.rightThumbLastOffset = self.rightThumbOffset
+            self.maxThumbGestureEnded.accept(self.maxValue.value)
+
         }
     }
 
     private func dragLeftThumb(_ thumb: UIView, translation: CGPoint) {
-        var newOffset = (floor(translation.x + self.leftThumbLastOffset))
-        
+        var newOffset = (translation.x + self.leftThumbLastOffset)
         if newOffset < 0.0 {
             newOffset = 0.0
+            self.leftThumbLastOffset = 0.0
         }
         
-        let maxOffset = self.barView.frame.maxX - 22.0
+        let maxOffset = self.barView.bounds.maxX
         if newOffset > maxOffset {
             newOffset = maxOffset
+            self.leftThumbLastOffset = maxOffset
         }
         
         if self.hasThumbCollision(thumb) && translation.x > 0.0 {
@@ -168,11 +177,11 @@ public final class DealiSliderBar: UIControl {
         guard self.leftThumbOffset != newOffset else { return }
         
         self.minThumbView.snp.updateConstraints {
-            $0.left.equalToSuperview().offset(newOffset)
+            $0.centerX.equalTo(self.barView.snp.left).offset(newOffset)
         }
         
         self.leftThumbOffset = newOffset
-        self.minValue.accept(newOffset / maxOffset)
+        self.minValue.accept((newOffset) / maxOffset)
     }
     
     private func dragRightThumb(_ thumb: UIView, translation: CGPoint) {
@@ -181,12 +190,15 @@ public final class DealiSliderBar: UIControl {
         
         if newOffset < 0.0 {
             newOffset = 0.0
+            self.rightThumbLastOffset = 0.0
+
         }
         
-        let maxOffset = self.barView.frame.maxX - 22.0
+        let maxOffset = self.barView.bounds.maxX
         
         if newOffset > maxOffset {
             newOffset = maxOffset
+            self.rightThumbLastOffset = maxOffset
         }
         
         if self.hasThumbCollision(thumb) && translation.x < 0.0 {
@@ -200,7 +212,7 @@ public final class DealiSliderBar: UIControl {
 
         self.rightThumbOffset = newOffset
         self.maxThumbView.snp.remakeConstraints {
-            $0.left.equalToSuperview().offset(self.rightThumbOffset)
+            $0.centerX.equalTo(self.barView.snp.left).offset(newOffset)
             $0.top.bottom.equalToSuperview()
             $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
         }
@@ -211,13 +223,13 @@ public final class DealiSliderBar: UIControl {
     private func hasThumbCollision(_ thumb: UIView) -> Bool {
         let diff = self.maxThumbView.center.x - self.minThumbView.center.x
                         
-        let hasCollision = diff <= 11.0
+        let hasCollision = diff <= 0.0
         if hasCollision {
             if thumb.tag == 0 {
                 let rightThumbOffset = self.rightThumbLastOffset
                         
                 self.minThumbView.snp.updateConstraints {
-                    $0.left.equalToSuperview().offset(rightThumbOffset)
+                    $0.centerX.equalTo(self.barView.snp.left).offset(rightThumbOffset)
                 }
                 
                 self.leftThumbOffset = rightThumbOffset
@@ -229,7 +241,7 @@ public final class DealiSliderBar: UIControl {
                 let leftThumbOffset = self.leftThumbLastOffset
                 
                 self.maxThumbView.snp.remakeConstraints {
-                    $0.left.equalToSuperview().offset(leftThumbOffset)
+                    $0.centerX.equalTo(self.barView.snp.left).offset(leftThumbOffset)
                     $0.top.bottom.equalToSuperview()
                     $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
                 }

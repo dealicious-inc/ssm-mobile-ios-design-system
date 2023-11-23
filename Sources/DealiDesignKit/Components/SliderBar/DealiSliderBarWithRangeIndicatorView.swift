@@ -42,7 +42,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
             $0.distribution = .fillEqually
         }.snp.makeConstraints {
             $0.top.equalTo(self.sliderBar.snp.bottom).offset(4.0)
-            $0.left.right.equalToSuperview().inset(32.0)
+            $0.left.right.equalToSuperview().inset(21.0)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(28.0)
         }
@@ -78,12 +78,12 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
                 $0.text = self.title
                 $0.font = .b4r12
                 $0.textAlignment = .center
+                $0.backgroundColor = .clear
             }.snp.makeConstraints {
                 $0.left.right.bottom.equalToSuperview()
                 $0.height.equalTo(18.0)
                 $0.top.equalTo(indicatorView.snp.bottom).offset(4.0)
             }
-            
         }
         
         private let titleLabel = UILabel()

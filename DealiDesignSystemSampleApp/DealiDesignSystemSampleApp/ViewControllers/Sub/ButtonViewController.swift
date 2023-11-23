@@ -78,8 +78,6 @@ class ButtonViewController: UIViewController {
             $0.leftImage = ClickableImage(UIImage(named: "ic_download")?.resize(CGSize(width: 16.0, height: 16.0)))
         }
         
-        return
-        
         var buttonArray: [UIView] = []
 
         let largeButtonArray: [UIView] = [DealiControl.btnFilledLargePrimary01(), DealiControl.btnFilledLargePrimary02(), DealiControl.btnFilledLargeGradient(),

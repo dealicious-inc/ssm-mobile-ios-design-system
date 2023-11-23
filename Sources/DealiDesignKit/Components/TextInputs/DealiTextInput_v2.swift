@@ -127,7 +127,7 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-    /// 기보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
+    /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
         didSet {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }

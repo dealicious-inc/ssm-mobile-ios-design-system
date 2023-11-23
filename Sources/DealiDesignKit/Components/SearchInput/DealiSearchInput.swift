@@ -84,6 +84,33 @@ public final class DealiSearchInput: UIView {
     
     private let disposeBag = DisposeBag()
     
+    /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
+    public var keyboardCloseButtonString: String? {
+        didSet {
+            guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
+            
+            let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
+            keyboardAccessoryView.do {
+                $0.backgroundColor = DealiColor.g20
+            }
+            
+            let keyboardCloseButton = DealiControl.btnTextSmallSecondary02()
+            keyboardAccessoryView.addSubview(keyboardCloseButton)
+            keyboardCloseButton.then {
+                $0.title = keyboardCloseButtonString
+            }.snp.makeConstraints {
+                $0.right.equalToSuperview().offset(-12.0)
+                $0.centerY.equalToSuperview()
+            }
+            
+            self.searchTextField.inputAccessoryView = keyboardAccessoryView
+            
+            keyboardCloseButton.rx.tap.subscribe(with: self) { owner, _ in
+                owner.searchTextField.endEditing(true)
+            }.disposed(by: self.disposeBag)
+        }
+    }
+    
     public init(type: SearchInputType = .default
                 , defaultKeyword: String = ""
                 , placeholderText: String = ""

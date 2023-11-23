@@ -82,6 +82,7 @@ final class SearchInputViewController: UIViewController {
         contentStackView.addArrangedSubview(searchBarView4)
         searchBarView4.then {
             $0.backgroundColor = .clear
+            $0.keyboardCloseButtonString = "닫기"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)

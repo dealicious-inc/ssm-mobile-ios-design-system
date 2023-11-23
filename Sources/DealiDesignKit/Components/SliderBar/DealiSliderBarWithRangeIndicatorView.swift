@@ -78,7 +78,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
                 $0.text = self.title
                 $0.font = .b4r12
                 $0.textAlignment = .center
-                $0.backgroundColor = .yellow
+                $0.backgroundColor = .clear
             }.snp.makeConstraints {
                 $0.left.right.bottom.equalToSuperview()
                 $0.height.equalTo(18.0)

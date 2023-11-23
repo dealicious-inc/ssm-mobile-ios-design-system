@@ -9,10 +9,8 @@ import Foundation
 import UIKit
 
 public var safeAreaBottomMargin: CGFloat {
-    if #available(iOS 11.0, *) {
-        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
-            return window.safeAreaInsets.bottom
-        }
+    if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+        return window.safeAreaInsets.bottom
     }
     return 0
 }

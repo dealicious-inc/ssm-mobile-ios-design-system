@@ -54,6 +54,18 @@ public final class DealiSliderBar: UIControl {
         }
     }
     
+    public func moveRightThumb(at ratio: CGFloat) {
+        let width = self.barView.bounds.maxX
+        let offset: CGFloat = width * ratio
+        
+        self.rightThumbLastOffset = offset
+        self.maxThumbView.snp.remakeConstraints {
+            $0.centerX.equalTo(self.barView.snp.left).offset(rightThumbLastOffset)
+            $0.top.bottom.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
+        }
+    }
+    
     private func setupViews() {
         self.addSubview(self.barView)
         self.barView.then {

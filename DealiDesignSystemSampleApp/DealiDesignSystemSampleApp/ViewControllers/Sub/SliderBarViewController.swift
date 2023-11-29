@@ -16,6 +16,9 @@ class SliderBarViewController: UIViewController {
     let sliderBar = DealiSliderBar()
     let sliderBarWithIndicator = DealiSliderBarWithRangeIndicatorView()
 
+    let testButton = DealiControl.btnTextSmallSecondary01()
+    let test2Button = DealiControl.btnTextSmallSecondary01()
+
     private let disposeBag = DisposeBag()
     
     override func loadView() {
@@ -46,6 +49,24 @@ class SliderBarViewController: UIViewController {
             $0.top.equalTo(contentView.snp.bottom).offset(30.0)
             $0.left.right.equalToSuperview().inset(50.0)
         }
+        
+        
+        self.view.addSubview(testButton)
+        testButton.then {
+            $0.title = "0.5 로 옮기기"
+        }.snp.makeConstraints {
+            $0.top.equalTo(self.sliderBarWithIndicator.snp.bottom).offset(40.0)
+            $0.centerX.equalToSuperview()
+        }
+        
+        self.view.addSubview(test2Button)
+        test2Button.then {
+            $0.title = "0.0 로 옮기기"
+        }.snp.makeConstraints {
+            $0.top.equalTo(self.testButton.snp.bottom).offset(20.0)
+            $0.centerX.equalToSuperview()
+        }
+        
         
     }
 
@@ -97,5 +118,20 @@ class SliderBarViewController: UIViewController {
                 debugPrint("maxValue: \(value)")
             }
             .disposed(by: self.disposeBag)
+        
+        self.testButton.rx.tap
+            .bind { [weak self] in
+                guard let self else { return }
+                self.sliderBar.moveLeftThumb(at: 0.5)
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.test2Button.rx.tap
+            .bind { [weak self] in
+                guard let self else { return }
+                self.sliderBar.moveLeftThumb(at: 0.0)
+            }
+            .disposed(by: self.disposeBag)
+        
     }
 }

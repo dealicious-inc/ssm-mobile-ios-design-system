@@ -1,6 +1,6 @@
 //
 //  DealiBottomSheetPopup.swift
-//  
+//
 //
 //  Created by hoji on 2023/11/21.
 //
@@ -203,6 +203,12 @@ final class DealiBottomSheetPopupViewController: UIViewController {
             contentStackView.addArrangedSubview(insertCustomView)
             insertCustomView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
+            }
+            
+            if popupTitle == nil {
+                contentStackView.snp.updateConstraints {
+                    $0.top.equalToSuperview().offset(16.0)
+                }
             }
         }
         

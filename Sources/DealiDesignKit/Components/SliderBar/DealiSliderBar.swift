@@ -44,8 +44,15 @@ public final class DealiSliderBar: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func moveLeftThumb(at ratio: CGFloat) {
-        let width = self.barView.bounds.maxX
+    public func moveLeftThumb(at ratio: CGFloat, barWidth: CGFloat? = nil) {
+        let width: CGFloat
+        
+        if let barWidth {
+            width = barWidth
+        } else {
+            width = self.barView.bounds.maxX
+        }
+        
         let offset: CGFloat = width * ratio
         
         self.leftThumbLastOffset = offset
@@ -54,8 +61,15 @@ public final class DealiSliderBar: UIControl {
         }
     }
     
-    public func moveRightThumb(at ratio: CGFloat) {
-        let width = self.barView.bounds.maxX
+    public func moveRightThumb(at ratio: CGFloat, barWidth: CGFloat? = nil) {
+        let width: CGFloat
+        
+        if let barWidth {
+            width = barWidth
+        } else {
+            width = self.barView.bounds.maxX
+        }
+        
         let offset: CGFloat = width * ratio
         
         self.rightThumbLastOffset = offset

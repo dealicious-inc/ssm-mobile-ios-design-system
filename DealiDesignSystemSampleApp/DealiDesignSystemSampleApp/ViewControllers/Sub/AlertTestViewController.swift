@@ -48,30 +48,27 @@ class AlertTestViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let alertButton01 = DealiButton()
+        let alertButton01 = DealiControl.btnOutlineLargePrimary01()
         contentStackView.addArrangedSubview(alertButton01)
         alertButton01.then {
-            $0.style = .large(style: .filled)
             $0.title = "2버튼 팝업"
             $0.addTarget(self, action: #selector(alertButton01Pressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        let alertButton02 = DealiButton()
+        let alertButton02 = DealiControl.btnOutlineLargePrimary01()
         contentStackView.addArrangedSubview(alertButton02)
         alertButton02.then {
-            $0.style = .large(style: .filled)
             $0.title = "1버튼 팝업"
             $0.addTarget(self, action: #selector(alertButton02Pressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        let alertButton03 = DealiButton()
+        let alertButton03 = DealiControl.btnOutlineLargePrimary01()
         contentStackView.addArrangedSubview(alertButton03)
         alertButton03.then {
-            $0.style = .large(style: .filled)
             $0.title = "check box 팝업"
             $0.addTarget(self, action: #selector(alertButton03Pressed), for: .touchUpInside)
         }.snp.makeConstraints {
@@ -94,7 +91,7 @@ extension AlertTestViewController {
     @objc func alertButton02Pressed() {
         print("alertButton02Pressed")
 
-        DealiAlert.showConfirm(title: "",
+        DealiAlert.showConfirm(title: "1버튼 Alert",
                                message: "확인버튼만 있는 팝업입니다.",
                                confirmButtonTitle: "확인",
                                alertPresentingViewController: self) {

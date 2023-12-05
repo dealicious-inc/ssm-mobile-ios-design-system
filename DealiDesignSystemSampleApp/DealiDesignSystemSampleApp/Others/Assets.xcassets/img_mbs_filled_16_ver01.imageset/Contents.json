@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "img_mbs_filled_16_ver01.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

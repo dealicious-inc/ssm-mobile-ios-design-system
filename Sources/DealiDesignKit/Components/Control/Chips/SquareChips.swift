@@ -49,7 +49,7 @@ public enum ChipsSquareConfig: ClickableConfig {
         case .medium:
             return ClickableFont.chip(font: .b2sb14)
         case .small:
-            return ClickableFont(normal: .b3r13, selected: .b3sb13, disabled: .b3r13)
+            return ClickableFont(normal: .b2r14, selected: .b2sb14, disabled: .b2r14)
         }
     }
     

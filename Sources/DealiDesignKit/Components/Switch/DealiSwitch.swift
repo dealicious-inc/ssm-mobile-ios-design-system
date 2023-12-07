@@ -79,10 +79,10 @@ public class DealiSwitch: UIControl {
             self.backgroundView.then {
                 $0.backgroundColor = DealiColor.g30
                 $0.clipsToBounds = true
-                $0.layer.cornerRadius = 15.0
+                $0.layer.cornerRadius = self.size == .small ? 11.0 : 15.0
             }.snp.makeConstraints {
-                $0.height.equalTo(self.size == .small ? 36.0 : 30.0)
-                $0.width.equalTo(self.size == .small ? 22.0 : 50.0)
+                $0.height.equalTo(self.size == .small ? 22.0 : 30.0)
+                $0.width.equalTo(self.size == .small ? 36.0 : 50.0)
                 $0.edges.equalToSuperview()
             }
             

@@ -107,6 +107,13 @@ final class MainViewController: UIViewController {
             $0.title = "SearchInput Components"
             $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
         }
+        
+        let tagComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(tagComponentsButton)
+        tagComponentsButton.do {
+            $0.title = "Tag Components"
+            $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -161,4 +168,9 @@ extension MainViewController {
     @objc func sliderBarButtonPressed() {
         self.navigationController?.pushViewController(SliderBarViewController(), animated: true)
     }
+    
+    @objc func tagButtonPressed() {
+        self.navigationController?.pushViewController(TagViewController(), animated: true)
+    }
+    
 }

@@ -262,8 +262,6 @@ public class ClickableComponent: UIControl {
                         self.titleLabel.font = self.configuration?.font?.normal
                     }
                 }
-            } else {
-                fatalError("버튼은 selected 디자인 없음. isSelected 사용불가!!")
             }
             
         }

@@ -94,7 +94,7 @@ public final class DealiTag: UIView {
         }
     }
     
-    public var text: String = "" {
+    public var text: String? {
         didSet {
             self.titleLabel.text = text
         }
@@ -143,6 +143,11 @@ public final class DealiTag: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(size: ESize, color: EColor) {
+        self.size = size
+        self.color = color
     }
     
 }

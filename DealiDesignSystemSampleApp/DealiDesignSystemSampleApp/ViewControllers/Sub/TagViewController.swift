@@ -50,9 +50,10 @@ class TagViewController: UIViewController {
                 let tag = DealiTag()
                 self.stackView.addArrangedSubview(tag)
                 tag.do {
-                    $0.size = size
                     $0.text = title
-                    $0.color = color
+//                    $0.size = size
+//                    $0.color = color
+                    $0.configure(size: size, color: color)
                 }
             }
         }

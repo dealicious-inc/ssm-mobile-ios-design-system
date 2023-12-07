@@ -59,7 +59,9 @@ final class RadioButtonViewController: UIViewController {
         }
         
         contentView.addSubview(self.radioButton)
-        self.radioButton.snp.makeConstraints {
+        self.radioButton.then {
+            $0.isEnabled = true
+        }.snp.makeConstraints {
             $0.left.equalToSuperview().inset(30.0)
             $0.top.equalTo(self.secondRadioButtonWithText.snp.bottom).offset(20.0)
         }

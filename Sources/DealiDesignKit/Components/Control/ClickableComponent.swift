@@ -262,6 +262,8 @@ public class ClickableComponent: UIControl {
                         self.titleLabel.font = self.configuration?.font?.normal
                     }
                 }
+            } else {
+                // 버튼은 selected 상태의 디자인이 없습니다. selected 를 사용해야 한다면 chip을 사용하세요.
             }
             
         }

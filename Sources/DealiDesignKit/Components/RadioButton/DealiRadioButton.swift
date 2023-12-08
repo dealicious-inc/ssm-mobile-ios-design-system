@@ -86,7 +86,8 @@ public class DealiRadioButton: UIControl {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        self.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        containerView.addGestureRecognizer(tap)
         self.setupView()
     }
     

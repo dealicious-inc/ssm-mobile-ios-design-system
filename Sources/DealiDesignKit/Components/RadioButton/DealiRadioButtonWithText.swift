@@ -116,16 +116,6 @@ open class DealiRadioButtonWithText: UIControl {
     private let imageView = UIImageView()
     private let circleView = UIView()
     
-    private var imageName: String {
-        if self.isEnabled == false {
-            return "ic_Checkcircle_disabled_24"
-        } else if self.isSelected {
-            return "ic_Checkcircle_on_24"
-        } else {
-            return "ic_Checkcircle_off_24"
-        }
-    }
-    
     override public init(frame: CGRect) {
         super.init(frame: frame)
                 

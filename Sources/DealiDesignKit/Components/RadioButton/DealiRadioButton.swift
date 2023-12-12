@@ -28,21 +28,29 @@ public class DealiRadioButton: UIControl {
     }
     
     private func setupView() {
-        self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
-    }
-    
-    
-    private let imageView = UIImageView()
-    
-    private var imageName: String {
         if self.isEnabled == false {
-            return "ic_Checkcircle_disabled_24"
+            self.imageView.isHidden = true
+            self.circleView.isHidden = false
+            circleView.do {
+                $0.layer.borderColor = DealiColor.g30.cgColor
+                $0.backgroundColor = DealiColor.g20
+            }
         } else if self.isSelected {
-            return "ic_Checkcircle_on_24"
+            self.imageView.isHidden = false
+            self.circleView.isHidden = true
+            self.imageView.image = UIImage(named: "ic_Checkcircle_on_24", in: Bundle.module, compatibleWith: nil)
         } else {
-            return "ic_Checkcircle_off_24"
+            self.imageView.isHidden = true
+            self.circleView.isHidden = false
+            circleView.do {
+                $0.layer.borderColor = DealiColor.g50.cgColor
+                $0.backgroundColor = .white
+            }
         }
     }
+   
+    private let imageView = UIImageView()
+    private let circleView = UIView()
     
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: 24.0, height: 24.0)
@@ -50,15 +58,36 @@ public class DealiRadioButton: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
-        self.addSubview(self.imageView)
-        self.imageView.then {
-            $0.contentMode = .scaleAspectFit
-        }.snp.makeConstraints {
+        
+        let containerView = UIView()
+        self.addSubview(containerView)
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        self.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        containerView.addSubview(self.circleView)
+        self.circleView.then {
+            $0.layer.borderColor = DealiColor.g50.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 9.0
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 18.0, height: 18.0))
+            $0.center.equalToSuperview()
+        }
+                
+        containerView.addSubview(self.imageView)
+        self.imageView.then {
+            $0.contentMode = .scaleAspectFit
+            $0.isHidden = false
+        }.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        containerView.addGestureRecognizer(tap)
         self.setupView()
     }
     

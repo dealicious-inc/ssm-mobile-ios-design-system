@@ -26,13 +26,24 @@ public class DealiSwitch: UIControl {
         }
     }
     
+    public var size: SizeType = .small {
+        didSet {
+            self.setupViews()
+        }
+    }
+    
+    public enum SizeType {
+        case large
+        case small
+    }
+    
     private var backgroundView = UIView()
     private var thumbView = UIView()
     public var isOn = false
     
-    public convenience init(style: SwitchStyle = .iosSystem) {
+    public convenience init(style: SwitchStyle = .iosSystem, size: SizeType = .small) {
         self.init(frame: .zero)
-        
+        self.size = size
         self.style = style
         self.setupViews()
     }
@@ -68,10 +79,10 @@ public class DealiSwitch: UIControl {
             self.backgroundView.then {
                 $0.backgroundColor = DealiColor.g30
                 $0.clipsToBounds = true
-                $0.layer.cornerRadius = 15.0
+                $0.layer.cornerRadius = self.size == .small ? 11.0 : 15.0
             }.snp.makeConstraints {
-                $0.height.equalTo(30.0)
-                $0.width.equalTo(50.0)
+                $0.height.equalTo(self.size == .small ? 22.0 : 30.0)
+                $0.width.equalTo(self.size == .small ? 36.0 : 50.0)
                 $0.edges.equalToSuperview()
             }
             
@@ -79,14 +90,14 @@ public class DealiSwitch: UIControl {
             self.addSubview(self.thumbView)
             self.thumbView.then {
                 $0.backgroundColor = DealiColor.primary04
-                $0.layer.cornerRadius = 13.0
+                $0.layer.cornerRadius = self.size == .small ? 9.0 : 13.0
                 $0.layer.masksToBounds = false
                 $0.layer.shadowColor = UIColor.black.cgColor
                 $0.layer.shadowOffset = CGSize(width: 0, height: 1)
                 $0.layer.shadowOpacity = 0.22
                 
             }.snp.makeConstraints {
-                $0.width.height.equalTo(26.0)
+                $0.width.height.equalTo(self.size == .small ? 18.0 : 26.0)
                 $0.top.bottom.left.equalToSuperview().inset(2.0)
             }
             

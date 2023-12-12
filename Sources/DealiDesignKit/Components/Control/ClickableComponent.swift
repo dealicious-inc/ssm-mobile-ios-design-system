@@ -263,7 +263,7 @@ public class ClickableComponent: UIControl {
                     }
                 }
             } else {
-                fatalError("버튼은 selected 디자인 없음. isSelected 사용불가!!")
+                // 버튼은 selected 상태의 디자인이 없습니다. selected 를 사용해야 한다면 chip을 사용하세요.
             }
             
         }

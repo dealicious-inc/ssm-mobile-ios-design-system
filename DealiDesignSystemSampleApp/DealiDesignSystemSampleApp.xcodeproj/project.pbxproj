@@ -24,8 +24,8 @@
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
-		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; }; 
-		E6D2214B2AAEE733000A6411 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
+		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
+		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E66242522AF1EB3A00389659 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66242512AF1EB3A00389659 /* TextInputViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
@@ -49,6 +49,7 @@
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E66242512AF1EB3A00389659 /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
 				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
 				4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */,
+				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
 				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
 			);
 			path = Sub;
@@ -259,6 +261,7 @@
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
+				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,
 				E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */,
 			);
@@ -411,7 +414,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.14;
 				PRODUCT_BUNDLE_IDENTIFIER = net.deali.DealiDesignSystemSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -438,7 +441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.14;
 				PRODUCT_BUNDLE_IDENTIFIER = net.deali.DealiDesignSystemSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

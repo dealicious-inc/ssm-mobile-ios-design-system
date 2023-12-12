@@ -51,7 +51,8 @@ public final class DealiSearchInput: UIView {
         // search image
         static let imageSearch: UIImage? = UIImage(named: "ic_search")
         static let imageClear: UIImage? = UIImage(named: "ic_x")
-        static let imageSize: CGFloat = 16
+        static let imageSearchSize: CGFloat = 24
+        static let imageClearSize: CGFloat = 16
     }
     
     private enum StackViewConstants {
@@ -222,7 +223,7 @@ public final class DealiSearchInput: UIView {
             $0.contentMode = .scaleAspectFit
             $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
-            $0.width.equalTo(Constants.imageSize)
+            $0.width.equalTo(Constants.imageSearchSize)
         }
         setSearchBarAs(status: hasDefaultKeyboard ? .editing : .empty)
         
@@ -278,6 +279,16 @@ public final class DealiSearchInput: UIView {
                 searchImageView.image = nil
             case .editing:
                 searchImageView.image = status.image
+            }
+        }
+        
+        if status == .editing {
+            searchImageView.snp.updateConstraints {
+                $0.width.equalTo(Constants.imageClearSize)
+            }
+        } else {
+            searchImageView.snp.updateConstraints {
+                $0.width.equalTo(Constants.imageSearchSize)
             }
         }
         

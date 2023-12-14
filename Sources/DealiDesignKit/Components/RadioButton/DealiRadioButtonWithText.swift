@@ -90,22 +90,31 @@ open class DealiRadioButtonWithText: UIControl {
     }
     
     private func setupView() {
-        self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
+        if self.isEnabled == false {
+            self.imageView.isHidden = true
+            self.circleView.isHidden = false
+            self.circleView.do {
+                $0.layer.borderColor = DealiColor.g30.cgColor
+                $0.backgroundColor = DealiColor.g20
+            }
+        } else if self.isSelected {
+            self.imageView.isHidden = false
+            self.circleView.isHidden = true
+            self.imageView.image = UIImage(named: "ic_Checkcircle_on_24", in: Bundle.module, compatibleWith: nil)
+        } else {
+            self.imageView.isHidden = true
+            self.circleView.isHidden = false
+            self.circleView.do {
+                $0.layer.borderColor = DealiColor.g50.cgColor
+                $0.backgroundColor = .white
+            }
+        }
         self.titleLabel.textColor = self.textColor
     }
     
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
-    
-    private var imageName: String {
-        if self.isEnabled == false {
-            return "ic_Checkcircle_disabled_24"
-        } else if self.isSelected {
-            return "ic_Checkcircle_on_24"
-        } else {
-            return "ic_Checkcircle_off_24"
-        }
-    }
+    private let circleView = UIView()
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -117,7 +126,25 @@ open class DealiRadioButtonWithText: UIControl {
             $0.edges.equalToSuperview().inset(self.edgeInset)
         }
 
-        self.containerView.addSubview(self.imageView)
+        let circleContainerView = UIView()
+        self.containerView.addSubview(circleContainerView)
+        circleContainerView.snp.makeConstraints {
+            $0.left.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+        }
+        
+        circleContainerView.addSubview(self.circleView)
+        self.circleView.then {
+            $0.layer.borderColor = DealiColor.g50.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 9.0
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 18.0, height: 18.0))
+            $0.center.equalToSuperview()
+        }
+        
+        circleContainerView.addSubview(self.imageView)
         self.imageView.then {
             $0.contentMode = .scaleAspectFit
         }.snp.makeConstraints {
@@ -129,7 +156,7 @@ open class DealiRadioButtonWithText: UIControl {
         self.titleLabel.then {
             $0.textAlignment = .left
             $0.numberOfLines = 0
-            $0.font = .b3r13
+            $0.font = .b2r14
             $0.lineBreakMode = .byCharWrapping
         }.snp.makeConstraints {
             $0.left.equalToSuperview().inset(32.0)

@@ -30,7 +30,6 @@
 		E66242522AF1EB3A00389659 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66242512AF1EB3A00389659 /* TextInputViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
-		FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC048A2A72B9E10004E5DB /* DealiDesignKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +66,7 @@
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
 				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
-				FCEC048B2A72B9E10004E5DB /* DealiDesignKit in Frameworks */,
+				E6D2214B2AAEE733000A6411 /* DealiDesignKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,7 +186,7 @@
 				041ABC032A174598001772F3 /* RxCocoa */,
 				041ABC052A174598001772F3 /* RxRelay */,
 				041ABC072A174598001772F3 /* RxSwift */,
-				FCEC048A2A72B9E10004E5DB /* DealiDesignKit */,
+				E6D2214A2AAEE733000A6411 /* DealiDesignKit */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -501,7 +500,7 @@
 			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		FCEC048A2A72B9E10004E5DB /* DealiDesignKit */ = {
+		E6D2214A2AAEE733000A6411 /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DealiDesignKit;
 		};

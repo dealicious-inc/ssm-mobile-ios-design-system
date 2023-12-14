@@ -26,7 +26,7 @@ public protocol DealiSearchInputDelegate: AnyObject {
 public final class DealiSearchInput: UIView {
     
     // MARK: Enum Types
-    public enum SearchInputType: Equatable {
+    private enum SearchInputType: Equatable {
         case `default`
         case subKeyword
     }

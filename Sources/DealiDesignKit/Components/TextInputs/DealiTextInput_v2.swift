@@ -337,7 +337,8 @@ extension DealiTextInput_v2: UITextFieldDelegate {
         
         guard
             self.blockOutOfRangePriceInput,
-            var currentPriceText = textField.text?.replacingOccurrences(of: ",", with: "")
+            var currentPriceText = textField.text?.replacingOccurrences(of: ",", with: ""),
+            !currentPriceText.trim().isEmpty
         else { return isNumber || string.isEmpty }
         
         if string.isEmpty {

@@ -39,24 +39,43 @@ class TagViewController: UIViewController {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(0.0)
         }
+  
+        self.stackView.addArrangedSubview(DealiTag.tagFilledLarge04())
         
-        let sizeArray: [DealiTag.ESize] = [.large, .medium, .small]
-        let titleArray = ["주문확인", "대금결제", "신규주문", "대금결제", "포장완료", "대금결제", "거래완료", "미송 사전 입금완료"]
-        let colorArray: [DealiTag.EColor] = [.red, .whiteRed, .blue, .whiteBlue, .orange, .whiteOrange, .gray, .whiteGray]
-        let zip = zip(titleArray, colorArray)
-        
-        for size in sizeArray {
-            for (title, color) in zip {
-                let tag = DealiTag()
-                self.stackView.addArrangedSubview(tag)
-                tag.do {
-                    $0.text = title
-//                    $0.size = size
-//                    $0.color = color
-                    $0.configure(size: size, color: color)
+        for size in ["Large", "Medium", "Small"] {
+            for style in ["Filled", "Outline"] {
+                for number in 1...4 {
+                    let name = "tag\(style)\(size)0\(number)"
+                    if let e = DealiTag.EName(rawValue: name) {
+                        let tag = DealiTag()
+                        self.stackView.addArrangedSubview(tag)
+                        tag.do {
+                            $0.name = e
+                            $0.text = name
+                        }
+                    }
                 }
             }
         }
+        
+        
+//        let sizeArray: [DealiTag.ESize] = [.large, .medium, .small]
+//        let titleArray = ["주문확인", "대금결제", "신규주문", "대금결제", "포장완료", "대금결제", "거래완료", "미송 사전 입금완료"]
+//        let colorArray: [DealiTag.EColor] = [.red, .whiteRed, .blue, .whiteBlue, .orange, .whiteOrange, .gray, .whiteGray]
+//        let zip = zip(titleArray, colorArray)
+//        
+//        for size in sizeArray {
+//            for (title, color) in zip {
+//                let tag = DealiTag()
+//                self.stackView.addArrangedSubview(tag)
+//                tag.do {
+//                    $0.text = title
+////                    $0.size = size
+////                    $0.color = color
+//                    $0.configure(size: size, color: color)
+//                }
+//            }
+//        }
         
     }
     

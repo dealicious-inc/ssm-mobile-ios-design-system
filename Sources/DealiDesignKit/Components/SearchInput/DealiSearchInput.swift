@@ -81,7 +81,7 @@ public final class DealiSearchInput: UIView {
     
     private var inputType: SearchInputType = .default
     private weak var delegate: DealiSearchInputDelegate?
-    private var resetKeywordWhenClearTapped: Bool = true
+    public var resetKeywordWhenClearTapped: Bool = true
     
     private let disposeBag = DisposeBag()
     

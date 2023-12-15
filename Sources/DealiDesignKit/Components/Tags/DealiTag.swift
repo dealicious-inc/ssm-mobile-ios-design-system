@@ -7,108 +7,64 @@
 
 import UIKit
 
-extension DealiTag {
-    static func tag(_ tag: String) -> DealiTag {
-        return DealiTag().then {
-            $0.name = EName(rawValue: tag.replacingOccurrences(of: "()", with: "")) ?? .tagFilledLarge01
-        }
-    }
-    
-    public static func tagFilledLarge01(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge02(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge03(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge04(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-}
-
 public final class DealiTag: UIView {
 
-    public enum EName: String {
-        /// Background:Pink/Text:Pink
-        case tagFilledLarge01
-        /// Background:Blue/Text:Blue
-        case tagFilledLarge02
-        /// Background:Orange/Text:Orange
-        case tagFilledLarge03
-        /// Background:Gray/Text:Gray
-        case tagFilledLarge04
-        /// Background:White/Text:Pink/Border:Pink
-        case tagOutlineLarge01
-        /// Background:White/Text:Blue/Border:Blue
-        case tagOutlineLarge02
-        /// Background:White/Text:Orange/Border:Orange
-        case tagOutlineLarge03
-        /// Background:White/Text:Gray/Border:Gray
-        case tagOutlineLarge04
-        /// Background:Pink/Text:Pink
-        case tagFilledMedium01
-        /// Background:Blue/Text:Blue
-        case tagFilledMedium02
-        /// Background:Orange/Text:Orange
-        case tagFilledMedium03
-        /// Background:Gray/Text:Gray
-        case tagFilledMedium04
-        /// Background:White/Text:Pink/Border:Pink
-        case tagOutlineMedium01
-        /// Background:White/Text:Blue/Border:Blue
-        case tagOutlineMedium02
-        /// Background:White/Text:Orange/Border:Orange
-        case tagOutlineMedium03
-        /// Background:White/Text:Gray/Border:Gray
-        case tagOutlineMedium04
-        /// Background:Pink/Text:Pink
-        case tagFilledSmall01
-        /// Background:Blue/Text:Blue
-        case tagFilledSmall02
-        /// Background:Orange/Text:Orange
-        case tagFilledSmall03
-        /// Background:Gray/Text:Gray
-        case tagFilledSmall04
-        /// Background:White/Text:Pink/Border:Pink
-        case tagOutlineSmall01
-        /// Background:White/Text:Blue/Border:Blue
-        case tagOutlineSmall02
-        /// Background:White/Text:Orange/Border:Orange
-        case tagOutlineSmall03
-        /// Background:White/Text:Gray/Border:Gray
-        case tagOutlineSmall04
+    public enum ESize {
+        case large
+        case medium
+        case small
+        
+        var height: CGFloat {
+            switch self {
+            case .large:
+                return 28.0
+            case .medium:
+                return 26.0
+            case .small:
+                return 16.0
+            }
+        }
+        
+        var padding: CGFloat {
+            switch self {
+            case .large:
+                return 8.0
+            case .medium:
+                return 8.0
+            case .small:
+                return 4.0
+            }
+        }
         
         var font: UIFont {
-            let name = self.rawValue
-            if name.contains("Large") == true {
+            switch self {
+            case .large:
                 return .b2sb14
-            } else if name.contains("Medium") == true {
+            case .medium:
                 return .b4sb12
-            } else { // Small
+            case .small:
                 return .c1sb10
             }
         }
-        
-        struct DealiTagSize {
-            var height: CGFloat
-            var padding: CGFloat
-        }
-        
-        var size: DealiTagSize {
-            let name = self.rawValue
-            if name.contains("Large") == true {
-                return DealiTagSize(height: 28.0, padding: 8.0)
-            } else if name.contains("Medium") == true {
-                return DealiTagSize(height: 26.0, padding: 8.0)
-            } else { // Small
-                return DealiTagSize(height: 16.0, padding: 4.0)
-            }
-        }
+    }
+    
+    public enum EColor {
+        /// 배경:핑크 | 텍스트:레드 | 볼더:X
+        case red // background: primary03 / text: primary01
+        /// 배경:화이트 | 텍스트:빨강 | 볼더:빨강
+        case whiteRed // background: primary04 / text: primary01 / border: primary01
+        /// 배경:블루 | 텍스트:블루 | 볼더:X
+        case blue // background: secondary03 / text: secondary01
+        /// 배경:화이트 | 텍스트:블루 | 볼더:블루
+        case whiteBlue // background: primary04 / text: secondary01 / border: secondary01
+        /// 배경:오렌지 | 텍스트:오렌지 | 볼더:X
+        case orange // background: secondary06 / text: secondary04
+        /// 배경:화이트 | 텍스트:오렌지 | 볼더:오렌지
+        case whiteOrange // background: primary04 / text: secondary04 / border: secondary04
+        /// 배경:그레이 | 텍스트:그레이 | 볼더:X
+        case gray // background: g10 / text: g80
+        /// 배경:화이트 | 텍스트:그레이 | 볼더:그레이
+        case whiteGray // background: primary04 / text: g80 / border: g20
         
         struct DealiTagColor {
             var backgroundColor: UIColor
@@ -116,37 +72,27 @@ public final class DealiTag: UIView {
             var borderColor: UIColor?
         }
         
-        var color: DealiTagColor {
-            let name = self.rawValue
-            let number = Int(name.suffix(2))
-            
-            if name.contains("Filled") == true {
-                switch number {
-                case 1:
-                    return DealiTagColor(backgroundColor: DealiColor.primary03, textColor: DealiColor.primary01)
-                case 2:
-                    return DealiTagColor(backgroundColor: DealiColor.secondary03, textColor: DealiColor.secondary01)
-                case 3:
-                    return DealiTagColor(backgroundColor: DealiColor.secondary06, textColor: DealiColor.secondary04)
-                default: // 4
-                    return DealiTagColor(backgroundColor: DealiColor.g10, textColor: DealiColor.g80)
-                }
-            } else {
-                switch number {
-                case 1:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.primary01, borderColor: DealiColor.primary01)
-                case 2:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary01, borderColor: DealiColor.secondary01)
-                case 3:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary04, borderColor: DealiColor.secondary04)
-                default: // 4
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.g80, borderColor: DealiColor.g20)
-                }
+        var set: DealiTagColor {
+            switch self {
+            case .red:
+                return DealiTagColor(backgroundColor: DealiColor.primary03, textColor: DealiColor.primary01)
+            case .whiteRed:
+                return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.primary01, borderColor: DealiColor.primary01)
+            case .blue:
+                return DealiTagColor(backgroundColor: DealiColor.secondary03, textColor: DealiColor.secondary01)
+            case .whiteBlue:
+                return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary01, borderColor: DealiColor.secondary01)
+            case .orange:
+                return DealiTagColor(backgroundColor: DealiColor.secondary06, textColor: DealiColor.secondary04)
+            case .whiteOrange:
+                return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary04, borderColor: DealiColor.secondary04)
+            case .gray:
+                return DealiTagColor(backgroundColor: DealiColor.g10, textColor: DealiColor.g80)
+            case .whiteGray:
+                return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.g80, borderColor: DealiColor.g20)
             }
         }
-        
     }
-
     
     public var text: String? {
         didSet {
@@ -154,26 +100,24 @@ public final class DealiTag: UIView {
         }
     }
     
-    public var name: EName = .tagFilledLarge01 {
+    public var size: ESize = .large {
         didSet {
-            
-            // 사이즈 & 폰트
-            let size = name.size
-
             self.titleLabel.then {
-                $0.font = name.font
+                $0.font = size.font
             }.snp.remakeConstraints {
                 $0.top.bottom.equalToSuperview()
                 $0.height.equalTo(size.height)
                 $0.left.right.equalToSuperview().inset(size.padding)
             }
-            
-            // 색상
-            let color = name.color
-            
+        }
+    }
+    
+    public var color: EColor = .red {
+        didSet {
+            let set = color.set
             self.do {
-                $0.backgroundColor = color.backgroundColor
-                if let borderColor = color.borderColor {
+                $0.backgroundColor = set.backgroundColor
+                if let borderColor = set.borderColor {
                     $0.layer.borderColor = borderColor.cgColor
                     $0.layer.borderWidth = 1.0
                 } else {
@@ -181,9 +125,8 @@ public final class DealiTag: UIView {
                 }
             }
             self.titleLabel.do {
-                $0.textColor = color.textColor
+                $0.textColor = set.textColor
             }
-            
         }
     }
     
@@ -201,5 +144,10 @@ public final class DealiTag: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    public func configure(size: ESize, color: EColor) {
+        self.size = size
+        self.color = color
+    }
+    
 }

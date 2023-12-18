@@ -39,18 +39,16 @@ class TagViewController: UIViewController {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(0.0)
         }
-  
-        self.stackView.addArrangedSubview(DealiTag.tagFilledLarge04())
         
         for size in ["Large", "Medium", "Small"] {
             for style in ["Filled", "Outline"] {
                 for number in 1...4 {
                     let name = "tag\(style)\(size)0\(number)"
-                    if let e = DealiTag.EName(rawValue: name) {
+                    if let e = DealiTag.EType(rawValue: name) {
                         let tag = DealiTag()
                         self.stackView.addArrangedSubview(tag)
                         tag.do {
-                            $0.name = e
+                            $0.type = e
                             $0.text = name
                         }
                     }

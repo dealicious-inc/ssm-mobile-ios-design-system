@@ -7,33 +7,9 @@
 
 import UIKit
 
-extension DealiTag {
-    static func tag(_ tag: String) -> DealiTag {
-        return DealiTag().then {
-            $0.name = EName(rawValue: tag.replacingOccurrences(of: "()", with: "")) ?? .tagFilledLarge01
-        }
-    }
-    
-    public static func tagFilledLarge01(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge02(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge03(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-    
-    public static func tagFilledLarge04(functionName: String = #function) -> DealiTag {
-        return tag(functionName)
-    }
-}
-
 public final class DealiTag: UIView {
 
-    public enum EName: String {
+    public enum EType: String {
         /// Background:Pink/Text:Pink
         case tagFilledLarge01
         /// Background:Blue/Text:Blue
@@ -144,9 +120,7 @@ public final class DealiTag: UIView {
                 }
             }
         }
-        
     }
-
     
     public var text: String? {
         didSet {
@@ -154,14 +128,14 @@ public final class DealiTag: UIView {
         }
     }
     
-    public var name: EName = .tagFilledLarge01 {
+    public var type: EType = .tagFilledLarge01 {
         didSet {
             
             // 사이즈 & 폰트
-            let size = name.size
+            let size = type.size
 
             self.titleLabel.then {
-                $0.font = name.font
+                $0.font = type.font
             }.snp.remakeConstraints {
                 $0.top.bottom.equalToSuperview()
                 $0.height.equalTo(size.height)
@@ -169,7 +143,7 @@ public final class DealiTag: UIView {
             }
             
             // 색상
-            let color = name.color
+            let color = type.color
             
             self.do {
                 $0.backgroundColor = color.backgroundColor
@@ -196,10 +170,15 @@ public final class DealiTag: UIView {
             $0.clipsToBounds = true
         }
         self.addSubview(self.titleLabel)
+        self.initTag()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func initTag() {
+        self.type = .tagFilledLarge02
     }
 
 }

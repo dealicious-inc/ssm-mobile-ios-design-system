@@ -149,7 +149,7 @@ public final class DealiSearchInput: UIView {
     }
     
     // MARK: - Initializer
-    public init(delegate: DealiSearchInputDelegate? = nil) {
+    public init(delegate: DealiSearchInputDelegate?) {
         self.delegate = delegate
         super.init(frame: .zero)
         setContainerStackView()

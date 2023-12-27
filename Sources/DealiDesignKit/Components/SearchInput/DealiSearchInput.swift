@@ -149,13 +149,15 @@ public final class DealiSearchInput: UIView {
     }
     
     // MARK: - Initializer
-    public init(delegate: DealiSearchInputDelegate?) {
-        self.delegate = delegate
+    public init(keyword: String = "", placeholder: String = "", delegate: DealiSearchInputDelegate?) {
         super.init(frame: .zero)
         setContainerStackView()
         setTextField()
         setSearchStatusImage()
-        updateKeyword(self.keyword)
+        
+        self.keyword = keyword
+        self.placeholder = placeholder
+        self.delegate = delegate
     }
     
     required init?(coder: NSCoder) {

@@ -114,6 +114,13 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
+        
+        let hapticEffectButton = DealiControl.btnOutlineLargeSecondary01()
+        contentStackView.addArrangedSubview(hapticEffectButton)
+        hapticEffectButton.do {
+            $0.title = "Haptic Effect"
+            $0.addTarget(self, action: #selector(hapticEffectButtonPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -171,6 +178,10 @@ extension MainViewController {
     
     @objc func tagButtonPressed() {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
+    }
+    
+    @objc func hapticEffectButtonPressed() {
+        self.navigationController?.pushViewController(HapticEffectViewController(), animated: true)
     }
     
 }

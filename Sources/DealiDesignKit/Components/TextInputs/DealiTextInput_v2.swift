@@ -137,7 +137,7 @@ public final class DealiTextInput_v2: UIView {
                 $0.backgroundColor = DealiColor.g20
             }
             
-            let keyboardCloseButton = DealiControl.btnTextSmallSecondary02()
+            let keyboardCloseButton = DealiControl.btnTextSmall04()
             keyboardAccessoryView.addSubview(keyboardCloseButton)
             keyboardCloseButton.then {
                 $0.title = keyboardCloseButtonString

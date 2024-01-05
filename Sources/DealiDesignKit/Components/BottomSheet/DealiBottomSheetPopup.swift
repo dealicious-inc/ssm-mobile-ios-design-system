@@ -232,7 +232,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
             }
             
             if let cancelButtonTitle = self.cancelButtonTitle {
-                let cancelButton = DealiControl.btnOutlineLargePrimary01()
+                let cancelButton = DealiControl.btnOutlineLarge01()
                 buttonStackView.addArrangedSubview(cancelButton)
                 cancelButton.then {
                     $0.title = cancelButtonTitle
@@ -243,7 +243,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
             }
             
             if let confirmButtonTitle = self.confirmButtonTitle {
-                let confirmButton = DealiControl.btnFilledLargePrimary01()
+                let confirmButton = DealiControl.btnFilledLarge01()
                 buttonStackView.addArrangedSubview(confirmButton)
                 confirmButton.then {
                     $0.title = confirmButtonTitle

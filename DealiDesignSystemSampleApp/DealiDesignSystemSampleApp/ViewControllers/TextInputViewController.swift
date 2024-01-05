@@ -65,7 +65,7 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            let button = DealiControl.btnOutlineMediumPrimary01()
+            let button = DealiControl.btnOutlineMedium01()
             button.title = "Default"
             $0.actionButton = button
         }.snp.makeConstraints {
@@ -79,7 +79,7 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            let button = DealiControl.btnOutlineMediumSecondary01()
+            let button = DealiControl.btnOutlineMedium03()
             button.title = "Default"
             $0.actionButton = button
         }.snp.makeConstraints {
@@ -93,7 +93,7 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            let button = DealiControl.btnFilledTonalMediumSecondary02()
+            let button = DealiControl.btnFilledTonalMedium04()
             button.title = "Default"
             $0.actionButton = button
         }.snp.makeConstraints {
@@ -107,7 +107,7 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            let button = DealiControl.btnFilledTonalMediumSecondary02()
+            let button = DealiControl.btnFilledTonalMedium04()
             button.title = "Default"
             $0.actionButton = button
         }.snp.makeConstraints {

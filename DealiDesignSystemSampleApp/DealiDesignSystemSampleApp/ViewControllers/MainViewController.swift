@@ -45,70 +45,70 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
-        let bottomSheetPopupButton = DealiControl.btnOutlineLargeSecondary01()
+        let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(bottomSheetPopupButton)
         bottomSheetPopupButton.do {
             $0.title = "BottomSheetPopup"
             $0.addTarget(self, action: #selector(bottomSheetPopupButtonPressed), for: .touchUpInside)
         }
         
-        let alertButton = DealiControl.btnOutlineLargeSecondary01()
+        let alertButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(alertButton)
         alertButton.do {
             $0.title = "Alert"
             $0.addTarget(self, action: #selector(alertButtonPressed), for: .touchUpInside)
         }
         
-        let radioButton = DealiControl.btnOutlineLargeSecondary01()
+        let radioButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(radioButton)
         radioButton.do {
             $0.title = "RadioButton"
             $0.addTarget(self, action: #selector(radioButtonPressed), for: .touchUpInside)
         }
         
-        let buttonComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        let buttonComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(buttonComponentsButton)
         buttonComponentsButton.do {
             $0.title = "Button Components"
             $0.addTarget(self, action: #selector(buttonComponentButtonPressed), for: .touchUpInside)
         }
         
-        let chipComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        let chipComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(chipComponentsButton)
         chipComponentsButton.do {
             $0.title = "Chip Components"
             $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
         }
         
-        let switchComponentButton = DealiControl.btnOutlineLargeSecondary01()
+        let switchComponentButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(switchComponentButton)
         switchComponentButton.do {
             $0.title = "Toggle/Switch"
             $0.addTarget(self, action: #selector(toggleButtonPressed), for: .touchUpInside)
         }
         
-        let sliderBarComponentButton = DealiControl.btnOutlineLargeSecondary01()
+        let sliderBarComponentButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(sliderBarComponentButton)
         sliderBarComponentButton.do {
             $0.title = "SliderBar"
             $0.addTarget(self, action: #selector(sliderBarButtonPressed), for: .touchUpInside)
         }
         
-        let textInputComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        let textInputComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(textInputComponentsButton)
         textInputComponentsButton.do {
             $0.title = "TextInput Components"
             $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
         }
         
-        let searchInputComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        let searchInputComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(searchInputComponentsButton)
         searchInputComponentsButton.do {
             $0.title = "SearchInput Components"
             $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
         }
         
-        let tagComponentsButton = DealiControl.btnOutlineLargeSecondary01()
+        let tagComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(tagComponentsButton)
         tagComponentsButton.do {
             $0.title = "Tag Components"

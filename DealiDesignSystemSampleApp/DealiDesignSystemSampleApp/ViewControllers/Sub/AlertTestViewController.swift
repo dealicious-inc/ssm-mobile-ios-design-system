@@ -48,7 +48,7 @@ class AlertTestViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let alertButton01 = DealiControl.btnOutlineLargePrimary01()
+        let alertButton01 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(alertButton01)
         alertButton01.then {
             $0.title = "2버튼 팝업"
@@ -57,7 +57,7 @@ class AlertTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let alertButton02 = DealiControl.btnOutlineLargePrimary01()
+        let alertButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(alertButton02)
         alertButton02.then {
             $0.title = "1버튼 팝업"
@@ -66,7 +66,7 @@ class AlertTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let alertButton03 = DealiControl.btnOutlineLargePrimary01()
+        let alertButton03 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(alertButton03)
         alertButton03.then {
             $0.title = "check box 팝업"

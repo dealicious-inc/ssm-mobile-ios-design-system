@@ -8,107 +8,233 @@
 import UIKit
 
 extension DealiControl {
+    @available(*, deprecated, renamed: "btnTextLarge01")
     public static func btnTextLargePrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.primary01)
     }
     
+    public static func btnTextLarge01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge02")
     public static func btnTextLargePrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.primary02)
     }
     
+    public static func btnTextLarge02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge03")
     public static func btnTextLargeSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary01)
     }
     
+    public static func btnTextLarge03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge04")
     public static func btnTextLargeSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary02)
     }
     
+    public static func btnTextLarge04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge05")
     public static func btnTextLargeSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary03)
     }
     
+    public static func btnTextLarge05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.secondary03)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge06")
     public static func btnTextLargeSecondary04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary04)
     }
     
+    public static func btnTextLarge06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.secondary04)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextLarge07")
     public static func btnTextLargeSecondary05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary05)
     }
     
+    public static func btnTextLarge07() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.large,
+                                        color: ButtonTextColor.secondary05)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium01")
     public static func btnTextMediumPrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.primary01)
     }
     
+    public static func btnTextMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium02")
     public static func btnTextMediumPrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.primary02)
     }
     
+    public static func btnTextMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium03")
     public static func btnTextMediumSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary01)
     }
     
+    public static func btnTextMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium04")
     public static func btnTextMediumSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary02)
     }
     
+    public static func btnTextMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium05")
     public static func btnTextMediumSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary03)
     }
     
+    public static func btnTextMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.secondary03)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium06")
     public static func btnTextMediumSecondary04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary04)
     }
     
+    public static func btnTextMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.secondary04)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextMedium07")
     public static func btnTextMediumSecondary05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary05)
     }
     
+    public static func btnTextMedium07() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.medium,
+                                        color: ButtonTextColor.secondary05)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall01")
     public static func btnTextSmallPrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.primary01)
     }
     
+    public static func btnTextSmall01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall02")
     public static func btnTextSmallPrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.primary02)
     }
     
+    public static func btnTextSmall02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall03")
     public static func btnTextSmallSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary01)
     }
     
+    public static func btnTextSmall03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall04")
     public static func btnTextSmallSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary02)
     }
     
+    public static func btnTextSmall04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall05")
     public static func btnTextSmallSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary03)
     }
     
+    public static func btnTextSmall05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.secondary03)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall06")
     public static func btnTextSmallSecondary04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary04)
     }
     
+    public static func btnTextSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.secondary04)
+    }
+    
+    @available(*, deprecated, renamed: "btnTextSmall07")
     public static func btnTextSmallSecondary05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.small,
+                                        color: ButtonTextColor.secondary05)
+    }
+    
+    public static func btnTextSmall07() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary05)
     }

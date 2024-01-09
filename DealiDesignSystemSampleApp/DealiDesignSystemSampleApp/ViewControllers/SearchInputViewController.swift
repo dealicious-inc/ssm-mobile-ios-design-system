@@ -58,62 +58,66 @@ final class SearchInputViewController: UIViewController {
             $0.height.equalTo(40)
         }
         
-        let searchBarView2 = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", delegate: self)
+        let searchBarView2 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarView2)
         searchBarView2.then {
-            $0.backgroundColor = .clear
+            $0.keyword = "원피스"
+            $0.placeholder = "상품을 검색해주세요."
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarView3 = DealiSearchInput(defaultKeyword: "원피스", placeholderText: "상품을 검색해주세요.", resetKeywordWhenClearTapped: false, delegate: self)
+        let searchBarView3 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarView3)
         searchBarView3.then {
-            $0.backgroundColor = .clear
+            $0.keyword = "원피스"
+            $0.placeholder = "상품을 검색해주세요."
+            $0.resetKeywordWhenClearTapped = false
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        searchBarView3.updateKeyword("키워드 변경")
+        searchBarView3.updateKeyword("clear 버튼 disable 기능 테스트")
         
-        let searchBarView4 = DealiSearchInput(placeholderText: "상품을 검색해주세요.", delegate: self)
+        let searchBarView4 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarView4)
         searchBarView4.then {
             $0.backgroundColor = .clear
+            $0.placeholder = "keyboard AccessoryView test"
             $0.keyboardCloseButtonString = "닫기"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryView1 = DealiSearchInput(type: .subCategory(keyword: "아우터"), delegate: self)
+        let searchBarSubCategoryView1 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView1)
         searchBarSubCategoryView1.then {
             $0.backgroundColor = .clear
+            $0.subKeyword = "아우터"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryView2 = DealiSearchInput(type: .subCategory(keyword: "아우터"), defaultKeyword: "패딩", delegate: self)
+        let searchBarSubCategoryView2 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView2)
         searchBarSubCategoryView2.then {
             $0.backgroundColor = .clear
+            $0.keyword = "패딩"
+            $0.subKeyword = "아우터"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
         
-        let searchBarSubCategoryView3 = DealiSearchInput(
-            type: .subCategory(keyword: "키워드가 들어가는데 엄청길어요")
-            , placeholderText: "상품을 검색해주세요."
-            , delegate: self
-        )
+        let searchBarSubCategoryView3 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView3)
         searchBarSubCategoryView3.then {
-            $0.backgroundColor = .clear
+            $0.subKeyword = "키워드가 들어가는데 엄청길어요"
+            $0.placeholder = "상품을 검색해주세요."
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)

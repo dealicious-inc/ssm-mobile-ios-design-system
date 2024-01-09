@@ -49,7 +49,7 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let bottomSheetPopupButton01 = DealiControl.btnOutlineLargePrimary01()
+        let bottomSheetPopupButton01 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton01)
         bottomSheetPopupButton01.then {
             $0.title = "2버튼 팝업"
@@ -58,7 +58,7 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let bottomSheetPopupButton02 = DealiControl.btnOutlineLargePrimary01()
+        let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton02)
         bottomSheetPopupButton02.then {
             $0.title = "1버튼 팝업"
@@ -67,7 +67,7 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let bottomSheetPopupButton03 = DealiControl.btnOutlineLargePrimary01()
+        let bottomSheetPopupButton03 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton03)
         bottomSheetPopupButton03.then {
             $0.title = "custom 팝업"

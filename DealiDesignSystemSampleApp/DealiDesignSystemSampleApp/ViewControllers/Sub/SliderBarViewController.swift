@@ -16,8 +16,8 @@ class SliderBarViewController: UIViewController {
     let sliderBar = DealiSliderBar()
     let sliderBarWithIndicator = DealiSliderBarWithRangeIndicatorView()
 
-    let testButton = DealiControl.btnTextSmallSecondary01()
-    let test2Button = DealiControl.btnTextSmallSecondary01()
+    let testButton = DealiControl.btnTextSmall03()
+    let test2Button = DealiControl.btnTextSmall03()
 
     private let disposeBag = DisposeBag()
     

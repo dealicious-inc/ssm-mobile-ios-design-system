@@ -70,7 +70,7 @@ class ButtonViewController: UIViewController {
             }
         }
         
-        let testButton = DealiControl.btnFilledLargePrimary02()
+        let testButton = DealiControl.btnFilledLarge03()
         testStackView.addArrangedSubview(testButton)
         testButton.do {
             $0.isFixedSize = true
@@ -80,32 +80,32 @@ class ButtonViewController: UIViewController {
         
         var buttonArray: [UIView] = []
 
-        let largeButtonArray: [UIView] = [DealiControl.btnFilledLargePrimary01(), DealiControl.btnFilledLargePrimary02(), DealiControl.btnFilledLargeGradient(),
-                                          DealiControl.btnFilledTonalLargePrimary01(), DealiControl.btnFilledTonalLargePrimary02(),
-                                          DealiControl.btnFilledTonalLargeSecondary01(), DealiControl.btnFilledTonalLargeSecondary02(), DealiControl.btnFilledTonalLargeSecondary03(),
-                                          DealiControl.btnOutlineLargePrimary01(), DealiControl.btnOutlineLargePrimary02(),
-                                          DealiControl.btnOutlineLargeSecondary01(), DealiControl.btnOutlineLargeSecondary02(), DealiControl.btnOutlineLargeSecondary03(), DealiControl.btnOutlineLargeSecondary04(),
-                                          DealiControl.btnTextLargePrimary01(), DealiControl.btnTextLargePrimary02(),
-                                          DealiControl.btnTextLargeSecondary01(), DealiControl.btnTextLargeSecondary02(), DealiControl.btnTextLargeSecondary03(), DealiControl.btnTextLargeSecondary04(), DealiControl.btnTextLargeSecondary05()
+        let largeButtonArray: [UIView] = [DealiControl.btnFilledLarge01(), DealiControl.btnFilledLarge03(), DealiControl.btnFilledLarge02(),
+                                          DealiControl.btnFilledTonalLarge01(), DealiControl.btnFilledTonalLarge02(),
+                                          DealiControl.btnFilledTonalLarge03(), DealiControl.btnFilledTonalLarge04(), DealiControl.btnFilledTonalLarge05(),
+                                          DealiControl.btnOutlineLarge01(), DealiControl.btnOutlineLarge02(),
+                                          DealiControl.btnOutlineLarge03(), DealiControl.btnOutlineLarge04(), DealiControl.btnOutlineLarge05(), DealiControl.btnOutlineLarge06(),
+                                          DealiControl.btnTextLarge01(), DealiControl.btnTextLarge02(),
+                                          DealiControl.btnTextLarge03(), DealiControl.btnTextLarge04(), DealiControl.btnTextLarge05(), DealiControl.btnTextLarge06(), DealiControl.btnTextLarge07()
         ]
 
-        let mediumButtonArray: [UIView] = [DealiControl.btnFilledMediumPrimary01(), DealiControl.btnFilledMediumPrimary02(),
-                                           DealiControl.btnFilledTonalMediumPrimary01(), DealiControl.btnFilledTonalMediumPrimary02(),
-                                           DealiControl.btnFilledTonalMediumSecondary01(), DealiControl.btnFilledTonalMediumSecondary02(), DealiControl.btnFilledTonalMediumSecondary03(),
-                                           DealiControl.btnOutlineMediumPrimary01(), DealiControl.btnOutlineMediumPrimary02(),
-                                           DealiControl.btnOutlineMediumSecondary01(), DealiControl.btnOutlineMediumSecondary02(), DealiControl.btnOutlineMediumSecondary03(), DealiControl.btnOutlineMediumSecondary04(),
-                                           DealiControl.btnTextMediumPrimary01(),   DealiControl.btnTextMediumPrimary02(),
-                                           DealiControl.btnTextMediumSecondary01(), DealiControl.btnTextMediumSecondary02(), DealiControl.btnTextMediumSecondary03(), DealiControl.btnTextMediumSecondary04(), DealiControl.btnTextMediumSecondary05()
+        let mediumButtonArray: [UIView] = [DealiControl.btnFilledMedium01(), DealiControl.btnFilledMedium03(),
+                                           DealiControl.btnFilledTonalMedium01(), DealiControl.btnFilledTonalMedium02(),
+                                           DealiControl.btnFilledTonalMedium03(), DealiControl.btnFilledTonalMedium04(), DealiControl.btnFilledTonalMedium05(),
+                                           DealiControl.btnOutlineMedium01(), DealiControl.btnOutlineMedium02(),
+                                           DealiControl.btnOutlineMedium03(), DealiControl.btnOutlineMedium04(), DealiControl.btnOutlineMedium05(), DealiControl.btnOutlineMedium06(),
+                                           DealiControl.btnTextMedium01(),   DealiControl.btnTextMedium02(),
+                                           DealiControl.btnTextMedium03(), DealiControl.btnTextMedium04(), DealiControl.btnTextMedium05(), DealiControl.btnTextMedium06(), DealiControl.btnTextMedium07()
                                              ]
         
-        let smallButtonArray: [UIView] = [DealiControl.btnFilledSmallPrimary01(), DealiControl.btnFilledSmallPrimary02(),
-                                          DealiControl.btnFilledTonalSmallPrimary01(), DealiControl.btnFilledTonalSmallPrimary02(),
-                                          DealiControl.btnFilledTonalSmallSecondary01(), DealiControl.btnFilledTonalSmallSecondary02(), DealiControl.btnFilledTonalSmallSecondary03(),
-                                          DealiControl.btnRoundFilledTonalSmallPrimary01(), DealiControl.btnRoundFilledTonalSmallPrimary02(), DealiControl.btnRoundFilledTonalSmallSecondary01(), DealiControl.btnRoundFilledTonalSmallSecondary02(), DealiControl.btnRoundFilledTonalSmallSecondary03(),
-                                          DealiControl.btnOutlineSmallPrimary01(), DealiControl.btnOutlineSmallPrimary02(),
-                                          DealiControl.btnOutlineSmallSecondary01(), DealiControl.btnOutlineSmallSecondary02(), DealiControl.btnOutlineSmallSecondary03(), DealiControl.btnOutlineSmallSecondary04(),
-                                          DealiControl.btnTextSmallPrimary01(), DealiControl.btnTextSmallPrimary02(),
-                                          DealiControl.btnTextSmallSecondary01(), DealiControl.btnTextSmallSecondary02(), DealiControl.btnTextSmallSecondary03(), DealiControl.btnTextSmallSecondary04(), DealiControl.btnTextSmallSecondary05()
+        let smallButtonArray: [UIView] = [DealiControl.btnFilledSmall01(), DealiControl.btnFilledSmall03(),
+                                          DealiControl.btnFilledTonalSmall01(), DealiControl.btnFilledTonalSmall02(),
+                                          DealiControl.btnFilledTonalSmall03(), DealiControl.btnFilledTonalSmall04(), DealiControl.btnFilledTonalSmall05(),
+                                          DealiControl.btnRoundFilledTonalSmall01(), DealiControl.btnRoundFilledTonalSmall02(), DealiControl.btnRoundFilledTonalSmall03(), DealiControl.btnRoundFilledTonalSmall04(), DealiControl.btnFilledLarge01(),
+                                          DealiControl.btnOutlineSmall01(), DealiControl.btnOutlineSmall02(),
+                                          DealiControl.btnOutlineSmall03(), DealiControl.btnOutlineSmall04(), DealiControl.btnOutlineSmall05(), DealiControl.btnOutlineSmall06(),
+                                          DealiControl.btnTextSmall01(), DealiControl.btnTextSmall02(),
+                                          DealiControl.btnTextSmall03(), DealiControl.btnTextSmall04(), DealiControl.btnTextSmall05(), DealiControl.btnTextSmall06(), DealiControl.btnTextSmall07()
                                         ]
         
         

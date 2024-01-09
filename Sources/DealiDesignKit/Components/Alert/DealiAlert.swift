@@ -226,7 +226,7 @@ final class DealiAlertViewController: UIViewController {
         }
         
         if let cancelButtonTitle = self.cancelButtonTitle {
-            let cancelButton = DealiControl.btnOutlineMediumPrimary01()
+            let cancelButton = DealiControl.btnOutlineMedium01()
             buttonStackView.addArrangedSubview(cancelButton)
             cancelButton.then {
                 $0.title = cancelButtonTitle
@@ -237,7 +237,7 @@ final class DealiAlertViewController: UIViewController {
         }
         
         if let confirmButtonTitle = self.confirmButtonTitle {
-            let confirmButton = DealiControl.btnFilledMediumPrimary01()
+            let confirmButton = DealiControl.btnFilledMedium01()
             buttonStackView.addArrangedSubview(confirmButton)
             confirmButton.then {
                 $0.title = confirmButtonTitle

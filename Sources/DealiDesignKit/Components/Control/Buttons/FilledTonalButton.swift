@@ -8,102 +8,225 @@
 import UIKit
 
 extension DealiControl {
+    // MARK: Large
+    @available(*, deprecated, renamed: "btnFilledTonalLarge01")
     public static func btnFilledTonalLargePrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
+    public static func btnFilledTonalLarge01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalLarge02")
     public static func btnFilledTonalLargePrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
+    public static func btnFilledTonalLarge02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalLarge03")
     public static func btnFilledTonalLargeSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
+    public static func btnFilledTonalLarge03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalLarge04")
     public static func btnFilledTonalLargeSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
+    public static func btnFilledTonalLarge04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalLarge05")
     public static func btnFilledTonalLargeSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalLarge05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    // MARK: Medium
+    @available(*, deprecated, renamed: "btnFilledTonalMedium01")
     public static func btnFilledTonalMediumPrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
+    public static func btnFilledTonalMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalMedium02")
     public static func btnFilledTonalMediumPrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
+    public static func btnFilledTonalMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalMedium03")
     public static func btnFilledTonalMediumSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
+    public static func btnFilledTonalMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalMedium04")
     public static func btnFilledTonalMediumSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
+    public static func btnFilledTonalMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalMedium05")
     public static func btnFilledTonalMediumSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    // MARK: Small
+    @available(*, deprecated, renamed: "btnFilledTonalSmall01")
     public static func btnFilledTonalSmallPrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
+    public static func btnFilledTonalSmall01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalSmall02")
     public static func btnFilledTonalSmallPrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
+    public static func btnFilledTonalSmall02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalSmall03")
     public static func btnFilledTonalSmallSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
+    public static func btnFilledTonalSmall03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalSmall04")
     public static func btnFilledTonalSmallSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
+    public static func btnFilledTonalSmall04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledTonalSmall05")
     public static func btnFilledTonalSmallSecondary03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalSmall05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    @available(*, deprecated, renamed: "btnRoundFilledTonalSmall01")
     public static func btnRoundFilledTonalSmallPrimary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.primary01)
     }
     
+    public static func btnRoundFilledTonalSmall01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnRoundFilledTonalSmall02")
     public static func btnRoundFilledTonalSmallPrimary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.primary02)
     }
     
+    public static func btnRoundFilledTonalSmall02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnRoundFilledTonalSmall03")
     public static func btnRoundFilledTonalSmallSecondary01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary01)
     }
     
+    public static func btnRoundFilledTonalSmall03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary01)
+    }
+    
+    @available(*, deprecated, renamed: "btnRoundFilledTonalSmall04")
     public static func btnRoundFilledTonalSmallSecondary02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary02)
     }
     
+    public static func btnRoundFilledTonalSmall04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary02)
+    }
+    
+    @available(*, deprecated, renamed: "btnFilledLarge01")
     public static func btnRoundFilledTonalSmallSecondary03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    public static func btnRoundFilledTonalSmall05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary03)
     }

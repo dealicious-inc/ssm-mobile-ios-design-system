@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 /**
- 설명: <#설명#>
+ 설명: 버텀시트 디자인
  */
 open class DealiBottomSheetViewController: UIViewController {
     

@@ -73,6 +73,7 @@ open class DealiBottomSheetViewController: UIViewController {
         self.closeButton.then {
             $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
             $0.isHidden = true
+            $0.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
             $0.top.equalToSuperview().inset(25.0)
@@ -107,6 +108,10 @@ open class DealiBottomSheetViewController: UIViewController {
             self.sheetView.tag = 100
             self.showBottomSheet()
         }
+    }
+    
+    @objc func closeButtonPressed() {
+        self.dismissBottomSheet()
     }
 
     public func showBottomSheet() {

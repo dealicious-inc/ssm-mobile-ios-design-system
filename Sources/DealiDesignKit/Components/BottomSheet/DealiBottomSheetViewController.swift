@@ -31,7 +31,7 @@ open class DealiBottomSheetViewController: UIViewController {
     
     private var cornerLayer: CAShapeLayer?
     
-    init() {
+    public init() {
         super.init(nibName: nil, bundle: nil)
         
         self.providesPresentationContextTransitionStyle = true

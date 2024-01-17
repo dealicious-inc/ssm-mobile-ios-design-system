@@ -15,12 +15,30 @@ import SnapKit
  */
 public final class CheckboxWithText: UIView {
     
-    public var status: CheckboxStatus {
+    var status: CheckboxStatus {
         get {
             self.checkbox.status
         } set {
             self.checkbox.status = newValue
             self.setAppearance(for: newValue)
+        }
+    }
+    
+    public var isSelected: Bool {
+        get {
+            return self.status.isSelected
+        } set {
+            self.status.isSelected = newValue
+            self.setAppearance(for: self.status)
+        }
+    }
+    
+    public var isEnable: Bool {
+        get {
+            return self.status.isEnable
+        } set {
+            self.status.isEnable = newValue
+            self.setAppearance(for: self.status)
         }
     }
     
@@ -42,15 +60,6 @@ public final class CheckboxWithText: UIView {
         }
     }
     
-    public var isSelected: Bool {
-        switch self.status {
-        case .normal(let isSelected):
-            return isSelected
-        case .disabled:
-            return false
-        }
-    }
-    
     private let disposeBag = DisposeBag()
     private let titleLabel = UILabel()
     private let checkbox = Checkbox()
@@ -63,7 +72,7 @@ public final class CheckboxWithText: UIView {
         return CGSize(width: width, height: max(24.0, height))
     }
     
-    public convenience init(title: String, status: CheckboxStatus = .normal(isSelected: false)) {
+    public convenience init(title: String, status: CheckboxStatus = .init()) {
         self.init(frame: .zero)
         
         self.title = title
@@ -123,7 +132,7 @@ struct CheckboxWithTextPreview: PreviewProvider {
         VStack(alignment: .leading) {
             Text("체크박스 + 텍스트")
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: false))
+                let checkboxWithText = CheckboxWithText(title: testString, status: .init())
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
@@ -131,7 +140,7 @@ struct CheckboxWithTextPreview: PreviewProvider {
             UIViewPreview {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
-                checkboxWithText.status = .normal(isSelected: true)
+                checkboxWithText.isSelected = true
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
@@ -139,7 +148,7 @@ struct CheckboxWithTextPreview: PreviewProvider {
             UIViewPreview {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
-                checkboxWithText.status = .disabled()
+                checkboxWithText.isEnable = false
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
@@ -147,19 +156,13 @@ struct CheckboxWithTextPreview: PreviewProvider {
             UIViewPreview {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
-                checkboxWithText.status = .disabled(isSelected: true)
+                checkboxWithText.isEnable = false
+                checkboxWithText.isSelected = true
+
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
 
-            UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
-                checkboxWithText.title = testString
-                checkboxWithText.status = .disabled(isSelected: true)
-                checkboxWithText.font = .b1sb15
-
-                return checkboxWithText
-            }
         }
         .padding(10.0)
         .previewLayout(.sizeThatFits)

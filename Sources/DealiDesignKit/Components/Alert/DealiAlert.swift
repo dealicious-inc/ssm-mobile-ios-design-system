@@ -42,7 +42,7 @@ public class DealiAlert: NSObject {
         checkBoxView.then {
             $0.title = checkButtonTitle
             $0.font = .b1sb15
-            $0.status = .normal(isSelected: true)
+            $0.status = .init()
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10.0)
             $0.left.right.bottom.equalToSuperview()

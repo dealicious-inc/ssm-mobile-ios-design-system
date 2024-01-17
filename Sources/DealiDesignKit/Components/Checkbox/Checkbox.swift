@@ -12,63 +12,37 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
-protocol CheckboxStatusToggable {
-    static func normal(isSelected: Bool) -> Self
-    static func disabled(isSelected: Bool) -> Self
-    
-    mutating func changeStatus()
-    var imageName: String { get }
-    var textColor: UIColor { get }
-    var isSelected: Bool { get set }
-}
-
-@frozen
-public enum CheckboxStatus: Equatable, CheckboxStatusToggable {
-    case normal(isSelected: Bool)
-    case disabled(isSelected: Bool = false)
-    
-    mutating func changeStatus() {
-        switch self {
-        case .normal:
-            self.isSelected.toggle()
-        default:
-            break
-        }
+/**
+ 설명: Checkbox 상태관리용 객체
+ */
+public struct CheckboxStatus {
+    public init(isEnable: Bool = true, isSelected: Bool = false) {
+        self.isEnable = isEnable
+        self.isSelected = isSelected
     }
     
-    var isSelected: Bool {
-        get {
-            switch self {
-            case .normal(let isSelected):
-                return isSelected
-            case .disabled(let isSelected):
-                return isSelected
-            }
-        }
-        set {
-            switch self {
-            case .normal(_):
-                self = .normal(isSelected: newValue)
-            case .disabled(_):
-                self = .disabled(isSelected: newValue)
-            }
-        }
-    }
+    var isEnable: Bool = true
+    var isSelected: Bool = false
     
     var imageName: String {
-        switch self {
-        case .normal:
+        switch self.isEnable {
+        case true:
             return self.isSelected ? "ic_checkbox_on" : "ic_checkbox_off"
-        case .disabled:
+        case false:
             return  self.isSelected ? "ic_checkbox_ondisable" : "ic_checkbox_disable"
         }
     }
     
+    mutating func changeStatus() {
+        guard self.isEnable else { return }
+        self.isSelected.toggle()
+    }
+    
     var textColor: UIColor {
-        switch self {
-        case .normal:
+        switch self.isEnable {
+        case true:
             return DealiColor.g100
-        case .disabled:
+        case false:
             return DealiColor.g50
         }
     }
@@ -79,7 +53,7 @@ public enum CheckboxStatus: Equatable, CheckboxStatusToggable {
  */
 public class Checkbox: UIView {
     
-    public var status: CheckboxStatus = .normal(isSelected: false) {
+    var status: CheckboxStatus = .init() {
         didSet {
             self.setAppearance(for: status)
         }
@@ -100,7 +74,21 @@ public class Checkbox: UIView {
     }
     
     public var isSelected: Bool {
-        return self.status.isSelected
+        get {
+            return self.status.isSelected
+        } set {
+            self.status.isSelected = newValue
+            self.setAppearance(for: self.status)
+        }
+    }
+    
+    public var isEnable: Bool {
+        get {
+            return self.status.isEnable
+        } set {
+            self.status.isEnable = newValue
+            self.setAppearance(for: self.status)
+        }
     }
     
     override init(frame: CGRect) {
@@ -132,7 +120,6 @@ public class Checkbox: UIView {
     
     private func setAppearance(for status: CheckboxStatus) {
         self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -150,30 +137,31 @@ struct CheckboxPreview: PreviewProvider {
             Text("체크박스")
                 .font(.headline)
             
-            Text("미선택 + 활성")
+            Text("활성 + 미선택")
             UIViewPreview {
                 let checkbox = Checkbox()
                 return checkbox
             }
             
-            Text("선택 + 활성")
+            Text("활성 + 선택")
             UIViewPreview {
                 let checkbox = Checkbox()
-                checkbox.status = .normal(isSelected: true)
+                checkbox.isSelected = true
                 return checkbox
             }
             
-            Text("미선택 + 비활성")
+            Text("비활성 + 미선택")
             UIViewPreview {
                 let checkbox = Checkbox()
-                checkbox.status = .disabled()
+                checkbox.isEnable = false
                 return checkbox
             }
             
-            Text("선택 + 비활성")
+            Text("비활성 + 선택")
             UIViewPreview {
                 let checkbox = Checkbox()
-                checkbox.status = .disabled(isSelected: true)
+                checkbox.isEnable = false
+                checkbox.isSelected = true
                 return checkbox
             }
             

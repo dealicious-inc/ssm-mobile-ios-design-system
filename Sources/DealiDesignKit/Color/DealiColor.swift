@@ -262,7 +262,7 @@ import SwiftUI
 
 struct ColorPreview: PreviewProvider {
     static var testString = "김수한무거북이와 두루미"
-    static var disableState: CheckboxStatus = .disabled
+    static var disableState: CheckboxStatus = .disabled(isSelected: true)
 
     static var previews: some View {
         VStack(alignment: .leading) {

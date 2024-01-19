@@ -255,8 +255,10 @@ final class DealiAlertViewController: UIViewController {
         if self.messageContentStackView.subviews.count > 0 {
             self.messageContentScrollView.layoutIfNeeded()
             var contentHeight: CGFloat = self.messageContentScrollView.contentSize.height
-            if contentHeight > 306 {
-                contentHeight = 306
+            /// 화면의 70% 높이를 alert max height로 설정
+            let alertMaxHeight = (UIScreen.main.bounds.size.height * 0.7)
+            if contentHeight > alertMaxHeight {
+                contentHeight = alertMaxHeight
             }
             self.messageContentScrollView.snp.updateConstraints {
                 $0.height.equalTo(contentHeight)

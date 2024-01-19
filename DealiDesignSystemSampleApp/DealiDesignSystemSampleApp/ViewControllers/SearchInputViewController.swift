@@ -122,6 +122,8 @@ final class SearchInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
+        
+        searchBarSubCategoryView3.updateSubKeyword("ChangeKeyword")
     }
 }
 

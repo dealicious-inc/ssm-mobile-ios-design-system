@@ -83,6 +83,7 @@ public final class DealiSearchInput: UIView {
     private let placeHolderLabel = UILabel()
     private let searchTextField = UITextField()
     private let searchImageView = UIImageView()
+    private var subKeywordLabel: UILabel?
     private var inputType: SearchInputType = .default {
         didSet {
             self.updateKeyword(keyword)
@@ -176,6 +177,11 @@ public final class DealiSearchInput: UIView {
         searchTextField.text = keyword
         setSearchBarAs(status: .editing)
     }
+    
+    public func updateSubKeyword(_ keyword: String?) {
+        guard let keyword, !keyword.isEmpty else { return }
+        setSubKeywordView(with: keyword)
+    }
 }
 
 // MARK: - Setup
@@ -254,38 +260,44 @@ extension DealiSearchInput {
     }
     
     private func setSubKeywordView(with keyword: String) {
-        let keywordView = UIView()
-        stackView.insertArrangedSubview(keywordView, at: 0)
-        keywordView.then {
-            $0.backgroundColor = SubKeywordViewConsants.backgroundColor
-            $0.setCornerRadius(
-                SubKeywordViewConsants.radius
-                , borderWidth: SubKeywordViewConsants.borderWidth
-                , borderColor: SubKeywordViewConsants.borderColor
-            )
-            $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        }.snp.makeConstraints {
-            $0.width.lessThanOrEqualTo(SubKeywordViewConsants.maxWidth)
-        }
-        
-        let keywordLabel = UILabel()
-        keywordView.addSubview(keywordLabel)
-        keywordLabel.then {
-            $0.textColor = SubKeywordViewConsants.textColor
-            $0.font = SubKeywordViewConsants.font
-            $0.textAlignment = .center
-            $0.lineBreakMode = .byTruncatingTail
-            $0.text = keyword
-            $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        }.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(4)
-            $0.leading.trailing.equalToSuperview().inset(8)
-            $0.centerX.equalToSuperview()
-        }
-        
-        stackView.setCustomSpacing(8, after: keywordView)
-        stackView.do {
-            $0.layoutMargins.left = StackViewConstants.layoutVMargin
+        if subKeywordLabel == nil {
+            let keywordView = UIView()
+            stackView.insertArrangedSubview(keywordView, at: 0)
+            keywordView.then {
+                $0.backgroundColor = SubKeywordViewConsants.backgroundColor
+                $0.setCornerRadius(
+                    SubKeywordViewConsants.radius
+                    , borderWidth: SubKeywordViewConsants.borderWidth
+                    , borderColor: SubKeywordViewConsants.borderColor
+                )
+                $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            }.snp.makeConstraints {
+                $0.width.lessThanOrEqualTo(SubKeywordViewConsants.maxWidth)
+            }
+            
+            let keywordLabel = UILabel()
+            keywordView.addSubview(keywordLabel)
+            keywordLabel.then {
+                $0.textColor = SubKeywordViewConsants.textColor
+                $0.font = SubKeywordViewConsants.font
+                $0.textAlignment = .center
+                $0.lineBreakMode = .byTruncatingTail
+                $0.text = keyword
+                $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            }.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(4)
+                $0.leading.trailing.equalToSuperview().inset(8)
+                $0.centerX.equalToSuperview()
+            }
+            
+            stackView.setCustomSpacing(8, after: keywordView)
+            stackView.do {
+                $0.layoutMargins.left = StackViewConstants.layoutVMargin
+            }
+            
+            subKeywordLabel = keywordLabel
+        } else {
+            subKeywordLabel?.text = keyword
         }
     }
     

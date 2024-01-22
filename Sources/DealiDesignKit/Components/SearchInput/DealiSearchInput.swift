@@ -260,7 +260,9 @@ extension DealiSearchInput {
     }
     
     private func setSubKeywordView(with keyword: String) {
-        if subKeywordLabel == nil {
+        if let subKeywordLabel {
+            subKeywordLabel.text = keyword
+        } else {
             let keywordView = UIView()
             stackView.insertArrangedSubview(keywordView, at: 0)
             keywordView.then {
@@ -286,7 +288,7 @@ extension DealiSearchInput {
                 $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             }.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview().inset(4)
-                $0.leading.trailing.equalToSuperview().inset(8)
+                $0.left.right.equalToSuperview().inset(8)
                 $0.centerX.equalToSuperview()
             }
             
@@ -296,8 +298,6 @@ extension DealiSearchInput {
             }
             
             subKeywordLabel = keywordLabel
-        } else {
-            subKeywordLabel?.text = keyword
         }
     }
     

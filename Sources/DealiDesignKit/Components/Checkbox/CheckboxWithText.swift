@@ -15,12 +15,30 @@ import SnapKit
  */
 public final class CheckboxWithText: UIView {
     
-    public var status: CheckboxStatus {
+    var status: CheckboxStatus {
         get {
             self.checkbox.status
         } set {
             self.checkbox.status = newValue
             self.setAppearance(for: newValue)
+        }
+    }
+    
+    public var isSelected: Bool {
+        get {
+            return self.status.isSelected
+        } set {
+            self.status.isSelected = newValue
+            self.setAppearance(for: self.status)
+        }
+    }
+    
+    public var isEnable: Bool {
+        get {
+            return self.status.isEnable
+        } set {
+            self.status.isEnable = newValue
+            self.setAppearance(for: self.status)
         }
     }
     
@@ -42,15 +60,6 @@ public final class CheckboxWithText: UIView {
         }
     }
     
-    public var isSelected: Bool {
-        switch self.status {
-        case .normal(let isSelected):
-            return isSelected
-        case .disabled:
-            return false
-        }
-    }
-    
     private let disposeBag = DisposeBag()
     private let titleLabel = UILabel()
     private let checkbox = Checkbox()
@@ -63,7 +72,7 @@ public final class CheckboxWithText: UIView {
         return CGSize(width: width, height: max(24.0, height))
     }
     
-    public convenience init(title: String, status: CheckboxStatus = .normal(isSelected: false)) {
+    public convenience init(title: String, status: CheckboxStatus = .init()) {
         self.init(frame: .zero)
         
         self.title = title
@@ -82,7 +91,7 @@ public final class CheckboxWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.font = .b3r13
+            $0.font = .b2r14
             $0.text = self.title
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)
@@ -116,38 +125,14 @@ public final class CheckboxWithText: UIView {
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
 
-struct CheckboxPreview: PreviewProvider {
+struct CheckboxWithTextPreview: PreviewProvider {
     static var testString = "김수한무거북이와 두루미"
-    static var disableState: CheckboxStatus = .disabled
 
     static var previews: some View {
         VStack(alignment: .leading) {
-            Text("체크박스")
-
-            HStack {
-                UIViewPreview {
-                    let checkbox = Checkbox()
-                    checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)                    
-                    return checkbox
-                }
-
-                UIViewPreview {
-                    let checkbox = Checkbox()
-                    checkbox.status = .normal(isSelected: true)
-                    return checkbox
-                }
-
-                UIViewPreview {
-                    let checkbox = Checkbox()
-                    checkbox.status = .disabled
-                    return checkbox
-                }
-
-            }
-
             Text("체크박스 + 텍스트")
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: false))
+                let checkboxWithText = CheckboxWithText(title: testString, status: .init())
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
@@ -155,18 +140,29 @@ struct CheckboxPreview: PreviewProvider {
             UIViewPreview {
                 let checkboxWithText = CheckboxWithText()
                 checkboxWithText.title = testString
+                checkboxWithText.isSelected = true
+                return checkboxWithText
+            }
+            .padding(.bottom, 10.0)
+            
+            UIViewPreview {
+                let checkboxWithText = CheckboxWithText()
+                checkboxWithText.title = testString
+                checkboxWithText.isEnable = false
+                return checkboxWithText
+            }
+            .padding(.bottom, 10.0)
+            
+            UIViewPreview {
+                let checkboxWithText = CheckboxWithText()
+                checkboxWithText.title = testString
+                checkboxWithText.isEnable = false
+                checkboxWithText.isSelected = true
+
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
 
-            UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
-                checkboxWithText.title = testString
-                checkboxWithText.status = .disabled
-                checkboxWithText.font = .b1sb15
-
-                return checkboxWithText
-            }
         }
         .padding(10.0)
         .previewLayout(.sizeThatFits)

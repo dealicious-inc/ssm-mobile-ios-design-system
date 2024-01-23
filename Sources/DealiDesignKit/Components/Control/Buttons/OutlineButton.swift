@@ -8,21 +8,9 @@
 import UIKit
 
 extension DealiControl {
-    @available(*, deprecated, renamed: "btnOutlineLarge01")
-    public static func btnOutlineLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.primary01)
-    }
-    
     public static func btnOutlineLarge01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.primary01)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineLarge02")
-    public static func btnOutlineLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.primary02)
     }
     
     public static func btnOutlineLarge02() -> ClickableComponentButton {
@@ -30,32 +18,14 @@ extension DealiControl {
                                         color: ButtonOutlineColor.primary02)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineLarge03")
-    public static func btnOutlineLargeSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.secondary01)
-    }
-    
     public static func btnOutlineLarge03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary01)
     }
-    
-    @available(*, deprecated, renamed: "btnOutlineLarge04")
-    public static func btnOutlineLargeSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.secondary02)
-    }
-    
+   
     public static func btnOutlineLarge04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineLarge05")
-    public static func btnOutlineLargeSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineLarge05() -> ClickableComponentButton {
@@ -63,21 +33,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary03)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineLarge06")
-    public static func btnOutlineLargeSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
-                                        color: ButtonOutlineColor.secondary04)
-    }
-    
     public static func btnOutlineLarge06() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.secondary04)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineMedium01")
-    public static func btnOutlineMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.primary01)
     }
     
     public static func btnOutlineMedium01() -> ClickableComponentButton {
@@ -85,22 +43,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.primary01)
     }
     
-    
-    @available(*, deprecated, renamed: "btnOutlineMedium02")
-    public static func btnOutlineMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.primary02)
-    }
-    
     public static func btnOutlineMedium02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.primary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineMedium03")
-    public static func btnOutlineMediumSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnOutlineMedium03() -> ClickableComponentButton {
@@ -108,21 +53,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary01)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineMedium04")
-    public static func btnOutlineMediumSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.secondary02)
-    }
-    
     public static func btnOutlineMedium04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineMedium05")
-    public static func btnOutlineMediumSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineMedium05() -> ClickableComponentButton {
@@ -130,21 +63,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary03)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineMedium06")
-    public static func btnOutlineMediumSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
-                                        color: ButtonOutlineColor.secondary04)
-    }
-    
     public static func btnOutlineMedium06() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.secondary04)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineSmall01")
-    public static func btnOutlineSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.primary01)
     }
     
     public static func btnOutlineSmall01() -> ClickableComponentButton {
@@ -152,21 +73,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.primary01)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineSmall02")
-    public static func btnOutlineSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.primary02)
-    }
-    
     public static func btnOutlineSmall02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.primary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineSmall03")
-    public static func btnOutlineSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnOutlineSmall03() -> ClickableComponentButton {
@@ -174,21 +83,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary01)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineSmall04")
-    public static func btnOutlineSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.secondary02)
-    }
-    
     public static func btnOutlineSmall04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnOutlineSmall05")
-    public static func btnOutlineSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.secondary03)
     }
     
     public static func btnOutlineSmall05() -> ClickableComponentButton {
@@ -196,21 +93,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary03)
     }
     
-    @available(*, deprecated, renamed: "btnOutlineSmall06")
-    public static func btnOutlineSmallSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
-                                        color: ButtonOutlineColor.secondary04)
-    }
-    
     public static func btnOutlineSmall06() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.secondary04)
-    }
-    
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall01")
-    public static func btnRoundOutlineSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.primary01)
     }
     
     public static func btnRoundOutlineSmall01() -> ClickableComponentButton {
@@ -218,21 +103,9 @@ extension DealiControl {
                                         color: ButtonOutlineColor.primary01)
     }
     
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall02")
-    public static func btnRoundOutlineSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.primary02)
-    }
-    
     public static func btnRoundOutlineSmall02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary02)
-    }
-    
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall03")
-    public static func btnRoundOutlineSmallSecondary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.secondary01)
     }
     
     public static func btnRoundOutlineSmall03() -> ClickableComponentButton {
@@ -240,32 +113,14 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary01)
     }
     
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall04")
-    public static func btnRoundOutlineSmallSecondary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.secondary02)
-    }
-    
     public static func btnRoundOutlineSmall04() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary02)
     }
     
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall05")
-    public static func btnRoundOutlineSmallSecondary03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.secondary03)
-    }
-    
     public static func btnRoundOutlineSmall05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary03)
-    }
-    
-    @available(*, deprecated, renamed: "btnRoundOutlineSmall06")
-    public static func btnRoundOutlineSmallSecondary04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
-                                        color: ButtonOutlineColor.secondary04)
     }
     
     public static func btnRoundOutlineSmall06() -> ClickableComponentButton {

@@ -8,16 +8,34 @@
 import UIKit
 
 extension DealiControl {
+    public static func chipsOutlineLarge01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsOutlineConfig.large,
+                                      color: ChipsOutlineColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsOutlineLarge01")
     public static func chipsOutlineLargePrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsOutlineConfig.large,
                                       color: ChipsOutlineColor.primary01)
     }
     
+    public static func chipsOutlineMedium01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsOutlineConfig.medium,
+                                      color: ChipsOutlineColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsOutlineMedium01")
     public static func chipsOutlineMediumPrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsOutlineConfig.medium,
                                       color: ChipsOutlineColor.primary01)
     }
     
+    public static func chipsOutlineSmall01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsOutlineConfig.small,
+                                      color: ChipsOutlineColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsOutlineSmall01")
     public static func chipsOutlineSmallPrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsOutlineConfig.small,
                                       color: ChipsOutlineColor.primary01)

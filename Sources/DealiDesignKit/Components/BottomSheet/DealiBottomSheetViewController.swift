@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/**
+ 설명: 버텀시트 디자인
+ */
 open class DealiBottomSheetViewController: UIViewController {
     
     /// 우상단 닫기 버튼. default 는 미노출.
@@ -28,15 +31,21 @@ open class DealiBottomSheetViewController: UIViewController {
     
     private var cornerLayer: CAShapeLayer?
     
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.providesPresentationContextTransitionStyle = true
+        self.definesPresentationContext = true
+        self.modalPresentationStyle = .overFullScreen
+        self.modalTransitionStyle = .crossDissolve
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override open func loadView() {
         super.loadView()
-        
-        self.do {
-            $0.providesPresentationContextTransitionStyle = true
-            $0.definesPresentationContext = true
-            $0.modalPresentationStyle = .overFullScreen
-            $0.modalTransitionStyle = .crossDissolve
-        }
         
         self.view.backgroundColor = .clear
         
@@ -64,6 +73,7 @@ open class DealiBottomSheetViewController: UIViewController {
         self.closeButton.then {
             $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
             $0.isHidden = true
+            $0.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
             $0.top.equalToSuperview().inset(25.0)
@@ -75,9 +85,6 @@ open class DealiBottomSheetViewController: UIViewController {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)
             $0.left.right.bottom.equalToSuperview()
         }
-        
-        self.modalPresentationStyle = .overCurrentContext
-        self.modalTransitionStyle = .crossDissolve
     }
     
     override public func viewDidLayoutSubviews() {
@@ -101,6 +108,10 @@ open class DealiBottomSheetViewController: UIViewController {
             self.sheetView.tag = 100
             self.showBottomSheet()
         }
+    }
+    
+    @objc func closeButtonPressed() {
+        self.dismissBottomSheet()
     }
 
     public func showBottomSheet() {

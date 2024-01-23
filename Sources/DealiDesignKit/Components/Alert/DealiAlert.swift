@@ -95,6 +95,8 @@ public class DealiAlert: NSObject {
 }
 
 final class DealiAlertViewController: UIViewController {
+    /// 외부에서 alert을 닫을때 사용되는 botification name
+    static public let closeNotificationName = Notification.Name("DealiAlertClose")
     
     private let contentView = UIView()
     private let contentStackView = UIStackView()
@@ -133,6 +135,8 @@ final class DealiAlertViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = DealiColor.b70
+        /// 외부에서 DealiAlert을 닫아야 하는 경우 호출
+        NotificationCenter.default.addObserver(self, selector: #selector(closeAction(_:)), name: DealiAlertViewController.closeNotificationName, object: nil)
     }
     
     override func loadView() {
@@ -294,6 +298,11 @@ final class DealiAlertViewController: UIViewController {
         }
     }
     
+    /// 외부에서 DealiAlert을 닫을때 호출되는 함수
+    @objc func closeAction(_ notification: NSNotification) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true  else { return }
@@ -302,6 +311,10 @@ final class DealiAlertViewController: UIViewController {
         } else {
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: DealiAlertViewController.closeNotificationName, object: nil)
     }
 }
 

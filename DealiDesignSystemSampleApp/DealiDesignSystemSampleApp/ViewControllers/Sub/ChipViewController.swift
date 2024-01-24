@@ -49,6 +49,12 @@ class ChipViewController: UIViewController {
         })
         self.stackView.addArrangedSubview(chipsOutlineMediumPrimary01)
         
+        let chipsOutlineMedium02 = ChipContentView(name: "chipsOutlineMedium02", chipArray: (0..<4).map { _ in
+            DealiControl.chipsOutlineMedium02()
+        })
+        self.stackView.addArrangedSubview(chipsOutlineMedium02)
+        
+        
         let chipsOutlineSmallPrimary01 = ChipContentView(name: "chipsOutlineSmall01", chipArray: (0..<4).map { _ in
             DealiControl.chipsOutlineSmall01()
         })

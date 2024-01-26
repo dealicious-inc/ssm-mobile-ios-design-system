@@ -302,12 +302,14 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
+        searchImageView.isUserInteractionEnabled = true
         switch inputType {
         case .default:
             searchImageView.image = status.image
         case .subKeyword:
             switch status {
             case .empty:
+                searchImageView.isUserInteractionEnabled = false
                 searchImageView.image = nil
             case .editing:
                 searchImageView.image = status.image

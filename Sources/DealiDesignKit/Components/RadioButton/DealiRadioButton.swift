@@ -27,30 +27,21 @@ public class DealiRadioButton: UIControl {
         }
     }
     
-    private func setupView() {
+    private var imageName: String {
         if self.isEnabled == false {
-            self.imageView.isHidden = true
-            self.circleView.isHidden = false
-            circleView.do {
-                $0.layer.borderColor = DealiColor.g30.cgColor
-                $0.backgroundColor = DealiColor.g20
-            }
+            return "ic_radiobutton_disable"
         } else if self.isSelected {
-            self.imageView.isHidden = false
-            self.circleView.isHidden = true
-            self.imageView.image = UIImage(named: "ic_Checkcircle_on_24", in: Bundle.module, compatibleWith: nil)
+            return "ic_radiobutton_on"
         } else {
-            self.imageView.isHidden = true
-            self.circleView.isHidden = false
-            circleView.do {
-                $0.layer.borderColor = DealiColor.g50.cgColor
-                $0.backgroundColor = .white
-            }
+            return "ic_radiobutton_off"
         }
+    }
+    
+    private func setupView() {
+        self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
     }
    
     private let imageView = UIImageView()
-    private let circleView = UIView()
     
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: 24.0, height: 24.0)
@@ -66,21 +57,9 @@ public class DealiRadioButton: UIControl {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        containerView.addSubview(self.circleView)
-        self.circleView.then {
-            $0.layer.borderColor = DealiColor.g50.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.backgroundColor = .white
-            $0.layer.cornerRadius = 9.0
-        }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 18.0, height: 18.0))
-            $0.center.equalToSuperview()
-        }
-                
         containerView.addSubview(self.imageView)
         self.imageView.then {
             $0.contentMode = .scaleAspectFit
-            $0.isHidden = false
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))

@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// 디자인시스템 RadioButton 적용
+/// 디자인시스템 Checkcircle 적용
 ///
 /// 선택, 미선택 시 보내는 `.valueChanged` 값을 받아서 변경 사항을 처리할 수 있습니다.
 ///

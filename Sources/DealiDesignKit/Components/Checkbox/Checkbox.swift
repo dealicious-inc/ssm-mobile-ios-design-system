@@ -137,40 +137,44 @@ struct CheckboxPreview: PreviewProvider {
             Text("체크박스")
                 .font(.headline)
             
-            Text("활성 + 미선택")
-            UIViewPreview {
-                let checkbox = Checkbox()
-                return checkbox
+            Group {
+                Text("활성 + 미선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    return checkbox
+                }
+                
+                Text("활성 + 선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isSelected = true
+                    return checkbox
+                }
+                
+                Text("비활성 + 미선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isEnable = false
+                    return checkbox
+                }
+                
+                Text("비활성 + 선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isEnable = false
+                    checkbox.isSelected = true
+                    return checkbox
+                }
             }
             
-            Text("활성 + 선택")
-            UIViewPreview {
-                let checkbox = Checkbox()
-                checkbox.isSelected = true
-                return checkbox
-            }
-            
-            Text("비활성 + 미선택")
-            UIViewPreview {
-                let checkbox = Checkbox()
-                checkbox.isEnable = false
-                return checkbox
-            }
-            
-            Text("비활성 + 선택")
-            UIViewPreview {
-                let checkbox = Checkbox()
-                checkbox.isEnable = false
-                checkbox.isSelected = true
-                return checkbox
-            }
-            
-            Text("contentInset 준 경우")
-            UIViewPreview {
-                let checkbox = Checkbox()
-                checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)
-                checkbox.backgroundColor = .yellow
-                return checkbox
+            Group {
+                Text("contentInset 준 경우")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+                    checkbox.backgroundColor = .yellow
+                    return checkbox
+                }
             }
         }
     }

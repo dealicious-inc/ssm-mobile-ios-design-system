@@ -116,12 +116,14 @@ final class SearchInputViewController: UIViewController {
         let searchBarSubCategoryView3 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarSubCategoryView3)
         searchBarSubCategoryView3.then {
-            $0.subKeyword = "키워드가 들어가는데 엄청길어요"
+            $0.subKeyword = "abcdefghijk"
             $0.placeholder = "상품을 검색해주세요."
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
         }
+        
+        searchBarSubCategoryView3.updateSubKeyword("ChangeKeyword")
     }
 }
 

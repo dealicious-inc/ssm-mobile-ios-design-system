@@ -8,36 +8,78 @@
 import UIKit
 
 extension DealiControl {
+    public static func chipsFilledSquareLarge01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
+                                      color: ChipsFilledSquareColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareLarge01")
     public static func chipsFilledSquareLargePrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
+    public static func chipsFilledSquareLarge02() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
+                                      color: ChipsFilledSquareColor.primary02)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareLarge02")
     public static func chipsFilledSquareLargePrimary02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary02)
     }
     
+    public static func chipsFilledSquareLarge03() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
+                                      color: ChipsFilledSquareColor.scondary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareLarge03")
     public static func chipsFilledSquareLargeScondary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
+    public static func chipsFilledSquareMedium01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
+                                      color: ChipsFilledSquareColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareMedium01")
     public static func chipsFilledSquareMediumPrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
+    public static func chipsFilledSquareMedium02() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
+                                      color: ChipsFilledSquareColor.scondary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareMedium02")
     public static func chipsFilledSquareMediumScondary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
+    public static func chipsFilledSquareSmall01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
+                                      color: ChipsFilledSquareColor.primary01)
+    }
+
+    @available(*, deprecated, renamed: "chipsFilledSquareSmall01")
     public static func chipsFilledSquareSmallPrimary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.primary01)
     }
     
+    public static func chipsFilledSquareSmall02() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
+                                      color: ChipsFilledSquareColor.scondary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipsFilledSquareSmall02")
     public static func chipsFilledSquareSmallScondary01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.scondary01)

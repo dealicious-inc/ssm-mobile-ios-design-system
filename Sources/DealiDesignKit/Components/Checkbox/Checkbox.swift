@@ -1,6 +1,6 @@
 //
 //  Checkbox.swift
-//  
+//
 //
 //  Created by 윤조현 on 2023/06/20.
 //
@@ -12,42 +12,37 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
-
-/*
- - 디폴트는? 터치동작하게 두고, 막을 수 있도록
- - 클릭 여부를 알 수 있는 방법
- - UI Touch event 를 등록할 수 있게
- -
+/**
+ 설명: Checkbox 상태관리용 객체
  */
-
-public enum CheckboxStatus: Equatable, StatusToggable {
-    case normal(isSelected: Bool)
-    case disabled
+public struct CheckboxStatus {
+    public init(isEnable: Bool = true, isSelected: Bool = false) {
+        self.isEnable = isEnable
+        self.isSelected = isSelected
+    }
     
-    mutating func changeStatus() {
-        switch self {
-        case .normal(var isSelected):
-            isSelected.toggle()
-            self = .normal(isSelected: isSelected)
-        default:
-            break
+    var isEnable: Bool = true
+    var isSelected: Bool = false
+    
+    var imageName: String {
+        switch self.isEnable {
+        case true:
+            return self.isSelected ? "ic_checkbox_on" : "ic_checkbox_off"
+        case false:
+            return  self.isSelected ? "ic_checkbox_ondisable" : "ic_checkbox_disable"
         }
     }
     
-    var imageName: String {
-        switch self {
-        case .normal(let isSelected):
-            return isSelected ? "ic_checkbox_on_ver01" : "ic_checkbox_off_ver01"
-        case .disabled:
-            return "ic_checkbox_disabled_ver01"
-        }
+    mutating func changeStatus() {
+        guard self.isEnable else { return }
+        self.isSelected.toggle()
     }
     
     var textColor: UIColor {
-        switch self {
-        case .normal(_):
+        switch self.isEnable {
+        case true:
             return DealiColor.g100
-        case .disabled:
+        case false:
             return DealiColor.g50
         }
     }
@@ -58,7 +53,7 @@ public enum CheckboxStatus: Equatable, StatusToggable {
  */
 public class Checkbox: UIView {
     
-    public var status: CheckboxStatus = .normal(isSelected: false) {
+    var status: CheckboxStatus = .init() {
         didSet {
             self.setAppearance(for: status)
         }
@@ -66,7 +61,7 @@ public class Checkbox: UIView {
     
     public var contentInset: UIEdgeInsets = .zero {
         didSet {
-            
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -77,12 +72,22 @@ public class Checkbox: UIView {
         return CGSize(width: 24.0 + self.contentInset.top + self.contentInset.bottom,
                       height: 24.0 + self.contentInset.left + self.contentInset.right)
     }
+    
     public var isSelected: Bool {
-        switch self.status {
-        case .normal(let isSelected):
-            return isSelected
-        case .disabled:
-            return false
+        get {
+            return self.status.isSelected
+        } set {
+            self.status.isSelected = newValue
+            self.setAppearance(for: self.status)
+        }
+    }
+    
+    public var isEnable: Bool {
+        get {
+            return self.status.isEnable
+        } set {
+            self.status.isEnable = newValue
+            self.setAppearance(for: self.status)
         }
     }
     
@@ -114,11 +119,65 @@ public class Checkbox: UIView {
     }
     
     private func setAppearance(for status: CheckboxStatus) {
-         self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)?.withAlignmentRectInsets(UIEdgeInsets(top: -4.0, left: 0.0, bottom: -4.0, right: 0.0))
-           
+        self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct CheckboxPreview: PreviewProvider {
+    
+    static var previews: some View {
+        VStack(alignment: .leading) {
+            Text("체크박스")
+                .font(.headline)
+            
+            Group {
+                Text("활성 + 미선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    return checkbox
+                }
+                
+                Text("활성 + 선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isSelected = true
+                    return checkbox
+                }
+                
+                Text("비활성 + 미선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isEnable = false
+                    return checkbox
+                }
+                
+                Text("비활성 + 선택")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.isEnable = false
+                    checkbox.isSelected = true
+                    return checkbox
+                }
+            }
+            
+            Group {
+                Text("contentInset 준 경우")
+                UIViewPreview {
+                    let checkbox = Checkbox()
+                    checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+                    checkbox.backgroundColor = .yellow
+                    return checkbox
+                }
+            }
+        }
+    }
+}
+#endif
+

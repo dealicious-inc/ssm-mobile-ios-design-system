@@ -9,32 +9,14 @@ import UIKit
 
 extension DealiControl {
     // MARK: Large
-    @available(*, deprecated, renamed: "btnFilledLarge01")
-    public static func btnFilledLargePrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.large,
-                                        color: ButtonFilledColor.primary01)
-    }
-    
     public static func btnFilledLarge01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary01)
     }
     
-    @available(*, deprecated, renamed: "btnFilledLarge02")
-    public static func btnFilledLargeGradient() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.large,
-                                        color: ButtonFilledColor.gradient)
-    }
-    
     public static func btnFilledLarge02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.gradient)
-    }
-    
-    @available(*, deprecated, renamed: "btnFilledLarge03")
-    public static func btnFilledLargePrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.large,
-                                        color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledLarge03() -> ClickableComponentButton {
@@ -43,12 +25,6 @@ extension DealiControl {
     }
 
     // MARK: Medium
-    @available(*, deprecated, renamed: "btnFilledMedium01")
-    public static func btnFilledMediumPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.medium,
-                                        color: ButtonFilledColor.primary01)
-    }
-    
     public static func btnFilledMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary01)
@@ -59,24 +35,12 @@ extension DealiControl {
                                         color: ButtonFilledColor.gradient)
     }
     
-    @available(*, deprecated, renamed: "btnFilledMedium03")
-    public static func btnFilledMediumPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.medium,
-                                        color: ButtonFilledColor.primary02)
-    }
-    
     public static func btnFilledMedium03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary02)
     }
     
     // MARK: Small
-    @available(*, deprecated, renamed: "btnFilledSmall01")
-    public static func btnFilledSmallPrimary01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.small,
-                                        color: ButtonFilledColor.primary01)
-    }
-    
     public static func btnFilledSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary01)
@@ -85,12 +49,6 @@ extension DealiControl {
     public static func btnFilledSmall02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.gradient)
-    }
-    
-    @available(*, deprecated, renamed: "btnFilledSmall03")
-    public static func btnFilledSmallPrimary02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledConfig.small,
-                                        color: ButtonFilledColor.primary02)
     }
     
     public static func btnFilledSmall03() -> ClickableComponentButton {

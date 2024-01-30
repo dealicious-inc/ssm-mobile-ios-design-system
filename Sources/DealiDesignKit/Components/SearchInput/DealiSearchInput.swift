@@ -302,14 +302,12 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        searchImageView.isUserInteractionEnabled = true
         switch inputType {
         case .default:
             searchImageView.image = status.image
         case .subKeyword:
             switch status {
             case .empty:
-                searchImageView.isUserInteractionEnabled = false
                 searchImageView.image = nil
             case .editing:
                 searchImageView.image = status.image
@@ -352,7 +350,7 @@ extension DealiSearchInput {
 // MARK: - Actions
 extension DealiSearchInput {
     private func textFieldClearTapped() {
-        guard searchTextField.text != nil else { return }
+        guard searchTextField.text != nil, searchTextField.text?.isEmpty == false else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
             if !searchTextField.isEditing {

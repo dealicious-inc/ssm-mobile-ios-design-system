@@ -299,7 +299,7 @@ public final class DealiSearchInput: UIView {
 // MARK: - Actions
 extension DealiSearchInput {
     private func textFieldClearTapped() {
-        guard searchTextField.text != nil else { return }
+        guard searchTextField.text != nil, searchTextField.text?.isEmpty == false else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
             if !searchTextField.isEditing {

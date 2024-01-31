@@ -18,6 +18,9 @@ import UIKit
 
 public class DealiAlert: NSObject {
     
+    /// 외부에서 alert을 닫을때 사용되는 botification name
+    static public let closeNotificationName = Notification.Name("DealiAlertClose")
+    
     // 1버튼 확인 버튼
     public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) {
         
@@ -133,6 +136,8 @@ final class DealiAlertViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = DealiColor.b70
+        /// 외부에서 DealiAlert을 닫아야 하는 경우 호출
+        NotificationCenter.default.addObserver(self, selector: #selector(closeAction(_:)), name: DealiAlert.closeNotificationName, object: nil)
     }
     
     override func loadView() {
@@ -162,13 +167,24 @@ final class DealiAlertViewController: UIViewController {
         }
         
         if isAlerttitleContentExposure {
+            let titleContainerStackView = UIStackView()
+            contentStackView.addArrangedSubview(titleContainerStackView)
+            titleContainerStackView.then {
+                $0.axis = .horizontal
+                $0.alignment = .center
+                $0.distribution = .fill
+                $0.spacing = 16.0
+            }.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+            }
+            
             let titleLabel = UILabel()
-            self.contentStackView.addArrangedSubview(titleLabel)
+            titleContainerStackView.addArrangedSubview(titleLabel)
             titleLabel.then {
                 $0.numberOfLines = 0
                 $0.attributedText = alertTitle
             }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
+                $0.top.bottom.equalToSuperview()
             }
         }
         
@@ -255,8 +271,10 @@ final class DealiAlertViewController: UIViewController {
         if self.messageContentStackView.subviews.count > 0 {
             self.messageContentScrollView.layoutIfNeeded()
             var contentHeight: CGFloat = self.messageContentScrollView.contentSize.height
-            if contentHeight > 306 {
-                contentHeight = 306
+            /// 화면의 70% 높이를 alert max height로 설정
+            let alertMaxHeight = (UIScreen.main.bounds.size.height * 0.7)
+            if contentHeight > alertMaxHeight {
+                contentHeight = alertMaxHeight
             }
             self.messageContentScrollView.snp.updateConstraints {
                 $0.height.equalTo(contentHeight)
@@ -281,6 +299,11 @@ final class DealiAlertViewController: UIViewController {
         }
     }
     
+    /// 외부에서 DealiAlert을 닫을때 호출되는 함수
+    @objc func closeAction(_ notification: NSNotification) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true  else { return }
@@ -289,6 +312,10 @@ final class DealiAlertViewController: UIViewController {
         } else {
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: DealiAlert.closeNotificationName, object: nil)
     }
 }
 

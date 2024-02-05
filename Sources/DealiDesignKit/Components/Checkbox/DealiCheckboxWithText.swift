@@ -13,7 +13,7 @@ import SnapKit
 /**
  설명: UI Elements - Checkbox + Text
  */
-public final class CheckboxWithText: UIView {
+public final class DealiCheckboxWithText: UIView {
     
     var status: CheckboxStatus {
         get {
@@ -33,11 +33,11 @@ public final class CheckboxWithText: UIView {
         }
     }
     
-    public var isEnable: Bool {
+    public var isEnabled: Bool {
         get {
-            return self.status.isEnable
+            return self.status.isEnabled
         } set {
-            self.status.isEnable = newValue
+            self.status.isEnabled = newValue
             self.setAppearance(for: self.status)
         }
     }
@@ -62,7 +62,7 @@ public final class CheckboxWithText: UIView {
     
     private let disposeBag = DisposeBag()
     private let titleLabel = UILabel()
-    private let checkbox = Checkbox()
+    private let checkbox = DealiCheckbox()
     
     public override var intrinsicContentSize: CGSize {
         self.titleLabel.sizeToFit()
@@ -132,13 +132,13 @@ struct CheckboxWithTextPreview: PreviewProvider {
         VStack(alignment: .leading) {
             Text("체크박스 + 텍스트")
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText(title: testString, status: .init())
+                let checkboxWithText = DealiCheckboxWithText(title: testString, status: .init())
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
             
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
+                let checkboxWithText = DealiCheckboxWithText()
                 checkboxWithText.title = testString
                 checkboxWithText.isSelected = true
                 return checkboxWithText
@@ -146,17 +146,17 @@ struct CheckboxWithTextPreview: PreviewProvider {
             .padding(.bottom, 10.0)
             
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
+                let checkboxWithText = DealiCheckboxWithText()
                 checkboxWithText.title = testString
-                checkboxWithText.isEnable = false
+                checkboxWithText.isEnabled = false
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
             
             UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
+                let checkboxWithText = DealiCheckboxWithText()
                 checkboxWithText.title = testString
-                checkboxWithText.isEnable = false
+                checkboxWithText.isEnabled = false
                 checkboxWithText.isSelected = true
 
                 return checkboxWithText

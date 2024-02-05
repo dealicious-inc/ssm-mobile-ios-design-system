@@ -40,7 +40,7 @@ public class DealiAlert: NSObject {
         
         let checkBoxContainerView = UIView()
         
-        let checkBoxView = CheckboxWithText()
+        let checkBoxView = DealiCheckboxWithText()
         checkBoxContainerView.addSubview(checkBoxView)
         checkBoxView.then {
             $0.title = checkButtonTitle

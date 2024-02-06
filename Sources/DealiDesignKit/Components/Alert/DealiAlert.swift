@@ -135,7 +135,7 @@ final class DealiAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = DealiColor.b70
+        self.view.backgroundColor = DealiColor.b40
         /// 외부에서 DealiAlert을 닫아야 하는 경우 호출
         NotificationCenter.default.addObserver(self, selector: #selector(closeAction(_:)), name: DealiAlert.closeNotificationName, object: nil)
     }

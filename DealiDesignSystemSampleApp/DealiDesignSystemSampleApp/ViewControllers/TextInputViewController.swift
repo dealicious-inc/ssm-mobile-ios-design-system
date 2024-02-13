@@ -72,10 +72,9 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        textInput.textFieldDidChange
-            .drive { [weak self] text in
-                debugPrint("text: \(text)")
-                
+        textInput.textFieldDidEndEditing
+            .drive { [weak self] in
+                debugPrint("포커스 아웃")
             }
             .disposed(by: self.disposeBag)
         

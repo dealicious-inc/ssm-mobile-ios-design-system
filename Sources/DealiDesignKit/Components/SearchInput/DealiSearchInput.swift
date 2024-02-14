@@ -234,6 +234,9 @@ extension DealiSearchInput {
             $0.isUserInteractionEnabled = true
             $0.backgroundColor = .clear
             $0.returnKeyType = .search
+            $0.autocorrectionType = .no
+            $0.autocapitalizationType = .none
+            $0.spellCheckingType = .no
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

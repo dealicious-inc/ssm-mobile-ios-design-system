@@ -68,6 +68,7 @@ final class TextInputViewController: UIViewController {
             let button = DealiControl.btnOutlineMedium01()
             button.title = "Default"
             $0.actionButton = button
+            $0.inputRightViewType = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

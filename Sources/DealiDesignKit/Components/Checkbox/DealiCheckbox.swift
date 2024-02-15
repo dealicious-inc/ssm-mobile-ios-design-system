@@ -17,15 +17,15 @@ import RxCocoa
  */
 public struct CheckboxStatus {
     public init(isEnable: Bool = true, isSelected: Bool = false) {
-        self.isEnable = isEnable
+        self.isEnabled = isEnable
         self.isSelected = isSelected
     }
     
-    var isEnable: Bool = true
+    var isEnabled: Bool = true
     var isSelected: Bool = false
     
     var imageName: String {
-        switch self.isEnable {
+        switch self.isEnabled {
         case true:
             return self.isSelected ? "ic_checkbox_on" : "ic_checkbox_off"
         case false:
@@ -34,12 +34,12 @@ public struct CheckboxStatus {
     }
     
     mutating func changeStatus() {
-        guard self.isEnable else { return }
+        guard self.isEnabled else { return }
         self.isSelected.toggle()
     }
     
     var textColor: UIColor {
-        switch self.isEnable {
+        switch self.isEnabled {
         case true:
             return DealiColor.g100
         case false:
@@ -51,7 +51,7 @@ public struct CheckboxStatus {
 /**
  설명: UI Elements - Checkbox
  */
-public class Checkbox: UIView {
+public class DealiCheckbox: UIView {
     
     var status: CheckboxStatus = .init() {
         didSet {
@@ -82,11 +82,11 @@ public class Checkbox: UIView {
         }
     }
     
-    public var isEnable: Bool {
+    public var isEnabled: Bool {
         get {
-            return self.status.isEnable
+            return self.status.isEnabled
         } set {
-            self.status.isEnable = newValue
+            self.status.isEnabled = newValue
             self.setAppearance(for: self.status)
         }
     }
@@ -140,28 +140,28 @@ struct CheckboxPreview: PreviewProvider {
             Group {
                 Text("활성 + 미선택")
                 UIViewPreview {
-                    let checkbox = Checkbox()
+                    let checkbox = DealiCheckbox()
                     return checkbox
                 }
                 
                 Text("활성 + 선택")
                 UIViewPreview {
-                    let checkbox = Checkbox()
+                    let checkbox = DealiCheckbox()
                     checkbox.isSelected = true
                     return checkbox
                 }
                 
                 Text("비활성 + 미선택")
                 UIViewPreview {
-                    let checkbox = Checkbox()
-                    checkbox.isEnable = false
+                    let checkbox = DealiCheckbox()
+                    checkbox.isEnabled = false
                     return checkbox
                 }
                 
                 Text("비활성 + 선택")
                 UIViewPreview {
-                    let checkbox = Checkbox()
-                    checkbox.isEnable = false
+                    let checkbox = DealiCheckbox()
+                    checkbox.isEnabled = false
                     checkbox.isSelected = true
                     return checkbox
                 }
@@ -170,7 +170,7 @@ struct CheckboxPreview: PreviewProvider {
             Group {
                 Text("contentInset 준 경우")
                 UIViewPreview {
-                    let checkbox = Checkbox()
+                    let checkbox = DealiCheckbox()
                     checkbox.contentInset = .init(top: 20, left: 20, bottom: 20, right: 20)
                     checkbox.backgroundColor = .yellow
                     return checkbox

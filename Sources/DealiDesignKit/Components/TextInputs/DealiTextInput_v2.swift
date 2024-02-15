@@ -23,6 +23,7 @@ public final class DealiTextInput_v2: UIView {
     private let textInputRightImageView = UIImageView()
     
     public var textFieldDidEndEditing: Driver<Bool>!
+    public var textFieldShouldReturn: Driver<Bool>!
     
     private let disposeBag = DisposeBag()
     
@@ -284,14 +285,13 @@ public final class DealiTextInput_v2: UIView {
     }
     
     private func RX() {
-        self.textFieldDidEndEditing = Driver.merge(
-            self.textField.rx.controlEvent(.editingDidEndOnExit)
-                .map { true }
-                .asDriver(onErrorJustReturn: false),
-            self.textField.rx.controlEvent(.editingDidEnd)
-                .map { true }
-                .asDriver(onErrorJustReturn: false)
-        )
+        self.textFieldDidEndEditing = self.textField.rx.controlEvent(.editingDidEnd)
+            .map { true }
+            .asDriver(onErrorJustReturn: false)
+        
+        self.textFieldShouldReturn = self.textField.rx.controlEvent(.editingDidEndOnExit)
+            .map { true }
+            .asDriver(onErrorJustReturn: false)
         
         self.textField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
             self.inputStatus = .focusIn

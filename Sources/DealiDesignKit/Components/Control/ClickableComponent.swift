@@ -116,7 +116,7 @@ public class ClickableComponent: UIControl {
     public var titleAlignment: NSTextAlignment = .center {
         didSet{
             if self.singleImage != nil {
-                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
+                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
             self.titleLabel.textAlignment = titleAlignment
         }
@@ -125,7 +125,7 @@ public class ClickableComponent: UIControl {
     public var title: String? {
         didSet {
             if self.singleImage != nil {
-                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
+                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
             self.titleLabel.text = title
             self.titleLabel.isHidden = (title?.isEmpty ?? true)
@@ -133,13 +133,23 @@ public class ClickableComponent: UIControl {
         }
     }
 
+    public var attributedTitle: NSAttributedString? {
+        didSet {
+            if self.singleImage != nil {
+                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
+            }
+            self.titleLabel.attributedText = attributedTitle
+            self.titleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
+            self.updateContent()
+        }
+    }
     
     /// 이미지 (텍스트 없음. 이미지 하나만 있는 경우)
     public var singleImage: ClickableImage? { // 가이드상에는 Chip에만 있음.
         didSet {
             
             if self.title != nil || self.leftImage != nil || self.rightImage != nil {
-                fatalError("singleImage 사용하면 title, leftImage, rightImage 는 제거됩니다. 관련 코드 삭제 필요!!")
+                fatalError("singleImage 사용하면 title, attributedTitle, leftImage, rightImage 는 제거됩니다. 관련 코드 삭제 필요!!")
             }
         
             guard let image = singleImage else { return }

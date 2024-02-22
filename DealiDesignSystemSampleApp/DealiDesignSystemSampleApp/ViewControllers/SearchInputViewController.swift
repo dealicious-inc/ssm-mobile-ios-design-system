@@ -107,7 +107,7 @@ final class SearchInputViewController: UIViewController {
         searchBarSubCategoryView2.then {
             $0.backgroundColor = .clear
             $0.keyword = "패딩"
-            $0.subKeyword = "아우터"
+            $0.subKeyword = "신발상가 A동"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)

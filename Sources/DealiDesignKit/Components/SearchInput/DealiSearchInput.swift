@@ -73,7 +73,7 @@ public final class DealiSearchInput: UIView {
         static let radius: CGFloat = 6
         static let borderColor: UIColor = DealiColor.g20
         static let borderWidth: CGFloat = 1
-        static let maxWidth: CGFloat = 91
+        static let maxWidth: CGFloat = 92
         static let textColor: UIColor = DealiColor.g80
         static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }

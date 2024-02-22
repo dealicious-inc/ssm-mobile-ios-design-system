@@ -122,9 +122,20 @@ public final class DealiTag: UIView {
         }
     }
     
+    
+    public override var intrinsicContentSize: CGSize {
+        self.titleLabel.sizeToFit()
+        
+        return CGSize(
+            width: self.titleLabel.frame.width + self.type.size.padding * 2,
+            height: self.type.size.height
+        )
+    }
+    
     public var text: String? {
         didSet {
             self.titleLabel.text = text
+            self.invalidateIntrinsicContentSize()
         }
     }
     

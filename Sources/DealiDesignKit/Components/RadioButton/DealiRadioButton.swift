@@ -38,7 +38,7 @@ public class DealiRadioButton: UIControl {
     }
     
     private func setupView() {
-        self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
+        self.imageView.image = UIImage.dealiIcon(self.imageName)
     }
    
     private let imageView = UIImageView()

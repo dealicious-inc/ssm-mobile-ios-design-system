@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_soldout.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

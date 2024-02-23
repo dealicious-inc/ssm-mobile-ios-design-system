@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_alarm_request.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

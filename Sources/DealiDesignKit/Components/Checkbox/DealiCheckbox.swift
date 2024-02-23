@@ -119,7 +119,7 @@ public class DealiCheckbox: UIView {
     }
     
     private func setAppearance(for status: CheckboxStatus) {
-        self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)
+        self.imageView.image = UIImage.dealiIcon(status.imageName)
     }
     
     required init?(coder: NSCoder) {

@@ -228,14 +228,15 @@ struct ButtonPreview: PreviewProvider {
             UIViewPreview {
                 let button = DealiButton(title: "Default 버튼")
                 button.style = style
-                button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
+                button.leftIconImage = UIImage.dealiIcon("ic_arrow_left")
+                
                 return button
             }
             
             UIViewPreview {
                 let button = DealiButton(title: "Pressed 버튼")
                 button.style = style
-                button.leftIconImage = UIImage(named: "ic_arrow_left_16", in: Bundle.module, compatibleWith: nil)
+                button.leftIconImage = UIImage(named: "ic_arrow_left", in: Bundle.module, compatibleWith: nil)
                 button.isHighlighted = true
                 return button
             }
@@ -243,7 +244,7 @@ struct ButtonPreview: PreviewProvider {
             UIViewPreview {
                 let button = DealiButton(title: "Disabled 버튼")
                 button.style = style
-                button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
+                button.rightIconImage = UIImage(named: "ic_arrow_right", in: Bundle.module, compatibleWith: nil)
                 button.isEnabled = true
                 return button
             }

@@ -43,12 +43,7 @@ public class DealiSwitch: UIControl {
         }
         
         var cornerRadius: CGFloat {
-            switch self {
-            case .large:
-                return 15.0
-            case .small:
-                return 11.0
-            }
+            return self.contentSize.height / 2.0
         }
     }
     

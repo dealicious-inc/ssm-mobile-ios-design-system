@@ -114,16 +114,6 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
-//        
-//        let sampleLabel = UILabel()
-//        self.view.addSubview(sampleLabel)
-//        sampleLabel.then {
-//            $0.textColor = DealiColor.g100
-//            $0.font = .b1r15
-//            $0.text = "₩30000원"
-//        }.snp.makeConstraints {
-//            $0.centerY.equalToSuperview()
-//        }
     }
     
     override func viewDidLoad() {

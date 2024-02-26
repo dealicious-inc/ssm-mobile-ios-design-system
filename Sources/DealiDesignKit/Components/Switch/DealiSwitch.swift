@@ -24,7 +24,7 @@ public class DealiSwitch: UIControl {
         case large
         case small
         
-        var conentSize: CGSize {
+        var contentSize: CGSize {
             switch self {
             case .large:
                 return CGSize(width: 50.0, height: 30.0)
@@ -89,7 +89,7 @@ public class DealiSwitch: UIControl {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = self.size.cornerRadius
         }.snp.makeConstraints {
-            $0.size.equalTo(self.size.conentSize)
+            $0.size.equalTo(self.size.contentSize)
             $0.edges.equalToSuperview()
         }
         
@@ -121,7 +121,7 @@ public class DealiSwitch: UIControl {
     public func setOn(_ on: Bool, animated: Bool) {
         self.isOn = on
         
-        let targetX = on ? self.size.conentSize.width - self.size.thumbWidth - 2.0 : 2.0
+        let targetX = on ? self.size.contentSize.width - self.size.thumbWidth - 2.0 : 2.0
         let backgroundColor = on ? DealiColor.primary01 : DealiColor.g30
         
         if animated {

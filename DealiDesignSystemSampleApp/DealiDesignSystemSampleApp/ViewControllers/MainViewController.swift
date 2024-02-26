@@ -21,7 +21,6 @@ final class MainViewController: UIViewController {
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"
         
-        
         let scrollView = UIScrollView()
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints {

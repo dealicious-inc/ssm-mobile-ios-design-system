@@ -82,13 +82,18 @@ final class BottomSheetPopupTestViewController: UIViewController {
 extension BottomSheetPopupTestViewController {
     @objc func bottomSheetPopupButton01Pressed() {
         print("bottomSheetPopupButton01Pressed")
-        DealiBottomSheetPopup.show(title: "기본 Popup",
-                                   message: "기본적인 팝업\n취소, 확인버튼\n타이틀, 메세지가 있는 팝업",
-                                   cancelButtonTitle: "취소",
-                                   confirmButtonTitle: "확인",
-                                   popupPresentingViewController: self,
-                                   cancelAction: nil,
-                                   confirmAction: nil)
+//        DealiBottomSheetPopup.show(title: "기본 Popup",
+//                                   message: "기본적인 팝업\n취소, 확인버튼\n타이틀, 메세지가 있는 팝업",
+//                                   cancelButtonTitle: "취소",
+//                                   confirmButtonTitle: "확인",
+//                                   popupPresentingViewController: self,
+//                                   cancelAction: nil,
+//                                   confirmAction: nil)
+        DealiBottomSheet.showContentText(titleType: .titleCloseButton(title: "2버튼 팝업"),
+                                         message: "기본적인 팝업\n취소, 확인버튼\n타이틀, 메세지가 있는 팝업",
+                                         buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"),
+                                         popupPresentingViewController: self,
+                                         cancelAction: nil, confirmAction: nil)
     }
     
     @objc func bottomSheetPopupButton02Pressed() {

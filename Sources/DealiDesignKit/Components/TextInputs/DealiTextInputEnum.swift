@@ -18,8 +18,7 @@ public enum ETextInputStatus: Equatable {
 
 public enum ETextInputRightViewType {
     case none
-    case success
-    case failure
+    case clear
     case timer
     case custom(_ image: UIImage?)
 }

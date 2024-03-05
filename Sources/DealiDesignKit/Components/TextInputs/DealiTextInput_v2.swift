@@ -21,17 +21,13 @@ public final class DealiTextInput_v2: UIView {
     private let textField = UITextField()
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
-    
-    
     public var textFieldDidEndEditing: Driver<Bool>!
     public var textFieldDidChange: Driver<String?>!
-    
     /// 포커스 아웃 이벤트 모두 담은 Driver
     public var textFieldDidFocusOut: Driver<Void>!
     /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
     public var editingDidEndOnExit: Driver<Void>!
     public var editingDidEnd: Driver<Void>!
-
     
     private let disposeBag = DisposeBag()
     
@@ -141,6 +137,14 @@ public final class DealiTextInput_v2: UIView {
                 if let actionButton = self.actionButton {
                     actionButton.isEnabled = !(self.inputStatus == .disabled)
                 }
+                
+                switch self.inputRightViewType {
+                case .clear:
+                    self.textInputRightImageView.isHidden = self.inputStatus != .focusIn
+                    self.textInputRightImageView.image = UIImage(named: "ic_x")
+                default:
+                    self.textInputRightImageView.isHidden = true
+                }
             }
         }
     }
@@ -170,6 +174,9 @@ public final class DealiTextInput_v2: UIView {
             }.disposed(by: self.disposeBag)
         }
     }
+    
+    /// TextInput RightView 타입 세팅
+    public var inputRightViewType: ETextInputRightViewType = .none
     
     public init() {
         super.init(frame: .zero)
@@ -264,7 +271,6 @@ public final class DealiTextInput_v2: UIView {
         
         textFieldContentStackView.addArrangedSubview(self.textInputRightImageView)
         self.textInputRightImageView.then {
-            $0.backgroundColor = .red
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
@@ -291,7 +297,6 @@ public final class DealiTextInput_v2: UIView {
     }
     
     private func RX() {
-        
         self.textFieldDidChange = self.textField.rx.controlEvent([.editingChanged, .valueChanged])
             .map { self.textField.text }
             .distinctUntilChanged()
@@ -332,6 +337,19 @@ public final class DealiTextInput_v2: UIView {
                     let price = Int(text.replacingOccurrences(of: ",", with: ""))
                 {
                     owner.textField.text = price.commaString()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.textInputRightImageView.rx.tapGestureOnTop()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                switch self.inputRightViewType {
+                case .clear:
+                    self.text = nil
+                default:
+                    return
                 }
             })
             .disposed(by: self.disposeBag)

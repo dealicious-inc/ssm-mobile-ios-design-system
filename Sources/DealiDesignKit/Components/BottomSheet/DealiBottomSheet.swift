@@ -77,7 +77,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var cancelActionOnOutsideTouch: Bool = false
     /// 닫기벼튼 활성화 유무
     var isCloseButtonExposure: Bool = true
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.do {
@@ -168,9 +168,8 @@ class DealiBottomSheetBaseViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let contentStackView = UIStackView()
-        self.contentView.addSubview(contentStackView)
-        contentStackView.then {
+        self.contentView.addSubview(self.contentStackView)
+        self.contentStackView.then {
             $0.axis = .vertical
             $0.alignment = .fill
             $0.distribution = .fill
@@ -183,7 +182,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
         
         if self.titleType != .hidden {
             let titleContainerView = UIView()
-            contentStackView.addArrangedSubview(titleContainerView)
+            self.contentStackView.addArrangedSubview(titleContainerView)
             titleContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
@@ -232,19 +231,19 @@ class DealiBottomSheetBaseViewController: UIViewController {
         }
         
         if let optionContenatView = self.optionContenatView {
-            contentStackView.addArrangedSubview(optionContenatView)
+            self.contentStackView.addArrangedSubview(optionContenatView)
             optionContenatView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
             
             if self.buttonType != .hidden {
-                contentStackView.setCustomSpacing(12.0, after: optionContenatView)
+                self.contentStackView.setCustomSpacing(12.0, after: optionContenatView)
             }
         }
         
         if self.buttonType != .hidden {
             let buttonContainerView = UIView()
-            contentStackView.addArrangedSubview(buttonContainerView)
+            self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
@@ -288,9 +287,17 @@ class DealiBottomSheetBaseViewController: UIViewController {
     }
     
     func showPopup() {
+        self.contentView.layoutIfNeeded()
+        var contentHeight = self.contentView.bounds.height
+        let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * 0.9)
+        if contentHeight > bottomSheetMaxHeight {
+            contentHeight = bottomSheetMaxHeight
+        }
+        
         self.contentView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
+            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -306,6 +313,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
             $0.left.right.equalToSuperview()
+//            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in

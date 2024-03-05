@@ -73,6 +73,12 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        textInput.textFieldDidEndEditing
+            .drive { [weak self] in
+                debugPrint("포커스 아웃")
+            }
+            .disposed(by: self.disposeBag)
+        
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)
         numberInput.then {

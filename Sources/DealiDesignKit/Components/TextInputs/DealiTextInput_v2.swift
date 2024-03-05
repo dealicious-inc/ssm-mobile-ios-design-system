@@ -21,9 +21,13 @@ public final class DealiTextInput_v2: UIView {
     private let textField = UITextField()
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
-    
     public var textFieldDidEndEditing: Driver<Bool>!
-    public var textFieldShouldReturn: Driver<Bool>!
+    public var textFieldDidChange: Driver<String?>!
+    /// 포커스 아웃 이벤트 모두 담은 Driver
+    public var textFieldDidFocusOut: Driver<Void>!
+    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
+    public var editingDidEndOnExit: Driver<Void>!
+    public var editingDidEnd: Driver<Void>!
     
     private let disposeBag = DisposeBag()
     
@@ -116,6 +120,14 @@ public final class DealiTextInput_v2: UIView {
                     self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
                 } else {
                     self.helperTextLabel.isHidden = true
+                }
+                
+                if self.inputStatus == .focusIn {
+                    self.textField.becomeFirstResponder()
+                }
+                
+                if self.inputStatus == .focusOut {
+                    self.textField.endEditing(true)
                 }
                 
                 self.textField.isEnabled = !(self.inputStatus == .disabled)
@@ -285,21 +297,31 @@ public final class DealiTextInput_v2: UIView {
     }
     
     private func RX() {
-        self.textFieldDidEndEditing = self.textField.rx.controlEvent(.editingDidEnd)
-            .map { true }
-            .asDriver(onErrorJustReturn: false)
+        self.textFieldDidChange = self.textField.rx.controlEvent([.editingChanged, .valueChanged])
+            .map { self.textField.text }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: nil)
         
-        self.textFieldShouldReturn = self.textField.rx.controlEvent(.editingDidEndOnExit)
-            .map { true }
-            .asDriver(onErrorJustReturn: false)
+        self.editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
+            .map { return }
+            .asDriver(onErrorJustReturn: ())
         
-        self.textField.rx.controlEvent(.editingDidBegin).asSignal().emit(with: self) { owner, _ in
-            self.inputStatus = .focusIn
-        }.disposed(by: self.disposeBag)
+        self.editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
+            .map { return }
+            .asDriver(onErrorJustReturn: ())
         
-        self.textField.rx.controlEvent(.editingDidEnd).asSignal().emit(with: self) { owner, _ in
-            self.inputStatus = .focusOut
-        }.disposed(by: self.disposeBag)
+        self.textFieldDidFocusOut = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit])
+        self.textFieldDidEndEditing = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit]).map { true }
+        
+        self.textField.rx.controlEvent(.editingDidBegin).asSignal()
+            .emit(with: self) { owner, _ in
+                owner.inputStatus = .focusIn
+            }.disposed(by: self.disposeBag)
+        
+        self.textField.rx.controlEvent(.editingDidEnd).asSignal()
+            .emit(with: self) { owner, _ in
+                owner.inputStatus = .focusOut
+            }.disposed(by: self.disposeBag)
         
         /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
         /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함

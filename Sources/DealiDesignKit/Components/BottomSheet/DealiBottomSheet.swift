@@ -30,8 +30,6 @@ public class DealiBottomSheet: NSObject {
                                       popupPresentingViewController: UIViewController,
                                       cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
-        let viewController = DealiBottomSheetBaseViewController()
-        
         let messageStyle = NSMutableParagraphStyle()
         messageStyle.alignment = .left
         messageStyle.lineHeightMultiple = 1.16
@@ -42,8 +40,27 @@ public class DealiBottomSheet: NSObject {
             $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
         }
 
+        self.showBottomSheet(titleType: titleType,
+                             optionContentView: messageLabel,
+                             buttonType: buttonType,
+                             closePopupOnOutsideTouch: closePopupOnOutsideTouch,
+                             cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                             popupPresentingViewController: popupPresentingViewController,
+                             cancelAction: cancelAction,
+                             confirmAction: confirmAction)
+    }
+    
+    public class func showBottomSheet(titleType: EBottomSheetTitleType = .hidden,
+                                      optionContentView: UIView,
+                                      buttonType: EBottomSheetButtonType = .hidden,
+                                      closePopupOnOutsideTouch: Bool = true,
+                                      cancelActionOnOutsideTouch: Bool = false,
+                                      popupPresentingViewController: UIViewController,
+                                      cancelAction: (() -> Swift.Void)?,
+                                      confirmAction: (() -> Swift.Void)?) {
         
-        viewController.optionContenatView = messageLabel
+        let viewController = DealiBottomSheetBaseViewController()
+        viewController.optionContenatView = optionContentView
         viewController.titleType = titleType
         viewController.buttonType = buttonType
         viewController.closePopupOnOutsideTouch = closePopupOnOutsideTouch
@@ -75,8 +92,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var closePopupOnOutsideTouch: Bool = false
     /// content영역 이외의 영역 터치로 popup을 닫을때 cancel Action 호출 유무
     var cancelActionOnOutsideTouch: Bool = false
-    /// 닫기벼튼 활성화 유무
-    var isCloseButtonExposure: Bool = true
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

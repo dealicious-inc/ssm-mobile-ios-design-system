@@ -21,25 +21,26 @@ public enum EBottomSheetButtonType: Equatable {
 }
 
 public class DealiBottomSheet: NSObject {
-
+    
     public class func showContentText(titleType: EBottomSheetTitleType = .hidden,
                                       message: String,
                                       buttonType: EBottomSheetButtonType = .hidden,
                                       closePopupOnOutsideTouch: Bool = true,
                                       cancelActionOnOutsideTouch: Bool = false,
                                       popupPresentingViewController: UIViewController,
-                                      cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+                                      cancelAction: (() -> Void)?, 
+                                      confirmAction: (() -> Void)?) {
         
-        let messageStyle = NSMutableParagraphStyle()
-        messageStyle.alignment = .left
-        messageStyle.lineHeightMultiple = 1.16
+        let messageStyle = NSMutableParagraphStyle().then {
+            $0.alignment = .left
+            $0.lineHeightMultiple = 1.16
+        }
         
-        let messageLabel = UILabel()
-        messageLabel.do {
+        let messageLabel = UILabel().then {
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
         }
-
+        
         self.showBottomSheet(titleType: titleType,
                              optionContentView: messageLabel,
                              buttonType: buttonType,
@@ -56,17 +57,18 @@ public class DealiBottomSheet: NSObject {
                                       closePopupOnOutsideTouch: Bool = true,
                                       cancelActionOnOutsideTouch: Bool = false,
                                       popupPresentingViewController: UIViewController,
-                                      cancelAction: (() -> Swift.Void)?,
-                                      confirmAction: (() -> Swift.Void)?) {
+                                      cancelAction: (() -> Void)?,
+                                      confirmAction: (() -> Void)?) {
         
-        let viewController = DealiBottomSheetBaseViewController()
-        viewController.optionContenatView = optionContentView
-        viewController.titleType = titleType
-        viewController.buttonType = buttonType
-        viewController.closePopupOnOutsideTouch = closePopupOnOutsideTouch
-        viewController.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
-        viewController.cancelAction = cancelAction
-        viewController.confirmAction = confirmAction
+        let viewController = DealiBottomSheetBaseViewController().then {
+            $0.optionContenatView = optionContentView
+            $0.titleType = titleType
+            $0.buttonType = buttonType
+            $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
+            $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+            $0.cancelAction = cancelAction
+            $0.confirmAction = confirmAction
+        }
         
         popupPresentingViewController.present(viewController, animated: false)
     }
@@ -92,7 +94,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var closePopupOnOutsideTouch: Bool = false
     /// content영역 이외의 영역 터치로 popup을 닫을때 cancel Action 호출 유무
     var cancelActionOnOutsideTouch: Bool = false
-
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.do {
@@ -328,7 +330,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
             $0.left.right.equalToSuperview()
-//            $0.height.equalTo(contentHeight)
+            //            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in

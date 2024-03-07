@@ -58,6 +58,16 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let singleSelectBottomSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(singleSelectBottomSheetButton)
+        singleSelectBottomSheetButton.then {
+            $0.title = "Single Select BottomSheet"
+            $0.addTarget(self, action: #selector(singleSelectBottomSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        
         let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton02)
         bottomSheetPopupButton02.then {
@@ -83,12 +93,28 @@ extension BottomSheetPopupTestViewController {
     @objc func bottomSheetPopupButton01Pressed() {
         debugPrint("bottomSheetPopupButton01Pressed")
 
-        DealiBottomSheet.showContentText(
+        DealiBottomSheet.showTextOnly(
             titleType: .titleCloseButton(title: "2버튼 팝업"),
             message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
             buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"),
             popupPresentingViewController: self,
             cancelAction: nil, confirmAction: nil
+        )
+    }
+    
+    @objc func singleSelectBottomSheetButtonPressed() {
+        
+        let optionData: [DealiBottomSheetOptionData] = [DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true), DealiBottomSheetOptionData(optionName: "옵션2")]
+                                                        
+        DealiBottomSheet.showSingleSelectionType(
+            titleType: .title(title: "단일선택 바텀시트"),
+            option: optionData, 
+            popupPresentingViewController: self,
+            selectAction: { indecies in
+                debugPrint("눌림:\(indecies)")
+                
+            }, cancelAction: nil,
+            confirmAction: nil
         )
     }
     
@@ -103,8 +129,6 @@ extension BottomSheetPopupTestViewController {
     }
     
     @objc func bottomSheetPopupButton03Pressed() {
-        print("bottomSheetPopupButton03Pressed")
-        
         let customView = UIView()
         customView.do {
             $0.backgroundColor = DealiColor.g05

@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum EBottomSheetOptionType: Equatable {
+    case singleSelect
+    case multiSelect
+    case iconWithText
+    case slotWithText(size: CGSize)
+    case textOnly
+}
+
 public enum EBottomSheetTitleType: Equatable {
     case hidden
     case title(title: String?)
@@ -22,7 +30,35 @@ public enum EBottomSheetButtonType: Equatable {
 
 public class DealiBottomSheet: NSObject {
     
-    public class func showContentText(titleType: EBottomSheetTitleType = .hidden,
+    public class func showSingleSelectionType(
+        titleType: EBottomSheetTitleType = .hidden,
+        buttonType: EBottomSheetButtonType = .hidden,
+        option: [DealiBottomSheetOptionData],
+        closePopupOnOutsideTouch: Bool = true,
+        cancelActionOnOutsideTouch: Bool = false,
+        popupPresentingViewController: UIViewController,
+        selectAction: (([Int]) -> Void)?,
+        cancelAction: (() -> Void)?,
+        confirmAction: (() -> Void)?) {
+            
+            let viewController = DealiBottomSheetBaseViewController().then {
+                $0.optionContentView = UIView()
+                $0.optionType = .singleSelect
+                $0.optionData = option
+                $0.titleType = titleType
+                $0.buttonType = buttonType
+                $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
+                $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.selectAction = selectAction
+                $0.cancelAction = cancelAction
+                $0.confirmAction = confirmAction
+            }
+            
+            popupPresentingViewController.present(viewController, animated: false)
+            
+        }
+    
+    public class func showTextOnly(titleType: EBottomSheetTitleType = .hidden,
                                       message: String,
                                       buttonType: EBottomSheetButtonType = .hidden,
                                       closePopupOnOutsideTouch: Bool = true,
@@ -61,7 +97,7 @@ public class DealiBottomSheet: NSObject {
                                       confirmAction: (() -> Void)?) {
         
         let viewController = DealiBottomSheetBaseViewController().then {
-            $0.optionContenatView = optionContentView
+            $0.optionContentView = optionContentView
             $0.titleType = titleType
             $0.buttonType = buttonType
             $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
@@ -80,11 +116,17 @@ class DealiBottomSheetBaseViewController: UIViewController {
     private var cornerLayer: CAShapeLayer?
     private let contentStackView = UIStackView()
     
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    var optionType: EBottomSheetOptionType? = nil
+    var optionData: [DealiBottomSheetOptionData] = []
+    
     var cancelAction: (() -> Swift.Void)?
     var confirmAction: (() -> Swift.Void)?
+    var selectAction: (([Int]) -> Void)?
     
     /// option Content 노출 영역
-    var optionContenatView: UIView?
+    var optionContentView: UIView?
     /// 타이들 영역 노출 타입
     var titleType: EBottomSheetTitleType = .hidden
     /// 버튼 영역 노출 타입
@@ -96,38 +138,30 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var cancelActionOnOutsideTouch: Bool = false
     
     private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.do {
+        return UILabel().then {
             $0.numberOfLines = 0
             $0.font = .sh2sb18
             $0.textColor = DealiColor.g100
         }
-        return label
     }()
     
     private lazy var closeButton: UIButton = {
-        let button = UIButton()
-        button.do {
+        return UIButton().then {
             $0.setImage(UIImage(named: "ic_x", in: Bundle.module, compatibleWith: nil), for: .normal)
             $0.addTarget(self, action: #selector(closeButtonButtonAction), for: .touchUpInside)
         }
-        return button
     }()
     
     private lazy var cancelButton: ClickableComponentButton = {
-        let button = DealiControl.btnOutlineLarge01()
-        button.do {
+        return DealiControl.btnOutlineLarge01().then {
             $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
         }
-        return button
     }()
     
     private lazy var confirmButton: ClickableComponentButton = {
-        let button = DealiControl.btnFilledLarge01()
-        button.do {
+        return DealiControl.btnFilledLarge01().then {
             $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
         }
-        return button
     }()
     
     init() {
@@ -197,6 +231,78 @@ class DealiBottomSheetBaseViewController: UIViewController {
             $0.bottom.equalToSuperview().offset(-(12.0 + safeAreaBottomMargin))
         }
         
+        self.setUpTitleSectionUI()
+      
+        
+        if let optionContentView = self.optionContentView {
+            self.contentStackView.addArrangedSubview(optionContentView)
+            optionContentView.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+            }
+            
+            if self.optionType != nil {
+                optionContentView.addSubview(self.collectionView)
+                self.collectionView.then {
+                    $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
+                    $0.delegate = self
+                    $0.dataSource = self
+                }.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                    $0.height.equalTo(200.0)
+                }
+            }
+            
+            if self.buttonType != .hidden {
+                self.contentStackView.setCustomSpacing(12.0, after: optionContentView)
+            }
+        }
+        
+        if self.buttonType != .hidden {
+            let buttonContainerView = UIView()
+            self.contentStackView.addArrangedSubview(buttonContainerView)
+            buttonContainerView.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+            }
+            
+            let buttonStackView = UIStackView()
+            buttonContainerView.addSubview(buttonStackView)
+            buttonStackView.then {
+                $0.axis = .horizontal
+                $0.alignment = .fill
+                $0.distribution = .fillEqually
+                $0.spacing = 8.0
+            }.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(12.0)
+                $0.left.right.equalToSuperview()
+            }
+            
+            switch self.buttonType {
+            case .oneButton(let title):
+                buttonStackView.addArrangedSubview(self.confirmButton)
+                self.confirmButton.title = title
+                self.confirmButton.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+            case .twoButton(let confirmTitle, let cancelTitle):
+                buttonStackView.addArrangedSubview(self.cancelButton)
+                self.cancelButton.title = cancelTitle
+                self.cancelButton.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+                
+                buttonStackView.addArrangedSubview(self.confirmButton)
+                self.confirmButton.title = confirmTitle
+                self.confirmButton.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    func setUpTitleSectionUI() {
         if self.titleType != .hidden {
             let titleContainerView = UIView()
             self.contentStackView.addArrangedSubview(titleContainerView)
@@ -246,61 +352,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
                 break
             }
         }
-        
-        if let optionContenatView = self.optionContenatView {
-            self.contentStackView.addArrangedSubview(optionContenatView)
-            optionContenatView.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-            }
-            
-            if self.buttonType != .hidden {
-                self.contentStackView.setCustomSpacing(12.0, after: optionContenatView)
-            }
-        }
-        
-        if self.buttonType != .hidden {
-            let buttonContainerView = UIView()
-            self.contentStackView.addArrangedSubview(buttonContainerView)
-            buttonContainerView.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-            }
-            
-            let buttonStackView = UIStackView()
-            buttonContainerView.addSubview(buttonStackView)
-            buttonStackView.then {
-                $0.axis = .horizontal
-                $0.alignment = .fill
-                $0.distribution = .fillEqually
-                $0.spacing = 8.0
-            }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(12.0)
-                $0.left.right.equalToSuperview()
-            }
-            
-            switch self.buttonType {
-            case .oneButton(let title):
-                buttonStackView.addArrangedSubview(self.confirmButton)
-                self.confirmButton.title = title
-                self.confirmButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            case .twoButton(let confirmTitle, let cancelTitle):
-                buttonStackView.addArrangedSubview(self.cancelButton)
-                self.cancelButton.title = cancelTitle
-                self.cancelButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-                
-                buttonStackView.addArrangedSubview(self.confirmButton)
-                self.confirmButton.title = confirmTitle
-                self.confirmButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            default:
-                break
-            }
-        }
-        
     }
     
     func showPopup() {
@@ -322,8 +373,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
             self.view.backgroundColor = DealiColor.b50
             self.view.layoutIfNeeded()
         }
-        
-        
     }
     
     private func hidePopup(hideHandler: (() -> Void)? = nil) {
@@ -379,5 +428,44 @@ class DealiBottomSheetBaseViewController: UIViewController {
         } else {
             self.hidePopup()
         }
+    }
+}
+
+extension DealiBottomSheetBaseViewController: UICollectionViewDelegate {
+    
+}
+
+extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.optionData.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSingleSelectCell.id, for: indexPath) as! DealiBottomSheetSingleSelectCell
+        var uiModel = DealiBottomSheetSingleSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
+        uiModel.selectedActionHandler = { [weak self] in
+            guard let self else { return }
+            self.selectAction?([indexPath.item])
+            self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+            self.optionData[indexPath.item].isSelected = true
+            self.collectionView.reloadData()
+        }
+        
+        cell.configure(with: uiModel)
+        return cell
+    }
+}
+
+extension DealiBottomSheetBaseViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if self.optionType == .singleSelect {
+            return DealiBottomSheetSingleSelectCell.cellSize()
+        }
+        
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return .zero
     }
 }

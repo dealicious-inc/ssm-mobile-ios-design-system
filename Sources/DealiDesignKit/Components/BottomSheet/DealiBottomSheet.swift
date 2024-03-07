@@ -55,7 +55,33 @@ public class DealiBottomSheet: NSObject {
             }
             
             popupPresentingViewController.present(viewController, animated: false)
+        }
+    
+    public class func showMultiSelectionType(
+        titleType: EBottomSheetTitleType = .hidden,
+        buttonType: EBottomSheetButtonType = .hidden,
+        option: [DealiBottomSheetOptionData],
+        closePopupOnOutsideTouch: Bool = true,
+        cancelActionOnOutsideTouch: Bool = false,
+        popupPresentingViewController: UIViewController,
+        selectAction: (([Int]) -> Void)?,
+        cancelAction: (() -> Void)?,
+        confirmAction: (() -> Void)?) {
             
+            let viewController = DealiBottomSheetBaseViewController().then {
+                $0.optionContentView = UIView()
+                $0.optionType = .multiSelect
+                $0.optionData = option
+                $0.titleType = titleType
+                $0.buttonType = buttonType
+                $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
+                $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.selectAction = selectAction
+                $0.cancelAction = cancelAction
+                $0.confirmAction = confirmAction
+            }
+            
+            popupPresentingViewController.present(viewController, animated: false)
         }
     
     public class func showTextOnly(titleType: EBottomSheetTitleType = .hidden,
@@ -232,7 +258,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
         }
         
         self.setUpTitleSectionUI()
-      
         
         if let optionContentView = self.optionContentView {
             self.contentStackView.addArrangedSubview(optionContentView)
@@ -244,6 +269,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
                 optionContentView.addSubview(self.collectionView)
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
+                    $0.register(DealiBottomSheetMultiSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetMultiSelectCell.id)
                     $0.delegate = self
                     $0.dataSource = self
                 }.snp.makeConstraints {
@@ -441,28 +467,53 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSingleSelectCell.id, for: indexPath) as! DealiBottomSheetSingleSelectCell
-        var uiModel = DealiBottomSheetSingleSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
-        uiModel.selectedActionHandler = { [weak self] in
-            guard let self else { return }
-            self.selectAction?([indexPath.item])
-            self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-            self.optionData[indexPath.item].isSelected = true
-            self.collectionView.reloadData()
+        switch self.optionType {
+        case .singleSelect:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSingleSelectCell.id, for: indexPath) as! DealiBottomSheetSingleSelectCell
+            var uiModel = DealiBottomSheetSingleSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.selectedActionHandler = { [weak self] in
+                guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
+            }
+            
+            cell.configure(with: uiModel)
+            return cell
+        case .multiSelect:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetMultiSelectCell.id, for: indexPath) as! DealiBottomSheetMultiSelectCell
+            
+            var uiModel = DealiBottomSheetMultiSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.selectedActionHandler = { [weak self] in
+                guard let self else { return }
+                
+                self.optionData[indexPath.item].isSelected.toggle()
+                if self.optionData[indexPath.item].isSelected {
+                    self.selectAction?([indexPath.item])
+                }
+                self.collectionView.reloadData()
+            }
+            
+            cell.configure(with: uiModel)
+            return cell
+        default:
+            return UICollectionViewCell()
         }
         
-        cell.configure(with: uiModel)
-        return cell
     }
 }
 
 extension DealiBottomSheetBaseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if self.optionType == .singleSelect {
+        switch self.optionType {
+        case .singleSelect:
             return DealiBottomSheetSingleSelectCell.cellSize()
+        case .multiSelect:
+            return DealiBottomSheetMultiSelectCell.cellSize()
+        default:
+            return .zero
         }
-        
-        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

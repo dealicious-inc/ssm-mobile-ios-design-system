@@ -67,6 +67,15 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let multiSelectBottomSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(multiSelectBottomSheetButton)
+        multiSelectBottomSheetButton.then {
+            $0.title = "Multi Select BottomSheet"
+            $0.addTarget(self, action: #selector(multiSelectBottomSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         
         let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton02)
@@ -117,6 +126,24 @@ extension BottomSheetPopupTestViewController {
             confirmAction: nil
         )
     }
+    
+    
+    @objc func multiSelectBottomSheetButtonPressed() {
+        
+        let optionData: [DealiBottomSheetOptionData] = [DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true), DealiBottomSheetOptionData(optionName: "옵션2")]
+                                                        
+        DealiBottomSheet.showMultiSelectionType(
+            titleType: .title(title: "다중선택 바텀시트"),
+            option: optionData,
+            popupPresentingViewController: self,
+            selectAction: { indecies in
+                debugPrint("다중선택 눌림:\(indecies)")
+                
+            }, cancelAction: nil,
+            confirmAction: nil
+        )
+    }
+    
     
     @objc func bottomSheetPopupButton02Pressed() {
         debugPrint("bottomSheetPopupButton02Pressed")

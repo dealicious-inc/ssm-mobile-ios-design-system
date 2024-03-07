@@ -84,6 +84,33 @@ public class DealiBottomSheet: NSObject {
             popupPresentingViewController.present(viewController, animated: false)
         }
     
+    public class func showIconWithTextType(
+        titleType: EBottomSheetTitleType = .hidden,
+        buttonType: EBottomSheetButtonType = .hidden,
+        option: [DealiBottomSheetOptionData],
+        closePopupOnOutsideTouch: Bool = true,
+        cancelActionOnOutsideTouch: Bool = false,
+        popupPresentingViewController: UIViewController,
+        selectAction: (([Int]) -> Void)?,
+        cancelAction: (() -> Void)?,
+        confirmAction: (() -> Void)?) {
+            
+            let viewController = DealiBottomSheetBaseViewController().then {
+                $0.optionContentView = UIView()
+                $0.optionType = .iconWithText
+                $0.optionData = option
+                $0.titleType = titleType
+                $0.buttonType = buttonType
+                $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
+                $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.selectAction = selectAction
+                $0.cancelAction = cancelAction
+                $0.confirmAction = confirmAction
+            }
+            
+            popupPresentingViewController.present(viewController, animated: false)
+        }
+    
     public class func showTextOnly(titleType: EBottomSheetTitleType = .hidden,
                                       message: String,
                                       buttonType: EBottomSheetButtonType = .hidden,
@@ -270,6 +297,8 @@ class DealiBottomSheetBaseViewController: UIViewController {
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
                     $0.register(DealiBottomSheetMultiSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetMultiSelectCell.id)
+                    $0.register(DealiBottomSheetIconWithTextCell.self, forCellWithReuseIdentifier: DealiBottomSheetIconWithTextCell.id)
+                    
                     $0.delegate = self
                     $0.dataSource = self
                 }.snp.makeConstraints {
@@ -497,6 +526,19 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
             
             cell.configure(with: uiModel)
             return cell
+        case .iconWithText:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetIconWithTextCell.id, for: indexPath) as! DealiBottomSheetIconWithTextCell
+            var uiModel = DealiBottomSheetIconWithTextCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.selectedActionHandler = { [weak self] in
+                guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
+            }
+            
+            cell.configure(with: uiModel)
+            return cell
         default:
             return UICollectionViewCell()
         }
@@ -511,6 +553,8 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDelegateFlowLayout
             return DealiBottomSheetSingleSelectCell.cellSize()
         case .multiSelect:
             return DealiBottomSheetMultiSelectCell.cellSize()
+        case .iconWithText:
+            return DealiBottomSheetIconWithTextCell.cellSize()
         default:
             return .zero
         }

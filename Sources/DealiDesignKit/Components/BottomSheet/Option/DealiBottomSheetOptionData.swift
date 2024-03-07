@@ -17,4 +17,10 @@ public struct DealiBottomSheetOptionData {
         self.optionName = optionName
         self.isSelected = isSelected
     }
+    
+    public init(optionName: String?, isSelected: Bool = false, imageName: String?) {
+        self.optionName = optionName
+        self.isSelected = isSelected
+        self.imageName = imageName
+    }
 }

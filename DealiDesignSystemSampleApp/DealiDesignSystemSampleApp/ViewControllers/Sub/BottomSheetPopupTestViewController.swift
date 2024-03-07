@@ -76,6 +76,15 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let iconWithTextBottomSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(iconWithTextBottomSheetButton)
+        iconWithTextBottomSheetButton.then {
+            $0.title = "Icon + Text BottomSheet"
+            $0.addTarget(self, action: #selector(iconWithTextBottomSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         
         let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton02)
@@ -127,7 +136,6 @@ extension BottomSheetPopupTestViewController {
         )
     }
     
-    
     @objc func multiSelectBottomSheetButtonPressed() {
         
         let optionData: [DealiBottomSheetOptionData] = [DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true), DealiBottomSheetOptionData(optionName: "옵션2")]
@@ -144,6 +152,24 @@ extension BottomSheetPopupTestViewController {
         )
     }
     
+    @objc func iconWithTextBottomSheetButtonPressed() {
+        
+        let optionData: [DealiBottomSheetOptionData] = [
+            DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true, imageName: "img_mbs_filled_16_ver01"),
+            DealiBottomSheetOptionData(optionName: "옵션2", imageName: "img_mbs_filled_16_ver01")
+        ]
+                                                        
+        DealiBottomSheet.showIconWithTextType(
+            titleType: .title(title: "icon + Text 바텀시트"),
+            option: optionData,
+            popupPresentingViewController: self,
+            selectAction: { indecies in
+                debugPrint("icon + Text 눌림:\(indecies)")
+                
+            }, cancelAction: nil,
+            confirmAction: nil
+        )
+    }
     
     @objc func bottomSheetPopupButton02Pressed() {
         debugPrint("bottomSheetPopupButton02Pressed")

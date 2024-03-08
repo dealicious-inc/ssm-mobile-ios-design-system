@@ -130,7 +130,38 @@ extension BottomSheetPopupTestViewController {
     
     @objc func singleSelectBottomSheetButtonPressed() {
         
-        let optionData: [DealiBottomSheetOptionData] = [DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true), DealiBottomSheetOptionData(optionName: "옵션2")]
+        let optionData: [DealiBottomSheetOptionData] = [
+            DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션3"),
+            DealiBottomSheetOptionData(optionName: "옵션4"),
+            DealiBottomSheetOptionData(optionName: "옵션5"),
+            DealiBottomSheetOptionData(optionName: "옵션6"),
+            DealiBottomSheetOptionData(optionName: "옵션7"),
+            DealiBottomSheetOptionData(optionName: "옵션8"),
+            DealiBottomSheetOptionData(optionName: "옵션9"),
+            DealiBottomSheetOptionData(optionName: "옵션0"),
+            DealiBottomSheetOptionData(optionName: "옵션1"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션3"),
+            DealiBottomSheetOptionData(optionName: "옵션4"),
+            DealiBottomSheetOptionData(optionName: "옵션5"),
+            DealiBottomSheetOptionData(optionName: "옵션6"),
+            DealiBottomSheetOptionData(optionName: "옵션7"),
+            DealiBottomSheetOptionData(optionName: "옵션8"),
+            DealiBottomSheetOptionData(optionName: "옵션9"),
+            DealiBottomSheetOptionData(optionName: "옵션10"),
+            DealiBottomSheetOptionData(optionName: "옵션11"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2"),
+            DealiBottomSheetOptionData(optionName: "옵션2")
+            
+        ]
                                                         
         DealiBottomSheet.showSingleSelectionType(
             titleType: .title(title: "단일선택 바텀시트"),

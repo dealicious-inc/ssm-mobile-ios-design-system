@@ -220,7 +220,21 @@ class DealiBottomSheetBaseViewController: UIViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     var optionType: EBottomSheetOptionType? = nil
-    var optionData: [DealiBottomSheetOptionData] = []
+    var optionData: [DealiBottomSheetOptionData] = [] {
+        didSet {
+            self.collectionView.snp.updateConstraints {
+                $0.height.equalTo(self.optionHeight)
+            }
+        }
+    }
+    
+    var optionHeight: CGFloat {
+        let titleHeight = 60.0
+        let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
+        let maximumContentHeight = UIScreen.main.bounds.size.height * 0.9 - titleHeight - buttonContentHeight
+        let contentHeight = CGFloat(self.optionData.count) * 52.0
+        return min(maximumContentHeight, contentHeight)
+    }
     
     var cancelAction: (() -> Swift.Void)?
     var confirmAction: (() -> Swift.Void)?
@@ -460,16 +474,17 @@ class DealiBottomSheetBaseViewController: UIViewController {
     
     func showPopup() {
         self.contentView.layoutIfNeeded()
-        var contentHeight = self.contentView.bounds.height
-        let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * 0.9)
-        if contentHeight > bottomSheetMaxHeight {
-            contentHeight = bottomSheetMaxHeight
-        }
+        let contentHeight = self.contentView.bounds.height
+        debugPrint("@@@@높이: \(contentHeight)")
+//        let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * 0.9)
+//        if contentHeight > bottomSheetMaxHeight {
+//            contentHeight = bottomSheetMaxHeight
+//        }
         
         self.contentView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(contentHeight)
+//            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in

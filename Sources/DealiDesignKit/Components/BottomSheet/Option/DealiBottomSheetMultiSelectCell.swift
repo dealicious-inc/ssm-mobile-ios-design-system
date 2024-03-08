@@ -66,7 +66,9 @@ final class DealiBottomSheetMultiSelectCell: UICollectionViewCell {
         super.init(frame: frame)
         
         self.contentView.addSubview(self.checkbox)
-        self.checkbox.snp.makeConstraints {
+        self.checkbox.then {
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().inset(16.0)
         }

@@ -11,8 +11,28 @@ enum EBottomSheetOptionType: Equatable {
     case singleSelect
     case multiSelect
     case iconWithText
-    case slotWithText(size: CGSize)
+    case slotWithText(size: ESlotSize)
     case textOnly
+}
+
+public enum ESlotSize {
+    /// 24*24
+    case small
+    /// 32*32
+    case medium
+    /// 40*40
+    case large
+    
+    public var cgSize: CGSize {
+        switch self {
+        case .small:
+            return CGSize(width: 24.0, height: 24.0)
+        case .medium:
+            return CGSize(width: 32.0, height: 32.0)
+        case .large:
+            return CGSize(width: 40.0, height: 40.0)
+        }
+    }
 }
 
 public enum EBottomSheetTitleType: Equatable {
@@ -98,6 +118,34 @@ public class DealiBottomSheet: NSObject {
             let viewController = DealiBottomSheetBaseViewController().then {
                 $0.optionContentView = UIView()
                 $0.optionType = .iconWithText
+                $0.optionData = option
+                $0.titleType = titleType
+                $0.buttonType = buttonType
+                $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
+                $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.selectAction = selectAction
+                $0.cancelAction = cancelAction
+                $0.confirmAction = confirmAction
+            }
+            
+            popupPresentingViewController.present(viewController, animated: false)
+        }
+    
+    public class func showSlotWithTextType(
+        titleType: EBottomSheetTitleType = .hidden,
+        buttonType: EBottomSheetButtonType = .hidden,
+        option: [DealiBottomSheetOptionData],
+        slotSize: ESlotSize,
+        closePopupOnOutsideTouch: Bool = true,
+        cancelActionOnOutsideTouch: Bool = false,
+        popupPresentingViewController: UIViewController,
+        selectAction: (([Int]) -> Void)?,
+        cancelAction: (() -> Void)?,
+        confirmAction: (() -> Void)?) {
+            
+            let viewController = DealiBottomSheetBaseViewController().then {
+                $0.optionContentView = UIView()
+                $0.optionType = .slotWithText(size: slotSize)
                 $0.optionData = option
                 $0.titleType = titleType
                 $0.buttonType = buttonType
@@ -298,6 +346,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
                     $0.register(DealiBottomSheetMultiSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetMultiSelectCell.id)
                     $0.register(DealiBottomSheetIconWithTextCell.self, forCellWithReuseIdentifier: DealiBottomSheetIconWithTextCell.id)
+                    $0.register(DealiBottomSheetSlotWithTextCell.self, forCellWithReuseIdentifier: DealiBottomSheetSlotWithTextCell.id)
                     
                     $0.delegate = self
                     $0.dataSource = self
@@ -539,6 +588,20 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
             
             cell.configure(with: uiModel)
             return cell
+        case .slotWithText(let size):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSlotWithTextCell.id, for: indexPath) as! DealiBottomSheetSlotWithTextCell
+            var uiModel = DealiBottomSheetSlotWithTextCellUIModel.map(optionData: self.optionData[indexPath.item], slotSize: size.cgSize)
+            
+            uiModel.selectedActionHandler = { [weak self] in
+                guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
+            }
+            cell.configure(with: uiModel)
+            return cell
+            
         default:
             return UICollectionViewCell()
         }
@@ -555,6 +618,8 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDelegateFlowLayout
             return DealiBottomSheetMultiSelectCell.cellSize()
         case .iconWithText:
             return DealiBottomSheetIconWithTextCell.cellSize()
+        case .slotWithText(_):
+            return DealiBottomSheetSlotWithTextCell.cellSize()
         default:
             return .zero
         }

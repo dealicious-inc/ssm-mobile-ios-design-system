@@ -85,6 +85,14 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let slotWithTextBottomSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(slotWithTextBottomSheetButton)
+        slotWithTextBottomSheetButton.then {
+            $0.title = "Slot + Text BottomSheet"
+            $0.addTarget(self, action: #selector(slotWithTextBottomSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
         
         let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(bottomSheetPopupButton02)
@@ -165,6 +173,26 @@ extension BottomSheetPopupTestViewController {
             popupPresentingViewController: self,
             selectAction: { indecies in
                 debugPrint("icon + Text 눌림:\(indecies)")
+                
+            }, cancelAction: nil,
+            confirmAction: nil
+        )
+    }
+    
+    @objc func slotWithTextBottomSheetButtonPressed() {
+        
+        let optionData: [DealiBottomSheetOptionData] = [
+            DealiBottomSheetOptionData(optionName: "옵션1", isSelected: true, imageName: "img_mbs_filled_16_ver01"),
+            DealiBottomSheetOptionData(optionName: "옵션2", imageName: "img_mbs_filled_16_ver01")
+        ]
+                                                        
+        DealiBottomSheet.showSlotWithTextType(
+            titleType: .title(title: "slot + Text 바텀시트"),
+            option: optionData,
+            slotSize: .large,
+            popupPresentingViewController: self,
+            selectAction: { indecies in
+                debugPrint("slot + Text 눌림:\(indecies)")
                 
             }, cancelAction: nil,
             confirmAction: nil

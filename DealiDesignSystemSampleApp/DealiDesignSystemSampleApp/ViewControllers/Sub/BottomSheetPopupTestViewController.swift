@@ -164,7 +164,7 @@ extension BottomSheetPopupTestViewController {
         ]
                                                         
         DealiBottomSheet.showSingleSelectionType(
-            titleType: .title(title: "단일선택 바텀시트"),
+            titleType: .titleCloseButton(title: "단일선택 바텀시트"),
             option: optionData, 
             popupPresentingViewController: self,
             selectAction: { indecies in

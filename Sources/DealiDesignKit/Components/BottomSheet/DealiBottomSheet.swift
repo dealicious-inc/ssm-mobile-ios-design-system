@@ -236,8 +236,8 @@ class DealiBottomSheetBaseViewController: UIViewController {
         return min(maximumContentHeight, contentHeight)
     }
     
-    var cancelAction: (() -> Swift.Void)?
-    var confirmAction: (() -> Swift.Void)?
+    var cancelAction: (() -> Void)?
+    var confirmAction: (() -> Void)?
     var selectAction: (([Int]) -> Void)?
     
     /// option Content 노출 영역
@@ -343,11 +343,58 @@ class DealiBottomSheetBaseViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 24.0)
             $0.left.right.equalToSuperview().inset(16.0)
-            $0.bottom.equalToSuperview().offset(-(12.0 + safeAreaBottomMargin))
+            $0.bottom.equalToSuperview().inset(12.0 + safeAreaBottomMargin)
         }
         
-        self.setUpTitleSectionUI()
-        
+        if self.titleType != .hidden {
+            let titleContainerView = UIView()
+            self.contentStackView.addArrangedSubview(titleContainerView)
+            titleContainerView.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+            }
+            
+            let titleContainerStackView = UIStackView()
+            titleContainerView.addSubview(titleContainerStackView)
+            titleContainerStackView.then {
+                $0.axis = .horizontal
+                $0.alignment = .center
+                $0.distribution = .fill
+                $0.spacing = 16.0
+            }.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+                $0.top.equalToSuperview().offset(3.0)
+                $0.bottom.equalToSuperview().offset(-13.0)
+            }
+            
+            switch self.titleType {
+            case .title(let title):
+                titleContainerStackView.addArrangedSubview(self.titleLabel)
+                self.titleLabel.text = title
+                self.titleLabel.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+            case .closeButton:
+                titleContainerStackView.addArrangedSubview(self.closeButton)
+                self.closeButton.snp.makeConstraints {
+                    $0.centerY.equalToSuperview()
+                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+                }
+            case .titleCloseButton(let title):
+                titleContainerStackView.addArrangedSubview(self.titleLabel)
+                self.titleLabel.text = title
+                self.titleLabel.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+                
+                titleContainerStackView.addArrangedSubview(self.closeButton)
+                self.closeButton.snp.makeConstraints {
+                    $0.centerY.equalToSuperview()
+                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+                }
+            default:
+                break
+            }
+        }
         if let optionContentView = self.optionContentView {
             self.contentStackView.addArrangedSubview(optionContentView)
             optionContentView.snp.makeConstraints {
@@ -364,9 +411,13 @@ class DealiBottomSheetBaseViewController: UIViewController {
                     
                     $0.delegate = self
                     $0.dataSource = self
+                    $0.backgroundColor = DealiColor.primary04
                 }.snp.makeConstraints {
                     $0.edges.equalToSuperview()
-                    $0.height.equalTo(200.0)
+                    let titleHeight = 60.0
+                    let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
+                    let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
+                    $0.height.equalTo(maximumContentHeight)
                 }
             }
             
@@ -420,71 +471,12 @@ class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
-    func setUpTitleSectionUI() {
-        if self.titleType != .hidden {
-            let titleContainerView = UIView()
-            self.contentStackView.addArrangedSubview(titleContainerView)
-            titleContainerView.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-            }
-            
-            let titleContainerStackView = UIStackView()
-            titleContainerView.addSubview(titleContainerStackView)
-            titleContainerStackView.then {
-                $0.axis = .horizontal
-                $0.alignment = .center
-                $0.distribution = .fill
-                $0.spacing = 16.0
-            }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-                $0.top.equalToSuperview().offset(3.0)
-                $0.bottom.equalToSuperview().offset(-13.0)
-            }
-            
-            switch self.titleType {
-            case .title(let title):
-                titleContainerStackView.addArrangedSubview(self.titleLabel)
-                self.titleLabel.text = title
-                self.titleLabel.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            case .closeButton:
-                titleContainerStackView.addArrangedSubview(self.closeButton)
-                self.closeButton.snp.makeConstraints {
-                    $0.centerY.equalToSuperview()
-                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-                }
-            case .titleCloseButton(let title):
-                titleContainerStackView.addArrangedSubview(self.titleLabel)
-                self.titleLabel.text = title
-                self.titleLabel.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-                
-                titleContainerStackView.addArrangedSubview(self.closeButton)
-                self.closeButton.snp.makeConstraints {
-                    $0.centerY.equalToSuperview()
-                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-                }
-            default:
-                break
-            }
-        }
-    }
-    
     func showPopup() {
         self.contentView.layoutIfNeeded()
-        let contentHeight = self.contentView.bounds.height
-        debugPrint("@@@@높이: \(contentHeight)")
-//        let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * 0.9)
-//        if contentHeight > bottomSheetMaxHeight {
-//            contentHeight = bottomSheetMaxHeight
-//        }
         
         self.contentView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
-//            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -498,7 +490,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
             $0.left.right.equalToSuperview()
-            //            $0.height.equalTo(contentHeight)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in

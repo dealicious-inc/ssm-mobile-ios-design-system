@@ -79,6 +79,18 @@ final class TextInputViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
         
+        let textInputWithCustomImage = DealiTextInput_v2.text()
+        contentStackView.addArrangedSubview(textInputWithCustomImage)
+        textInputWithCustomImage.then {
+            $0.title = "일반 텍스트 입력"
+            $0.placeholder = "Text Input"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.inputRightViewType = .custom(UIImage(named: "ic_arrow_right"))
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)
         numberInput.then {

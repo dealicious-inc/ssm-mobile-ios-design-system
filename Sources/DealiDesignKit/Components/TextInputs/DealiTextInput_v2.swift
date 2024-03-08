@@ -142,6 +142,8 @@ public final class DealiTextInput_v2: UIView {
                 case .clear:
                     self.textInputRightImageView.isHidden = self.inputStatus != .focusIn
                     self.textInputRightImageView.image = UIImage(named: "ic_x")
+                case .custom:
+                    break
                 default:
                     self.textInputRightImageView.isHidden = true
                 }
@@ -176,7 +178,17 @@ public final class DealiTextInput_v2: UIView {
     }
     
     /// TextInput RightView 타입 세팅
-    public var inputRightViewType: ETextInputRightViewType = .none
+    public var inputRightViewType: ETextInputRightViewType = .none {
+        didSet {
+            switch inputRightViewType {
+            case .custom(let image):
+                self.textInputRightImageView.image = image
+                self.textInputRightImageView.isHidden = false
+            default:
+                self.textInputRightImageView.isHidden = true
+            }
+        }
+    }
     
     public init() {
         super.init(frame: .zero)

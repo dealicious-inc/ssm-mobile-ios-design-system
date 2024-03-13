@@ -45,6 +45,13 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let fontButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(fontButton)
+        fontButton.do {
+            $0.title = "Typography"
+            $0.addTarget(self, action: #selector(typoButtonPressed), for: .touchUpInside)
+        }
+        
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(bottomSheetPopupButton)
         bottomSheetPopupButton.do {
@@ -125,9 +132,6 @@ final class MainViewController: UIViewController {
 
 // MARK: - Button Actions
 extension MainViewController {
-    @objc func fontButtonPressed() {
-        self.navigationController?.pushViewController(TypographyViewController(), animated: true)
-    }
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)
@@ -135,6 +139,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func typoButtonPressed() {
+        self.navigationController?.pushViewController(TypographyViewController(), animated: true)
     }
     
     @objc func bottomSheetPopupButtonPressed() {

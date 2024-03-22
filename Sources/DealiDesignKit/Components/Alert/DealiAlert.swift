@@ -68,31 +68,21 @@ public class DealiAlert: NSObject {
     
     public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
-        let alertViewController = DealiAlertViewController()
-        if let title = title {
-            let titleStyle = NSMutableParagraphStyle()
-            titleStyle.alignment = .left
-            titleStyle.lineHeightMultiple = 1.21
-            
-            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
-        }
-        
         let messageStyle = NSMutableParagraphStyle()
         messageStyle.alignment = .left
         messageStyle.lineHeightMultiple = 1.16
         
-        let atMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
-        alertViewController.alertMessage = atMessage
+        self.showAttributedMessage(title: title,
+                                   message: NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle]),
+                                   insertCustomView: insertCustomView,
+                                   cancelButtonTitle: cancelButtonTitle,
+                                   confirmButtonTitle: confirmButtonTitle,
+                                   closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                                   cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                                   alertPresentingViewController: alertPresentingViewController,
+                                   cancelAction: cancelAction,
+                                   confirmAction: confirmAction)
         
-        alertViewController.insertCustomView = insertCustomView
-        alertViewController.cancelButtonTitle = cancelButtonTitle
-        alertViewController.confirmButtonTitle = confirmButtonTitle
-        alertViewController.closeAlertOnOutsideTouch = closeAlertOnOutsideTouch
-        alertViewController.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
-        alertViewController.cancelAction = cancelAction
-        alertViewController.confirmAction = confirmAction
-        
-        alertPresentingViewController.present(alertViewController, animated: true)
     }
     
     public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
@@ -106,21 +96,7 @@ public class DealiAlert: NSObject {
             alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
         }
         
-        var attributedMessage: NSMutableAttributedString?
-        if let message = message, message.string.isEmpty == false {
-            attributedMessage = NSMutableAttributedString()
-            attributedMessage?.append(message)
-            
-            let messageStyle = NSMutableParagraphStyle()
-            messageStyle.alignment = .left
-            messageStyle.lineHeightMultiple = 1.16
-            
-            attributedMessage?.addAttribute(NSAttributedString.Key.paragraphStyle, value: messageStyle, range: NSRange(location: 0, length: message.string.count))
-        }
-        
-        
-        alertViewController.alertMessage = attributedMessage
-        
+        alertViewController.alertMessage = message
         alertViewController.insertCustomView = insertCustomView
         alertViewController.cancelButtonTitle = cancelButtonTitle
         alertViewController.confirmButtonTitle = confirmButtonTitle

@@ -62,7 +62,7 @@ public class DealiBottomSheet: NSObject {
         confirmAction: (() -> Void)?) {
             
             let viewController = DealiBottomSheetBaseViewController().then {
-                $0.optionContentView = UIView()
+                $0.contentContainerView = UIView()
                 $0.optionType = .singleSelect
                 $0.optionData = option
                 $0.titleType = titleType
@@ -89,7 +89,7 @@ public class DealiBottomSheet: NSObject {
         confirmAction: (() -> Void)?) {
             
             let viewController = DealiBottomSheetBaseViewController().then {
-                $0.optionContentView = UIView()
+                $0.contentContainerView = UIView()
                 $0.optionType = .multiSelect
                 $0.optionData = option
                 $0.titleType = titleType
@@ -116,7 +116,7 @@ public class DealiBottomSheet: NSObject {
         confirmAction: (() -> Void)?) {
             
             let viewController = DealiBottomSheetBaseViewController().then {
-                $0.optionContentView = UIView()
+                $0.contentContainerView = UIView()
                 $0.optionType = .iconWithText
                 $0.optionData = option
                 $0.titleType = titleType
@@ -144,7 +144,7 @@ public class DealiBottomSheet: NSObject {
         confirmAction: (() -> Void)?) {
             
             let viewController = DealiBottomSheetBaseViewController().then {
-                $0.optionContentView = UIView()
+                $0.contentContainerView = UIView()
                 $0.optionType = .slotWithText(size: slotSize)
                 $0.optionData = option
                 $0.titleType = titleType
@@ -198,7 +198,7 @@ public class DealiBottomSheet: NSObject {
                                       confirmAction: (() -> Void)?) {
         
         let viewController = DealiBottomSheetBaseViewController().then {
-            $0.optionContentView = optionContentView
+            $0.contentContainerView = optionContentView
             $0.titleType = titleType
             $0.buttonType = buttonType
             $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
@@ -241,7 +241,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var selectAction: (([Int]) -> Void)?
     
     /// option Content 노출 영역
-    var optionContentView: UIView?
+    var contentContainerView: UIView?
     /// 타이들 영역 노출 타입
     var titleType: EBottomSheetTitleType = .hidden
     /// 버튼 영역 노출 타입
@@ -343,66 +343,26 @@ class DealiBottomSheetBaseViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 24.0)
             $0.left.right.equalToSuperview().inset(16.0)
-            $0.bottom.equalToSuperview().inset(12.0 + safeAreaBottomMargin)
+            $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         
         if self.titleType != .hidden {
-            let titleContainerView = UIView()
+            let titleContainerView = self.titleContainerView()
+            
             self.contentStackView.addArrangedSubview(titleContainerView)
             titleContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
-            
-            let titleContainerStackView = UIStackView()
-            titleContainerView.addSubview(titleContainerStackView)
-            titleContainerStackView.then {
-                $0.axis = .horizontal
-                $0.alignment = .center
-                $0.distribution = .fill
-                $0.spacing = 16.0
-            }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-                $0.top.equalToSuperview().offset(3.0)
-                $0.bottom.equalToSuperview().offset(-13.0)
-            }
-            
-            switch self.titleType {
-            case .title(let title):
-                titleContainerStackView.addArrangedSubview(self.titleLabel)
-                self.titleLabel.text = title
-                self.titleLabel.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            case .closeButton:
-                titleContainerStackView.addArrangedSubview(self.closeButton)
-                self.closeButton.snp.makeConstraints {
-                    $0.centerY.equalToSuperview()
-                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-                }
-            case .titleCloseButton(let title):
-                titleContainerStackView.addArrangedSubview(self.titleLabel)
-                self.titleLabel.text = title
-                self.titleLabel.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-                
-                titleContainerStackView.addArrangedSubview(self.closeButton)
-                self.closeButton.snp.makeConstraints {
-                    $0.centerY.equalToSuperview()
-                    $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-                }
-            default:
-                break
-            }
         }
-        if let optionContentView = self.optionContentView {
-            self.contentStackView.addArrangedSubview(optionContentView)
-            optionContentView.snp.makeConstraints {
+        
+        if let contentContainerView = self.contentContainerView {
+            self.contentStackView.addArrangedSubview(contentContainerView)
+            contentContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
             
             if self.optionType != nil {
-                optionContentView.addSubview(self.collectionView)
+                contentContainerView.addSubview(self.collectionView)
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
                     $0.register(DealiBottomSheetMultiSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetMultiSelectCell.id)
@@ -413,7 +373,8 @@ class DealiBottomSheetBaseViewController: UIViewController {
                     $0.dataSource = self
                     $0.backgroundColor = DealiColor.primary04
                 }.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
+                    $0.top.bottom.equalToSuperview()
+                    $0.left.right.equalToSuperview().inset(-16.0)
                     let titleHeight = 60.0
                     let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
                     let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
@@ -422,53 +383,107 @@ class DealiBottomSheetBaseViewController: UIViewController {
             }
             
             if self.buttonType != .hidden {
-                self.contentStackView.setCustomSpacing(12.0, after: optionContentView)
+                self.contentStackView.setCustomSpacing(12.0, after: contentContainerView)
             }
         }
         
         if self.buttonType != .hidden {
-            let buttonContainerView = UIView()
+            let buttonContainerView = self.buttonContainerView()
             self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
-            
-            let buttonStackView = UIStackView()
-            buttonContainerView.addSubview(buttonStackView)
-            buttonStackView.then {
-                $0.axis = .horizontal
-                $0.alignment = .fill
-                $0.distribution = .fillEqually
-                $0.spacing = 8.0
-            }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(12.0)
-                $0.left.right.equalToSuperview()
-            }
-            
-            switch self.buttonType {
-            case .oneButton(let title):
-                buttonStackView.addArrangedSubview(self.confirmButton)
-                self.confirmButton.title = title
-                self.confirmButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            case .twoButton(let confirmTitle, let cancelTitle):
-                buttonStackView.addArrangedSubview(self.cancelButton)
-                self.cancelButton.title = cancelTitle
-                self.cancelButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-                
-                buttonStackView.addArrangedSubview(self.confirmButton)
-                self.confirmButton.title = confirmTitle
-                self.confirmButton.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                }
-            default:
-                break
-            }
+        }
+    }
+    
+    // MARK: Setting UI
+    private func titleContainerView() -> UIView {
+        let titleContainerView = UIView()
+        
+        let titleContainerStackView = UIStackView()
+        titleContainerView.addSubview(titleContainerStackView)
+        titleContainerStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .fill
+            $0.spacing = 16.0
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.top.equalToSuperview().offset(3.0)
+            $0.bottom.equalToSuperview().offset(-13.0)
         }
         
+        switch self.titleType {
+        case .title(let title):
+            titleContainerStackView.addArrangedSubview(self.titleLabel)
+            self.titleLabel.text = title
+            self.titleLabel.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+            }
+        case .closeButton:
+            titleContainerStackView.addArrangedSubview(self.closeButton)
+            self.closeButton.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+            }
+        case .titleCloseButton(let title):
+            titleContainerStackView.addArrangedSubview(self.titleLabel)
+            self.titleLabel.text = title
+            self.titleLabel.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+            }
+            
+            titleContainerStackView.addArrangedSubview(self.closeButton)
+            self.closeButton.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+            }
+        default:
+            break
+        }
+        
+        return titleContainerView
+    }
+    
+    private func buttonContainerView() -> UIView {
+        let buttonContainerView = UIView()
+        
+        let buttonStackView = UIStackView()
+        buttonContainerView.addSubview(buttonStackView)
+        buttonStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .fill
+            $0.distribution = .fillEqually
+            $0.spacing = 8.0
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(12.0)
+            $0.left.right.equalToSuperview()
+        }
+        
+        switch self.buttonType {
+        case .oneButton(let title):
+            buttonStackView.addArrangedSubview(self.confirmButton)
+            self.confirmButton.title = title
+            self.confirmButton.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+            }
+        case .twoButton(let confirmTitle, let cancelTitle):
+            buttonStackView.addArrangedSubview(self.cancelButton)
+            self.cancelButton.title = cancelTitle
+            self.cancelButton.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+            }
+            
+            buttonStackView.addArrangedSubview(self.confirmButton)
+            self.confirmButton.title = confirmTitle
+            self.confirmButton.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+            }
+        default:
+            break
+        }
+        
+        return buttonContainerView
     }
     
     func showPopup() {
@@ -504,6 +519,8 @@ class DealiBottomSheetBaseViewController: UIViewController {
             }
         }
     }
+    
+    
     
     @objc func closeButtonButtonAction() {
         if self.cancelActionOnOutsideTouch == true {

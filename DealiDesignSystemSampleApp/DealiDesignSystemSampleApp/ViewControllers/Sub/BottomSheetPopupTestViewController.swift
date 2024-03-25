@@ -93,21 +93,12 @@ final class BottomSheetPopupTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
-        
-        let bottomSheetPopupButton02 = DealiControl.btnOutlineLarge01()
-        contentStackView.addArrangedSubview(bottomSheetPopupButton02)
-        bottomSheetPopupButton02.then {
-            $0.title = "1버튼 팝업"
-            $0.addTarget(self, action: #selector(bottomSheetPopupButton02Pressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        let bottomSheetPopupButton03 = DealiControl.btnOutlineLarge01()
-        contentStackView.addArrangedSubview(bottomSheetPopupButton03)
-        bottomSheetPopupButton03.then {
+      
+        let customBottomSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(customBottomSheetButton)
+        customBottomSheetButton.then {
             $0.title = "custom 팝업"
-            $0.addTarget(self, action: #selector(bottomSheetPopupButton03Pressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(customBottomSheetButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
@@ -230,17 +221,7 @@ extension BottomSheetPopupTestViewController {
         )
     }
     
-    @objc func bottomSheetPopupButton02Pressed() {
-        debugPrint("bottomSheetPopupButton02Pressed")
-        DealiBottomSheetPopup.showConfirm(title: "확인 버튼 Popup",
-                                          message: "확인버튼만 있는\n테스트\n팝업 입니다.",
-                                          confirmButtonTitle: "확인",
-                                          popupPresentingViewController: self,
-                                          confirmAction: nil)
-
-    }
-    
-    @objc func bottomSheetPopupButton03Pressed() {
+    @objc func customBottomSheetButtonPressed() {
         let customView = UIView()
         customView.do {
             $0.backgroundColor = DealiColor.g05
@@ -258,11 +239,6 @@ extension BottomSheetPopupTestViewController {
             $0.size.equalTo(CGSize(width: 100.0, height: 100.0))
         }
         
-        DealiBottomSheetPopup.show(insertCustomView: customView,
-                                   cancelButtonTitle: "취소",
-                                   confirmButtonTitle: "확인",
-                                   popupPresentingViewController: self,
-                                   cancelAction: nil,
-                                   confirmAction: nil)
+        DealiBottomSheet.showBottomSheet(optionContentView: customView, popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
     }
 }

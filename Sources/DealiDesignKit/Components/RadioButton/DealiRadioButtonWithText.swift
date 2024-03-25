@@ -100,7 +100,7 @@ open class DealiRadioButtonWithText: UIControl {
         } else if self.isSelected {
             self.imageView.isHidden = false
             self.circleView.isHidden = true
-            self.imageView.image = UIImage.dealiIcon("ic_radiobutton_on")
+            self.imageView.image = UIImage.dealiIcon(named: "ic_radiobutton_on")
         } else {
             self.imageView.isHidden = true
             self.circleView.isHidden = false

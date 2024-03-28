@@ -28,6 +28,9 @@ struct DealiTabBarPreset {
     var normalTextColor: UIColor = .clear
     var selectedTextColor: UIColor = .clear
     var spacing: CGFloat = 8.0
+    var padding: CGFloat = 0.0
+    var segmentTabbarMargin: CGFloat = 16.0
+    var sliderTabbarContentInset: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 4.0, bottom: 0.0, right: 4.0)
     var tabberHeight: CGFloat = 44.0
     var tabberContentHeight: CGFloat = 44.0
     
@@ -35,7 +38,62 @@ struct DealiTabBarPreset {
     var chipStyle: DealiTabBarChipStyle = .chipFilledSmall02
 }
 
-class DealiTabBarView: UIView {
+public class DealiTabber {
+    
+    public static func testTabberSegment() -> DealiTabBarView {
+        var preset = DealiTabBarPreset()
+        preset.normalFont = .b1r15
+        preset.selectedFont = .b1sb15
+        preset.normalTextColor = DealiColor.g70
+        preset.selectedTextColor = DealiColor.g100
+        preset.spacing = 0.0
+        preset.style = .segment
+        return DealiTabBarView(preset: preset)
+    }
+    
+    public static func testTabberSlider() -> DealiTabBarView {
+        var preset = DealiTabBarPreset()
+        preset.normalFont = .b1r15
+        preset.selectedFont = .b1sb15
+        preset.normalTextColor = DealiColor.g100
+        preset.selectedTextColor = DealiColor.primary01
+        preset.spacing = 0.0
+        preset.padding = 12.0
+        preset.style = .slider
+        return DealiTabBarView(preset: preset)
+    }
+    
+    public static func testTabberChip() -> DealiTabBarView {
+        var preset = DealiTabBarPreset()
+        preset.normalFont = .b1r15
+        preset.selectedFont = .b1sb15
+        preset.normalTextColor = DealiColor.g100
+        preset.selectedTextColor = DealiColor.primary01
+        preset.spacing = 8.0
+        preset.tabberHeight = 56.0
+        preset.tabberContentHeight = 56.0
+        preset.sliderTabbarContentInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        preset.style = .sliderChip
+        preset.chipStyle = .chipFilledSmall01
+        return DealiTabBarView(preset: preset)
+    }
+    
+    public static func testTabber3Depth() -> DealiTabBarView {
+        var preset = DealiTabBarPreset()
+        preset.normalFont = .b1r15
+        preset.selectedFont = .b1sb15
+        preset.normalTextColor = DealiColor.g100
+        preset.selectedTextColor = DealiColor.primary01
+        preset.spacing = 0.0
+        preset.padding = 12.0
+        preset.style = .slider
+        preset.tabberHeight = 36.0
+        preset.tabberContentHeight = 44.0
+        return DealiTabBarView(preset: preset)
+    }
+}
+
+final public class DealiTabBarView: UIView {
     
     var didSelectTabBarIndex = PublishRelay<Int>()
 
@@ -48,10 +106,8 @@ class DealiTabBarView: UIView {
     
     private var selectedIndex: Int = 0 {
         didSet {
-//            self.tabbarItemInfoArray.forEach({ $0.itemSelected = ($0.itemIndex == self.selectedIndex) })
-            
-            for var itemInfo in self.tabbarItemInfoArray {
-                itemInfo.itemSelected = (itemInfo.itemIndex == self.selectedIndex)
+            for i in 0..<self.tabbarItemInfoArray.count {
+                self.tabbarItemInfoArray[i].itemSelected = (self.tabbarItemInfoArray[i].itemIndex == self.selectedIndex)
             }
         }
     }
@@ -66,6 +122,7 @@ class DealiTabBarView: UIView {
         
         self.then {
             $0.backgroundColor = DealiColor.primary04
+            $0.clipsToBounds = true
         }.snp.makeConstraints {
             $0.height.equalTo(preset.tabberHeight)
         }
@@ -73,43 +130,60 @@ class DealiTabBarView: UIView {
         switch preset.style {
         case .segment:
             self.addSubview(self.contentStackView)
+            self.contentStackView.then {
+                $0.axis = .horizontal
+                $0.spacing = 0.0
+                $0.distribution = .fillEqually
+                $0.alignment = .center
+            }.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+                $0.left.right.equalToSuperview().inset(preset.segmentTabbarMargin)
+            }
+            
             self.addSubview(self.selectedUnderLineImageView)
             
         default:
+
             self.addSubview(self.contentScrollView)
             self.contentScrollView.then {
                 $0.bounces = false
                 $0.clipsToBounds = false
                 $0.showsHorizontalScrollIndicator = false
                 $0.showsVerticalScrollIndicator = false
-                $0.contentInset = UIEdgeInsets(top: 0.0, left: (preset.style == .sliderChip ? 16.0 : 4.0), bottom: 0.0, right: (preset.style == .sliderChip ? 16.0 : 4.0))
+                $0.contentInset = preset.sliderTabbarContentInset
+            }.snp.makeConstraints {
+                $0.bottom.left.right.equalToSuperview()
+                $0.height.equalTo(preset.tabberContentHeight)
+            }
+            
+            let contentView = UIView()
+            self.contentScrollView.addSubview(contentView)
+            contentView.snp.makeConstraints {
+                $0.top.bottom.left.right.equalToSuperview()
+                $0.height.equalToSuperview()
+            }
+            
+            contentView.addSubview(self.contentStackView)
+            self.contentStackView.then {
+                $0.axis = .horizontal
+                $0.spacing = preset.spacing
+                $0.distribution = .equalSpacing
+                $0.alignment = .center
             }.snp.makeConstraints {
                 $0.top.bottom.left.right.equalToSuperview()
             }
             
-            self.contentScrollView.addSubview(self.contentStackView)
             self.contentScrollView.addSubview(self.selectedUnderLineImageView)
         }
         
-        self.contentStackView.then {
-            $0.axis = .horizontal
-            $0.spacing = preset.spacing
-            $0.distribution = (preset.style == .segment ? .fillEqually : .equalSpacing)
-            $0.alignment = .center
-            $0.clipsToBounds = false
-        }.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset((preset.style == .segment ? 16.0 : 0.0))
-            
-        }
         
         self.selectedUnderLineImageView.then {
-            $0.isHidden = (preset.style != .sliderChip)
+            $0.isHidden = (preset.style == .sliderChip)
             $0.backgroundColor = preset.selectedTextColor
         }.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(1.0)
-            $0.left.equalToSuperview()
+            $0.bottom.equalToSuperview()
             $0.height.equalTo(2.0)
+            $0.left.equalToSuperview().offset(0.0)
             $0.width.equalTo(0.0)
         }
     }
@@ -124,7 +198,7 @@ class DealiTabBarView: UIView {
         self.tabbarItemButtonArray.removeAll()
     }
     
-    func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
+    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
         
         if self.selectedIndex >= tabbarItemArray.count {
             self.selectedIndex = (tabbarItemArray.count - 1)
@@ -151,11 +225,12 @@ class DealiTabBarView: UIView {
                         $0.title = title
                         $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
                         $0.tag = index
+                        $0.isSelected = (index == self.selectedIndex)
                     }.snp.makeConstraints {
                         $0.centerY.equalToSuperview()
                     }
                     
-                    self.tabbarItemInfoArray.append(DealiTabBarItemInfo(itemIndex: index, itemSelected: (index == self.selectedIndex), itemChip: itemChip))
+                    self.tabbarItemInfoArray.append(DealiTabBarItemInfo(itemIndex: index, itemChip: itemChip, itemSelected: (index == self.selectedIndex)))
                 case .chipFilledSmall02:
                     let itemChip = DealiControl.chipFilledSmall01()
                     self.contentStackView.addArrangedSubview(itemChip)
@@ -163,11 +238,12 @@ class DealiTabBarView: UIView {
                         $0.title = title
                         $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
                         $0.tag = index
+                        $0.isSelected = (index == self.selectedIndex)
                     }.snp.makeConstraints {
                         $0.centerY.equalToSuperview()
                     }
                     
-                    self.tabbarItemInfoArray.append(DealiTabBarItemInfo(itemIndex: index, itemSelected: (index == self.selectedIndex), itemChip: itemChip))
+                    self.tabbarItemInfoArray.append(DealiTabBarItemInfo(itemIndex: index, itemChip: itemChip, itemSelected: (index == self.selectedIndex)))
                 }
                 
             default:
@@ -177,14 +253,45 @@ class DealiTabBarView: UIView {
                     $0.setTitle(title, for: .normal)
                     $0.configure(preset: self.preset)
                     $0.tag = index
+                    $0.isSelected = (index == self.selectedIndex)
                     $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
+                    if self.preset.style == .slider {
+                        $0.width.equalTo(buttonContentWidth + (self.preset.padding * 2.0))
+                    }
                 }
+            
+                var itemInfo = DealiTabBarItemInfo()
+                itemInfo.itemIndex = index
+                itemInfo.itemButton = itemButton
+                itemInfo.itemSelected = (index == self.selectedIndex)
+                itemInfo.contentWidth = buttonContentWidth
                 
-                self.tabbarItemInfoArray.append(DealiTabBarItemInfo(itemIndex: index, itemSelected: (index == self.selectedIndex), itemButton: itemButton))
+                self.tabbarItemInfoArray.append(itemInfo)
             }
         }
+        
+        if self.preset.style != .sliderChip {
+            
+            for index in 0..<self.tabbarItemInfoArray.count {
+                if let itemButton = self.tabbarItemInfoArray[index].itemButton {
+                    if self.preset.style == .segment {
+                        self.tabbarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.segmentTabbarMargin * 2.0)) / CGFloat(tabbarItemArray.count))
+                        self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.segmentTabbarMargin + (self.tabbarItemInfoArray[index].contentWidth * CGFloat(index))
+                    } else {
+                        self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.sliderTabbarContentInset.left + itemButton.frame.origin.x + self.preset.padding
+                    }
+                }
+            }
+            
+            print("contentWidth = \(self.tabbarItemInfoArray[self.selectedIndex].contentWidth) / contentStartPositionX = \(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)")
+            self.selectedUnderLineImageView.snp.updateConstraints {
+                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
+                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
+            }
+        }
+        
     }
     
     @objc func itemPressed(_ sender: UIControl) {
@@ -194,7 +301,7 @@ class DealiTabBarView: UIView {
 
 }
 
-struct DealiTabBarItem {
+public struct DealiTabBarItem {
     var viewController: UIViewController?
     var title: String?
     var page: Int = 0
@@ -202,7 +309,7 @@ struct DealiTabBarItem {
     var showsBadge: Bool = false
     var iconUrl: String?
     
-    static func make(_ viewController: UIViewController, title: String, iconUrl: String? = nil) -> DealiTabBarItem {
+    public static func make(_ viewController: UIViewController? = nil, title: String, iconUrl: String? = nil) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController
         item.title = title
@@ -216,6 +323,8 @@ struct DealiTabBarItemInfo {
     var contentWidth: CGFloat = 0.0
     var contentStartPositionX: CGFloat = 0.0
     var itemIndex: Int = 0
+    var itemButton: DealiTabBarItemButton?
+    var itemChip: ClickableComponentChip?
     var itemSelected: Bool = false {
         didSet {
             if let itemChip = self.itemChip {
@@ -227,8 +336,6 @@ struct DealiTabBarItemInfo {
             }
         }
     }
-    var itemButton: DealiTabBarItemButton?
-    var itemChip: ClickableComponentChip?
 }
 
 class DealiTabBarItemButton: UIButton {
@@ -290,5 +397,13 @@ class DealiTabBarItemButton: UIButton {
          
         self.titleLabel?.font = preset.normalFont
         
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            if let preset = self.preset {
+                self.titleLabel?.font = (self.isSelected == true ? preset.selectedFont : preset.normalFont)
+            }
+        }
     }
 }

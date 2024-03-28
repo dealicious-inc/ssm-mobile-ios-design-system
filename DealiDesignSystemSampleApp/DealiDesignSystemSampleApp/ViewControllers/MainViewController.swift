@@ -121,6 +121,13 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
+        
+        let tabbarComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabbarComponents)
+        tabbarComponents.do {
+            $0.title = "Tabbar Components"
+            $0.addTarget(self, action: #selector(tabbarComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -179,6 +186,10 @@ extension MainViewController {
     
     @objc func tagButtonPressed() {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
+    }
+    
+    @objc func tabbarComponentsPressed() {
+        self.navigationController?.pushViewController(TabbarViewController(), animated: true)
     }
     
 }

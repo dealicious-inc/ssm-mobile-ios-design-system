@@ -31,6 +31,7 @@ struct DealiTabBarPreset {
     var padding: CGFloat = 0.0
     var segmentTabbarMargin: CGFloat = 16.0
     var sliderTabbarContentInset: UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 4.0, bottom: 0.0, right: 4.0)
+    /// 3depth의 경우 tabbar에 높이만 달라질뿐, content영역은 동일하게 위치해야 하기 때문에 height값을 따로 지정,
     var tabberHeight: CGFloat = 44.0
     var tabberContentHeight: CGFloat = 44.0
     
@@ -101,7 +102,6 @@ final public class DealiTabBarView: UIView {
     private let contentStackView = UIStackView()
     private let selectedUnderLineImageView = UIImageView()
     
-    private var tabbarItemButtonArray: [DealiTabBarItemButton] = []
     private var tabbarItemInfoArray: [DealiTabBarItemInfo] = []
     
     private var selectedIndex: Int = 0 {
@@ -193,9 +193,12 @@ final public class DealiTabBarView: UIView {
     }
     
     private func clear() {
-        self.tabbarItemButtonArray.forEach({ $0.removeFromSuperview() })
+        self.tabbarItemInfoArray.forEach { itemInfo in
+            itemInfo.itemButton?.removeFromSuperview()
+            itemInfo.itemChip?.removeFromSuperview()
+        }
         self.contentStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
-        self.tabbarItemButtonArray.removeAll()
+        self.tabbarItemInfoArray.removeAll()
     }
     
     public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
@@ -247,11 +250,11 @@ final public class DealiTabBarView: UIView {
                 }
                 
             default:
+                
                 let itemButton = DealiTabBarItemButton()
                 self.contentStackView.addArrangedSubview(itemButton)
                 itemButton.then {
-                    $0.setTitle(title, for: .normal)
-                    $0.configure(preset: self.preset)
+                    $0.configure(uiModel: DealiTabBarItemButtonUIModel.make(preset: self.preset, tabbarItem: item))
                     $0.tag = index
                     $0.isSelected = (index == self.selectedIndex)
                     $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
@@ -273,19 +276,18 @@ final public class DealiTabBarView: UIView {
         }
         
         if self.preset.style != .sliderChip {
-            
+            self.layoutIfNeeded()
             for index in 0..<self.tabbarItemInfoArray.count {
                 if let itemButton = self.tabbarItemInfoArray[index].itemButton {
                     if self.preset.style == .segment {
                         self.tabbarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.segmentTabbarMargin * 2.0)) / CGFloat(tabbarItemArray.count))
                         self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.segmentTabbarMargin + (self.tabbarItemInfoArray[index].contentWidth * CGFloat(index))
                     } else {
-                        self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.sliderTabbarContentInset.left + itemButton.frame.origin.x + self.preset.padding
+                        self.tabbarItemInfoArray[index].contentStartPositionX = itemButton.frame.origin.x + self.preset.padding
                     }
                 }
             }
             
-            print("contentWidth = \(self.tabbarItemInfoArray[self.selectedIndex].contentWidth) / contentStartPositionX = \(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)")
             self.selectedUnderLineImageView.snp.updateConstraints {
                 $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
                 $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
@@ -297,6 +299,68 @@ final public class DealiTabBarView: UIView {
     @objc func itemPressed(_ sender: UIControl) {
         self.selectedIndex = sender.tag
         self.didSelectTabBarIndex.accept(self.selectedIndex)
+        
+        if self.preset.style != .sliderChip {
+            self.selectedUnderLineImageView.snp.updateConstraints {
+                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
+                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
+            }
+        }
+        
+    }
+    
+    func viewScroll(page: Int, fractional: CGFloat) {
+
+        if fractional.isInfinite {
+            return
+        }
+
+        let preIdx: Int = Int(floor(fractional))
+        let nexIdx: Int = Int(ceil(fractional))
+        let calc = fractional - CGFloat(preIdx)
+
+        var posX = 0.0
+        var width = 0.0
+
+        if preIdx < 0 {
+            if let item = self.tabbarItemInfoArray.first {
+                posX = item.contentStartPositionX
+                width = item.contentWidth
+            }
+        } else if nexIdx >= self.tabbarItemInfoArray.count {
+            if let item = self.tabbarItemInfoArray.last {
+                posX = item.contentStartPositionX
+                width = item.contentWidth
+            }
+        } else {
+            let preItem = self.tabbarItemInfoArray[preIdx]
+            let nexItem = self.tabbarItemInfoArray[nexIdx]
+            posX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
+            width = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
+        }
+        self.selectedIndex = page
+        
+        self.selectedUnderLineImageView.snp.updateConstraints {
+            $0.width.equalTo(width)
+            $0.left.equalToSuperview().offset(posX)
+        }
+
+        if self.preset.style == .segment {
+            return
+        }
+        
+//        var offset: CGFloat = -1
+//        let margin: CGFloat = self.tabBarPreset.preset.viewMargin + self.tabBarPreset.preset.itemPadding
+//
+//        if posX - margin < self.contentScrollView.contentOffset.x {
+//            offset = posX - margin
+//        } else if posX + width + margin > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width - self.contentScrollView.contentInset.right {
+//            offset = (posX + width + margin) - self.contentScrollView.frame.width + self.contentScrollView.contentInset.right
+//        }
+//
+//        if offset >= 0 {
+//            self.contentScrollView.contentOffset = CGPoint(x: offset, y: self.contentScrollView.contentOffset.y)
+//        }
     }
 
 }
@@ -333,76 +397,6 @@ struct DealiTabBarItemInfo {
             
             if let itemButton = self.itemButton {
                 itemButton.isSelected = self.itemSelected
-            }
-        }
-    }
-}
-
-class DealiTabBarItemButton: UIButton {
-    
-    private var preset: DealiTabBarPreset?
-    
-    private let badgeImageView = UIImageView()
-    private let iconImageView = UIImageView()
-    
-    override var isHighlighted: Bool {
-        didSet {
-            if isHighlighted {
-                self.alpha = 0.3
-            } else {
-                self.alpha = 1.0
-            }
-        }
-    }
-    
-    init() {
-        super.init(frame: CGRect.zero)
-        
-        self.isExclusiveTouch = true
-        
-        self.addSubview(self.badgeImageView)
-        self.badgeImageView.then {
-            $0.backgroundColor = DealiColor.primary01
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 2.0
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            guard let titleLabel = titleLabel else {return}
-            $0.left.equalTo(titleLabel.snp.right).offset(0.0)
-            $0.bottom.equalTo(titleLabel.snp.top).offset(3.0)
-            $0.size.equalTo(CGSize(width: 4.0, height: 4.0))
-        }
-        
-        self.addSubview(self.iconImageView)
-        self.iconImageView.then {
-            $0.clipsToBounds = true
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            guard let titleLabel = titleLabel else { return }
-            $0.right.equalTo(titleLabel.snp.left)
-            $0.centerY.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(preset: DealiTabBarPreset) {
-        self.preset = preset
-        
-        self.setTitleColor(preset.normalTextColor, for: .normal)
-        self.setTitleColor(preset.selectedTextColor, for: .selected)
-         
-        self.titleLabel?.font = preset.normalFont
-        
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            if let preset = self.preset {
-                self.titleLabel?.font = (self.isSelected == true ? preset.selectedFont : preset.normalFont)
             }
         }
     }

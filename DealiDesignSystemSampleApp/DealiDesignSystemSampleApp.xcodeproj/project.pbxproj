@@ -31,6 +31,9 @@
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E66242522AF1EB3A00389659 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66242512AF1EB3A00389659 /* TextInputViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
+		E6F22CDD2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F22CDC2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift */; };
+		E6F22CDF2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F22CDE2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift */; };
+		E6F22CE12BBABDBE00EACE6C /* TabbarChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F22CE02BBABDBE00EACE6C /* TabbarChildViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +60,9 @@
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E66242512AF1EB3A00389659 /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
+		E6F22CDC2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealiScrollSegmentTabBarViewController.swift; sourceTree = "<group>"; };
+		E6F22CDE2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealiScrollSegmentTabBarChildViewController.swift; sourceTree = "<group>"; };
+		E6F22CE02BBABDBE00EACE6C /* TabbarChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarChildViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +121,7 @@
 		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E6F22CDB2BBAA36700EACE6C /* TabbarViewController */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				E66242512AF1EB3A00389659 /* TextInputViewController.swift */,
 				3BE5F2FD2AFC704D0087889F /* SearchInputViewController.swift */,
@@ -158,8 +165,18 @@
 				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
 				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
 				E648FA9B2BB5041E009F11F6 /* TabbarViewController.swift */,
+				E6F22CE02BBABDBE00EACE6C /* TabbarChildViewController.swift */,
 			);
 			path = Sub;
+			sourceTree = "<group>";
+		};
+		E6F22CDB2BBAA36700EACE6C /* TabbarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E6F22CDC2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift */,
+				E6F22CDE2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift */,
+			);
+			path = TabbarViewController;
 			sourceTree = "<group>";
 		};
 		FCEC04882A72B9A60004E5DB /* Packages */ = {
@@ -257,8 +274,11 @@
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				E66242522AF1EB3A00389659 /* TextInputViewController.swift in Sources */,
+				E6F22CDF2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift in Sources */,
+				E6F22CDD2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift in Sources */,
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
+				E6F22CE12BBABDBE00EACE6C /* TabbarChildViewController.swift in Sources */,
 				E648FA9C2BB5041E009F11F6 /* TabbarViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,

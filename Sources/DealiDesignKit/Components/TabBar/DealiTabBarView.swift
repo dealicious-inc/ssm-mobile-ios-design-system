@@ -96,7 +96,7 @@ public class DealiTabber {
 
 final public class DealiTabBarView: UIView {
     
-    var didSelectTabBarIndex = PublishRelay<Int>()
+    public let didSelectTabBarIndex = PublishRelay<(index: Int, animated: Bool)>()
 
     private lazy var contentScrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -213,7 +213,7 @@ final public class DealiTabBarView: UIView {
         
         for (index, item) in tabbarItemArray.enumerated() {
             guard let title = item.title else { continue }
-            var buttonContentWidth = title.size(withAttributes: [.font: self.preset.normalFont]).width
+            var buttonContentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
             if let _ = item.iconUrl, self.preset.style != .sliderChip {
                 buttonContentWidth += 20.0
             }
@@ -297,8 +297,13 @@ final public class DealiTabBarView: UIView {
     }
     
     @objc func itemPressed(_ sender: UIControl) {
-        self.selectedIndex = sender.tag
-        self.didSelectTabBarIndex.accept(self.selectedIndex)
+        self.setSelectedIndex(sender.tag, animated: true)
+    }
+    
+    public func setSelectedIndex(_ index: Int, animated: Bool) {
+        self.selectedIndex = index
+        
+        self.didSelectTabBarIndex.accept((index: self.selectedIndex, animated: animated))
         
         if self.preset.style != .sliderChip {
             self.selectedUnderLineImageView.snp.updateConstraints {
@@ -306,10 +311,9 @@ final public class DealiTabBarView: UIView {
                 $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
             }
         }
-        
     }
     
-    func viewScroll(page: Int, fractional: CGFloat) {
+    public func viewScroll(page: Int, fractional: CGFloat) {
 
         if fractional.isInfinite {
             return
@@ -349,18 +353,18 @@ final public class DealiTabBarView: UIView {
             return
         }
         
-//        var offset: CGFloat = -1
-//        let margin: CGFloat = self.tabBarPreset.preset.viewMargin + self.tabBarPreset.preset.itemPadding
-//
-//        if posX - margin < self.contentScrollView.contentOffset.x {
-//            offset = posX - margin
-//        } else if posX + width + margin > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width - self.contentScrollView.contentInset.right {
-//            offset = (posX + width + margin) - self.contentScrollView.frame.width + self.contentScrollView.contentInset.right
-//        }
-//
-//        if offset >= 0 {
-//            self.contentScrollView.contentOffset = CGPoint(x: offset, y: self.contentScrollView.contentOffset.y)
-//        }
+        var offset: CGFloat = -1
+        var margin: CGFloat = self.preset.padding
+
+        if posX - margin < self.contentScrollView.contentOffset.x {
+            offset = posX - margin
+        } else if posX + width + margin > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width - self.contentScrollView.contentInset.right {
+            offset = (posX + width + margin) - self.contentScrollView.frame.width + self.contentScrollView.contentInset.right
+        }
+
+        if offset >= 0 {
+            self.contentScrollView.contentOffset = CGPoint(x: offset, y: self.contentScrollView.contentOffset.y)
+        }
     }
 
 }

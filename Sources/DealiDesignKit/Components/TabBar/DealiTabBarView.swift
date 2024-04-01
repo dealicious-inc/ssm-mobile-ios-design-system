@@ -366,7 +366,7 @@ final public class DealiTabBarView: UIView {
 }
 
 public struct DealiTabBarItem {
-    var viewController: UIViewController?
+    internal var viewController: UIViewController?
     var title: String?
     var page: Int = 0
     /// 배지 보여줄지 여부

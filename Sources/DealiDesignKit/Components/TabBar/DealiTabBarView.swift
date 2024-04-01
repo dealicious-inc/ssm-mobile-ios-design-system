@@ -366,9 +366,10 @@ final public class DealiTabBarView: UIView {
 }
 
 public struct DealiTabBarItem {
-    internal var viewController: UIViewController?
+    public var viewController: UIViewController?
+    public var page: Int = 0
+    
     var title: String?
-    var page: Int = 0
     /// 배지 보여줄지 여부
     var showsBadge: Bool = false
     var iconUrl: String?

@@ -75,7 +75,7 @@ class ButtonViewController: UIViewController {
         testButton.do {
             $0.isFixedSize = true
             $0.title = "PDF 다운로드"
-            $0.leftImage = ClickableImage(UIImage(named: "ic_download")?.resize(CGSize(width: 16.0, height: 16.0)))
+            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
         }
         
         var buttonArray: [UIView] = []

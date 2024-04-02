@@ -113,7 +113,7 @@ public final class DealiTextInput: UIView {
         self.inputStackView.addArrangedSubview(self.deleteButton)
         self.inputStackView.setCustomSpacing(-2.0, after: self.textField)
         self.deleteButton.then {
-            $0.setImage(UIImage(named: "ic_x_16_ver01", in: Bundle.module, compatibleWith: nil), for: .normal)
+            $0.setImage(UIImage.dealiIcon(named: "ic_x"), for: .normal)
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 44.0, height: 44.0))

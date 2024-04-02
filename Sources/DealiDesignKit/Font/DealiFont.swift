@@ -15,14 +15,12 @@ import UIKit
 /// label.font = .h1b32
 /// ```
 enum DealiFont: String, CaseIterable {
-    case h1Bold // 이제 사용 안 햐는 폰트 h1Bold
     case h1SemiBold
-    case h2Bold // 이제 사용 안 히는 폰트 h2Bold
     case h2SemiBold
     case h3SemiBold
-    case sh1Bold, sh1SemiBold, sh1Medium, sh1Regular // 이제 사용 안 하는 폰트 sh1Bold sh1Medium
-    case sh2Bold, sh2SemiBold, sh2Regular // 이제 사용 안 하는 폰트 sh2Bold
-    case sh3Bold, sh3SemiBold, sh3Regular // 이제 사용 안 하는 폰트 sh3Bold
+    case sh1SemiBold, sh1Regular
+    case sh2SemiBold, sh2Regular
+    case sh3SemiBold, sh3Regular
     case b1SemiBold, b1Regular
     case b2SemiBold, b2Regular
     case b3SemiBold, b3Regular
@@ -31,17 +29,17 @@ enum DealiFont: String, CaseIterable {
     
     var style: DealiFontProperty.Style {
         switch self {
-        case .h1Bold, .h1SemiBold:
+        case .h1SemiBold:
             return DealiFontProperty.h1
-        case .h2Bold, .h2SemiBold:
+        case .h2SemiBold:
             return DealiFontProperty.h2
         case .h3SemiBold:
             return DealiFontProperty.h3
-        case .sh1Bold, .sh1SemiBold, .sh1Medium, .sh1Regular:
+        case .sh1SemiBold, .sh1Regular:
             return DealiFontProperty.sh1
-        case .sh2Bold, .sh2SemiBold, .sh2Regular:
+        case .sh2SemiBold, .sh2Regular:
             return DealiFontProperty.sh2
-        case .sh3Bold, .sh3SemiBold, .sh3Regular:
+        case .sh3SemiBold, .sh3Regular:
             return DealiFontProperty.sh3
         case .b1SemiBold, .b1Regular:
             return DealiFontProperty.b1
@@ -58,6 +56,7 @@ enum DealiFont: String, CaseIterable {
     
     var systemFont: UIFont {
         var weight: UIFont.Weight
+        var font: UIFont!
         
         if self.rawValue.contains("Bold") {
             weight = .bold
@@ -69,7 +68,7 @@ enum DealiFont: String, CaseIterable {
             weight = .regular
         }
         
-        let font = UIFont.systemFont(ofSize: self.style.size, weight: weight)
+        font = .getPretendard(weight: weight, size: self.style.size)
         return font
     }
     

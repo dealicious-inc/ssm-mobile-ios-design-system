@@ -171,20 +171,3 @@ public class SystemButton: UIButton {
     }
 }
 
-//@available(iOS 17, *)
-//#Preview(traits: .sizeThatFitsLayout) {
-//    let button = btnTextMediumPrimary02()
-//    button.title = "계좌 등록하기"
-//    button.rightIconImage = UIImage(named: "ic_arrow_right_16", in: Bundle.module, compatibleWith: nil)
-//
-//    let view = UIView()
-//    view.backgroundColor = .gray
-//    view.frame = CGRect(origin: .zero, size: .init(width: 200.0, height: 50.0))
-//    view.addSubview(button)
-//    button.snp.makeConstraints {
-//        $0.centerY.equalToSuperview()
-//        $0.right.equalToSuperview()
-//    }
-//    
-//    return view
-//}

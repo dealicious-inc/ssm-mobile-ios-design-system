@@ -1,23 +1,20 @@
 //
-//  TabbarViewController.swift
+//  TabbarChipViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by hoji on 2024/03/28.
+//  Created by 이창호 on 4/3/24.
 //  Copyright © 2024 Dealicious Inc. All rights reserved.
 //
 
 import UIKit
 import DealiDesignKit
 
-final class TabbarViewController: UIViewController {
+final class TabbarChipViewController: UIViewController {
 
-    private let topTabbarView = DealiTabber.testTabberSlider()
-    private let segmentViewController = DealiScrollSegmentTabBarViewController(tabbarView: DealiTabber.testTabberSlider())
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Tabbar"
+        self.title = "TabbarChip"
         self.view.backgroundColor = .white
     }
 
@@ -68,8 +65,9 @@ final class TabbarViewController: UIViewController {
             
         }
         
-        self.view.addSubview(self.topTabbarView)
-        self.topTabbarView.then {
+        let topTabbarView = DealiTabber.testTabberChip()
+        self.view.addSubview(topTabbarView)
+        topTabbarView.then {
             $0.setTabbarItems(tabbarItemArray: sliderTabbarItems)
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(statusBarHeight + navigationBarHeight)
@@ -85,63 +83,17 @@ final class TabbarViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
         
-        self.segmentViewController.tabbarItemArray = sliderTabbarItems
+        let segmentViewController = DealiScrollSegmentTabBarViewController(tabbarView: DealiTabber.testTabberChip())
+        segmentViewController.tabbarItemArray = sliderTabbarItems
         
-        self.segmentViewController.willMove(toParent: self)
+        segmentViewController.willMove(toParent: self)
         
-        self.addChild(self.segmentViewController)
-        self.segmentViewController.view.frame = contentView.bounds
+        self.addChild(segmentViewController)
+        segmentViewController.view.frame = contentView.bounds
         contentView.addSubview(segmentViewController.view)
         
-        self.segmentViewController.didMove(toParent: self)
-        
-        
-        let button01 = DealiControl.btnOutlineLarge01()
-        contentView.addSubview(button01)
-        button01.then {
-            $0.title = "2버튼 팝업"
-            $0.addTarget(self, action: #selector(button01Pressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-100.0)
-        }
-        
-        let button02 = DealiControl.btnOutlineLarge01()
-        contentView.addSubview(button02)
-        button02.then {
-            $0.title = "1버튼 팝업"
-            $0.addTarget(self, action: #selector(button02Pressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-150.0)
-        }
+        segmentViewController.didMove(toParent: self)
         
     }
 
 }
-
-extension TabbarViewController {
-    @objc func button01Pressed() {
-        print("button01Pressed")
-
-        self.topTabbarView.changeTabBarButtonTitle(index: 1, title: "title변경 테스트")
-        self.segmentViewController.changeTabBarButtonTitle(index: 1, title: "title변경 테스트")
-    }
-    
-    @objc func button02Pressed() {
-        print("button01Pressed")
-
-        self.topTabbarView.changeTabBarButtonTitle(index: 1, title: "title")
-        self.segmentViewController.changeTabBarButtonTitle(index: 1, title: "title")
-    }
-}
-
-
-
-public var statusBarHeight: CGFloat {
-    let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
-    let statusBarManager = window?.windowScene?.statusBarManager
-    let topPadding = window?.safeAreaInsets.top
-    return topPadding ?? (statusBarManager?.statusBarFrame.height ?? 0.0)
-}
-public let navigationBarHeight = UINavigationController().navigationBar.intrinsicContentSize.height

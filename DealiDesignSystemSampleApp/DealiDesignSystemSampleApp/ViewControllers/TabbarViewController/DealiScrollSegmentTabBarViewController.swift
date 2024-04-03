@@ -118,7 +118,11 @@ class DealiScrollSegmentTabBarViewController: UIViewController {
         }
         
         self.tabbarView.didSelectTabBarIndex.bind(with: self) { owner, result in
-            owner.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(result.index), y: 0), animated: true)
+            UIView.animate(withDuration: 0.20) { [weak owner] in
+                guard let owner else { return }
+                owner.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(result.index), y: 0), animated: false)
+            }
+            
         }.disposed(by: self.disposeBag)
     }
     
@@ -126,7 +130,9 @@ class DealiScrollSegmentTabBarViewController: UIViewController {
         super.loadView()
         
         self.view.addSubview(self.tabbarView)
-        self.tabbarView.snp.makeConstraints {
+        self.tabbarView.then {
+            $0.isStandAloneView = false
+        }.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
         }
         
@@ -163,7 +169,7 @@ class DealiScrollSegmentTabBarViewController: UIViewController {
     }
     
     func changeTabBarButtonTitle(index: Int, title: String) {
-//        self.tabbarView.changeTabBarButtonTitle(index: index, title: title)
+        self.tabbarView.changeTabBarButtonTitle(index: index, title: title)
     }
     
     private func clear() {

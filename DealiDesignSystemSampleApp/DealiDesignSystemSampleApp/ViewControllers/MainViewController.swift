@@ -45,6 +45,26 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let tabbarComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabbarComponents)
+        tabbarComponents.do {
+            $0.title = "Tabbar Components"
+            $0.addTarget(self, action: #selector(tabbarComponentsPressed), for: .touchUpInside)
+        }
+        
+        let tabbarChipComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabbarChipComponents)
+        tabbarChipComponents.do {
+            $0.title = "Tabbar chip Components"
+            $0.addTarget(self, action: #selector(tabbarChipComponentsPressed), for: .touchUpInside)
+        }
+        let tabbarSegmentComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabbarSegmentComponents)
+        tabbarSegmentComponents.do {
+            $0.title = "Tabbar segment Components"
+            $0.addTarget(self, action: #selector(tabbarSegmentComponentsPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -121,13 +141,6 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
-        
-        let tabbarComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tabbarComponents)
-        tabbarComponents.do {
-            $0.title = "Tabbar Components"
-            $0.addTarget(self, action: #selector(tabbarComponentsPressed), for: .touchUpInside)
-        }
     }
     
     override func viewDidLoad() {
@@ -190,6 +203,14 @@ extension MainViewController {
     
     @objc func tabbarComponentsPressed() {
         self.navigationController?.pushViewController(TabbarViewController(), animated: true)
+    }
+    
+    @objc func tabbarChipComponentsPressed() {
+        self.navigationController?.pushViewController(TabbarChipViewController(), animated: true)
+    }
+    
+    @objc func tabbarSegmentComponentsPressed() {
+        self.navigationController?.pushViewController(TabbarSegmentViewController(), animated: true)
     }
     
 }

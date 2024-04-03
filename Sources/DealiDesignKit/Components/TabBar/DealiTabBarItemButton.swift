@@ -9,7 +9,7 @@ import UIKit
 
 final class DealiTabBarItemButton: UIButton {
 
-    private var uiModel: DealiTabBarItemButtonUIModel?
+    var uiModel: DealiTabBarItemButtonUIModel?
     
     private let badgeImageView = UIImageView()
     private let iconImageView = UIImageView()

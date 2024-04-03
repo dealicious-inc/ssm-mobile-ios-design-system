@@ -19,6 +19,8 @@
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
+		394FA4932BBD4AE80026F117 /* TabbarChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FA4922BBD4AE80026F117 /* TabbarChipViewController.swift */; };
+		394FA4952BBD4B0A0026F117 /* TabbarSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FA4942BBD4B0A0026F117 /* TabbarSegmentViewController.swift */; };
 		3BE5F2FE2AFC704D0087889F /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE5F2FD2AFC704D0087889F /* SearchInputViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
@@ -49,6 +51,8 @@
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
+		394FA4922BBD4AE80026F117 /* TabbarChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarChipViewController.swift; sourceTree = "<group>"; };
+		394FA4942BBD4B0A0026F117 /* TabbarSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarSegmentViewController.swift; sourceTree = "<group>"; };
 		3BE5F2FD2AFC704D0087889F /* SearchInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
 				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
 				E648FA9B2BB5041E009F11F6 /* TabbarViewController.swift */,
+				394FA4922BBD4AE80026F117 /* TabbarChipViewController.swift */,
+				394FA4942BBD4B0A0026F117 /* TabbarSegmentViewController.swift */,
 				E6F22CE02BBABDBE00EACE6C /* TabbarChildViewController.swift */,
 			);
 			path = Sub;
@@ -269,9 +275,11 @@
 			files = (
 				3BE5F2FE2AFC704D0087889F /* SearchInputViewController.swift in Sources */,
 				042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */,
+				394FA4932BBD4AE80026F117 /* TabbarChipViewController.swift in Sources */,
 				4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
+				394FA4952BBD4B0A0026F117 /* TabbarSegmentViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				E66242522AF1EB3A00389659 /* TextInputViewController.swift in Sources */,
 				E6F22CDF2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift in Sources */,

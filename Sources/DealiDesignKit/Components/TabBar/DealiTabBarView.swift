@@ -91,9 +91,13 @@ public class DealiTabber {
     }
 }
 
+@objc public protocol DealiTabBarViewDelegate {
+    @objc func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool)
+}
+
 final public class DealiTabBarView: UIView {
     
-    public let didSelectTabBarIndex = PublishRelay<(index: Int, animated: Bool)>()
+    public weak var delegate: DealiTabBarViewDelegate?
 
     private lazy var contentScrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -150,7 +154,6 @@ final public class DealiTabBarView: UIView {
                 $0.clipsToBounds = false
                 $0.showsHorizontalScrollIndicator = false
                 $0.showsVerticalScrollIndicator = false
-                $0.delegate = self
             }.snp.makeConstraints {
                 $0.bottom.equalToSuperview()
                 $0.left.right.equalToSuperview().inset(preset.tabbarMargin)
@@ -193,6 +196,32 @@ final public class DealiTabBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Tabbar ItemButton click Event
+    @objc func itemPressed(_ sender: UIControl) {
+        self.setSelectedIndex(index: sender.tag, animated: true)
+    }
+    
+    public func setSelectedIndex(index: Int, animated: Bool = false) {
+        self.selectedIndex = index
+        
+        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
+        
+        /// chip을 사용하는 tabbar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
+        if self.preset.style != .sliderChip {
+            self.selectedUnderLineImageView.snp.updateConstraints {
+                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
+                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
+            }
+        }
+        
+        /// tabbar가 단독으로 생성되어 사용되는경우에만 tabbar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
+        if self.preset.style != .segment && self.isStandAloneView {
+            self.moveScrollContentOffset(positionX: self.tabbarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabbarItemInfoArray[index].contentWidth)
+        }
+    }
+    
+    /// Tabbar를 다시 구성하거나할때 기존 tabbar의 정보를 초기화
     private func clear() {
         self.tabbarItemInfoArray.forEach { itemInfo in
             itemInfo.itemButton?.removeFromSuperview()
@@ -202,6 +231,7 @@ final public class DealiTabBarView: UIView {
         self.tabbarItemInfoArray.removeAll()
     }
     
+    /// tabbar를 구성할 정보를 받아 Tabbar Item Button 생성 및 정보 저장
     public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
         
         if self.selectedIndex >= tabbarItemArray.count {
@@ -286,16 +316,46 @@ final public class DealiTabBarView: UIView {
             }
         }
         
+        self.updateTabbarItemInfo()
         
+        self.contentScrollView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
+        
+    }
+    
+    /// 특정 index에 위치한 tabbaritem의 title 변경 처리
+    public func changeTabBarButtonTitle(index: Int, title: String) {
+        guard index < self.tabbarItemInfoArray.count else { return }
+        
+        if self.preset.style == .sliderChip {
+            self.tabbarItemInfoArray[index].itemChip?.title = title
+        } else {
+            if var uiModel = self.tabbarItemInfoArray[index].itemButton?.uiModel {
+                let contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
+                uiModel.title = title
+                self.tabbarItemInfoArray[index].itemButton?.configure(uiModel: uiModel)
+                
+                if self.preset.style == .slider {
+                    self.tabbarItemInfoArray[index].itemButton?.snp.updateConstraints {
+                        $0.width.equalTo(contentWidth + (self.preset.contentButtonPadding * 2))
+                    }
+                }
+            }
+        }
+        
+        self.updateTabbarItemInfo()
+    }
+    
+    /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 최종 width, position X 값을 갱신
+    private func updateTabbarItemInfo() {
         self.layoutIfNeeded()
         for index in 0..<self.tabbarItemInfoArray.count {
             if let itemButton = self.tabbarItemInfoArray[index].itemButton {
-                print("itemButton size = \(itemButton.frame)")
                 if self.preset.style == .segment {
-                    self.tabbarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabbarMargin * 2.0)) / CGFloat(tabbarItemArray.count))
+                    self.tabbarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabbarMargin * 2.0)) / CGFloat(self.tabbarItemInfoArray.count))
                     self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.tabbarMargin + (self.tabbarItemInfoArray[index].contentWidth * CGFloat(index))
                 } else {
                     self.tabbarItemInfoArray[index].contentStartPositionX = itemButton.frame.origin.x + self.preset.contentButtonPadding
+                    self.tabbarItemInfoArray[index].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2)
                 }
             } else if let itemChip = self.tabbarItemInfoArray[index].itemChip {
                 self.tabbarItemInfoArray[index].contentStartPositionX = (itemChip.frame.origin.x)
@@ -303,40 +363,15 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        self.contentScrollView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
-        
         if self.preset.style != .sliderChip {
             self.selectedUnderLineImageView.snp.updateConstraints {
                 $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
                 $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
             }
         }
-        
     }
     
-    @objc func itemPressed(_ sender: UIControl) {
-        self.setSelectedIndex(sender.tag, animated: true)
-    }
-    
-    public func setSelectedIndex(_ index: Int, animated: Bool) {
-        self.selectedIndex = index
-        
-        self.didSelectTabBarIndex.accept((index: self.selectedIndex, animated: animated))
-        
-        /// chip을 사용하는 tabbar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
-        if self.preset.style != .sliderChip {
-            self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
-            }
-        }
-        
-        /// tabbar가 단독으로 생성되어 사용되는경우에만 tabbar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
-        if self.preset.style != .segment && self.isStandAloneView {
-            self.moveScrollContentOffset(positionX: self.tabbarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabbarItemInfoArray[index].contentWidth)
-        }
-    }
-    
+    /// ViewController ScrollView의 Scroll 이벤트가 발생했을 경우 Scroll offset 수치에 비례하게 UnderLine과 Tabbar Item Button이 움직이도록 처리하는 함수
     public func viewScroll(page: Int, fractional: CGFloat) {
 
         if fractional.isInfinite {
@@ -366,6 +401,7 @@ final public class DealiTabBarView: UIView {
             positionX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
             contentWidth = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
         }
+        
         self.selectedIndex = page
         
         if self.preset.style != .sliderChip {
@@ -382,6 +418,7 @@ final public class DealiTabBarView: UIView {
         self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
     }
     
+    /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat) {
         var offset: CGFloat = -1
 
@@ -402,49 +439,6 @@ final public class DealiTabBarView: UIView {
         if offset >= 0 {
             self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: false)
         }
-    }
-    
-    public func changeTabBarButtonTitle(index: Int, title: String) {
-        guard index < self.tabbarItemInfoArray.count else { return }
-        
-        if self.preset.style == .sliderChip {
-            self.tabbarItemInfoArray[index].itemChip?.title = title
-        } else {
-            if var uiModel = self.tabbarItemInfoArray[index].itemButton?.uiModel {
-                let contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-                uiModel.title = title
-                self.tabbarItemInfoArray[index].itemButton?.configure(uiModel: uiModel)
-                
-                if self.preset.style == .slider {
-                    self.tabbarItemInfoArray[index].itemButton?.snp.updateConstraints {
-                        $0.width.equalTo(contentWidth + (self.preset.contentButtonPadding * 2))
-                    }
-                    
-                    self.layoutIfNeeded()
-                    for i in 0..<self.tabbarItemInfoArray.count {
-                        if let itemButton = self.tabbarItemInfoArray[i].itemButton {
-                            self.tabbarItemInfoArray[i].contentStartPositionX = itemButton.frame.origin.x + self.preset.contentButtonPadding
-                            self.tabbarItemInfoArray[i].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2)
-                        }
-                    }
-                    
-                    self.selectedUnderLineImageView.snp.updateConstraints {
-                        $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                        $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
-                    }
-                    
-                    self.moveScrollContentOffset(positionX: self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX, contentWidth: self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
-                }
-            }
-            
-        }
-    }
-
-}
-
-extension DealiTabBarView: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrollView.contentOffset.x = \(scrollView.contentOffset.x)")
     }
 }
 

@@ -11,6 +11,9 @@ import DealiDesignKit
 
 final class TabbarSegmentViewController: UIViewController {
 
+    let topTabbarView = DealiTabber.testTabberSegment()
+    let segmentViewController = DealiScrollSegmentTabBarViewController(tabbarView: DealiTabber.testTabberSegment())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,9 +48,8 @@ final class TabbarSegmentViewController: UIViewController {
             
         }
         
-        let topTabbarView = DealiTabber.testTabberSegment()
-        self.view.addSubview(topTabbarView)
-        topTabbarView.then {
+        self.view.addSubview(self.topTabbarView)
+        self.topTabbarView.then {
             $0.setTabbarItems(tabbarItemArray: sliderTabbarItems)
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(statusBarHeight + navigationBarHeight)
@@ -63,17 +65,53 @@ final class TabbarSegmentViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
         
-        let segmentViewController = DealiScrollSegmentTabBarViewController(tabbarView: DealiTabber.testTabberSegment())
-        segmentViewController.tabbarItemArray = sliderTabbarItems
         
-        segmentViewController.willMove(toParent: self)
+        self.segmentViewController.tabbarItemArray = sliderTabbarItems
         
-        self.addChild(segmentViewController)
-        segmentViewController.view.frame = contentView.bounds
-        contentView.addSubview(segmentViewController.view)
+        self.segmentViewController.willMove(toParent: self)
         
-        segmentViewController.didMove(toParent: self)
+        self.addChild(self.segmentViewController)
+        self.segmentViewController.view.frame = contentView.bounds
+        contentView.addSubview(self.segmentViewController.view)
         
+        self.segmentViewController.didMove(toParent: self)
+        
+        
+        let button01 = DealiControl.btnOutlineLarge01()
+        contentView.addSubview(button01)
+        button01.then {
+            $0.title = "2버튼 팝업"
+            $0.addTarget(self, action: #selector(button01Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-100.0)
+        }
+        
+        let button02 = DealiControl.btnOutlineLarge01()
+        contentView.addSubview(button02)
+        button02.then {
+            $0.title = "1버튼 팝업"
+            $0.addTarget(self, action: #selector(button02Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-150.0)
+        }
     }
 
+}
+
+extension TabbarSegmentViewController {
+    @objc func button01Pressed() {
+        print("button01Pressed")
+
+        self.topTabbarView.changeTabBarButtonTitle(index: 1, title: "title변경 테스트")
+        self.segmentViewController.changeTabBarButtonTitle(index: 1, title: "title변경 테스트")
+    }
+    
+    @objc func button02Pressed() {
+        print("button01Pressed")
+
+        self.topTabbarView.changeTabBarButtonTitle(index: 1, title: "title")
+        self.segmentViewController.changeTabBarButtonTitle(index: 1, title: "title")
+    }
 }

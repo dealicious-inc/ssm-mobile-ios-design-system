@@ -65,10 +65,9 @@ final class DealiTabBarItemButton: UIButton {
         self.setTitleColor(uiModel.normalTextColor, for: .normal)
         self.setTitleColor(uiModel.selectedTextColor, for: .selected)
          
-        self.titleLabel?.font = uiModel.normalFont
+        self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.normalFont)
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
-        
     }
     
     override var isSelected: Bool {

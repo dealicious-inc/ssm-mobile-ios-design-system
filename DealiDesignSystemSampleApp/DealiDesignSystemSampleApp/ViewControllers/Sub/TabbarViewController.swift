@@ -7,18 +7,23 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import DealiDesignKit
 
 final class TabbarViewController: UIViewController {
 
     private let topTabbarView = DealiTabber.testTabberSlider()
     private let segmentViewController = DealiScrollSegmentTabBarViewController(tabbarView: DealiTabber.testTabberSlider())
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "Tabbar"
         self.view.backgroundColor = .white
+//        self.topTabbarView.setSelectedIndex(index: 4)
+//        self.segmentViewController.setViewerPageIndex(index: 5)
     }
 
     override func loadView() {
@@ -71,6 +76,8 @@ final class TabbarViewController: UIViewController {
         self.view.addSubview(self.topTabbarView)
         self.topTabbarView.then {
             $0.setTabbarItems(tabbarItemArray: sliderTabbarItems)
+            $0.delegate = self
+            $0.setSelectedIndex(index: 4)
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(statusBarHeight + navigationBarHeight)
             $0.left.right.equalToSuperview()
@@ -85,8 +92,9 @@ final class TabbarViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
         
-        self.segmentViewController.tabbarItemArray = sliderTabbarItems
         
+        self.segmentViewController.tabbarItemArray = sliderTabbarItems
+        self.segmentViewController.startPageIndex = 5
         self.segmentViewController.willMove(toParent: self)
         
         self.addChild(self.segmentViewController)
@@ -115,7 +123,6 @@ final class TabbarViewController: UIViewController {
             $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-150.0)
         }
-        
     }
 
 }
@@ -133,6 +140,12 @@ extension TabbarViewController {
 
         self.topTabbarView.changeTabBarButtonTitle(index: 1, title: "title")
         self.segmentViewController.changeTabBarButtonTitle(index: 1, title: "title")
+    }
+}
+
+extension TabbarViewController: DealiTabBarViewDelegate {
+    func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
+        print("didSelectTabBar index = \(index)")
     }
 }
 

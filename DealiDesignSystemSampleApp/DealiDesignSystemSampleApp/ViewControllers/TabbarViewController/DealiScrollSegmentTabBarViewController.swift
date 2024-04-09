@@ -117,7 +117,7 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
         if self.selectedIndex == -1 {
             self.view.layoutSubviews()
             self.contentScrollView.layoutSubviews()
-            self.setViewerPageIndex(index: self.startPageIndex)
+            self.moveViewerPageIndex(index: self.startPageIndex)
         }
     }
     
@@ -158,10 +158,6 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
         }
         
         self.set(items: self.tabbarItemArray)
-    }
-    
-    func setBadge(on index: Int, show: Bool) {
-//        self.tabbarView.setBadge(on: index, show: show)
     }
     
     func changeTabBarButtonTitle(index: Int, title: String) {
@@ -207,19 +203,23 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     }
     
     // 화면이 떠 있는 상태에서 다른 이벤트로 화면을 변경해줘야 하는 경우에 사용
-    func setViewerPageIndex(index: Int, animation: Bool = false) {
+    func moveViewerPageIndex(index: Int, animation: Bool = false) {
         self.selectedIndex = index
         self.tabbarView.setSelectedIndex(index: self.selectedIndex, animated: animation)
         
     }
     
-//    func hiddenViewPage(segmentItemArray: [DealiScrollSegmentTabBarItem], maintainContentOffset: Bool = true) {
-//        self.tabbarView.setTabBar(items: segmentItemArray.filter({ $0.isHidden == false }), maintainContentOffset: maintainContentOffset)
-//        
-//        for i in 0..<segmentItemArray.count {
-//            self.contentStackView.arrangedSubviews[i].isHidden = segmentItemArray[i].isHidden
-//        }
-//    }
+    func hiddenViewPage(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
+        self.tabbarView.setTabbarItems(tabbarItemArray: tabbarItemArray, maintainContentOffset: maintainContentOffset)
+        
+        for (index, item) in tabbarItemArray.enumerated() {
+            self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
+        }
+    }
+    
+    func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
+        self.tabbarView.showTabBarItemBadge(index: index, shouldShowBadge: shouldShowBadge)
+    }
 
 }
 

@@ -62,10 +62,10 @@ final class DealiTabBarItemButton: UIButton {
         self.uiModel = uiModel
         
         self.setTitle(uiModel.title, for: .normal)
-        self.setTitleColor(uiModel.normalTextColor, for: .normal)
+        self.setTitleColor(uiModel.textColor, for: .normal)
         self.setTitleColor(uiModel.selectedTextColor, for: .selected)
          
-        self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.normalFont)
+        self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
     }
@@ -73,7 +73,7 @@ final class DealiTabBarItemButton: UIButton {
     override var isSelected: Bool {
         didSet {
             if let uiModel = self.uiModel {
-                self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.normalFont)
+                self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
             }
         }
     }
@@ -83,14 +83,14 @@ final class DealiTabBarItemButton: UIButton {
 struct DealiTabBarItemButtonUIModel {
     /// 뉴 벡지 노출 유무
     var shouldExposeNewBadge: Bool = false
-    
+    /// 버튼 타이틀
     var title: String?
     /// 기본 텍스트 컬러
-    var normalTextColor: UIColor = DealiColor.g100
+    var textColor: UIColor = DealiColor.g100
     /// 선택된 텍스트 컬러
     var selectedTextColor: UIColor = DealiColor.g100
     /// 기본 텍스트 폰트
-    var normalFont: UIFont = .b2r14
+    var font: UIFont = .b2r14
     /// 선택된 텍스트 폰트
     var selectedFont: UIFont = .b2sb14
     /// 아이콘 이미지 url
@@ -99,9 +99,9 @@ struct DealiTabBarItemButtonUIModel {
     static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemButtonUIModel {
         var uiModel = DealiTabBarItemButtonUIModel()
         uiModel.title = tabbarItem.title
-        uiModel.normalTextColor = preset.normalTextColor
+        uiModel.textColor = preset.textColor
         uiModel.selectedTextColor = preset.selectedTextColor
-        uiModel.normalFont = preset.normalFont
+        uiModel.font = preset.font
         uiModel.selectedFont = preset.selectedFont
         uiModel.iconUrl = tabbarItem.iconUrl
         uiModel.shouldExposeNewBadge = tabbarItem.showsBadge

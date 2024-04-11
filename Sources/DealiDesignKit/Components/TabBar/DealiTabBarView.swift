@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-public class DealiTabBer {
+public class DealiTabBar {
     
     public static func tabBar01() -> DealiTabBarView {
         return DealiTabBarView(preset: .tabBar01)

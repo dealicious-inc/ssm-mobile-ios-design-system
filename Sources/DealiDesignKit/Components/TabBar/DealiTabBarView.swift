@@ -147,6 +147,7 @@ final public class DealiTabBarView: UIView {
     }
     
     public func setSelectedIndex(index: Int, animated: Bool = false) {
+        guard index < self.tabbarItemInfoArray.count else { return }
         self.selectedIndex = index
         
         /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
@@ -200,8 +201,8 @@ final public class DealiTabBarView: UIView {
             switch self.preset.style {
             case .sliderChip(let chipStyle):
                 switch chipStyle {
-                case .chipFilledSmall01:
-                    let itemChip = DealiControl.chipFilledSmall01()
+                case .chipFilledSmall02:
+                    let itemChip = DealiControl.chipFilledSmall02()
                     self.contentStackView.addArrangedSubview(itemChip)
                     itemChip.then {
                         $0.title = title
@@ -303,8 +304,9 @@ final public class DealiTabBarView: UIView {
     }
     
     public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
+        guard index < self.tabbarItemInfoArray.count, let itemButton =  self.tabbarItemInfoArray[index].itemButton else { return }
         if self.preset.style == .segment || self.preset.style == .sliderButton {
-            if var tabBarItemButtonUIModel = self.tabbarItemInfoArray[index].itemButton?.uiModel {
+            if var tabBarItemButtonUIModel = itemButton.uiModel {
                 tabBarItemButtonUIModel.shouldExposeNewBadge = shouldShowBadge
                 self.tabbarItemInfoArray[index].itemButton?.configure(uiModel: tabBarItemButtonUIModel)
             }

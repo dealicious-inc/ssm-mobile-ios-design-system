@@ -8,10 +8,15 @@
 import UIKit
 
 public enum DealiTabBarPreset {
+    /// segment 스타일 형식의 tabbar
     case tabBar01
+    /// slider 스타일 형식의 tabbar(기본 텍스트 컬러 - g100, 선택 텍스트 컬러 - primary01)
     case tabBar02
+    /// slider 스타일 형식의 tabbar(기본 텍스트 컬러 - g100, 선택 텍스트 컬러 - g100)
     case tabBar03
+    /// slider 스타일 형식의 tabbar(chipFilledSmall02 을 사용)
     case tabBar04
+    /// slider 스타일 형식의 tabbar(기본 텍스트 컬러 - g100, 선택 텍스트 컬러 - primary01) tabBar02와 스탸일은 동일하지만 tabbar 높이 값이 작음
     case tabBar05
     
     /// tabber Item Style
@@ -23,7 +28,7 @@ public enum DealiTabBarPreset {
     
     /// tabber Item Style
     enum DealiTabBarSliderChipStyle: Equatable {
-        case chipFilledSmall01
+        case chipFilledSmall02
     }
     
     // MARK: TabBarStyle
@@ -32,7 +37,7 @@ public enum DealiTabBarPreset {
         case .tabBar01:
             return .segment
         case .tabBar04:
-            return .sliderChip(.chipFilledSmall01)
+            return .sliderChip(.chipFilledSmall02)
         default:
             return .sliderButton
         }

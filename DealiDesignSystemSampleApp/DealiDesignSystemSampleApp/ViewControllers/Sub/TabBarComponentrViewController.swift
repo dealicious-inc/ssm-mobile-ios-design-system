@@ -27,11 +27,11 @@ final class TabBarComponentrViewController: UIViewController {
                                  DealiTabBarItem.make(title: "8번 Tab"),
                                  DealiTabBarItem.make(title: "9번 Tab")]
     
-    private let tabBarView01 = DealiTabBer.tabBar01()
-    private let tabBarView02 = DealiTabBer.tabBar02()
-    private let tabBarView03 = DealiTabBer.tabBar03()
-    private let tabBarView04 = DealiTabBer.tabBar04()
-    private let tabBarView05 = DealiTabBer.tabBar05()
+    private let tabBarView01 = DealiTabBar.tabBar01()
+    private let tabBarView02 = DealiTabBar.tabBar02()
+    private let tabBarView03 = DealiTabBar.tabBar03()
+    private let tabBarView04 = DealiTabBar.tabBar04()
+    private let tabBarView05 = DealiTabBar.tabBar05()
     
     private let badgeOnOffButton = DealiControl.btnOutlineLarge01()
     private let hiddenTabBatItemButton = DealiControl.btnOutlineLarge01()

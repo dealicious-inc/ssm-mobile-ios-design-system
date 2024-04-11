@@ -141,7 +141,7 @@ public final class DealiTextInput_v2: UIView {
                 switch self.inputRightViewType {
                 case .clear:
                     self.textInputRightImageView.isHidden = self.inputStatus != .focusIn
-                    self.textInputRightImageView.image = UIImage(named: "ic_x")
+                    self.textInputRightImageView.image = UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(DealiColor.g50)
                 default:
                     self.textInputRightImageView.isHidden = true
                 }

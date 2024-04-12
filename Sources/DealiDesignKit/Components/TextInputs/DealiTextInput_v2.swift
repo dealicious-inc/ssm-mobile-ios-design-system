@@ -11,6 +11,92 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+public struct DealiTextInputValidator {
+    
+    public init() { }
+    
+    public enum ConditionType {
+        case length(min: Int = 0, max: Int)
+        case allow(CharacterSet)
+        case restrict(CharacterSet)
+    }
+    
+    public func isValid(text: String?, condition: ConditionType) -> Bool {
+        
+        switch condition {
+        case .length(min: let minLength, max: let maxLength):
+            guard let text else { return 0 >= minLength }
+            
+            let length = text.count
+            return minLength <= length && length <= maxLength
+       
+        case .allow(let characterSet):
+            guard let text else { return true }
+            return CharacterSet(charactersIn: text).isSubset(of: characterSet)
+            
+        case .restrict(let characterSet):
+            guard let text else { return true }
+            return !CharacterSet(charactersIn: text).isSubset(of: characterSet)
+        }
+    }
+    
+}
+
+public enum CharaterSetType {
+    case alphabet
+    case numeric
+    case korean
+    case japanese
+}
+
+extension CharaterSetType: RawRepresentable {
+    
+    public typealias RawValue = CharacterSet
+
+    public init?(rawValue: CharacterSet) {
+        switch rawValue {
+        case CharacterSet.alphabet:
+            self = .alphabet
+        case CharacterSet.decimalDigits:
+            self = .numeric
+        case CharacterSet.korean:
+            self = .korean
+        case CharacterSet.japanese:
+            self = .japanese
+        default:
+            return nil
+        }
+    }
+    
+    public var rawValue: CharacterSet {
+        switch self {
+        case .alphabet:
+            return CharacterSet.alphabet
+        case .numeric:
+            return CharacterSet.decimalDigits
+        case .korean:
+            return CharacterSet.korean
+        case .japanese:
+            return CharacterSet.japanese
+        }
+    }
+}
+
+public extension CharacterSet {
+    static let alphabet = CharacterSet(charactersIn: "a"..."z")
+        .union(CharacterSet(charactersIn: "A"..."Z"))
+    
+    static let korean = CharacterSet(charactersIn: ("ㄱ"..."ㅎ"))
+        .union(CharacterSet(charactersIn: "ㅏ"..."ㅣ"))
+        .union(CharacterSet(charactersIn: ("가"..."힣")))
+        .union(CharacterSet(charactersIn: ("[ᆞ|ᆢ|ㆍ|ᆢ|ᄀᆞ|ᄂᆞ|ᄃᆞ|ᄅᆞ|ᄆᆞ|ᄇᆞ|ᄉᆞ|ᄋᆞ|ᄌᆞ|ᄎᆞ|ᄏᆞ|ᄐᆞ|ᄑᆞ|ᄒᆞ]")))
+    
+    static let japanese = CharacterSet(charactersIn: "ぁ"..."ゔ")
+        .union(CharacterSet(charactersIn: "゠"..."ヲ"))
+        .union(CharacterSet(charactersIn: "⺀"..."⿏"))
+        .union(CharacterSet(charactersIn: "一"..."龯"))
+}
+
 public final class DealiTextInput_v2: UIView {
     
     private let titleLabel = UILabel()
@@ -74,11 +160,12 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-    /// 최소 글자수
-    public var minLength = 0
-    /// 최대 글자수
-    public var maxLength = 100
-    /// 최소 금액 (type이 price일경우 사용)
+//
+//    /// 최소 글자수
+//    public var minLength = 0
+//    /// 최대 글자수
+//    public var maxLength = 100
+//    /// 최소 금액 (type이 price일경우 사용)
     public var minPrice = 0
     /// 최대 금액 (type이 price일경우 사용)
     public var maxPrice = 10000000
@@ -296,11 +383,21 @@ public final class DealiTextInput_v2: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public var changedTextControlProperty: ControlProperty<String?> {
+        return self.textField.rx.controlProperty(
+            editingEvents: [.editingChanged, .valueChanged],
+            getter: { textField in
+                textField.text
+            },
+            setter: { textField, value in
+                if self.textField.text != value {
+                    self.textField.text = value
+                }
+            }
+        )
+    }
+    
     private func RX() {
-        self.textFieldDidChange = self.textField.rx.controlEvent([.editingChanged, .valueChanged])
-            .map { self.textField.text }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: nil)
         
         self.editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
             .map { return }

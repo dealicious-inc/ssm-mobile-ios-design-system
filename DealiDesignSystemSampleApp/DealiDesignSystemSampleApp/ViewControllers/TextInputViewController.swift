@@ -51,7 +51,7 @@ final class TextInputViewController: UIViewController {
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
-            $0.spacing = 50.0
+            $0.spacing = 30.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
@@ -73,9 +73,17 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        textInput.textFieldDidEndEditing
-            .drive { [weak self] in
-                debugPrint("포커스 아웃")
+        textInput.changedTextControlProperty
+            .orEmpty
+            .skip(1)
+            .scan(textInput.text ?? "") { (previous, new) -> String in
+                
+                let validator = DealiTextInputValidator()
+                let isValid = validator.isValid(text: new, condition: .restrict(.korean))
+                return isValid ? new : previous
+            }
+            .bind(with: self) { owner, text in
+                textInput.text = text
             }
             .disposed(by: self.disposeBag)
         

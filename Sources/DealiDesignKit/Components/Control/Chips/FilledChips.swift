@@ -55,7 +55,7 @@ extension DealiControl {
 
 public enum ChipsFilledColor: ClickableColorConfig {
     case primary01
-    case Secondary01
+    case secondary01
     
     public var attribute: ClickableColor {
         switch self {

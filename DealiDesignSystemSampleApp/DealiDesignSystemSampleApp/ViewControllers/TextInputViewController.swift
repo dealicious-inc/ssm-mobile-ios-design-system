@@ -76,12 +76,10 @@ final class TextInputViewController: UIViewController {
         textInput.changedTextControlProperty
             .orEmpty
             .skip(1)
-            .scan(textInput.text ?? "") { (previous, new) -> String in
-                
-                let validator = DealiTextInputValidator()
-                let filteredText = validator.filteredText(text: new, conditions:  .restrict([.korean, .alphabet]), .length(max: 10))
-                return filteredText
+            .scan(textInput.text ?? "") { (_, current) -> String in
+                return current.filteredText(with: .restrict([.korean, .alphabet]), .length(max: 10))
             }
+
             .bind(with: self) { owner, text in
                 textInput.text = text
             }

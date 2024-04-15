@@ -11,50 +11,42 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public struct DealiTextInputValidator {
+public extension String {
     
-    public init() { }
-    
-    public enum ConditionType: Equatable {
+    enum ConditionType: Equatable {
         case length(min: Int = 0, max: Int)
         case allow([CharacterSet])
         case restrict([CharacterSet])
     }
     
-    public func filteredText(text: String?, conditions: ConditionType...) -> String {
-        guard let text else { return "" }
-        
+    
+    func filteredText(with conditions: ConditionType...) -> String {
         for condition in conditions {
             switch condition {
             case .allow(let characterSet):
-                let characterSet: CharacterSet = characterSet.reduce(CharacterSet()) {
-                    return $0.union($1)
-                }
+                let characterSet = characterSet.reduce(CharacterSet()) { return $0.union($1) }
 
-                let filteredText = String(text.unicodeScalars.filter { characterSet.contains($0)} )
-                if filteredText != text {
+                let filteredText = String(self.unicodeScalars.filter { characterSet.contains($0)} )
+                if filteredText != self {
                     return filteredText
                 }
             case .restrict(let characterSet):
-                let characterSet: CharacterSet = characterSet.reduce(CharacterSet()) {
-                    return $0.union($1)
-                }
+                let characterSet = characterSet.reduce(CharacterSet()) { return $0.union($1) }
 
-                let filteredText = String(text.unicodeScalars.filter { !characterSet.contains($0)} )
-                if filteredText != text {
+                let filteredText = String(self.unicodeScalars.filter { !characterSet.contains($0)} )
+                if filteredText != self {
                     return filteredText
                 }
                 
             case .length(_, max: let maxLength):
-                if text.count > maxLength {
-                    return String(text.prefix(maxLength))
+                if self.count > maxLength {
+                    return String(self.prefix(maxLength))
                 }
             }
         }
         
-        return text 
+        return self
     }
-    
 }
 
 public enum CharaterSetType {

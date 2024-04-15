@@ -51,8 +51,8 @@ public final class DealiSearchInput: UIView {
         static let textColor: UIColor = DealiColor.g100
         
         /// search image 관련 상수 모음
-        static let imageSearch: UIImage? = UIImage(named: "ic_search")
-        static let imageClear: UIImage? = UIImage(named: "ic_x")
+        static let imageSearch: UIImage? = UIImage.dealiIcon(named: "ic_search")
+        static let imageClear: UIImage? = UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(DealiColor.g50)
         static let imageSearchSize: CGFloat = 24
         static let imageClearSize: CGFloat = 16
     }

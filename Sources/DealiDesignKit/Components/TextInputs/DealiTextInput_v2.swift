@@ -15,29 +15,44 @@ public struct DealiTextInputValidator {
     
     public init() { }
     
-    public enum ConditionType {
+    public enum ConditionType: Equatable {
         case length(min: Int = 0, max: Int)
-        case allow(CharacterSet)
-        case restrict(CharacterSet)
+        case allow([CharacterSet])
+        case restrict([CharacterSet])
     }
     
-    public func isValid(text: String?, condition: ConditionType) -> Bool {
+    public func filteredText(text: String?, conditions: ConditionType...) -> String {
+        guard let text else { return "" }
         
-        switch condition {
-        case .length(min: let minLength, max: let maxLength):
-            guard let text else { return 0 >= minLength }
-            
-            let length = text.count
-            return minLength <= length && length <= maxLength
-       
-        case .allow(let characterSet):
-            guard let text else { return true }
-            return CharacterSet(charactersIn: text).isSubset(of: characterSet)
-            
-        case .restrict(let characterSet):
-            guard let text else { return true }
-            return !CharacterSet(charactersIn: text).isSubset(of: characterSet)
+        for condition in conditions {
+            switch condition {
+            case .allow(let characterSet):
+                let characterSet: CharacterSet = characterSet.reduce(CharacterSet()) {
+                    return $0.union($1)
+                }
+
+                let filteredText = String(text.unicodeScalars.filter { characterSet.contains($0)} )
+                if filteredText != text {
+                    return filteredText
+                }
+            case .restrict(let characterSet):
+                let characterSet: CharacterSet = characterSet.reduce(CharacterSet()) {
+                    return $0.union($1)
+                }
+
+                let filteredText = String(text.unicodeScalars.filter { !characterSet.contains($0)} )
+                if filteredText != text {
+                    return filteredText
+                }
+                
+            case .length(_, max: let maxLength):
+                if text.count > maxLength {
+                    return String(text.prefix(maxLength))
+                }
+            }
         }
+        
+        return text 
     }
     
 }

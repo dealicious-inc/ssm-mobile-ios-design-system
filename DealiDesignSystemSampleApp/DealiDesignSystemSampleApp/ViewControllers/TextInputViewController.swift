@@ -79,8 +79,8 @@ final class TextInputViewController: UIViewController {
             .scan(textInput.text ?? "") { (previous, new) -> String in
                 
                 let validator = DealiTextInputValidator()
-                let isValid = validator.isValid(text: new, condition: .restrict(.korean))
-                return isValid ? new : previous
+                let filteredText = validator.filteredText(text: new, conditions:  .restrict([.korean, .alphabet]), .length(max: 10))
+                return filteredText
             }
             .bind(with: self) { owner, text in
                 textInput.text = text

@@ -75,11 +75,11 @@ final class TextInputViewController: UIViewController {
         
         textInput.changedTextControlProperty
             .orEmpty
-            .skip(1)
+            .changed
             .scan(textInput.text ?? "") { (_, current) -> String in
-                return current.filteredText(with: .restrict([.korean, .alphabet]), .length(max: 10))
+                return current.filteredText(with: .restrict([.specialCharacter]), .length(max: 10))
             }
-
+            .observe(on: MainScheduler.asyncInstance)
             .bind(with: self) { owner, text in
                 textInput.text = text
             }

@@ -11,71 +11,15 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public extension String {
-    
-    enum ConditionType: Equatable {
-        case length(min: Int = 0, max: Int)
-        case allow([CharacterSet])
-        case restrict([CharacterSet])
-    }
-    
-    
-    func filteredText(with conditions: ConditionType...) -> String {
-        for condition in conditions {
-            switch condition {
-            case .allow(let characterSet):
-                let characterSet = characterSet.reduce(CharacterSet()) { return $0.union($1) }
-
-                let filteredText = String(self.unicodeScalars.filter { characterSet.contains($0)} )
-                if filteredText != self {
-                    return filteredText
-                }
-            case .restrict(let characterSet):
-                let characterSet = characterSet.reduce(CharacterSet()) { return $0.union($1) }
-
-                let filteredText = String(self.unicodeScalars.filter { !characterSet.contains($0)} )
-                if filteredText != self {
-                    return filteredText
-                }
-                
-            case .length(_, max: let maxLength):
-                if self.count > maxLength {
-                    return String(self.prefix(maxLength))
-                }
-            }
-        }
-        
-        return self
-    }
-}
-
-public enum CharaterSetType {
+public enum CharacterType: CaseIterable {
     case alphabet
     case numeric
     case korean
     case japanese
-}
-
-extension CharaterSetType: RawRepresentable {
+    case specialCharacter
+    case emoji
     
-    public typealias RawValue = CharacterSet
-
-    public init?(rawValue: CharacterSet) {
-        switch rawValue {
-        case CharacterSet.alphabet:
-            self = .alphabet
-        case CharacterSet.decimalDigits:
-            self = .numeric
-        case CharacterSet.korean:
-            self = .korean
-        case CharacterSet.japanese:
-            self = .japanese
-        default:
-            return nil
-        }
-    }
-    
-    public var rawValue: CharacterSet {
+    public var characterSet: CharacterSet? {
         switch self {
         case .alphabet:
             return CharacterSet.alphabet
@@ -85,7 +29,56 @@ extension CharaterSetType: RawRepresentable {
             return CharacterSet.korean
         case .japanese:
             return CharacterSet.japanese
+        case .specialCharacter:
+            return CharacterSet.specialCharacter
+        default:
+            return nil
         }
+    }
+}
+
+public extension String {
+    
+    enum ConditionType: Equatable {
+        case length(min: Int = 0, max: Int)
+        case allow([CharacterSet])
+        case restrict([CharacterType])
+    }
+    
+    func filteredText(with conditions: ConditionType...) -> String {
+        for condition in conditions {
+            
+            switch condition {
+            case .length(_, max: let maxLength):
+                if self.count > maxLength {
+                    return String(self.prefix(maxLength))
+                }
+            case .allow(let characterSets):
+                let characterSet = characterSets.reduce(CharacterSet()) { return $0.union($1) }
+                
+                let filteredText = self.unicodeScalars
+                    .filter { characterSet.contains($0) }
+                    .map { String($0) }
+                    .joined()
+               
+                if filteredText != self {
+                    return filteredText
+                }
+            case .restrict(let characterSets):
+                let characterSet = characterSets.reduce(CharacterSet()) { return $0.union($1.characterSet ?? CharacterSet()) }
+                
+                let filteredText = self.unicodeScalars
+                    .filter { !characterSet.contains($0) }
+                    .map { String($0) }
+                    .joined()
+                
+                if filteredText != self {
+                    return filteredText
+                }
+            }
+        }
+        
+        return self
     }
 }
 
@@ -102,7 +95,25 @@ public extension CharacterSet {
         .union(CharacterSet(charactersIn: "゠"..."ヲ"))
         .union(CharacterSet(charactersIn: "⺀"..."⿏"))
         .union(CharacterSet(charactersIn: "一"..."龯"))
+    
+    static let specialCharacter = CharacterSet(charactersIn: " -/:;()₩$&@„«»””“\".,?!`'‘‘’[]{}#%^*+=_\\|~<>€£¥•§₽…¿¡–—‰。、！？")
 }
+
+public extension Character {
+    private var isSimpleEmoji: Bool {
+        guard let firstScalar = self.unicodeScalars.first else {
+            return false
+        }
+        return firstScalar.properties.isEmoji && firstScalar.value > 0x238C
+    }
+    
+    private var isCombinedIntoEmoji: Bool {
+        self.unicodeScalars.count > 1 && self.unicodeScalars.first?.properties.isEmoji ?? false
+    }
+    
+    var isEmoji: Bool { self.isSimpleEmoji || self.isCombinedIntoEmoji }
+}
+
 
 public final class DealiTextInput_v2: UIView {
     
@@ -168,10 +179,7 @@ public final class DealiTextInput_v2: UIView {
         }
     }
 //
-//    /// 최소 글자수
-//    public var minLength = 0
-//    /// 최대 글자수
-//    public var maxLength = 100
+
 //    /// 최소 금액 (type이 price일경우 사용)
     public var minPrice = 0
     /// 최대 금액 (type이 price일경우 사용)
@@ -429,20 +437,16 @@ public final class DealiTextInput_v2: UIView {
         
         /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
         /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
-        self.textField.rx.text
+        self.changedTextControlProperty
             .orEmpty
             .changed
-            .skip(1)
             .distinctUntilChanged()
-            .subscribe(with: self, onNext: { owner, text in
-//                print("DealiTextInput_v2_ text.changed = \(text) / \(text.count)")
-                if
-                    owner.textInputFormat == .price,
-                    let price = Int(text.replacingOccurrences(of: ",", with: ""))
-                {
+            .bind(with: self) { owner, text in
+                if owner.textInputFormat == .price,
+                   let price = Int(text.replacingOccurrences(of: ",", with: "")) {
                     owner.textField.text = price.commaString()
                 }
-            })
+            }
             .disposed(by: self.disposeBag)
         
         self.textInputRightImageView.rx.tapGestureOnTop()

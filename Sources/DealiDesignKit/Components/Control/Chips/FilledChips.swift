@@ -43,13 +43,13 @@ extension DealiControl {
     
     public static func chipFilledSmall02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledConfig.small,
-                                      color: ChipsFilledColor.Secondary01)
+                                      color: ChipsFilledColor.secondary01)
     }
     
     @available(*, deprecated, renamed: "chipFilledSmall02")
     public static func chipsFilledSmall02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledConfig.small,
-                                      color: ChipsFilledColor.Secondary01)
+                                      color: ChipsFilledColor.secondary01)
     }
 }
 
@@ -63,7 +63,7 @@ public enum ChipsFilledColor: ClickableColorConfig {
             return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: .clear),
                                   selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
-        case .Secondary01:
+        case .secondary01:
             return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g80, border: .clear),
                                   selected: ClickableColorSet(background: DealiColor.g100, text: DealiColor.primary04, border: .clear),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))

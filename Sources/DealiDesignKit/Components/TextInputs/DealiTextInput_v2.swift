@@ -11,13 +11,25 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+struct DealiCharaterType: CaseIterable {
+    static var allCases: [DealiCharaterType] = [.alphabet, .numeric, .korean, japanese, .specialCharacter]
+    
+    static let alphabet = DealiCharaterType(characterSet: .alphabet)
+    static let numeric = DealiCharaterType(characterSet: .decimalDigits)
+    static let korean = DealiCharaterType(characterSet: .korean)
+    static let japanese = DealiCharaterType(characterSet: .japanese)
+    static let specialCharacter = DealiCharaterType(characterSet: .specialCharacter)
+    
+    var characterSet: CharacterSet
+    var errorMsg: String?
+}
+
 public enum CharacterType: CaseIterable {
     case alphabet
     case numeric
     case korean
     case japanese
     case specialCharacter
-    case emoji
     
     public var characterSet: CharacterSet? {
         switch self {
@@ -31,8 +43,6 @@ public enum CharacterType: CaseIterable {
             return CharacterSet.japanese
         case .specialCharacter:
             return CharacterSet.specialCharacter
-        default:
-            return nil
         }
     }
 }
@@ -60,7 +70,7 @@ public extension String {
                     .filter { characterSet.contains($0) }
                     .map { String($0) }
                     .joined()
-               
+                
                 if filteredText != self {
                     return filteredText
                 }
@@ -178,9 +188,9 @@ public final class DealiTextInput_v2: UIView {
             }
         }
     }
-//
-
-//    /// 최소 금액 (type이 price일경우 사용)
+    //
+    
+    //    /// 최소 금액 (type이 price일경우 사용)
     public var minPrice = 0
     /// 최대 금액 (type이 price일경우 사용)
     public var maxPrice = 10000000
@@ -481,7 +491,6 @@ extension Int {
         return numberFormatter.string(from: NSNumber(value: self)) ?? ""
     }
 }
-
 extension DealiTextInput_v2: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard self.textInputFormat == .price else { return true }
@@ -503,5 +512,13 @@ extension DealiTextInput_v2: UITextFieldDelegate {
         guard let price = Int(currentPriceText) else { return isNumber || string.isEmpty }
         
         return price <= maxPrice && price >= minPrice
+    }
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if self.inputReturnKeyType == .done {
+            self.textField.resignFirstResponder()
+        }
+        return true
+        
     }
 }

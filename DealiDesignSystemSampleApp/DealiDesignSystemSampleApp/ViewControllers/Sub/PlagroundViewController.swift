@@ -23,7 +23,7 @@ final class PlagroundViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .white
         
         let scrollView = UIScrollView()
         self.view.addSubview(scrollView)
@@ -61,42 +61,18 @@ final class TextInputValidationView: UIView {
     
     private let disposeBag = DisposeBag()
     private let textInput = DealiTextInput_v2()
-    
-    struct RestrictType {
-        var title: String
-        var characterSet: CharacterSet
-    }
-    
-    private let alphabetChip = DealiControl.chipOutlineSmall01().then {
-        $0.title = "알파벳"
-    }
-    
-    private let specialCharacterChip = DealiControl.chipOutlineSmall01().then {
-        $0.title = "특수문자"
-    }
+    private var restritionArray = [CharacterType]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.setupUI()
         
-        self.alphabetChip.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.alphabetChip.isSelected.toggle()
-            }
-            .disposed(by: self.disposeBag)
-        
-        self.specialCharacterChip.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.specialCharacterChip.isSelected.toggle()
-            }
-            .disposed(by: self.disposeBag)
-        
         self.textInput.changedTextControlProperty
             .orEmpty
             .changed
             .scan(self.textInput.text ?? "") { _, current in
-                return current.filteredText(with: .restrict([.alphabet]))
+                return current.filteredText(with: .restrict(self.restritionArray))
             }
             .bind(with: self) { owner, text in
                 owner.textInput.text = text
@@ -115,6 +91,7 @@ final class TextInputValidationView: UIView {
             $0.font = .h2sb24
             $0.text = "TextInput Validation Test"
             $0.backgroundColor = DealiColor.secondary03
+            $0.textColor = .black
         }.snp.makeConstraints {
             $0.top.left.equalToSuperview()
         }
@@ -124,6 +101,7 @@ final class TextInputValidationView: UIView {
         validateWhileEditingLabel.then {
             $0.font = .sh1sb20
             $0.text = "1. 입력할 때마다 검사"
+            $0.textColor = .black
         }.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20.0)
             $0.left.equalToSuperview()
@@ -138,6 +116,7 @@ final class TextInputValidationView: UIView {
         restrictionLabel.then {
             $0.font = .sh2sb18
             $0.text = "1.1. 입력제한 문자"
+            $0.textColor = .black
         }.snp.makeConstraints {
             $0.top.equalTo(validateWhileEditingLabel.snp.bottom).offset(20.0)
             $0.left.equalToSuperview()
@@ -148,17 +127,35 @@ final class TextInputValidationView: UIView {
         optionStackView.then {
             $0.axis = .horizontal
             $0.distribution = .fill
-            $0.spacing = 20.0
+            $0.spacing = 5.0
         }.snp.makeConstraints {
             $0.top.equalTo(restrictionLabel.snp.bottom).offset(10.0)
             $0.left.right.equalToSuperview()
             $0.height.equalTo(32.0)
         }
         
-       
-        optionStackView.addArrangedSubview(self.alphabetChip)
-        optionStackView.addArrangedSubview(self.specialCharacterChip)
-
+        
+        CharacterType.allCases.forEach { charater in
+            let chip = DealiControl.chipOutlineSmall01().then {
+                $0.title = charater.description
+            }
+            optionStackView.addArrangedSubview(chip)
+            
+            chip.rx.tap
+                .bind(with: self) { owner, _ in
+                    chip.isSelected.toggle()
+                    if chip.isSelected {
+                        owner.restritionArray.append(charater)
+                        
+                    } else {
+                        owner.restritionArray = owner.restritionArray.filter { $0 != charater }
+                    }
+                    
+                }
+                .disposed(by: self.disposeBag)
+            
+        }
+        
         self.addSubview(self.textInput)
         self.textInput.then {
             $0.placeholder = "테스트할 텍스트 입력"

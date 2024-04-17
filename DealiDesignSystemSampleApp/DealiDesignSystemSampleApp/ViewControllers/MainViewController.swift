@@ -121,6 +121,13 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
+        
+        let indicatorComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponentsButton)
+        indicatorComponentsButton.do {
+            $0.title = "Indicator Components"
+            $0.addTarget(self, action: #selector(indicatorButtonPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -179,6 +186,10 @@ extension MainViewController {
     
     @objc func tagButtonPressed() {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
+    }
+    
+    @objc func indicatorButtonPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
     }
     
 }

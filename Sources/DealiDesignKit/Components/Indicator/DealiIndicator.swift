@@ -57,7 +57,7 @@ public final class DealiDotsIndicatorView: DealiIndicatorView {
                     $0.layer.cornerRadius = preset.cornerRadius
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
-                    $0.size.equalTo(preset.contentSize)
+                    $0.size.equalTo(preset.dotsSize)
                 }
                 
                 self.indicatorViewArray.append(indicatorImageView)
@@ -105,10 +105,10 @@ public final class DealiDotsIndicatorView: DealiIndicatorView {
         self.selectedIndicatorView.then {
             $0.backgroundColor = preset.selectColor
             $0.clipsToBounds = true
-            $0.layer.cornerRadius = (preset.contentSize.height / 2.0)
+            $0.layer.cornerRadius = (preset.dotsSize.height / 2.0)
             $0.isHidden = true
         }.snp.makeConstraints {
-            $0.size.equalTo(preset.contentSize)
+            $0.size.equalTo(preset.dotsSize)
             $0.left.equalToSuperview()
         }
     }

@@ -9,7 +9,7 @@ import UIKit
 
 public enum DealiIndicatorPreset {
     case dots
-    case dots_w
+    case dotsW
     case number1
     case number2
     case number3
@@ -52,9 +52,9 @@ public enum DealiIndicatorPreset {
         }
     }
     
-    public var contentSize: CGSize {
+    public var dotsSize: CGSize {
         switch self {
-        case .dots, .dots_w:
+        case .dots, .dotsW:
             return CGSize(width: 6.0, height: 6.0)
         default:
             return .zero
@@ -63,7 +63,7 @@ public enum DealiIndicatorPreset {
     
     public var cornerRadius: CGFloat {
         switch self {
-        case .dots, .dots_w:
+        case .dots, .dotsW:
             return 3.0
         case .number2:
             return 13.0
@@ -76,7 +76,7 @@ public enum DealiIndicatorPreset {
     
     public var contentSpacing: CGFloat {
         switch self {
-        case .dots, .dots_w, .number1:
+        case .dots, .dotsW, .number1:
             return 6.0
         default:
             return 2.0

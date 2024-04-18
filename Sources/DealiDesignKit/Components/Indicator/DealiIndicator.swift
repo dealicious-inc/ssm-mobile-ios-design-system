@@ -12,8 +12,8 @@ public class DealiIndicator {
         return DealiDotsIndicatorView(preset: .dots)
     }
     
-    public static func dotsW() -> DealiIndicatorView {
-        return DealiDotsIndicatorView(preset: .dots_w)
+    public static func dotsw() -> DealiIndicatorView {
+        return DealiDotsIndicatorView(preset: .dotsw)
     }
     
     public static func number1() -> DealiIndicatorView {

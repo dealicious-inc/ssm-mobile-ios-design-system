@@ -12,7 +12,7 @@ import DealiDesignKit
 final class IndicatorViewController: UIViewController {
     
     private let dotsIndicator = DealiIndicator.dots()
-    private let dotsWIndicator = DealiIndicator.dotsW()
+    private let dotsWIndicator = DealiIndicator.dotsw()
     
     private let numberIndicator1 = DealiIndicator.number1()
     private let numberIndicator2 = DealiIndicator.number2()

@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 
-public struct DealiCharaterOptions: OptionSet, CaseIterable {
+public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
     public static var allCases: [DealiCharaterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
     
     public var rawValue: Int
@@ -22,7 +22,7 @@ public struct DealiCharaterOptions: OptionSet, CaseIterable {
         self.rawValue = rawValue
     }
     
-    public static let alphabet = DealiCharaterOptions(rawValue: 1<<0)
+    public static var alphabet = DealiCharaterOptions(rawValue: 1<<0)
     public static let numeric = DealiCharaterOptions(rawValue: 1<<1)
     public static let korean = DealiCharaterOptions(rawValue: 1<<2)
     public static let japanese = DealiCharaterOptions(rawValue: 1<<3)
@@ -53,6 +53,18 @@ public extension DealiCharaterOptions {
         return set
     }
     
+    
+    func type(for character: CharacterSet) -> DealiCharaterOptions? {
+        
+        for option in DealiCharaterOptions.allCases {
+            if character.isSubset(of: option.characterSet) {
+                return option
+            }
+        }
+        
+        return nil
+    }
+    
     var description: String {
         switch self {
         case .alphabet:
@@ -71,34 +83,11 @@ public extension DealiCharaterOptions {
     }
 }
 
-public enum CharacterType: CaseIterable {
-    case alphabet
-    case numeric
-    case korean
-    case japanese
-    case specialCharacter
-    
-    public var characterSet: CharacterSet? {
-        switch self {
-        case .alphabet:
-            return CharacterSet.alphabet
-        case .numeric:
-            return CharacterSet.decimalDigits
-        case .korean:
-            return CharacterSet.korean
-        case .japanese:
-            return CharacterSet.japanese
-        case .specialCharacter:
-            return CharacterSet.specialCharacter
-        }
-    }
-}
-
 public extension String {
     
     enum ConditionType: Equatable {
         case length(min: Int = 0, max: Int)
-        case allow([CharacterSet])
+        case allow(DealiCharaterOptions)
         case restrict(DealiCharaterOptions)
     }
     
@@ -110,11 +99,9 @@ public extension String {
                 if self.count > maxLength {
                     return String(self.prefix(maxLength))
                 }
-            case .allow(let characterSets):
-                let characterSet = characterSets.reduce(CharacterSet()) { return $0.union($1) }
-                
+            case .allow(let option):
                 let filteredText = self.unicodeScalars
-                    .filter { characterSet.contains($0) }
+                    .filter { option.characterSet.contains($0) }
                     .map { String($0) }
                     .joined()
                 
@@ -467,6 +454,7 @@ public final class DealiTextInput_v2: UIView {
             }
         )
     }
+    
     
     private func RX() {
         

@@ -62,24 +62,47 @@ final class TextInputValidationView: UIView {
     
     
     private let disposeBag = DisposeBag()
-    private let textInput = DealiTextInput_v2()
     
-    var option: DealiCharaterOptions = [.alphabet, .numeric]
+    private let restrictedTextInput = DealiTextInput_v2()
+    private var restrictionOption: DealiCharaterOptions = []
+    private var restritionErrorMsg: [DealiCharaterOptions: String] = [.alphabet: "알파벳 금지", .numeric: "숫자 금지", .korean: "한글 금지", .japanese: "가나 금지", .specialCharacter: "특문 금지"]
 
+    private let allowedTextInput = DealiTextInput_v2()
+    private var allowingOption: DealiCharaterOptions = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.setupUI()
         
-        self.textInput.changedTextControlProperty
+        self.restrictedTextInput.changedTextControlProperty
             .orEmpty
             .changed
-            .scan(self.textInput.text ?? "") { _, current in
-                return current.filteredText(with: .restrict(self.option))
+            .scan(self.restrictedTextInput.text ?? "") { _, current in
+                
+                if let character = self.restrictedTextInput.text?.unicodeScalars
+                    .first(where: { self.restrictionOption.characterSet.contains($0) }),
+                   let type = self.restrictionOption.type(for: CharacterSet(charactersIn: String(character))) {
+                    
+                    debugPrint(self.restritionErrorMsg[type] ?? "")
+                }
+                
+                
+                return current.filteredText(with: .restrict(self.restrictionOption))
             }
             .bind(with: self) { owner, text in
-                owner.textInput.text = text
+                owner.restrictedTextInput.text = text
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.allowedTextInput.changedTextControlProperty
+            .orEmpty
+            .changed
+            .scan(self.allowedTextInput.text ?? "") { _, current in
+                return current.filteredText(with: .allow(self.allowingOption))
+            }
+            .bind(with: self) { owner, text in
+                owner.allowedTextInput.text = text
             }
             .disposed(by: self.disposeBag)
     }
@@ -110,13 +133,11 @@ final class TextInputValidationView: UIView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20.0)
             $0.left.equalToSuperview()
         }
-       
-        // 최대, 최소글자
-        // 이모지, 영어, 한글, 특수문자,
         
+        // MARK: - 입력제한 문자
         let restrictionLabel = UILabel()
         self.addSubview(restrictionLabel)
-
+        
         restrictionLabel.then {
             $0.font = .sh2sb18
             $0.text = "1.1. 입력제한 문자"
@@ -147,25 +168,81 @@ final class TextInputValidationView: UIView {
             chip.rx.tap
                 .bind(with: self) { owner, _ in
                     chip.isSelected.toggle()
+                    
                     if chip.isSelected {
-                        owner.option = owner.option.union(option)
+                        owner.restrictionOption = owner.restrictionOption.union(option)
                     } else {
-                        owner.option.subtract(option)
+                        owner.restrictionOption.subtract(option)
                     }
                 }
                 .disposed(by: self.disposeBag)
             
         }
         
-        self.addSubview(self.textInput)
-        self.textInput.then {
+        self.addSubview(self.restrictedTextInput)
+        self.restrictedTextInput.then {
             $0.placeholder = "테스트할 텍스트 입력"
             $0.inputRightViewType = .clear
             $0.inputReturnKeyType = .done
         }.snp.makeConstraints {
             $0.top.equalTo(optionStackView.snp.bottom).offset(20.0)
+            $0.left.right.equalToSuperview()
+        }
+        
+        // MARK: - 입력허용 문자
+        let allowingLabel = UILabel()
+        self.addSubview(allowingLabel)
+
+        allowingLabel.then {
+            $0.font = .sh2sb18
+            $0.text = "1.2. 입력허용 문자"
+            $0.textColor = .black
+        }.snp.makeConstraints {
+            $0.top.equalTo(self.restrictedTextInput.snp.bottom).offset(20.0)
+            $0.left.equalToSuperview()
+        }
+
+        let allowingOptionStackView = UIStackView()
+        self.addSubview(allowingOptionStackView)
+        allowingOptionStackView.then {
+            $0.axis = .horizontal
+            $0.distribution = .fill
+            $0.spacing = 5.0
+        }.snp.makeConstraints {
+            $0.top.equalTo(allowingLabel.snp.bottom).offset(10.0)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(32.0)
+        }
+
+        DealiCharaterOptions.allCases.forEach { option in
+            let chip = DealiControl.chipOutlineSmall01().then {
+                $0.title = option.description
+            }
+            allowingOptionStackView.addArrangedSubview(chip)
+
+            chip.rx.tap
+                .bind(with: self) { owner, _ in
+                    chip.isSelected.toggle()
+
+                    if chip.isSelected {
+                        owner.allowingOption = owner.allowingOption.union(option)
+                    } else {
+                        owner.allowingOption.subtract(option)
+                    }
+                }
+                .disposed(by: self.disposeBag)
+        }
+
+        self.addSubview(self.allowedTextInput)
+        self.allowedTextInput.then {
+            $0.placeholder = "테스트할 텍스트 입력"
+            $0.inputRightViewType = .clear
+            $0.inputReturnKeyType = .done
+        }.snp.makeConstraints {
+            $0.top.equalTo(allowingOptionStackView.snp.bottom).offset(20.0)
             $0.left.right.bottom.equalToSuperview()
         }
+        
     }
     
 }

@@ -10,6 +10,8 @@ import UIKit
 import DealiDesignKit
 import RxSwift
 import RxCocoa
+import OSLog
+import Then
 
 final class PlagroundViewController: UIViewController {
     
@@ -19,7 +21,7 @@ final class PlagroundViewController: UIViewController {
         
         self.title = "Playground"
     }
-    
+        
     override func loadView() {
         super.loadView()
         
@@ -61,7 +63,9 @@ final class TextInputValidationView: UIView {
     
     private let disposeBag = DisposeBag()
     private let textInput = DealiTextInput_v2()
-    private var restritionArray = [CharacterType]()
+    
+    var option: DealiCharaterOptions = [.alphabet, .numeric]
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,7 +76,7 @@ final class TextInputValidationView: UIView {
             .orEmpty
             .changed
             .scan(self.textInput.text ?? "") { _, current in
-                return current.filteredText(with: .restrict(self.restritionArray))
+                return current.filteredText(with: .restrict(self.option))
             }
             .bind(with: self) { owner, text in
                 owner.textInput.text = text
@@ -133,11 +137,10 @@ final class TextInputValidationView: UIView {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(32.0)
         }
-        
-        
-        CharacterType.allCases.forEach { charater in
+       
+        DealiCharaterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {
-                $0.title = charater.description
+                $0.title = option.description
             }
             optionStackView.addArrangedSubview(chip)
             
@@ -145,12 +148,10 @@ final class TextInputValidationView: UIView {
                 .bind(with: self) { owner, _ in
                     chip.isSelected.toggle()
                     if chip.isSelected {
-                        owner.restritionArray.append(charater)
-                        
+                        owner.option = owner.option.union(option)
                     } else {
-                        owner.restritionArray = owner.restritionArray.filter { $0 != charater }
+                        owner.option.subtract(option)
                     }
-                    
                 }
                 .disposed(by: self.disposeBag)
             

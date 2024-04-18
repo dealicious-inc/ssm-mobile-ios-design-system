@@ -11,24 +11,24 @@ import RxCocoa
 
 public class DealiTabBar {
     
-    public static func tabBar01() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBar01)
+    public static func tabBarSegment01() -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSegment01)
     }
     
-    public static func tabBar02() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBar02)
+    public static func tabBarSlider01() -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider01)
     }
     
-    public static func tabBar03() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBar03)
+    public static func tabBarSlider02() -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider02)
     }
     
-    public static func tabBar04() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBar04)
+    public static func tabBarChip01() -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarChip01)
     }
     
-    public static func tabBar05() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBar05)
+    public static func tabBarSlider03() -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider03)
     }
 }
 

@@ -132,7 +132,8 @@ final public class DealiTabBarView: UIView {
                 $0.backgroundColor = DealiColor.g30
             }
         }.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(preset.style != .segment ? -preset.tabBarMargin : 0)
             $0.height.equalTo(1.0)
         }
         

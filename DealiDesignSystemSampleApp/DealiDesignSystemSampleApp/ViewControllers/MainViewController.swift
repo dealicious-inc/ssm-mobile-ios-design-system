@@ -122,6 +122,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
         
+        let tabBarComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarComponentsButton)
+        tabBarComponentsButton.do {
+            $0.title = "TabBar Components"
+            $0.addTarget(self, action: #selector(tabBarComponentsButtonPressed), for: .touchUpInside)
+        }
+        
         let indicatorComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(indicatorComponentsButton)
         indicatorComponentsButton.do {
@@ -186,6 +193,10 @@ extension MainViewController {
     
     @objc func tagButtonPressed() {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
+    }
+    
+    @objc func tabBarComponentsButtonPressed() {
+        self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
     }
     
     @objc func indicatorButtonPressed() {

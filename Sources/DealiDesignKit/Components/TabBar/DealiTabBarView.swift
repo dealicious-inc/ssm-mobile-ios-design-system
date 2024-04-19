@@ -386,7 +386,7 @@ final public class DealiTabBarView: UIView {
                 offset = (positionX + contentWidth) - self.contentScrollView.frame.width
             }
         } else {
-            if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x {
+            if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x || self.contentScrollView.contentOffset.x <= 0 {
                 offset = (positionX - self.preset.contentButtonPadding)
             } else if (positionX + contentWidth + self.preset.contentButtonPadding) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
                 offset = (positionX + contentWidth + self.preset.contentButtonPadding) - self.contentScrollView.frame.width

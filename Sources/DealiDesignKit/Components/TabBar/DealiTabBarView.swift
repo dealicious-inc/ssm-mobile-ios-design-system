@@ -380,7 +380,7 @@ final public class DealiTabBarView: UIView {
         var offset: CGFloat = -1
 
         if case .sliderChip(_) = self.preset.style {
-            if positionX < self.contentScrollView.contentOffset.x {
+            if positionX < self.contentScrollView.contentOffset.x || self.contentScrollView.contentOffset.x <= 0 {
                 offset = positionX
             } else if (positionX + contentWidth) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
                 offset = (positionX + contentWidth) - self.contentScrollView.frame.width
@@ -394,7 +394,7 @@ final public class DealiTabBarView: UIView {
         }
 
         if offset >= 0 {
-            self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: false)
+            self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: true)
         }
     }
 }

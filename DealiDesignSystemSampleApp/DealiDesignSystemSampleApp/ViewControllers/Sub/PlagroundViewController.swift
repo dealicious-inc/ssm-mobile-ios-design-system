@@ -9,25 +9,36 @@
 import UIKit
 import DealiDesignKit
 import RxSwift
-import RxCocoa
+import RxKeyboard
 import OSLog
 import Then
 
 final class PlagroundViewController: UIViewController {
     
-
+    private let disposeBag = DisposeBag()
+    let scrollView = UIScrollView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Playground"
-    }
         
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { [weak self] keyboardHeight in
+                guard let self else { return }
+                let bottomMargin = keyboardHeight > 0 ? keyboardHeight + 20.0 : 0
+                self.scrollView.snp.updateConstraints {
+                    $0.bottom.equalToSuperview().inset(bottomMargin)
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
     override func loadView() {
         super.loadView()
         
         self.view.backgroundColor = .white
         
-        let scrollView = UIScrollView()
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -60,9 +71,7 @@ final class PlagroundViewController: UIViewController {
 
 final class TextInputValidationView: UIView {
     
-    
     private let disposeBag = DisposeBag()
-    
     private let restrictedTextInput = DealiTextInput_v2()
     private var restrictionOption: DealiCharaterOptions = []
     private var restritionErrorMsg: [DealiCharaterOptions: String] = [.alphabet: "알파벳 금지", .numeric: "숫자 금지", .korean: "한글 금지", .japanese: "가나 금지", .specialCharacter: "특문 금지"]
@@ -87,6 +96,26 @@ final class TextInputValidationView: UIView {
                     debugPrint(self.restritionErrorMsg[type] ?? "")
                 }
                 
+                let result = current.filteredText(for: .restrict(self.restrictionOption))
+                switch result.condition {
+                case let .some(condition):
+                    switch condition {
+                        
+                    case .length(min: let min, max: let max):
+                        ""
+                    case .allow(_):
+                        ""
+                    case let .restrict(option):
+                        if let errorCharacter = current.unicodeScalars.first(where: { option.characterSet.contains($0)}),
+                           let type = self.restrictionOption.type(for: CharacterSet(charactersIn: String(errorCharacter))),
+                           let errorMsg = self.restritionErrorMsg[type] {
+                            debugPrint(errorMsg)
+                        }
+                    }
+                default:
+                    print("성공")
+                    break
+                }
                 
                 return current.filteredText(with: .restrict(self.restrictionOption))
             }
@@ -184,6 +213,7 @@ final class TextInputValidationView: UIView {
             $0.placeholder = "테스트할 텍스트 입력"
             $0.inputRightViewType = .clear
             $0.inputReturnKeyType = .done
+            $0.title = "입력제한 문자 테스트 TextInput"
         }.snp.makeConstraints {
             $0.top.equalTo(optionStackView.snp.bottom).offset(20.0)
             $0.left.right.equalToSuperview()
@@ -238,6 +268,7 @@ final class TextInputValidationView: UIView {
             $0.placeholder = "테스트할 텍스트 입력"
             $0.inputRightViewType = .clear
             $0.inputReturnKeyType = .done
+            $0.title = "입력허용 문자 테스트 TextInput"
         }.snp.makeConstraints {
             $0.top.equalTo(allowingOptionStackView.snp.bottom).offset(20.0)
             $0.left.right.bottom.equalToSuperview()

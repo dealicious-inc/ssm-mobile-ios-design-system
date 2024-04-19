@@ -83,6 +83,32 @@ public extension DealiCharaterOptions {
     }
 }
 
+protocol TextInputValidatable {
+    associatedtype ErrorMessage = [DealiCharaterOptions: String]
+    
+    func errorMsg()
+    
+}
+
+extension TextInputValidatable {
+    func errorMsg(for condition: String.ConditionType?, errorMessage: ErrorMessage) -> String? {
+        switch condition {
+        case let .some(condition):
+            switch condition {
+                
+            case .length(min: let min, max: let max):
+                return ""
+            case .allow(_):
+                return ""
+            case let .restrict(option):
+                return ""
+            }
+        default:
+            return nil
+        }
+    }
+}
+
 public extension String {
     
     enum ConditionType: Equatable {
@@ -91,28 +117,64 @@ public extension String {
         case restrict(DealiCharaterOptions)
     }
     
-    func filteredText(with conditions: ConditionType...) -> String {
+    func filteredText(for conditions: ConditionType...) -> (filteredText: String, condition: ConditionType?) {
+        
         for condition in conditions {
             
             switch condition {
-            case .length(_, max: let maxLength):
+            case let .length(_, maxLength):
+                if self.count > maxLength {
+                    return (String(self.prefix(maxLength)), condition)
+                }
+            case let .allow(option):
+                let filteredText = self.unicodeScalars
+                    .filter { option.characterSet.contains($0) }
+                    .map(String.init)
+                    .joined()
+                
+                if filteredText != self {
+                    return (filteredText, condition)
+                }
+            case let .restrict(option):
+               
+                let filteredText = self.unicodeScalars
+                    .filter { !option.characterSet.contains($0) }
+                    .map(String.init)
+                    .joined()
+                
+                if filteredText != self {
+                    return (filteredText, condition)
+                }
+            }
+        }
+        
+        return (self, nil)
+    }
+
+    func filteredText(with conditions: ConditionType...) -> String {
+        
+        // 필요한 조건. invalidate 인 경우 노출되는 에러메시지.
+        for condition in conditions {
+            
+            switch condition {
+            case let .length(_, maxLength):
                 if self.count > maxLength {
                     return String(self.prefix(maxLength))
                 }
-            case .allow(let option):
+            case let .allow(option):
                 let filteredText = self.unicodeScalars
                     .filter { option.characterSet.contains($0) }
-                    .map { String($0) }
+                    .map(String.init)
                     .joined()
                 
                 if filteredText != self {
                     return filteredText
                 }
-            case .restrict(let option):
+            case let .restrict(option):
                
                 let filteredText = self.unicodeScalars
                     .filter { !option.characterSet.contains($0) }
-                    .map { String($0) }
+                    .map(String.init)
                     .joined()
                 
                 if filteredText != self {

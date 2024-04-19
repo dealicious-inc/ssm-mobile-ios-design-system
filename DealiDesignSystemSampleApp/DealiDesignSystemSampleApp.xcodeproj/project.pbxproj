@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		041ABC042A174598001772F3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC032A174598001772F3 /* RxCocoa */; };
-		041ABC062A174598001772F3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC052A174598001772F3 /* RxRelay */; };
-		041ABC082A174598001772F3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC072A174598001772F3 /* RxSwift */; };
 		041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041ABC0B2A175E19001772F3 /* ColorViewController.swift */; };
 		042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8A82A14C7D500370706 /* AppDelegate.swift */; };
 		042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AA2A14C7D500370706 /* SceneDelegate.swift */; };
@@ -21,6 +18,7 @@
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		3BE5F2FE2AFC704D0087889F /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE5F2FD2AFC704D0087889F /* SearchInputViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
+		4D3E8A782BD2359B002A80D8 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 4D3E8A772BD2359B002A80D8 /* RxKeyboard */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D7A57262BCE61CA007D057C /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
@@ -67,9 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D7A57262BCE61CA007D057C /* DealiDesignKit in Frameworks */,
-				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
-				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
-				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
+				4D3E8A782BD2359B002A80D8 /* RxKeyboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,10 +183,8 @@
 			);
 			name = DealiDesignSystemSampleApp;
 			packageProductDependencies = (
-				041ABC032A174598001772F3 /* RxCocoa */,
-				041ABC052A174598001772F3 /* RxRelay */,
-				041ABC072A174598001772F3 /* RxSwift */,
 				E6D2214A2AAEE733000A6411 /* DealiDesignKit */,
+				4D3E8A772BD2359B002A80D8 /* RxKeyboard */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -222,7 +216,7 @@
 			);
 			mainGroup = 042EA89C2A14C7D500370706;
 			packageReferences = (
-				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				4D3E8A762BD2359B002A80D8 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
@@ -479,31 +473,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		4D3E8A762BD2359B002A80D8 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 2.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		041ABC032A174598001772F3 /* RxCocoa */ = {
+		4D3E8A772BD2359B002A80D8 /* RxKeyboard */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		041ABC052A174598001772F3 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		041ABC072A174598001772F3 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
+			package = 4D3E8A762BD2359B002A80D8 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		E6D2214A2AAEE733000A6411 /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -30,6 +30,7 @@ final class TabBarComponentrViewController: UIViewController {
     private let tabBarView01 = DealiTabBar.tabBarSegment01()
     private let tabBarView02 = DealiTabBar.tabBarSlider01()
     private let tabBarView03 = DealiTabBar.tabBarSlider02()
+    private let tabBarViewShort = DealiTabBar.tabBarSlider02()
     private let tabBarView04 = DealiTabBar.tabBarChip01()
     private let tabBarView05 = DealiTabBar.tabBarSlider03()
     
@@ -76,6 +77,12 @@ final class TabBarComponentrViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview()
         }
         
+        let titleLabel01 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel01)
+        titleLabel01.do {
+            $0.text = "tabBarView01"
+            $0.font = .b1sb15
+        }
         
         contentStackView.addArrangedSubview(self.tabBarView01)
         self.tabBarView01.then {
@@ -83,6 +90,13 @@ final class TabBarComponentrViewController: UIViewController {
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+        }
+        
+        let titleLabel02 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel02)
+        titleLabel02.do {
+            $0.text = "tabBarView02"
+            $0.font = .b1sb15
         }
         
         contentStackView.addArrangedSubview(self.tabBarView02)
@@ -93,12 +107,41 @@ final class TabBarComponentrViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let titleLabel03 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel03)
+        titleLabel03.do {
+            $0.text = "tabBarView03"
+            $0.font = .b1sb15
+        }
+        
         contentStackView.addArrangedSubview(self.tabBarView03)
         self.tabBarView03.then {
             $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+        }
+        
+        let titleLabel07 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel07)
+        titleLabel07.do {
+            $0.text = "tabBarView03 - Short"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarViewShort)
+        self.tabBarViewShort.then {
+            $0.setTabbarItems(tabbarItemArray: segmentTabBarItemArray)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let titleLabel04 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel04)
+        titleLabel04.do {
+            $0.text = "tabBarView04"
+            $0.font = .b1sb15
         }
         
         contentStackView.addArrangedSubview(self.tabBarView04)
@@ -109,12 +152,26 @@ final class TabBarComponentrViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let titleLabel05 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel05)
+        titleLabel05.do {
+            $0.text = "tabBarView05"
+            $0.font = .b1sb15
+        }
+        
         contentStackView.addArrangedSubview(self.tabBarView05)
         self.tabBarView05.then {
             $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+        }
+        
+        let titleLabel06 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel06)
+        titleLabel06.do {
+            $0.text = "badgeOnOffButton"
+            $0.font = .b1sb15
         }
         
         contentStackView.addArrangedSubview(self.badgeOnOffButton)

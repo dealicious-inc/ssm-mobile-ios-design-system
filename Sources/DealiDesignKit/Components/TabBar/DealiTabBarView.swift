@@ -120,8 +120,9 @@ final public class DealiTabBarView: UIView {
                 $0.top.bottom.left.right.equalToSuperview()
             }
             
-            self.contentScrollView.addSubview(self.bottomDividerView)
+            self.addSubview(self.bottomDividerView)
             self.contentScrollView.addSubview(self.selectedUnderLineImageView)
+            self.bringSubviewToFront(self.contentScrollView)
         }
         
         self.bottomDividerView.then {

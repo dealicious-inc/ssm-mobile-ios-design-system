@@ -43,7 +43,7 @@ final public class DealiTabBarView: UIView {
     private lazy var contentScrollView = UIScrollView()
     private let contentStackView = UIStackView()
     private let selectedUnderLineImageView = UIImageView()
-    private let bottomDivider = UIView()
+    private let bottomDividerView = UIView()
     
     private var tabbarItemInfoArray: [DealiTabBarItemInfo] = []
     
@@ -86,7 +86,7 @@ final public class DealiTabBarView: UIView {
                 $0.left.right.equalToSuperview().inset(preset.tabBarMargin)
             }
             
-            self.addSubview(self.bottomDivider)
+            self.addSubview(self.bottomDividerView)
             self.addSubview(self.selectedUnderLineImageView)
             
         default:
@@ -120,11 +120,11 @@ final public class DealiTabBarView: UIView {
                 $0.top.bottom.left.right.equalToSuperview()
             }
             
-            self.contentScrollView.addSubview(self.bottomDivider)
+            self.contentScrollView.addSubview(self.bottomDividerView)
             self.contentScrollView.addSubview(self.selectedUnderLineImageView)
         }
         
-        self.bottomDivider.then {
+        self.bottomDividerView.then {
             if case .sliderChip(_) = preset.style {
                 $0.isHidden = true
             } else {

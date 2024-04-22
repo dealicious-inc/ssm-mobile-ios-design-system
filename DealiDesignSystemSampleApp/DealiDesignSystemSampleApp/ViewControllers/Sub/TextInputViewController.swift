@@ -73,18 +73,6 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        textInput.changedTextControlProperty
-            .orEmpty
-            .changed
-            .scan(textInput.text ?? "") { (_, current) -> String in
-                return current.filteredText(with: .restrict([.specialCharacter]), .length(max: 10))
-            }
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self) { owner, text in
-                textInput.text = text
-            }
-            .disposed(by: self.disposeBag)
-        
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)
         numberInput.then {

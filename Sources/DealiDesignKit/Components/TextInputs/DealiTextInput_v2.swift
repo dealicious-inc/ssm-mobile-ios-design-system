@@ -11,179 +11,110 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-
-public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
-    public static var allCases: [DealiCharaterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
+public enum TextValidationConditionType: Hashable {
+    case length(min: Int = 0, max: Int)
+    case allow(DealiCharaterOptions)
+    case restrict(DealiCharaterOptions)
     
-    public var rawValue: Int
-    public var errorMsg: String?
+    public typealias ErrorMessage = [TextValidationConditionType: String] // 에러 메시지 딕셔너리
     
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
+    private static var errorMessages: ErrorMessage = [:] // 에러 메시지 저장용 변수
+    
+    public static func setErrorMessage(for condition: TextValidationConditionType, errorMessage: String) {
+        errorMessages[condition] = errorMessage
     }
     
-    public static var alphabet = DealiCharaterOptions(rawValue: 1<<0)
-    public static let numeric = DealiCharaterOptions(rawValue: 1<<1)
-    public static let korean = DealiCharaterOptions(rawValue: 1<<2)
-    public static let japanese = DealiCharaterOptions(rawValue: 1<<3)
-    public static let specialCharacter = DealiCharaterOptions(rawValue: 1<<4)
-}
-
-public extension DealiCharaterOptions {
-    
-    var characterSet: CharacterSet {
-        var set = CharacterSet()
-        
-        if self.contains(.alphabet) {
-            set.formUnion(CharacterSet.alphabet)
-        }
-        if self.contains(.numeric) {
-            set.formUnion(CharacterSet.decimalDigits)
-        }
-        if self.contains(.korean) {
-            set.formUnion(CharacterSet.korean)
-        }
-        if self.contains(.japanese) {
-            set.formUnion(CharacterSet.japanese)
-        }
-        if self.contains(.specialCharacter) {
-            set.formUnion(CharacterSet.specialCharacter)
-        }
-        
-        return set
+    public func errorMessage() -> String? {
+        return TextValidationConditionType.errorMessages[self]
     }
-    
-    
-    func type(for character: CharacterSet) -> DealiCharaterOptions? {
-        
-        for option in DealiCharaterOptions.allCases {
-            if character.isSubset(of: option.characterSet) {
-                return option
-            }
-        }
-        
-        return nil
-    }
-    
-    var description: String {
-        switch self {
-        case .alphabet:
-            return "알파벳"
-        case .numeric:
-            return "숫자"
-        case .korean:
-            return "한글"
-        case .japanese:
-            return "가나"
-        case .specialCharacter:
-            return "특수문자"
-        default:
-            return ""
-        }
-    }
-}
-
-protocol TextInputValidatable {
-    associatedtype ErrorMessage = [DealiCharaterOptions: String]
-    
-    func errorMsg()
     
 }
 
-extension TextInputValidatable {
-    func errorMsg(for condition: String.ConditionType?, errorMessage: ErrorMessage) -> String? {
-        switch condition {
-        case let .some(condition):
-            switch condition {
-                
-            case .length(min: let min, max: let max):
-                return ""
-            case .allow(_):
-                return ""
-            case let .restrict(option):
-                return ""
-            }
-        default:
-            return nil
-        }
-    }
-}
 
-public extension String {
-    
-    enum ConditionType: Equatable {
+public struct TextValidator {
+    public enum Condition: Hashable {
         case length(min: Int = 0, max: Int)
         case allow(DealiCharaterOptions)
         case restrict(DealiCharaterOptions)
     }
     
-    func filteredText(for conditions: ConditionType...) -> (filteredText: String, condition: ConditionType?) {
-        
-        for condition in conditions {
-            
-            switch condition {
-            case let .length(_, maxLength):
-                if self.count > maxLength {
-                    return (String(self.prefix(maxLength)), condition)
-                }
-            case let .allow(option):
-                let filteredText = self.unicodeScalars
-                    .filter { option.characterSet.contains($0) }
-                    .map(String.init)
-                    .joined()
-                
-                if filteredText != self {
-                    return (filteredText, condition)
-                }
-            case let .restrict(option):
-               
-                let filteredText = self.unicodeScalars
-                    .filter { !option.characterSet.contains($0) }
-                    .map(String.init)
-                    .joined()
-                
-                if filteredText != self {
-                    return (filteredText, condition)
-                }
-            }
+    public var condition: Condition
+    
+  
+    public var errorMessage: String?
+    
+    public mutating func setErrorMessage() {
+        if case let .restrict(option) = condition {
+            self.errorMessage = option.errorMsg ?? ""
         }
         
-        return (self, nil)
     }
-
-    func filteredText(with conditions: ConditionType...) -> String {
+    
+    public init(condition: TextValidator.Condition) {
+        self.condition = condition
         
-        // 필요한 조건. invalidate 인 경우 노출되는 에러메시지.
-        for condition in conditions {
+        self.setErrorMessage()
+    }
+    
+}
+
+
+public extension String {
+    
+    func isValid(for validator: TextValidator) -> Bool {
+        switch validator.condition {
+        case let .length(_, maxLength):
+            return self.count <= maxLength
+        case let .allow(option):
+            let currentCharacterSet = CharacterSet(charactersIn: self)
+            let notAllowedSet = currentCharacterSet.subtracting(option.characterSet)
+            return notAllowedSet.isEmpty
             
+        case let .restrict(option):
+            let currentCharacterSet = CharacterSet(charactersIn: self)
+            let restrictedSet = currentCharacterSet.intersection(option.characterSet)
+            return restrictedSet.isEmpty
+        }
+    }
+    
+    
+    func isValid(for condition: TextValidationConditionType) -> Bool {
+        switch condition {
+        case let .length(_, maxLength):
+            return self.count <= maxLength
+        case let .allow(option):
+            let currentCharacterSet = CharacterSet(charactersIn: self)
+            let notAllowedSet = currentCharacterSet.subtracting(option.characterSet)
+            return notAllowedSet.isEmpty
+            
+        case let .restrict(option):
+            let currentCharacterSet = CharacterSet(charactersIn: self)
+            let restrictedSet = currentCharacterSet.intersection(option.characterSet)
+            return restrictedSet.isEmpty
+        }
+    }
+    
+    func filteredText(for condition: TextValidationConditionType) -> String {
+                
+        var filteredText: String {
             switch condition {
             case let .length(_, maxLength):
-                if self.count > maxLength {
-                    return String(self.prefix(maxLength))
-                }
+                return String(self.prefix(maxLength))
+                
             case let .allow(option):
-                let filteredText = self.unicodeScalars
+                return self.unicodeScalars
                     .filter { option.characterSet.contains($0) }
                     .map(String.init)
                     .joined()
                 
-                if filteredText != self {
-                    return filteredText
-                }
             case let .restrict(option):
-               
-                let filteredText = self.unicodeScalars
+                return self.unicodeScalars
                     .filter { !option.characterSet.contains($0) }
                     .map(String.init)
                     .joined()
-                
-                if filteredText != self {
-                    return filteredText
-                }
             }
         }
-        
-        return self
+        return filteredText
     }
 }
 

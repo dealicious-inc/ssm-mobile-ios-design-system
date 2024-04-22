@@ -68,14 +68,18 @@ final class PlagroundViewController: UIViewController {
 
 }
 
-
 final class TextInputValidationView: UIView {
     
     private let disposeBag = DisposeBag()
     private let restrictedTextInput = DealiTextInput_v2()
-    private var restrictionOption: DealiCharaterOptions = []
-    private var restritionErrorMsg: [DealiCharaterOptions: String] = [.alphabet: "알파벳 금지", .numeric: "숫자 금지", .korean: "한글 금지", .japanese: "가나 금지", .specialCharacter: "특문 금지"]
+    
 
+    private var restrictionOption: DealiCharaterOptions = []
+    
+    // MARK: - ErrorMsg
+    lazy var errorMsg: [TextValidationConditionType: String] = [.length(min: 0, max: 10): "최대길이 제한", .restrict(self.restrictionOption): "제한 글자"]
+    private var restritionConditionDict: [DealiCharaterOptions: String] = [.alphabet: "알파벳 금지", .numeric: "숫자 금지", .korean: "한글 금지", .japanese: "가나 금지", .specialCharacter: "특문 금지"]
+       
     private let allowedTextInput = DealiTextInput_v2()
     private var allowingOption: DealiCharaterOptions = []
     
@@ -84,40 +88,33 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
+        restrictionOption.setErrorMessage(for: .alphabet, errorMessage: [CharacterSet.alphabet: "알파벳 금지", CharacterSet.uppercaseLetters: "소문자만 입력 가능합니다."])
+        restrictionOption.setErrorMessage(for: .numeric, errorMessage: [CharacterSet.decimalDigits: "숫자 금지"])
+
+        
         self.restrictedTextInput.changedTextControlProperty
             .orEmpty
             .changed
             .scan(self.restrictedTextInput.text ?? "") { _, current in
                 
-                if let character = self.restrictedTextInput.text?.unicodeScalars
-                    .first(where: { self.restrictionOption.characterSet.contains($0) }),
-                   let type = self.restrictionOption.type(for: CharacterSet(charactersIn: String(character))) {
-                    
-                    debugPrint(self.restritionErrorMsg[type] ?? "")
-                }
+//                let invalidOptionArray = [.restrict(self.restrictionOption)].filter { !current.isValid(for: $0) }
+//                guard let invalidOption = invalidOptionArray.first else { return current }
+//                
+//                // 에러메시지 전달. toast, helperText 등으로
+//                debugPrint(invalidOption.errorMessage())
+//                
                 
-                let result = current.filteredText(for: .restrict(self.restrictionOption))
-                switch result.condition {
-                case let .some(condition):
-                    switch condition {
-                        
-                    case .length(min: let min, max: let max):
-                        ""
-                    case .allow(_):
-                        ""
-                    case let .restrict(option):
-                        if let errorCharacter = current.unicodeScalars.first(where: { option.characterSet.contains($0)}),
-                           let type = self.restrictionOption.type(for: CharacterSet(charactersIn: String(errorCharacter))),
-                           let errorMsg = self.restritionErrorMsg[type] {
-                            debugPrint(errorMsg)
-                        }
-                    }
-                default:
-                    print("성공")
-                    break
-                }
+                let condition = TextValidator(condition: .restrict(self.restrictionOption))
+                let invalidOptionArray: [TextValidator] = [ condition].filter { !current.isValid(for: $0) }
+                guard let invalidOption = invalidOptionArray.first else { return current }
                 
-                return current.filteredText(with: .restrict(self.restrictionOption))
+                // 에러메시지 전달. toast, helperText 등으로
+                debugPrint(invalidOption.errorMessage())
+                
+                return invalidOptionArray.reduce(current) { text, option -> String in
+                    text.filteredText(for: option)
+                }
+
             }
             .bind(with: self) { owner, text in
                 owner.restrictedTextInput.text = text
@@ -128,7 +125,16 @@ final class TextInputValidationView: UIView {
             .orEmpty
             .changed
             .scan(self.allowedTextInput.text ?? "") { _, current in
-                return current.filteredText(with: .allow(self.allowingOption))
+                
+                let invalidOptionArray = [.allow(self.allowingOption)].filter { !current.isValid(for: $0) }
+                guard let invalidOption = invalidOptionArray.first else { return current }
+                
+                let filteredText: String = invalidOptionArray.reduce(current) { text, option -> String in
+                    text.filteredText(for: option)
+                }
+                
+                return filteredText
+                
             }
             .bind(with: self) { owner, text in
                 owner.allowedTextInput.text = text

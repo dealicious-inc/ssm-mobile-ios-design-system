@@ -74,13 +74,14 @@ final class TabBarComponentrViewController: UIViewController {
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.top.equalToSuperview().offset(10)
+            $0.bottom.left.right.equalToSuperview()
         }
         
         let titleLabel01 = UILabel()
         contentStackView.addArrangedSubview(titleLabel01)
         titleLabel01.do {
-            $0.text = "tabBarView01"
+            $0.text = "tabBarSegment01"
             $0.font = .b1sb15
         }
         
@@ -95,7 +96,7 @@ final class TabBarComponentrViewController: UIViewController {
         let titleLabel02 = UILabel()
         contentStackView.addArrangedSubview(titleLabel02)
         titleLabel02.do {
-            $0.text = "tabBarView02"
+            $0.text = "tabBarSlider01"
             $0.font = .b1sb15
         }
         
@@ -110,7 +111,7 @@ final class TabBarComponentrViewController: UIViewController {
         let titleLabel03 = UILabel()
         contentStackView.addArrangedSubview(titleLabel03)
         titleLabel03.do {
-            $0.text = "tabBarView03"
+            $0.text = "tabBarSlider02"
             $0.font = .b1sb15
         }
         
@@ -125,7 +126,7 @@ final class TabBarComponentrViewController: UIViewController {
         let titleLabel07 = UILabel()
         contentStackView.addArrangedSubview(titleLabel07)
         titleLabel07.do {
-            $0.text = "tabBarView03 - Short"
+            $0.text = "tabBarSlider02 - Short"
             $0.font = .b1sb15
         }
         
@@ -140,7 +141,7 @@ final class TabBarComponentrViewController: UIViewController {
         let titleLabel04 = UILabel()
         contentStackView.addArrangedSubview(titleLabel04)
         titleLabel04.do {
-            $0.text = "tabBarView04"
+            $0.text = "tabBarChip01"
             $0.font = .b1sb15
         }
         
@@ -155,7 +156,7 @@ final class TabBarComponentrViewController: UIViewController {
         let titleLabel05 = UILabel()
         contentStackView.addArrangedSubview(titleLabel05)
         titleLabel05.do {
-            $0.text = "tabBarView05"
+            $0.text = "tabBarSlider03"
             $0.font = .b1sb15
         }
         

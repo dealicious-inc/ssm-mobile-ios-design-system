@@ -194,11 +194,12 @@ final public class DealiTabBarView: UIView {
     }
     
     /// tabbar를 구성할 정보를 받아 Tabbar Item Button 생성 및 정보 저장
-    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
+    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0) {
         
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 tabbarView를 재구성
         let itemArray = tabbarItemArray.filter({ $0.isHidden == false })
         
+        self.selectedIndex = startIndex
         if self.selectedIndex >= itemArray.count {
             self.selectedIndex = (itemArray.count - 1)
         }

@@ -201,7 +201,6 @@ final public class DealiTabBarView: UIView {
         
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 tabbarView를 재구성
         let itemArray = tabbarItemArray.filter({ $0.isHidden == false })
-        self.setSelectedIndexWithScroll(index: startIndex)
         
         let offset = self.contentScrollView.contentOffset
         
@@ -267,7 +266,7 @@ final public class DealiTabBarView: UIView {
         self.updateTabbarItemInfo()
         
         self.contentScrollView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
-        
+        self.setSelectedIndexWithScroll(index: startIndex)
     }
     
     /// 특정 index에 위치한 tabbaritem의 title 변경 처리

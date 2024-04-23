@@ -132,7 +132,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarViewShort)
         self.tabBarViewShort.then {
-            $0.setTabbarItems(tabbarItemArray: segmentTabBarItemArray, startIndex: 4)
+            $0.setTabbarItems(tabbarItemArray: segmentTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -152,6 +152,7 @@ final class TabBarComponentrViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        self.tabBarView04.setSelectedIndex(index: 8)
         
         let titleLabel05 = UILabel()
         contentStackView.addArrangedSubview(titleLabel05)

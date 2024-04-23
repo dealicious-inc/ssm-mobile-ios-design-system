@@ -162,12 +162,9 @@ final public class DealiTabBarView: UIView {
         self.setSelectedIndex(index: sender.tag, animated: true)
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = false) {
+    private func setSelectedIndexWithScroll(index: Int) {
         guard index < self.tabbarItemInfoArray.count else { return }
         self.selectedIndex = index
-        
-        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
-        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
         
         /// chip을 사용하는 tabbar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
         if self.preset.style == .segment || self.preset.style == .sliderButton {
@@ -181,6 +178,12 @@ final public class DealiTabBarView: UIView {
         if self.preset.style != .segment && self.isStandAloneView {
             self.moveScrollContentOffset(positionX: self.tabbarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabbarItemInfoArray[index].contentWidth)
         }
+    }
+    
+    public func setSelectedIndex(index: Int, animated: Bool = false) {
+        self.setSelectedIndexWithScroll(index: index)
+        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
     }
     
     /// Tabbar를 다시 구성하거나할때 기존 tabbar의 정보를 초기화
@@ -198,11 +201,7 @@ final public class DealiTabBarView: UIView {
         
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 tabbarView를 재구성
         let itemArray = tabbarItemArray.filter({ $0.isHidden == false })
-        
-        self.selectedIndex = startIndex
-        if self.selectedIndex >= itemArray.count {
-            self.selectedIndex = (itemArray.count - 1)
-        }
+        self.setSelectedIndexWithScroll(index: startIndex)
         
         let offset = self.contentScrollView.contentOffset
         

@@ -11,27 +11,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public enum TextValidationConditionType: Hashable {
-    case length(min: Int = 0, max: Int)
-    case allow(DealiCharaterOptions)
-    case restrict(DealiCharaterOptions)
-    
-    public typealias ErrorMessage = [TextValidationConditionType: String] // 에러 메시지 딕셔너리
-    
-    private static var errorMessages: ErrorMessage = [:] // 에러 메시지 저장용 변수
-    
-    public static func setErrorMessage(for condition: TextValidationConditionType, errorMessage: String) {
-        errorMessages[condition] = errorMessage
-    }
-    
-    public func errorMessage() -> String? {
-        return TextValidationConditionType.errorMessages[self]
-    }
-    
-}
-
-
 public struct TextValidator {
+    
     public enum Condition: Hashable {
         case length(min: Int = 0, max: Int)
         case allow(DealiCharaterOptions)
@@ -39,25 +20,22 @@ public struct TextValidator {
     }
     
     public var condition: Condition
-    
   
-    public var errorMessage: String?
+    public private(set) var errorMessage: String?
     
-    public mutating func setErrorMessage() {
+    public mutating func setErrorMessage(for currentText: String) {
         if case let .restrict(option) = condition {
-            self.errorMessage = option.errorMsg ?? ""
+            let currentCharacterSet = CharacterSet(charactersIn: currentText)
+            let restrictedSet = option.characterSet.intersection(currentCharacterSet)
+
+            self.errorMessage = option.errorMessage(for: option, characterSet: restrictedSet)
         }
-        
     }
     
     public init(condition: TextValidator.Condition) {
         self.condition = condition
-        
-        self.setErrorMessage()
     }
-    
 }
-
 
 public extension String {
     
@@ -77,27 +55,10 @@ public extension String {
         }
     }
     
-    
-    func isValid(for condition: TextValidationConditionType) -> Bool {
-        switch condition {
-        case let .length(_, maxLength):
-            return self.count <= maxLength
-        case let .allow(option):
-            let currentCharacterSet = CharacterSet(charactersIn: self)
-            let notAllowedSet = currentCharacterSet.subtracting(option.characterSet)
-            return notAllowedSet.isEmpty
-            
-        case let .restrict(option):
-            let currentCharacterSet = CharacterSet(charactersIn: self)
-            let restrictedSet = currentCharacterSet.intersection(option.characterSet)
-            return restrictedSet.isEmpty
-        }
-    }
-    
-    func filteredText(for condition: TextValidationConditionType) -> String {
+    func filteredText(for validator: TextValidator) -> String {
                 
         var filteredText: String {
-            switch condition {
+            switch validator.condition {
             case let .length(_, maxLength):
                 return String(self.prefix(maxLength))
                 

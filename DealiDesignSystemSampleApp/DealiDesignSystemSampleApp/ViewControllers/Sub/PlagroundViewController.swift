@@ -77,9 +77,6 @@ final class TextInputValidationView: UIView {
     private var restrictionOption: DealiCharaterOptions = []
     
     // MARK: - ErrorMsg
-    lazy var errorMsg: [TextValidationConditionType: String] = [.length(min: 0, max: 10): "최대길이 제한", .restrict(self.restrictionOption): "제한 글자"]
-    private var restritionConditionDict: [DealiCharaterOptions: String] = [.alphabet: "알파벳 금지", .numeric: "숫자 금지", .korean: "한글 금지", .japanese: "가나 금지", .specialCharacter: "특문 금지"]
-       
     private let allowedTextInput = DealiTextInput_v2()
     private var allowingOption: DealiCharaterOptions = []
     
@@ -88,28 +85,20 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
-        restrictionOption.setErrorMessage(for: .alphabet, errorMessage: [CharacterSet.alphabet: "알파벳 금지", CharacterSet.uppercaseLetters: "소문자만 입력 가능합니다."])
-        restrictionOption.setErrorMessage(for: .numeric, errorMessage: [CharacterSet.decimalDigits: "숫자 금지"])
-
-        
         self.restrictedTextInput.changedTextControlProperty
             .orEmpty
             .changed
-            .scan(self.restrictedTextInput.text ?? "") { _, current in
+            .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
                 
-//                let invalidOptionArray = [.restrict(self.restrictionOption)].filter { !current.isValid(for: $0) }
-//                guard let invalidOption = invalidOptionArray.first else { return current }
-//                
-//                // 에러메시지 전달. toast, helperText 등으로
-//                debugPrint(invalidOption.errorMessage())
-//                
+                self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")
+                self.restrictionOption.setErrorMessage(for: .numeric, errorMessage: "숫자 금지")
+                self.restrictionOption.setErrorMessage(for: .korean, errorMessage:"한글 금지")
                 
-                let condition = TextValidator(condition: .restrict(self.restrictionOption))
-                let invalidOptionArray: [TextValidator] = [ condition].filter { !current.isValid(for: $0) }
-                guard let invalidOption = invalidOptionArray.first else { return current }
+                let invalidOptionArray = [TextValidator(condition: .restrict(self.restrictionOption))].filter { !current.isValid(for: $0) }
                 
-                // 에러메시지 전달. toast, helperText 등으로
-                debugPrint(invalidOption.errorMessage())
+                guard var invalidOption = invalidOptionArray.first else { return current }
+                invalidOption.setErrorMessage(for: current)
+                debugPrint(invalidOption.errorMessage ?? "")
                 
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
@@ -124,9 +113,9 @@ final class TextInputValidationView: UIView {
         self.allowedTextInput.changedTextControlProperty
             .orEmpty
             .changed
-            .scan(self.allowedTextInput.text ?? "") { _, current in
+            .scan(self.allowedTextInput.text ?? "") { _, current -> String in
                 
-                let invalidOptionArray = [.allow(self.allowingOption)].filter { !current.isValid(for: $0) }
+                let invalidOptionArray = [TextValidator(condition:.allow(self.allowingOption))].filter { !current.isValid(for: $0) }
                 guard let invalidOption = invalidOptionArray.first else { return current }
                 
                 let filteredText: String = invalidOptionArray.reduce(current) { text, option -> String in

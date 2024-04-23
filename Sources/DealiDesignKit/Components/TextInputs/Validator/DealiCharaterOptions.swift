@@ -11,7 +11,6 @@ public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
     public static var allCases: [DealiCharaterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
     
     public var rawValue: Int
-    public var errorMsg: String?
     
     public init(rawValue: Int) {
         self.rawValue = rawValue
@@ -23,24 +22,23 @@ public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
     public static let japanese = DealiCharaterOptions(rawValue: 1<<3)
     public static let specialCharacter = DealiCharaterOptions(rawValue: 1<<4)
     
-    typealias ErrorMessage = [DealiCharaterOptions: [CharacterSet: String]]
-    var errorMessage: ErrorMessage = [:]
+    typealias ErrorMessage = [DealiCharaterOptions: String]
+    var errorMsgDict: ErrorMessage = [:]
 }
 
 public extension DealiCharaterOptions {
     
-    mutating func setErrorMessage(for option: DealiCharaterOptions, errorMessage: [CharacterSet: String]) {
-        self.errorMessage[option] = errorMessage
+    mutating func setErrorMessage(for option: DealiCharaterOptions, errorMessage: String) {
+        self.errorMsgDict[option] = errorMessage
     }
     
-    func errorMessage(for options: DealiCharaterOptions, characterSet: CharacterSet) -> String? {
-        var combinedErrorMessage: String = ""
+    func errorMessage(for condition: DealiCharaterOptions, errorCharacterSet: CharacterSet) -> String? {
         for option in DealiCharaterOptions.allCases {
-            if options.contains(option), let message = errorMessage[option]?[characterSet] {
-                combinedErrorMessage.append(message + "\n")
+            if errorCharacterSet.isSubset(of: option.characterSet), let message = self.errorMsgDict[option] {
+                return message
             }
         }
-        return combinedErrorMessage.isEmpty ? nil : combinedErrorMessage
+        return nil
     }
 }
 

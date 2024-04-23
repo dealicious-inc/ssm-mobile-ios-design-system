@@ -120,8 +120,9 @@ final public class DealiTabBarView: UIView {
                 $0.top.bottom.left.right.equalToSuperview()
             }
             
-            self.contentScrollView.addSubview(self.bottomDividerView)
+            self.addSubview(self.bottomDividerView)
             self.contentScrollView.addSubview(self.selectedUnderLineImageView)
+            self.bringSubviewToFront(self.contentScrollView)
         }
         
         self.bottomDividerView.then {
@@ -161,12 +162,9 @@ final public class DealiTabBarView: UIView {
         self.setSelectedIndex(index: sender.tag, animated: true)
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = false) {
+    private func setSelectedIndexWithScroll(index: Int) {
         guard index < self.tabbarItemInfoArray.count else { return }
         self.selectedIndex = index
-        
-        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
-        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
         
         /// chip을 사용하는 tabbar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
         if self.preset.style == .segment || self.preset.style == .sliderButton {
@@ -182,6 +180,12 @@ final public class DealiTabBarView: UIView {
         }
     }
     
+    public func setSelectedIndex(index: Int, animated: Bool = false) {
+        self.setSelectedIndexWithScroll(index: index)
+        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
+    }
+    
     /// Tabbar를 다시 구성하거나할때 기존 tabbar의 정보를 초기화
     private func clear() {
         self.tabbarItemInfoArray.forEach { itemInfo in
@@ -193,14 +197,10 @@ final public class DealiTabBarView: UIView {
     }
     
     /// tabbar를 구성할 정보를 받아 Tabbar Item Button 생성 및 정보 저장
-    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
+    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0) {
         
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 tabbarView를 재구성
         let itemArray = tabbarItemArray.filter({ $0.isHidden == false })
-        
-        if self.selectedIndex >= itemArray.count {
-            self.selectedIndex = (itemArray.count - 1)
-        }
         
         let offset = self.contentScrollView.contentOffset
         
@@ -266,7 +266,7 @@ final public class DealiTabBarView: UIView {
         self.updateTabbarItemInfo()
         
         self.contentScrollView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
-        
+        self.setSelectedIndexWithScroll(index: startIndex)
     }
     
     /// 특정 index에 위치한 tabbaritem의 title 변경 처리
@@ -380,13 +380,13 @@ final public class DealiTabBarView: UIView {
         var offset: CGFloat = -1
 
         if case .sliderChip(_) = self.preset.style {
-            if positionX < self.contentScrollView.contentOffset.x {
+            if positionX < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
                 offset = positionX
             } else if (positionX + contentWidth) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
                 offset = (positionX + contentWidth) - self.contentScrollView.frame.width
             }
         } else {
-            if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x {
+            if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
                 offset = (positionX - self.preset.contentButtonPadding)
             } else if (positionX + contentWidth + self.preset.contentButtonPadding) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
                 offset = (positionX + contentWidth + self.preset.contentButtonPadding) - self.contentScrollView.frame.width
@@ -394,7 +394,7 @@ final public class DealiTabBarView: UIView {
         }
 
         if offset >= 0 {
-            self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: false)
+            self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: true)
         }
     }
 }

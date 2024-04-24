@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import Then
 import SnapKit
 
@@ -23,6 +24,8 @@ public final class DealiCheckboxWithText: UIView {
             self.setAppearance(for: newValue)
         }
     }
+    
+    public let isSelectedValueChanged: PublishRelay<Bool> = .init()
     
     public var isSelected: Bool {
         get {
@@ -108,6 +111,7 @@ public final class DealiCheckboxWithText: UIView {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
+                self.isSelectedValueChanged.accept(self.isSelected)
             })
             .disposed(by: self.disposeBag)
     }

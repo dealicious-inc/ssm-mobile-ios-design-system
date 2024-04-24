@@ -58,10 +58,9 @@ public final class DealiCheckboxWithText: UIView {
     @available(*, deprecated, message: "text")
     public var title: String? {
         get {
-            self.titleLabel.text
+            self.text
         } set {
-            self.titleLabel.text = newValue
-            self.invalidateIntrinsicContentSize()
+            self.text = newValue
         }
     }
     

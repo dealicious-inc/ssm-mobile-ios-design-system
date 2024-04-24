@@ -128,6 +128,13 @@ final class MainViewController: UIViewController {
             $0.title = "TabBar Components"
             $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
         }
+        
+        let checkComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(checkComponents)
+        checkComponents.do {
+            $0.title = "Check Components"
+            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -192,4 +199,7 @@ extension MainViewController {
         self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
     }
     
+    @objc func checkComponentsPressed() {
+        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
+    }
 }

@@ -38,8 +38,8 @@ public final class DealiCheckcircleWithText: UIView {
         get {
             self.checkCircle.isEnabled
         } set {
-            self.setAppearacne()
             self.checkCircle.isEnabled = newValue
+            self.setAppearacne()
         }
     }
     

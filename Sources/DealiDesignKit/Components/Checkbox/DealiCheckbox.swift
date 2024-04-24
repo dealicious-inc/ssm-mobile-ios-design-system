@@ -115,7 +115,7 @@ public class DealiCheckbox: UIView {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
-                self.isSelectedValueChanged.accept(self.isSelected)
+                self.valueChanged.accept(self.isSelected)
             })
             .disposed(by: self.disposeBag)
     }

@@ -86,7 +86,7 @@ public final class DealiCheckcircleWithText: UIView {
             .bind(with: self) { owner, _ in
                 guard owner.isEnabled else { return }
                 owner.isSelected.toggle()
-                owner.isSelectedValueChanged.accept(owner.isSelected)
+                owner.valueChanged.accept(owner.isSelected)
             }
             .disposed(by: self.disposeBag)
     }

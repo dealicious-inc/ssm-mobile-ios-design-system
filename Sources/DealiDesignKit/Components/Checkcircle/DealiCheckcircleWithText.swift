@@ -15,7 +15,7 @@ public final class DealiCheckcircleWithText: UIView {
     private let titleLabel = UILabel()
     private let disposeBag = DisposeBag()
     
-    public let isSelectedValueChanged: PublishRelay<Bool> = .init()
+    public let valueChanged: PublishRelay<Bool> = .init()
     
     public var text: String {
         get {

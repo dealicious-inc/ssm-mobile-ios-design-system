@@ -59,7 +59,7 @@ public class DealiCheckbox: UIView {
         }
     }
     
-    public let isSelectedValueChanged: PublishRelay<Bool> = .init()
+    public let valueChanged: PublishRelay<Bool> = .init()
     
     public var contentInset: UIEdgeInsets = .zero {
         didSet {

@@ -25,7 +25,7 @@ public final class DealiCheckboxWithText: UIView {
         }
     }
     
-    public let isSelectedValueChanged: PublishRelay<Bool> = .init()
+    public let valueChanged: PublishRelay<Bool> = .init()
     
     public var isSelected: Bool {
         get {
@@ -45,6 +45,17 @@ public final class DealiCheckboxWithText: UIView {
         }
     }
     
+    public var text: String? {
+        get {
+            self.titleLabel.text
+        } set {
+            self.titleLabel.text = newValue
+            self.invalidateIntrinsicContentSize()
+        }
+    }
+    
+    
+    @available(*, deprecated, message: "text")
     public var title: String? {
         get {
             self.titleLabel.text

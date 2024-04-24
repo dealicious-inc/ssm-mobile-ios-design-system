@@ -55,21 +55,19 @@ enum DealiFont: String, CaseIterable {
     }
     
     var systemFont: UIFont {
-        var weight: UIFont.Weight
-        var font: UIFont!
-        
-        if self.rawValue.contains("Bold") {
-            weight = .bold
-        } else if self.rawValue.contains("Medium") {
-            weight = .medium
-        } else if self.rawValue.contains("SemiBold") {
-            weight = .semibold
-        } else {
-            weight = .regular
+        var weight: UIFont.Weight {
+            if self.rawValue.contains("Bold") {
+                return .bold
+            } else if self.rawValue.contains("Medium") {
+                return .medium
+            } else if self.rawValue.contains("SemiBold") {
+                return .semibold
+            } else {
+                return .regular
+            }
         }
         
-        font = .getPretendard(weight: weight, size: self.style.size)
-        return font
+        return .getPretendard(weight: weight, size: self.style.size)
     }
     
     public var font: UIFont {

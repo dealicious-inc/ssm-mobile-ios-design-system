@@ -59,6 +59,7 @@ class CheckComponentViewController: UIViewController {
         contentStackView.addArrangedSubview(checkcircleWithTextButton01)
         checkcircleWithTextButton01.then{
             $0.text = "checkcircleWithTextButton01"
+            $0.isEnabled = true
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
         }
@@ -77,6 +78,7 @@ class CheckComponentViewController: UIViewController {
         checkcircleWithTextButton03.then{
             $0.text = "checkcircleWithTextButton03"
             $0.isAd = true
+            $0.isEnabled = true
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
         }

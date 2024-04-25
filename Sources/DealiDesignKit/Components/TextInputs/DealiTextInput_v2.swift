@@ -28,7 +28,7 @@ public struct TextValidator {
             let currentCharacterSet = CharacterSet(charactersIn: currentText)
             let restrictedSet = option.characterSet.intersection(currentCharacterSet)
 
-            self.errorMessage = option.errorMessage(for: option, characterSet: restrictedSet)
+            self.errorMessage = option.errorMessage(for: option, errorCharacterSet: restrictedSet)
         }
     }
     

@@ -206,7 +206,6 @@ final class TextInputValidationView: UIView {
         self.addSubview(self.restrictedTextInput)
         self.restrictedTextInput.then {
             $0.placeholder = "테스트할 텍스트 입력"
-            $0.inputRightViewType = .clear
             $0.inputReturnKeyType = .done
             $0.title = "입력제한 문자 테스트 TextInput"
         }.snp.makeConstraints {
@@ -261,7 +260,6 @@ final class TextInputValidationView: UIView {
         self.addSubview(self.allowedTextInput)
         self.allowedTextInput.then {
             $0.placeholder = "테스트할 텍스트 입력"
-            $0.inputRightViewType = .clear
             $0.inputReturnKeyType = .done
             $0.title = "입력허용 문자 테스트 TextInput"
         }.snp.makeConstraints {

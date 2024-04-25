@@ -26,6 +26,7 @@
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
+		4D96495B2BDA227D00AC1BDE /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 4D96495A2BDA227D00AC1BDE /* RxKeyboard */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
@@ -76,6 +77,7 @@
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
 				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
+				4D96495B2BDA227D00AC1BDE /* RxKeyboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +210,7 @@
 				041ABC052A174598001772F3 /* RxRelay */,
 				041ABC072A174598001772F3 /* RxSwift */,
 				E6D2214A2AAEE733000A6411 /* DealiDesignKit */,
+				4D96495A2BDA227D00AC1BDE /* RxKeyboard */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -240,6 +243,7 @@
 			mainGroup = 042EA89C2A14C7D500370706;
 			packageReferences = (
 				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				4D9649592BDA227D00AC1BDE /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
@@ -507,6 +511,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		4D9649592BDA227D00AC1BDE /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -524,6 +536,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		4D96495A2BDA227D00AC1BDE /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D9649592BDA227D00AC1BDE /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		E6D2214A2AAEE733000A6411 /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;

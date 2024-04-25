@@ -65,6 +65,7 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
+            $0.clearButtonShouldBeHidden = true
             let button = DealiControl.btnOutlineMedium01()
             button.title = "Default"
             $0.actionButton = button

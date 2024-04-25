@@ -56,6 +56,16 @@ public final class DealiTextInput_v2: UIView {
             self.textField.text = newValue
         }
     }
+    
+    public var font: UIFont = .b2r14 {
+        didSet {
+            self.textField.font = self.font
+        }
+    }
+    
+    /// 포커스 & 텍스트 있는 경우 클리어버튼 미노출할지. 기본값은 노출(isHidden = false)
+    public var clearButtonShouldBeHidden: Bool = false
+    
     /// TextInput ReturnKey 세팅
     public var inputReturnKeyType: UIReturnKeyType = .done {
         didSet {
@@ -110,6 +120,8 @@ public final class DealiTextInput_v2: UIView {
             case .error(let errorMessage):
                 self.setError(for: errorMessage)
                 return
+            case .focusIn:
+                self.becomeFirstResponder()
 
             case .focusOut:
                 self.resignFirstResponder()
@@ -380,18 +392,18 @@ public final class DealiTextInput_v2: UIView {
             }
             .disposed(by: self.disposeBag)
         
-        
-        
         Driver.merge([
-            self.changedTextControlProperty.orEmpty.asDriver().map { _ in return true },
+            self.changedTextControlProperty.asDriver().map { _ in return true },
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
             self.textFieldDidEndEditing.asDriver().map { _ in return false }
         ])
         .map { isFocused -> Bool in
+            
+            guard self.clearButtonShouldBeHidden == false else { return true }
+            
             // 포커스 && 한 글자라도 입력 시에만 clearButton 노출
             return !(isFocused && !(self.text ?? "").isEmpty)
         }
-        .distinctUntilChanged()
         .drive(with: self) { owner, isClearButtonHidden in
             owner.clearButton.isHidden = isClearButtonHidden
         }
@@ -415,14 +427,13 @@ public final class DealiTextInput_v2: UIView {
     }
 }
 
-extension Int {
-    func commaString() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = NumberFormatter.Style.decimal
-        numberFormatter.locale = Locale(identifier: "ko_KR")
-        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+public extension Reactive where Base: DealiTextInput_v2 {
+    
+    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
+        return base.textField.rx.controlEvent(controlEvents)
     }
 }
+
 
 extension DealiTextInput_v2: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -449,9 +460,11 @@ extension DealiTextInput_v2: UITextFieldDelegate {
     
 }
 
-public extension Reactive where Base: DealiTextInput_v2 {
-    
-    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
-        return base.textField.rx.controlEvent(controlEvents)
+extension Int {
+    func commaString() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        numberFormatter.locale = Locale(identifier: "ko_KR")
+        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
     }
 }

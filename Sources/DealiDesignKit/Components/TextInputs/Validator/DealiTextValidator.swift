@@ -75,6 +75,15 @@ public extension String {
     }
 }
 
+public extension Optional where Wrapped == String {
+    /// 글자수 넘으면 앞에서 자르도록 옵셔널 스트링 처리
+    func truncated(to length: Int) -> String? {
+        guard let unwrapped = self else { return nil }
+        guard unwrapped.count > length else { return unwrapped }
+        return String(unwrapped.prefix(length))
+    }
+}
+
 public extension CharacterSet {
     static let alphabet = CharacterSet(charactersIn: "a"..."z")
         .union(CharacterSet(charactersIn: "A"..."Z"))

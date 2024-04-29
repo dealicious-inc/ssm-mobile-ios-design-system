@@ -13,7 +13,7 @@ import RxKeyboard
 import OSLog
 import Then
 
-final class PlagroundViewController: UIViewController {
+final class DealiPlagroundViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     let scrollView = UIScrollView()

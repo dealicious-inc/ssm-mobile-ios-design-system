@@ -163,7 +163,7 @@ extension MainViewController {
     }
     
     @objc func playButtonPressed() {
-        self.navigationController?.pushViewController(PlagroundViewController(), animated: true)
+        self.navigationController?.pushViewController(DealiPlagroundViewController(), animated: true)
     }
     
     @objc func typoButtonPressed() {

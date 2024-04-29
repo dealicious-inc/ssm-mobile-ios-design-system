@@ -11,7 +11,7 @@ import RxCocoa
 
 public final class DealiCheckcircleWithText: UIView {
 
-    private let checkCircle = DealiCheckcircle()
+    private let checkcircle = DealiCheckcircle()
     private let titleLabel = UILabel()
     private let disposeBag = DisposeBag()
     
@@ -28,26 +28,26 @@ public final class DealiCheckcircleWithText: UIView {
     
     public var isSelected: Bool {
         get {
-            self.checkCircle.isSelected
+            self.checkcircle.isSelected
         } set {
-            self.checkCircle.isSelected = newValue
+            self.checkcircle.isSelected = newValue
         }
     }
     
     public var isEnabled: Bool {
         get {
-            self.checkCircle.isEnabled
+            self.checkcircle.isEnabled
         } set {
-            self.checkCircle.isEnabled = newValue
+            self.checkcircle.isEnabled = newValue
             self.setAppearacne()
         }
     }
     
     public var isAd: Bool {
         get {
-            self.checkCircle.isAd
+            self.checkcircle.isAd
         } set {
-            self.checkCircle.isAd = newValue
+            self.checkcircle.isAd = newValue
         }
     }
     
@@ -62,9 +62,9 @@ public final class DealiCheckcircleWithText: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(self.checkCircle)
-        self.checkCircle.isUserInteractionEnabled = false
-        self.checkCircle.snp.makeConstraints {
+        self.addSubview(self.checkcircle)
+        self.checkcircle.isUserInteractionEnabled = false
+        self.checkcircle.snp.makeConstraints {
             $0.top.bottom.left.centerY.equalToSuperview()
         }
         
@@ -75,7 +75,7 @@ public final class DealiCheckcircleWithText: UIView {
             $0.textColor = DealiColor.g100
             $0.font = UIFont.b2r14
         }.snp.makeConstraints {
-            $0.left.equalTo(self.checkCircle.snp.right).offset(8.0)
+            $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
             $0.centerY.right.equalToSuperview()
         }
         
@@ -100,8 +100,6 @@ public final class DealiCheckcircleWithText: UIView {
     }
     
 }
-
-
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI

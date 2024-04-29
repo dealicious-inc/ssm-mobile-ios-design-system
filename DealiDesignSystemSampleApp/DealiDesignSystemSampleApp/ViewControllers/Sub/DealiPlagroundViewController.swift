@@ -96,9 +96,12 @@ final class TextInputValidationView: UIView {
                 
                 let invalidOptionArray = [TextValidator(condition: .restrict(self.restrictionOption))].filter { !current.isValid(for: $0) }
                 
-                guard var invalidOption = invalidOptionArray.first else { return current }
+                guard var invalidOption = invalidOptionArray.first else {
+                    self.restrictedTextInput.inputStatus = .focusIn
+                    return current
+                }
                 invalidOption.setErrorMessage(for: current)
-                debugPrint(invalidOption.errorMessage ?? "")
+                self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
                 
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)

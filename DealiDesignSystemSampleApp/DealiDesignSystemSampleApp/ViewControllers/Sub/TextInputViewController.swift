@@ -65,10 +65,12 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            $0.clearButtonShouldBeHidden = true
-            let button = DealiControl.btnOutlineMedium01()
-            button.title = "Default"
-            $0.actionButton = button
+            $0.isMandatory = true
+            $0.actionButton = DealiControl.btnFilledTonalMedium03().then {
+                $0.title = "Button"
+            }
+            $0.normalHelperText = "Helper Text"
+            $0.inputRightViewType = .confirmed
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

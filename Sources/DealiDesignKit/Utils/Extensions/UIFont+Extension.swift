@@ -54,19 +54,20 @@ public extension UIFont {
     }
 
     static func getPretendard(weight: UIFont.Weight, size: CGFloat) -> UIFont {
-        var font: UIFont!
-        
-        if weight == .bold {
-            font = UIFont(name: "PretendardJP-Bold", size: size)
-        } else if weight == .medium {
-            font = UIFont(name: "PretendardJP-Medium", size: size)
-        } else if weight == .semibold {
-            font = UIFont(name: "PretendardJP-SemiBold", size: size)
-        } else {
-            font = UIFont(name: "PretendardJP-Regular", size: size)
+        var font: UIFont? {
+            if weight == .bold {
+                return UIFont(name: "PretendardJP-Bold", size: size)
+            } else if weight == .medium {
+                return UIFont(name: "PretendardJP-Medium", size: size)
+            } else if weight == .semibold {
+                return UIFont(name: "PretendardJP-SemiBold", size: size)
+            } else {
+                return UIFont(name: "PretendardJP-Regular", size: size)
+            }
+            
         }
-        
-        return font
+
+        return font ?? UIFont.systemFont(ofSize: size, weight: weight)
     }
 }
 

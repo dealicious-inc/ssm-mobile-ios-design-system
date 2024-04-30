@@ -13,6 +13,7 @@ import RxSwift
 final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
+    private let textInput = DealiTextInput_v2.text()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +24,22 @@ final class TextInputViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.textInput.rx.controlEvent([.editingDidEnd, .editingDidEndOnExit])
+            .map { _ -> Bool in
+                return ((self.textInput.text?.count ?? 0) > 0 )
+            }
+            .bind(with: self) { owner, isConfirmed in
+                print(isConfirmed)
+                owner.textInput.isConfirmed = isConfirmed
+            }
+            .disposed(by: self.disposeBag)
     }
     
     var disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
-        
         
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then {
@@ -70,7 +80,6 @@ final class TextInputViewController: UIViewController {
                 $0.title = "Button"
             }
             $0.normalHelperText = "Helper Text"
-            $0.inputRightViewType = .confirmed
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

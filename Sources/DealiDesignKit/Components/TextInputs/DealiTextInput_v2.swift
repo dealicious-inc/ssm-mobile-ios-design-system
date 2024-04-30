@@ -13,29 +13,13 @@ import RxCocoa
 
 public final class DealiTextInput_v2: UIView {
     
-    private let titleContentView = UIView()
-    private let titleLabel = UILabel()
-    /// 필수입력사항인지 나타내는 뱃지
-    private let requiredBadge = UIView()
-    private let helperTextLabel = UILabel()
-    
-    private let textFieldButtonStackView = UIStackView()
-    private let textFieldContentView = UIView()
-    let textField = UITextField()
-    
-    private let textInputRightTimeLabel = UILabel()
-    private let textInputRightImageView = UIImageView()
-    
-    private let clearButton = UIButton()
-    
-    // MARK: Reactive EventStream
-    /// 포커스 아웃 이벤트 모두 담은 Driver
-    public var textFieldDidEndEditing: Driver<Bool>!
-    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
-    public var editingDidEndOnExit: Driver<Void>!
-    public var editingDidEnd: Driver<Void>!
-    
-    private let disposeBag = DisposeBag()
+    // MARK: - PUBLIC
+    public init() {
+        super.init(frame: .zero)
+        
+        self.setUI()
+        self.RX()
+    }
     
     /// TextInput title 세팅
     public var title: String? {
@@ -83,6 +67,60 @@ public final class DealiTextInput_v2: UIView {
             self.textField.returnKeyType = self.inputReturnKeyType
         }
     }
+    
+    /// TextInput 기본으로 노출되는 helperText 세팅
+    public var normalHelperText: String? {
+        didSet {
+            self.setNormalHelperText(text: self.normalHelperText)
+        }
+    }
+  
+    /// 텟스트 필드에 노출되는 문자 format
+    public var textInputFormat: ETextInputTextFormatType = .normal
+    
+    /// confirmed 속성 나타낼 때 사용
+    public var isConfirmed: Bool = false
+    
+    /// TextInputStatus 따라 ui처리
+    public var inputStatus: ETextInputStatus = .normal {
+        didSet {
+            
+            switch self.inputStatus {
+            case let .error(errorMessage):
+                self.setError(for: errorMessage)
+                return
+                
+            case .focusIn:
+                self.becomeFirstResponder()
+
+            case .focusOut:
+                self.resignFirstResponder()
+
+            default:
+                break
+            }
+            
+            self.setNormalHelperText(text: self.normalHelperText)
+            self.setConfirmed()
+            
+            self.textField.isEnabled = !(self.inputStatus == .disabled)
+            self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
+            self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
+            
+            if let actionButton = self.actionButton {
+                actionButton.isEnabled = !(self.inputStatus == .disabled)
+            }
+        }
+        
+    }
+    
+    /// TextInput RightView 타입 세팅
+    public var inputRightViewType: ETextInputRightViewType = .none {
+        didSet {
+            self.setRightView(type: self.inputRightViewType)
+        }
+    }
+    
     /// TextInput ActionButton 세팅
     public var actionButton: ClickableComponentButton? {
         didSet {
@@ -99,6 +137,28 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
+    // MARK:  Reactive Event Stream
+    /// 포커스 아웃 이벤트 모두 담은 Driver
+    public var textFieldDidEndEditing: Driver<Bool>!
+    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
+    public var editingDidEndOnExit: Driver<Void>!
+    public var editingDidEnd: Driver<Void>!
+    /// 입력 시마다 불리는 stream
+    public var changedTextControlProperty: ControlProperty<String?> {
+        return self.textField.rx.controlProperty(
+            editingEvents: [.editingChanged, .valueChanged],
+            getter: { textField in
+                textField.text
+            },
+            setter: { textField, value in
+                if self.textField.text != value {
+                    self.textField.text = value
+                }
+            }
+        )
+    }
+    
+    // MARK: Keyboard, Resonponder
     @discardableResult
     override public func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
@@ -112,93 +172,6 @@ public final class DealiTextInput_v2: UIView {
 
         return self.textField.resignFirstResponder()
     }
-   
-    //    /// 최소 금액 (type이 price일경우 사용)
-    public var minPrice = 0
-    /// 최대 금액 (type이 price일경우 사용)
-    public var maxPrice = 10000000
-    /// 최소 최대 금액 밖의 가격은 입력이 안되도록
-    public var blockOutOfRangePriceInput: Bool = true
-    /// TextInput 기본으로 노출되는 helperText 세팅
-    public var normalHelperText: String? {
-        didSet {
-            self.setNormalHelperText(text: self.normalHelperText)
-        }
-    }
-  
-    /// 텟스트 필드에 노출되는 문자 format
-    public var textInputFormat: ETextInputTextFormatType = .normal
-    /// TextInputStatus 따라 ui처리
-    public var inputStatus: ETextInputStatus = .normal {
-        didSet {
-            
-            switch self.inputStatus {
-            case .error(let errorMessage):
-                self.setError(for: errorMessage)
-                return
-            case .focusIn:
-                self.becomeFirstResponder()
-
-            case .focusOut:
-                self.resignFirstResponder()
-
-            default:
-                break
-            }
-            
-            self.setNormalHelperText(text: self.normalHelperText)
-            
-            self.textField.isEnabled = !(self.inputStatus == .disabled)
-            self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
-            self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
-            
-            if let actionButton = self.actionButton {
-                actionButton.isEnabled = !(self.inputStatus == .disabled)
-            }
-        }
-        
-    }
-    
-    private func setNormalHelperText(text: String?) {
-        if let normalHelperText = self.normalHelperText {
-            let style = NSMutableParagraphStyle().then {
-                $0.lineSpacing = 4.0
-                $0.lineHeightMultiple = 1.26
-                $0.alignment = .left
-            }
-            
-            self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
-        } else {
-            self.helperTextLabel.isHidden = true
-        }
-        
-    }
-    
-    private func setError(for errorMessage: String?) {
-        
-        let style = NSMutableParagraphStyle().then {
-            $0.lineSpacing = 4.0
-            $0.lineHeightMultiple = 1.26
-            $0.alignment = .left
-        }
-        
-        if let errorMessage = errorMessage {
-            self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
-        } else {
-            if let normalHelperText = self.normalHelperText {
-                self.helperTextLabel.isHidden = false
-                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
-            } else {
-                self.helperTextLabel.isHidden = true
-            }
-        }
-        self.textFieldContentView.do {
-            $0.layer.borderColor = DealiColor.error.cgColor
-        }
-    }
-    
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
@@ -227,34 +200,57 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
-    /// TextInput RightView 타입 세팅
-    public var inputRightViewType: ETextInputRightViewType = .none
+    /// 최소 금액 (type이 price일경우 사용)
+    public var minPrice = 0
+    /// 최대 금액 (type이 price일경우 사용)
+    public var maxPrice = 10000000
+    /// 최소 최대 금액 밖의 가격은 입력이 안되도록
+    public var blockOutOfRangePriceInput: Bool = true
     
-    public init() {
-        super.init(frame: .zero)
+    // MARK: - INTERNAL, PRIVATE
+    private let titleContentView = UIView()
+    private let titleLabel = UILabel()
+    /// 필수입력사항인지 나타내는 뱃지
+    private let requiredBadge = UIView()
+    private let helperTextLabel = UILabel()
+    
+    private let textFieldButtonStackView = UIStackView()
+    private let textFieldContentView = UIView()
+    let textField = UITextField()
+    
+    private let textInputRightTimeLabel = UILabel()
+    private let textInputRightImageView = UIImageView()
+    
+    private let clearButton = UIButton()
+
+    private let disposeBag = DisposeBag()
+    
+    
+    private func setConfirmed() {
+        guard self.isConfirmed else { 
+            self.inputRightViewType = .none
+            return
+        }
         
-        self.setUI()
-        self.RX()
+        self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))
     }
     
+    private func setRightView(type: ETextInputRightViewType) {
+        if case .custom(let image) = type {
+            self.textInputRightImageView.isHidden = false
+
+            self.textInputRightImageView.image = image
+            
+        } else {
+            self.textInputRightImageView.isHidden = true
+        }
+    }
+    
+   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public var changedTextControlProperty: ControlProperty<String?> {
-        return self.textField.rx.controlProperty(
-            editingEvents: [.editingChanged, .valueChanged],
-            getter: { textField in
-                textField.text
-            },
-            setter: { textField, value in
-                if self.textField.text != value {
-                    self.textField.text = value
-                }
-            }
-        )
-    }
-    
+
     private func RX() {
         
         self.editingDidEndOnExit = self.rx.controlEvent(.editingDidEndOnExit)
@@ -359,7 +355,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
     
 }
 
-// MARK: - Configure UI
+// MARK: - UI Configuration
 extension DealiTextInput_v2 {
     func setUI() {
         self.do {
@@ -494,6 +490,46 @@ extension DealiTextInput_v2 {
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(4.0)
+        }
+    }
+    
+    private func setNormalHelperText(text: String?) {
+        if let normalHelperText = self.normalHelperText {
+            let style = NSMutableParagraphStyle().then {
+                $0.lineSpacing = 4.0
+                $0.lineHeightMultiple = 1.26
+                $0.alignment = .left
+            }
+            
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+        } else {
+            self.helperTextLabel.isHidden = true
+        }
+        
+    }
+    
+    private func setError(for errorMessage: String?) {
+        
+        let style = NSMutableParagraphStyle().then {
+            $0.lineSpacing = 4.0
+            $0.lineHeightMultiple = 1.26
+            $0.alignment = .left
+        }
+        
+        if let errorMessage = errorMessage {
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
+        } else {
+            if let normalHelperText = self.normalHelperText {
+                self.helperTextLabel.isHidden = false
+                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+            } else {
+                self.helperTextLabel.isHidden = true
+            }
+        }
+        self.textFieldContentView.do {
+            $0.layer.borderColor = DealiColor.error.cgColor
         }
     }
 }

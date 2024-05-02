@@ -73,6 +73,9 @@ final class TextInputViewController: UIViewController {
             $0.confirmingCondition =  { text in
                 return (text?.count ?? 0) > 0
             }
+            
+            $0.isNotVerified = true
+            $0.isVerified = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

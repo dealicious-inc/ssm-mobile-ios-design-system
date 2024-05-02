@@ -36,6 +36,18 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
+    public var isNotVerified: Bool = false {
+        didSet {
+            self.notVerifiedBadge.isHidden = !self.isNotVerified
+        }
+    }
+    
+    public var isVerified: Bool = false {
+        didSet {
+            self.verifiedBadge.isHidden = !self.isVerified
+        }
+    }
+    
     /// TextInput placeholder 세팅
     public var placeholder: String? {
         didSet {
@@ -207,10 +219,12 @@ public final class DealiTextInput_v2: UIView {
     public var blockOutOfRangePriceInput: Bool = true
     
     // MARK: - INTERNAL, PRIVATE
-    private let titleContentView = UIView()
+    private let titleContentView = UIStackView()
     private let titleLabel = UILabel()
     /// 필수입력사항인지 나타내는 뱃지
     private let requiredBadge = UIView()
+    private let notVerifiedBadge = DealiTag()
+    private let verifiedBadge = DealiTag()
     private let helperTextLabel = UILabel()
     
     private let textFieldButtonStackView = UIStackView()
@@ -376,11 +390,14 @@ extension DealiTextInput_v2 {
         contentStackView.addArrangedSubview(self.titleContentView)
         self.titleContentView.then {
             $0.isHidden = true
+            $0.axis = .horizontal
+            $0.spacing = 4.0
+            $0.alignment = .top
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        self.titleContentView.addSubview(self.titleLabel)
+        self.titleContentView.addArrangedSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
             $0.textColor = DealiColor.g100
@@ -391,7 +408,7 @@ extension DealiTextInput_v2 {
             $0.top.bottom.left.equalToSuperview()
         }
         
-        self.titleContentView.addSubview(self.requiredBadge)
+        self.titleContentView.addArrangedSubview(self.requiredBadge)
         self.requiredBadge.then {
             $0.backgroundColor = DealiColor.primary01
             $0.layer.masksToBounds = true
@@ -400,9 +417,23 @@ extension DealiTextInput_v2 {
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
             $0.top.equalToSuperview().inset(4.0)
-            $0.left.equalTo(self.titleLabel.snp.right).offset(4.0)
-            $0.right.lessThanOrEqualToSuperview()
         }
+        
+        self.titleContentView.addArrangedSubview(self.notVerifiedBadge)
+        self.notVerifiedBadge.do {
+            $0.type = .tagOutlineSmall01
+            $0.text = "미인증"
+            $0.isHidden = true
+        }
+        
+        self.titleContentView.addArrangedSubview(self.verifiedBadge)
+        self.verifiedBadge.do {
+            $0.type = .tagOutlineSmall02
+            $0.text = "인증 완료"
+            $0.isHidden = true
+        }
+        
+        self.titleContentView.addArrangedSubview(UIView())
         
         contentStackView.addArrangedSubview(self.textFieldButtonStackView)
         self.textFieldButtonStackView.then {

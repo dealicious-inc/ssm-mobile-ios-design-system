@@ -141,9 +141,9 @@ class DealiNumberIndicatorView: DealiIndicatorView {
     public override var numberOfPages: Int {
         didSet {
             if case .number1 = preset {
-                self.numberOfPagesLabel.text = String(format: "%02d", self.numberOfPages)
+                self.numberOfPagesLabel.text = String(format: "%d", self.numberOfPages)
             } else {
-                self.numberOfPagesLabel.text = String(format: "/ %02d", self.numberOfPages)
+                self.numberOfPagesLabel.text = String(format: "/ %d", self.numberOfPages)
             }
             
             self.changedCurrentPage(index: self.currentPage)
@@ -221,6 +221,6 @@ class DealiNumberIndicatorView: DealiIndicatorView {
     }
     
     override func changedCurrentPage(index: Int, animated: Bool = true) {
-        self.currentPageLabel.text = String(format: "%02d", (index + 1))
+        self.currentPageLabel.text = String(format: "%d", (index + 1))
     }
 }

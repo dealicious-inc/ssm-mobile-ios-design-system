@@ -25,15 +25,6 @@ final class TextInputViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        self.textInput.rx.controlEvent([.editingDidEnd, .editingDidEndOnExit])
-            .map { _ -> Bool in
-                return ((self.textInput.text?.count ?? 0) > 0 )
-            }
-            .bind(with: self) { owner, isConfirmed in
-                print(isConfirmed)
-                owner.textInput.isConfirmed = isConfirmed
-            }
-            .disposed(by: self.disposeBag)
     }
     
     var disposeBag = DisposeBag()
@@ -68,9 +59,8 @@ final class TextInputViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let textInput = DealiTextInput_v2.text()
-        contentStackView.addArrangedSubview(textInput)
-        textInput.then {
+        contentStackView.addArrangedSubview(self.textInput)
+        self.textInput.then {
             $0.title = "일반 텍스트 입력"
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
@@ -80,9 +70,13 @@ final class TextInputViewController: UIViewController {
                 $0.title = "Button"
             }
             $0.normalHelperText = "Helper Text"
+            $0.confirmingCondition =  { text in
+                return (text?.count ?? 0) > 0
+            }
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
         
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)

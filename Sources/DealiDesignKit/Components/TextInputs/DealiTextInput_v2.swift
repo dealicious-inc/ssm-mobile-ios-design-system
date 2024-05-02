@@ -79,8 +79,8 @@ public final class DealiTextInput_v2: UIView {
     public var textInputFormat: ETextInputTextFormatType = .normal
     
     /// confirmed 속성 나타낼 때 사용
-    public var isConfirmed: Bool = false
-    
+    public var confirmingCondition: ((String?) -> Bool)?
+   
     /// TextInputStatus 따라 ui처리
     public var inputStatus: ETextInputStatus = .normal {
         didSet {
@@ -101,8 +101,7 @@ public final class DealiTextInput_v2: UIView {
             }
             
             self.setNormalHelperText(text: self.normalHelperText)
-            self.setConfirmed()
-            
+
             self.textField.isEnabled = !(self.inputStatus == .disabled)
             self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
             self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
@@ -216,7 +215,7 @@ public final class DealiTextInput_v2: UIView {
     
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()
-    let textField = UITextField()
+    public let textField = UITextField()
     
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
@@ -226,26 +225,6 @@ public final class DealiTextInput_v2: UIView {
     private let disposeBag = DisposeBag()
     
     
-    private func setConfirmed() {
-        guard self.isConfirmed else { 
-            self.inputRightViewType = .none
-            return
-        }
-        
-        self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))
-    }
-    
-    private func setRightView(type: ETextInputRightViewType) {
-        if case .custom(let image) = type {
-            self.textInputRightImageView.isHidden = false
-
-            self.textInputRightImageView.image = image
-            
-        } else {
-            self.textInputRightImageView.isHidden = true
-        }
-    }
-    
    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -253,12 +232,14 @@ public final class DealiTextInput_v2: UIView {
 
     private func RX() {
         
-        self.editingDidEndOnExit = self.rx.controlEvent(.editingDidEndOnExit)
+        self.editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
             .map { return }
+            .share()
             .asDriver(onErrorJustReturn: ())
         
-        self.editingDidEnd = self.rx.controlEvent(.editingDidEnd)
+        self.editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
             .map { return }
+            .share()
             .asDriver(onErrorJustReturn: ())
         
         self.textFieldDidEndEditing = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit]).map { true }
@@ -286,6 +267,25 @@ public final class DealiTextInput_v2: UIView {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        
+        /// isConfirmed 상태 표시
+        Driver.merge([
+            self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
+            self.textFieldDidEndEditing.asDriver().map { _ in return false }
+        ])
+        .map { isFocused -> Bool in
+            if let condtion = self.confirmingCondition  {
+                return !isFocused && condtion(self.text)
+            } else {
+                return false
+            }
+        }
+        .drive(with: self) { owner, isConfirmed in
+            owner.setConfirmed(isConfirmed)
+        }
+        .disposed(by: self.disposeBag)
+
         
         Driver.merge([
             self.changedTextControlProperty.asDriver().map { _ in return true },
@@ -532,4 +532,25 @@ extension DealiTextInput_v2 {
             $0.layer.borderColor = DealiColor.error.cgColor
         }
     }
+    
+    private func setConfirmed(_ isConfirmed: Bool) {
+        
+        if isConfirmed {
+            self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))
+        } else {
+            self.inputRightViewType = .none
+
+        }
+    }
+    
+    private func setRightView(type: ETextInputRightViewType) {
+        if case .custom(let image) = type {
+            self.textInputRightImageView.isHidden = false
+            self.textInputRightImageView.image = image
+            
+        } else {
+            self.textInputRightImageView.isHidden = true
+        }
+    }
+    
 }

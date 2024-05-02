@@ -88,6 +88,7 @@ final class TextInputValidationView: UIView {
         self.restrictedTextInput.changedTextControlProperty
             .orEmpty
             .changed
+            .debug()
             .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
                 
                 self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")

@@ -115,6 +115,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
         }
         
+        let textAreaComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(textAreaComponentsButton)
+        textAreaComponentsButton.do {
+            $0.title = "TextArea Components"
+            $0.addTarget(self, action: #selector(textAreaButtonPressed), for: .touchUpInside)
+        }
+        
         let searchInputComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(searchInputComponentsButton)
         searchInputComponentsButton.do {
@@ -188,6 +195,10 @@ extension MainViewController {
     
     @objc func textInputButtonPressed() {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
+    }
+    
+    @objc func textAreaButtonPressed() {
+        self.navigationController?.pushViewController(TextAreaViewController(), animated: true)
     }
     
     @objc func searchInputButtonPressed() {

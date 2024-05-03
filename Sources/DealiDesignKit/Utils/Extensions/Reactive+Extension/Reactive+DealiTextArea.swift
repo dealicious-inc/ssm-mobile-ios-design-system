@@ -18,6 +18,5 @@ extension Reactive where Base: DealiTextField, Base.T == UITextView {
     public var editingDidBegin: ControlEvent<()> {
         return base.textField.rx.didBeginEditing
     }
-    
-    
+
 }

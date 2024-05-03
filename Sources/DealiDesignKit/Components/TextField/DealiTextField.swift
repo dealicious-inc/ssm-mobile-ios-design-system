@@ -19,4 +19,15 @@ public protocol DealiTextField {
     var textField: T { get }
 }
 
+protocol DealiTextFieldConfig {
+    func setNormalHelperText(text: String?)
+    func setError(for errorMessage: String?)
+}
+
+
+public extension Reactive where Base: DealiTextField {
+    var inputStatus: PublishRelay<ETextInputStatus> {
+        return PublishRelay()
+    }
+}
 

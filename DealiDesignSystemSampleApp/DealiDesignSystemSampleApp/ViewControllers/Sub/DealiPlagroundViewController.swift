@@ -85,10 +85,9 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
-        self.restrictedTextInput.changedTextControlProperty
+        self.restrictedTextInput.rx.textEditingControlProperty
             .orEmpty
             .changed
-            .debug()
             .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
                 
                 self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")
@@ -114,13 +113,13 @@ final class TextInputValidationView: UIView {
             }
             .disposed(by: self.disposeBag)
         
-        self.allowedTextInput.changedTextControlProperty
+        self.allowedTextInput.rx.textEditingControlProperty
             .orEmpty
             .changed
             .scan(self.allowedTextInput.text ?? "") { _, current -> String in
                 
                 let invalidOptionArray = [TextValidator(condition:.allow(self.allowingOption))].filter { !current.isValid(for: $0) }
-                guard let invalidOption = invalidOptionArray.first else { return current }
+                guard invalidOptionArray.first != nil else { return current }
                 
                 let filteredText: String = invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)

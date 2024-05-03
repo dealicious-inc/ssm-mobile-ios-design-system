@@ -330,13 +330,6 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     }
 }
 
-public extension Reactive where Base: DealiTextInput_v2 {
-    
-    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
-        return base.textField.rx.controlEvent(controlEvents)
-    }
-}
-
 // MARK: - UITextFieldDelegate
 extension DealiTextInput_v2: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -364,7 +357,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
 }
 
 // MARK: - UI Configuration
-extension DealiTextInput_v2 {
+extension DealiTextInput_v2: DealiTextFieldConfig {
     func setUI() {
         self.do {
             $0.backgroundColor = DealiColor.primary04
@@ -518,7 +511,7 @@ extension DealiTextInput_v2 {
         }
     }
     
-    private func setNormalHelperText(text: String?) {
+    func setNormalHelperText(text: String?) {
         if let normalHelperText = self.normalHelperText {
             let style = NSMutableParagraphStyle().then {
                 $0.lineSpacing = 4.0
@@ -534,7 +527,7 @@ extension DealiTextInput_v2 {
         
     }
     
-    private func setError(for errorMessage: String?) {
+    func setError(for errorMessage: String?) {
         
         let style = NSMutableParagraphStyle().then {
             $0.lineSpacing = 4.0

@@ -122,18 +122,25 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
         
-        let tabBarComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tabBarComponentsButton)
-        tabBarComponentsButton.do {
+        let tabBarComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarComponents)
+        tabBarComponents.do {
             $0.title = "TabBar Components"
-            $0.addTarget(self, action: #selector(tabBarComponentsButtonPressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
         }
         
-        let indicatorComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(indicatorComponentsButton)
-        indicatorComponentsButton.do {
+        let checkComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(checkComponents)
+        checkComponents.do {
+            $0.title = "Check Components"
+            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
+        }
+        
+        let indicatorComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponents)
+        indicatorComponents.do {
             $0.title = "Indicator Components"
-            $0.addTarget(self, action: #selector(indicatorButtonPressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
         }
     }
     
@@ -195,12 +202,16 @@ extension MainViewController {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
     }
     
-    @objc func tabBarComponentsButtonPressed() {
+    @objc func tabBarComponentsPressed() {
         self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
     }
     
-    @objc func indicatorButtonPressed() {
-        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    @objc func checkComponentsPressed() {
+        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
     }
     
+    @objc func indicatorComponentsPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    }
 }
+

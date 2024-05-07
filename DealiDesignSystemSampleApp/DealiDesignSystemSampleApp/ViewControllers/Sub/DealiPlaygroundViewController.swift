@@ -1,5 +1,5 @@
 //
-//  PlagroundViewController.swift
+//  DealiPlaygroundViewController.swift
 //  DealiDesignSystemSampleApp
 //
 //  Created by 윤조현 on 2024/04/16.
@@ -13,7 +13,7 @@ import RxKeyboard
 import OSLog
 import Then
 
-final class DealiPlagroundViewController: UIViewController {
+final class DealiPlaygroundViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     let scrollView = UIScrollView()

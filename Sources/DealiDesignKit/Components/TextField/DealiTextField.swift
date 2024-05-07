@@ -24,10 +24,11 @@ protocol DealiTextFieldConfig {
     func setError(for errorMessage: String?)
 }
 
-
-public extension Reactive where Base: DealiTextField {
-    var inputStatus: PublishRelay<ETextInputStatus> {
-        return PublishRelay()
-    }
+public enum ETextFieldStatus: Equatable {
+    case normal
+    case focusIn
+    case focusOut
+    case error(_ errorMessage: String?)
+    case disabled
+    case readOnly
 }
-

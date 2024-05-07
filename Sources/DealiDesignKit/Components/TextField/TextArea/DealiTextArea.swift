@@ -11,10 +11,9 @@ import RxCocoa
 
 public final class DealiTextArea: UIView, DealiTextField {
     
-    
     public private(set) var textField = UITextView()
     
-    var inputStatus: PublishRelay<ETextInputStatus> = .init()
+    public var inputStatus: PublishRelay<ETextFieldStatus> = .init()
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,22 +23,39 @@ public final class DealiTextArea: UIView, DealiTextField {
         
         self.inputStatus
             .bind(with: self) { owner, status in
+                
+                owner.textField.backgroundColor = DealiColor.primary04
+                owner.textField.layer.borderColor = DealiColor.g20.cgColor
+                owner.setNormalHelperText(text: owner.normalHelperText)
+                owner.textField.textColor = DealiColor.g100
+                owner.placeholderLabel.textColor = DealiColor.g70
+
                 switch status {
-                case .normal:
-                    print()
                 case .focusIn:
                     owner.textField.layer.borderColor = DealiColor.g100.cgColor
                 case .focusOut:
-                    print()
                     owner.textField.layer.borderColor = DealiColor.g20.cgColor
-
                 case let .error(errorMsg):
-                    self.setError(for: errorMsg)
+                    owner.setError(for: errorMsg)
+                case .readOnly:
+                    owner.textField.backgroundColor = DealiColor.g05
+                    owner.textField.layer.borderColor = DealiColor.g05.cgColor
+
+                    owner.textField.isEditable = false
+                    owner.textField.textColor = DealiColor.g80
+                    owner.placeholderLabel.textColor = DealiColor.g80
+
 
                 case .disabled:
-                    print()
+                    owner.textField.backgroundColor = DealiColor.g10
+                    owner.textField.isEditable = false
+                    owner.textField.textColor = DealiColor.g50
+                    owner.placeholderLabel.textColor = DealiColor.g50
 
+                default:
+                    break
                 }
+                
             }
             .disposed(by: self.disposeBag)
         
@@ -48,16 +64,12 @@ public final class DealiTextArea: UIView, DealiTextField {
         self.rx.editingDidBegin
             .bind(with: self) { owner, _ in
                 owner.inputStatus.accept(.focusIn)
-                print("포커스인 이벤트 보냄")
-                
             }
             .disposed(by: self.disposeBag)
         
         self.rx.editingDidEnd
             .bind(with: self) { owner, _ in
                 owner.inputStatus.accept(.focusOut)
-                print("포커스아웃 이벤트 보냄")
-
             }
             .disposed(by: self.disposeBag)
         
@@ -71,9 +83,6 @@ public final class DealiTextArea: UIView, DealiTextField {
                 owner.placeholderLabel.isHidden = !isEmptyText
             })
             .disposed(by: self.disposeBag)
-            
-        
-        
     }
     
     // MARK: - PUBLIC
@@ -103,6 +112,15 @@ public final class DealiTextArea: UIView, DealiTextField {
     public var normalHelperText: String? {
         didSet {
             self.setNormalHelperText(text: self.normalHelperText)
+        }
+    }
+    
+    /// TextInput text 세팅
+    public var text: String? {
+        get {
+            self.textField.text
+        } set {
+            self.textField.text = newValue
         }
     }
     
@@ -242,8 +260,7 @@ private extension DealiTextArea {
             $0.highlightedTextColor = DealiColor.primary01
             $0.textAlignment = .left
             $0.numberOfLines = 0
-//            $0.isHidden = true
-            $0.text = "helperText"
+            $0.isHidden = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(4.0)
         }
@@ -292,7 +309,18 @@ private extension DealiTextArea {
 // MARK: - DealiTextFieldConfig
 extension DealiTextArea: DealiTextFieldConfig {
     func setNormalHelperText(text: String?) {
-      
+        let style = NSMutableParagraphStyle().then {
+            $0.lineSpacing = 4.0
+            $0.lineHeightMultiple = 1.26
+            $0.alignment = .left
+        }
+        
+        if let normalHelperText = text {
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+        } else {
+            self.helperTextLabel.isHidden = true
+        }
     }
     
     func setError(for errorMessage: String?) {
@@ -306,12 +334,7 @@ extension DealiTextArea: DealiTextFieldConfig {
             self.helperTextLabel.isHidden = false
             self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
         } else {
-            if let normalHelperText = self.normalHelperText {
-                self.helperTextLabel.isHidden = false
-                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
-            } else {
-                self.helperTextLabel.isHidden = true
-            }
+            self.setNormalHelperText(text: self.normalHelperText)
         }
         self.textField.do {
             $0.layer.borderColor = DealiColor.error.cgColor
@@ -320,15 +343,16 @@ extension DealiTextArea: DealiTextFieldConfig {
 }
 
 
+
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
 
 #Preview {
     VStack {
         UIViewPreview {
-            let textArea = DealiTextArea()
-            textArea.title = "Label"
-            return textArea
+            let defaultTextArea = DealiTextArea()
+            defaultTextArea.title = "Label"
+            return defaultTextArea
         }
     }
 }

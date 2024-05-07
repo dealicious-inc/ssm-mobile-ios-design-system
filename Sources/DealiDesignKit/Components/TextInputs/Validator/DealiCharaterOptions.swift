@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
+public struct DealiCharacterOptions: OptionSet, CaseIterable, Hashable {
     public static var allCases: [DealiCharaterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
     
     public var rawValue: Int

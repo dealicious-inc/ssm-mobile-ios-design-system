@@ -18,7 +18,7 @@ class CheckComponentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "TabBar"
+        self.title = "Check"
         self.view.backgroundColor = .white
     }
     

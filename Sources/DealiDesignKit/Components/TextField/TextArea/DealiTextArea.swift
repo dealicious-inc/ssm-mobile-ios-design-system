@@ -11,9 +11,15 @@ import RxCocoa
 
 public final class DealiTextArea: UIView, DealiTextField {
     
+    // MARK: - PUBLIC    
     public private(set) var textField = UITextView()
     
     public var inputStatus: PublishRelay<ETextFieldStatus> = .init()
+    
+    public enum ContentType {
+        case flexible(min: CGFloat, max: CGFloat)
+        case fixed(_ height: CGFloat = 106.0)
+    }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,8 +64,19 @@ public final class DealiTextArea: UIView, DealiTextField {
                 
             }
             .disposed(by: self.disposeBag)
+
         
-      
+        self.textField.rx.didChange
+            .bind(with: self) { owner, _ in
+                guard case let .flexible(_, max) = owner.contentType  else { return }
+                if owner.textField.contentSize.height >= max {
+                    owner.setContentType(.fixed(max))
+                } else {
+                    owner.setContentType(owner.contentType)
+                }
+            }
+            .disposed(by: self.disposeBag)
+
         
         self.rx.editingDidBegin
             .bind(with: self) { owner, _ in
@@ -85,7 +102,6 @@ public final class DealiTextArea: UIView, DealiTextField {
             .disposed(by: self.disposeBag)
     }
     
-    // MARK: - PUBLIC
     /// TextInput title 세팅
     public var title: String? {
         didSet {
@@ -121,6 +137,48 @@ public final class DealiTextArea: UIView, DealiTextField {
             self.textField.text
         } set {
             self.textField.text = newValue
+        }
+    }
+    
+    
+    public var contentType: ContentType = .flexible(min: 46.0, max: 106.0) {
+        didSet {
+            self.setContentType(self.contentType)
+        }
+    }
+    
+    
+    /// 좌측 버튼
+    public var leftButton: UIButton? {
+        didSet {
+            guard let leftButton else { return }
+            
+            self.textFieldStackView.insertArrangedSubview(leftButton, at: 0)
+
+            leftButton.setContentHuggingPriority(.required, for: .horizontal)
+
+            leftButton.snp.makeConstraints {
+                $0.bottom.equalToSuperview().inset(11.0)
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+            }
+        }
+    }
+    
+    /// 우측 버튼
+    public var rightButton: UIButton? {
+        didSet {
+            guard let rightButton else { return }
+            
+            self.textFieldStackView.addArrangedSubview(rightButton)
+            rightButton.setContentHuggingPriority(.required, for: .horizontal)
+
+            rightButton.snp.makeConstraints {
+                $0.bottom.equalToSuperview().inset(11.0)
+                $0.right.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+                
+            }
+            
         }
     }
     
@@ -165,8 +223,6 @@ public final class DealiTextArea: UIView, DealiTextField {
         return self.textField.resignFirstResponder()
     }
     
-    
-    
     // MARK: - INTERNAL, PRIVATE
     private let titleStackView = UIStackView()
     private let titleLabel = UILabel()
@@ -177,9 +233,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     private let placeholderLabel = UILabel()
     private let helperTextLabel = UILabel()
 
-    
     private let disposeBag = DisposeBag()
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -216,8 +270,9 @@ private extension DealiTextArea {
         contentStackView.addArrangedSubview(self.textFieldStackView)
         self.textFieldStackView.then {
             $0.axis = .horizontal
-            $0.spacing = 10.0
+            $0.spacing = 12.0
             $0.alignment = .bottom
+            $0.distribution = .fill
         }.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
         }
@@ -225,6 +280,8 @@ private extension DealiTextArea {
         self.textFieldStackView.addArrangedSubview(self.textField)
         self.textField.then {
             $0.font = .b2r14
+            $0.indicatorStyle = .default
+            $0.showsVerticalScrollIndicator = true
             $0.autocorrectionType = .no
             $0.autocapitalizationType = .none
             $0.spellCheckingType = .no
@@ -238,9 +295,9 @@ private extension DealiTextArea {
             $0.textContainerInset = .init(top: 13.0, left: 9.0, bottom: 12.0, right: 12.0)
         }.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.height.equalTo(46.0)
-
         }
+        
+        self.setContentType(self.contentType)
         
         self.textField.addSubview(self.placeholderLabel)
         self.placeholderLabel.then {
@@ -303,6 +360,25 @@ private extension DealiTextArea {
         self.titleStackView.addArrangedSubview(UIView())
     }
     
+    func setContentType(_ type: ContentType) {
+        switch type {
+        case let .flexible(min, max):
+            self.textField.then {
+                $0.isScrollEnabled = false
+            }.snp.remakeConstraints {
+                $0.verticalEdges.equalToSuperview()
+                $0.height.greaterThanOrEqualTo(min)
+                $0.height.lessThanOrEqualTo(max)
+            }
+        case let .fixed(height):
+            self.textField.then {
+                $0.isScrollEnabled = true
+            }.snp.remakeConstraints {
+                $0.verticalEdges.equalToSuperview()
+                $0.height.equalTo(height)
+            }
+        }
+    }
     
 }
 

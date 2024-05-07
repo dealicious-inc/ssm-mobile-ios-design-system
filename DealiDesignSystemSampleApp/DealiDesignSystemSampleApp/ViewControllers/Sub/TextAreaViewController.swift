@@ -20,7 +20,7 @@ final class TextAreaViewController: UIViewController {
     private let errorTextArea = DealiTextArea()
     private let disabledTextArea = DealiTextArea()
     private let readOnlyTextArea = DealiTextArea()
-
+    private let textAreaWithButton = DealiTextArea()
 
     
     private let disposeBag = DisposeBag()
@@ -33,6 +33,16 @@ final class TextAreaViewController: UIViewController {
                 owner.errorTextArea.inputStatus.accept(.error("에러 메시지"))
             }
             .disposed(by: self.disposeBag)
+        
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { [weak self] keyboardHeight in
+                guard let self else { return }
+                let bottomMargin = keyboardHeight > 0 ? keyboardHeight + 20.0 : 0
+                self.contentScrollView.snp.updateConstraints {
+                    $0.bottom.equalToSuperview().inset(bottomMargin)
+                }
+            })
+            .disposed(by: self.disposeBag)
 
     }
     
@@ -40,6 +50,7 @@ final class TextAreaViewController: UIViewController {
         self.view = .init()
         
         self.view.backgroundColor = DealiColor.primary04
+        
         
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then {
@@ -66,6 +77,22 @@ final class TextAreaViewController: UIViewController {
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
+        }
+        
+        contentStackView.addArrangedSubview(self.textAreaWithButton)
+        self.textAreaWithButton.then {
+            $0.isMandatory = true
+            $0.contentType = .fixed(106.0)
+            $0.placeholder = "내용을 입력해 주세요"
+            $0.rightButton = UIButton().then {
+                $0.setImage(UIImage.dealiIcon(named: "ic_download_1_filled"), for: .normal)
+            }
+            $0.leftButton = UIButton().then {
+                $0.setImage(UIImage.dealiIcon(named: "ic_pluscircle_filled"), for: .normal)
+            }
+            $0.keyboardCloseButtonString = "닫기"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
         }
         
         contentStackView.addArrangedSubview(self.defaultTextArea)
@@ -108,7 +135,6 @@ final class TextAreaViewController: UIViewController {
         self.disabledTextArea.then {
             $0.title = "Disabled Text Area"
             $0.isMandatory = true
-            $0.placeholder = "placeholder"
             $0.text = "텍스트 입력"
             $0.normalHelperText = "HelperText"
             $0.keyboardCloseButtonString = "닫기"
@@ -123,7 +149,6 @@ final class TextAreaViewController: UIViewController {
         self.readOnlyTextArea.then {
             $0.title = "Read Only Text Area"
             $0.isMandatory = true
-            $0.placeholder = "placeholder"
             $0.text = "텍스트 입력"
             $0.normalHelperText = "HelperText"
             $0.keyboardCloseButtonString = "닫기"
@@ -135,6 +160,7 @@ final class TextAreaViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
+       
     }
-
 }

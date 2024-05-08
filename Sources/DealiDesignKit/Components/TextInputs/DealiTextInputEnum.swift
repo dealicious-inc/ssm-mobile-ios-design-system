@@ -16,9 +16,8 @@ public enum ETextInputStatus: Equatable {
     case disabled
 }
 
-public enum ETextInputRightViewType {
+public enum ETextInputRightViewType: Equatable {
     case none
-    case clear
     case timer
     case custom(_ image: UIImage?)
 }

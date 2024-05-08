@@ -5,7 +5,6 @@
 //  Created by hoji on 2023/11/02.
 //
 
-import Foundation
 import UIKit
 
 public protocol DeailTextInputConfigureProtocol {

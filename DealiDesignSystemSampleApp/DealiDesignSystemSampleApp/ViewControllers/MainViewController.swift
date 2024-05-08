@@ -45,6 +45,13 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let playgroundButton = DealiControl.btnFilledTonalLarge03()
+        contentStackView.addArrangedSubview(playgroundButton)
+        playgroundButton.do {
+            $0.title = "Playground"
+            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -160,6 +167,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func playButtonPressed() {
+        self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
     }
     
     @objc func typoButtonPressed() {

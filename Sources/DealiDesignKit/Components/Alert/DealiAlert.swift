@@ -43,7 +43,7 @@ public class DealiAlert: NSObject {
         let checkBoxView = DealiCheckboxWithText()
         checkBoxContainerView.addSubview(checkBoxView)
         checkBoxView.then {
-            $0.title = checkButtonTitle
+            $0.text = checkButtonTitle
             $0.font = .b1sb15
             $0.status = .init()
         }.snp.makeConstraints {

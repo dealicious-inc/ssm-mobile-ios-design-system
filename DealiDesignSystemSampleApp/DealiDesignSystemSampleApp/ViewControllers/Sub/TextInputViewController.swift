@@ -51,7 +51,7 @@ final class TextInputViewController: UIViewController {
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
-            $0.spacing = 50.0
+            $0.spacing = 30.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
@@ -65,19 +65,13 @@ final class TextInputViewController: UIViewController {
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
+            $0.clearButtonShouldBeHidden = true
             let button = DealiControl.btnOutlineMedium01()
             button.title = "Default"
             $0.actionButton = button
-            $0.inputRightViewType = .clear
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
-        
-        textInput.textFieldDidEndEditing
-            .drive { [weak self] in
-                debugPrint("포커스 아웃")
-            }
-            .disposed(by: self.disposeBag)
         
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)

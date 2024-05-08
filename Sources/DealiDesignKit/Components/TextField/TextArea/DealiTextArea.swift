@@ -32,9 +32,10 @@ public final class DealiTextArea: UIView, DealiTextField {
                 
                 owner.textField.backgroundColor = DealiColor.primary04
                 owner.textField.layer.borderColor = DealiColor.g20.cgColor
-                owner.setNormalHelperText(text: owner.normalHelperText)
                 owner.textField.textColor = DealiColor.g100
+                owner.setNormalHelperText(text: owner.normalHelperText)
                 owner.placeholderLabel.textColor = DealiColor.g70
+                owner.textCounterLabel.textColor = DealiColor.g70
 
                 switch status {
                 case .focusIn:
@@ -74,6 +75,13 @@ public final class DealiTextArea: UIView, DealiTextField {
                 } else {
                     owner.setContentType(owner.contentType)
                 }
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.textField.rx.didChange
+            .filter { self.showTextCounter }
+            .bind(with: self) { owner, _ in
+                owner.textCounterLabel.text = "\(owner.text?.count ?? 0)/100"
             }
             .disposed(by: self.disposeBag)
 
@@ -131,6 +139,13 @@ public final class DealiTextArea: UIView, DealiTextField {
         }
     }
     
+    /// 글자수 표시
+    public var showTextCounter: Bool = false {
+        didSet {
+            self.textCounterLabel.isHidden = !self.showTextCounter
+        }
+    }
+    
     /// TextInput text 세팅
     public var text: String? {
         get {
@@ -152,10 +167,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     public var leftButton: UIButton? {
         didSet {
             guard let leftButton else { return }
-            
             self.textFieldStackView.insertArrangedSubview(leftButton, at: 0)
-
-            leftButton.setContentHuggingPriority(.required, for: .horizontal)
 
             leftButton.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(11.0)
@@ -170,7 +182,6 @@ public final class DealiTextArea: UIView, DealiTextField {
             guard let rightButton else { return }
             
             self.textFieldStackView.addArrangedSubview(rightButton)
-            rightButton.setContentHuggingPriority(.required, for: .horizontal)
 
             rightButton.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(11.0)
@@ -232,6 +243,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     private let textFieldStackView = UIStackView()
     private let placeholderLabel = UILabel()
     private let helperTextLabel = UILabel()
+    private let textCounterLabel = UILabel()
 
     private let disposeBag = DisposeBag()
     
@@ -310,19 +322,37 @@ private extension DealiTextArea {
             $0.top.left.equalToSuperview().inset(12.0)
         }
         
-        contentStackView.addArrangedSubview(self.helperTextLabel)
-        self.helperTextLabel.then {
+        let bottomInfoStackView = UIStackView().then {
+            $0.axis = .horizontal
+            $0.distribution = .fill
+        }
+                
+        contentStackView.addArrangedSubview(bottomInfoStackView)
+        bottomInfoStackView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(4.0)
+        }
+        
+
+        bottomInfoStackView.addArrangedSubview(self.helperTextLabel)
+        self.helperTextLabel.do {
             $0.font = .b4r12
             $0.textColor = DealiColor.g70
             $0.highlightedTextColor = DealiColor.primary01
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.isHidden = true
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(4.0)
         }
         
-        
+        bottomInfoStackView.addArrangedSubview(self.textCounterLabel)
+        self.textCounterLabel.do {
+            $0.font = .b4r12
+            $0.textColor = DealiColor.g70
+            $0.highlightedTextColor = DealiColor.primary01
+            $0.textAlignment = .right
+            $0.numberOfLines = 0
+            $0.isHidden = true
+            $0.text = "\(self.text?.count ?? 0)/100"
+        }
     }
     
     func setTitleStackView() {
@@ -400,6 +430,8 @@ extension DealiTextArea: DealiTextFieldConfig {
     }
     
     func setError(for errorMessage: String?) {
+        self.textCounterLabel.textColor = DealiColor.error
+        
         let style = NSMutableParagraphStyle().then {
             $0.lineSpacing = 4.0
             $0.lineHeightMultiple = 1.26

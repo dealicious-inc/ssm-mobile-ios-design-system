@@ -34,6 +34,18 @@ final class TextAreaViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
         
+        self.textAreaWithButton.leftButton?.rx.tap
+            .bind(with: self) { owner, _ in
+                debugPrint("leftButton 눌림")
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.textAreaWithButton.rightButton?.rx.tap
+            .bind(with: self) { owner, _ in
+                debugPrint("rightButton 눌림")
+            }
+            .disposed(by: self.disposeBag)
+        
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardHeight in
                 guard let self else { return }
@@ -87,9 +99,6 @@ final class TextAreaViewController: UIViewController {
             $0.rightButton = UIButton().then {
                 $0.setImage(UIImage.dealiIcon(named: "ic_download_1_filled"), for: .normal)
             }
-            $0.leftButton = UIButton().then {
-                $0.setImage(UIImage.dealiIcon(named: "ic_pluscircle_filled"), for: .normal)
-            }
             $0.keyboardCloseButtonString = "닫기"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -102,6 +111,7 @@ final class TextAreaViewController: UIViewController {
             $0.placeholder = "placeholder"
             $0.normalHelperText = "HelperText"
             $0.keyboardCloseButtonString = "닫기"
+            $0.showTextCounter = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

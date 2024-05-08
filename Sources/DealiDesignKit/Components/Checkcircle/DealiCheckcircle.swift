@@ -23,7 +23,6 @@ public class DealiCheckcircle: UIControl {
     public override var isEnabled: Bool {
         didSet {
             self.setupView()
-            self.isUserInteractionEnabled = isEnabled
         }
     }
     

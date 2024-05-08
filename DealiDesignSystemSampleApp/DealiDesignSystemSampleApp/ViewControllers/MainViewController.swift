@@ -45,6 +45,13 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let playgroundButton = DealiControl.btnFilledTonalLarge03()
+        contentStackView.addArrangedSubview(playgroundButton)
+        playgroundButton.do {
+            $0.title = "Playground"
+            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -128,6 +135,20 @@ final class MainViewController: UIViewController {
             $0.title = "TabBar Components"
             $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
         }
+        
+        let checkComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(checkComponents)
+        checkComponents.do {
+            $0.title = "Check Components"
+            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
+        }
+        
+        let indicatorComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponents)
+        indicatorComponents.do {
+            $0.title = "Indicator Components"
+            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -146,6 +167,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func playButtonPressed() {
+        self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
     }
     
     @objc func typoButtonPressed() {
@@ -192,4 +217,12 @@ extension MainViewController {
         self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
     }
     
+    @objc func checkComponentsPressed() {
+        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
+    }
+    
+    @objc func indicatorComponentsPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    }
 }
+

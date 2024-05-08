@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import Then
 import SnapKit
 
@@ -23,6 +24,8 @@ public final class DealiCheckboxWithText: UIView {
             self.setAppearance(for: newValue)
         }
     }
+    
+    public let valueChanged: PublishRelay<Bool> = .init()
     
     public var isSelected: Bool {
         get {
@@ -42,12 +45,22 @@ public final class DealiCheckboxWithText: UIView {
         }
     }
     
-    public var title: String? {
+    public var text: String? {
         get {
             self.titleLabel.text
         } set {
             self.titleLabel.text = newValue
             self.invalidateIntrinsicContentSize()
+        }
+    }
+    
+    
+    @available(*, deprecated, renamed: "text")
+    public var title: String? {
+        get {
+            self.text
+        } set {
+            self.text = newValue
         }
     }
     
@@ -72,10 +85,10 @@ public final class DealiCheckboxWithText: UIView {
         return CGSize(width: width, height: max(24.0, height))
     }
     
-    public convenience init(title: String, status: CheckboxStatus = .init()) {
+    public convenience init(text: String, status: CheckboxStatus = .init()) {
         self.init(frame: .zero)
         
-        self.title = title
+        self.text = text
         self.status = status
     }
     
@@ -92,7 +105,7 @@ public final class DealiCheckboxWithText: UIView {
         self.titleLabel.then {
             $0.textAlignment = .left
             $0.font = .b2r14
-            $0.text = self.title
+            $0.text = self.text
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)
             $0.centerY.equalToSuperview()
@@ -108,6 +121,7 @@ public final class DealiCheckboxWithText: UIView {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
+                self.valueChanged.accept(self.isSelected)
             })
             .disposed(by: self.disposeBag)
     }
@@ -132,14 +146,14 @@ struct CheckboxWithTextPreview: PreviewProvider {
         VStack(alignment: .leading) {
             Text("체크박스 + 텍스트")
             UIViewPreview {
-                let checkboxWithText = DealiCheckboxWithText(title: testString, status: .init())
+                let checkboxWithText = DealiCheckboxWithText(text: testString, status: .init())
                 return checkboxWithText
             }
             .padding(.bottom, 10.0)
             
             UIViewPreview {
                 let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.title = testString
+                checkboxWithText.text = testString
                 checkboxWithText.isSelected = true
                 return checkboxWithText
             }
@@ -147,7 +161,7 @@ struct CheckboxWithTextPreview: PreviewProvider {
             
             UIViewPreview {
                 let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.title = testString
+                checkboxWithText.text = testString
                 checkboxWithText.isEnabled = false
                 return checkboxWithText
             }
@@ -155,7 +169,7 @@ struct CheckboxWithTextPreview: PreviewProvider {
             
             UIViewPreview {
                 let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.title = testString
+                checkboxWithText.text = testString
                 checkboxWithText.isEnabled = false
                 checkboxWithText.isSelected = true
 

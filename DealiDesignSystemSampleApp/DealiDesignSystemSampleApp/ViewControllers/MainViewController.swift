@@ -142,6 +142,13 @@ final class MainViewController: UIViewController {
             $0.title = "Check Components"
             $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
         }
+        
+        let indicatorComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponents)
+        indicatorComponents.do {
+            $0.title = "Indicator Components"
+            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -213,4 +220,9 @@ extension MainViewController {
     @objc func checkComponentsPressed() {
         self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
     }
+    
+    @objc func indicatorComponentsPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    }
 }
+

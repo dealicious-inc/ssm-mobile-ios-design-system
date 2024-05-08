@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 public enum DealiEmptyImageType {
-    case info  // info image
+    case notice  // notice image
     case refresh // refresh image
     case noImage // 이미지 없음
 }
@@ -19,6 +21,7 @@ public final class DealiEmptyView: UIView {
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
     private let actionButton = DealiControl.btnFilledLarge01()
+    private let disposeBag = DisposeBag()
     
     /// 기본적으로 empty가 노출 되는 화면에서 상단에서 72.0 만큼 떨어진 영역에서부터 empty가 노출되도록 처리, 이후 해당 값을 조정해서 노출 위치 수정
     public var topMargin: CGFloat = 72.0 {
@@ -83,17 +86,23 @@ public final class DealiEmptyView: UIView {
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
         }
+        
+        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+            if let handler = owner.actionHandler {
+                handler()
+            }
+        }.disposed(by: self.disposeBag)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setEmpty(imageType: DealiEmptyImageType = .noImage, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
+    public func setEmpty(imageType: DealiEmptyImageType = .notice, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
         
         self.emptyImageView.isHidden = (imageType == .noImage)
         switch imageType {
-        case .info:
+        case .notice:
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_notice_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(DealiColor.g60)
         case .refresh:
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_refresh_2_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(DealiColor.g60)

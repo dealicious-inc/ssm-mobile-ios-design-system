@@ -33,6 +33,8 @@ public final class DealiTextArea: UIView, DealiTextField {
                 owner.textField.backgroundColor = DealiColor.primary04
                 owner.textField.layer.borderColor = DealiColor.g20.cgColor
                 owner.textField.textColor = DealiColor.g100
+                owner.textField.isUserInteractionEnabled = true
+
                 owner.setNormalHelperText(text: owner.normalHelperText)
                 owner.placeholderLabel.textColor = DealiColor.g70
                 owner.textCounterLabel.textColor = DealiColor.g70
@@ -47,15 +49,15 @@ public final class DealiTextArea: UIView, DealiTextField {
                 case .readOnly:
                     owner.textField.backgroundColor = DealiColor.g05
                     owner.textField.layer.borderColor = DealiColor.g05.cgColor
-
                     owner.textField.isEditable = false
+                    owner.textField.isUserInteractionEnabled = false
                     owner.textField.textColor = DealiColor.g80
                     owner.placeholderLabel.textColor = DealiColor.g80
-
 
                 case .disabled:
                     owner.textField.backgroundColor = DealiColor.g10
                     owner.textField.isEditable = false
+                    owner.textField.isUserInteractionEnabled = false
                     owner.textField.textColor = DealiColor.g50
                     owner.placeholderLabel.textColor = DealiColor.g50
 
@@ -235,7 +237,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     }
     
     // MARK: - INTERNAL, PRIVATE
-    private let titleStackView = UIStackView()
+    private let titleStackView = UIView()
     private let titleLabel = UILabel()
     /// 필수입력사항인지 나타내는 뱃지
     private let requiredBadge = UIView()
@@ -325,13 +327,13 @@ private extension DealiTextArea {
         let bottomInfoStackView = UIStackView().then {
             $0.axis = .horizontal
             $0.distribution = .fill
+            $0.alignment = .center
         }
                 
         contentStackView.addArrangedSubview(bottomInfoStackView)
         bottomInfoStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(4.0)
         }
-        
 
         bottomInfoStackView.addArrangedSubview(self.helperTextLabel)
         self.helperTextLabel.do {
@@ -358,14 +360,11 @@ private extension DealiTextArea {
     func setTitleStackView() {
         self.titleStackView.then {
             $0.isHidden = true
-            $0.axis = .horizontal
-            $0.spacing = 4.0
-            $0.alignment = .top
         }.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
         }
         
-        self.titleStackView.addArrangedSubview(self.titleLabel)
+        self.titleStackView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
             $0.textColor = DealiColor.g100
@@ -376,7 +375,7 @@ private extension DealiTextArea {
             $0.top.bottom.left.equalToSuperview()
         }
         
-        self.titleStackView.addArrangedSubview(self.requiredBadge)
+        self.titleStackView.addSubview(self.requiredBadge)
         self.requiredBadge.then {
             $0.backgroundColor = DealiColor.primary01
             $0.layer.masksToBounds = true
@@ -384,10 +383,10 @@ private extension DealiTextArea {
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
-            $0.top.equalToSuperview().inset(4.0)
+            $0.top.equalTo(self.titleLabel.snp.top).inset(4.0)
+            $0.left.equalTo(self.titleLabel.snp.right).offset(4.0)
+            $0.right.lessThanOrEqualToSuperview()
         }
-        
-        self.titleStackView.addArrangedSubview(UIView())
     }
     
     func setContentType(_ type: ContentType) {

@@ -170,7 +170,6 @@ final class TextAreaViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
-        
        
     }
 }

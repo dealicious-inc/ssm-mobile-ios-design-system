@@ -10,4 +10,8 @@ extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
+    
+    func trimming() -> String {
+        return self.components(separatedBy: [" "]).joined().trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }

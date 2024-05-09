@@ -141,6 +141,7 @@ public final class DealiEmptyView: UIView {
         
         if let actionButtonTitle = actionButtonTitle, actionButtonTitle.trimming().isEmpty == false {
             self.actionButton.isHidden = false
+            self.actionButton.title = actionButtonTitle
         } else {
             self.actionButton.isHidden = true
         }

@@ -21,7 +21,7 @@ public final class DealiEmptyView: UIView {
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
     private let actionButton = DealiControl.btnFilledLarge01()
-    private let disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     /// 기본적으로 empty가 노출 되는 화면에서 상단에서 72.0 만큼 떨어진 영역에서부터 empty가 노출되도록 처리, 이후 해당 값을 조정해서 노출 위치 수정
     public var topMargin: CGFloat = 72.0 {
@@ -87,13 +87,6 @@ public final class DealiEmptyView: UIView {
             $0.centerX.equalToSuperview()
         }
         
-        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
-            print("actionButton click")
-            if let handler = owner.actionHandler {
-                print("actionButton handler 호출")
-                handler()
-            }
-        }.disposed(by: self.disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -101,6 +94,8 @@ public final class DealiEmptyView: UIView {
     }
     
     public func setEmpty(imageType: DealiEmptyImageType = .notice, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
+        
+        self.disposeBag = DisposeBag()
         
         self.emptyImageView.isHidden = (imageType == .noImage)
         switch imageType {
@@ -149,5 +144,13 @@ public final class DealiEmptyView: UIView {
         }
         
         self.actionHandler = actionHandler
+        
+        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+            print("actionButton click")
+            if let handler = owner.actionHandler {
+                print("actionButton handler 호출")
+                handler()
+            }
+        }.disposed(by: self.disposeBag)
     }
 }

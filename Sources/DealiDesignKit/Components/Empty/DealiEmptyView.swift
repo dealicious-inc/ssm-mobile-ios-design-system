@@ -88,7 +88,9 @@ public final class DealiEmptyView: UIView {
         }
         
         self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+            print("actionButton click")
             if let handler = owner.actionHandler {
+                print("actionButton handler 호출")
                 handler()
             }
         }.disposed(by: self.disposeBag)

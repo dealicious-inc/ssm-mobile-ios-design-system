@@ -64,7 +64,7 @@ final class EmptyComponentViewController: UIViewController {
         contentStackView.addArrangedSubview(iconMessageEmpty)
         iconMessageEmpty.then {
             $0.topMargin = 0.0
-            $0.setEmpty(imageType: .info, message: "등록된 상품이 없어요.")
+            $0.setEmpty(message: "등록된 상품이 없어요.")
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
@@ -73,7 +73,7 @@ final class EmptyComponentViewController: UIViewController {
         contentStackView.addArrangedSubview(iconMessageButtonEmpty)
         iconMessageButtonEmpty.then {
             $0.topMargin = 0.0
-            $0.setEmpty(imageType: .info, message: "등록된 상품이 없어요.", actionButtonTitle: "재시도")
+            $0.setEmpty(message: "등록된 상품이 없어요.", actionButtonTitle: "재시도")
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
@@ -94,6 +94,11 @@ final class EmptyComponentViewController: UIViewController {
             $0.setEmpty(imageType: .refresh, title: "타이틀이 들어가는 영역이예요.", message: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.", actionButtonTitle: "재시도")
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+        }
+        
+        refreshIconTitleMessageButtonEmpty.setEmpty(imageType: .refresh, title: "타이틀이 들어가는 영역이예요.", message: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.", actionButtonTitle: "재시도") { [weak self] in
+            guard let self else { return }
+            print("refreshIconTitleMessageButtonEmpty 재시도 버튼 클릭")
         }
         
     }

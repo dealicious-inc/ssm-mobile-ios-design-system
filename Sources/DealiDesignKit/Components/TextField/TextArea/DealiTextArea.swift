@@ -82,11 +82,11 @@ public final class DealiTextArea: UIView, DealiTextField {
         
         self.textField.rx.didChange
             .scan(self.text) { (prev, _) -> String? in
-                guard let maxLength = self.maxLength, let text = self.text else { return nil }
-                if text.count > maxLength {
-                    return String(text.prefix(maxLength))
-                }
-                return self.text
+                guard let maxLength = self.maxLength,
+                        let text = self.text,
+                        text.count > maxLength else { return self.text }
+                
+                return String(text.prefix(maxLength))
             }
             .bind(with: self) { owner, text in
                 owner.text = text
@@ -115,6 +115,13 @@ public final class DealiTextArea: UIView, DealiTextField {
             .bind(with: self, onNext: { owner, isEmptyText in
                 owner.placeholderLabel.isHidden = !isEmptyText
             })
+            .disposed(by: self.disposeBag)
+        
+        self.textField.rx.didChange
+            .filter { self.showTextCounter }
+            .bind(with: self) { owner, _ in
+                owner.textCounterLabel.text = "\(owner.text?.count ?? 0)/100"
+            }
             .disposed(by: self.disposeBag)
     }
     

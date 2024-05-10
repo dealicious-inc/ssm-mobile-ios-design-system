@@ -108,7 +108,7 @@ public final class DealiEmptyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setEmpty(imageType: DealiEmptyImageType = .notice, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
+    public func set(imageType: DealiEmptyImageType = .notice, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
         
         self.emptyImageView.isHidden = (imageType == .noImage)
         switch imageType {

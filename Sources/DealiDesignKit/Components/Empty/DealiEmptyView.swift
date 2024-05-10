@@ -20,6 +20,7 @@ public final class DealiEmptyView: UIView {
     private let emptyImageView = UIImageView()
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
+    private let buttonContainerView = UIView()
     private let actionButton = DealiControl.btnFilledLarge01()
     private var disposeBag = DisposeBag()
     
@@ -80,12 +81,26 @@ public final class DealiEmptyView: UIView {
         }
         
         self.contentStackView.setCustomSpacing(24.0, after: self.messageLabel)
-        self.contentStackView.addArrangedSubview(self.actionButton)
+        self.contentStackView.addArrangedSubview(self.buttonContainerView)
+        self.buttonContainerView.then {
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        self.buttonContainerView.addSubview(self.actionButton)
         self.actionButton.then {
             $0.title = "재시도"
         }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
+        
+        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+            if let handler = owner.actionHandler {
+                handler()
+            }
+        }.disposed(by: self.disposeBag)
         
     }
     
@@ -94,8 +109,6 @@ public final class DealiEmptyView: UIView {
     }
     
     public func setEmpty(imageType: DealiEmptyImageType = .notice, title: String? = nil, message: String, actionButtonTitle: String? = nil, actionHandler: (() -> Void)? = nil) {
-        
-        self.disposeBag = DisposeBag()
         
         self.emptyImageView.isHidden = (imageType == .noImage)
         switch imageType {
@@ -137,20 +150,12 @@ public final class DealiEmptyView: UIView {
         self.messageLabel.attributedText = NSMutableAttributedString(string: message, attributes: [.font: messageFont, .foregroundColor: DealiColor.g60, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
         
         if let actionButtonTitle = actionButtonTitle, actionButtonTitle.trimming().isEmpty == false {
-            self.actionButton.isHidden = false
+            self.buttonContainerView.isHidden = false
             self.actionButton.title = actionButtonTitle
         } else {
-            self.actionButton.isHidden = true
+            self.buttonContainerView.isHidden = true
         }
         
         self.actionHandler = actionHandler
-        
-        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
-            print("actionButton click")
-            if let handler = owner.actionHandler {
-                print("actionButton handler 호출")
-                handler()
-            }
-        }.disposed(by: self.disposeBag)
     }
 }

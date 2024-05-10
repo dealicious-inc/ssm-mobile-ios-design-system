@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
-    public static var allCases: [DealiCharaterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
+public struct DealiCharacterOptions: OptionSet, CaseIterable, Hashable {
+    public static var allCases: [DealiCharacterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
     
     public var rawValue: Int
     
@@ -16,24 +16,24 @@ public struct DealiCharaterOptions: OptionSet, CaseIterable, Hashable {
         self.rawValue = rawValue
     }
     
-    public static var alphabet = DealiCharaterOptions(rawValue: 1<<0)
-    public static let numeric = DealiCharaterOptions(rawValue: 1<<1)
-    public static let korean = DealiCharaterOptions(rawValue: 1<<2)
-    public static let japanese = DealiCharaterOptions(rawValue: 1<<3)
-    public static let specialCharacter = DealiCharaterOptions(rawValue: 1<<4)
+    public static var alphabet = DealiCharacterOptions(rawValue: 1<<0)
+    public static let numeric = DealiCharacterOptions(rawValue: 1<<1)
+    public static let korean = DealiCharacterOptions(rawValue: 1<<2)
+    public static let japanese = DealiCharacterOptions(rawValue: 1<<3)
+    public static let specialCharacter = DealiCharacterOptions(rawValue: 1<<4)
     
-    typealias ErrorMessage = [DealiCharaterOptions: String]
+    typealias ErrorMessage = [DealiCharacterOptions: String]
     var errorMsgDict: ErrorMessage = [:]
 }
 
-public extension DealiCharaterOptions {
+public extension DealiCharacterOptions {
     
-    mutating func setErrorMessage(for option: DealiCharaterOptions, errorMessage: String) {
+    mutating func setErrorMessage(for option: DealiCharacterOptions, errorMessage: String) {
         self.errorMsgDict[option] = errorMessage
     }
     
-    func errorMessage(for condition: DealiCharaterOptions, errorCharacterSet: CharacterSet) -> String? {
-        for option in DealiCharaterOptions.allCases {
+    func errorMessage(for condition: DealiCharacterOptions, errorCharacterSet: CharacterSet) -> String? {
+        for option in DealiCharacterOptions.allCases {
             if errorCharacterSet.isSubset(of: option.characterSet), let message = self.errorMsgDict[option] {
                 return message
             }
@@ -42,7 +42,7 @@ public extension DealiCharaterOptions {
     }
 }
 
-public extension DealiCharaterOptions {
+public extension DealiCharacterOptions {
 
     var characterSet: CharacterSet {
         var set = CharacterSet()
@@ -85,8 +85,8 @@ public extension DealiCharaterOptions {
 }
 
 public extension CharacterSet {
-    func dealiCharacterOption() -> DealiCharaterOptions? {
-        for option in DealiCharaterOptions.allCases {
+    func dealiCharacterOption() -> DealiCharacterOptions? {
+        for option in DealiCharacterOptions.allCases {
             if self.isSubset(of: option.characterSet) {
                 return option
             }

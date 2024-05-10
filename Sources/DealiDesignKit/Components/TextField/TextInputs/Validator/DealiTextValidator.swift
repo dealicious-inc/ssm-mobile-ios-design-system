@@ -11,8 +11,8 @@ public struct TextValidator {
     
     public enum Condition: Hashable {
         case length(min: Int = 0, max: Int)
-        case allow(DealiCharaterOptions)
-        case restrict(DealiCharaterOptions)
+        case allow(DealiCharacterOptions)
+        case restrict(DealiCharacterOptions)
     }
     
     public var condition: Condition

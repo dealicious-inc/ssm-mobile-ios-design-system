@@ -74,11 +74,11 @@ final class TextInputValidationView: UIView {
     private let restrictedTextInput = DealiTextInput_v2()
     
 
-    private var restrictionOption: DealiCharaterOptions = []
+    private var restrictionOption: DealiCharacterOptions = []
     
     // MARK: - ErrorMsg
     private let allowedTextInput = DealiTextInput_v2()
-    private var allowingOption: DealiCharaterOptions = []
+    private var allowingOption: DealiCharacterOptions = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -186,7 +186,7 @@ final class TextInputValidationView: UIView {
             $0.height.equalTo(32.0)
         }
        
-        DealiCharaterOptions.allCases.forEach { option in
+        DealiCharacterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }
@@ -241,7 +241,7 @@ final class TextInputValidationView: UIView {
             $0.height.equalTo(32.0)
         }
 
-        DealiCharaterOptions.allCases.forEach { option in
+        DealiCharacterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }

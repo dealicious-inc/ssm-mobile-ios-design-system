@@ -101,6 +101,14 @@ public final class DealiTextArea: UIView, DealiTextField {
             .disposed(by: self.disposeBag)
         
         
+        self.textField.rx.observe(String.self, "text")
+            .map { $0?.isEmpty == true }
+            .distinctUntilChanged()
+            .bind(with: self, onNext: { owner, isEmptyText in
+                owner.placeholderLabel.isHidden = !isEmptyText
+            })
+            .disposed(by: self.disposeBag)
+        
         self.textField.rx.didChange
             .map {
                 return self.textField.text.isEmpty

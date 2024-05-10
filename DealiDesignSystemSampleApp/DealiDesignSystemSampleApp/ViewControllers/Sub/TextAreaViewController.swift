@@ -112,6 +112,7 @@ final class TextAreaViewController: UIViewController {
             $0.normalHelperText = "HelperText"
             $0.keyboardCloseButtonString = "닫기"
             $0.showTextCounter = true
+            $0.maxLength = 10
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

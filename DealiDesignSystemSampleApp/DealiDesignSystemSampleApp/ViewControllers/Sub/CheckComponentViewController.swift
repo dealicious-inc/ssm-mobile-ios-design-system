@@ -18,7 +18,7 @@ class CheckComponentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "TabBar"
+        self.title = "Check"
         self.view.backgroundColor = .white
     }
     
@@ -47,7 +47,7 @@ class CheckComponentViewController: UIViewController {
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
-            $0.spacing =  10.0
+            $0.spacing = 40.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
@@ -55,40 +55,180 @@ class CheckComponentViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
         
-        let checkcircleWithTextButton01 = DealiCheckcircleWithText()
-        contentStackView.addArrangedSubview(checkcircleWithTextButton01)
-        checkcircleWithTextButton01.then{
-            $0.text = "checkcircleWithTextButton01"
-            $0.isEnabled = true
+        let checkBoxStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkBoxStackView)
+        checkBoxStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
         }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(24.0)
         }
         
-        let checkcircleWithTextButton02 = DealiCheckcircleWithText()
-        contentStackView.addArrangedSubview(checkcircleWithTextButton02)
-        checkcircleWithTextButton02.then{
-            $0.text = "checkcircleWithTextButton02"
-            $0.isEnabled = false
+        let checkBoxWithTextStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkBoxWithTextStackView)
+        checkBoxWithTextStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
         }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(24.0)
         }
         
-        let checkcircleWithTextButton03 = DealiCheckcircleWithText()
-        contentStackView.addArrangedSubview(checkcircleWithTextButton03)
-        checkcircleWithTextButton03.then{
-            $0.text = "checkcircleWithTextButton03"
-            $0.isAd = true
-            $0.isEnabled = true
+        let checkCircleStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkCircleStackView)
+        checkCircleStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
         }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(24.0)
         }
         
-        checkcircleWithTextButton01.valueChanged.asSignal().emit(with: self) { owner, isSelected in
-            print("checkcircleWithTextButton01 = \(isSelected)")
-        }.disposed(by: self.disposeBag)
+        let checkCircleWithTextStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkCircleWithTextStackView)
+        checkCircleWithTextStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(24.0)
+        }
         
-        checkcircleWithTextButton03.valueChanged.asSignal().emit(with: self) { owner, isSelected in
-            print("checkcircleWithTextButton03 = \(isSelected)")
-        }.disposed(by: self.disposeBag)
+        let checkLineStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkLineStackView)
+        checkLineStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(24.0)
+        }
+        
+        let checkLineWithTextStackView = UIStackView()
+        contentStackView.addArrangedSubview(checkLineWithTextStackView)
+        checkLineWithTextStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(24.0)
+        }
+        
+        for i in 0..<4 {
+            let checkBox = DealiCheckbox()
+            checkBoxStackView.addArrangedSubview(checkBox)
+            checkBox.then {
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = false
+                    $0.isEnabled = false
+                case 3:
+                    $0.isSelected = true
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }.snp.makeConstraints {
+                $0.size.equalTo(CGSize(width: 24, height: 24))
+            }
+            
+            let checkBoxWithText = DealiCheckboxWithText()
+            checkBoxWithTextStackView.addArrangedSubview(checkBoxWithText)
+            checkBoxWithText.do {
+                $0.text = "Text"
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = false
+                    $0.isEnabled = false
+                case 3:
+                    $0.isSelected = true
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }
+            
+            let checkCircle = DealiCheckcircle()
+            checkCircleStackView.addArrangedSubview(checkCircle)
+            checkCircle.then {
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = true
+                    $0.isAd = true
+                case 3:
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }.snp.makeConstraints {
+                $0.size.equalTo(CGSize(width: 24, height: 24))
+            }
+            
+            let checkCircleWithText = DealiCheckcircleWithText()
+            checkCircleWithTextStackView.addArrangedSubview(checkCircleWithText)
+            checkCircleWithText.do {
+                $0.text = "Text"
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = true
+                    $0.isAd = true
+                case 3:
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }
+            
+            let checkLine = DealiCheckline()
+            checkLineStackView.addArrangedSubview(checkLine)
+            checkLine.then {
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = true
+                    $0.isAd = true
+                case 3:
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }.snp.makeConstraints {
+                $0.size.equalTo(CGSize(width: 24, height: 24))
+            }
+            
+            let checkLineWithText = DealiChecklineWithText()
+            checkLineWithTextStackView.addArrangedSubview(checkLineWithText)
+            checkLineWithText.do {
+                $0.text = "Text"
+                switch i {
+                case 1:
+                    $0.isSelected = true
+                case 2:
+                    $0.isSelected = true
+                    $0.isAd = true
+                case 3:
+                    $0.isEnabled = false
+                default:
+                    $0.isSelected = false
+                }
+            }
+        }
+        
     }
 }

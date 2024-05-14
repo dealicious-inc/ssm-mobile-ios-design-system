@@ -34,6 +34,11 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalLarge06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.large,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
     // MARK: Medium
     public static func btnFilledTonalMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
@@ -119,6 +124,7 @@ public enum ButtonFilledTonalColor: ClickableColorConfig {
     case secondary01
     case secondary02
     case secondary03
+    case secondary04
     
     public var attribute: ClickableColor {
         switch self {
@@ -137,6 +143,9 @@ public enum ButtonFilledTonalColor: ClickableColorConfig {
         case .secondary03:
             return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g70),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
+        case .secondary04:
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50))
         }
     }
 }

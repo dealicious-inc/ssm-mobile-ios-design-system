@@ -150,8 +150,17 @@ public final class DealiEmptyView: UIView {
         self.messageLabel.attributedText = NSMutableAttributedString(string: message, attributes: [.font: messageFont, .foregroundColor: DealiColor.g60, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
         
         if let actionButtonTitle = actionButtonTitle, actionButtonTitle.trimming().isEmpty == false {
+            let width = (actionButtonTitle.size(withAttributes: [.font: UIFont.b1sb15]).width + (40.0))
             self.buttonContainerView.isHidden = false
             self.actionButton.title = actionButtonTitle
+            /// actionButton 의 최소 Width를 170으로 고정
+            if width <= 170.0 {
+                self.actionButton.snp.remakeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                    $0.centerX.equalToSuperview()
+                    $0.width.equalTo(170.0)
+                }
+            }
         } else {
             self.buttonContainerView.isHidden = true
         }

@@ -127,7 +127,6 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary04)
     }
-
 }
 
 public enum ButtonOutlineColor: ClickableColorConfig {
@@ -141,23 +140,23 @@ public enum ButtonOutlineColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.primary01, border: DealiColor.primary01),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.primary01, border: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50, border: DealiColor.g30))
         case .primary02:
             return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.primary04, border: DealiColor.primary04),
                                   disabled: ClickableColorSet(background: .clear, text: DealiColor.w50, border: DealiColor.w50))
         case .secondary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.secondary01, border: DealiColor.secondary01),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.secondary01, border: DealiColor.secondary01),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50, border: DealiColor.g30))
         case .secondary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g100),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g100, border: DealiColor.g100),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50, border: DealiColor.g30))
         case .secondary03:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g30),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g100, border: DealiColor.g30),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50, border: DealiColor.g20))
         case .secondary04:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g80, border: DealiColor.g30),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .clear, text: DealiColor.g80, border: DealiColor.g30),
+                                  disabled: ClickableColorSet(background: .clear, text: DealiColor.g50, border: DealiColor.g20))
         }
     }
 }

@@ -36,15 +36,17 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
-    public var isNotVerified: Bool = false {
+    public var notVerifiedBadgeText: String? {
         didSet {
-            self.notVerifiedBadge.isHidden = !self.isNotVerified
+            self.notVerifiedBadge.isHidden = false
+            self.notVerifiedBadge.text = self.notVerifiedBadgeText
         }
     }
     
-    public var isVerified: Bool = false {
+    public var verifiedBadgeText: String? {
         didSet {
-            self.verifiedBadge.isHidden = !self.isVerified
+            self.verifiedBadge.isHidden = false
+            self.verifiedBadge.text = self.verifiedBadgeText
         }
     }
     

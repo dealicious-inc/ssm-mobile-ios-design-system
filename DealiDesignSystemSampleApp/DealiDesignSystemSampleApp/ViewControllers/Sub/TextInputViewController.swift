@@ -74,8 +74,8 @@ final class TextInputViewController: UIViewController {
                 return (text?.count ?? 0) > 0
             }
             
-            $0.isNotVerified = true
-            $0.isVerified = true
+            $0.notVerifiedBadgeText = "미인증"
+            $0.verifiedBadgeText = "인증"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

@@ -59,6 +59,11 @@ public final class DealiSliderBar: UIControl {
         self.minThumbView.snp.updateConstraints {
             $0.centerX.equalTo(self.barView.snp.left).offset(leftThumbLastOffset)
         }
+        
+        // 최댓값과 동일
+        if ratio == 1 && self.rightThumbLastOffset == width {
+            self.bringSubviewToFront(self.minThumbView)
+        }
     }
     
     public func moveRightThumb(at ratio: CGFloat, barWidth: CGFloat? = nil) {
@@ -77,6 +82,11 @@ public final class DealiSliderBar: UIControl {
             $0.centerX.equalTo(self.barView.snp.left).offset(rightThumbLastOffset)
             $0.top.bottom.equalToSuperview()
             $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
+        }
+        
+        // 최솟값과 동일
+        if ratio == 0 && self.leftThumbLastOffset == 0.0 {
+            self.bringSubviewToFront(self.maxThumbView)
         }
     }
     

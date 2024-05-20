@@ -11,7 +11,10 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public final class DealiTextInput_v2: UIView {
+public final class DealiTextInput_v2: UIView, DealiTextField {
+    
+    public private(set) var textField = UITextField()
+
     
     // MARK: - PUBLIC
     public init() {
@@ -152,11 +155,15 @@ public final class DealiTextInput_v2: UIView {
     
     // MARK:  Reactive Event Stream
     /// 포커스 아웃 이벤트 모두 담은 Driver
+    @available(*, deprecated, renamed: "rx.editingDidFinish")
     public var textFieldDidEndEditing: Driver<Bool>!
     /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
+    @available(*, deprecated, renamed: "rx.editingDidEndOnExit")
     public var editingDidEndOnExit: Driver<Void>!
+    @available(*, deprecated, renamed: "rx.editingDidEnd")
     public var editingDidEnd: Driver<Void>!
     /// 입력 시마다 불리는 stream
+    @available(*, deprecated, renamed: "rx.textEditingControlProperty")
     public var changedTextControlProperty: ControlProperty<String?> {
         return self.textField.rx.controlProperty(
             editingEvents: [.editingChanged, .valueChanged],
@@ -231,7 +238,6 @@ public final class DealiTextInput_v2: UIView {
     
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()
-    public let textField = UITextField()
     
     private let textInputRightTimeLabel = UILabel()
     private let textInputRightImageView = UIImageView()
@@ -248,18 +254,6 @@ public final class DealiTextInput_v2: UIView {
 
     private func RX() {
         
-        self.editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
-            .map { return }
-            .share()
-            .asDriver(onErrorJustReturn: ())
-        
-        self.editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
-            .map { return }
-            .share()
-            .asDriver(onErrorJustReturn: ())
-        
-        self.textFieldDidEndEditing = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit]).map { true }
-        
         self.rx.controlEvent(.editingDidBegin).asSignal()
             .emit(with: self) { owner, _ in
                 owner.inputStatus = .focusIn
@@ -272,7 +266,7 @@ public final class DealiTextInput_v2: UIView {
         
         /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
         /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
-        self.changedTextControlProperty
+        self.rx.textEditingControlProperty
             .orEmpty
             .changed
             .distinctUntilChanged()
@@ -288,7 +282,7 @@ public final class DealiTextInput_v2: UIView {
         /// isConfirmed 상태 표시
         Driver.merge([
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
-            self.textFieldDidEndEditing.asDriver().map { _ in return false }
+            self.rx.editingDidFinish.asDriver().map { _ in return false }
         ])
         .map { isFocused -> Bool in
             if let condtion = self.confirmingCondition  {
@@ -304,9 +298,9 @@ public final class DealiTextInput_v2: UIView {
 
         
         Driver.merge([
-            self.changedTextControlProperty.asDriver().map { _ in return true },
+            self.rx.textEditingControlProperty.asDriver().map { _ in return true },
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
-            self.textFieldDidEndEditing.asDriver().map { _ in return false }
+            self.rx.editingDidFinish.asDriver().map { _ in return false }
         ])
         .map { isFocused -> Bool in
             
@@ -338,13 +332,6 @@ public final class DealiTextInput_v2: UIView {
     }
 }
 
-public extension Reactive where Base: DealiTextInput_v2 {
-    
-    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
-        return base.textField.rx.controlEvent(controlEvents)
-    }
-}
-
 // MARK: - UITextFieldDelegate
 extension DealiTextInput_v2: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -372,7 +359,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
 }
 
 // MARK: - UI Configuration
-extension DealiTextInput_v2 {
+extension DealiTextInput_v2: DealiTextFieldConfig {
     func setUI() {
         self.do {
             $0.backgroundColor = DealiColor.primary04
@@ -526,7 +513,7 @@ extension DealiTextInput_v2 {
         }
     }
     
-    private func setNormalHelperText(text: String?) {
+    func setNormalHelperText(text: String?) {
         if let normalHelperText = self.normalHelperText {
             let style = NSMutableParagraphStyle().then {
                 $0.lineSpacing = 4.0
@@ -542,7 +529,7 @@ extension DealiTextInput_v2 {
         
     }
     
-    private func setError(for errorMessage: String?) {
+    func setError(for errorMessage: String?) {
         
         let style = NSMutableParagraphStyle().then {
             $0.lineSpacing = 4.0

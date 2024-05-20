@@ -88,7 +88,6 @@ final class TextInputValidationView: UIView {
         self.restrictedTextInput.changedTextControlProperty
             .orEmpty
             .changed
-            .debug()
             .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
                 
                 self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")
@@ -103,7 +102,7 @@ final class TextInputValidationView: UIView {
                 }
                 invalidOption.setErrorMessage(for: current)
                 self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
-                
+
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
                 }
@@ -188,6 +187,7 @@ final class TextInputValidationView: UIView {
         }
        
         DealiCharaterOptions.allCases.forEach { option in
+
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }
@@ -242,7 +242,8 @@ final class TextInputValidationView: UIView {
             $0.height.equalTo(32.0)
         }
 
-        DealiCharaterOptions.allCases.forEach { option in
+
+        DealiCharacterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }

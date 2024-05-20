@@ -102,7 +102,7 @@ final class TextInputValidationView: UIView {
                 }
                 invalidOption.setErrorMessage(for: current)
                 self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
-                
+
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
                 }
@@ -187,6 +187,7 @@ final class TextInputValidationView: UIView {
         }
        
         DealiCharacterOptions.allCases.forEach { option in
+
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }
@@ -240,6 +241,7 @@ final class TextInputValidationView: UIView {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(32.0)
         }
+
 
         DealiCharacterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {

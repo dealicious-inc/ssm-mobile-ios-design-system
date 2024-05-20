@@ -13,34 +13,43 @@ import RxCocoa
 
 public final class DealiTextInput_v2: UIView {
     
-    private let titleLabel = UILabel()
-    private let helperTextLabel = UILabel()
-    
-    private let textFieldButtonStackView = UIStackView()
-    private let textFieldContentView = UIView()
-    let textField = UITextField()
-    
-    private let textInputRightTimeLabel = UILabel()
-    private let textInputRightImageView = UIImageView()
-    
-    private let clearButton = UIButton()
-    
-    /// 포커스 아웃 이벤트 모두 담은 Driver
-    public var textFieldDidEndEditing: Driver<Bool>!
-
-    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
-    public var editingDidEndOnExit: Driver<Void>!
-    public var editingDidEnd: Driver<Void>!
-    
-    private let disposeBag = DisposeBag()
+    // MARK: - PUBLIC
+    public init() {
+        super.init(frame: .zero)
+        
+        self.setUI()
+        self.RX()
+    }
     
     /// TextInput title 세팅
     public var title: String? {
         didSet {
-            self.titleLabel.isHidden = false
+            self.titleContentView.isHidden = false
             self.titleLabel.text = self.title
         }
     }
+    
+    /// 필수입력값인지 나타내는 변수. 기본값은 false.
+    public var isMandatory: Bool = false {
+        didSet {
+            self.requiredBadge.isHidden = !self.isMandatory
+        }
+    }
+    
+    public var notVerifiedBadgeText: String? {
+        didSet {
+            self.notVerifiedBadge.isHidden = false
+            self.notVerifiedBadge.text = self.notVerifiedBadgeText
+        }
+    }
+    
+    public var verifiedBadgeText: String? {
+        didSet {
+            self.verifiedBadge.isHidden = false
+            self.verifiedBadge.text = self.verifiedBadgeText
+        }
+    }
+    
     /// TextInput placeholder 세팅
     public var placeholder: String? {
         didSet {
@@ -72,6 +81,59 @@ public final class DealiTextInput_v2: UIView {
             self.textField.returnKeyType = self.inputReturnKeyType
         }
     }
+    
+    /// TextInput 기본으로 노출되는 helperText 세팅
+    public var normalHelperText: String? {
+        didSet {
+            self.setNormalHelperText(text: self.normalHelperText)
+        }
+    }
+  
+    /// 텟스트 필드에 노출되는 문자 format
+    public var textInputFormat: ETextInputTextFormatType = .normal
+    
+    /// confirmed 속성 나타낼 때 사용
+    public var confirmingCondition: ((String?) -> Bool)?
+   
+    /// TextInputStatus 따라 ui처리
+    public var inputStatus: ETextInputStatus = .normal {
+        didSet {
+            
+            switch self.inputStatus {
+            case let .error(errorMessage):
+                self.setError(for: errorMessage)
+                return
+                
+            case .focusIn:
+                self.becomeFirstResponder()
+
+            case .focusOut:
+                self.resignFirstResponder()
+
+            default:
+                break
+            }
+            
+            self.setNormalHelperText(text: self.normalHelperText)
+
+            self.textField.isEnabled = !(self.inputStatus == .disabled)
+            self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
+            self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
+            
+            if let actionButton = self.actionButton {
+                actionButton.isEnabled = !(self.inputStatus == .disabled)
+            }
+        }
+        
+    }
+    
+    /// TextInput RightView 타입 세팅
+    public var inputRightViewType: ETextInputRightViewType = .none {
+        didSet {
+            self.setRightView(type: self.inputRightViewType)
+        }
+    }
+    
     /// TextInput ActionButton 세팅
     public var actionButton: ClickableComponentButton? {
         didSet {
@@ -88,6 +150,28 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
+    // MARK:  Reactive Event Stream
+    /// 포커스 아웃 이벤트 모두 담은 Driver
+    public var textFieldDidEndEditing: Driver<Bool>!
+    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
+    public var editingDidEndOnExit: Driver<Void>!
+    public var editingDidEnd: Driver<Void>!
+    /// 입력 시마다 불리는 stream
+    public var changedTextControlProperty: ControlProperty<String?> {
+        return self.textField.rx.controlProperty(
+            editingEvents: [.editingChanged, .valueChanged],
+            getter: { textField in
+                textField.text
+            },
+            setter: { textField, value in
+                if self.textField.text != value {
+                    self.textField.text = value
+                }
+            }
+        )
+    }
+    
+    // MARK: Keyboard, Resonponder
     @discardableResult
     override public func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
@@ -101,89 +185,6 @@ public final class DealiTextInput_v2: UIView {
 
         return self.textField.resignFirstResponder()
     }
-   
-    //    /// 최소 금액 (type이 price일경우 사용)
-    public var minPrice = 0
-    /// 최대 금액 (type이 price일경우 사용)
-    public var maxPrice = 10000000
-    /// 최소 최대 금액 밖의 가격은 입력이 안되도록
-    public var blockOutOfRangePriceInput: Bool = true
-    /// TextInput 기본으로 노출되는 helperText 세팅
-    public var normalHelperText: String?
-    /// 텟스트 필드에 노출되는 문자 format
-    public var textInputFormat: ETextInputTextFormatType = .normal
-    /// TextInputStatus 따라 ui처리
-    public var inputStatus: ETextInputStatus = .normal {
-        didSet {
-            
-            switch self.inputStatus {
-            case .error(let errorMessage):
-                self.setError(for: errorMessage)
-                return
-            case .focusIn:
-                self.becomeFirstResponder()
-
-            case .focusOut:
-                self.resignFirstResponder()
-
-            default:
-                break
-            }
-            
-            if let normalHelperText = self.normalHelperText {
-                let style = NSMutableParagraphStyle().then {
-                    $0.lineSpacing = 4.0
-                    $0.lineHeightMultiple = 1.26
-                    $0.alignment = .left
-                }
-                
-                self.helperTextLabel.isHidden = false
-                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
-            } else {
-                self.helperTextLabel.isHidden = true
-            }
-            
-            self.textField.isEnabled = !(self.inputStatus == .disabled)
-            self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
-            self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
-            
-            if let actionButton = self.actionButton {
-                actionButton.isEnabled = !(self.inputStatus == .disabled)
-            }
-            
-            switch self.inputRightViewType {
-        
-            default:
-                self.textInputRightImageView.isHidden = true
-            }
-        }
-        
-    }
-    
-    private func setError(for errorMessage: String?) {
-        
-        let style = NSMutableParagraphStyle().then {
-            $0.lineSpacing = 4.0
-            $0.lineHeightMultiple = 1.26
-            $0.alignment = .left
-        }
-        
-        if let errorMessage = errorMessage {
-            self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
-        } else {
-            if let normalHelperText = self.normalHelperText {
-                self.helperTextLabel.isHidden = false
-                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
-            } else {
-                self.helperTextLabel.isHidden = true
-            }
-        }
-        self.textFieldContentView.do {
-            $0.layer.borderColor = DealiColor.error.cgColor
-        }
-    }
-    
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
@@ -212,12 +213,167 @@ public final class DealiTextInput_v2: UIView {
         }
     }
     
-    /// TextInput RightView 타입 세팅
-    public var inputRightViewType: ETextInputRightViewType = .none
+    /// 최소 금액 (type이 price일경우 사용)
+    public var minPrice = 0
+    /// 최대 금액 (type이 price일경우 사용)
+    public var maxPrice = 10000000
+    /// 최소 최대 금액 밖의 가격은 입력이 안되도록
+    public var blockOutOfRangePriceInput: Bool = true
     
-    public init() {
-        super.init(frame: .zero)
+    // MARK: - INTERNAL, PRIVATE
+    private let titleContentView = UIStackView()
+    private let titleLabel = UILabel()
+    /// 필수입력사항인지 나타내는 뱃지
+    private let requiredBadge = UIView()
+    private let notVerifiedBadge = DealiTag()
+    private let verifiedBadge = DealiTag()
+    private let helperTextLabel = UILabel()
+    
+    private let textFieldButtonStackView = UIStackView()
+    private let textFieldContentView = UIView()
+    public let textField = UITextField()
+    
+    private let textInputRightTimeLabel = UILabel()
+    private let textInputRightImageView = UIImageView()
+    
+    private let clearButton = UIButton()
+
+    private let disposeBag = DisposeBag()
+    
+    
+   
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func RX() {
         
+        self.editingDidEndOnExit = self.textField.rx.controlEvent(.editingDidEndOnExit)
+            .map { return }
+            .share()
+            .asDriver(onErrorJustReturn: ())
+        
+        self.editingDidEnd = self.textField.rx.controlEvent(.editingDidEnd)
+            .map { return }
+            .share()
+            .asDriver(onErrorJustReturn: ())
+        
+        self.textFieldDidEndEditing = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit]).map { true }
+        
+        self.rx.controlEvent(.editingDidBegin).asSignal()
+            .emit(with: self) { owner, _ in
+                owner.inputStatus = .focusIn
+            }.disposed(by: self.disposeBag)
+        
+        self.rx.controlEvent(.editingDidEnd).asSignal()
+            .emit(with: self) { owner, _ in
+                owner.inputStatus = .focusOut
+            }.disposed(by: self.disposeBag)
+        
+        /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
+        /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
+        self.changedTextControlProperty
+            .orEmpty
+            .changed
+            .distinctUntilChanged()
+            .bind(with: self) { owner, text in
+                if owner.textInputFormat == .price,
+                   let price = Int(text.replacingOccurrences(of: ",", with: "")) {
+                    owner.textField.text = price.commaString()
+                }
+            }
+            .disposed(by: self.disposeBag)
+        
+        
+        /// isConfirmed 상태 표시
+        Driver.merge([
+            self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
+            self.textFieldDidEndEditing.asDriver().map { _ in return false }
+        ])
+        .map { isFocused -> Bool in
+            if let condtion = self.confirmingCondition  {
+                return !isFocused && condtion(self.text)
+            } else {
+                return false
+            }
+        }
+        .drive(with: self) { owner, isConfirmed in
+            owner.setConfirmed(isConfirmed)
+        }
+        .disposed(by: self.disposeBag)
+
+        
+        Driver.merge([
+            self.changedTextControlProperty.asDriver().map { _ in return true },
+            self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
+            self.textFieldDidEndEditing.asDriver().map { _ in return false }
+        ])
+        .map { isFocused -> Bool in
+            
+            guard self.clearButtonShouldBeHidden == false else { return true }
+            
+            // 포커스 && 한 글자라도 입력 시에만 clearButton 노출
+            return !(isFocused && !(self.text ?? "").isEmpty)
+        }
+        .drive(with: self) { owner, isClearButtonHidden in
+            owner.clearButton.isHidden = isClearButtonHidden
+        }
+        .disposed(by: self.disposeBag)
+        
+        self.clearButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.text = nil
+                owner.clearButton.isHidden = true
+            }
+            .disposed(by: self.disposeBag)
+        
+    }
+    
+    public func configure(configure: DeailTextInputConfigureProtocol?) {
+        guard let configure = configure else { return }
+        self.textField.keyboardType = configure.keyboardType
+        self.textField.textContentType = configure.textContentType
+        self.textField.isSecureTextEntry = configure.isSecureTextEntry
+        self.textInputFormat = configure.textInputFormat
+    }
+}
+
+public extension Reactive where Base: DealiTextInput_v2 {
+    
+    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
+        return base.textField.rx.controlEvent(controlEvents)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension DealiTextInput_v2: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard self.textInputFormat == .price else { return true }
+        
+        let isNumber = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string))
+        
+        guard
+            self.blockOutOfRangePriceInput,
+            var currentPriceText = textField.text?.replacingOccurrences(of: ",", with: ""),
+            !currentPriceText.trim().isEmpty
+        else { return isNumber || string.isEmpty }
+        
+        if string.isEmpty {
+            currentPriceText.removeLast()
+        } else {
+            currentPriceText += string
+        }
+        
+        guard let price = Int(currentPriceText) else { return isNumber || string.isEmpty }
+        
+        return price <= maxPrice && price >= minPrice
+    }
+    
+}
+
+// MARK: - UI Configuration
+extension DealiTextInput_v2 {
+    func setUI() {
         self.do {
             $0.backgroundColor = DealiColor.primary04
         }
@@ -233,17 +389,53 @@ public final class DealiTextInput_v2: UIView {
             $0.top.left.bottom.right.equalToSuperview()
         }
         
-        contentStackView.addArrangedSubview(self.titleLabel)
+        contentStackView.addArrangedSubview(self.titleContentView)
+        self.titleContentView.then {
+            $0.isHidden = true
+            $0.axis = .horizontal
+            $0.spacing = 4.0
+            $0.alignment = .top
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        self.titleContentView.addArrangedSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
             $0.textColor = DealiColor.g100
             $0.textAlignment = .left
-            $0.isHidden = true
+            $0.numberOfLines = 0
+            $0.setContentHuggingPriority(.required, for: .horizontal)
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(20.0)
+            $0.top.bottom.left.equalToSuperview()
         }
         
+        self.titleContentView.addArrangedSubview(self.requiredBadge)
+        self.requiredBadge.then {
+            $0.backgroundColor = DealiColor.primary01
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 2.5
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
+            $0.top.equalToSuperview().inset(4.0)
+        }
+        
+        self.titleContentView.addArrangedSubview(self.notVerifiedBadge)
+        self.notVerifiedBadge.do {
+            $0.type = .tagOutlineSmall01
+            $0.text = "미인증"
+            $0.isHidden = true
+        }
+        
+        self.titleContentView.addArrangedSubview(self.verifiedBadge)
+        self.verifiedBadge.do {
+            $0.type = .tagOutlineSmall02
+            $0.text = "인증 완료"
+            $0.isHidden = true
+        }
+        
+        self.titleContentView.addArrangedSubview(UIView())
         
         contentStackView.addArrangedSubview(self.textFieldButtonStackView)
         self.textFieldButtonStackView.then {
@@ -332,139 +524,66 @@ public final class DealiTextInput_v2: UIView {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(4.0)
         }
-        
-        self.RX()
-        
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public var changedTextControlProperty: ControlProperty<String?> {
-        return self.textField.rx.controlProperty(
-            editingEvents: [.editingChanged, .valueChanged],
-            getter: { textField in
-                textField.text
-            },
-            setter: { textField, value in
-                if self.textField.text != value {
-                    self.textField.text = value
-                }
+    private func setNormalHelperText(text: String?) {
+        if let normalHelperText = self.normalHelperText {
+            let style = NSMutableParagraphStyle().then {
+                $0.lineSpacing = 4.0
+                $0.lineHeightMultiple = 1.26
+                $0.alignment = .left
             }
-        )
-    }
-    
-    
-    private func RX() {
-        
-        self.editingDidEndOnExit = self.rx.controlEvent(.editingDidEndOnExit)
-            .map { return }
-            .asDriver(onErrorJustReturn: ())
-        
-        self.editingDidEnd = self.rx.controlEvent(.editingDidEnd)
-            .map { return }
-            .asDriver(onErrorJustReturn: ())
-        
-        self.textFieldDidEndEditing = Driver.merge([self.editingDidEnd, self.editingDidEndOnExit]).map { true }
-        
-        self.rx.controlEvent(.editingDidBegin).asSignal()
-            .emit(with: self) { owner, _ in
-                owner.inputStatus = .focusIn
-            }.disposed(by: self.disposeBag)
-        
-        self.rx.controlEvent(.editingDidEnd).asSignal()
-            .emit(with: self) { owner, _ in
-                owner.inputStatus = .focusOut
-            }.disposed(by: self.disposeBag)
-        
-        /// 텍스트 inputFormat에 따라 화면에 보여지는 문자를 따로 표현 해줘야함 ( 예: "₩32,000", "10,000", "10.0" )
-        /// 최대 글자수, 최소글자수, 최대금액, 최소금액 관련 대응 추가해야함
-        self.changedTextControlProperty
-            .orEmpty
-            .changed
-            .distinctUntilChanged()
-            .bind(with: self) { owner, text in
-                if owner.textInputFormat == .price,
-                   let price = Int(text.replacingOccurrences(of: ",", with: "")) {
-                    owner.textField.text = price.commaString()
-                }
-            }
-            .disposed(by: self.disposeBag)
-        
-        Driver.merge([
-            self.changedTextControlProperty.asDriver().map { _ in return true },
-            self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
-            self.textFieldDidEndEditing.asDriver().map { _ in return false }
-        ])
-        .map { isFocused -> Bool in
             
-            guard self.clearButtonShouldBeHidden == false else { return true }
-            
-            // 포커스 && 한 글자라도 입력 시에만 clearButton 노출
-            return !(isFocused && !(self.text ?? "").isEmpty)
-        }
-        .drive(with: self) { owner, isClearButtonHidden in
-            owner.clearButton.isHidden = isClearButtonHidden
-        }
-        .disposed(by: self.disposeBag)
-        
-        self.clearButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.text = nil
-                owner.clearButton.isHidden = true
-            }
-            .disposed(by: self.disposeBag)
-        
-    }
-    
-    public func configure(configure: DeailTextInputConfigureProtocol?) {
-        guard let configure = configure else { return }
-        self.textField.keyboardType = configure.keyboardType
-        self.textField.textContentType = configure.textContentType
-        self.textField.isSecureTextEntry = configure.isSecureTextEntry
-        self.textInputFormat = configure.textInputFormat
-    }
-}
-
-public extension Reactive where Base: DealiTextInput_v2 {
-    
-    func controlEvent(_ controlEvents: UIControl.Event) -> ControlEvent<()> {
-        return base.textField.rx.controlEvent(controlEvents)
-    }
-}
-
-
-extension DealiTextInput_v2: UITextFieldDelegate {
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard self.textInputFormat == .price else { return true }
-        
-        let isNumber = CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string))
-        
-        guard
-            self.blockOutOfRangePriceInput,
-            var currentPriceText = textField.text?.replacingOccurrences(of: ",", with: ""),
-            !currentPriceText.trim().isEmpty
-        else { return isNumber || string.isEmpty }
-        
-        if string.isEmpty {
-            currentPriceText.removeLast()
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
         } else {
-            currentPriceText += string
+            self.helperTextLabel.isHidden = true
         }
         
-        guard let price = Int(currentPriceText) else { return isNumber || string.isEmpty }
-        
-        return price <= maxPrice && price >= minPrice
     }
     
-}
-
-extension Int {
-    func commaString() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = NumberFormatter.Style.decimal
-        numberFormatter.locale = Locale(identifier: "ko_KR")
-        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+    private func setError(for errorMessage: String?) {
+        
+        let style = NSMutableParagraphStyle().then {
+            $0.lineSpacing = 4.0
+            $0.lineHeightMultiple = 1.26
+            $0.alignment = .left
+        }
+        
+        if let errorMessage = errorMessage {
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
+        } else {
+            if let normalHelperText = self.normalHelperText {
+                self.helperTextLabel.isHidden = false
+                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+            } else {
+                self.helperTextLabel.isHidden = true
+            }
+        }
+        self.textFieldContentView.do {
+            $0.layer.borderColor = DealiColor.error.cgColor
+        }
     }
+    
+    private func setConfirmed(_ isConfirmed: Bool) {
+        
+        if isConfirmed {
+            self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))
+        } else {
+            self.inputRightViewType = .none
+
+        }
+    }
+    
+    private func setRightView(type: ETextInputRightViewType) {
+        if case .custom(let image) = type {
+            self.textInputRightImageView.isHidden = false
+            self.textInputRightImageView.image = image
+            
+        } else {
+            self.textInputRightImageView.isHidden = true
+        }
+    }
+    
 }

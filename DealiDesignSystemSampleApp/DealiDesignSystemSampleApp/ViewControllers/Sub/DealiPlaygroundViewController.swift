@@ -85,7 +85,7 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
-        self.restrictedTextInput.changedTextControlProperty
+        self.restrictedTextInput.rx.textEditingControlProperty
             .orEmpty
             .changed
             .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
@@ -96,10 +96,13 @@ final class TextInputValidationView: UIView {
                 
                 let invalidOptionArray = [TextValidator(condition: .restrict(self.restrictionOption))].filter { !current.isValid(for: $0) }
                 
-                guard var invalidOption = invalidOptionArray.first else { return current }
+                guard var invalidOption = invalidOptionArray.first else {
+                    self.restrictedTextInput.inputStatus = .focusIn
+                    return current
+                }
                 invalidOption.setErrorMessage(for: current)
-                debugPrint(invalidOption.errorMessage ?? "")
-                
+                self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
+
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
                 }
@@ -110,13 +113,13 @@ final class TextInputValidationView: UIView {
             }
             .disposed(by: self.disposeBag)
         
-        self.allowedTextInput.changedTextControlProperty
+        self.allowedTextInput.rx.textEditingControlProperty
             .orEmpty
             .changed
             .scan(self.allowedTextInput.text ?? "") { _, current -> String in
                 
                 let invalidOptionArray = [TextValidator(condition:.allow(self.allowingOption))].filter { !current.isValid(for: $0) }
-                guard let invalidOption = invalidOptionArray.first else { return current }
+                guard invalidOptionArray.first != nil else { return current }
                 
                 let filteredText: String = invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
@@ -184,6 +187,7 @@ final class TextInputValidationView: UIView {
         }
        
         DealiCharacterOptions.allCases.forEach { option in
+
             let chip = DealiControl.chipOutlineSmall01().then {
                 $0.title = option.description
             }
@@ -237,6 +241,7 @@ final class TextInputValidationView: UIView {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(32.0)
         }
+
 
         DealiCharacterOptions.allCases.forEach { option in
             let chip = DealiControl.chipOutlineSmall01().then {

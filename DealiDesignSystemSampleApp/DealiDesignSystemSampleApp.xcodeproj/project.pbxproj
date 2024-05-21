@@ -28,6 +28,7 @@
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D96495B2BDA227D00AC1BDE /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 4D96495A2BDA227D00AC1BDE /* RxKeyboard */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
+		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		E648FA9A2BB2C81E009F11F6 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
@@ -60,6 +61,7 @@
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
 				394FA4962BC539080026F117 /* TabBarComponentrViewController.swift */,
 				396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */,
+				4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */,
 				E6C115E42BE4855A00032960 /* IndicatorViewController.swift */,
 			);
 			path = Sub;
@@ -298,6 +301,7 @@
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
+				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,
 				E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */,

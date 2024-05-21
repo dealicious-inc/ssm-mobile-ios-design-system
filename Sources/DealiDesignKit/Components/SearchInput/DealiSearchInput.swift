@@ -119,6 +119,12 @@ public final class DealiSearchInput: UIView {
         }
     }
     
+    public var keyboardType: UIKeyboardType = .default {
+        didSet {
+            self.searchTextField.keyboardType = self.keyboardType
+        }
+    }
+    
     /// clear 버튼 탭 시 텍스트 초기화. false인 경우  동작없음
     public var resetKeywordWhenClearTapped: Bool = true
     

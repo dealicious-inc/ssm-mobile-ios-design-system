@@ -8,79 +8,79 @@
 import UIKit
 
 extension DealiControl {
+    public static func chipFilledSquareLarge01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
+                                      color: ChipsFilledSquareColor.primary01)
+    }
+    
+    @available(*, deprecated, renamed: "chipFilledSquareLarge01")
     public static func chipsFilledSquareLarge01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary01)
     }
-    
-    @available(*, deprecated, renamed: "chipsFilledSquareLarge01")
-    public static func chipsFilledSquareLargePrimary01() -> ClickableComponentChip {
+  
+    public static func chipFilledSquareLarge02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
-                                      color: ChipsFilledSquareColor.primary01)
+                                      color: ChipsFilledSquareColor.primary02)
     }
     
+    @available(*, deprecated, renamed: "chipFilledSquareLarge02")
     public static func chipsFilledSquareLarge02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.primary02)
     }
     
-    @available(*, deprecated, renamed: "chipsFilledSquareLarge02")
-    public static func chipsFilledSquareLargePrimary02() -> ClickableComponentChip {
+    public static func chipFilledSquareLarge03() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
-                                      color: ChipsFilledSquareColor.primary02)
+                                      color: ChipsFilledSquareColor.scondary01)
     }
-    
+
+    @available(*, deprecated, renamed: "chipFilledSquareLarge03")
     public static func chipsFilledSquareLarge03() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
-    @available(*, deprecated, renamed: "chipsFilledSquareLarge03")
-    public static func chipsFilledSquareLargeScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledSquareConfig.large,
-                                      color: ChipsFilledSquareColor.scondary01)
+    public static func chipFilledSquareMedium01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
+                                      color: ChipsFilledSquareColor.primary01)
     }
     
+    @available(*, deprecated, renamed: "chipFilledSquareMedium01")
     public static func chipsFilledSquareMedium01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.primary01)
     }
-    
-    @available(*, deprecated, renamed: "chipsFilledSquareMedium01")
-    public static func chipsFilledSquareMediumPrimary01() -> ClickableComponentChip {
+   
+    public static func chipFilledSquareMedium02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
-                                      color: ChipsFilledSquareColor.primary01)
+                                      color: ChipsFilledSquareColor.scondary01)
     }
     
+    @available(*, deprecated, renamed: "chipFilledSquareMedium02")
     public static func chipsFilledSquareMedium02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
                                       color: ChipsFilledSquareColor.scondary01)
     }
-    
-    @available(*, deprecated, renamed: "chipsFilledSquareMedium02")
-    public static func chipsFilledSquareMediumScondary01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledSquareConfig.medium,
-                                      color: ChipsFilledSquareColor.scondary01)
+   
+    public static func chipFilledSquareSmall01() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
+                                      color: ChipsFilledSquareColor.primary01)
     }
     
+    @available(*, deprecated, renamed: "chipFilledSquareSmall01")
     public static func chipsFilledSquareSmall01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.primary01)
     }
-
-    @available(*, deprecated, renamed: "chipsFilledSquareSmall01")
-    public static func chipsFilledSquareSmallPrimary01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
-                                      color: ChipsFilledSquareColor.primary01)
-    }
     
-    public static func chipsFilledSquareSmall02() -> ClickableComponentChip {
+    public static func chipFilledSquareSmall02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.scondary01)
     }
     
-    @available(*, deprecated, renamed: "chipsFilledSquareSmall02")
-    public static func chipsFilledSquareSmallScondary01() -> ClickableComponentChip {
+    @available(*, deprecated, renamed: "chipFilledSquareSmall02")
+    public static func chipsFilledSquareSmall02() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledSquareConfig.small,
                                       color: ChipsFilledSquareColor.scondary01)
     }
@@ -98,7 +98,7 @@ public enum ChipsFilledSquareColor: ClickableColorConfig {
                                   selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .primary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary01),
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100),
                                   selected: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary02),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .scondary01:

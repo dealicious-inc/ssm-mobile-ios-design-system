@@ -45,6 +45,20 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let playgroundButton = DealiControl.btnFilledTonalLarge03()
+        contentStackView.addArrangedSubview(playgroundButton)
+        playgroundButton.do {
+            $0.title = "Playground"
+            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        }
+        
+        let fontButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(fontButton)
+        fontButton.do {
+            $0.title = "Typography"
+            $0.addTarget(self, action: #selector(typoButtonPressed), for: .touchUpInside)
+        }
+        
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(bottomSheetPopupButton)
         bottomSheetPopupButton.do {
@@ -101,6 +115,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
         }
         
+        let textAreaComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(textAreaComponentsButton)
+        textAreaComponentsButton.do {
+            $0.title = "TextArea Components"
+            $0.addTarget(self, action: #selector(textAreaButtonPressed), for: .touchUpInside)
+        }
+        
         let searchInputComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(searchInputComponentsButton)
         searchInputComponentsButton.do {
@@ -114,6 +135,27 @@ final class MainViewController: UIViewController {
             $0.title = "Tag Components"
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
+        
+        let tabBarComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarComponents)
+        tabBarComponents.do {
+            $0.title = "TabBar Components"
+            $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
+        }
+        
+        let checkComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(checkComponents)
+        checkComponents.do {
+            $0.title = "Check Components"
+            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
+        }
+        
+        let indicatorComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponents)
+        indicatorComponents.do {
+            $0.title = "Indicator Components"
+            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -125,9 +167,6 @@ final class MainViewController: UIViewController {
 
 // MARK: - Button Actions
 extension MainViewController {
-    @objc func fontButtonPressed() {
-        self.navigationController?.pushViewController(TypographyViewController(), animated: true)
-    }
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)
@@ -135,6 +174,14 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func playButtonPressed() {
+        self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
+    }
+    
+    @objc func typoButtonPressed() {
+        self.navigationController?.pushViewController(TypographyViewController(), animated: true)
     }
     
     @objc func bottomSheetPopupButtonPressed() {
@@ -157,6 +204,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
     }
     
+    @objc func textAreaButtonPressed() {
+        self.navigationController?.pushViewController(TextAreaViewController(), animated: true)
+    }
+    
     @objc func searchInputButtonPressed() {
         self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
     }
@@ -173,4 +224,16 @@ extension MainViewController {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
     }
     
+    @objc func tabBarComponentsPressed() {
+        self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
+    }
+    
+    @objc func checkComponentsPressed() {
+        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
+    }
+    
+    @objc func indicatorComponentsPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    }
 }
+

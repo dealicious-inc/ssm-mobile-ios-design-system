@@ -10,8 +10,9 @@ import Foundation
 public struct TextValidator {
     
     public enum Condition: Hashable {
-        case length(min: Int = 0, max: Int)
-        case allow(DealiCharacterOptions)
+        case minLength(Int)
+        case maxLength(Int)
+        case allow(CharacterSet)
         case restrict(DealiCharacterOptions)
     }
     
@@ -37,17 +38,20 @@ public extension String {
     
     func isValid(for validator: TextValidator) -> Bool {
         switch validator.condition {
-        case let .length(_, maxLength):
-            return self.count <= maxLength
         case let .allow(option):
             let currentCharacterSet = CharacterSet(charactersIn: self)
-            let notAllowedSet = currentCharacterSet.subtracting(option.characterSet)
+            let notAllowedSet = currentCharacterSet.subtracting(option)
             return notAllowedSet.isEmpty
             
         case let .restrict(option):
             let currentCharacterSet = CharacterSet(charactersIn: self)
             let restrictedSet = currentCharacterSet.intersection(option.characterSet)
             return restrictedSet.isEmpty
+        case let .minLength(length):
+            return self.count >= length
+        case let .maxLength(legth):
+            return self.count <= legth
+
         }
     }
     
@@ -55,12 +59,9 @@ public extension String {
                 
         var filteredText: String {
             switch validator.condition {
-            case let .length(_, maxLength):
-                return String(self.prefix(maxLength))
-                
             case let .allow(option):
                 return self.unicodeScalars
-                    .filter { option.characterSet.contains($0) }
+                    .filter { option.contains($0) }
                     .map(String.init)
                     .joined()
                 
@@ -69,6 +70,10 @@ public extension String {
                     .filter { !option.characterSet.contains($0) }
                     .map(String.init)
                     .joined()
+            case .maxLength(let length):
+                return String(self.prefix(length))
+            default:
+                return self
             }
         }
         return filteredText

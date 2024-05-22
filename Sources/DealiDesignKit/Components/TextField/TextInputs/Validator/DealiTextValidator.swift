@@ -29,8 +29,9 @@ public struct TextValidator {
         }
     }
     
-    public init(condition: TextValidator.Condition) {
+    public init(condition: TextValidator.Condition, errorMessage: String? = nil) {
         self.condition = condition
+        self.errorMessage = errorMessage
     }
 }
 

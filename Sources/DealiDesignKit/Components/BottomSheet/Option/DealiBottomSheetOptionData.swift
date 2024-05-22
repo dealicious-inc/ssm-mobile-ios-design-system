@@ -9,7 +9,7 @@ import Foundation
 
 public struct DealiBottomSheetOptionData {
     public var isSelected: Bool = false
-    var optionName: String?
+    public var optionName: String?
     var contentText: String?
     var imageName: String?
     

@@ -553,7 +553,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         }
     }
     
-    private func setConfirmed(_ isConfirmed: Bool) {
+    public func setConfirmed(_ isConfirmed: Bool) {
         
         if isConfirmed {
             self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))

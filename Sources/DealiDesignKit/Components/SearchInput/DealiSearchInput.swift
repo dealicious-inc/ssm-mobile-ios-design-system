@@ -169,13 +169,11 @@ public final class DealiSearchInput: UIView {
     public func updateKeyword(_ keyword: String?) {
         guard let keyword, !keyword.isEmpty else {
             searchTextField.text = nil
-            if !searchTextField.isEditing {
-                setSearchBarAs(status: .default)
-            }
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
             return
         }
         searchTextField.text = keyword
-        setSearchBarAs(status: .editing)
+        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
     }
     
     public func updateSubKeyword(_ keyword: String?) {
@@ -316,7 +314,8 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        clearImageView.isHidden = status != .editing
+        clearImageView.isHidden = searchTextField.text?.isEmpty == true && status != .editing
+        searchImageView.isHidden = searchTextField.text?.isEmpty == false && status != .editing
         placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false
     }
     

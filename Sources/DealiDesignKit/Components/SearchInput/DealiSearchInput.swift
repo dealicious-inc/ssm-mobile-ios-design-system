@@ -32,15 +32,8 @@ public final class DealiSearchInput: UIView {
     }
     
     private enum SearchStatus {
-        case empty
+        case `default`
         case editing
-        
-        var image: UIImage? {
-            switch self {
-            case .empty: return Constants.imageSearch
-            case .editing: return Constants.imageClear
-            }
-        }
     }
     
     // MARK: - Constants
@@ -82,6 +75,7 @@ public final class DealiSearchInput: UIView {
     private let stackView = UIStackView()
     private let placeHolderLabel = UILabel()
     private let searchTextField = UITextField()
+    private let clearImageView = UIImageView()
     private let searchImageView = UIImageView()
     private var subKeywordLabel: UILabel?
     private var inputType: SearchInputType = .default {
@@ -176,7 +170,7 @@ public final class DealiSearchInput: UIView {
         guard let keyword, !keyword.isEmpty else {
             searchTextField.text = nil
             if !searchTextField.isEditing {
-                setSearchBarAs(status: .empty)
+                setSearchBarAs(status: .default)
             }
             return
         }
@@ -251,15 +245,26 @@ extension DealiSearchInput {
     }
     
     private func setSearchStatusImage() {
+        stackView.addArrangedSubview(clearImageView)
+        clearImageView.then {
+            $0.contentMode = .scaleAspectFit
+            $0.isUserInteractionEnabled = true
+            $0.image = Constants.imageClear
+        }.snp.makeConstraints {
+            $0.width.equalTo(Constants.imageClearSize)
+        }
+        stackView.setCustomSpacing(12, after: clearImageView)
+        
         stackView.addArrangedSubview(searchImageView)
         searchImageView.then {
             $0.contentMode = .scaleAspectFit
-            $0.isUserInteractionEnabled = true
+            $0.isUserInteractionEnabled = false
+            $0.image = Constants.imageSearch
         }.snp.makeConstraints {
             $0.width.equalTo(Constants.imageSearchSize)
         }
         
-        searchImageView.rx.tapGestureOnTop()
+        clearImageView.rx.tapGestureOnTop()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -311,29 +316,8 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        switch inputType {
-        case .default:
-            searchImageView.image = status.image
-        case .subKeyword:
-            switch status {
-            case .empty:
-                searchImageView.image = nil
-            case .editing:
-                searchImageView.image = status.image
-            }
-        }
-        
-        if status == .editing {
-            searchImageView.snp.updateConstraints {
-                $0.width.equalTo(Constants.imageClearSize)
-            }
-        } else {
-            searchImageView.snp.updateConstraints {
-                $0.width.equalTo(Constants.imageSearchSize)
-            }
-        }
-        
-        placeHolderLabel.isHidden = (status == .editing && searchTextField.text?.isEmpty == false)
+        clearImageView.isHidden = status != .editing
+        placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false
     }
     
     // MARK: Rx Setup
@@ -362,9 +346,7 @@ extension DealiSearchInput {
         guard searchTextField.text != nil, searchTextField.text?.isEmpty == false else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
-            if !searchTextField.isEditing {
-                setSearchBarAs(status: .empty)
-            }
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
         }
         delegate?.clear()
     }
@@ -376,7 +358,7 @@ extension DealiSearchInput {
     
     private func textFieldShouldReturn(_ textField: UITextField) {
         textField.resignFirstResponder()
-        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        setSearchBarAs(status: .default)
         delegate?.search(keyword: textField.text)
     }
     
@@ -386,7 +368,7 @@ extension DealiSearchInput {
     }
     
     private func textFieldEditingDidEnd(_ textField: UITextField) {
-        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        setSearchBarAs(status: .default)
         delegate?.endEditing()
     }
     

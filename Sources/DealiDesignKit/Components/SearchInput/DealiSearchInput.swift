@@ -80,7 +80,7 @@ public final class DealiSearchInput: UIView {
     private var subKeywordLabel: UILabel?
     private var inputType: SearchInputType = .default {
         didSet {
-            self.updateKeyword(keyword)
+            self.updateKeyword(keyword, isInputTypeUpdate: true)
         }
     }
     private weak var delegate: DealiSearchInputDelegate?
@@ -121,6 +121,8 @@ public final class DealiSearchInput: UIView {
     
     /// clear 버튼 탭 시 텍스트 초기화. false인 경우  동작없음
     public var resetKeywordWhenClearTapped: Bool = true
+    // InputType이 지정될때의 초기 키워드 상태에 따라 status ui 고정 여부 결정
+    public var shouldFixStatusOnFirst: Bool = false
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
@@ -166,14 +168,14 @@ public final class DealiSearchInput: UIView {
     }
     
     // MARK: Functions
-    public func updateKeyword(_ keyword: String?) {
+    public func updateKeyword(_ keyword: String?, isInputTypeUpdate: Bool = false) {
         guard let keyword, !keyword.isEmpty else {
             searchTextField.text = nil
-            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default, isInputTypeUpdate: isInputTypeUpdate)
             return
         }
         searchTextField.text = keyword
-        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
+        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default, isInputTypeUpdate: isInputTypeUpdate)
     }
     
     public func updateSubKeyword(_ keyword: String?) {
@@ -313,7 +315,8 @@ extension DealiSearchInput {
         }
     }
     
-    private func setSearchBarAs(status: SearchStatus) {
+    private func setSearchBarAs(status: SearchStatus, isInputTypeUpdate: Bool = false) {
+        if shouldFixStatusOnFirst && !isInputTypeUpdate { return }
         clearImageView.isHidden = searchTextField.text?.isEmpty == true && status != .editing
         searchImageView.isHidden = searchTextField.text?.isEmpty == false && status != .editing
         placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false

@@ -75,7 +75,7 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
         }
     }
     
-    public var isConfirmed: Bool = false
+    public var isConfirmed = PublishRelay<Bool>()
     
     /// 포커스 & 텍스트 있는 경우 클리어버튼 미노출할지. 기본값은 노출(isHidden = false)
     public var clearButtonShouldBeHidden: Bool = false
@@ -556,7 +556,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
     }
     
     public func setConfirmed(_ isConfirmed: Bool) {
-        self.isConfirmed = isConfirmed
+        self.isConfirmed.accept(isConfirmed)
         
         if isConfirmed {
             self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))

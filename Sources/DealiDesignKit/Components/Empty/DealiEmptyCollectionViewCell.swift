@@ -9,7 +9,7 @@ import UIKit
 
 public class DealiEmptyCollectionViewCell: UICollectionViewCell {
     
-    static let cellSize = CGSize(width: UIScreen.main.bounds.size.width, height: 460.0)
+    public static let cellSize = CGSize(width: UIScreen.main.bounds.size.width, height: 460.0)
     
     private let emptyView = DealiEmptyView()
     

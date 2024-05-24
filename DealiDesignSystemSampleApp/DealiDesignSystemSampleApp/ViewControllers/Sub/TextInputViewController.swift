@@ -73,6 +73,7 @@ final class TextInputViewController: UIViewController {
             $0.confirmingCondition =  { text in
                 return (text?.count ?? 0) > 0
             }
+            $0.setTimer(245)
             
             $0.notVerifiedBadgeText = "미인증"
             $0.verifiedBadgeText = "인증"

@@ -253,6 +253,16 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public func setTimer(_ seconds: Int) {
+        let minutes = seconds / 60
+        let seconds = seconds % 60
+        
+        let formattedTime = String(format: "%02d:%02d", minutes, seconds)
+        
+        self.inputRightViewType = .timer
+        self.textInputRightTimeLabel.text = formattedTime
+    }
 
     private func RX() {
         
@@ -571,8 +581,13 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         if case .custom(let image) = type {
             self.textInputRightImageView.isHidden = false
             self.textInputRightImageView.image = image
+            self.textInputRightTimeLabel.isHidden = true
+        } else if case .timer = type {
+            self.self.textInputRightImageView.isHidden = true
+            self.textInputRightTimeLabel.isHidden = false
             
         } else {
+            self.self.textInputRightImageView.isHidden = true
             self.textInputRightImageView.isHidden = true
         }
     }

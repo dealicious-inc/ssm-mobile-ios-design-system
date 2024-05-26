@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public final class DealiTextInput_v2: UIView, DealiTextField {
+public class DealiTextInput_v2: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
 

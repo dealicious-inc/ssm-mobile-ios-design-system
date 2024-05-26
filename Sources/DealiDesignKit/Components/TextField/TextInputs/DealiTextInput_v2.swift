@@ -248,9 +248,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
 
     private let disposeBag = DisposeBag()
     
-    
-   
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

@@ -13,6 +13,7 @@ import RxSwift
 final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
+    private let textInput = DealiTextInput_v2.text()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +24,13 @@ final class TextInputViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     var disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
-        
         
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then {
@@ -58,20 +59,27 @@ final class TextInputViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let textInput = DealiTextInput_v2.text()
-        contentStackView.addArrangedSubview(textInput)
-        textInput.then {
+        contentStackView.addArrangedSubview(self.textInput)
+        self.textInput.then {
             $0.title = "일반 텍스트 입력"
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            $0.clearButtonShouldBeHidden = true
-            let button = DealiControl.btnOutlineMedium01()
-            button.title = "Default"
-            $0.actionButton = button
+            $0.isMandatory = true
+            $0.actionButton = DealiControl.btnFilledTonalMedium03().then {
+                $0.title = "Button"
+            }
+            $0.normalHelperText = "Helper Text"
+            $0.confirmingCondition =  { text in
+                return (text?.count ?? 0) > 0
+            }
+            
+            $0.notVerifiedBadgeText = "미인증"
+            $0.verifiedBadgeText = "인증"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
         
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)

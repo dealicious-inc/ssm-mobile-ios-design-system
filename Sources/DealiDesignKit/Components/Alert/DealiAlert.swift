@@ -66,7 +66,7 @@ public class DealiAlert: NSObject {
         }
     }
     
-    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let messageStyle = NSMutableParagraphStyle()
         messageStyle.alignment = .left
@@ -84,13 +84,14 @@ public class DealiAlert: NSObject {
                                    confirmButtonTitle: confirmButtonTitle,
                                    closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                                    cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                                   audoDismissDuration: audoDismissDuration,
                                    alertPresentingViewController: alertPresentingViewController,
                                    cancelAction: cancelAction,
                                    confirmAction: confirmAction)
         
     }
     
-    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let alertViewController = DealiAlertViewController()
         if let title = title {
@@ -116,6 +117,12 @@ public class DealiAlert: NSObject {
         alertViewController.confirmAction = confirmAction
         
         alertPresentingViewController.present(alertViewController, animated: true)
+        
+        if let audoDismissDuration, audoDismissDuration > 0.0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + audoDismissDuration) { [weak alertViewController] in
+                alertViewController?.dismiss(animated: true)
+            }
+        }
     }
     
 }

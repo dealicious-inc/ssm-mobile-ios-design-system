@@ -409,8 +409,6 @@ public struct DealiTabBarItem {
     public var showsBadge: Bool = false
     var icon: DealiTabBarIcon?
     
-
-    
     public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, icon: DealiTabBarIcon? = nil) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController

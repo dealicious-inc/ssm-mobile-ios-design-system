@@ -68,8 +68,8 @@ final class DealiTabBarItemButton: UIButton {
         self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
-        if let image = uiModel.iconImage {
-            self.iconImageView.image = image
+        if let image = uiModel.iconURL, let size = uiModel.iconSize {
+            self.iconImageView.setImage(url: image, size: size)
             self.iconImageView.isHidden = false
         }
     }
@@ -97,8 +97,10 @@ struct DealiTabBarItemButtonUIModel {
     var font: UIFont = .b2r14
     /// 선택된 텍스트 폰트
     var selectedFont: UIFont = .b2sb14
-    /// 아이콘 이미지
-    var iconImage: UIImage?
+    /// 아이콘 URL
+    var iconURL: URL?
+    /// 아이콘 사이즈
+    var iconSize: CGSize?
     
     static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemButtonUIModel {
         var uiModel = DealiTabBarItemButtonUIModel()
@@ -107,7 +109,8 @@ struct DealiTabBarItemButtonUIModel {
         uiModel.selectedTextColor = preset.selectedTextColor
         uiModel.font = preset.font
         uiModel.selectedFont = preset.selectedFont
-        uiModel.iconImage = tabbarItem.iconImage
+        uiModel.iconURL = tabbarItem.icon?.url
+        uiModel.iconSize = tabbarItem.icon?.size
         uiModel.shouldExposeNewBadge = tabbarItem.showsBadge
         return uiModel
     }

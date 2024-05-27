@@ -209,7 +209,7 @@ final public class DealiTabBarView: UIView {
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var buttonContentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-            if let _ = item.iconImage, case .sliderButton = self.preset.style  {
+            if let _ = item.icon, case .sliderButton = self.preset.style  {
                 buttonContentWidth += 20.0
             }
             
@@ -407,16 +407,28 @@ public struct DealiTabBarItem {
     public var isHidden: Bool = false
     /// 배지 보여줄지 여부
     public var showsBadge: Bool = false
-    var iconImage: UIImage?
+    var icon: DealiTabBarIcon?
     
-    public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, iconImage: UIImage? = nil) -> DealiTabBarItem {
+
+    
+    public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, icon: DealiTabBarIcon? = nil, iconSize: CGSize = .zero) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController
         item.title = title
-        item.iconImage = iconImage
+        item.icon = icon
         item.isHidden = isHidden
         item.showsBadge = showsBadge
         return item
+    }
+}
+
+public struct DealiTabBarIcon {
+    var url: URL?
+    var size: CGSize
+    
+    public init(url: URL?, size: CGSize) {
+        self.url = url
+        self.size = size
     }
 }
 

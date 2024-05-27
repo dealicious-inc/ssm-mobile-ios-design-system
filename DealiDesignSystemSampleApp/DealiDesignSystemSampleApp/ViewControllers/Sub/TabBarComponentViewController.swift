@@ -1,5 +1,5 @@
 //
-//  TabBarComponentrViewController.swift
+//  TabBarComponentViewController.swift
 //  DealiDesignSystemSampleApp
 //
 //  Created by 이창호 on 4/9/24.
@@ -11,11 +11,10 @@ import RxSwift
 import RxCocoa
 import DealiDesignKit
 
-final class TabBarComponentrViewController: UIViewController {
-
+final class TabBarComponentViewController: UIViewController {
     private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
-                                  DealiTabBarItem.make(title: "3번 Tab")]
+                                          DealiTabBarItem.make(title: "3번 Tab")]
     
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
@@ -220,7 +219,7 @@ final class TabBarComponentrViewController: UIViewController {
 
 }
 
-extension TabBarComponentrViewController {
+extension TabBarComponentViewController {
     @objc func badgeOnOffButtonPressed() {
         self.badgeOnOffButton.isSelected.toggle()
         
@@ -265,7 +264,7 @@ extension TabBarComponentrViewController {
     }
 }
 
-extension TabBarComponentrViewController: DealiTabBarViewDelegate {
+extension TabBarComponentViewController: DealiTabBarViewDelegate {
     func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
         print("didSelectTabBar index = \(index)")
     }

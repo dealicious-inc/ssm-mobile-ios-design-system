@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 public extension UIImage {
     static func dealiIcon(named: String) -> UIImage? {
@@ -18,6 +19,36 @@ public extension UIImage {
     func resize(_ size: CGSize) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { _ in
             draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
+}
+
+extension UIImageView {
+    @discardableResult
+    func setImage(url: URL?, size: CGSize, complete: ((UIImage?) -> Void)? = nil) -> DownloadTask? {
+        guard let url
+        else {
+            complete?(nil)
+            return nil
+        }
+        
+        var option: KingfisherOptionsInfo?
+        if size.width > 0 && size.height > 0 {
+            let processor = DownsamplingImageProcessor(size: size)
+            option = [.processor(processor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage]
+        } else {
+            option = [.scaleFactor(UIScreen.main.scale), .cacheOriginalImage]
+        }
+        
+        return self.kf.setImage(with: url,
+                                options: option,
+                                progressBlock: nil) { result in
+            switch result {
+            case .success(let value):
+                complete?(value.image)
+            case .failure:
+                complete?(nil)
+            }
         }
     }
 }

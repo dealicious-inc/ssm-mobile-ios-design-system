@@ -41,15 +41,25 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     
     public var notVerifiedBadgeText: String? {
         didSet {
+            guard let text = self.notVerifiedBadgeText, text.isEmpty == false else {
+                self.notVerifiedBadge.isHidden = true
+                return
+            }
+            
             self.notVerifiedBadge.isHidden = false
-            self.notVerifiedBadge.text = self.notVerifiedBadgeText
+            self.notVerifiedBadge.text = text
         }
     }
     
     public var verifiedBadgeText: String? {
         didSet {
+            guard let text = self.verifiedBadgeText, text.isEmpty == false else {
+                self.verifiedBadge.isHidden = true
+                return
+            }
+            
             self.verifiedBadge.isHidden = false
-            self.verifiedBadge.text = self.verifiedBadgeText
+            self.verifiedBadge.text = text
         }
     }
     

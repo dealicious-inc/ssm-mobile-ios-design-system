@@ -48,7 +48,7 @@ final public class DealiTabBarView: UIView {
     private var tabbarItemInfoArray: [DealiTabBarItemInfo] = []
     
     /// 해당 TabbarView를 단독으로 사용되면 true / tabbarViewController 와 함께 사용되면 false
-    public var isStandAloneView: Bool = true
+    public var isStandAloneView: Bool = false
     
     private var selectedIndex: Int = 0 {
         didSet {

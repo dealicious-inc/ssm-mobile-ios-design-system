@@ -121,8 +121,8 @@ public final class DealiSearchInput: UIView {
     
     /// clear 버튼 탭 시 텍스트 초기화. false인 경우  동작없음
     public var resetKeywordWhenClearTapped: Bool = true
-    // InputType이 지정될때의 초기 키워드 상태에 따라 status ui 고정 여부 결정
-    public var shouldFixStatusOnFirst: Bool = false
+    // BeginEditing 시 status ui 업데이트 여부 결정. false인 경우 업데이트 없음
+    public var shouldUpdateStatusOnBeginEditing: Bool = true
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
@@ -316,7 +316,7 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus, isInputTypeUpdate: Bool = false) {
-        if shouldFixStatusOnFirst && !isInputTypeUpdate { return }
+        if !isInputTypeUpdate { return }
         clearImageView.isHidden = searchTextField.text?.isEmpty == true && status != .editing
         searchImageView.isHidden = searchTextField.text?.isEmpty == false && status != .editing
         placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false
@@ -365,7 +365,9 @@ extension DealiSearchInput {
     }
     
     private func textFieldEditingDidBegin(_ textField: UITextField) {
-        setSearchBarAs(status: .editing)
+        if self.shouldUpdateStatusOnBeginEditing {
+            setSearchBarAs(status: .editing)
+        }
         delegate?.beginEditing()
     }
     

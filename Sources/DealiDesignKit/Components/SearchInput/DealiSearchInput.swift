@@ -122,7 +122,7 @@ public final class DealiSearchInput: UIView {
     /// clear 버튼 탭 시 텍스트 초기화. false인 경우  동작없음
     public var resetKeywordWhenClearTapped: Bool = true
     // BeginEditing 시 status ui 업데이트 여부 결정. false인 경우 업데이트 없음
-    public var shouldUpdateStatusOnBeginEditing: Bool = true
+    public var shouldUpdateStatusOnBeginEditing: Bool = false
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {

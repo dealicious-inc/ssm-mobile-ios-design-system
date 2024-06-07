@@ -80,7 +80,7 @@ public final class DealiSearchInput: UIView {
     private var subKeywordLabel: UILabel?
     private var inputType: SearchInputType = .default {
         didSet {
-            self.updateKeyword(keyword, isInputTypeUpdate: true)
+            self.updateKeyword(keyword)
         }
     }
     private weak var delegate: DealiSearchInputDelegate?
@@ -168,14 +168,14 @@ public final class DealiSearchInput: UIView {
     }
     
     // MARK: Functions
-    public func updateKeyword(_ keyword: String?, isInputTypeUpdate: Bool = false) {
+    public func updateKeyword(_ keyword: String?) {
         guard let keyword, !keyword.isEmpty else {
             searchTextField.text = nil
-            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default, isInputTypeUpdate: isInputTypeUpdate)
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
             return
         }
         searchTextField.text = keyword
-        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default, isInputTypeUpdate: isInputTypeUpdate)
+        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
     }
     
     public func updateSubKeyword(_ keyword: String?) {
@@ -315,8 +315,7 @@ extension DealiSearchInput {
         }
     }
     
-    private func setSearchBarAs(status: SearchStatus, isInputTypeUpdate: Bool = false) {
-        if !isInputTypeUpdate { return }
+    private func setSearchBarAs(status: SearchStatus) {
         clearImageView.isHidden = searchTextField.text?.isEmpty == true && status != .editing
         searchImageView.isHidden = searchTextField.text?.isEmpty == false && status != .editing
         placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false

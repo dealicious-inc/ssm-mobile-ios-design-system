@@ -122,6 +122,12 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             self.setNormalHelperText(text: self.normalHelperText)
         }
     }
+    
+    public var normalHelperAttributedString: NSMutableAttributedString? {
+        didSet {
+            self.setNormalHelperText(attributedString: normalHelperAttributedString)
+        }
+    }
   
     /// 텟스트 필드에 노출되는 문자 format
     public var textInputFormat: ETextInputTextFormatType = .normal
@@ -576,6 +582,17 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             
             self.helperTextLabel.isHidden = false
             self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+        } else {
+            self.helperTextLabel.isHidden = true
+        }
+        
+    }
+    
+    func setNormalHelperText(attributedString: NSMutableAttributedString?) {
+        if let attributedString  {
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = attributedString
+            
         } else {
             self.helperTextLabel.isHidden = true
         }

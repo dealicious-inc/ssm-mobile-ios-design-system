@@ -69,6 +69,7 @@ final class TextInputViewController: UIViewController {
             $0.actionButton = DealiControl.btnFilledTonalMedium03().then {
                 $0.title = "Button"
             }
+            $0.leftText = "(+82)"
             $0.normalHelperText = "Helper Text"
             $0.confirmingCondition =  { text in
                 return (text?.count ?? 0) > 0

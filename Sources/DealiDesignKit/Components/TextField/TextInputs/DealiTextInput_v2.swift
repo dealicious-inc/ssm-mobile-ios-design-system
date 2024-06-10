@@ -70,6 +70,25 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g70])
         }
     }
+    
+    /// textField 좌측에 위치한 text. ex) 국가코드 (+82)
+    public var leftText: String? {
+        didSet {
+            guard let text = self.leftText, text.isEmpty == false else {
+                self.textInputLeftLabel.isHidden = true
+                return
+            }
+            
+            self.textInputLeftLabel.isHidden = false
+            self.textInputLeftLabel.text = text
+            self.textInputLeftLabel.snp.updateConstraints {
+                $0.top.bottom.equalToSuperview()
+                $0.width.equalTo(text.size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
+            }
+        }
+    }
+    
+    
     /// TextInput text 세팅
     public var text: String? {
         get {
@@ -252,6 +271,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     private let textFieldContentView = UIView()
     
     private let textInputRightTimeLabel = UILabel()
+    private let textInputLeftLabel = UILabel()
     private let textInputRightImageView = UIImageView()
     
     private let clearButton = UIButton()
@@ -477,6 +497,19 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview().inset(16.0)
         }
+        
+        textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
+        self.textInputLeftLabel.then {
+            $0.font = .b2r14
+            $0.textColor = DealiColor.g100
+            $0.textAlignment = .left
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo("(+880)".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
+        }
+        
+        textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
         
         textFieldContentStackView.addArrangedSubview(self.textField)
         self.textField.then {

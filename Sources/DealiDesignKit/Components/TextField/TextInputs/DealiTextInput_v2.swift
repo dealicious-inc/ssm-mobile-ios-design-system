@@ -274,7 +274,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     private let requiredBadge = UIView()
     private let notVerifiedBadge = DealiTag()
     private let verifiedBadge = DealiTag()
-    private let helperTextLabel = UILabel()
+    public let helperTextLabel = UILabel()
     
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()

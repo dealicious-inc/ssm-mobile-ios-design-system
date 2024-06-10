@@ -155,6 +155,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             }
             
             self.setNormalHelperText(text: self.normalHelperText)
+            self.setNormalHelperText(attributedString: self.normalHelperAttributedString)
 
             self.textField.isEnabled = !(self.inputStatus == .disabled)
             self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
@@ -576,7 +577,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         if let normalHelperText = self.normalHelperText {
             let style = NSMutableParagraphStyle().then {
                 $0.lineSpacing = 4.0
-                $0.lineHeightMultiple = 1.26
+                $0.lineHeightMultiple = 1.12
                 $0.alignment = .left
             }
             
@@ -603,7 +604,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         
         let style = NSMutableParagraphStyle().then {
             $0.lineSpacing = 4.0
-            $0.lineHeightMultiple = 1.26
+            $0.lineHeightMultiple = 1.12
             $0.alignment = .left
         }
         

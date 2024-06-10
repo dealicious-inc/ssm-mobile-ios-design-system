@@ -155,7 +155,9 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             }
             
             self.setNormalHelperText(text: self.normalHelperText)
-            self.setNormalHelperText(attributedString: self.normalHelperAttributedString)
+            if let normalHelperAttributedString {
+                self.setNormalHelperText(attributedString: normalHelperAttributedString)
+            }
 
             self.textField.isEnabled = !(self.inputStatus == .disabled)
             self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)

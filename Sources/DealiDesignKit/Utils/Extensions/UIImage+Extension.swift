@@ -26,8 +26,7 @@ public extension UIImage {
 extension UIImageView {
     @discardableResult
     func setImage(url: URL?, size: CGSize, complete: ((UIImage?) -> Void)? = nil) -> DownloadTask? {
-        guard let url
-        else {
+        guard let url else {
             complete?(nil)
             return nil
         }

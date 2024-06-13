@@ -14,7 +14,7 @@ final class EmptyComponentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "TabBar"
+        self.title = "Empty"
         self.view.backgroundColor = .white
     }
     

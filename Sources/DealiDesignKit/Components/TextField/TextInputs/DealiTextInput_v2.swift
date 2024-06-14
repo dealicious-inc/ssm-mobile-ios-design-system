@@ -221,9 +221,9 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     }
     
     /// 최소 금액 (type이 price일경우 사용)
-    public var minPrice = 0.0
+    public var minPrice: Double = 0.0
     /// 최대 금액 (type이 price일경우 사용)
-    public var maxPrice = 10000000.0
+    public var maxPrice: Double = 10000000.0
     /// 최소 최대 금액 밖의 가격은 입력이 안되도록
     public var blockOutOfRangePriceInput: Bool = true
     

@@ -578,7 +578,6 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
     func setNormalHelperText(text: String?) {
         if let normalHelperText = self.normalHelperText {
             let style = NSMutableParagraphStyle().then {
-                $0.lineSpacing = 4.0
                 $0.lineHeightMultiple = 1.12
                 $0.alignment = .left
             }
@@ -605,7 +604,6 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
     func setError(for errorMessage: String?) {
         
         let style = NSMutableParagraphStyle().then {
-            $0.lineSpacing = 4.0
             $0.lineHeightMultiple = 1.12
             $0.alignment = .left
         }

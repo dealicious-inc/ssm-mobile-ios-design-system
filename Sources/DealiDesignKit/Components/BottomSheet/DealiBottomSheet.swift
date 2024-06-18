@@ -212,15 +212,15 @@ public class DealiBottomSheet: NSObject {
     
 }
 
-open class DealiBottomSheetBaseViewController: UIViewController {
+class DealiBottomSheetBaseViewController: UIViewController {
     private let contentView = UIView()
     private var cornerLayer: CAShapeLayer?
     private let contentStackView = UIStackView()
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    public var optionType: EBottomSheetOptionType? = nil
-    public var optionData: [DealiBottomSheetOptionData] = [] {
+    var optionType: EBottomSheetOptionType? = nil
+    var optionData: [DealiBottomSheetOptionData] = [] {
         didSet {
             self.collectionView.snp.updateConstraints {
                 $0.height.equalTo(self.optionHeight)
@@ -248,9 +248,9 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     var buttonType: EBottomSheetButtonType = .hidden
     
     /// content영역 이외의 영역 터치시 팝업을 닫을지 유무
-    public var closePopupOnOutsideTouch: Bool = false
+    var closePopupOnOutsideTouch: Bool = false
     /// content영역 이외의 영역 터치로 popup을 닫을때 cancel Action 호출 유무
-    public var cancelActionOnOutsideTouch: Bool = false
+    var cancelActionOnOutsideTouch: Bool = false
     
     private lazy var titleLabel: UILabel = {
         return UILabel().then {

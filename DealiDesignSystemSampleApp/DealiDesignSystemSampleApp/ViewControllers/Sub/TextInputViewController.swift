@@ -69,10 +69,12 @@ final class TextInputViewController: UIViewController {
             $0.actionButton = DealiControl.btnFilledTonalMedium03().then {
                 $0.title = "Button"
             }
-            $0.normalHelperText = "Helper Text"
+            $0.leftText = "(+82)"
+            $0.normalHelperText = "Helper Text Will attempt to recover by breaking constraint닫기Will attempt to recover by breaking constrain"
             $0.confirmingCondition =  { text in
                 return (text?.count ?? 0) > 0
             }
+            $0.setTimer(245)
             
             $0.notVerifiedBadgeText = "미인증"
             $0.verifiedBadgeText = "인증"

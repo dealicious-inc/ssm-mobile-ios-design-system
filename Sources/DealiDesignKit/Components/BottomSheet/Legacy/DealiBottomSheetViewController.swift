@@ -21,7 +21,7 @@ open class DealiBottomSheetViewController: UIViewController {
     /// 바텀시트 타이틀 라벨.
     public let titleLabel = UILabel()
     
-    let sheetView = UIView()
+    public let sheetView = UIView()
     /// 타이틀 제외하고 컨텐츠가 들어가는 뷰
     public let contentview = UIView()
     

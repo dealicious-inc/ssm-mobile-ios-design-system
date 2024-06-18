@@ -90,13 +90,13 @@ fileprivate final class ClickableIndicatorView: UIView {
 }
 
 
-public class ClickableComponent: UIControl {
+public class ClickableComponent: UIButton {
     
-    private var configuration: ClickableComponent.Configuration?
+    private var config: ClickableComponent.Configuration?
     private var gradientBackgroundLayer: CAGradientLayer?
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
-    private let titleLabel = UILabel()
+    private let dealiTitleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
     
@@ -118,7 +118,7 @@ public class ClickableComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.textAlignment = titleAlignment
+            self.dealiTitleLabel.textAlignment = titleAlignment
         }
     }
     
@@ -127,8 +127,8 @@ public class ClickableComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.text = title
-            self.titleLabel.isHidden = (title?.isEmpty ?? true)
+            self.dealiTitleLabel.text = title
+            self.dealiTitleLabel.isHidden = (title?.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -138,8 +138,8 @@ public class ClickableComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.attributedText = attributedTitle
-            self.titleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
+            self.dealiTitleLabel.attributedText = attributedTitle
+            self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -190,10 +190,10 @@ public class ClickableComponent: UIControl {
     
     /// size
     public var fixedSize: CGSize {
-        if self.configuration?.style == .button {
-            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.button ?? 0)
+        if self.config?.style == .button {
+            return CGSize(width: self.fixedWidth, height: self.config?.height?.button ?? 0)
         } else {
-            return CGSize(width: self.fixedWidth, height: self.configuration?.height?.chip ?? 0)
+            return CGSize(width: self.fixedWidth, height: self.config?.height?.chip ?? 0)
         }
     }
     
@@ -207,7 +207,7 @@ public class ClickableComponent: UIControl {
     
     /// content width
     private var fixedWidth: CGFloat {
-        guard let configuration = self.configuration else { return 0.0 }
+        guard let configuration = self.config else { return 0.0 }
         
         var width: CGFloat = 0.0
         
@@ -223,7 +223,7 @@ public class ClickableComponent: UIControl {
                 width += configuration.padding?.left.normal ?? 0.0
             }
             
-            width += ceil(self.titleLabel.intrinsicContentSize.width)
+            width += ceil(self.dealiTitleLabel.intrinsicContentSize.width)
             if let rightImage = self.rightImage {
                 width += configuration.padding?.right.withImage ?? 0.0
                 width += rightImage.uiImage?.size.width ?? 0.0
@@ -238,17 +238,17 @@ public class ClickableComponent: UIControl {
     /// center 위치 offset (버튼만)
     private var horizontalOffset: CGFloat {
         // 버튼만 center 정렬이라 위치 조정. 칩은 이미지는 좌우 padding 고정이고 텍스트 left 정렬에 Label이 늘어남
-        guard let style = self.configuration?.style, style == .button else { return 0.0 }
+        guard let style = self.config?.style, style == .button else { return 0.0 }
         
         var leftOffset: CGFloat = 0.0
         var rightOffset: CGFloat = 0.0
         if self.leftImage != nil {
-            if let padding = self.configuration?.padding?.left {
+            if let padding = self.config?.padding?.left {
                 leftOffset = ((padding.normal - padding.withImage) / 2.0)
             }
         }
         if self.rightImage != nil {
-            if let padding = self.configuration?.padding?.right {
+            if let padding = self.config?.padding?.right {
                 rightOffset = (padding.normal - padding.withImage) / 2.0
             }
         }
@@ -262,14 +262,14 @@ public class ClickableComponent: UIControl {
         set {
             super.isSelected = newValue
             
-            if self.configuration?.style == .chip { // 칩만 selected 가능.
+            if self.config?.style == .chip { // 칩만 selected 가능.
                 if self.isEnabled == true {
                     if newValue == true {
-                        self.updateColor(color: self.configuration?.color?.selected)
-                        self.titleLabel.font = self.configuration?.font?.selected
+                        self.updateColor(color: self.config?.color?.selected)
+                        self.dealiTitleLabel.font = self.config?.font?.selected
                     } else {
-                        self.updateColor(color: self.configuration?.color?.normal)
-                        self.titleLabel.font = self.configuration?.font?.normal
+                        self.updateColor(color: self.config?.color?.normal)
+                        self.dealiTitleLabel.font = self.config?.font?.normal
                     }
                 }
             } else {
@@ -288,15 +288,15 @@ public class ClickableComponent: UIControl {
             
             if newValue == true {
                 if self.isSelected {
-                    self.updateColor(color: self.configuration?.color?.selected)
-                    self.titleLabel.font = self.configuration?.font?.selected
+                    self.updateColor(color: self.config?.color?.selected)
+                    self.dealiTitleLabel.font = self.config?.font?.selected
                 } else {
-                    self.updateColor(color: self.configuration?.color?.normal)
-                    self.titleLabel.font = self.configuration?.font?.normal
+                    self.updateColor(color: self.config?.color?.normal)
+                    self.dealiTitleLabel.font = self.config?.font?.normal
                 }
             } else {
-                self.updateColor(color: self.configuration?.color?.disabled)
-                self.titleLabel.font = self.configuration?.font?.disabled
+                self.updateColor(color: self.config?.color?.disabled)
+                self.dealiTitleLabel.font = self.config?.font?.disabled
             }
         }
     }
@@ -317,7 +317,7 @@ public class ClickableComponent: UIControl {
         configuration.color = color
         configuration.font = config.font
         configuration.cornerRadius = config.cornerRadius
-        self.configuration = configuration
+        self.config = configuration
         
         self.do {
             $0.snp.contentHuggingHorizontalPriority = 1000.0
@@ -371,8 +371,8 @@ public class ClickableComponent: UIControl {
         }
         self.contentStackView.setCustomSpacing(configuration.padding?.left.internalSpacing ?? 0.0, after: self.leftImageView)
         
-        self.contentStackView.addArrangedSubview(self.titleLabel)
-        self.titleLabel.do {
+        self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
+        self.dealiTitleLabel.do {
             $0.font = config.font.normal
             $0.isHidden = true
             if configuration.style == .button {
@@ -381,7 +381,7 @@ public class ClickableComponent: UIControl {
                 $0.textAlignment = .left
             }
         }
-        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.titleLabel)
+        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.dealiTitleLabel)
         
         self.contentStackView.addArrangedSubview(self.rightImageView)
         self.rightImageView.then {
@@ -429,7 +429,7 @@ public class ClickableComponent: UIControl {
         self.currentColor = color
         
         self.backgroundColor = color.background
-        if self.configuration?.style == .button {
+        if self.config?.style == .button {
             self.indicator.color = color.text
         }
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
@@ -447,7 +447,7 @@ public class ClickableComponent: UIControl {
                 self.gradientBackgroundLayer?.isHidden = true
             }
             
-            self.titleLabel.textColor = color.text
+            self.dealiTitleLabel.textColor = color.text
             if let leftImage = self.leftImage, leftImage.needOriginColor == false {
                 self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
             }
@@ -459,7 +459,7 @@ public class ClickableComponent: UIControl {
     
     /// 제약조건 업데이트
     private func updateContentConstraints() {
-        guard let configuration = self.configuration else { return }
+        guard let configuration = self.config else { return }
         
         if self.singleImage != nil {
             
@@ -555,26 +555,26 @@ public class ClickableComponent: UIControl {
         self.contentStackView.alpha = 1.0
         self.indicator.stopAnimating()
     }
-    
-    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
-    func setImage(_ image: UIImage?, for state: UIControl.State) {
-        
-    }
-    
-    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
-    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
-        
-    }
-    
-    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
-    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
-
-    }
-    
-    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
-    func setTitle(_ title: String?, for state: UIControl.State) {
-        
-    }
+//    
+//    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
+//    override func setImage(_ image: UIImage?, for state: UIControl.State) {
+//        
+//    }
+//    
+//    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
+//    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+//        
+//    }
+//    
+//    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
+//    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
+//
+//    }
+//    
+//    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
+//    func setTitle(_ title: String?, for state: UIControl.State) {
+//        
+//    }
     
     @available(*, unavailable, message: "디자인 시스템은 타이틀 색상을 변경할 수 없습니다.")
     func setTitleColor(_ color: UIColor, for state: UIControl.State) {

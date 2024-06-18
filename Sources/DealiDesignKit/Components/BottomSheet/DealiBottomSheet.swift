@@ -212,15 +212,15 @@ public class DealiBottomSheet: NSObject {
     
 }
 
-class DealiBottomSheetBaseViewController: UIViewController {
+open class DealiBottomSheetBaseViewController: UIViewController {
     private let contentView = UIView()
     private var cornerLayer: CAShapeLayer?
     private let contentStackView = UIStackView()
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    var optionType: EBottomSheetOptionType? = nil
-    var optionData: [DealiBottomSheetOptionData] = [] {
+    public var optionType: EBottomSheetOptionType? = nil
+    public var optionData: [DealiBottomSheetOptionData] = [] {
         didSet {
             self.collectionView.snp.updateConstraints {
                 $0.height.equalTo(self.optionHeight)
@@ -248,9 +248,9 @@ class DealiBottomSheetBaseViewController: UIViewController {
     var buttonType: EBottomSheetButtonType = .hidden
     
     /// content영역 이외의 영역 터치시 팝업을 닫을지 유무
-    var closePopupOnOutsideTouch: Bool = false
+    public var closePopupOnOutsideTouch: Bool = false
     /// content영역 이외의 영역 터치로 popup을 닫을때 cancel Action 호출 유무
-    var cancelActionOnOutsideTouch: Bool = false
+    public var cancelActionOnOutsideTouch: Bool = false
     
     private lazy var titleLabel: UILabel = {
         return UILabel().then {
@@ -363,6 +363,10 @@ class DealiBottomSheetBaseViewController: UIViewController {
             
             if self.optionType != nil {
                 contentContainerView.addSubview(self.collectionView)
+                let titleHeight = 60.0
+                let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
+                let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
+                
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
                     $0.register(DealiBottomSheetMultiSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetMultiSelectCell.id)
@@ -375,9 +379,6 @@ class DealiBottomSheetBaseViewController: UIViewController {
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
                     $0.left.right.equalToSuperview().inset(-16.0)
-                    let titleHeight = 60.0
-                    let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
-                    let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
                     $0.height.equalTo(maximumContentHeight)
                 }
             }

@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/**
+ 설명: 다중선택 셀 UIModel
+ */
 struct DealiBottomSheetMultiSelectCellUIModel {
     var optionName: String?
     var isSelected: Bool = false
@@ -28,6 +31,9 @@ struct DealiBottomSheetMultiSelectCellUIModel {
     }
 }
 
+/**
+ 설명: 바텀시트 다중선택 셀
+ */
 final class DealiBottomSheetMultiSelectCell: UICollectionViewCell {
     
     private let checkbox = DealiCheckbox()

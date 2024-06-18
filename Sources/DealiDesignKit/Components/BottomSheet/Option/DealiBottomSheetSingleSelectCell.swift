@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/**
+ 설명: 단일선택 셀 UIModel
+ */
 struct DealiBottomSheetSingleSelectCellUIModel {
     var optionName: String?
     var isSelected: Bool = false
@@ -32,6 +35,9 @@ struct DealiBottomSheetSingleSelectCellUIModel {
     }
 }
 
+/**
+ 설명: 바텀시트 단일선택 셀
+ */
 final class DealiBottomSheetSingleSelectCell: UICollectionViewCell {
     
     private let optionLabel = UILabel()

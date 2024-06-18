@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/**
+ 설명: 아이콘과 텍스트가 있는 셀 UIModel
+ */
 struct DealiBottomSheetIconWithTextCellUIModel {
     var optionName: String?
     var isSelected: Bool = false
@@ -33,6 +36,9 @@ struct DealiBottomSheetIconWithTextCellUIModel {
     }
 }
 
+/**
+ 설명: 아이콘과 텍스트가 있는 바텀시트의 셀
+ */
 final class DealiBottomSheetIconWithTextCell: UICollectionViewCell {
     
     private let iconImageView = UIImageView()

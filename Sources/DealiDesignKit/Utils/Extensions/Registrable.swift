@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Registrable.swift
+//
 //
 //  Created by 조서현 on 6/18/24.
 //

@@ -272,7 +272,7 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
             .distinctUntilChanged()
             .bind(with: self) { owner, text in
                 if owner.textInputFormat == .price,
-                   let price = Double(text.replacingOccurrences(of: ",", with: "")) {
+                   let price = Int(text.replacingOccurrences(of: ",", with: "")) {
                     owner.textField.text = price.commaString()
                 }
             }

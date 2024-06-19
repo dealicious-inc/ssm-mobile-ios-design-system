@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(*, deprecated)
 public class DealiBottomSheetPopup: NSObject {
     
     // 1버튼 확인 버튼

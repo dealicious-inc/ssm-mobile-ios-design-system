@@ -232,7 +232,7 @@ extension MainViewController {
     }
     
     @objc func tabBarComponentsPressed() {
-        self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
+        self.navigationController?.pushViewController(TabBarComponentViewController(), animated: true)
     }
     
     @objc func checkComponentsPressed() {

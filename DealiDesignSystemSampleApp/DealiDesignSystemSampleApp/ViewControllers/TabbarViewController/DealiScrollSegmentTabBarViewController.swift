@@ -184,7 +184,7 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
         
         self.tabbarItemArray = items
         
-        self.tabbarView.setTabbarItems(tabbarItemArray: self.tabbarItemArray)
+        self.tabbarView.setTabBarItems(tabBarItemArray: self.tabbarItemArray)
 
         for index in 0..<self.tabbarItemArray.count {
             self.addChild(self.tabbarItemArray[index].viewController!)
@@ -210,7 +210,7 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     }
     
     func hiddenViewPage(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
-        self.tabbarView.setTabbarItems(tabbarItemArray: tabbarItemArray, maintainContentOffset: maintainContentOffset)
+        self.tabbarView.setTabBarItems(tabBarItemArray: tabbarItemArray, maintainContentOffset: maintainContentOffset)
         
         for (index, item) in tabbarItemArray.enumerated() {
             self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
@@ -224,7 +224,7 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
 }
 
 extension DealiScrollSegmentTabBarViewController: DealiTabBarViewDelegate {
-    func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
+    func didSelectTabBar(_ tabBarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
             guard let self else { return }
             self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)

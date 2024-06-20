@@ -258,11 +258,19 @@ extension DealiSearchInput {
         stackView.addArrangedSubview(searchImageView)
         searchImageView.then {
             $0.contentMode = .scaleAspectFit
-            $0.isUserInteractionEnabled = false
+            $0.isUserInteractionEnabled = true
             $0.image = Constants.imageSearch
         }.snp.makeConstraints {
             $0.width.equalTo(Constants.imageSearchSize)
         }
+        
+        searchImageView.rx.tapGestureOnTop()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.textFieldShouldReturn(self.searchTextField)
+            })
+            .disposed(by: self.disposeBag)
         
         clearImageView.rx.tapGestureOnTop()
             .when(.recognized)

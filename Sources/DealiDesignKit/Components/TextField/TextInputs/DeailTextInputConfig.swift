@@ -14,7 +14,7 @@ public protocol DeailTextInputConfigureProtocol {
     var textInputFormat: ETextInputTextFormatType { get }
 }
 
-extension DeailTextInputConfigureProtocol {
+public extension DeailTextInputConfigureProtocol {
     var textContentType: UITextContentType? {
         return nil
     }

@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-public final class DealiTextInput_v2: UIView, DealiTextField {
+open class DealiTextInput_v2: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
 
@@ -41,15 +41,25 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     
     public var notVerifiedBadgeText: String? {
         didSet {
+            guard let text = self.notVerifiedBadgeText, text.isEmpty == false else {
+                self.notVerifiedBadge.isHidden = true
+                return
+            }
+            
             self.notVerifiedBadge.isHidden = false
-            self.notVerifiedBadge.text = self.notVerifiedBadgeText
+            self.notVerifiedBadge.text = text
         }
     }
     
     public var verifiedBadgeText: String? {
         didSet {
+            guard let text = self.verifiedBadgeText, text.isEmpty == false else {
+                self.verifiedBadge.isHidden = true
+                return
+            }
+            
             self.verifiedBadge.isHidden = false
-            self.verifiedBadge.text = self.verifiedBadgeText
+            self.verifiedBadge.text = text
         }
     }
     
@@ -60,6 +70,25 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
             self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g70])
         }
     }
+    
+    /// textField 좌측에 위치한 text. ex) 국가코드 (+82)
+    public var leftText: String? {
+        didSet {
+            guard let text = self.leftText, text.isEmpty == false else {
+                self.textInputLeftLabel.isHidden = true
+                return
+            }
+            
+            self.textInputLeftLabel.isHidden = false
+            self.textInputLeftLabel.text = text
+            self.textInputLeftLabel.snp.updateConstraints {
+                $0.top.bottom.equalToSuperview()
+                $0.width.equalTo(text.size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
+            }
+        }
+    }
+    
+    
     /// TextInput text 세팅
     public var text: String? {
         get {
@@ -75,6 +104,8 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
         }
     }
     
+    public var isConfirmed = PublishRelay<Bool>()
+    
     /// 포커스 & 텍스트 있는 경우 클리어버튼 미노출할지. 기본값은 노출(isHidden = false)
     public var clearButtonShouldBeHidden: Bool = false
     
@@ -89,6 +120,12 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     public var normalHelperText: String? {
         didSet {
             self.setNormalHelperText(text: self.normalHelperText)
+        }
+    }
+    
+    public var normalHelperAttributedString: NSMutableAttributedString? {
+        didSet {
+            self.setNormalHelperText(attributedString: normalHelperAttributedString)
         }
     }
   
@@ -118,6 +155,9 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
             }
             
             self.setNormalHelperText(text: self.normalHelperText)
+            if let normalHelperAttributedString {
+                self.setNormalHelperText(attributedString: normalHelperAttributedString)
+            }
 
             self.textField.isEnabled = !(self.inputStatus == .disabled)
             self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
@@ -234,22 +274,31 @@ public final class DealiTextInput_v2: UIView, DealiTextField {
     private let requiredBadge = UIView()
     private let notVerifiedBadge = DealiTag()
     private let verifiedBadge = DealiTag()
-    private let helperTextLabel = UILabel()
+    public let helperTextLabel = UILabel()
     
     private let textFieldButtonStackView = UIStackView()
     private let textFieldContentView = UIView()
     
     private let textInputRightTimeLabel = UILabel()
+    private let textInputLeftLabel = UILabel()
     private let textInputRightImageView = UIImageView()
     
     private let clearButton = UIButton()
 
     private let disposeBag = DisposeBag()
     
-    
-   
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setTimer(_ seconds: Int) {
+        let minutes = seconds / 60
+        let seconds = seconds % 60
+        
+        let formattedTime = String(format: "%02d:%02d", minutes, seconds)
+        
+        self.inputRightViewType = .timer
+        self.textInputRightTimeLabel.text = formattedTime
     }
 
     private func RX() {
@@ -458,6 +507,19 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
+        textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
+        self.textInputLeftLabel.then {
+            $0.font = .b2r14
+            $0.textColor = DealiColor.g100
+            $0.textAlignment = .left
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.width.equalTo("(+880)".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
+        }
+        
+        textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
+        
         textFieldContentStackView.addArrangedSubview(self.textField)
         self.textField.then {
             $0.font = .b2r14
@@ -516,8 +578,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
     func setNormalHelperText(text: String?) {
         if let normalHelperText = self.normalHelperText {
             let style = NSMutableParagraphStyle().then {
-                $0.lineSpacing = 4.0
-                $0.lineHeightMultiple = 1.26
+                $0.lineHeightMultiple = 1.12
                 $0.alignment = .left
             }
             
@@ -529,11 +590,21 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         
     }
     
+    func setNormalHelperText(attributedString: NSMutableAttributedString?) {
+        if let attributedString  {
+            self.helperTextLabel.isHidden = false
+            self.helperTextLabel.attributedText = attributedString
+            
+        } else {
+            self.helperTextLabel.isHidden = true
+        }
+        
+    }
+    
     func setError(for errorMessage: String?) {
         
         let style = NSMutableParagraphStyle().then {
-            $0.lineSpacing = 4.0
-            $0.lineHeightMultiple = 1.26
+            $0.lineHeightMultiple = 1.12
             $0.alignment = .left
         }
         
@@ -553,10 +624,12 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         }
     }
     
-    private func setConfirmed(_ isConfirmed: Bool) {
+    public func setConfirmed(_ isConfirmed: Bool) {
+        self.isConfirmed.accept(isConfirmed)
         
         if isConfirmed {
             self.inputRightViewType = .custom(UIImage.dealiIcon(named: "ic_check"))
+            
         } else {
             self.inputRightViewType = .none
 
@@ -567,8 +640,13 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         if case .custom(let image) = type {
             self.textInputRightImageView.isHidden = false
             self.textInputRightImageView.image = image
+            self.textInputRightTimeLabel.isHidden = true
+        } else if case .timer = type {
+            self.self.textInputRightImageView.isHidden = true
+            self.textInputRightTimeLabel.isHidden = false
             
         } else {
+            self.self.textInputRightImageView.isHidden = true
             self.textInputRightImageView.isHidden = true
         }
     }

@@ -68,6 +68,10 @@ final class DealiTabBarItemButton: UIButton {
         self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
+        if let image = uiModel.iconURL, let size = uiModel.iconSize {
+            self.iconImageView.setImage(url: image, size: size)
+            self.iconImageView.isHidden = false
+        }
     }
     
     override var isSelected: Bool {
@@ -81,7 +85,7 @@ final class DealiTabBarItemButton: UIButton {
 }
 
 struct DealiTabBarItemButtonUIModel {
-    /// 뉴 벡지 노출 유무
+    /// 뉴 뱃지 노출 유무
     var shouldExposeNewBadge: Bool = false
     /// 버튼 타이틀
     var title: String?
@@ -93,8 +97,10 @@ struct DealiTabBarItemButtonUIModel {
     var font: UIFont = .b2r14
     /// 선택된 텍스트 폰트
     var selectedFont: UIFont = .b2sb14
-    /// 아이콘 이미지 url
-    var iconUrl: String?
+    /// 아이콘 URL
+    var iconURL: URL?
+    /// 아이콘 사이즈
+    var iconSize: CGSize?
     
     static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemButtonUIModel {
         var uiModel = DealiTabBarItemButtonUIModel()
@@ -103,7 +109,8 @@ struct DealiTabBarItemButtonUIModel {
         uiModel.selectedTextColor = preset.selectedTextColor
         uiModel.font = preset.font
         uiModel.selectedFont = preset.selectedFont
-        uiModel.iconUrl = tabbarItem.iconUrl
+        uiModel.iconURL = tabbarItem.icon?.url
+        uiModel.iconSize = tabbarItem.icon?.size
         uiModel.shouldExposeNewBadge = tabbarItem.showsBadge
         return uiModel
     }

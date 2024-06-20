@@ -20,6 +20,7 @@
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		394FA4972BC539080026F117 /* TabBarComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394FA4962BC539080026F117 /* TabBarComponentViewController.swift */; };
+		393D25822BEB615F00A2CC3F /* EmptyComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */; };
 		396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */; };
 		396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */; };
 		396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */; };
@@ -54,6 +55,7 @@
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		394FA4962BC539080026F117 /* TabBarComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponentViewController.swift; sourceTree = "<group>"; };
+		393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponentViewController.swift; sourceTree = "<group>"; };
 		396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckComponentViewController.swift; sourceTree = "<group>"; };
 		396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */,
 				4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */,
 				E6C115E42BE4855A00032960 /* IndicatorViewController.swift */,
+				393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */,
 			);
 			path = Sub;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,
+				393D25822BEB615F00A2CC3F /* EmptyComponentViewController.swift in Sources */,
 				E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

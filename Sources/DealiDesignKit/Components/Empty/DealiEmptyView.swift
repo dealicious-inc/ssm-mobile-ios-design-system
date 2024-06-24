@@ -39,28 +39,28 @@ public final class DealiEmptyView: UIView {
         willSet {
             guard newValue == false, let scrollView = self.superview as? UIScrollView else { return }
             scrollView.sendSubviewToBack(self)
-            if let collectionView = scrollView as? UICollectionView {
-                
-                var headerHeight = 0.0
-
-                if let layoutAttributes = collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader,
-                                                                                                 at: IndexPath(item: 0, section: 0)) {
-                    headerHeight = layoutAttributes.frame.height
-                }
-                
-                self.snp.remakeConstraints {
-                    $0.top.equalToSuperview().offset(headerHeight)
-                    $0.left.right.bottom.equalToSuperview()
-                    $0.width.equalToSuperview()
-                }
-            } else if let tableView = scrollView as? UITableView {
-                let headerHeight = tableView.sectionHeaderHeight
-                self.snp.remakeConstraints {
-                    $0.top.equalToSuperview().offset(headerHeight)
-                    $0.left.right.bottom.equalToSuperview()
-                    $0.width.equalToSuperview()
-                }
-            }
+//            if let collectionView = scrollView as? UICollectionView {
+//                
+//                var headerHeight = 0.0
+//
+//                if let layoutAttributes = collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader,
+//                                                                                                 at: IndexPath(item: 0, section: 0)) {
+//                    headerHeight = layoutAttributes.frame.height
+//                }
+//                
+//                self.snp.remakeConstraints {
+//                    $0.top.equalToSuperview().offset(headerHeight)
+//                    $0.left.right.bottom.equalToSuperview()
+//                    $0.width.equalToSuperview()
+//                }
+//            } else if let tableView = scrollView as? UITableView {
+//                let headerHeight = tableView.sectionHeaderHeight
+//                self.snp.remakeConstraints {
+//                    $0.top.equalToSuperview().offset(headerHeight)
+//                    $0.left.right.bottom.equalToSuperview()
+//                    $0.width.equalToSuperview()
+//                }
+//            }
         }
     }
     

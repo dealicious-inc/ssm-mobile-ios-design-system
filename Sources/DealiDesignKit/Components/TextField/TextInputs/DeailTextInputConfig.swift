@@ -5,7 +5,6 @@
 //  Created by hoji on 2023/11/02.
 //
 
-import Foundation
 import UIKit
 
 public protocol DeailTextInputConfigureProtocol {
@@ -15,7 +14,7 @@ public protocol DeailTextInputConfigureProtocol {
     var textInputFormat: ETextInputTextFormatType { get }
 }
 
-extension DeailTextInputConfigureProtocol {
+public extension DeailTextInputConfigureProtocol {
     var textContentType: UITextContentType? {
         return nil
     }

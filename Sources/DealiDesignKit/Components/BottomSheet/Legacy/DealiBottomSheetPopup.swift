@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(*, deprecated)
 public class DealiBottomSheetPopup: NSObject {
     
     // 1버튼 확인 버튼
@@ -32,8 +33,13 @@ public class DealiBottomSheetPopup: NSObject {
             let titleStyle = NSMutableParagraphStyle()
             titleStyle.alignment = .left
             titleStyle.lineHeightMultiple = 1.21
+            let font = UIFont.b2r14
+            var baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 4
+            if #available(iOS 16.4, *) {
+                baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 2
+            }
             
-            bottomSheetPopupViewController.popupTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
+            bottomSheetPopupViewController.popupTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
         }
         
         
@@ -41,8 +47,13 @@ public class DealiBottomSheetPopup: NSObject {
             let messageStyle = NSMutableParagraphStyle()
             messageStyle.alignment = .left
             messageStyle.lineHeightMultiple = 1.16
+            let font = UIFont.b2r14
+            var baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 4
+            if #available(iOS 16.4, *) {
+                baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 2
+            }
             
-            bottomSheetPopupViewController.popupMessage = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
+            bottomSheetPopupViewController.popupMessage = NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
         }
         
         

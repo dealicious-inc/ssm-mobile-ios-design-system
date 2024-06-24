@@ -43,7 +43,7 @@ public class DealiAlert: NSObject {
         let checkBoxView = DealiCheckboxWithText()
         checkBoxContainerView.addSubview(checkBoxView)
         checkBoxView.then {
-            $0.title = checkButtonTitle
+            $0.text = checkButtonTitle
             $0.font = .b1sb15
             $0.status = .init()
         }.snp.makeConstraints {
@@ -66,34 +66,45 @@ public class DealiAlert: NSObject {
         }
     }
     
-    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let messageStyle = NSMutableParagraphStyle()
         messageStyle.alignment = .left
         messageStyle.lineHeightMultiple = 1.16
+        let font = UIFont.sh3r16
+        var baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 4
+        if #available(iOS 16.4, *) {
+            baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 2
+        }
         
         self.showAttributedMessage(title: title,
-                                   message: NSMutableAttributedString(string: message, attributes: [.font: UIFont.sh3r16, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle]),
+                                   message: NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset]),
                                    insertCustomView: insertCustomView,
                                    cancelButtonTitle: cancelButtonTitle,
                                    confirmButtonTitle: confirmButtonTitle,
                                    closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                                    cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                                   audoDismissDuration: audoDismissDuration,
                                    alertPresentingViewController: alertPresentingViewController,
                                    cancelAction: cancelAction,
                                    confirmAction: confirmAction)
         
     }
     
-    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
         
         let alertViewController = DealiAlertViewController()
         if let title = title {
             let titleStyle = NSMutableParagraphStyle()
             titleStyle.alignment = .left
             titleStyle.lineHeightMultiple = 1.21
+            let font = UIFont.sh2sb18
+            var baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 4
+            if #available(iOS 16.4, *) {
+                baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 2
+            }
             
-            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: UIFont.sh2sb18, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle])
+            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
         }
         
         alertViewController.alertMessage = message
@@ -106,6 +117,12 @@ public class DealiAlert: NSObject {
         alertViewController.confirmAction = confirmAction
         
         alertPresentingViewController.present(alertViewController, animated: true)
+        
+        if let audoDismissDuration, audoDismissDuration > 0.0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + audoDismissDuration) { [weak alertViewController] in
+                alertViewController?.dismiss(animated: true)
+            }
+        }
     }
     
 }

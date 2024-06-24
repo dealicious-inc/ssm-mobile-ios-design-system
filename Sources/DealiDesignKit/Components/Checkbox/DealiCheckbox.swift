@@ -59,6 +59,8 @@ public class DealiCheckbox: UIView {
         }
     }
     
+    public let valueChanged: PublishRelay<Bool> = .init()
+    
     public var contentInset: UIEdgeInsets = .zero {
         didSet {
             self.invalidateIntrinsicContentSize()
@@ -110,10 +112,10 @@ public class DealiCheckbox: UIView {
     func subscribeRx() {
         self.rx.tapGestureOnTop()
             .when(.recognized)
-            .debug("++++ 체크박스만")
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.status.changeStatus()
+                self.valueChanged.accept(self.isSelected)
             })
             .disposed(by: self.disposeBag)
     }

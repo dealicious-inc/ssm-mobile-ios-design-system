@@ -45,6 +45,13 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
+        let playgroundButton = DealiControl.btnFilledTonalLarge03()
+        contentStackView.addArrangedSubview(playgroundButton)
+        playgroundButton.do {
+            $0.title = "Playground"
+            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -108,6 +115,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
         }
         
+        let textAreaComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(textAreaComponentsButton)
+        textAreaComponentsButton.do {
+            $0.title = "TextArea Components"
+            $0.addTarget(self, action: #selector(textAreaButtonPressed), for: .touchUpInside)
+        }
+        
         let searchInputComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(searchInputComponentsButton)
         searchInputComponentsButton.do {
@@ -128,6 +142,27 @@ final class MainViewController: UIViewController {
             $0.title = "TabBar Components"
             $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
         }
+        
+        let checkComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(checkComponents)
+        checkComponents.do {
+            $0.title = "Check Components"
+            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
+        }
+        
+        let indicatorComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(indicatorComponents)
+        indicatorComponents.do {
+            $0.title = "Indicator Components"
+            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
+        }
+        
+        let emptyComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(emptyComponents)
+        emptyComponents.do {
+            $0.title = "Empty Components"
+            $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -146,6 +181,10 @@ extension MainViewController {
     
     @objc func colorButtonPressed() {
         self.navigationController?.pushViewController(ColorViewController(), animated: true)
+    }
+    
+    @objc func playButtonPressed() {
+        self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
     }
     
     @objc func typoButtonPressed() {
@@ -172,6 +211,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
     }
     
+    @objc func textAreaButtonPressed() {
+        self.navigationController?.pushViewController(TextAreaViewController(), animated: true)
+    }
+    
     @objc func searchInputButtonPressed() {
         self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
     }
@@ -189,7 +232,18 @@ extension MainViewController {
     }
     
     @objc func tabBarComponentsPressed() {
-        self.navigationController?.pushViewController(TabBarComponentrViewController(), animated: true)
+        self.navigationController?.pushViewController(TabBarComponentViewController(), animated: true)
     }
     
+    @objc func checkComponentsPressed() {
+        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
+    }
+    
+    @objc func indicatorComponentsPressed() {
+        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+    }
+    
+    @objc func emptyComponentsPressed() {
+        self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
 }

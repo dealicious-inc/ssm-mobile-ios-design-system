@@ -32,15 +32,8 @@ public final class DealiSearchInput: UIView {
     }
     
     private enum SearchStatus {
-        case empty
+        case `default`
         case editing
-        
-        var image: UIImage? {
-            switch self {
-            case .empty: return Constants.imageSearch
-            case .editing: return Constants.imageClear
-            }
-        }
     }
     
     // MARK: - Constants
@@ -82,6 +75,7 @@ public final class DealiSearchInput: UIView {
     private let stackView = UIStackView()
     private let placeHolderLabel = UILabel()
     private let searchTextField = UITextField()
+    private let clearImageView = UIImageView()
     private let searchImageView = UIImageView()
     private var subKeywordLabel: UILabel?
     private var inputType: SearchInputType = .default {
@@ -119,8 +113,16 @@ public final class DealiSearchInput: UIView {
         }
     }
     
+    public var keyboardType: UIKeyboardType = .default {
+        didSet {
+            self.searchTextField.keyboardType = self.keyboardType
+        }
+    }
+    
     /// clear 버튼 탭 시 텍스트 초기화. false인 경우  동작없음
     public var resetKeywordWhenClearTapped: Bool = true
+    // BeginEditing 시 status ui 업데이트 여부 결정. false인 경우 업데이트 없음
+    public var shouldUpdateStatusOnBeginEditing: Bool = false
     
     /// 키보드 닫기 String을 받을경우에만 해당 버튼이 추가되도록 작업
     public var keyboardCloseButtonString: String? {
@@ -169,13 +171,11 @@ public final class DealiSearchInput: UIView {
     public func updateKeyword(_ keyword: String?) {
         guard let keyword, !keyword.isEmpty else {
             searchTextField.text = nil
-            if !searchTextField.isEditing {
-                setSearchBarAs(status: .empty)
-            }
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
             return
         }
         searchTextField.text = keyword
-        setSearchBarAs(status: .editing)
+        setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
     }
     
     public func updateSubKeyword(_ keyword: String?) {
@@ -245,15 +245,34 @@ extension DealiSearchInput {
     }
     
     private func setSearchStatusImage() {
+        stackView.addArrangedSubview(clearImageView)
+        clearImageView.then {
+            $0.contentMode = .scaleAspectFit
+            $0.isUserInteractionEnabled = true
+            $0.image = Constants.imageClear
+        }.snp.makeConstraints {
+            $0.width.equalTo(Constants.imageClearSize)
+        }
+        stackView.setCustomSpacing(12, after: clearImageView)
+        
         stackView.addArrangedSubview(searchImageView)
         searchImageView.then {
             $0.contentMode = .scaleAspectFit
             $0.isUserInteractionEnabled = true
+            $0.image = Constants.imageSearch
         }.snp.makeConstraints {
             $0.width.equalTo(Constants.imageSearchSize)
         }
         
         searchImageView.rx.tapGestureOnTop()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.textFieldShouldReturn(self.searchTextField)
+            })
+            .disposed(by: self.disposeBag)
+        
+        clearImageView.rx.tapGestureOnTop()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -305,29 +324,9 @@ extension DealiSearchInput {
     }
     
     private func setSearchBarAs(status: SearchStatus) {
-        switch inputType {
-        case .default:
-            searchImageView.image = status.image
-        case .subKeyword:
-            switch status {
-            case .empty:
-                searchImageView.image = nil
-            case .editing:
-                searchImageView.image = status.image
-            }
-        }
-        
-        if status == .editing {
-            searchImageView.snp.updateConstraints {
-                $0.width.equalTo(Constants.imageClearSize)
-            }
-        } else {
-            searchImageView.snp.updateConstraints {
-                $0.width.equalTo(Constants.imageSearchSize)
-            }
-        }
-        
-        placeHolderLabel.isHidden = (status == .editing && searchTextField.text?.isEmpty == false)
+        clearImageView.isHidden = searchTextField.text?.isEmpty == true && status != .editing
+        searchImageView.isHidden = searchTextField.text?.isEmpty == false && status != .editing
+        placeHolderLabel.isHidden = searchTextField.text?.isEmpty == false
     }
     
     // MARK: Rx Setup
@@ -356,9 +355,7 @@ extension DealiSearchInput {
         guard searchTextField.text != nil, searchTextField.text?.isEmpty == false else { return }
         if resetKeywordWhenClearTapped {
             searchTextField.text = nil
-            if !searchTextField.isEditing {
-                setSearchBarAs(status: .empty)
-            }
+            setSearchBarAs(status: searchTextField.isEditing ? .editing : .default)
         }
         delegate?.clear()
     }
@@ -370,17 +367,19 @@ extension DealiSearchInput {
     
     private func textFieldShouldReturn(_ textField: UITextField) {
         textField.resignFirstResponder()
-        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        setSearchBarAs(status: .default)
         delegate?.search(keyword: textField.text)
     }
     
     private func textFieldEditingDidBegin(_ textField: UITextField) {
-        setSearchBarAs(status: .editing)
+        if self.shouldUpdateStatusOnBeginEditing {
+            setSearchBarAs(status: .editing)
+        }
         delegate?.beginEditing()
     }
     
     private func textFieldEditingDidEnd(_ textField: UITextField) {
-        setSearchBarAs(status: textField.text?.isEmpty == true ? .empty : .editing)
+        setSearchBarAs(status: .default)
         delegate?.endEditing()
     }
     

@@ -98,7 +98,7 @@ public enum ChipsFilledSquareColor: ClickableColorConfig {
                                   selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .primary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary01),
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g100),
                                   selected: ClickableColorSet(background: DealiColor.secondary03, text: DealiColor.secondary02),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50))
         case .scondary01:

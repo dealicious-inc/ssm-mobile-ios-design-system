@@ -13,6 +13,7 @@ import RxSwift
 final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
+    private let textInput = DealiTextInput_v2.text()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +24,13 @@ final class TextInputViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     var disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
-        
         
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then {
@@ -51,33 +52,36 @@ final class TextInputViewController: UIViewController {
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
-            $0.spacing = 50.0
+            $0.spacing = 30.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
-        let textInput = DealiTextInput_v2.text()
-        contentStackView.addArrangedSubview(textInput)
-        textInput.then {
+        contentStackView.addArrangedSubview(self.textInput)
+        self.textInput.then {
             $0.title = "일반 텍스트 입력"
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
-            let button = DealiControl.btnOutlineMedium01()
-            button.title = "Default"
-            $0.actionButton = button
-            $0.inputRightViewType = .clear
+            $0.isMandatory = true
+            $0.actionButton = DealiControl.btnFilledTonalMedium03().then {
+                $0.title = "Button"
+            }
+            $0.leftText = "(+82)"
+            $0.normalHelperText = "Helper Text Will attempt to recover by breaking constraint닫기Will attempt to recover by breaking constrain"
+            $0.confirmingCondition =  { text in
+                return (text?.count ?? 0) > 0
+            }
+            $0.setTimer(245)
+            
+            $0.notVerifiedBadgeText = "미인증"
+            $0.verifiedBadgeText = "인증"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        textInput.textFieldDidEndEditing
-            .drive { [weak self] in
-                debugPrint("포커스 아웃")
-            }
-            .disposed(by: self.disposeBag)
         
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)

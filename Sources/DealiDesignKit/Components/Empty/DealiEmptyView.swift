@@ -40,7 +40,14 @@ public final class DealiEmptyView: UIView {
             guard newValue == false, let scrollView = self.superview as? UIScrollView else { return }
             scrollView.sendSubviewToBack(self)
             if let collectionView = scrollView as? UICollectionView {
-                let headerHeight = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize.height ?? 0.0
+                
+                var headerHeight = 0.0
+
+                if let layoutAttributes = collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader,
+                                                                                                 at: IndexPath(item: 0, section: 0)) {
+                    headerHeight = layoutAttributes.frame.height
+                }
+                
                 self.snp.remakeConstraints {
                     $0.top.equalToSuperview().offset(headerHeight)
                     $0.left.right.bottom.equalToSuperview()

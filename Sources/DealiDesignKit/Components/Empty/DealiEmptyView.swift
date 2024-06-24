@@ -35,6 +35,28 @@ public final class DealiEmptyView: UIView {
         }
     }
     
+    public override var isHidden: Bool {
+        willSet {
+            guard newValue == false, let scrollView = self.superview as? UIScrollView else { return }
+            scrollView.sendSubviewToBack(self)
+            if let collectionView = scrollView as? UICollectionView {
+                let headerHeight = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.headerReferenceSize.height ?? 0.0
+                self.snp.remakeConstraints {
+                    $0.top.equalToSuperview().offset(headerHeight)
+                    $0.left.right.bottom.equalToSuperview()
+                    $0.width.equalToSuperview()
+                }
+            } else if let tableView = scrollView as? UITableView {
+                let headerHeight = tableView.sectionHeaderHeight
+                self.snp.remakeConstraints {
+                    $0.top.equalToSuperview().offset(headerHeight)
+                    $0.left.right.bottom.equalToSuperview()
+                    $0.width.equalToSuperview()
+                }
+            }
+        }
+    }
+    
     private var actionHandler: (() -> Void)?
     
     public init() {

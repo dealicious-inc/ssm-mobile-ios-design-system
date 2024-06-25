@@ -18,10 +18,6 @@ class ButtonViewController: UIViewController {
         
         self.view.backgroundColor = .systemGray2
         
-//        UISwitch* switchView = [[UISwitch alloc] init];
-//        UIBarButtonItem* switchItem = [[UIBarButtonItem alloc] initWithCustomView:switchView];
-//        self.navigationItem.rightBarButtonItem = switchItem;
-        
         let switchView = UISwitch()
         let switchItem = UIBarButtonItem(customView: switchView)
         self.navigationItem.rightBarButtonItem = switchItem
@@ -29,7 +25,6 @@ class ButtonViewController: UIViewController {
             $0.onTintColor = DealiColor.primary01
             $0.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         }
-        
         
         let scrollView = UIScrollView()
         
@@ -174,19 +169,19 @@ class ButtonViewController: UIViewController {
         
         
         buttonArray.forEach { button in
-            if let old = button as? SystemButton {
-                old.setTitle(String(describing: type(of: button)), for: .normal)
-
-            } else if let new = button as? ClickableComponent {
-                switch Int.random(in: 0...2) {
-                case 0:
-                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
-                case 1:
-                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-                default:
-                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
-                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-                }
+           if let new = button as? ClickableComponent {
+//               new.rightImage = ClickableImage(named: "ic_arrow_right")
+               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
+               
+//                switch Int.random(in: 0...2) {
+//                case 0:
+//                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
+//                case 1:
+//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
+//                default:
+//                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
+//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
+//                }
             }
             
             self.stackView.addArrangedSubview(button)

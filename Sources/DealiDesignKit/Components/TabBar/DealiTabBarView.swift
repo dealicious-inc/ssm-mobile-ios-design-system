@@ -199,7 +199,7 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false) {
         
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
@@ -207,7 +207,7 @@ final public class DealiTabBarView: UIView {
         let offset = self.contentScrollView.contentOffset
         
         self.clear()
-        
+        self.isStandAloneView = isStandAloneView
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var buttonContentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ButtonComponent.swift
 //  
 //
 //  Created by JohyeonYoon on 6/25/24.

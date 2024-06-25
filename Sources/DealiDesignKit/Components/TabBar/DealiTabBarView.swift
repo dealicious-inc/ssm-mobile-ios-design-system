@@ -442,7 +442,6 @@ struct DealiTabBarItemInfo {
         didSet {
             if let itemChip = self.itemChip {
                 itemChip.isSelected = self.itemSelected
-//                itemChip.isFixedSize = true
             }
             
             if let itemButton = self.itemButton {

@@ -226,6 +226,7 @@ final public class DealiTabBarView: UIView {
                         $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
                         $0.tag = index
                         $0.isSelected = (index == self.selectedIndex)
+                        $0.isFixedSize = true
                     }.snp.makeConstraints {
                         $0.centerY.equalToSuperview()
                     }

@@ -645,7 +645,7 @@ extension ChipComponent {
                 switch height {
                 case .large:
                     return self.largePadding(with: style)
-                case .medium:
+                case .medium, .semiMedium:
                     return self.mediumPadding(with: style)
                 case .small:
                     return self.smallPadding(with: style)

@@ -131,6 +131,33 @@ class ButtonViewController: UIViewController {
                                            DealiControl.btnTextMedium07()
                                              ]
         
+        let semiMediumButtonArray: [UIView] = [DealiControl.btnFilledSemiMedium01(),
+                                               DealiControl.btnFilledSemiMedium02(),
+                                               DealiControl.btnFilledSemiMedium03(),
+                                               DealiControl.btnFilledTonalSemiMedium01(),
+                                               DealiControl.btnFilledTonalSemiMedium02(),
+                                               DealiControl.btnFilledTonalSemiMedium03(),
+                                               DealiControl.btnFilledTonalSemiMedium04(),
+                                               DealiControl.btnFilledTonalSemiMedium05(),
+                                               DealiControl.btnOutlineSemiMedium01(),
+                                               DealiControl.btnOutlineSemiMedium02(),
+                                               DealiControl.btnOutlineSemiMedium03(),
+                                               DealiControl.btnOutlineSemiMedium04(),
+                                               DealiControl.btnOutlineSemiMedium05(),
+                                               DealiControl.btnOutlineSemiMedium06(),
+                                               DealiControl.btnOutlineBgSemiMedium01(),
+                                               DealiControl.btnOutlineBgSemiMedium03(),
+                                               DealiControl.btnOutlineBgSemiMedium04(),
+                                               DealiControl.btnOutlineBgSemiMedium05(),
+                                               DealiControl.btnTextSemiMedium01(),
+                                               DealiControl.btnTextSemiMedium02(),
+                                               DealiControl.btnTextSemiMedium03(),
+                                               DealiControl.btnTextSemiMedium04(),
+                                               DealiControl.btnTextSemiMedium05(),
+                                               DealiControl.btnTextSemiMedium06(),
+                                               DealiControl.btnTextSemiMedium07()
+                                           ]
+        
         let smallButtonArray: [UIView] = [DealiControl.btnFilledSmall01(),
                                           DealiControl.btnFilledSmall03(),
                                           DealiControl.btnFilledTonalSmall01(),
@@ -165,6 +192,7 @@ class ButtonViewController: UIViewController {
         
         buttonArray += largeButtonArray
         buttonArray += mediumButtonArray
+        buttonArray += semiMediumButtonArray
         buttonArray += smallButtonArray
         
         

@@ -8,6 +8,7 @@
 import UIKit
 
 extension DealiControl {
+    // MARK: Large
     public static func btnTextLarge01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.primary01)
@@ -43,6 +44,7 @@ extension DealiControl {
                                         color: ButtonTextColor.secondary05)
     }
     
+    // MARK: - Medium
     public static func btnTextMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.primary01)
@@ -78,6 +80,43 @@ extension DealiControl {
                                         color: ButtonTextColor.secondary05)
     }
     
+    // MARK: - Semi Medium
+    public static func btnTextSemiMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.primary01)
+    }
+    
+    public static func btnTextSemiMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.primary02)
+    }
+    
+    public static func btnTextSemiMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.secondary01)
+    }
+    
+    public static func btnTextSemiMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.secondary02)
+    }
+    
+    public static func btnTextSemiMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.secondary03)
+    }
+    
+    public static func btnTextSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.secondary04)
+    }
+    
+    public static func btnTextSemiMedium07() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+                                        color: ButtonTextColor.secondary05)
+    }
+    
+    // MARK: - Small
     public static func btnTextSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.primary01)
@@ -154,6 +193,7 @@ public enum ButtonTextColor: ClickableColorConfig {
 public enum ButtonTextConfig: ClickableConfig {
     case large
     case medium
+    case semiMedium
     case small
     
     public var font: ClickableFont {
@@ -161,6 +201,8 @@ public enum ButtonTextConfig: ClickableConfig {
         case .large:
             return ClickableFont.button(font: .b1sb15)
         case .medium:
+            return ClickableFont.button(font: .b2r14)
+        case .semiMedium:
             return ClickableFont.button(font: .b2r14)
         case .small:
             return ClickableFont.button(font: .b3r13)
@@ -173,6 +215,8 @@ public enum ButtonTextConfig: ClickableConfig {
             return .large
         case .medium:
             return .medium
+        case .semiMedium:
+            return .medium
         case .small:
             return .small
         }
@@ -183,6 +227,8 @@ public enum ButtonTextConfig: ClickableConfig {
         case .large:
             return .fixed(6.0)
         case .medium:
+            return .fixed(6.0)
+        case .semiMedium:
             return .fixed(6.0)
         case .small:
             return .fixed(4.0)

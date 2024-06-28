@@ -8,6 +8,7 @@
 import UIKit
 
 extension DealiControl {
+    // MARK: Large
     public static func btnOutlineLarge01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineColor.primary01)
@@ -38,6 +39,7 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary04)
     }
     
+    // MARK: - Medium
     public static func btnOutlineMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineColor.primary01)
@@ -68,6 +70,38 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary04)
     }
     
+    // MARK: - Semi Medium
+    public static func btnOutlineSemiMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.primary01)
+    }
+    
+    public static func btnOutlineSemiMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.primary02)
+    }
+    
+    public static func btnOutlineSemiMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineSemiMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineSemiMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+                                        color: ButtonOutlineColor.secondary04)
+    }
+    
+    // MARK: - Small
     public static func btnOutlineSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineColor.primary01)
@@ -164,6 +198,7 @@ public enum ButtonOutlineColor: ClickableColorConfig {
 public enum ButtonOutlineConfig: ClickableConfig {
     case large
     case medium
+    case semiMedium
     case small
     case roundSmall
     
@@ -172,6 +207,8 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .large:
             return ClickableFont.button(font: .b1sb15)
         case .medium:
+            return ClickableFont.button(font: .b2sb14)
+        case .semiMedium:
             return ClickableFont.button(font: .b2sb14)
         case .small:
             return ClickableFont.button(font: .b3sb13)
@@ -186,6 +223,8 @@ public enum ButtonOutlineConfig: ClickableConfig {
             return .large
         case .medium:
             return .medium
+        case .semiMedium:
+            return .medium
         case .small:
             return .small
         case .roundSmall:
@@ -199,6 +238,8 @@ public enum ButtonOutlineConfig: ClickableConfig {
             return .fixed(6.0)
         case .medium:
             return .fixed(6.0)
+        case .semiMedium:
+            return .fixed(6.0)
         case .small:
             return .fixed(4.0)
         case .roundSmall:
@@ -211,6 +252,8 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .large:
             return .square
         case .medium:
+            return .square
+        case .semiMedium:
             return .square
         case .small:
             return .square

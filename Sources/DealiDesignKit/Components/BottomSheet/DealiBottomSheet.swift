@@ -56,6 +56,7 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closePopupOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
@@ -69,6 +70,7 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
@@ -83,6 +85,7 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closePopupOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
@@ -96,6 +99,7 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
@@ -110,6 +114,7 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closePopupOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
@@ -123,6 +128,7 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
@@ -138,6 +144,7 @@ public class DealiBottomSheet: NSObject {
         slotSize: ESlotSize,
         closePopupOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
@@ -151,6 +158,7 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
@@ -160,13 +168,14 @@ public class DealiBottomSheet: NSObject {
         }
     
     public class func showTextOnly(titleType: EBottomSheetTitleType = .hidden,
-                                      message: String,
-                                      buttonType: EBottomSheetButtonType = .hidden,
-                                      closePopupOnOutsideTouch: Bool = true,
-                                      cancelActionOnOutsideTouch: Bool = false,
-                                      popupPresentingViewController: UIViewController,
-                                      cancelAction: (() -> Void)?, 
-                                      confirmAction: (() -> Void)?) {
+                                   message: String,
+                                   buttonType: EBottomSheetButtonType = .hidden,
+                                   closePopupOnOutsideTouch: Bool = true,
+                                   cancelActionOnOutsideTouch: Bool = false,
+                                   shouldDismissWhenSelect: Bool = false,
+                                   popupPresentingViewController: UIViewController,
+                                   cancelAction: (() -> Void)?,
+                                   confirmAction: (() -> Void)?) {
         
         let messageStyle = NSMutableParagraphStyle().then {
             $0.alignment = .left
@@ -183,6 +192,7 @@ public class DealiBottomSheet: NSObject {
                              buttonType: buttonType,
                              closePopupOnOutsideTouch: closePopupOnOutsideTouch,
                              cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                             shouldDismissWhenSelect: shouldDismissWhenSelect,
                              popupPresentingViewController: popupPresentingViewController,
                              cancelAction: cancelAction,
                              confirmAction: confirmAction)
@@ -193,6 +203,7 @@ public class DealiBottomSheet: NSObject {
                                       buttonType: EBottomSheetButtonType = .hidden,
                                       closePopupOnOutsideTouch: Bool = true,
                                       cancelActionOnOutsideTouch: Bool = false,
+                                      shouldDismissWhenSelect: Bool = false,
                                       popupPresentingViewController: UIViewController,
                                       cancelAction: (() -> Void)?,
                                       confirmAction: (() -> Void)?) {
@@ -203,6 +214,7 @@ public class DealiBottomSheet: NSObject {
             $0.buttonType = buttonType
             $0.closePopupOnOutsideTouch = closePopupOnOutsideTouch
             $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+            $0.shouldDismissWhenSelect = shouldDismissWhenSelect
             $0.cancelAction = cancelAction
             $0.confirmAction = confirmAction
         }
@@ -236,6 +248,7 @@ class DealiBottomSheetBaseViewController: UIViewController {
         return min(maximumContentHeight, contentHeight)
     }
     
+    var shouldDismissWhenSelect: Bool = false
     var cancelAction: (() -> Void)?
     var confirmAction: (() -> Void)?
     var selectAction: (([Int]) -> Void)?
@@ -579,6 +592,10 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
                 self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
                 self.optionData[indexPath.item].isSelected = true
                 self.collectionView.reloadData()
+                
+                if self.shouldDismissWhenSelect {
+                    self.hidePopup()
+                }
             }
             
             cell.configure(with: uiModel)
@@ -595,6 +612,10 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
                     self.selectAction?([indexPath.item])
                 }
                 self.collectionView.reloadData()
+                
+                if self.shouldDismissWhenSelect {
+                    self.hidePopup()
+                }
             }
             
             cell.configure(with: uiModel)
@@ -608,6 +629,10 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
                 self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
                 self.optionData[indexPath.item].isSelected = true
                 self.collectionView.reloadData()
+                
+                if self.shouldDismissWhenSelect {
+                    self.hidePopup()
+                }
             }
             
             cell.configure(with: uiModel)
@@ -622,6 +647,10 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
                 self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
                 self.optionData[indexPath.item].isSelected = true
                 self.collectionView.reloadData()
+                
+                if self.shouldDismissWhenSelect {
+                    self.hidePopup()
+                }
             }
             cell.configure(with: uiModel)
             return cell

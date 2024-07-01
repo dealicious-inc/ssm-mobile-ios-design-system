@@ -44,7 +44,7 @@ public class DealiAlert: NSObject {
         checkBoxContainerView.addSubview(checkBoxView)
         checkBoxView.then {
             $0.text = checkButtonTitle
-            $0.font = .b1sb15
+            $0.font = .b2r14
             $0.status = .init()
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10.0)

@@ -112,7 +112,7 @@ extension DealiControl {
                                         color: ButtonBgOutlineColor.secondary04)
     }
 }
-
+// MARK: - ClickableColorConfig
 public enum ButtonBgOutlineColor: ClickableColorConfig {
     case primary01
     case secondary01
@@ -140,7 +140,7 @@ public enum ButtonBgOutlineColor: ClickableColorConfig {
         }
     }
 }
-
+// MARK: - ClickableConfig
 public enum ButtonBgOutlineConfig: ClickableConfig {
     case large
     case medium

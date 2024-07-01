@@ -153,7 +153,7 @@ extension DealiControl {
     }
     
 }
-
+// MARK: - ClickableColorConfig
 public enum ButtonTextColor: ClickableColorConfig {
     case primary01
     case primary02
@@ -189,7 +189,7 @@ public enum ButtonTextColor: ClickableColorConfig {
         }
     }
 }
-
+// MARK: - ClickableConfig
 public enum ButtonTextConfig: ClickableConfig {
     case large
     case medium

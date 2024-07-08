@@ -65,6 +65,11 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
     // MARK: Small
     public static func btnFilledTonalSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
@@ -90,6 +95,11 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary03)
     }
+    
+    public static func btnFilledTonalSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
    
     public static func btnRoundFilledTonalSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
@@ -114,6 +124,11 @@ extension DealiControl {
     public static func btnRoundFilledTonalSmall05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
                                         color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    public static func btnRoundFilledTonalSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary04)
     }
     
 }

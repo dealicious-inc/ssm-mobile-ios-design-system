@@ -91,6 +91,11 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
     // MARK: - Small
     public static func btnFilledTonalSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,

@@ -56,6 +56,15 @@ public class DealiDropdown: UIView {
         }
     }
     
+    public var iconImage: UIImage? {
+        didSet {
+            self.iconImageView.isHidden = self.iconImage == nil
+            guard iconImage != nil else { return }
+            self.dropdown.setCustomSpacing(4.0, after: self.iconImageView)
+            self.iconImageView.image = self.iconImage
+        }
+    }
+    
     public var contentText: String? {
         didSet {
             self.contentLabel.text = self.contentText
@@ -109,8 +118,9 @@ public class DealiDropdown: UIView {
     private let titleLabel = UILabel()
     /// 필수입력사항인지 나타내는 뱃지
     private let requiredBadge = UIView()
-    private let contentLabel = UILabel()
     private let dropdown = UIStackView()
+    private let iconImageView = UIImageView()
+    private let contentLabel = UILabel()
     private let arrowIconImageView = UIImageView()
     private let helperTextLabel = UILabel()
 
@@ -170,6 +180,13 @@ public class DealiDropdown: UIView {
             $0.layoutMargins = .init(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         }.snp.makeConstraints {
             $0.height.equalTo(46.0)
+        }
+        
+        self.dropdown.addArrangedSubview(self.iconImageView)
+        self.iconImageView.then {
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
         
         self.dropdown.addArrangedSubview(self.contentLabel)

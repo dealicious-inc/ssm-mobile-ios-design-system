@@ -510,6 +510,8 @@ extension ClickableComponent {
                 return 16.0
             case .medium:
                 return 12.0
+            case .semiMedium:
+                return 12.0
             case .small:
                 return 8.0
             case .none:
@@ -539,6 +541,7 @@ extension ClickableComponent {
         public enum Height {
             case small
             case medium
+            case semiMedium
             case large
             
             var button: CGFloat {
@@ -547,6 +550,8 @@ extension ClickableComponent {
                     return 50.0
                 case .medium:
                     return 46.0
+                case .semiMedium:
+                    return 40.0
                 default:
                     return 32.0
                 }
@@ -575,6 +580,8 @@ extension ClickableComponent {
                     return self.largePadding(with: style)
                 case .medium:
                     return self.mediumPadding(with: style)
+                case .semiMedium:
+                    return self.semiMediumPadding(with: style)
                 case .small:
                     return self.smallPadding(with: style)
                 }
@@ -609,6 +616,21 @@ extension ClickableComponent {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                     }
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+            
+            private func semiMediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
+                    
                 case .raund:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))

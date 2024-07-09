@@ -24,7 +24,7 @@ extension DealiControl {
                                         color: ButtonFilledColor.primary02)
     }
 
-    // MARK: Medium
+    // MARK: - Medium
     public static func btnFilledMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary01)
@@ -40,7 +40,24 @@ extension DealiControl {
                                         color: ButtonFilledColor.primary02)
     }
     
-    // MARK: Small
+    // MARK: - Semi Medium
+    public static func btnFilledSemiMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.primary01)
+    }
+    
+    public static func btnFilledSemiMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.gradient)
+    }
+    
+    public static func btnFilledSemiMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.primary02)
+    }
+    
+    
+    // MARK: - Small
     public static func btnFilledSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary01)
@@ -57,6 +74,7 @@ extension DealiControl {
     }
 }
 
+// MARK: - ButtonFilledColor
 public enum ButtonFilledColor: ClickableColorConfig {
     case primary01
     case primary02
@@ -77,9 +95,11 @@ public enum ButtonFilledColor: ClickableColorConfig {
     }
 }
 
+// MARK: - ButtonFilledConfig
 public enum ButtonFilledConfig: ClickableConfig {
     case large
     case medium
+    case semiMedium
     case small
     
     public var font: ClickableFont {
@@ -87,6 +107,8 @@ public enum ButtonFilledConfig: ClickableConfig {
         case .large:
             return ClickableFont.button(font: .b1sb15)
         case .medium:
+            return ClickableFont.button(font: .b2sb14)
+        case .semiMedium:
             return ClickableFont.button(font: .b2sb14)
         case .small:
             return ClickableFont.button(font: .b3sb13)
@@ -99,6 +121,8 @@ public enum ButtonFilledConfig: ClickableConfig {
             return .large
         case .medium:
             return .medium
+        case .semiMedium:
+            return .semiMedium
         case .small:
             return .small
         }
@@ -109,6 +133,8 @@ public enum ButtonFilledConfig: ClickableConfig {
         case .large:
             return .fixed(6.0)
         case .medium:
+            return .fixed(6.0)
+        case .semiMedium:
             return .fixed(6.0)
         case .small:
             return .fixed(4.0)

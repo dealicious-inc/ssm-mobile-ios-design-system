@@ -76,8 +76,8 @@ class ButtonViewController: UIViewController {
         var buttonArray: [UIView] = []
 
         let largeButtonArray: [UIView] = [DealiControl.btnFilledLarge01(),
-                                          DealiControl.btnFilledLarge03(),
                                           DealiControl.btnFilledLarge02(),
+                                          DealiControl.btnFilledLarge03(),
                                           DealiControl.btnFilledTonalLarge01(),
                                           DealiControl.btnFilledTonalLarge02(),
                                           DealiControl.btnFilledTonalLarge03(),
@@ -105,12 +105,14 @@ class ButtonViewController: UIViewController {
         ]
 
         let mediumButtonArray: [UIView] = [DealiControl.btnFilledMedium01(),
+                                           DealiControl.btnFilledMedium02(),
                                            DealiControl.btnFilledMedium03(),
                                            DealiControl.btnFilledTonalMedium01(),
                                            DealiControl.btnFilledTonalMedium02(),
                                            DealiControl.btnFilledTonalMedium03(),
                                            DealiControl.btnFilledTonalMedium04(),
                                            DealiControl.btnFilledTonalMedium05(),
+                                           DealiControl.btnFilledTonalMedium06(),
                                            DealiControl.btnOutlineMedium01(),
                                            DealiControl.btnOutlineMedium02(),
                                            DealiControl.btnOutlineMedium03(),
@@ -131,17 +133,48 @@ class ButtonViewController: UIViewController {
                                            DealiControl.btnTextMedium07()
                                              ]
         
+        let semiMediumButtonArray: [UIView] = [DealiControl.btnFilledSemiMedium01(),
+                                               DealiControl.btnFilledSemiMedium02(),
+                                               DealiControl.btnFilledSemiMedium03(),
+                                               DealiControl.btnFilledTonalSemiMedium01(),
+                                               DealiControl.btnFilledTonalSemiMedium02(),
+                                               DealiControl.btnFilledTonalSemiMedium03(),
+                                               DealiControl.btnFilledTonalSemiMedium04(),
+                                               DealiControl.btnFilledTonalSemiMedium05(),
+                                               DealiControl.btnOutlineSemiMedium01(),
+                                               DealiControl.btnOutlineSemiMedium02(),
+                                               DealiControl.btnOutlineSemiMedium03(),
+                                               DealiControl.btnOutlineSemiMedium04(),
+                                               DealiControl.btnOutlineSemiMedium05(),
+                                               DealiControl.btnOutlineSemiMedium06(),
+                                               DealiControl.btnOutlineBgSemiMedium01(),
+                                               DealiControl.btnOutlineBgSemiMedium03(),
+                                               DealiControl.btnOutlineBgSemiMedium04(),
+                                               DealiControl.btnOutlineBgSemiMedium05(),
+                                               DealiControl.btnTextSemiMedium01(),
+                                               DealiControl.btnTextSemiMedium02(),
+                                               DealiControl.btnTextSemiMedium03(),
+                                               DealiControl.btnTextSemiMedium04(),
+                                               DealiControl.btnTextSemiMedium05(),
+                                               DealiControl.btnTextSemiMedium06(),
+                                               DealiControl.btnTextSemiMedium07()
+                                           ]
+        
         let smallButtonArray: [UIView] = [DealiControl.btnFilledSmall01(),
+                                          DealiControl.btnFilledSmall02(),
                                           DealiControl.btnFilledSmall03(),
                                           DealiControl.btnFilledTonalSmall01(),
                                           DealiControl.btnFilledTonalSmall02(),
                                           DealiControl.btnFilledTonalSmall03(),
                                           DealiControl.btnFilledTonalSmall04(),
                                           DealiControl.btnFilledTonalSmall05(),
+                                          DealiControl.btnFilledTonalSmall06(),
                                           DealiControl.btnRoundFilledTonalSmall01(),
                                           DealiControl.btnRoundFilledTonalSmall02(),
                                           DealiControl.btnRoundFilledTonalSmall03(),
                                           DealiControl.btnRoundFilledTonalSmall04(),
+                                          DealiControl.btnRoundFilledTonalSmall05(),
+                                          DealiControl.btnRoundFilledTonalSmall06(),
                                           DealiControl.btnOutlineSmall01(),
                                           DealiControl.btnOutlineSmall02(),
                                           DealiControl.btnOutlineSmall03(),
@@ -165,13 +198,14 @@ class ButtonViewController: UIViewController {
         
         buttonArray += largeButtonArray
         buttonArray += mediumButtonArray
+        buttonArray += semiMediumButtonArray
         buttonArray += smallButtonArray
         
         
         buttonArray.forEach { button in
            if let new = button as? ClickableComponent {
 //               new.rightImage = ClickableImage(named: "ic_arrow_right")
-               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
+//               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
                
 //                switch Int.random(in: 0...2) {
 //                case 0:

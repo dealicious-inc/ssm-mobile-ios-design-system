@@ -163,6 +163,13 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
+        
+        let bottomSheetTest = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(bottomSheetTest)
+        bottomSheetTest.do {
+            $0.title = "BottomSheet Test"
+            $0.addTarget(self, action: #selector(bottomSheetTestPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -245,5 +252,9 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
+    
+    @objc func bottomSheetTestPressed() {
+        self.navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
     }
 }

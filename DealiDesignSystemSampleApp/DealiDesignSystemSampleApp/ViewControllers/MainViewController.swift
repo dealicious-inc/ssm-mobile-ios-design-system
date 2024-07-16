@@ -11,7 +11,6 @@ import RxSwift
 import DealiDesignKit
 
 final class MainViewController: UIViewController {
-
     
     override func loadView() {
         self.view = .init()
@@ -129,6 +128,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
         }
         
+        let dropdownButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(dropdownButton)
+        dropdownButton.do {
+            $0.title = "Dropdown"
+            $0.addTarget(self, action: #selector(dropdownButtonPressed), for: .touchUpInside)
+        }
+        
         let tagComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(tagComponentsButton)
         tagComponentsButton.do {
@@ -226,6 +232,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
     }
 
+    @objc func dropdownButtonPressed() {
+        self.navigationController?.pushViewController(DropdownViewController(), animated: true)
+    }
+    
     @objc func toggleButtonPressed() {
         self.navigationController?.pushViewController(SwitchViewController(), animated: true)
     }

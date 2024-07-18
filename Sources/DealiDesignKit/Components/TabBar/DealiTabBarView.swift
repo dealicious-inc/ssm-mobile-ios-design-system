@@ -263,7 +263,7 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        self.updateTabbarItemInfo()
+        self.updateTabBarItemInfo()
         
         self.contentScrollView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
         self.setSelectedIndexWithScroll(index: startIndex)
@@ -289,12 +289,11 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        self.updateTabbarItemInfo()
+        self.updateTabBarItemInfo()
     }
     
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 최종 width, position X 값을 갱신
-    private func updateTabbarItemInfo() {
-        self.layoutIfNeeded()
+    private func updateTabBarItemInfo() {
         for index in 0..<self.tabbarItemInfoArray.count {
             if let itemButton = self.tabbarItemInfoArray[index].itemButton {
                 if self.preset.style == .segment {

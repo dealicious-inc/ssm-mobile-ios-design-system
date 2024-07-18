@@ -160,6 +160,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             }
 
             self.textField.isEnabled = !(self.inputStatus == .disabled)
+            self.textField.textColor = (self.inputStatus == .disabled) ? DealiColor.g50 : DealiColor.g100
             self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
             self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
             

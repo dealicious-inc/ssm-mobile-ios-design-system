@@ -101,14 +101,6 @@ final class DealiTabBarItemButton: UIButton {
             self.iconImageView.isHidden = false
         }
     }
-    
-//    override var isSelected: Bool {
-//        didSet {
-//            if let uiModel = self.uiModel {
-//                self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
-//            }
-//        }
-//    }
 
 }
 

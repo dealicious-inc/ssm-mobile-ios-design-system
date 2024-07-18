@@ -33,7 +33,7 @@ public class DealiTabBar {
 }
 
 @objc public protocol DealiTabBarViewDelegate {
-    @objc func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool)
+    @objc func didSelectTabBar(_ tabBarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool)
 }
 
 final public class DealiTabBarView: UIView {
@@ -45,15 +45,15 @@ final public class DealiTabBarView: UIView {
     private let selectedUnderLineImageView = UIImageView()
     private let bottomDividerView = UIView()
     
-    private var tabbarItemInfoArray: [DealiTabBarItemInfo] = []
+    private var tabBarItemInfoArray: [DealiTabBarItemInfo] = []
     
-    /// 해당 TabbarView를 단독으로 사용되면 true / tabbarViewController 와 함께 사용되면 false
-    public var isStandAloneView: Bool = true
+    /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false
+    public var isStandAloneView: Bool = false
     
     private var selectedIndex: Int = 0 {
         didSet {
-            for i in 0..<self.tabbarItemInfoArray.count {
-                self.tabbarItemInfoArray[i].itemSelected = (self.tabbarItemInfoArray[i].itemIndex == self.selectedIndex)
+            for i in 0..<self.tabBarItemInfoArray.count {
+                self.tabBarItemInfoArray[i].itemSelected = (self.tabBarItemInfoArray[i].itemIndex == self.selectedIndex)
             }
         }
     }
@@ -157,60 +157,62 @@ final public class DealiTabBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Tabbar ItemButton click Event
+    /// TabBar ItemButton click Event
     @objc func itemPressed(_ sender: UIControl) {
         self.setSelectedIndex(index: sender.tag, animated: true)
     }
     
     private func setSelectedIndexWithScroll(index: Int) {
-        guard index < self.tabbarItemInfoArray.count else { return }
+        guard index < self.tabBarItemInfoArray.count else { return }
         self.selectedIndex = index
         
-        /// chip을 사용하는 tabbar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
+        /// chip을 사용하는 tabBar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
         if self.preset.style == .segment || self.preset.style == .sliderButton {
             self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
+                $0.left.equalToSuperview().offset(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX)
+                $0.width.equalTo(self.tabBarItemInfoArray[self.selectedIndex].contentWidth)
             }
         }
         
-        /// tabbar가 단독으로 생성되어 사용되는경우에만 tabbar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
+        /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
         if self.preset.style != .segment && self.isStandAloneView {
-            self.moveScrollContentOffset(positionX: self.tabbarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabbarItemInfoArray[index].contentWidth)
+            self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth)
         }
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = false) {
+    public func setSelectedIndex(index: Int, animated: Bool = false, withoutAction: Bool = false) {
         self.setSelectedIndexWithScroll(index: index)
-        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
-        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
+        if !withoutAction {
+            /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+            self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
+        }
     }
     
-    /// Tabbar를 다시 구성하거나할때 기존 tabbar의 정보를 초기화
+    /// TabBar를 다시 구성하거나할때 기존 TabBar의 정보를 초기화
     private func clear() {
-        self.tabbarItemInfoArray.forEach { itemInfo in
+        self.tabBarItemInfoArray.forEach { itemInfo in
             itemInfo.itemButton?.removeFromSuperview()
             itemInfo.itemChip?.removeFromSuperview()
         }
         self.contentStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
-        self.tabbarItemInfoArray.removeAll()
+        self.tabBarItemInfoArray.removeAll()
     }
     
-    /// tabbar를 구성할 정보를 받아 Tabbar Item Button 생성 및 정보 저장
-    public func setTabbarItems(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0) {
+    /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false) {
         
-        /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 tabbarView를 재구성
-        let itemArray = tabbarItemArray.filter({ $0.isHidden == false })
+        /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
+        let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
         let offset = self.contentScrollView.contentOffset
         
         self.clear()
-        
+        self.isStandAloneView = isStandAloneView
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var buttonContentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-            if let _ = item.iconUrl, case .sliderButton = self.preset.style  {
-                buttonContentWidth += 20.0
+            if item.icon != nil, case .sliderButton = self.preset.style  {
+                buttonContentWidth += 16.0
             }
             
             switch self.preset.style {
@@ -233,7 +235,7 @@ final public class DealiTabBarView: UIView {
                     itemInfo.itemChip = itemChip
                     itemInfo.itemSelected = (index == self.selectedIndex)
                     
-                    self.tabbarItemInfoArray.append(itemInfo)
+                    self.tabBarItemInfoArray.append(itemInfo)
                 }
                 
             default:
@@ -259,7 +261,7 @@ final public class DealiTabBarView: UIView {
                 itemInfo.itemSelected = (index == self.selectedIndex)
                 itemInfo.contentWidth = buttonContentWidth
                 
-                self.tabbarItemInfoArray.append(itemInfo)
+                self.tabBarItemInfoArray.append(itemInfo)
             }
         }
         
@@ -271,18 +273,18 @@ final public class DealiTabBarView: UIView {
     
     /// 특정 index에 위치한 tabbaritem의 title 변경 처리
     public func changeTabBarButtonTitle(index: Int, title: String) {
-        guard index < self.tabbarItemInfoArray.count else { return }
+        guard index < self.tabBarItemInfoArray.count else { return }
         
         if case .sliderChip(_) = self.preset.style {
-            self.tabbarItemInfoArray[index].itemChip?.title = title
+            self.tabBarItemInfoArray[index].itemChip?.title = title
         } else {
-            if var uiModel = self.tabbarItemInfoArray[index].itemButton?.uiModel {
+            if var uiModel = self.tabBarItemInfoArray[index].itemButton?.uiModel {
                 let contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
                 uiModel.title = title
-                self.tabbarItemInfoArray[index].itemButton?.configure(uiModel: uiModel)
+                self.tabBarItemInfoArray[index].itemButton?.configure(uiModel: uiModel)
                 
                 if case .sliderButton = self.preset.style {
-                    self.tabbarItemInfoArray[index].itemButton?.snp.updateConstraints {
+                    self.tabBarItemInfoArray[index].itemButton?.snp.updateConstraints {
                         $0.width.equalTo(contentWidth + (self.preset.contentButtonPadding * 2))
                     }
                 }
@@ -297,32 +299,32 @@ final public class DealiTabBarView: UIView {
         for index in 0..<self.tabbarItemInfoArray.count {
             if let itemButton = self.tabbarItemInfoArray[index].itemButton {
                 if self.preset.style == .segment {
-                    self.tabbarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarMargin * 2.0)) / CGFloat(self.tabbarItemInfoArray.count))
-                    self.tabbarItemInfoArray[index].contentStartPositionX = self.preset.tabBarMargin + (self.tabbarItemInfoArray[index].contentWidth * CGFloat(index))
+                    self.tabBarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarMargin * 2.0)) / CGFloat(self.tabBarItemInfoArray.count))
+                    self.tabBarItemInfoArray[index].contentStartPositionX = self.preset.tabBarMargin + (self.tabBarItemInfoArray[index].contentWidth * CGFloat(index))
                 } else {
-                    self.tabbarItemInfoArray[index].contentStartPositionX = itemButton.frame.origin.x + self.preset.contentButtonPadding
-                    self.tabbarItemInfoArray[index].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2)
+                    self.tabBarItemInfoArray[index].contentStartPositionX = itemButton.frame.origin.x + self.preset.contentButtonPadding
+                    self.tabBarItemInfoArray[index].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2) + (itemButton.uiModel?.iconSize != nil ? 2.0 : 0.0) // 아이콘이 있는 경우 2px 추가 (디자인팀 요청)
                 }
-            } else if let itemChip = self.tabbarItemInfoArray[index].itemChip {
-                self.tabbarItemInfoArray[index].contentStartPositionX = (itemChip.frame.origin.x)
-                self.tabbarItemInfoArray[index].contentWidth = itemChip.frame.size.width
+            } else if let itemChip = self.tabBarItemInfoArray[index].itemChip {
+                self.tabBarItemInfoArray[index].contentStartPositionX = (itemChip.frame.origin.x)
+                self.tabBarItemInfoArray[index].contentWidth = itemChip.frame.size.width
             }
         }
         
         if self.preset.style == .segment || self.preset.style == .sliderButton {
             self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.left.equalToSuperview().offset(self.tabbarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                $0.width.equalTo(self.tabbarItemInfoArray[self.selectedIndex].contentWidth)
+                $0.left.equalToSuperview().offset(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX)
+                $0.width.equalTo(self.tabBarItemInfoArray[self.selectedIndex].contentWidth)
             }
         }
     }
     
     public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
-        guard index < self.tabbarItemInfoArray.count, let itemButton =  self.tabbarItemInfoArray[index].itemButton else { return }
+        guard index < self.tabBarItemInfoArray.count, let itemButton =  self.tabBarItemInfoArray[index].itemButton else { return }
         if self.preset.style == .segment || self.preset.style == .sliderButton {
             if var tabBarItemButtonUIModel = itemButton.uiModel {
                 tabBarItemButtonUIModel.shouldExposeNewBadge = shouldShowBadge
-                self.tabbarItemInfoArray[index].itemButton?.configure(uiModel: tabBarItemButtonUIModel)
+                self.tabBarItemInfoArray[index].itemButton?.configure(uiModel: tabBarItemButtonUIModel)
             }
         }
     }
@@ -342,18 +344,18 @@ final public class DealiTabBarView: UIView {
         var contentWidth = 0.0
 
         if preIdx < 0 {
-            if let item = self.tabbarItemInfoArray.first {
+            if let item = self.tabBarItemInfoArray.first {
                 positionX = item.contentStartPositionX
                 contentWidth = item.contentWidth
             }
-        } else if nexIdx >= self.tabbarItemInfoArray.count {
-            if let item = self.tabbarItemInfoArray.last {
+        } else if nexIdx >= self.tabBarItemInfoArray.count {
+            if let item = self.tabBarItemInfoArray.last {
                 positionX = item.contentStartPositionX
                 contentWidth = item.contentWidth
             }
         } else {
-            let preItem = self.tabbarItemInfoArray[preIdx]
-            let nexItem = self.tabbarItemInfoArray[nexIdx]
+            let preItem = self.tabBarItemInfoArray[preIdx]
+            let nexItem = self.tabBarItemInfoArray[nexIdx]
             positionX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
             contentWidth = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
         }
@@ -406,16 +408,26 @@ public struct DealiTabBarItem {
     public var isHidden: Bool = false
     /// 배지 보여줄지 여부
     public var showsBadge: Bool = false
-     var iconUrl: String?
+    var icon: DealiTabBarIcon?
     
-    public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, iconUrl: String? = nil) -> DealiTabBarItem {
+    public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, icon: DealiTabBarIcon? = nil) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController
         item.title = title
-        item.iconUrl = iconUrl
+        item.icon = icon
         item.isHidden = isHidden
         item.showsBadge = showsBadge
         return item
+    }
+}
+
+public struct DealiTabBarIcon {
+    var url: URL?
+    var size: CGSize
+    
+    public init(url: URL?, size: CGSize) {
+        self.url = url
+        self.size = size
     }
 }
 

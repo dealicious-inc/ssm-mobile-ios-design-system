@@ -1,5 +1,5 @@
 //
-//  TabBarComponentrViewController.swift
+//  TabBarComponentViewController.swift
 //  DealiDesignSystemSampleApp
 //
 //  Created by 이창호 on 4/9/24.
@@ -11,16 +11,16 @@ import RxSwift
 import RxCocoa
 import DealiDesignKit
 
-final class TabBarComponentrViewController: UIViewController {
-
+final class TabBarComponentViewController: UIViewController {
     private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
-                                  DealiTabBarItem.make(title: "3번 Tab")]
+                                          DealiTabBarItem.make(title: "3번 Tab")]
     
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
                                   DealiTabBarItem.make(title: "3번 Tab"),
-                                 DealiTabBarItem.make(title: "4번 Tab"),
+//                                 DealiTabBarItem.make(title: "4번 Tab"),
+                                         DealiTabBarItem.make(title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0))),
                                  DealiTabBarItem.make(title: "5번 Tab"),
                                  DealiTabBarItem.make(title: "6번 Tab"),
                                  DealiTabBarItem.make(title: "7번 Tab"),
@@ -87,7 +87,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView01)
         self.tabBarView01.then {
-            $0.setTabbarItems(tabbarItemArray: segmentTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: segmentTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -102,7 +102,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView02)
         self.tabBarView02.then {
-            $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -117,7 +117,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView03)
         self.tabBarView03.then {
-            $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -132,7 +132,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarViewShort)
         self.tabBarViewShort.then {
-            $0.setTabbarItems(tabbarItemArray: segmentTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: segmentTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -147,7 +147,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView04)
         self.tabBarView04.then {
-            $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -163,7 +163,7 @@ final class TabBarComponentrViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView05)
         self.tabBarView05.then {
-            $0.setTabbarItems(tabbarItemArray: sliderTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -220,7 +220,7 @@ final class TabBarComponentrViewController: UIViewController {
 
 }
 
-extension TabBarComponentrViewController {
+extension TabBarComponentViewController {
     @objc func badgeOnOffButtonPressed() {
         self.badgeOnOffButton.isSelected.toggle()
         
@@ -247,11 +247,11 @@ extension TabBarComponentrViewController {
         self.segmentTabBarItemArray[1].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.sliderTabBarItemArray[4].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         
-        self.tabBarView01.setTabbarItems(tabbarItemArray: self.segmentTabBarItemArray)
-        self.tabBarView02.setTabbarItems(tabbarItemArray: self.sliderTabBarItemArray)
-        self.tabBarView03.setTabbarItems(tabbarItemArray: self.sliderTabBarItemArray)
-        self.tabBarView04.setTabbarItems(tabbarItemArray: self.sliderTabBarItemArray)
-        self.tabBarView05.setTabbarItems(tabbarItemArray: self.sliderTabBarItemArray)
+        self.tabBarView01.setTabBarItems(tabBarItemArray: self.segmentTabBarItemArray)
+        self.tabBarView02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarView03.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarView04.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarView05.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
     }
     
     @objc func changeTitleTabBatItemButtonPressed() {
@@ -265,7 +265,7 @@ extension TabBarComponentrViewController {
     }
 }
 
-extension TabBarComponentrViewController: DealiTabBarViewDelegate {
+extension TabBarComponentViewController: DealiTabBarViewDelegate {
     func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
         print("didSelectTabBar index = \(index)")
     }

@@ -8,7 +8,7 @@
 import UIKit
 
 extension DealiControl {
-    
+    // MARK: Large
     public static func btnOutlineBgLarge01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonBgOutlineConfig.large,
                                         color: ButtonBgOutlineColor.primary01)
@@ -34,6 +34,7 @@ extension DealiControl {
                                         color: ButtonBgOutlineColor.secondary04)
     }
     
+    // MARK: - Medium
     public static func btnOutlineBgMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonBgOutlineConfig.medium,
                                         color: ButtonBgOutlineColor.primary01)
@@ -59,6 +60,33 @@ extension DealiControl {
                                         color: ButtonBgOutlineColor.secondary04)
     }
     
+    // MARK: - Semi Medium
+    public static func btnOutlineBgSemiMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonBgOutlineConfig.semiMedium,
+                                        color: ButtonBgOutlineColor.primary01)
+    }
+
+    public static func btnOutlineBgSemiMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonBgOutlineConfig.semiMedium,
+                                        color: ButtonBgOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineBgSemiMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonBgOutlineConfig.semiMedium,
+                                        color: ButtonBgOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineBgSemiMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonBgOutlineConfig.semiMedium,
+                                        color: ButtonBgOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineBgSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonBgOutlineConfig.semiMedium,
+                                        color: ButtonBgOutlineColor.secondary04)
+    }
+    
+    // MARK: - Small
     public static func btnOutlineBgSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonBgOutlineConfig.small,
                                         color: ButtonBgOutlineColor.primary01)
@@ -84,7 +112,7 @@ extension DealiControl {
                                         color: ButtonBgOutlineColor.secondary04)
     }
 }
-
+// MARK: - ClickableColorConfig
 public enum ButtonBgOutlineColor: ClickableColorConfig {
     case primary01
     case secondary01
@@ -112,10 +140,11 @@ public enum ButtonBgOutlineColor: ClickableColorConfig {
         }
     }
 }
-
+// MARK: - ClickableConfig
 public enum ButtonBgOutlineConfig: ClickableConfig {
     case large
     case medium
+    case semiMedium
     case small
     
     public var font: ClickableFont {
@@ -123,6 +152,8 @@ public enum ButtonBgOutlineConfig: ClickableConfig {
         case .large:
             return ClickableFont.button(font: .b1sb15)
         case .medium:
+            return ClickableFont.button(font: .b2sb14)
+        case .semiMedium:
             return ClickableFont.button(font: .b2sb14)
         case .small:
             return ClickableFont.button(font: .b3sb13)
@@ -135,6 +166,8 @@ public enum ButtonBgOutlineConfig: ClickableConfig {
             return .large
         case .medium:
             return .medium
+        case .semiMedium:
+            return .semiMedium
         case .small:
             return .small
         }
@@ -146,6 +179,8 @@ public enum ButtonBgOutlineConfig: ClickableConfig {
             return .fixed(6.0)
         case .medium:
             return .fixed(6.0)
+        case .semiMedium:
+            return .fixed(6.0)
         case .small:
             return .fixed(4.0)
         }
@@ -156,6 +191,8 @@ public enum ButtonBgOutlineConfig: ClickableConfig {
         case .large:
             return .square
         case .medium:
+            return .square
+        case .semiMedium:
             return .square
         case .small:
             return .square

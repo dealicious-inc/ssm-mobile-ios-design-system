@@ -39,7 +39,7 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary04)
     }
     
-    // MARK: Medium
+    // MARK: - Medium
     public static func btnFilledTonalMedium01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
                                         color: ButtonFilledTonalColor.primary01)
@@ -65,7 +65,44 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnFilledTonalMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.medium,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
     // MARK: Small
+    // MARK: - Semi Medium
+    public static func btnFilledTonalSemiMedium01() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.primary01)
+    }
+    
+    public static func btnFilledTonalSemiMedium02() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.primary02)
+    }
+    
+    public static func btnFilledTonalSemiMedium03() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.secondary01)
+    }
+    
+    public static func btnFilledTonalSemiMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.secondary02)
+    }
+   
+    public static func btnFilledTonalSemiMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    public static func btnFilledTonalSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.semiMedium,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
+    // MARK: - Small
     public static func btnFilledTonalSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.primary01)
@@ -89,6 +126,11 @@ extension DealiControl {
     public static func btnFilledTonalSmall05() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary03)
+    }
+    
+    public static func btnFilledTonalSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
+                                        color: ButtonFilledTonalColor.secondary04)
     }
    
     public static func btnRoundFilledTonalSmall01() -> ClickableComponentButton {
@@ -116,8 +158,14 @@ extension DealiControl {
                                         color: ButtonFilledTonalColor.secondary03)
     }
     
+    public static func btnRoundFilledTonalSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
+                                        color: ButtonFilledTonalColor.secondary04)
+    }
+    
 }
 
+// MARK: - ClickableColorConfig
 public enum ButtonFilledTonalColor: ClickableColorConfig {
     case primary01
     case primary02
@@ -150,9 +198,11 @@ public enum ButtonFilledTonalColor: ClickableColorConfig {
     }
 }
 
+// MARK: - ClickableConfig
 public enum ButtonFilledTonalConfig: ClickableConfig {
     case large
     case medium
+    case semiMedium
     case small
     case roundSmall
     
@@ -161,6 +211,8 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
         case .large:
             return ClickableFont.button(font: .b1sb15)
         case .medium:
+            return ClickableFont.button(font: .b2sb14)
+        case .semiMedium:
             return ClickableFont.button(font: .b2sb14)
         case .small:
             return ClickableFont.button(font: .b3sb13)
@@ -175,6 +227,8 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
             return .large
         case .medium:
             return .medium
+        case .semiMedium:
+            return .semiMedium
         case .small:
             return .small
         case .roundSmall:
@@ -188,6 +242,8 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
             return .fixed(6.0)
         case .medium:
             return .fixed(6.0)
+        case .semiMedium:
+            return .fixed(6.0)
         case .small:
             return .fixed(4.0)
         case .roundSmall:
@@ -200,6 +256,8 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
         case .large:
             return .square
         case .medium:
+            return .square
+        case .semiMedium:
             return .square
         case .small:
             return .square

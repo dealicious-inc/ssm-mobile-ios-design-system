@@ -1,103 +1,19 @@
 //
-//  ClickableComponent.swift
+//  ButtonComponent.swift
 //  
 //
-//  Created by 박경우 on 2023/10/23.
+//  Created by JohyeonYoon on 6/25/24.
 //
 
 import UIKit
-import SnapKit
 
-public class DealiControl {
-    
-}
-
-final public class ClickableComponentButton: ClickableComponent {
-    public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
-        super.init(style: .button, config: config, color: color.attribute)
-#if DEBUG
-        let bundleID = Bundle.main.bundleIdentifier ?? ""
-        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
-            self.title = functionName
-        }
-#endif
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final public class ClickableComponentChip: ChipComponent {
-    init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
-        super.init(style: .chip, config: config, color: color.attribute)
-#if DEBUG
-        let bundleID = Bundle.main.bundleIdentifier ?? ""
-        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
-            self.title = functionName
-        }
-#endif
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-final class ClickableIndicatorView: UIView {
-    private let indicatorImageView = UIImageView()
-
-    private var indicatorImage: UIImage? {
-        return UIImage(named: "loading")
-    }
-    
-    var color: UIColor = .white {
-        didSet {
-            self.indicatorImageView.image = self.indicatorImage?.withTintColor(color)
-        }
-    }
-    
-    init() {
-        super.init(frame: .zero)
-        self.addSubview(self.indicatorImageView)
-        self.indicatorImageView.then {
-            $0.image = self.indicatorImage
-        }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 21.0, height: 21.0))
-            $0.edges.equalTo(UIEdgeInsets.zero)
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func startAnimating() {
-        self.alpha = 1.0
-        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        rotationAnimation.fromValue = 0.0
-        rotationAnimation.toValue = Double.pi * 2 //Minus can be Direction
-        rotationAnimation.duration = 1.5
-        rotationAnimation.repeatCount = .infinity
-        self.indicatorImageView.layer.add(rotationAnimation, forKey: nil)
-    }
-    
-    public func stopAnimating() {
-        self.alpha = 0.0
-        self.indicatorImageView.layer.removeAllAnimations()
-    }
-    
-}
-
-
-public class ChipComponent: UIControl {
- 
+public class ClickableComponent: UIButton {
     
     private var config: ClickableComponent.Configuration?
     private var gradientBackgroundLayer: CAGradientLayer?
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
-    private let titleLabel = UILabel()
+    private let dealiTitleLabel = UILabel()
     private let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
     
@@ -119,7 +35,7 @@ public class ChipComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.textAlignment = titleAlignment
+            self.dealiTitleLabel.textAlignment = titleAlignment
         }
     }
     
@@ -128,8 +44,8 @@ public class ChipComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.text = title
-            self.titleLabel.isHidden = (title?.isEmpty ?? true)
+            self.dealiTitleLabel.text = title
+            self.dealiTitleLabel.isHidden = (title?.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -139,8 +55,8 @@ public class ChipComponent: UIControl {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.titleLabel.attributedText = attributedTitle
-            self.titleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
+            self.dealiTitleLabel.attributedText = attributedTitle
+            self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -224,7 +140,7 @@ public class ChipComponent: UIControl {
                 width += configuration.padding?.left.normal ?? 0.0
             }
             
-            width += ceil(self.titleLabel.intrinsicContentSize.width)
+            width += ceil(self.dealiTitleLabel.intrinsicContentSize.width)
             if let rightImage = self.rightImage {
                 width += configuration.padding?.right.withImage ?? 0.0
                 width += rightImage.uiImage?.size.width ?? 0.0
@@ -267,10 +183,10 @@ public class ChipComponent: UIControl {
                 if self.isEnabled == true {
                     if newValue == true {
                         self.updateColor(color: self.config?.color?.selected)
-                        self.titleLabel.font = self.config?.font?.selected
+                        self.dealiTitleLabel.font = self.config?.font?.selected
                     } else {
                         self.updateColor(color: self.config?.color?.normal)
-                        self.titleLabel.font = self.config?.font?.normal
+                        self.dealiTitleLabel.font = self.config?.font?.normal
                     }
                 }
             } else {
@@ -290,14 +206,14 @@ public class ChipComponent: UIControl {
             if newValue == true {
                 if self.isSelected {
                     self.updateColor(color: self.config?.color?.selected)
-                    self.titleLabel.font = self.config?.font?.selected
+                    self.dealiTitleLabel.font = self.config?.font?.selected
                 } else {
                     self.updateColor(color: self.config?.color?.normal)
-                    self.titleLabel.font = self.config?.font?.normal
+                    self.dealiTitleLabel.font = self.config?.font?.normal
                 }
             } else {
                 self.updateColor(color: self.config?.color?.disabled)
-                self.titleLabel.font = self.config?.font?.disabled
+                self.dealiTitleLabel.font = self.config?.font?.disabled
             }
         }
     }
@@ -372,8 +288,8 @@ public class ChipComponent: UIControl {
         }
         self.contentStackView.setCustomSpacing(configuration.padding?.left.internalSpacing ?? 0.0, after: self.leftImageView)
         
-        self.contentStackView.addArrangedSubview(self.titleLabel)
-        self.titleLabel.do {
+        self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
+        self.dealiTitleLabel.do {
             $0.font = config.font.normal
             $0.isHidden = true
             if configuration.style == .button {
@@ -382,7 +298,7 @@ public class ChipComponent: UIControl {
                 $0.textAlignment = .left
             }
         }
-        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.titleLabel)
+        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.dealiTitleLabel)
         
         self.contentStackView.addArrangedSubview(self.rightImageView)
         self.rightImageView.then {
@@ -448,7 +364,7 @@ public class ChipComponent: UIControl {
                 self.gradientBackgroundLayer?.isHidden = true
             }
             
-            self.titleLabel.textColor = color.text
+            self.dealiTitleLabel.textColor = color.text
             if let leftImage = self.leftImage, leftImage.needOriginColor == false {
                 self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
             }
@@ -480,10 +396,22 @@ public class ChipComponent: UIControl {
             self.contentStackView.snp.remakeConstraints { [weak self] in
                 guard let self else { return }
                 $0.top.bottom.equalToSuperview()
-                
-                $0.height.equalTo(configuration.height?.chip ?? 0.0)
-                $0.left.equalToSuperview().offset(leftPadding)
-                $0.right.equalToSuperview().offset(-rightPadding)
+                if configuration.style == .button {
+                    $0.height.equalTo(configuration.height?.button ?? 0.0)
+                    if self.isFixedSize == true {
+                        $0.left.equalToSuperview().offset(leftPadding)
+                        $0.right.equalToSuperview().offset(-rightPadding)
+                    } else {
+                        let horizontalOffset = self.horizontalOffset
+                        $0.centerX.equalToSuperview().offset(horizontalOffset)
+                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(horizontalOffset))
+                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(horizontalOffset))
+                    }
+                } else {
+                    $0.height.equalTo(configuration.height?.chip ?? 0.0)
+                    $0.left.equalToSuperview().offset(leftPadding)
+                    $0.right.equalToSuperview().offset(-rightPadding)
+                }
             }
             
         }
@@ -544,26 +472,26 @@ public class ChipComponent: UIControl {
         self.contentStackView.alpha = 1.0
         self.indicator.stopAnimating()
     }
-    
-    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
-    func setImage(_ image: UIImage?, for state: UIControl.State) {
-        
-    }
-    
-    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
-    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
-        
-    }
-    
-    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
-    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
-
-    }
-    
-    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
-    func setTitle(_ title: String?, for state: UIControl.State) {
-        
-    }
+//
+//    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
+//    override func setImage(_ image: UIImage?, for state: UIControl.State) {
+//
+//    }
+//
+//    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
+//    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+//
+//    }
+//
+//    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
+//    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
+//
+//    }
+//
+//    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
+//    func setTitle(_ title: String?, for state: UIControl.State) {
+//
+//    }
     
     @available(*, unavailable, message: "디자인 시스템은 타이틀 색상을 변경할 수 없습니다.")
     func setTitleColor(_ color: UIColor, for state: UIControl.State) {
@@ -572,7 +500,7 @@ public class ChipComponent: UIControl {
     
 }
 
-extension ChipComponent {
+extension ClickableComponent {
     
     public struct Configuration {
         
@@ -581,6 +509,8 @@ extension ChipComponent {
             case .large:
                 return 16.0
             case .medium:
+                return 12.0
+            case .semiMedium:
                 return 12.0
             case .small:
                 return 8.0
@@ -611,6 +541,7 @@ extension ChipComponent {
         public enum Height {
             case small
             case medium
+            case semiMedium
             case large
             
             var button: CGFloat {
@@ -619,6 +550,8 @@ extension ChipComponent {
                     return 50.0
                 case .medium:
                     return 46.0
+                case .semiMedium:
+                    return 40.0
                 default:
                     return 32.0
                 }
@@ -645,8 +578,10 @@ extension ChipComponent {
                 switch height {
                 case .large:
                     return self.largePadding(with: style)
-                case .medium, .semiMedium:
+                case .medium:
                     return self.mediumPadding(with: style)
+                case .semiMedium:
+                    return self.semiMediumPadding(with: style)
                 case .small:
                     return self.smallPadding(with: style)
                 }
@@ -690,6 +625,21 @@ extension ChipComponent {
                 }
             }
             
+            private func semiMediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
+                    
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+            
             private func smallPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
                 switch self {
                 case .square:
@@ -719,5 +669,81 @@ extension ChipComponent {
         public var color: ClickableColor?
         public var padding: ClickablePadding?
         public var cornerRadius: ClickableComponent.Configuration.Corner = .none
+    }
+}
+
+// MARK: - Font
+public struct ClickableFont {
+    var normal: UIFont
+    var selected: UIFont?
+    var disabled: UIFont
+    
+    static func button(font: UIFont) -> ClickableFont {
+        // 버튼은 selected 상태가 없음.
+        return ClickableFont(normal: font, selected: nil, disabled: font)
+    }
+    
+    static func chip(font: UIFont) -> ClickableFont {
+        return ClickableFont(normal: font, selected: font, disabled: font)
+    }
+}
+
+// MARK: - Color
+public protocol ClickableColorConfig {
+    var attribute: ClickableColor { get }
+}
+
+public struct ClickableColorSet {
+    var gradientBackground: [UIColor]?
+    var background: UIColor
+    var text: UIColor
+    var border: UIColor?
+}
+
+public struct ClickableColor {
+    var normal: ClickableColorSet
+    var selected: ClickableColorSet? // chip만 사용. button은 seleted 상태 없음.
+    var disabled: ClickableColorSet
+}
+
+// MARK: - Config
+public protocol ClickableConfig {
+    var font: ClickableFont { get }
+    var height: ClickableComponent.Configuration.Height { get }
+    var cornerRadius: ClickableComponent.Configuration.Corner { get }
+    var padding: ClickableComponent.Configuration.Padding { get }
+}
+
+// MARK: - Padding
+public struct ClickablePaddingSet {
+    /// 이미지가 없는 경우 Padding
+    var normal: CGFloat
+    /// 이미지가 있는 경우 Padding
+    var withImage: CGFloat
+    /// 이미지와 타이틀 사이 spacing
+    var internalSpacing: CGFloat
+}
+
+public struct ClickablePadding {
+    var left: ClickablePaddingSet
+    var right: ClickablePaddingSet
+}
+
+// MARK: - Image
+public struct ClickableImage {
+    /// 이미지명
+    var named: String
+    /// 이미지 색상 유지?
+    var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
+    var uiImage: UIImage?
+    public init(named name: String, needOriginColor: Bool = false) {
+        self.named = name
+        self.needOriginColor = needOriginColor
+        self.uiImage = UIImage(named: name)
+    }
+    public init(_ image: UIImage?, needOriginColor: Bool = false) {
+        self.named = ""
+        self.uiImage = image
+        self.needOriginColor = needOriginColor
     }
 }

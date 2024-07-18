@@ -70,7 +70,11 @@ final class DealiTabBarItemButton: UIButton {
         self._titleLabel.do {
             $0.clipsToBounds = true
         }
-        
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .clear
+        config.baseForegroundColor = .clear
+        config.background.backgroundColor = .clear
+        self.configuration = config
         self.configurationUpdateHandler = { [weak self] in
             guard let self, let uiModel = self.uiModel else { return }
             switch $0.state {

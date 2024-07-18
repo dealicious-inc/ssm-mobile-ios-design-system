@@ -296,8 +296,9 @@ final public class DealiTabBarView: UIView {
     
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 최종 width, position X 값을 갱신
     private func updateTabBarItemInfo() {
-        for index in 0..<self.tabbarItemInfoArray.count {
-            if let itemButton = self.tabbarItemInfoArray[index].itemButton {
+        self.layoutIfNeeded()
+        for index in 0..<self.tabBarItemInfoArray.count {
+            if let itemButton = self.tabBarItemInfoArray[index].itemButton {
                 if self.preset.style == .segment {
                     self.tabBarItemInfoArray[index].contentWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarMargin * 2.0)) / CGFloat(self.tabBarItemInfoArray.count))
                     self.tabBarItemInfoArray[index].contentStartPositionX = self.preset.tabBarMargin + (self.tabBarItemInfoArray[index].contentWidth * CGFloat(index))

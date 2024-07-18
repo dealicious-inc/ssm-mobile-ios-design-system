@@ -11,6 +11,7 @@ final class DealiTabBarItemButton: UIButton {
 
     var uiModel: DealiTabBarItemButtonUIModel?
     
+    private let _titleLabel = UILabel()
     private let badgeImageView = UIImageView()
     private let iconImageView = UIImageView()
     
@@ -29,6 +30,21 @@ final class DealiTabBarItemButton: UIButton {
         
         self.isExclusiveTouch = true
         
+        let contentStackView = UIStackView()
+        self.addSubview(contentStackView)
+        contentStackView.then {
+            $0.isUserInteractionEnabled = false
+            $0.spacing = 0.0
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .fill
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.left.greaterThanOrEqualToSuperview()
+            $0.right.lessThanOrEqualToSuperview()
+        }
+        
         self.addSubview(self.badgeImageView)
         self.badgeImageView.then {
             $0.backgroundColor = DealiColor.primary01
@@ -42,15 +58,29 @@ final class DealiTabBarItemButton: UIButton {
             $0.size.equalTo(CGSize(width: 4.0, height: 4.0))
         }
         
-        self.addSubview(self.iconImageView)
+        contentStackView.addArrangedSubview(self.iconImageView)
         self.iconImageView.then {
             $0.clipsToBounds = true
             $0.isHidden = true
         }.snp.makeConstraints {
-            guard let titleLabel = titleLabel else { return }
-            $0.right.equalTo(titleLabel.snp.left)
-            $0.centerY.equalToSuperview()
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
+        }
+        
+        contentStackView.addArrangedSubview(self._titleLabel)
+        self._titleLabel.do {
+            $0.clipsToBounds = true
+        }
+        
+        self.configurationUpdateHandler = { [weak self] in
+            guard let self, let uiModel = self.uiModel else { return }
+            switch $0.state {
+            case .selected:
+                self._titleLabel.font = uiModel.selectedFont
+                self._titleLabel.textColor = uiModel.selectedTextColor
+            default:
+                self._titleLabel.font = uiModel.font
+                self._titleLabel.textColor = uiModel.textColor
+            }
         }
     }
     
@@ -61,24 +91,14 @@ final class DealiTabBarItemButton: UIButton {
     func configure(uiModel: DealiTabBarItemButtonUIModel) {
         self.uiModel = uiModel
         
-        self.setTitle(uiModel.title, for: .normal)
-        self.setTitleColor(uiModel.textColor, for: .normal)
-        self.setTitleColor(uiModel.selectedTextColor, for: .selected)
-         
-        self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
+        self._titleLabel.text = uiModel.title
+        self._titleLabel.textColor = (self.isSelected == true ? uiModel.selectedTextColor : uiModel.textColor)
+        self._titleLabel.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
         if let image = uiModel.iconURL, let size = uiModel.iconSize {
             self.iconImageView.setImage(url: image, size: size)
             self.iconImageView.isHidden = false
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            if let uiModel = self.uiModel {
-                self.titleLabel?.font = (self.isSelected == true ? uiModel.selectedFont : uiModel.font)
-            }
         }
     }
 

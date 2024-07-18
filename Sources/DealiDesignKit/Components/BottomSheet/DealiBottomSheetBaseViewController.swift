@@ -248,8 +248,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
                 } else {
                     containerHeight = (addView as! UIScrollView).contentSize.height
                     
-                    if (containerHeight + titleContentHeight) > bottomSheetMaxHeight {
-                        containerHeight = bottomSheetMaxHeight - titleContentHeight
+                    if (containerHeight + titleContentHeight + safeAreaBottomMargin ) > bottomSheetMaxHeight {
+                        containerHeight = bottomSheetMaxHeight - (titleContentHeight + safeAreaBottomMargin)
                     }
                 }
                 

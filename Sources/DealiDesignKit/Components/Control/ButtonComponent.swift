@@ -363,7 +363,7 @@ public class ClickableComponent: UIButton {
             } else {
                 self.gradientBackgroundLayer?.isHidden = true
             }
-            
+            /// UILabel에 attributedText를 적용후 textColor을 변경하면 attributedText에 적용된 color값이 textColor로 적용되기 때문에 attributedText가 없을경우에만 textColor를 설정하도록 수정
             if self.attributedTitle == nil {
                 self.dealiTitleLabel.textColor = color.text
             }

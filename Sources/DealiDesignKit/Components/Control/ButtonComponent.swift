@@ -364,7 +364,10 @@ public class ClickableComponent: UIButton {
                 self.gradientBackgroundLayer?.isHidden = true
             }
             
-            self.dealiTitleLabel.textColor = color.text
+            if self.attributedTitle == nil {
+                self.dealiTitleLabel.textColor = color.text
+            }
+            
             if let leftImage = self.leftImage, leftImage.needOriginColor == false {
                 self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
             }

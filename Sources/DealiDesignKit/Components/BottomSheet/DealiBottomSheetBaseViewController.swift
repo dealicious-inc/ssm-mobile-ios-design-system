@@ -76,7 +76,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.showPopup()
+        self.showBottomSheet()
     }
     
     public override func viewDidLayoutSubviews() {
@@ -133,7 +133,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
-    func showPopup() {
+    func showBottomSheet() {
         self.contentView.layoutIfNeeded()
         
         self.contentView.snp.remakeConstraints {
@@ -148,7 +148,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         }
     }
     
-    private func hidePopup(hideHandler: (() -> Void)? = nil) {
+    open func hideBottomSheet(hideHandler: (() -> Void)? = nil) {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -168,7 +168,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     }
     
     @objc func closeButtonButtonAction() {
-        self.hidePopup { [weak self] in
+        self.hideBottomSheet { [weak self] in
             if let self = self, let handler = self.closeActionHandler {
                 handler()
             }
@@ -179,7 +179,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         super.touchesEnded(touches, with: event)
         guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeBottomSheetOnOutsideTouch == true else { return }
         
-        self.hidePopup { [weak self] in
+        self.hideBottomSheet { [weak self] in
             if let self = self, let handler = self.closeActionHandler {
                 handler()
             }

@@ -367,6 +367,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             .bind(with: self) { owner, _ in
                 owner.text = nil
                 owner.clearButton.isHidden = true
+                owner.textField.sendActions(for: .valueChanged)
             }
             .disposed(by: self.disposeBag)
         

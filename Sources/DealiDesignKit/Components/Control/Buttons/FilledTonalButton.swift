@@ -132,36 +132,6 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonFilledTonalConfig.small,
                                         color: ButtonFilledTonalColor.secondary04)
     }
-   
-    public static func btnRoundFilledTonalSmall01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.primary01)
-    }
-    
-    public static func btnRoundFilledTonalSmall02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.primary02)
-    }
-   
-    public static func btnRoundFilledTonalSmall03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.secondary01)
-    }
-    
-    public static func btnRoundFilledTonalSmall04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.secondary02)
-    }
-    
-    public static func btnRoundFilledTonalSmall05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.secondary03)
-    }
-    
-    public static func btnRoundFilledTonalSmall06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledTonalConfig.roundSmall,
-                                        color: ButtonFilledTonalColor.secondary04)
-    }
     
 }
 
@@ -204,7 +174,6 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
     case medium
     case semiMedium
     case small
-    case roundSmall
     
     public var font: ClickableFont {
         switch self {
@@ -215,8 +184,6 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
         case .semiMedium:
             return ClickableFont.button(font: .b2sb14)
         case .small:
-            return ClickableFont.button(font: .b3sb13)
-        case .roundSmall:
             return ClickableFont.button(font: .b3sb13)
         }
     }
@@ -231,8 +198,6 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
             return .semiMedium
         case .small:
             return .small
-        case .roundSmall:
-            return .small
         }
     }
     
@@ -246,23 +211,10 @@ public enum ButtonFilledTonalConfig: ClickableConfig {
             return .fixed(6.0)
         case .small:
             return .fixed(4.0)
-        case .roundSmall:
-            return .capsule
         }
     }
     
     public var padding: ClickableComponent.Configuration.Padding {
-        switch self {
-        case .large:
-            return .square
-        case .medium:
-            return .square
-        case .semiMedium:
-            return .square
-        case .small:
-            return .square
-        case .roundSmall:
-            return .raund
-        }
+        return .square
     }
 }

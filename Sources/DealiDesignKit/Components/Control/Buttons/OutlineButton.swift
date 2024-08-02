@@ -260,7 +260,7 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .small:
             return .square
         case .roundSmall:
-            return .raund
+            return .round
         }
     }
 }

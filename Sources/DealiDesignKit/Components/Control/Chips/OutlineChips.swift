@@ -104,7 +104,7 @@ public enum ChipsOutlineConfig: ClickableConfig {
     }
     
     public var padding: ClickableComponent.Configuration.Padding {
-        return .raund
+        return .round
     }
 }
 

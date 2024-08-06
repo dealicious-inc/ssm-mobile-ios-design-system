@@ -14,6 +14,9 @@ final class DropdownViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let disposeBag = DisposeBag()
     
+    private var test = false
+
+    
     let arrowOpenDropdown = DealiDropdown().then {
         $0.arrowType = .open
         $0.contentText = "옵션별 단가 선택 Lorem Ipsum is simply dummy text of the printing and typesetting industry"
@@ -30,6 +33,8 @@ final class DropdownViewController: UIViewController {
             .when(.recognized)
             .subscribe(with: self) { owner, _ in
                 debugPrint("dropdownTapped")
+                owner.test.toggle()
+                owner.arrowOpenDropdown.isSelecting.accept(owner.test)
             }
             .disposed(by: self.disposeBag)
     }

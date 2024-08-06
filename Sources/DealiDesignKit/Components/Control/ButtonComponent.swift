@@ -574,7 +574,7 @@ extension ClickableComponent {
         
         public enum Padding {
             case square
-            case raund
+            case round
             case text
             
             public func value(with height: ClickableComponent.Configuration.Height, style: ClickableComponent.Configuration.Style) -> ClickablePadding {
@@ -600,7 +600,7 @@ extension ClickableComponent {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                     }
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -619,7 +619,7 @@ extension ClickableComponent {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                     }
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -634,7 +634,7 @@ extension ClickableComponent {
                     return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
                     
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -648,7 +648,7 @@ extension ClickableComponent {
                 case .square:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
-                case .raund:
+                case .round:
                     if style == .button {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))

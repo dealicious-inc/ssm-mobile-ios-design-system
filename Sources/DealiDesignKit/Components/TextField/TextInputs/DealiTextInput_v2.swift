@@ -94,7 +94,14 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         get {
             self.textField.text
         } set {
-            self.textField.text = newValue
+            if self.textField.text != newValue {
+                self.textField.text = newValue
+                self.textField.sendActions(for: .valueChanged)
+                
+                if self.inputStatus != .focusIn {
+                    self.textField.sendActions(for: .editingDidEnd)
+                }
+            }
         }
     }
     

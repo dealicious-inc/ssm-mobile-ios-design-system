@@ -40,6 +40,14 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         }
     }
     
+    public var titleString: String? {
+        didSet {
+            if let titleString = self.titleString {
+                self.titleLabel.text = titleString
+            }
+        }
+    }
+    
     private lazy var titleLabel: UILabel = {
         return UILabel().then {
             $0.numberOfLines = 0

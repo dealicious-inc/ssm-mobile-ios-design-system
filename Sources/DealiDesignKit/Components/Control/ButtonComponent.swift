@@ -741,6 +741,11 @@ public struct ClickableImage {
         self.needOriginColor = needOriginColor
         self.uiImage = UIImage(named: name)
     }
+    public init(dealiIconName: String, needOriginColor: Bool = false) {
+        self.named = dealiIconName
+        self.needOriginColor = needOriginColor
+        self.uiImage = UIImage.dealiIcon(named: dealiIconName)
+    }
     public init(_ image: UIImage?, needOriginColor: Bool = false) {
         self.named = ""
         self.uiImage = image

@@ -135,21 +135,21 @@ public func registerDealiSystemFonts() {
 extension UIFont {
     static func registerFont(fontName: String) {
         guard let pathForResourceString = Bundle.module.path(forResource: fontName, ofType: nil) else {
-            print("could not find font file")
+            debugPrint("could not find font file")
             return
         }
         
         guard let fontDataProvider = CGDataProvider(data: NSData(contentsOfFile: pathForResourceString)!) else {
-            print("Could not create font data provider for \(pathForResourceString).")
+            debugPrint("Could not create font data provider for \(pathForResourceString).")
             return
         }
         guard let font = CGFont(fontDataProvider) else {
-            print("could not create font")
+            debugPrint("could not create font")
             return
         }
         var error: Unmanaged<CFError>?
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
-            print(error!.takeUnretainedValue())
+            debugPrint(error!.takeUnretainedValue())
         }
     }
 }

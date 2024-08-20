@@ -102,6 +102,8 @@ final class TextInputViewController: UIViewController {
         emailInput.then {
             $0.title = "이메일 텍스트 입력"
             $0.placeholder = "Text Input"
+            $0.inputStatus = .disabled
+            $0.text = "텍스트"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
             let button = DealiControl.btnFilledTonalMedium04()
@@ -114,8 +116,10 @@ final class TextInputViewController: UIViewController {
         let urlInput = DealiTextInput_v2.url()
         contentStackView.addArrangedSubview(urlInput)
         urlInput.then {
-            $0.title = "이메일 텍스트 입력"
+            $0.title = "urlText 입력"
             $0.placeholder = "Text Input"
+            $0.inputStatus = .readOnly
+            $0.text = "readOnly 텍스트"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputReturnKeyType = .done
             let button = DealiControl.btnFilledTonalMedium04()

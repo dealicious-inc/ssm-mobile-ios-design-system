@@ -87,17 +87,17 @@ final class RadioButtonViewController: UIViewController {
     
     @objc func firstRadioButtonWithTextValueChanged() {
         if self.firstRadioButtonWithText.isSelected {
-            print("11라디오 버튼 선택")
+            debugPrint("11라디오 버튼 선택")
         } else {
-            print("11라디오 버튼 선택 해제")
+            debugPrint("11라디오 버튼 선택 해제")
         }
     }
     
     @objc func secondRadioButtonWithTextValueChanged() {
         if self.secondRadioButtonWithText.isSelected {
-            print("22라디오 버튼 선택")
+            debugPrint("22라디오 버튼 선택")
         } else {
-            print("22라디오 버튼 선택 해제")
+            debugPrint("22라디오 버튼 선택 해제")
         }
     }
     

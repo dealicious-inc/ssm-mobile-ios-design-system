@@ -182,7 +182,8 @@ final class DealiAlertViewController: UIViewController {
             $0.backgroundColor = DealiColor.primary04
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(280.0)
+//            $0.width.equalTo(280.0)
+            $0.left.right.equalToSuperview().inset(40.0)
         }
         
         self.contentView.addSubview(self.contentStackView)

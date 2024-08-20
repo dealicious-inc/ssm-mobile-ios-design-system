@@ -96,6 +96,9 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         } set {
             if self.textField.text != newValue {
                 self.textField.text = newValue
+                
+                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
+                
                 self.textField.sendActions(for: .valueChanged)
                 
                 if self.inputStatus != .focusIn {
@@ -145,7 +148,10 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     /// TextInputStatus 따라 ui처리
     public var inputStatus: ETextInputStatus = .normal {
         didSet {
-            
+            self.textField.textColor = self.inputStatus.textColor
+            self.textFieldContentView.layer.borderColor = self.inputStatus.borderColor
+            self.textFieldContentView.backgroundColor = self.inputStatus.backgroundColor
+
             switch self.inputStatus {
             case let .error(errorMessage):
                 self.setError(for: errorMessage)
@@ -167,8 +173,6 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             }
 
             self.textField.isEnabled = !(self.inputStatus == .disabled)
-            self.textFieldContentView.layer.borderColor = (self.inputStatus == .focusIn ? DealiColor.g100.cgColor : DealiColor.g20.cgColor)
-            self.textFieldContentView.backgroundColor = (self.inputStatus == .disabled ? DealiColor.g10 : DealiColor.primary04)
             
             if let actionButton = self.actionButton {
                 actionButton.isEnabled = !(self.inputStatus == .disabled)
@@ -625,9 +629,6 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             } else {
                 self.helperTextLabel.isHidden = true
             }
-        }
-        self.textFieldContentView.do {
-            $0.layer.borderColor = DealiColor.error.cgColor
         }
     }
     

@@ -163,6 +163,13 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
+        
+        let dataNoticeComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(dataNoticeComponents)
+        dataNoticeComponents.do {
+            $0.title = "DataNotice Components"
+            $0.addTarget(self, action: #selector(dataNoticeComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -245,5 +252,9 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
+    
+    @objc func dataNoticeComponentsPressed() {
+        self.navigationController?.pushViewController(DataNoticeComponentViewController(), animated: true)
     }
 }

@@ -7,63 +7,36 @@
 
 import UIKit
 
-public enum DealiDataNoticeTitleType: Equatable {
+public enum DealiDataNoticeTitlePreset: Equatable {
     case bold
     case regular
+    
+    var font: UIFont {
+        if case .bold = self {
+            return .b3sb13
+        }
+        return .b3r13
+    }
+    
+    var textColor: UIColor {
+        if case .bold = self {
+            return DealiColor.g100
+        }
+        
+        return DealiColor.g80
+    }
 }
 
 public enum DealiDataNoticePreset: Equatable {
     case bullet
     case numbering
     case html
-    case titleAndBullet(titleType: DealiDataNoticeTitleType)
-    case titleAndNumbering(titleType: DealiDataNoticeTitleType)
     
     var font: UIFont {
         return .b3r13
     }
     
     var textColor: UIColor {
-        return DealiColor.g80
-    }
-    
-    var titleFont: UIFont {
-        if case .titleAndBullet(let titleType) = self {
-            switch titleType {
-            case .bold:
-                return .b3sb13
-            default:
-                break
-            }
-        } else if case .titleAndBullet(let titleType) = self {
-            switch titleType {
-            case .bold:
-                return .b3sb13
-            default:
-                break
-            }
-        }
-        
-        return .b3r13
-    }
-    
-    var titleTextColor: UIColor {
-        if case .titleAndBullet(let titleType) = self {
-            switch titleType {
-            case .bold:
-                return DealiColor.g100
-            default:
-                break
-            }
-        } else if case .titleAndBullet(let titleType) = self {
-            switch titleType {
-            case .bold:
-                return DealiColor.g100
-            default:
-                break
-            }
-        }
-        
         return DealiColor.g80
     }
 }

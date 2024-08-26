@@ -50,75 +50,59 @@ final class DataNoticeComponentViewController: UIViewController {
             $0.top.equalToSuperview().offset(10)
             $0.bottom.left.right.equalToSuperview()
         }
+         
+        let testContentStringArray = ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
+                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
+                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"]
         
-        let onlyBulletDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let onlyBulletDataNoticeItemView = DealiDataNoticeItemView()
+        let onlyBulletDataNoticeItemView = DealiDataNoticeItem(preset: .bullet)
         contentStackView.addArrangedSubview(onlyBulletDataNoticeItemView)
         onlyBulletDataNoticeItemView.then {
-            $0.configure(uiModel: onlyBulletDataNoticeItemViewUIModel)
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let onlyNumberDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(contentType: .number, contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let onlyNumberDataNoticeItemView = DealiDataNoticeItemView()
+        let onlyNumberDataNoticeItemView = DealiDataNoticeItem(preset: .numbering)
         contentStackView.addArrangedSubview(onlyNumberDataNoticeItemView)
         onlyNumberDataNoticeItemView.then {
-            $0.configure(uiModel: onlyNumberDataNoticeItemViewUIModel)
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let rTitleBulletDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(titleType: .regular(title: "타이들"), contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let rTitleBulletDataNoticeItemView = DealiDataNoticeItemView()
+        let rTitleBulletDataNoticeItemView = DealiDataNoticeItemWithTitle(titlePreset: .regular, itemPreset: .bullet)
         contentStackView.addArrangedSubview(rTitleBulletDataNoticeItemView)
         rTitleBulletDataNoticeItemView.then {
-            $0.configure(uiModel: rTitleBulletDataNoticeItemViewUIModel)
+            $0.title = "타이틀"
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let rTitleNumberDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(titleType: .regular(title: "타이들"), contentType: .number, contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let rTitleNumberDataNoticeItemView = DealiDataNoticeItemView()
+        let rTitleNumberDataNoticeItemView = DealiDataNoticeItemWithTitle(titlePreset: .regular, itemPreset: .numbering)
         contentStackView.addArrangedSubview(rTitleNumberDataNoticeItemView)
         rTitleNumberDataNoticeItemView.then {
-            $0.configure(uiModel: rTitleNumberDataNoticeItemViewUIModel)
+            $0.title = "타이틀"
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let bTitleBulletDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(titleType: .bold(title: "타이들"), contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let bTitleBulletDataNoticeItemView = DealiDataNoticeItemView()
+        let bTitleBulletDataNoticeItemView = DealiDataNoticeItemWithTitle(titlePreset: .bold, itemPreset: .bullet)
         contentStackView.addArrangedSubview(bTitleBulletDataNoticeItemView)
         bTitleBulletDataNoticeItemView.then {
-            $0.configure(uiModel: bTitleBulletDataNoticeItemViewUIModel)
+            $0.title = "타이틀"
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let bTitleNumberDataNoticeItemViewUIModel = DealiDataNoticeItemViewUIModel(titleType: .bold(title: "타이들"), contentType: .number, contentStringArray: ["내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
-                                                                                                      "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"])
-        
-        let bTitleNumberDataNoticeItemView = DealiDataNoticeItemView()
+        let bTitleNumberDataNoticeItemView = DealiDataNoticeItemWithTitle(titlePreset: .bold, itemPreset: .numbering)
         contentStackView.addArrangedSubview(bTitleNumberDataNoticeItemView)
         bTitleNumberDataNoticeItemView.then {
-            $0.configure(uiModel: bTitleNumberDataNoticeItemViewUIModel)
+            $0.title = "타이틀"
+            $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }

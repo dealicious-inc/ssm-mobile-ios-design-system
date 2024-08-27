@@ -98,7 +98,7 @@ final class EmptyComponentViewController: UIViewController {
         
         refreshIconTitleMessageButtonEmpty.set(imageType: .refresh, title: "타이틀이 들어가는 영역이예요.", message: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.", actionButtonTitle: "재시도") { [weak self] in
             guard let self else { return }
-            print("refreshIconTitleMessageButtonEmpty 재시도 버튼 클릭")
+            debugPrint("refreshIconTitleMessageButtonEmpty 재시도 버튼 클릭")
         }
         
     }

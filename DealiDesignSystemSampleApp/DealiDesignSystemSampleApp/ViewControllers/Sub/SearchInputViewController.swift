@@ -137,18 +137,18 @@ extension SearchInputViewController: DealiSearchInputDelegate {
     
     func search(keyword: String?) {
         guard let keyword = keyword else {
-            print("nil")
+            debugPrint("nil")
             return
         }
-        print(keyword)
+        debugPrint(keyword)
     }
     
     func clear() {
-        print("clear !")
+        debugPrint("clear !")
     }
     
     func beginEditing() {
-        print("begin Editing !")
+        debugPrint("begin Editing !")
     }
     
     func editingChanged(keyword: String?) {

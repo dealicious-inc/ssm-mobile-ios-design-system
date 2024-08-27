@@ -103,6 +103,6 @@ public enum ChipsFilledConfig: ClickableConfig {
     }
     
     public var padding: ClickableComponent.Configuration.Padding {
-        return .raund
+        return .round
     }
 }

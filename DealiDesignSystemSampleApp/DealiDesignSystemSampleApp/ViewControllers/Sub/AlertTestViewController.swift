@@ -79,7 +79,7 @@ class AlertTestViewController: UIViewController {
 
 extension AlertTestViewController {
     @objc func alertButton01Pressed() {
-        print("alertButton01Pressed")
+        debugPrint("alertButton01Pressed")
 
         DealiAlert.show(message: "Alert 테스트중",
                         cancelButtonTitle: "취소",
@@ -89,7 +89,7 @@ extension AlertTestViewController {
     }
     
     @objc func alertButton02Pressed() {
-        print("alertButton02Pressed")
+        debugPrint("alertButton02Pressed")
 
         DealiAlert.showConfirm(title: "1버튼 Alert",
                                message: "확인버튼만 있는 팝업입니다.",
@@ -100,7 +100,7 @@ extension AlertTestViewController {
     }
     
     @objc func alertButton03Pressed() {
-        print("alertButton03Pressed")
+        debugPrint("alertButton03Pressed")
         
         DealiAlert.showCheckBox(title: "Title입니다.",
                                 message: "체크박스 팝업 테스트중",
@@ -110,7 +110,7 @@ extension AlertTestViewController {
                                 alertPresentingViewController: self,
                                 cancelAction: nil) { [weak self] isCheckSelected in
             guard let _ = self else { return }
-            print("체크박스 상태 : \(isCheckSelected)")
+            debugPrint("체크박스 상태 : \(isCheckSelected)")
         }
     }
 }

@@ -98,7 +98,7 @@ public class ChipComponent: UIControl {
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
     private let titleLabel = UILabel()
-    private let leftImageView = UIImageView()
+    let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
     
     private lazy var singleImageView: UIImageView = {

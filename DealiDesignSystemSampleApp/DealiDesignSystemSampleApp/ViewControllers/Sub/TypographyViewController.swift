@@ -47,6 +47,9 @@ final class TypographyViewController: UIViewController {
         
         let h1sb32 = TypoView(fontName: "h1sb32", font: .h1sb32, text: "₩ 30,000")
         stackView.addArrangedSubview(h1sb32)
+        
+        let h2sb24 = TypoView(fontName: "h2sb24", font: .h2sb24, text: "₩ 30,000")
+        stackView.addArrangedSubview(h2sb24)
     
     }
 

@@ -52,17 +52,23 @@ public extension UIFont {
             objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
+    convenience init?(name fontName: String, size fontSize: CGFloat, lineHeight fontLineHeight: CGFloat) {
+        self.init(name: fontName, size: fontSize)
+        
+        self.dealiLineHeight = fontLineHeight
+    }
 
-    static func getPretendard(weight: UIFont.Weight, size: CGFloat) -> UIFont {
+    static func getPretendard(weight: UIFont.Weight, size: CGFloat, lineHeight: CGFloat) -> UIFont {
         var font: UIFont? {
             if weight == .bold {
-                return UIFont(name: "PretendardJP-Bold", size: size)
+                return UIFont(name: "PretendardJP-Bold", size: size, lineHeight: lineHeight)
             } else if weight == .medium {
-                return UIFont(name: "PretendardJP-Medium", size: size)
+                return UIFont(name: "PretendardJP-Medium", size: size, lineHeight: lineHeight)
             } else if weight == .semibold {
-                return UIFont(name: "PretendardJP-SemiBold", size: size)
+                return UIFont(name: "PretendardJP-SemiBold", size: size, lineHeight: lineHeight)
             } else {
-                return UIFont(name: "PretendardJP-Regular", size: size)
+                return UIFont(name: "PretendardJP-Regular", size: size, lineHeight: lineHeight)
             }
             
         }

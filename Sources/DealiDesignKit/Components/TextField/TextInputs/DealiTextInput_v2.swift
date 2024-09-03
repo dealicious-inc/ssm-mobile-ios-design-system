@@ -172,7 +172,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 self.setNormalHelperText(attributedString: normalHelperAttributedString)
             }
 
-            self.textField.isEnabled = !(self.inputStatus == .disabled)
+            self.textField.isEnabled = !(self.inputStatus == .disabled || self.inputStatus == .readOnly)
             
             if let actionButton = self.actionButton {
                 actionButton.isEnabled = !(self.inputStatus == .disabled)

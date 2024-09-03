@@ -68,23 +68,21 @@ enum DealiFont: String, CaseIterable {
             }
         }
         
-        return .getPretendard(weight: weight, size: self.style.size)
+        return .getPretendard(weight: weight, size: self.style.size, lineHeight: self.style.lineHeight)
     }
     
     public var font: UIFont {
         var font: UIFont!
         
-        if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.style.size)
+        if self.rawValue.contains("Bold") {
+            font = .getPretendard(weight: .bold, size: self.style.size, lineHeight: self.style.lineHeight)
         } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(weight: .medium, size: self.style.size)
-        } else if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.style.size)
+            font = .getPretendard(weight: .medium, size: self.style.size, lineHeight: self.style.lineHeight)
+        } else if self.rawValue.contains("SemiBold") {
+            font = .getPretendard(weight: .semibold, size: self.style.size, lineHeight: self.style.lineHeight)
         } else {
-            font = .getPretendard(weight: .regular, size: self.style.size)
+            font = .getPretendard(weight: .regular, size: self.style.size, lineHeight: self.style.lineHeight)
         }
-        
-        font.dealiLineHeight = self.style.lineHeight
         
         return font
     }

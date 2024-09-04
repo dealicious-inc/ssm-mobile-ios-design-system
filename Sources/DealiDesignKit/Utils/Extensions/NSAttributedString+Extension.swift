@@ -120,7 +120,7 @@ public extension NSMutableAttributedString {
             }
             
             let baselineOffset = ((lineHeight - font.lineHeight) / 4)
-            
+            print("lineHeight = \(lineHeight) / font.lineHeight = \(font.lineHeight) / baselineOffset = \(baselineOffset)")
             if let style = style {
                 self.addAttributes([.paragraphStyle: style, .baselineOffset: ceil(baselineOffset)], range: range)
             }

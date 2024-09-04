@@ -1,6 +1,6 @@
 //
 //  NSAttributedString+Extension.swift
-//  
+//
 //
 //  Created by Lee Chang Ho on 8/22/24.
 //
@@ -106,7 +106,8 @@ public extension NSMutableAttributedString {
         
         guard source.isEmpty == false else { return self }
         
-        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, let lineHeight = font.dealiLineHeight, lineHeight > 0.0 {
+        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, font.dealiLineHeight > 0.0 {
+            let lineHeight = font.dealiLineHeight
             let range = (source as NSString).range(of: source)
             var style: NSMutableParagraphStyle?
             if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {

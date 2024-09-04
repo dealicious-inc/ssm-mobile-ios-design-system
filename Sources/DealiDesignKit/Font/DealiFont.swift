@@ -170,7 +170,7 @@ fileprivate extension UIFont {
 
         let descriptor = UIFontDescriptor(fontAttributes: attributes)
         let font = UIFont(descriptor: descriptor, size: pointSize)
-        font.dealiLineHeight = self.dealiLineHeight
+//        font.dealiLineHeight = self.dealiLineHeight
         return font
     }
 }

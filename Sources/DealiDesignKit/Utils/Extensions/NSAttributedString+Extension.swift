@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension NSMutableAttributedString {
+public extension NSMutableAttributedString {
     
     func font(_ font: UIFont) -> NSMutableAttributedString {
         let source = self.string
@@ -90,6 +90,34 @@ extension NSMutableAttributedString {
         
         if let style = style {
             self.addAttributes([.paragraphStyle: style, .baselineOffset: baselineOffset], range: range)
+        }
+        return self
+    }
+
+    /// 폰트사이즈에 정의되어 있는 LineHeight값으로 text LineHeight 값 설정 및 baselineOffset 정의
+    func setLineHeight() -> NSMutableAttributedString {
+        let source = self.string
+        
+        guard source.isEmpty == false else { return self }
+        
+        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, let lineHeight = font.dealiLineHeight {
+            let range = (source as NSString).range(of: source)
+            var style: NSMutableParagraphStyle?
+            if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
+                style = paragraphStyle
+                style?.minimumLineHeight = lineHeight
+                style?.maximumLineHeight = lineHeight
+            } else {
+                style = NSMutableParagraphStyle()
+                style?.minimumLineHeight = lineHeight
+                style?.maximumLineHeight = lineHeight
+            }
+            
+            let baselineOffset = ((lineHeight - font.lineHeight) / 4) + 0.2
+            
+            if let style = style {
+                self.addAttributes([.paragraphStyle: style, .baselineOffset: baselineOffset], range: range)
+            }
         }
         return self
     }

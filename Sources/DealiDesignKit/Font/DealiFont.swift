@@ -56,34 +56,33 @@ enum DealiFont: String, CaseIterable {
     
     var systemFont: UIFont {
         var weight: UIFont.Weight {
-            if self.rawValue.contains("Bold") {
-                return .bold
+            
+            if self.rawValue.contains("SemiBold") {
+                return .semibold
             } else if self.rawValue.contains("Medium") {
                 return .medium
-            } else if self.rawValue.contains("SemiBold") {
-                return .semibold
+            } else if self.rawValue.contains("Bold") {
+                return .bold
             } else {
                 return .regular
             }
         }
         
-        return .getPretendard(weight: weight, size: self.style.size)
+        return .getPretendard(weight: weight, size: self.style.size, lineHeight: self.style.lineHeight)
     }
     
     public var font: UIFont {
         var font: UIFont!
         
         if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.style.size)
+            font = .getPretendard(weight: .bold, size: self.style.size, lineHeight: self.style.lineHeight)
         } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(weight: .medium, size: self.style.size)
+            font = .getPretendard(weight: .medium, size: self.style.size, lineHeight: self.style.lineHeight)
         } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.style.size)
+            font = .getPretendard(weight: .semibold, size: self.style.size, lineHeight: self.style.lineHeight)
         } else {
-            font = .getPretendard(weight: .regular, size: self.style.size)
+            font = .getPretendard(weight: .regular, size: self.style.size, lineHeight: self.style.lineHeight)
         }
-        
-        font.dealiLineHeight = self.style.lineHeight
         
         return font
     }

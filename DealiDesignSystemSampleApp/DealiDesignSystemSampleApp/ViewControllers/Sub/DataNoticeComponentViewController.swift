@@ -107,70 +107,112 @@ final class DataNoticeComponentViewController: UIViewController {
             $0.left.right.equalToSuperview().inset(16.0)
         }
     
-//        let testLabel01 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel01)
-//        testLabel01.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.b1r15).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let testLabel02 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel02)
-//        testLabel02.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.b2r14).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        let testLabel03 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel03)
-//        testLabel03.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfdfgdfg").font(.b1sb15).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        let testLabel04 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel04)
-//        testLabel04.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.h2sb24).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        let testLabel05 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel05)
-//        testLabel05.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.sh2r18).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        let testLabel06 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel06)
-//        testLabel06.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.sh3sb16).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        let testLabel07 = UILabel()
-//        contentStackView.addArrangedSubview(testLabel07)
-//        testLabel07.then {
-//            $0.numberOfLines = 0
-//            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.h2sb24).color(DealiColor.g100).alignment(.center).setLineHeight()
-//            $0.backgroundColor = .yellow
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
+        let testLabel01 = UILabel()
+        contentStackView.addArrangedSubview(testLabel01)
+        testLabel01.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.b1r15).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let testLabel02 = UILabel()
+        contentStackView.addArrangedSubview(testLabel02)
+        testLabel02.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.b2r14).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        let testLabel03 = UILabel()
+        contentStackView.addArrangedSubview(testLabel03)
+        testLabel03.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfdfgdfg").font(.b1sb15).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        let testLabel04 = UILabel()
+        contentStackView.addArrangedSubview(testLabel04)
+        testLabel04.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.h2sb24).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        let testLabel05 = UILabel()
+        contentStackView.addArrangedSubview(testLabel05)
+        testLabel05.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.sh2r18).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        let testLabel06 = UILabel()
+        contentStackView.addArrangedSubview(testLabel06)
+        testLabel06.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgdfg").font(.sh3sb16).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        let testLabel07 = UILabel()
+        contentStackView.addArrangedSubview(testLabel07)
+        testLabel07.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.h2sb24).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        
+        
+        let testLabel08 = UILabel()
+        contentStackView.addArrangedSubview(testLabel08)
+        testLabel08.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.getPretendard(weight: .regular, size: 11.0, lineHeight: 0.0)).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .green
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let testLabel09 = UILabel()
+        contentStackView.addArrangedSubview(testLabel09)
+        testLabel09.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.getPretendard(weight: .medium, size: 15.0, lineHeight: 0.0)).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .green
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let testLabel010 = UILabel()
+        contentStackView.addArrangedSubview(testLabel010)
+        testLabel010.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.getPretendard(weight: .semibold, size: 17.0, lineHeight: 0.0)).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .green
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let testLabel011 = UILabel()
+        contentStackView.addArrangedSubview(testLabel011)
+        testLabel011.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "안녕하세요dfgdfgddfg").font(.getPretendard(weight: .bold, size: 19.0, lineHeight: 0.0)).color(DealiColor.g100).alignment(.center).setLineHeight()
+            $0.backgroundColor = .green
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 
 }

@@ -8,9 +8,7 @@
 import UIKit
 import SnapKit
 
-public class DealiControl {
-    
-}
+public enum DealiControl { }
 
 final public class ClickableComponentButton: ClickableComponent {
     public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
@@ -98,7 +96,7 @@ public class ChipComponent: UIControl {
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
     private let titleLabel = UILabel()
-    private let leftImageView = UIImageView()
+    public let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
     
     private lazy var singleImageView: UIImageView = {
@@ -410,6 +408,11 @@ public class ChipComponent: UIControl {
             gradientBackgroundLayer.frame = self.bounds
             CATransaction.commit()
         }
+    }
+    
+    /// 이미지 리사이즈 등 디자인시스템 외부에서 주입된 값으로 인해 컴포넌트를 수동으로 업데이트해야 할 때 사용
+    public lazy var shouldUpdateContentHandler = { [weak self] in
+        self?.updateContent()
     }
     
     /// content 상태 업데이트

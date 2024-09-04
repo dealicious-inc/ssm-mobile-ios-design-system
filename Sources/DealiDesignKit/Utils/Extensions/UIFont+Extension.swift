@@ -1,6 +1,6 @@
 //
 //  UIFont+Extension.swift
-//  
+//
 //
 //  Created by 윤조현 on 2023/04/26.
 //
@@ -42,12 +42,12 @@ public extension UIFont {
 public extension UIFont {
     
     private struct AssociatedKeys {
-        static var dealiLineHeight = "dealiLineHeight"
+        static var dealiLineHeight = "net.deali.dealiLineHeight"
     }
     
     var dealiLineHeight: CGFloat? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
+            return 100.0//objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
         } set {
             objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
@@ -55,7 +55,7 @@ public extension UIFont {
     
     convenience init?(name fontName: String, size fontSize: CGFloat, lineHeight fontLineHeight: CGFloat) {
         self.init(name: fontName, size: fontSize)
-        
+        print("fontName: \(fontName), fontSize: \(fontSize), fontLineHeight: \(fontLineHeight)")
         self.dealiLineHeight = fontLineHeight
     }
 

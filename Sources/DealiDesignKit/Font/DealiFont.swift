@@ -18,22 +18,14 @@ enum DealiFont: String, CaseIterable {
     case h1SemiBold
     case h2SemiBold
     case h3SemiBold
-    case sh1SemiBold
-    case sh1Regular
-    case sh2SemiBold
-    case sh2Regular
-    case sh3SemiBold
-    case sh3Regular
-    case b1SemiBold
-    case b1Regular
-    case b2SemiBold
-    case b2Regular
-    case b3SemiBold
-    case b3Regular
-    case b4SemiBold
-    case b4Regular
-    case c1SemiBold
-    case c1Regular
+    case sh1SemiBold, sh1Regular
+    case sh2SemiBold, sh2Regular
+    case sh3SemiBold, sh3Regular
+    case b1SemiBold, b1Regular
+    case b2SemiBold, b2Regular
+    case b3SemiBold, b3Regular
+    case b4SemiBold, b4Regular
+    case c1SemiBold, c1Regular
     
     var style: DealiFontProperty.Style {
         switch self {
@@ -43,37 +35,21 @@ enum DealiFont: String, CaseIterable {
             return DealiFontProperty.h2
         case .h3SemiBold:
             return DealiFontProperty.h3
-        case .sh1SemiBold:
+        case .sh1SemiBold, .sh1Regular:
             return DealiFontProperty.sh1
-        case .sh1Regular:
-            return DealiFontProperty.sh1
-        case .sh2SemiBold:
+        case .sh2SemiBold, .sh2Regular:
             return DealiFontProperty.sh2
-        case .sh2Regular:
-            return DealiFontProperty.sh2
-        case .sh3SemiBold:
+        case .sh3SemiBold, .sh3Regular:
             return DealiFontProperty.sh3
-        case .sh3Regular:
-            return DealiFontProperty.sh3
-        case .b1SemiBold:
+        case .b1SemiBold, .b1Regular:
             return DealiFontProperty.b1
-        case .b1Regular:
-            return DealiFontProperty.b1
-        case .b2SemiBold:
+        case .b2SemiBold, .b2Regular:
             return DealiFontProperty.b2
-        case .b2Regular:
-            return DealiFontProperty.b2
-        case .b3SemiBold:
+        case .b3SemiBold, .b3Regular:
             return DealiFontProperty.b3
-        case .b3Regular:
-            return DealiFontProperty.b3
-        case .b4SemiBold:
+        case .b4SemiBold, .b4Regular:
             return DealiFontProperty.b4
-        case .b4Regular:
-            return DealiFontProperty.b4
-        case .c1SemiBold:
-            return DealiFontProperty.c1
-        case .c1Regular:
+        case .c1SemiBold, .c1Regular:
             return DealiFontProperty.c1
         }
     }

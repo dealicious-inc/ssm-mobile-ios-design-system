@@ -42,22 +42,74 @@ public extension UIFont {
 public extension UIFont {
     
     private struct AssociatedKeys {
-//        static var dealiLineHeight = "net.deali.dealiLineHeight"
-        static var dealiLineHeight: UInt8 = 0
+        static var dealiLineHeight = "dealiLineHeight"
     }
     
-    var dealiLineHeight: CGFloat? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
-        } set {
-            objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    private var weight: Weight {
+        if self.fontName.contains("SemiBold") {
+            return .semibold
+        } else if self.fontName.contains("Medium") {
+            return .medium
+        } else if self.fontName.contains("Bold") {
+            return .bold
+        } else {
+            return .regular
         }
+    }
+    
+    var dealiLineHeight: CGFloat {
+        if self.weight == .semibold, self.pointSize == 32.0 {
+            return 40.0
+        } else if self.weight == .semibold, self.pointSize == 24.0 {
+            return 32.0
+        } else if self.weight == .semibold, self.pointSize == 28.0 {
+            return 36.0
+        } else if self.weight == .semibold, self.pointSize == 20.0 {
+            return 28.0
+        } else if self.weight == .regular, self.pointSize == 20.0 {
+            return 28.0
+        } else if self.weight == .semibold, self.pointSize == 18.0 {
+            return 26.0
+        } else if self.weight == .regular, self.pointSize == 18.0 {
+            return 26.0
+        } else if self.weight == .semibold, self.pointSize == 16.0 {
+            return 22.0
+        } else if self.weight == .regular, self.pointSize == 16.0 {
+            return 22.0
+        } else if self.weight == .semibold, self.pointSize == 15.0 {
+            return 20.0
+        } else if self.weight == .regular, self.pointSize == 15.0 {
+            return 20.0
+        } else if self.weight == .semibold, self.pointSize == 14.0 {
+            return 20.0
+        } else if self.weight == .regular, self.pointSize == 14.0 {
+            return 20.0
+        } else if self.weight == .semibold, self.pointSize == 13.0 {
+            return 18.0
+        } else if self.weight == .regular, self.pointSize == 13.0 {
+            return 18.0
+        } else if self.weight == .semibold, self.pointSize == 12.0 {
+            return 18.0
+        } else if self.weight == .regular, self.pointSize == 12.0 {
+            return 18.0
+        } else if self.weight == .semibold, self.pointSize == 10.0 {
+            return 14.0
+        } else if self.weight == .regular, self.pointSize == 10.0 {
+            return 14.0
+        } else {
+            return 0
+        }
+//        get {
+//            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
+//        } set {
+//            objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//        }
     }
     
     convenience init?(name fontName: String, size fontSize: CGFloat, lineHeight fontLineHeight: CGFloat) {
         self.init(name: fontName, size: fontSize)
         print("fontName: \(fontName), fontSize: \(fontSize), fontLineHeight: \(fontLineHeight)")
-        self.dealiLineHeight = fontLineHeight
+//        self.dealiLineHeight = fontLineHeight
     }
 
     static func getPretendard(weight: UIFont.Weight, size: CGFloat, lineHeight: CGFloat) -> UIFont {

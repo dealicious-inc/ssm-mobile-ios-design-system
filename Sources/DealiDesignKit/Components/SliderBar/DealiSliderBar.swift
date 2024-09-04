@@ -60,7 +60,7 @@ public final class DealiSliderBar: UIControl {
             $0.centerX.equalTo(self.barView.snp.left).offset(leftThumbLastOffset)
         }
         
-//        self.setThumbViewDisplayPriority(width: width)
+        self.setThumbViewDisplayPriority(width: width)
     }
     
     public func moveRightThumb(at ratio: CGFloat, barWidth: CGFloat? = nil) {
@@ -81,18 +81,18 @@ public final class DealiSliderBar: UIControl {
             $0.size.equalTo(CGSize(width: 22.0, height: 22.0))
         }
         
-//        self.setThumbViewDisplayPriority(width: width)
+        self.setThumbViewDisplayPriority(width: width)
     }
     
-//    private func setThumbViewDisplayPriority(width: CGFloat) {
-//        if self.leftThumbLastOffset == self.rightThumbLastOffset {
-//            if self.leftThumbLastOffset == width {
-//                self.bringSubviewToFront(self.minThumbView)
-//            } else if self.leftThumbLastOffset == 0 {
-//                self.bringSubviewToFront(self.maxThumbView)
-//            }
-//        }
-//    }
+    private func setThumbViewDisplayPriority(width: CGFloat) {
+        if self.leftThumbLastOffset == self.rightThumbLastOffset {
+            if self.leftThumbLastOffset == width {
+                self.bringSubviewToFront(self.minThumbView)
+            } else if self.leftThumbLastOffset == 0 {
+                self.bringSubviewToFront(self.maxThumbView)
+            }
+        }
+    }
     
     private func setupViews() {
         self.addSubview(self.barView)

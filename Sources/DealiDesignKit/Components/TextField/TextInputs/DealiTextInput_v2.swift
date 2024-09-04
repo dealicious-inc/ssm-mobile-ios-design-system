@@ -94,17 +94,17 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         get {
             self.textField.text
         } set {
-            if self.textField.text != newValue {
+//            if self.textField.text != newValue {
                 self.textField.text = newValue
                 
-                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
-                
-                self.textField.sendActions(for: .valueChanged)
-                
-                if self.inputStatus != .focusIn {
-                    self.textField.sendActions(for: .editingDidEnd)
-                }
-            }
+//                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
+//                
+//                self.textField.sendActions(for: .valueChanged)
+//                
+//                if self.inputStatus != .focusIn {
+//                    self.textField.sendActions(for: .editingDidEnd)
+//                }
+//            }
         }
     }
     

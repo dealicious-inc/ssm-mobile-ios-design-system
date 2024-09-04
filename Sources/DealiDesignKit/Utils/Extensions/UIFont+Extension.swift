@@ -45,6 +45,7 @@ public extension UIFont {
         static var dealiLineHeight = "dealiLineHeight"
     }
     
+    // 필요 없으면 지우기!!
     private var weight: Weight {
         if self.fontName.contains("SemiBold") {
             return .semibold
@@ -58,6 +59,22 @@ public extension UIFont {
     }
     
     var dealiLineHeight: CGFloat {
+        guard self.fontName.contains("Pretendard") else { return self.lineHeight }
+        switch self.pointSize {
+        case 32.0: return 40.0
+        case 24.0: return 32.0
+        case 28.0: return 36.0
+        case 20.0: return 28.0
+        case 18.0: return 26.0
+        case 16.0: return 22.0
+        case 15.0: return 20.0
+        case 14.0: return 20.0
+        case 13.0: return 18.0
+        case 12.0: return 16.0
+        case 10.0: return 14.0
+        default: return self.lineHeight
+        }
+        /*
         if self.weight == .semibold, self.pointSize == 32.0 {
             return 40.0
         } else if self.weight == .semibold, self.pointSize == 24.0 {
@@ -99,6 +116,7 @@ public extension UIFont {
         } else {
             return 0
         }
+         */
 //        get {
 //            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
 //        } set {

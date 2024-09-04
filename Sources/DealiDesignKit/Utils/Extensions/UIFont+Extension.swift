@@ -47,7 +47,7 @@ public extension UIFont {
     
     var dealiLineHeight: CGFloat? {
         get {
-            return 100.0//objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
+            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
         } set {
             objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }

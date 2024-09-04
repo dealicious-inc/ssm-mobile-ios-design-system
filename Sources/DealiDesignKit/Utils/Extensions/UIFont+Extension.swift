@@ -42,7 +42,8 @@ public extension UIFont {
 public extension UIFont {
     
     private struct AssociatedKeys {
-        static var dealiLineHeight = "net.deali.dealiLineHeight"
+//        static var dealiLineHeight = "net.deali.dealiLineHeight"
+        static var dealiLineHeight: UInt8 = 0
     }
     
     var dealiLineHeight: CGFloat? {

@@ -100,7 +100,7 @@ public extension NSMutableAttributedString {
         
         guard source.isEmpty == false else { return self }
         
-        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, let lineHeight = font.dealiLineHeight {
+        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, let lineHeight = font.dealiLineHeight, lineHeight > 0.0 {
             let range = (source as NSString).range(of: source)
             var style: NSMutableParagraphStyle?
             if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {

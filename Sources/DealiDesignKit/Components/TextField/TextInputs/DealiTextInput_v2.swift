@@ -411,7 +411,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
             currentPriceText += string
         }
         
-        guard let price = Double(currentPriceText) else { return isNumber || string.isEmpty }
+        guard let price = Int(currentPriceText) else { return isNumber || string.isEmpty }
         
         return price <= maxPrice && price >= minPrice
     }

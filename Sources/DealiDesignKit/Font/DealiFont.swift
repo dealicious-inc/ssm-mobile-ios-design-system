@@ -95,17 +95,17 @@ struct DealiFontProperty {
         let lineHeight: CGFloat
     }
     
-    static let h1 = Style(size: 32.0, lineHeight: 1.05)
-    static let h2 = Style(size: 24.0, lineHeight: 1.12)
-    static let h3 = Style(size: 28.0, lineHeight: 1.08)
-    static let sh1 = Style(size: 20.0, lineHeight: 1.17)
-    static let sh2 = Style(size: 18.0, lineHeight: 1.21)
-    static let sh3 = Style(size: 16.0, lineHeight: 1.15)
-    static let b1 = Style(size: 15.0, lineHeight: 1.12)
-    static let b2 = Style(size: 14.0, lineHeight: 1.2)
-    static let b3 = Style(size: 13.0, lineHeight: 1.16)
-    static let b4 = Style(size: 12.0, lineHeight: 1.12)
-    static let c1 = Style(size: 10.0, lineHeight: 1.17)
+    static let h1 = Style(size: 32.0, lineHeight: 40.0)
+    static let h2 = Style(size: 24.0, lineHeight: 32.0)
+    static let h3 = Style(size: 28.0, lineHeight: 36.0)
+    static let sh1 = Style(size: 20.0, lineHeight: 28.0)
+    static let sh2 = Style(size: 18.0, lineHeight: 26.0)
+    static let sh3 = Style(size: 16.0, lineHeight: 22.0)
+    static let b1 = Style(size: 15.0, lineHeight: 20.0)
+    static let b2 = Style(size: 14.0, lineHeight: 20.0)
+    static let b3 = Style(size: 13.0, lineHeight: 18.0)
+    static let b4 = Style(size: 12.0, lineHeight: 16.0)
+    static let c1 = Style(size: 10.0, lineHeight: 14.0)
  
     static let fontDescriptor = UIFontDescriptor.dealiFontDescriptor
 }

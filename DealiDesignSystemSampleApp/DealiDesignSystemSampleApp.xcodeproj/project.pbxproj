@@ -19,6 +19,7 @@
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
+		390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390D485A2C88456B00C30C0E /* FontComponentViewController.swift */; };
 		392C389C2C4654CA0088D176 /* BottomSheetTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389B2C4654CA0088D176 /* BottomSheetTestViewController.swift */; };
 		392C389E2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */; };
 		392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */; };
@@ -58,6 +59,7 @@
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
+		390D485A2C88456B00C30C0E /* FontComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontComponentViewController.swift; sourceTree = "<group>"; };
 		392C389B2C4654CA0088D176 /* BottomSheetTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTestViewController.swift; sourceTree = "<group>"; };
 		392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
 				041ABC0B2A175E19001772F3 /* ColorViewController.swift */,
 				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
+				390D485A2C88456B00C30C0E /* FontComponentViewController.swift */,
 				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
 				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
 				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
@@ -315,6 +318,7 @@
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,
 				E6F22CDF2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift in Sources */,
+				390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */,
 				E6F22CDD2BBAA3B400EACE6C /* DealiScrollSegmentTabBarViewController.swift in Sources */,
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,

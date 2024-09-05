@@ -113,10 +113,10 @@ public extension NSMutableAttributedString {
             style?.minimumLineHeight = lineHeight
             style?.maximumLineHeight = lineHeight
             
-            let baselineOffset = ((lineHeight - font.lineHeight) / 4)
+            let baselineOffset = ((lineHeight - font.lineHeight) / 4) + 1.0
             
             if let style = style {
-                self.addAttributes([.paragraphStyle: style, .baselineOffset: ceil(baselineOffset)], range: range)
+                self.addAttributes([.paragraphStyle: style, .baselineOffset: (baselineOffset)], range: range)
             }
         }
         return self

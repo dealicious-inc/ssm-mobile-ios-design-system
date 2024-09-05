@@ -106,13 +106,12 @@ public extension NSMutableAttributedString {
             var style: NSMutableParagraphStyle?
             if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
                 style = paragraphStyle
-                style?.minimumLineHeight = lineHeight
-                style?.maximumLineHeight = lineHeight
             } else {
                 style = NSMutableParagraphStyle()
-                style?.minimumLineHeight = lineHeight
-                style?.maximumLineHeight = lineHeight
             }
+            
+            style?.minimumLineHeight = lineHeight
+            style?.maximumLineHeight = lineHeight
             
             let baselineOffset = ((lineHeight - font.lineHeight) / 4)
             

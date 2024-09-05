@@ -1,6 +1,6 @@
 //
 //  NSAttributedString+Extension.swift
-//
+//  
 //
 //  Created by Lee Chang Ho on 8/22/24.
 //
@@ -11,9 +11,6 @@ public extension NSMutableAttributedString {
     
     func font(_ font: UIFont) -> NSMutableAttributedString {
         let source = self.string
-        
-        guard source.isEmpty == false else { return self }
-        
         let range = (source as NSString).range(of: source)
         self.addAttribute(.font, value: font, range: range)
         return self
@@ -21,9 +18,6 @@ public extension NSMutableAttributedString {
     
     func color(_ color: UIColor) -> NSMutableAttributedString {
         let source = self.string
-        
-        guard source.isEmpty == false else { return self }
-        
         let range = (source as NSString).range(of: source)
         self.addAttribute(.foregroundColor, value: color, range: range)
         return self
@@ -106,7 +100,7 @@ public extension NSMutableAttributedString {
         
         guard source.isEmpty == false else { return self }
         
-        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont, font.dealiLineHeight > 0.0 {
+        if let font: UIFont = self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont {
             let lineHeight = font.dealiLineHeight
             let range = (source as NSString).range(of: source)
             var style: NSMutableParagraphStyle?
@@ -121,7 +115,7 @@ public extension NSMutableAttributedString {
             }
             
             let baselineOffset = ((lineHeight - font.lineHeight) / 4)
-            print("DealiFont LineHeight : self.string = \(self.string) / lineHeight = \(lineHeight) / font.lineHeight = \(font.lineHeight) / baselineOffset = \(baselineOffset)")
+            
             if let style = style {
                 self.addAttributes([.paragraphStyle: style, .baselineOffset: ceil(baselineOffset)], range: range)
             }
@@ -198,8 +192,6 @@ public extension NSMutableAttributedString {
     func headIndent(_ headIndent: CGFloat) -> NSMutableAttributedString {
         let source = self.string
         
-        guard source.isEmpty == false else { return self }
-        
         let range = (source as NSString).range(of: source)
         var style: NSMutableParagraphStyle?
         if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
@@ -235,18 +227,6 @@ public extension NSMutableAttributedString {
         if let style = style {
             self.addAttribute(.paragraphStyle, value: style, range: range)
         }
-        return self
-    }
-    
-    func kerning(kerning: CGFloat?) -> NSMutableAttributedString {
-        let source = self.string
-        
-        guard source.isEmpty == false, let kerning = kerning else { return self }
-        
-        let range = (source as NSString).range(of: source)
-        
-        self.addAttribute(.kern, value: kerning, range: range)
-        
         return self
     }
     

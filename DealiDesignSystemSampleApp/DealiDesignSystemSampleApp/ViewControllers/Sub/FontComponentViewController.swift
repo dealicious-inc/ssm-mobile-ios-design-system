@@ -2,7 +2,7 @@
 //  FontComponentViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by 이창호 on 9/4/24.
+//  Created by 이창호 on 9/5/24.
 //  Copyright © 2024 Dealicious Inc. All rights reserved.
 //
 
@@ -10,14 +10,14 @@ import UIKit
 import DealiDesignKit
 
 class FontComponentViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.title = "Font"
         self.view.backgroundColor = .white
     }
-
+    
     override func loadView() {
         super.loadView()
         

@@ -12,6 +12,7 @@ import DealiDesignKit
 
 final class MainViewController: UIViewController {
     
+    
     override func loadView() {
         self.view = .init()
         
@@ -135,13 +136,6 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
         }
         
-        let dropdownButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(dropdownButton)
-        dropdownButton.do {
-            $0.title = "Dropdown"
-            $0.addTarget(self, action: #selector(dropdownButtonPressed), for: .touchUpInside)
-        }
-        
         let tagComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(tagComponentsButton)
         tagComponentsButton.do {
@@ -176,18 +170,11 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
-        
-        let bottomSheetTest = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(bottomSheetTest)
-        bottomSheetTest.do {
-            $0.title = "BottomSheet Test"
-            $0.addTarget(self, action: #selector(bottomSheetTestPressed), for: .touchUpInside)
-        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
     }
 }
@@ -206,7 +193,7 @@ extension MainViewController {
     @objc func playButtonPressed() {
         self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
     }
-
+    
     @objc func typoButtonPressed() {
         self.navigationController?.pushViewController(TypographyViewController(), animated: true)
     }
@@ -226,7 +213,7 @@ extension MainViewController {
     @objc func radioButtonPressed() {
         self.navigationController?.pushViewController(RadioButtonViewController(), animated: true)
     }
-
+    
     @objc func chipButtonPressed() {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
     }
@@ -241,10 +228,6 @@ extension MainViewController {
     
     @objc func searchInputButtonPressed() {
         self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
-    }
-
-    @objc func dropdownButtonPressed() {
-        self.navigationController?.pushViewController(DropdownViewController(), animated: true)
     }
     
     @objc func toggleButtonPressed() {
@@ -273,9 +256,5 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
-    }
-    
-    @objc func bottomSheetTestPressed() {
-        self.navigationController?.pushViewController(BottomSheetTestViewController(), animated: true)
     }
 }

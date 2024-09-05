@@ -1,6 +1,6 @@
 //
 //  UIFont+Extension.swift
-//
+//  
 //
 //  Created by 윤조현 on 2023/04/26.
 //
@@ -41,23 +41,6 @@ public extension UIFont {
 
 public extension UIFont {
     
-    private struct AssociatedKeys {
-        static var dealiLineHeight = "dealiLineHeight"
-    }
-    
-    // 필요 없으면 지우기!!
-    private var weight: Weight {
-        if self.fontName.contains("SemiBold") {
-            return .semibold
-        } else if self.fontName.contains("Medium") {
-            return .medium
-        } else if self.fontName.contains("Bold") {
-            return .bold
-        } else {
-            return .regular
-        }
-    }
-    
     var dealiLineHeight: CGFloat {
         guard self.fontName.contains("Pretendard") else { return self.lineHeight }
         switch self.pointSize {
@@ -74,72 +57,18 @@ public extension UIFont {
         case 10.0: return 14.0
         default: return self.lineHeight
         }
-        /*
-        if self.weight == .semibold, self.pointSize == 32.0 {
-            return 40.0
-        } else if self.weight == .semibold, self.pointSize == 24.0 {
-            return 32.0
-        } else if self.weight == .semibold, self.pointSize == 28.0 {
-            return 36.0
-        } else if self.weight == .semibold, self.pointSize == 20.0 {
-            return 28.0
-        } else if self.weight == .regular, self.pointSize == 20.0 {
-            return 28.0
-        } else if self.weight == .semibold, self.pointSize == 18.0 {
-            return 26.0
-        } else if self.weight == .regular, self.pointSize == 18.0 {
-            return 26.0
-        } else if self.weight == .semibold, self.pointSize == 16.0 {
-            return 22.0
-        } else if self.weight == .regular, self.pointSize == 16.0 {
-            return 22.0
-        } else if self.weight == .semibold, self.pointSize == 15.0 {
-            return 20.0
-        } else if self.weight == .regular, self.pointSize == 15.0 {
-            return 20.0
-        } else if self.weight == .semibold, self.pointSize == 14.0 {
-            return 20.0
-        } else if self.weight == .regular, self.pointSize == 14.0 {
-            return 20.0
-        } else if self.weight == .semibold, self.pointSize == 13.0 {
-            return 18.0
-        } else if self.weight == .regular, self.pointSize == 13.0 {
-            return 18.0
-        } else if self.weight == .semibold, self.pointSize == 12.0 {
-            return 18.0
-        } else if self.weight == .regular, self.pointSize == 12.0 {
-            return 18.0
-        } else if self.weight == .semibold, self.pointSize == 10.0 {
-            return 14.0
-        } else if self.weight == .regular, self.pointSize == 10.0 {
-            return 14.0
-        } else {
-            return 0
-        }
-         */
-//        get {
-//            return objc_getAssociatedObject(self, &AssociatedKeys.dealiLineHeight) as? CGFloat
-//        } set {
-//            objc_setAssociatedObject(self, &AssociatedKeys.dealiLineHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//        }
     }
     
-    convenience init?(name fontName: String, size fontSize: CGFloat, lineHeight fontLineHeight: CGFloat) {
-        self.init(name: fontName, size: fontSize)
-        print("fontName: \(fontName), fontSize: \(fontSize), fontLineHeight: \(fontLineHeight)")
-//        self.dealiLineHeight = fontLineHeight
-    }
-
-    static func getPretendard(weight: UIFont.Weight, size: CGFloat, lineHeight: CGFloat) -> UIFont {
+    static func getPretendard(weight: UIFont.Weight, size: CGFloat) -> UIFont {
         var font: UIFont? {
             if weight == .bold {
-                return UIFont(name: "PretendardJP-Bold", size: size, lineHeight: lineHeight)
+                return UIFont(name: "PretendardJP-Bold", size: size)
             } else if weight == .medium {
-                return UIFont(name: "PretendardJP-Medium", size: size, lineHeight: lineHeight)
+                return UIFont(name: "PretendardJP-Medium", size: size)
             } else if weight == .semibold {
-                return UIFont(name: "PretendardJP-SemiBold", size: size, lineHeight: lineHeight)
+                return UIFont(name: "PretendardJP-SemiBold", size: size)
             } else {
-                return UIFont(name: "PretendardJP-Regular", size: size, lineHeight: lineHeight)
+                return UIFont(name: "PretendardJP-Regular", size: size)
             }
             
         }

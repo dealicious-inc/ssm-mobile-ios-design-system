@@ -68,20 +68,20 @@ enum DealiFont: String, CaseIterable {
             }
         }
         
-        return .getPretendard(weight: weight, size: self.style.size, lineHeight: self.style.lineHeight)
+        return .getPretendard(weight: weight, size: self.style.size)
     }
     
     public var font: UIFont {
         var font: UIFont!
         
         if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .bold, size: self.style.size)
         } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(weight: .medium, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .medium, size: self.style.size)
         } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .semibold, size: self.style.size)
         } else {
-            font = .getPretendard(weight: .regular, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .regular, size: self.style.size)
         }
         
         return font
@@ -170,7 +170,6 @@ fileprivate extension UIFont {
 
         let descriptor = UIFontDescriptor(fontAttributes: attributes)
         let font = UIFont(descriptor: descriptor, size: pointSize)
-        font.dealiLineHeight = self.dealiLineHeight
         return font
     }
 }

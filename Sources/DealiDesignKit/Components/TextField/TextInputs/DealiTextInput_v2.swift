@@ -94,17 +94,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         get {
             self.textField.text
         } set {
-            if self.textField.text != newValue {
-                self.textField.text = newValue
-                
-                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
-                
-                self.textField.sendActions(for: .valueChanged)
-                
-                if self.inputStatus != .focusIn {
-                    self.textField.sendActions(for: .editingDidEnd)
-                }
-            }
+            self.textField.text = newValue
         }
     }
     
@@ -378,6 +368,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             .bind(with: self) { owner, _ in
                 owner.text = nil
                 owner.clearButton.isHidden = true
+                owner.textField.sendActions(for: .valueChanged)
             }
             .disposed(by: self.disposeBag)
         

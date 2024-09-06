@@ -27,7 +27,7 @@ enum DealiFont: String, CaseIterable {
     case b4SemiBold, b4Regular
     case c1SemiBold, c1Regular
     
-    var style: DealiFontProperty.Style {
+    var fontSize: CGFloat {
         switch self {
         case .h1SemiBold:
             return DealiFontProperty.h1
@@ -68,20 +68,20 @@ enum DealiFont: String, CaseIterable {
             }
         }
         
-        return .getPretendard(weight: weight, size: self.style.size, lineHeight: self.style.lineHeight)
+        return .getPretendard(weight: weight, size: self.fontSize)
     }
     
     public var font: UIFont {
         var font: UIFont!
         
-        if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.style.size, lineHeight: self.style.lineHeight)
+        if self.rawValue.contains("SemiBold") {
+            font = .getPretendard(weight: .semibold, size: self.fontSize)
         } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(weight: .medium, size: self.style.size, lineHeight: self.style.lineHeight)
-        } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .medium, size: self.fontSize)
+        } else if self.rawValue.contains("Bold") {
+            font = .getPretendard(weight: .bold, size: self.fontSize)
         } else {
-            font = .getPretendard(weight: .regular, size: self.style.size, lineHeight: self.style.lineHeight)
+            font = .getPretendard(weight: .regular, size: self.fontSize)
         }
         
         return font
@@ -90,22 +90,18 @@ enum DealiFont: String, CaseIterable {
 }
 
 struct DealiFontProperty {
-    struct Style {
-        let size: CGFloat
-        let lineHeight: CGFloat
-    }
     
-    static let h1 = Style(size: 32.0, lineHeight: 40.0)
-    static let h2 = Style(size: 24.0, lineHeight: 32.0)
-    static let h3 = Style(size: 28.0, lineHeight: 36.0)
-    static let sh1 = Style(size: 20.0, lineHeight: 28.0)
-    static let sh2 = Style(size: 18.0, lineHeight: 26.0)
-    static let sh3 = Style(size: 16.0, lineHeight: 22.0)
-    static let b1 = Style(size: 15.0, lineHeight: 20.0)
-    static let b2 = Style(size: 14.0, lineHeight: 20.0)
-    static let b3 = Style(size: 13.0, lineHeight: 18.0)
-    static let b4 = Style(size: 12.0, lineHeight: 18.0)
-    static let c1 = Style(size: 10.0, lineHeight: 14.0)
+    static let h1 = 32.0
+    static let h2 = 24.0
+    static let h3 = 28.0
+    static let sh1 = 20.0
+    static let sh2 = 18.0
+    static let sh3 = 16.0
+    static let b1 = 15.0
+    static let b2 = 14.0
+    static let b3 = 13.0
+    static let b4 = 12.0
+    static let c1 = 10.0
  
     static let fontDescriptor = UIFontDescriptor.dealiFontDescriptor
 }
@@ -170,7 +166,6 @@ fileprivate extension UIFont {
 
         let descriptor = UIFontDescriptor(fontAttributes: attributes)
         let font = UIFont(descriptor: descriptor, size: pointSize)
-        font.dealiLineHeight = self.dealiLineHeight
         return font
     }
 }

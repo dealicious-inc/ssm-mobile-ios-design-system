@@ -9,14 +9,16 @@ import UIKit
 
 public class DealiDataNoticeItemWithTitle: UIView {
     
-    private let titlePreset: DealiDataNoticeTitlePreset
-    
     private let titleLabel = UILabel()
     private var contentItemView: DealiDataNoticeItem!
     
     public var title: String = "" {
         didSet {
-            self.titleLabel.attributedText = NSMutableAttributedString(string: (self.titlePreset == .regular ? "[\(self.title)]" : self.title)).font(self.titlePreset.font).color(self.titlePreset.textColor).lineHeightMultiple(1.16)
+            self.titleLabel.attributedText = NSMutableAttributedString(string: self.title)
+                .font(.b3sb13)
+                .color(DealiColor.g100)
+                .alignment(.left)
+                .setLineHeight()
         }
     }
     
@@ -26,9 +28,7 @@ public class DealiDataNoticeItemWithTitle: UIView {
         }
     }
     
-    public init(titlePreset: DealiDataNoticeTitlePreset, itemPreset: DealiDataNoticePreset) {
-        self.titlePreset = titlePreset
-        
+    public init(itemPreset: DealiDataNoticePreset) {
         super.init(frame: .zero)
 
         self.addSubview(self.titleLabel)

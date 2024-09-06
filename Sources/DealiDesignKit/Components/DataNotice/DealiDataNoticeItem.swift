@@ -43,7 +43,6 @@ public class DealiDataNoticeItem: UIView {
         self.contentStackView.subviews.forEach { $0.removeFromSuperview() }
         
         for (index, contentString) in self.contentStringArray.enumerated() {
-            print("self preset = \(self.preset) index = \(index + 1)")
             let contentView = UIView()
             self.contentStackView.addArrangedSubview(contentView)
             contentView.snp.makeConstraints {
@@ -67,13 +66,12 @@ public class DealiDataNoticeItem: UIView {
                         $0.layer.masksToBounds = true
                         $0.backgroundColor = DealiColor.g80
                     }.snp.makeConstraints {
-                        $0.top.bottom.equalToSuperview().inset(8.5)
+                        $0.top.bottom.equalToSuperview().inset(7.5)
                         $0.left.equalToSuperview()
                         $0.right.equalToSuperview().offset(-8.0)
                         $0.size.equalTo(CGSize(width: 3.0, height: 3.0))
                     }
                 default:
-                    print("\(index + 1).")
                     let numberingLabel = UILabel()
                     bulletContainerView.addSubview(numberingLabel)
                     numberingLabel.then {

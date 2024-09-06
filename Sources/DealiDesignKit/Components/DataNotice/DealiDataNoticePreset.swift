@@ -7,26 +7,6 @@
 
 import UIKit
 
-public enum DealiDataNoticeTitlePreset: Equatable {
-    case bold
-    case regular
-    
-    var font: UIFont {
-        if case .bold = self {
-            return .b3sb13
-        }
-        return .b3r13
-    }
-    
-    var textColor: UIColor {
-        if case .bold = self {
-            return DealiColor.g100
-        }
-        
-        return DealiColor.g80
-    }
-}
-
 public enum DealiDataNoticePreset: Equatable {
     case bullet
     case numbering

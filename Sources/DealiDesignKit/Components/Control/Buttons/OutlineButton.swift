@@ -132,6 +132,7 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary04)
     }
     
+    // MARK: RoundOutline
     public static func btnRoundOutlineSmall01() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary01)
@@ -260,7 +261,7 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .small:
             return .square
         case .roundSmall:
-            return .raund
+            return .round
         }
     }
 }

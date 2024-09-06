@@ -328,6 +328,11 @@ public class ClickableComponent: UIButton {
         }
     }
     
+    /// 이미지 리사이즈 등 디자인시스템 외부에서 주입된 값으로 인해 컴포넌트를 수동으로 업데이트해야 할 때 사용
+    public lazy var shouldUpdateContentHandler = { [weak self] in
+        self?.updateContent()
+    }
+    
     /// content 상태 업데이트
     private func updateContent(with color: ClickableColorSet? = nil) {
         if let color {
@@ -571,7 +576,7 @@ extension ClickableComponent {
         
         public enum Padding {
             case square
-            case raund
+            case round
             case text
             
             public func value(with height: ClickableComponent.Configuration.Height, style: ClickableComponent.Configuration.Style) -> ClickablePadding {
@@ -597,7 +602,7 @@ extension ClickableComponent {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                     }
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -616,7 +621,7 @@ extension ClickableComponent {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                     }
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -631,7 +636,7 @@ extension ClickableComponent {
                     return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
                     
-                case .raund:
+                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -645,7 +650,7 @@ extension ClickableComponent {
                 case .square:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
-                case .raund:
+                case .round:
                     if style == .button {
                         return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                                 right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
@@ -740,6 +745,11 @@ public struct ClickableImage {
         self.named = name
         self.needOriginColor = needOriginColor
         self.uiImage = UIImage(named: name)
+    }
+    public init(dealiIconName: String, needOriginColor: Bool = false) {
+        self.named = dealiIconName
+        self.needOriginColor = needOriginColor
+        self.uiImage = UIImage.dealiIcon(named: dealiIconName)
     }
     public init(_ image: UIImage?, needOriginColor: Bool = false) {
         self.named = ""

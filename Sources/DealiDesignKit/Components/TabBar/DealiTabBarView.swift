@@ -211,8 +211,8 @@ final public class DealiTabBarView: UIView {
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var buttonContentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-            if let _ = item.icon, case .sliderButton = self.preset.style  {
-                buttonContentWidth += 20.0
+            if item.icon != nil, case .sliderButton = self.preset.style  {
+                buttonContentWidth += 16.0
             }
             
             switch self.preset.style {
@@ -304,7 +304,7 @@ final public class DealiTabBarView: UIView {
                     self.tabBarItemInfoArray[index].contentStartPositionX = self.preset.tabBarMargin + (self.tabBarItemInfoArray[index].contentWidth * CGFloat(index))
                 } else {
                     self.tabBarItemInfoArray[index].contentStartPositionX = itemButton.frame.origin.x + self.preset.contentButtonPadding
-                    self.tabBarItemInfoArray[index].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2)
+                    self.tabBarItemInfoArray[index].contentWidth = itemButton.bounds.size.width - (self.preset.contentButtonPadding * 2) + (itemButton.uiModel?.iconSize != nil ? 2.0 : 0.0) // 아이콘이 있는 경우 2px 추가 (디자인팀 요청)
                 }
             } else if let itemChip = self.tabBarItemInfoArray[index].itemChip {
                 self.tabBarItemInfoArray[index].contentStartPositionX = (itemChip.frame.origin.x)

@@ -56,12 +56,13 @@ enum DealiFont: String, CaseIterable {
     
     var systemFont: UIFont {
         var weight: UIFont.Weight {
-            if self.rawValue.contains("Bold") {
-                return .bold
+            
+            if self.rawValue.contains("SemiBold") {
+                return .semibold
             } else if self.rawValue.contains("Medium") {
                 return .medium
-            } else if self.rawValue.contains("SemiBold") {
-                return .semibold
+            } else if self.rawValue.contains("Bold") {
+                return .bold
             } else {
                 return .regular
             }
@@ -73,12 +74,12 @@ enum DealiFont: String, CaseIterable {
     public var font: UIFont {
         var font: UIFont!
         
-        if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.style.size)
+        if self.rawValue.contains("SemiBold") {
+            font = .getPretendard(weight: .semibold, size: self.style.size)
         } else if self.rawValue.contains("Medium") {
             font = .getPretendard(weight: .medium, size: self.style.size)
-        } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.style.size)
+        } else if self.rawValue.contains("Bold") {
+            font = .getPretendard(weight: .bold, size: self.style.size)
         } else {
             font = .getPretendard(weight: .regular, size: self.style.size)
         }
@@ -135,21 +136,21 @@ public func registerDealiSystemFonts() {
 extension UIFont {
     static func registerFont(fontName: String) {
         guard let pathForResourceString = Bundle.module.path(forResource: fontName, ofType: nil) else {
-            print("could not find font file")
+            debugPrint("could not find font file")
             return
         }
         
         guard let fontDataProvider = CGDataProvider(data: NSData(contentsOfFile: pathForResourceString)!) else {
-            print("Could not create font data provider for \(pathForResourceString).")
+            debugPrint("Could not create font data provider for \(pathForResourceString).")
             return
         }
         guard let font = CGFont(fontDataProvider) else {
-            print("could not create font")
+            debugPrint("could not create font")
             return
         }
         var error: Unmanaged<CFError>?
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
-            print(error!.takeUnretainedValue())
+            debugPrint(error!.takeUnretainedValue())
         }
     }
 }

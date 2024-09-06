@@ -94,10 +94,19 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         get {
             self.textField.text
         } set {
-            self.textField.text = newValue
+            if self.textField.text != newValue {
+                self.textField.text = newValue
+                
+                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
+                
+                self.textField.sendActions(for: .valueChanged)
+                
+                if self.inputStatus != .focusIn {
+                    self.textField.sendActions(for: .editingDidEnd)
+                }
+            }
         }
     }
-    
     public var font: UIFont = .b2r14 {
         didSet {
             self.textField.font = self.font
@@ -262,9 +271,9 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     }
     
     /// 최소 금액 (type이 price일경우 사용)
-    public var minPrice: Int = 0
+    public var minPrice = 0
     /// 최대 금액 (type이 price일경우 사용)
-    public var maxPrice: Int = 10000000
+    public var maxPrice = 10000000
     /// 최소 최대 금액 밖의 가격은 입력이 안되도록
     public var blockOutOfRangePriceInput: Bool = true
     
@@ -368,7 +377,6 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             .bind(with: self) { owner, _ in
                 owner.text = nil
                 owner.clearButton.isHidden = true
-                owner.textField.sendActions(for: .valueChanged)
             }
             .disposed(by: self.disposeBag)
         

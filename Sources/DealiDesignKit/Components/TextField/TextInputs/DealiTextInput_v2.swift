@@ -14,6 +14,9 @@ import RxCocoa
 open class DealiTextInput_v2: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
+    
+    /// 값을 직접 setter 에서 할당 시 valueChanged 액션을 트리거할지 여부. default는 true
+    public var sendValuedChagedActionInSetter: Bool = true
 
     
     // MARK: - PUBLIC
@@ -99,11 +102,14 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 
                 guard inputStatus != .readOnly && inputStatus != .disabled else { return }
                 
-                self.textField.sendActions(for: .valueChanged)
-                
-                if self.inputStatus != .focusIn {
-                    self.textField.sendActions(for: .editingDidEnd)
+                if self.sendValuedChagedActionInSetter {
+                    self.textField.sendActions(for: .valueChanged)
+                    
+                    if self.inputStatus != .focusIn {
+                        self.textField.sendActions(for: .editingDidEnd)
+                    }
                 }
+                
             }
         }
     }

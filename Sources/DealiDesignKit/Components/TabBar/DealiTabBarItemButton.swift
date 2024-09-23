@@ -45,19 +45,6 @@ final class DealiTabBarItemButton: UIButton {
             $0.right.lessThanOrEqualToSuperview()
         }
         
-        self.addSubview(self.badgeImageView)
-        self.badgeImageView.then {
-            $0.backgroundColor = DealiColor.primary01
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 2.0
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            guard let titleLabel = titleLabel else {return}
-            $0.left.equalTo(titleLabel.snp.right).offset(0.0)
-            $0.bottom.equalTo(titleLabel.snp.top).offset(3.0)
-            $0.size.equalTo(CGSize(width: 4.0, height: 4.0))
-        }
-        
         contentStackView.addArrangedSubview(self.iconImageView)
         self.iconImageView.then {
             $0.clipsToBounds = true
@@ -85,6 +72,18 @@ final class DealiTabBarItemButton: UIButton {
                 self._titleLabel.font = uiModel.font
                 self._titleLabel.textColor = uiModel.textColor
             }
+        }
+        
+        self.addSubview(self.badgeImageView)
+        self.badgeImageView.then {
+            $0.backgroundColor = DealiColor.primary01
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 2.0
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.left.equalTo(self._titleLabel.snp.right).offset(0.0)
+            $0.bottom.equalTo(self._titleLabel.snp.top).offset(3.0)
+            $0.size.equalTo(CGSize(width: 4.0, height: 4.0))
         }
     }
     

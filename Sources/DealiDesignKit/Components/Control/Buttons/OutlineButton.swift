@@ -227,7 +227,7 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .medium:
             return .medium
         case .semiMedium:
-            return .medium
+            return .semiMedium
         case .small:
             return .small
         case .roundSmall:

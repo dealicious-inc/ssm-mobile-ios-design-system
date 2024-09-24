@@ -216,7 +216,7 @@ public enum ButtonTextConfig: ClickableConfig {
         case .medium:
             return .medium
         case .semiMedium:
-            return .medium
+            return .semiMedium
         case .small:
             return .small
         }

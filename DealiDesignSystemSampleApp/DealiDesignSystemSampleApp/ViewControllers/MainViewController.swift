@@ -11,7 +11,7 @@ import RxSwift
 import DealiDesignKit
 
 final class MainViewController: UIViewController {
-
+    
     
     override func loadView() {
         self.view = .init()
@@ -57,6 +57,13 @@ final class MainViewController: UIViewController {
         fontButton.do {
             $0.title = "Typography"
             $0.addTarget(self, action: #selector(typoButtonPressed), for: .touchUpInside)
+        }
+        
+        let fontComponentButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(fontComponentButton)
+        fontComponentButton.do {
+            $0.title = "Font"
+            $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
         }
         
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
@@ -167,7 +174,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
     }
 }
@@ -191,6 +198,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(TypographyViewController(), animated: true)
     }
     
+    @objc func fontComponentButtonPressed() {
+        self.navigationController?.pushViewController(FontComponentViewController(), animated: true)
+    }
+    
     @objc func bottomSheetPopupButtonPressed() {
         self.navigationController?.pushViewController(BottomSheetPopupTestViewController(), animated: true)
     }
@@ -202,7 +213,7 @@ extension MainViewController {
     @objc func radioButtonPressed() {
         self.navigationController?.pushViewController(RadioButtonViewController(), animated: true)
     }
-
+    
     @objc func chipButtonPressed() {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
     }
@@ -218,7 +229,7 @@ extension MainViewController {
     @objc func searchInputButtonPressed() {
         self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
     }
-
+    
     @objc func toggleButtonPressed() {
         self.navigationController?.pushViewController(SwitchViewController(), animated: true)
     }

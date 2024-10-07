@@ -74,12 +74,12 @@ enum DealiFont: String, CaseIterable {
     public var font: UIFont {
         var font: UIFont!
         
-        if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.fontSize)
+        if self.rawValue.contains("SemiBold") {
+            font = .getPretendard(weight: .semibold, size: self.fontSize)
         } else if self.rawValue.contains("Medium") {
             font = .getPretendard(weight: .medium, size: self.fontSize)
-        } else if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.fontSize)
+        } else if self.rawValue.contains("Bold") {
+            font = .getPretendard(weight: .bold, size: self.fontSize)
         } else {
             font = .getPretendard(weight: .regular, size: self.fontSize)
         }

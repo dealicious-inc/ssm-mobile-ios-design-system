@@ -365,6 +365,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         Driver.merge([
             self.rx.textEditingControlProperty.asDriver().map { _ in return true },
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
+            self.rx.controlEvent(.valueChanged).asDriver().map { _ in return false },
             self.rx.editingDidFinish.asDriver().map { _ in return false }
         ])
         .map { isFocused -> Bool in

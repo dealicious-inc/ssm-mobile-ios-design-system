@@ -346,7 +346,7 @@ private extension DealiTextArea {
             $0.textAlignment = .left
             $0.text = self.placeholder
         }.snp.makeConstraints {
-            $0.top.left.equalToSuperview().inset(12.0)
+            $0.top.left.right.equalToSuperview().inset(12.0)
         }
         
         let bottomInfoStackView = UIStackView().then {

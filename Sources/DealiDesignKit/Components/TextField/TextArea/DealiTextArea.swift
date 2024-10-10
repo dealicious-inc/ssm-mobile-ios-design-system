@@ -59,7 +59,7 @@ public final class DealiTextArea: UIView, DealiTextField {
                     owner.textField.isEditable = false
                     owner.textField.isUserInteractionEnabled = false
                     owner.textField.textColor = DealiColor.g50
-                    owner.placeholderLabel.textColor = DealiColor.g50
+                    owner.placeholderLabel.textColor = DealiColor.g70
 
                 default:
                     break

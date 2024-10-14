@@ -141,7 +141,7 @@
 		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				392C389A2C4654870088D176 /* BototmSheetTest */,
+				392C389A2C4654870088D176 /* BottomSheetTest */,
 				E6F22CDB2BBAA36700EACE6C /* TabbarViewController */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				4D1FA9272AFC740000AA510F /* Sub */,
@@ -169,13 +169,13 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
-		392C389A2C4654870088D176 /* BototmSheetTest */ = {
+		392C389A2C4654870088D176 /* BottomSheetTest */ = {
 			isa = PBXGroup;
 			children = (
 				392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */,
 				392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */,
 			);
-			path = BototmSheetTest;
+			path = BottomSheetTest;
 			sourceTree = "<group>";
 		};
 		4D1FA9272AFC740000AA510F /* Sub */ = {

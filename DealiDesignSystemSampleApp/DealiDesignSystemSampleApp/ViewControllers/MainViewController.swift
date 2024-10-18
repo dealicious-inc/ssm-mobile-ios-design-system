@@ -66,6 +66,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
         }
         
+        let colorButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(colorButton)
+        colorButton.do {
+            $0.title = "Color"
+            $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
+        }
+        
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(bottomSheetPopupButton)
         bottomSheetPopupButton.do {

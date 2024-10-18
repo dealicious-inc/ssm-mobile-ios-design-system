@@ -1,11 +1,12 @@
 //
-//  UIColor+Extensions.swift
+//  UIColor+Extension.swift
 //  
 //
 //  Created by Nam Jun Lee on 2023/05/19.
 //
 
 import UIKit
+import SwiftUI
 
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int, alpha: Double = 1.0) {
@@ -23,5 +24,11 @@ extension UIColor {
             blue: rgb & 0xFF,
             alpha: alpha
         )
+    }
+}
+
+public extension UIColor {
+    var color: Color {
+        Color(self)
     }
 }

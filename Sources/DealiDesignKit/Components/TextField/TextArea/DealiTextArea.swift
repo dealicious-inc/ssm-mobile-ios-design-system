@@ -59,7 +59,7 @@ public final class DealiTextArea: UIView, DealiTextField {
                     owner.textField.isEditable = false
                     owner.textField.isUserInteractionEnabled = false
                     owner.textField.textColor = DealiColor.g50
-                    owner.placeholderLabel.textColor = DealiColor.g50
+                    owner.placeholderLabel.textColor = DealiColor.g70
 
                 default:
                     break
@@ -346,7 +346,7 @@ private extension DealiTextArea {
             $0.textAlignment = .left
             $0.text = self.placeholder
         }.snp.makeConstraints {
-            $0.top.left.equalToSuperview().inset(12.0)
+            $0.top.left.right.equalToSuperview().inset(12.0)
         }
         
         let bottomInfoStackView = UIStackView().then {

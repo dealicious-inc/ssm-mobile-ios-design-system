@@ -161,6 +161,18 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let disabledInput = DealiTextInput_v2()
+        contentStackView.addArrangedSubview(disabledInput)
+        disabledInput.then {
+            $0.title = "비활성 텍스트인풋"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.inputStatus = .disabled
+            $0.text = "DDDD"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

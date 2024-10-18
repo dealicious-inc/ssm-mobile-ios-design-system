@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxGesture
+import RxRelay
 
 /**
  설명: 디자인시스템 Dropdown
@@ -27,6 +28,8 @@ public class DealiDropdown: UIView {
             self.requiredBadge.isHidden = !self.isMandatory
         }
     }
+    
+    public var isSelecting: PublishRelay<Bool> = .init()
     
     public enum EDropdownStatus {
         case `default`
@@ -93,6 +96,20 @@ public class DealiDropdown: UIView {
         super.init(frame: .zero)
         
         self.setUI()
+        
+        self.isSelecting
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isSelecting in
+                guard owner.arrowType == .open else { return }
+                UIView.animate(withDuration: 0.2) {
+                    if isSelecting {
+                        owner.arrowIconImageView.transform = owner.arrowIconImageView.transform.rotated(by: .pi)
+                    } else {
+                        owner.arrowIconImageView.transform = .identity
+                    }
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     public lazy var tapGesture = self.dropdown.rx.tapGestureOnTop()

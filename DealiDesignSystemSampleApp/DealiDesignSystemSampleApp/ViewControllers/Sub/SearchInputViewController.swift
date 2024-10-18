@@ -63,7 +63,6 @@ final class SearchInputViewController: UIViewController {
         searchBarView2.then {
             $0.keyword = "원피스"
             $0.placeholder = "상품을 검색해주세요."
-            $0.shouldUpdateStatusOnBeginEditing = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
@@ -75,7 +74,6 @@ final class SearchInputViewController: UIViewController {
             $0.keyword = "원피스"
             $0.placeholder = "상품을 검색해주세요."
             $0.resetKeywordWhenClearTapped = false
-            $0.shouldUpdateStatusOnBeginEditing = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)
@@ -89,7 +87,6 @@ final class SearchInputViewController: UIViewController {
             $0.backgroundColor = .clear
             $0.placeholder = "keyboard AccessoryView test"
             $0.keyboardCloseButtonString = "닫기"
-            $0.shouldUpdateStatusOnBeginEditing = true
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(40)

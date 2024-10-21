@@ -146,12 +146,25 @@ final class TextAreaViewController: UIViewController {
         self.disabledTextArea.then {
             $0.title = "Disabled Text Area"
             $0.isMandatory = true
-            $0.text = "텍스트 입력"
+            $0.placeholder = "텍스트 입력"
             $0.normalHelperText = "HelperText"
             $0.keyboardCloseButtonString = "닫기"
             $0.inputStatus.accept(.focusIn)
             $0.inputStatus.accept(.error("에러 메시지"))
             $0.inputStatus.accept(.disabled)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let disabledText = DealiTextInput_v2()
+        contentStackView.addArrangedSubview(disabledText)
+        disabledText.then {
+            $0.title = "Disabled Text Input"
+            $0.isMandatory = true
+            $0.placeholder = "텍스트 입력"
+            $0.normalHelperText = "HelperText"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputStatus = .disabled
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

@@ -14,6 +14,9 @@ import RxCocoa
 open class DealiTextInput_v2: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
+    
+    /// 값을 직접 setter 에서 할당 시 valueChanged 액션을 트리거할지 여부. default는 true
+    public var sendValuedChagedActionInSetter: Bool = true
 
     
     // MARK: - PUBLIC
@@ -99,15 +102,17 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 
                 guard inputStatus != .readOnly && inputStatus != .disabled else { return }
                 
-                self.textField.sendActions(for: .valueChanged)
-                
-                if self.inputStatus != .focusIn {
-                    self.textField.sendActions(for: .editingDidEnd)
+                if self.sendValuedChagedActionInSetter {
+                    self.textField.sendActions(for: .valueChanged)
+                    
+                    if self.inputStatus != .focusIn {
+                        self.textField.sendActions(for: .editingDidEnd)
+                    }
                 }
+                
             }
         }
     }
-    
     public var font: UIFont = .b2r14 {
         didSet {
             self.textField.font = self.font
@@ -172,7 +177,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 self.setNormalHelperText(attributedString: normalHelperAttributedString)
             }
 
-            self.textField.isEnabled = !(self.inputStatus == .disabled)
+            self.textField.isEnabled = !(self.inputStatus == .disabled || self.inputStatus == .readOnly)
             
             if let actionButton = self.actionButton {
                 actionButton.isEnabled = !(self.inputStatus == .disabled)
@@ -360,6 +365,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         Driver.merge([
             self.rx.textEditingControlProperty.asDriver().map { _ in return true },
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
+            self.rx.controlEvent(.valueChanged).asDriver().map { _ in return false },
             self.rx.editingDidFinish.asDriver().map { _ in return false }
         ])
         .map { isFocused -> Bool in

@@ -62,7 +62,7 @@ public class DealiBottomSheet: NSObject {
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
             
-            let viewController = DealiBottomSheetBaseViewController().then {
+            let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .singleSelect
                 $0.optionData = option
@@ -91,7 +91,7 @@ public class DealiBottomSheet: NSObject {
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
             
-            let viewController = DealiBottomSheetBaseViewController().then {
+            let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .multiSelect
                 $0.optionData = option
@@ -120,7 +120,7 @@ public class DealiBottomSheet: NSObject {
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
             
-            let viewController = DealiBottomSheetBaseViewController().then {
+            let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .iconWithText
                 $0.optionData = option
@@ -150,7 +150,7 @@ public class DealiBottomSheet: NSObject {
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
             
-            let viewController = DealiBottomSheetBaseViewController().then {
+            let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .slotWithText(size: slotSize)
                 $0.optionData = option
@@ -208,7 +208,7 @@ public class DealiBottomSheet: NSObject {
                                       cancelAction: (() -> Void)?,
                                       confirmAction: (() -> Void)?) {
         
-        let viewController = DealiBottomSheetBaseViewController().then {
+        let viewController = DealiBottomSheetSystemViewController().then {
             $0.contentContainerView = optionContentView
             $0.titleType = titleType
             $0.buttonType = buttonType
@@ -224,7 +224,7 @@ public class DealiBottomSheet: NSObject {
     
 }
 
-class DealiBottomSheetBaseViewController: UIViewController {
+class DealiBottomSheetSystemViewController: UIViewController {
     private let contentView = UIView()
     private var cornerLayer: CAShapeLayer?
     private let contentStackView = UIStackView()
@@ -572,11 +572,11 @@ class DealiBottomSheetBaseViewController: UIViewController {
     }
 }
 
-extension DealiBottomSheetBaseViewController: UICollectionViewDelegate {
+extension DealiBottomSheetSystemViewController: UICollectionViewDelegate {
     
 }
 
-extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
+extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.optionData.count
     }
@@ -662,7 +662,7 @@ extension DealiBottomSheetBaseViewController: UICollectionViewDataSource {
     }
 }
 
-extension DealiBottomSheetBaseViewController: UICollectionViewDelegateFlowLayout {
+extension DealiBottomSheetSystemViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch self.optionType {
         case .singleSelect:

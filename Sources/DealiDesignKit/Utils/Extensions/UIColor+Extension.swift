@@ -25,7 +25,9 @@ extension UIColor {
             alpha: alpha
         )
     }
-    
+}
+
+public extension UIColor {
     func asColor() -> Color {
         Color(uiColor: self)
     }

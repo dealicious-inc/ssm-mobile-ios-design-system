@@ -46,6 +46,7 @@
 		E6F22CDF2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F22CDE2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 		FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */; };
+		FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE527BB2CC6504C000FB3F7 /* ColorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		E6F22CDE2BBAA59F00EACE6C /* DealiScrollSegmentTabBarChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealiScrollSegmentTabBarChildViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiPlaygroundViewController.swift; sourceTree = "<group>"; };
+		FCE527BB2CC6504C000FB3F7 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */,
+				FCE527BB2CC6504C000FB3F7 /* ColorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */,
+				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,

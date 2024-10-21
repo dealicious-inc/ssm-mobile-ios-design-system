@@ -10,25 +10,27 @@ import SwiftUI
 import DealiDesignKit
 
 struct ColorItemView: View {
-    @State var colorInfo: ColorInfo
+    @State var colorData: ColorData
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        Text(colorData.name)
+            .font(.system(size:15, weight: .semibold))
+            .foregroundStyle(colorData.isDarkShade ? .white : .black)
+            .frame(width: 100.0, height: 100.0)
+            .background(colorData.color)
+            .clipShape(RoundedRectangle(cornerRadius: 10.0))
     }
 }
 
-struct ColorInfo {
+struct ColorData: Identifiable {
+    let id = UUID()
     var name: String
     var color: Color
+    var isDarkShade: Bool = true
 }
 
 #Preview {
-    ColorItemView(colorInfo: ColorInfo(name: "primary01", color: .primary01))
+    ColorItemView(colorData: ColorData( name: "primary01", color: .primary01, isDarkShade: true))
 }
 
-
-extension UIColor {
-    func changeToColor() -> Color {
-        .init(self)
-    }
-}

@@ -9,47 +9,22 @@ import UIKit
 import SwiftUI
 
 protocol ColorConfigurable: RawRepresentable where RawValue == Int {
-    var uiColor: UIColor { get }
-    var color: Color { get }
+    var color: UIColor { get }
     var rgb: Int { get }
     var alpha: Double { get }
 }
 
-protocol TestColorConfigurable: ColorConfigurable {
-    associatedtype SystemColor: ColorProtocol
-    var systemColor: SystemColor { get }
-}
-
-public protocol ColorProtocol {}
-extension UIColor: ColorProtocol { }
-extension Color: ColorProtocol { }
-
-extension TestColorConfigurable {
-    var rgb: Int { return self.rawValue }
-    var alpha: Double { return 1.0 }
-}
-
-extension TestColorConfigurable where SystemColor == Color {
-    var color: Color { return .init(uiColor: UIColor(rgb: self.rgb, alpha: self.alpha)) }
-}
-
-extension TestColorConfigurable where SystemColor == UIColor {
-    var color: UIColor { return UIColor(rgb: self.rgb, alpha: self.alpha) }
-}
-
 extension ColorConfigurable {
-    var uiColor: UIColor {
+    var color: UIColor {
         return UIColor(rgb: self.rgb, alpha: self.alpha)
     }
     
-    var color: Color { return .init(uiColor: self.uiColor) }
-    
     var rgb: Int { return self.rawValue }
     
     var alpha: Double { return 1.0 }
 }
 
-enum PrimaryColor: Int, ColorConfigurable {
+enum PrimaryColor: Int, ColorConfigurable, SystemColorConfig {
     case primary01 = 0xFB4760
     case primary02 = 0xEC2843
     case primary03 = 0xFEECEF
@@ -57,7 +32,7 @@ enum PrimaryColor: Int, ColorConfigurable {
     case primary05 = 0x000000
 }
 
-enum SecondaryColor: Int, ColorConfigurable {
+enum SecondaryColor: Int, ColorConfigurable, SystemColorConfig {
     case secondary01 = 0x4759FB
     case secondary02 = 0x2B3EE6
     case secondary03 = 0xEAEFFF
@@ -66,7 +41,7 @@ enum SecondaryColor: Int, ColorConfigurable {
     case secondary06 = 0xFFECDB
 }
 
-enum GrayColor: Int, ColorConfigurable {
+enum GrayColor: Int, ColorConfigurable, SystemColorConfig {
     case g05 = 0xF6F6F7
     case g10 = 0xF5F6FB
     case g20 = 0xEBEEF6
@@ -79,7 +54,7 @@ enum GrayColor: Int, ColorConfigurable {
     case g100 = 0x222222
 }
 
-enum EtcColor: Int, ColorConfigurable {
+enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
     case etc01
     case etc02
     case etc03
@@ -163,7 +138,7 @@ enum EtcColor: Int, ColorConfigurable {
     }
 }
 
-enum ServiceColor: Int, ColorConfigurable {
+enum ServiceColor: Int, ColorConfigurable, SystemColorConfig {
     case error = 0xFA1818
     case warning = 0xFFD600
     case linkAndInfo = 0x2B66FD

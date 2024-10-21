@@ -23,7 +23,7 @@ struct ColorInfo {
 }
 
 #Preview {
-    ColorItemView(colorInfo: ColorInfo(name: "primary01", color: .red))
+    ColorItemView(colorInfo: ColorInfo(name: "primary01", color: .primary01))
 }
 
 

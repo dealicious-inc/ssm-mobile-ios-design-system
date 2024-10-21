@@ -171,11 +171,18 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
         
-        let dataNoticeComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(dataNoticeComponents)
-        dataNoticeComponents.do {
-            $0.title = "DataNotice Components"
-            $0.addTarget(self, action: #selector(dataNoticeComponentsPressed), for: .touchUpInside)
+        let descriptionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(descriptionComponents)
+        descriptionComponents.do {
+            $0.title = "Description Components"
+            $0.addTarget(self, action: #selector(descriptionComponentsPressed), for: .touchUpInside)
+        }
+        
+        let accordionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(accordionComponents)
+        accordionComponents.do {
+            $0.title = "Accordion Components"
+            $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
         }
     }
     
@@ -265,7 +272,11 @@ extension MainViewController {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
     }
     
-    @objc func dataNoticeComponentsPressed() {
-        self.navigationController?.pushViewController(DataNoticeComponentViewController(), animated: true)
+    @objc func descriptionComponentsPressed() {
+        self.navigationController?.pushViewController(DescriptionComponentViewController(), animated: true)
+    }
+    
+    @objc func accordionComponentsPressed() {
+        self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
 }

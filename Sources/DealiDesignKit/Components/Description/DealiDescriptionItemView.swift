@@ -1,15 +1,15 @@
 //
-//  DealiDataNoticeItem.swift
-//  
+//  DealiDescriptionItemView.swift
+//
 //
 //  Created by Lee Chang Ho on 8/22/24.
 //
 
 import UIKit
 
-public class DealiDataNoticeItem: UIView {
+public class DealiDescriptionItemView: UIView {
     
-    private let preset: DealiDataNoticePreset
+    private let preset: DealiDescriptionPreset
     
     private let contentStackView = UIStackView()
     
@@ -19,7 +19,7 @@ public class DealiDataNoticeItem: UIView {
         }
     }
     
-    public init(preset: DealiDataNoticePreset) {
+    public init(preset: DealiDescriptionPreset) {
         self.preset = preset
         
         super.init(frame: .zero)

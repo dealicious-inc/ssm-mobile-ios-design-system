@@ -1,5 +1,5 @@
 //
-//  DealiDataNoticePreset.swift
+//  DealiDescriptionPreset.swift
 //
 //
 //  Created by Lee Chang Ho on 8/23/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum DealiDataNoticePreset: Equatable {
+public enum DealiDescriptionPreset: Equatable {
     case bullet
     case numbering
     case html

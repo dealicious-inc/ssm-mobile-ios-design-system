@@ -1,5 +1,5 @@
 //
-//  DealiDataNoticeItemWithTitle.swift
+//  DealiDescriptionWithTitleView.swift
 //
 //
 //  Created by 이창호 on 8/26/24.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-public class DealiDataNoticeItemWithTitle: UIView {
+public class DealiDescriptionWithTitleView: UIView {
     
     private let titleLabel = UILabel()
-    private var contentItemView: DealiDataNoticeItem!
+    private var contentItemView: DealiDescriptionItemView!
     
     public var title: String = "" {
         didSet {
@@ -28,7 +28,7 @@ public class DealiDataNoticeItemWithTitle: UIView {
         }
     }
     
-    public init(itemPreset: DealiDataNoticePreset) {
+    public init(itemPreset: DealiDescriptionPreset) {
         super.init(frame: .zero)
 
         self.addSubview(self.titleLabel)
@@ -36,7 +36,7 @@ public class DealiDataNoticeItemWithTitle: UIView {
             $0.top.left.right.equalToSuperview()
         }
         
-        self.contentItemView = DealiDataNoticeItem(preset: itemPreset)
+        self.contentItemView = DealiDescriptionItemView(preset: itemPreset)
         self.addSubview(self.contentItemView)
         self.contentItemView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8.0)

@@ -1,5 +1,5 @@
 //
-//  DataNoticeComponentViewController.swift
+//  DescriptionComponentViewController.swift
 //  DealiDesignSystemSampleApp
 //
 //  Created by Lee Chang Ho on 8/23/24.
@@ -9,12 +9,12 @@
 import UIKit
 import DealiDesignKit
 
-final class DataNoticeComponentViewController: UIViewController {
+final class DescriptionComponentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Data Notice"
+        self.title = "Description Component"
         self.view.backgroundColor = .white
     }
     
@@ -55,34 +55,34 @@ final class DataNoticeComponentViewController: UIViewController {
                                       "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
                                       "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"]
         
-        let onlyBulletDataNoticeItemView = DealiDataNoticeItem(preset: .bullet)
-        contentStackView.addArrangedSubview(onlyBulletDataNoticeItemView)
-        onlyBulletDataNoticeItemView.then {
+        let onlyBulletDescriptionItemView = DealiDescriptionItemView(preset: .bullet)
+        contentStackView.addArrangedSubview(onlyBulletDescriptionItemView)
+        onlyBulletDescriptionItemView.then {
             $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let onlyNumberDataNoticeItemView = DealiDataNoticeItem(preset: .numbering)
-        contentStackView.addArrangedSubview(onlyNumberDataNoticeItemView)
-        onlyNumberDataNoticeItemView.then {
+        let onlyNumberDescriptionItemView = DealiDescriptionItemView(preset: .numbering)
+        contentStackView.addArrangedSubview(onlyNumberDescriptionItemView)
+        onlyNumberDescriptionItemView.then {
             $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let titleBulletDataNoticeItemView = DealiDataNoticeItemWithTitle(itemPreset: .bullet)
-        contentStackView.addArrangedSubview(titleBulletDataNoticeItemView)
-        titleBulletDataNoticeItemView.then {
+        let titleBulletDescriptionItemView = DealiDescriptionWithTitleView(itemPreset: .bullet)
+        contentStackView.addArrangedSubview(titleBulletDescriptionItemView)
+        titleBulletDescriptionItemView.then {
             $0.title = "타이틀"
             $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let titleNumberDataNoticeItemView = DealiDataNoticeItemWithTitle(itemPreset: .numbering)
-        contentStackView.addArrangedSubview(titleNumberDataNoticeItemView)
-        titleNumberDataNoticeItemView.then {
+        let titleNumberDescriptionItemView = DealiDescriptionWithTitleView(itemPreset: .numbering)
+        contentStackView.addArrangedSubview(titleNumberDescriptionItemView)
+        titleNumberDescriptionItemView.then {
             $0.title = "타이틀"
             $0.contentStringArray = testContentStringArray
         }.snp.makeConstraints {

@@ -55,36 +55,35 @@ final class DescriptionComponentViewController: UIViewController {
                                       "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하",
                                       "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"]
         
-        let onlyBulletDescriptionItemView = DealiDescriptionItemView(preset: .bullet)
+        
+        let onlyBulletDescriptionItemView = DealiDescriptionItem()
         contentStackView.addArrangedSubview(onlyBulletDescriptionItemView)
         onlyBulletDescriptionItemView.then {
-            $0.contentStringArray = testContentStringArray
+            $0.configure(model: DealiDescriptionItemModel(style: .bullet, descriptionStringArray: testContentStringArray))
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let onlyNumberDescriptionItemView = DealiDescriptionItemView(preset: .numbering)
+        let onlyNumberDescriptionItemView = DealiDescriptionItem()
         contentStackView.addArrangedSubview(onlyNumberDescriptionItemView)
         onlyNumberDescriptionItemView.then {
-            $0.contentStringArray = testContentStringArray
+            $0.configure(model: DealiDescriptionItemModel(style: .numbering, descriptionStringArray: testContentStringArray))
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let titleBulletDescriptionItemView = DealiDescriptionWithTitleView(itemPreset: .bullet)
+        let titleBulletDescriptionItemView = DealiDescriptionItem()
         contentStackView.addArrangedSubview(titleBulletDescriptionItemView)
         titleBulletDescriptionItemView.then {
-            $0.title = "타이틀"
-            $0.contentStringArray = testContentStringArray
+            $0.configure(model: DealiDescriptionItemModel(style: .bullet, descriptionStringArray: testContentStringArray, title: "타이틀"))
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }
         
-        let titleNumberDescriptionItemView = DealiDescriptionWithTitleView(itemPreset: .numbering)
+        let titleNumberDescriptionItemView = DealiDescriptionItem()
         contentStackView.addArrangedSubview(titleNumberDescriptionItemView)
         titleNumberDescriptionItemView.then {
-            $0.title = "타이틀"
-            $0.contentStringArray = testContentStringArray
+            $0.configure(model: DealiDescriptionItemModel(style: .numbering, descriptionStringArray: testContentStringArray, title: "타이틀"))
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
         }

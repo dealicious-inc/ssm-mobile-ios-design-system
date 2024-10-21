@@ -1,5 +1,5 @@
 //
-//  DealiAccordionView.swift
+//  DealiAccordion.swift
 //  
 //
 //  Created by 이창호 on 10/21/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class DealiAccordionView: UIView {
+public class DealiAccordion: UIView {
     
     private let openButton = UIButton()
     private let openButtonTitleLabel = UILabel()

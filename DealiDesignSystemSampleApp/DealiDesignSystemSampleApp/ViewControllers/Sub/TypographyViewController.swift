@@ -61,7 +61,7 @@ final class TypographyViewController: UIViewController {
         self.view = .init()
         
         self.title = "Typography"
-        self.view.backgroundColor = DealiColor.primary04
+        self.view.backgroundColor = .primary04
         
         let scrollView = UIScrollView()
         
@@ -133,7 +133,7 @@ final class TypoView: UIView {
     var font: UIFont
     var text: String {
         didSet {
-            self.textLabel.attributedText = NSMutableAttributedString(string: self.text).color(DealiColor.g100).font(self.font).setLineHeight()
+            self.textLabel.attributedText = NSMutableAttributedString(string: self.text).color(UIColor.g100).font(self.font).setLineHeight()
         }
     }
     
@@ -153,9 +153,9 @@ final class TypoView: UIView {
         self.addSubview(titleLabel)
         titleLabel.then {
             $0.font = self.font
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.attributedText = NSMutableAttributedString(string: self.fontName ?? "").color($0.textColor).font($0.font).setLineHeight()
-            $0.backgroundColor = DealiColor.secondary03
+            $0.backgroundColor = .secondary03
         }.snp.makeConstraints {
             $0.top.left.right.equalToSuperview().inset(20.0)
         }
@@ -163,7 +163,7 @@ final class TypoView: UIView {
         self.addSubview(textLabel)
         textLabel.then {
             $0.font =  self.font
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: self.text).color($0.textColor).font($0.font).setLineHeight()
         }.snp.makeConstraints {

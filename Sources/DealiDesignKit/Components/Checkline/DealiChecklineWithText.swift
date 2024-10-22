@@ -75,7 +75,7 @@ public final class DealiChecklineWithText: UIView {
         self.titleLabel.then {
             $0.textAlignment = .left
             $0.text = self.text
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.font = UIFont.b2r14
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
@@ -99,7 +99,7 @@ public final class DealiChecklineWithText: UIView {
     }
     
     private func setAppearacne() {
-        self.titleLabel.textColor = self.isEnabled ? DealiColor.g100 : DealiColor.g50
+        self.titleLabel.textColor = self.isEnabled ? .g100 : .g50
     }
 
 }

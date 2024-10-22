@@ -99,24 +99,24 @@ public final class DealiTag: UIView {
             if name.contains("Filled") == true {
                 switch number {
                 case 1:
-                    return DealiTagColor(backgroundColor: DealiColor.primary03, textColor: DealiColor.primary01)
+                    return DealiTagColor(backgroundColor: .primary03, textColor: .primary01)
                 case 2:
-                    return DealiTagColor(backgroundColor: DealiColor.secondary03, textColor: DealiColor.secondary01)
+                    return DealiTagColor(backgroundColor: .secondary03, textColor: .secondary01)
                 case 3:
-                    return DealiTagColor(backgroundColor: DealiColor.secondary06, textColor: DealiColor.secondary04)
+                    return DealiTagColor(backgroundColor: .secondary06, textColor: .secondary04)
                 default: // 4
-                    return DealiTagColor(backgroundColor: DealiColor.g10, textColor: DealiColor.g80)
+                    return DealiTagColor(backgroundColor: .g10, textColor: .g80)
                 }
             } else {
                 switch number {
                 case 1:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.primary01, borderColor: DealiColor.primary01)
+                    return DealiTagColor(backgroundColor: .primary04, textColor: .primary01, borderColor: .primary01)
                 case 2:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary01, borderColor: DealiColor.secondary01)
+                    return DealiTagColor(backgroundColor: .primary04, textColor: .secondary01, borderColor: .secondary01)
                 case 3:
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.secondary04, borderColor: DealiColor.secondary04)
+                    return DealiTagColor(backgroundColor: .primary04, textColor: .secondary04, borderColor: .secondary04)
                 default: // 4
-                    return DealiTagColor(backgroundColor: DealiColor.primary04, textColor: DealiColor.g80, borderColor: DealiColor.g20)
+                    return DealiTagColor(backgroundColor: .primary04, textColor: .g80, borderColor: .g20)
                 }
             }
         }

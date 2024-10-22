@@ -28,9 +28,9 @@ final class MainView: UIView {
 //            .direction(.column)
 //            .paddingHorizontal(20.0)
 //            .define {
-//                $0.addItem(self.fontButton).height(50.0).backgroundColor(DealiColor.secondary01).cornerRadius(8.0).marginTop(20.0)
-//                $0.addItem(self.colorButton).height(50.0).backgroundColor(DealiColor.secondary01).cornerRadius(8.0).marginTop(20.0)
-//                $0.addItem(self.uiElementButton).height(50.0).backgroundColor(DealiColor.secondary01).cornerRadius(8.0).marginTop(20.0)
+//                $0.addItem(self.fontButton).height(50.0).backgroundColor(.secondary01).cornerRadius(8.0).marginTop(20.0)
+//                $0.addItem(self.colorButton).height(50.0).backgroundColor(.secondary01).cornerRadius(8.0).marginTop(20.0)
+//                $0.addItem(self.uiElementButton).height(50.0).backgroundColor(.secondary01).cornerRadius(8.0).marginTop(20.0)
 //            }
 //    }
 //    

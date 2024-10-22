@@ -22,7 +22,7 @@ class ButtonViewController: UIViewController {
         let switchItem = UIBarButtonItem(customView: switchView)
         self.navigationItem.rightBarButtonItem = switchItem
         switchView.do {
-            $0.onTintColor = DealiColor.primary01
+            $0.onTintColor = .primary01
             $0.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         }
         

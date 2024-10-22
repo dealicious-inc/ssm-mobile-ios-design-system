@@ -60,13 +60,13 @@ public enum ChipsOutlineColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g20),
-                                  selected: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g100),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g100, border: .g20),
+                                  selected: ClickableColorSet(background: .primary04, text: .g100, border: .g100),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g20))
         case .primary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g80, border: DealiColor.g30),
-                                  selected: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g100),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g80, border: .g30),
+                                  selected: ClickableColorSet(background: .primary04, text: .g100, border: .g100),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g20))
         }
     }
 }

@@ -52,7 +52,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         return UILabel().then {
             $0.numberOfLines = 0
             $0.font = .sh2sb18
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }
     }()
     
@@ -115,7 +115,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
         self.view.addSubview(self.contentView)
         self.contentView.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -150,7 +150,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self else { return }
-            self.view.backgroundColor = DealiColor.b50
+            self.view.backgroundColor = .b50
             self.view.layoutIfNeeded()
         }
     }

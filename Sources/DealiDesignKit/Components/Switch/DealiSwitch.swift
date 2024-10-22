@@ -85,7 +85,7 @@ public class DealiSwitch: UIControl {
         self.addSubview(self.backgroundView)
         
         self.backgroundView.then {
-            $0.backgroundColor = DealiColor.g30
+            $0.backgroundColor = .g30
             $0.clipsToBounds = true
             $0.layer.cornerRadius = self.size.cornerRadius
         }.snp.makeConstraints {
@@ -96,7 +96,7 @@ public class DealiSwitch: UIControl {
         // 썸 뷰(스위치의 움직이는 부분) 설정
         self.addSubview(self.thumbView)
         self.thumbView.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
             $0.layer.cornerRadius = self.size.cornerRadius - 2.0
             $0.layer.masksToBounds = false
             $0.layer.shadowColor = UIColor.black.cgColor
@@ -122,7 +122,7 @@ public class DealiSwitch: UIControl {
         self.isOn = on
         
         let targetX = on ? self.size.contentSize.width - self.size.thumbWidth - 2.0 : 2.0
-        let backgroundColor = on ? DealiColor.primary01 : DealiColor.g30
+        let backgroundColor: UIColor = on ? .primary01 : .g30
         
         if animated {
             UIView.animate(withDuration: 0.2) { [weak self] in

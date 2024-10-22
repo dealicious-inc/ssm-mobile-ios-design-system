@@ -68,14 +68,14 @@ open class DealiRadioButtonWithText: UIControl {
     public var isTextColorChangable: Bool = true
     
     private var textColor: UIColor {
-        guard isTextColorChangable else { return DealiColor.g100 }
+        guard isTextColorChangable else { return .g100 }
     
         if self.isEnabled == false {
-            return DealiColor.g50
+            return .g50
         } else if self.isSelected {
-            return DealiColor.g100
+            return .g100
         } else {
-            return DealiColor.g100
+            return .g100
         }
     }
     
@@ -94,8 +94,8 @@ open class DealiRadioButtonWithText: UIControl {
             self.imageView.isHidden = true
             self.circleView.isHidden = false
             self.circleView.do {
-                $0.layer.borderColor = DealiColor.g30.cgColor
-                $0.backgroundColor = DealiColor.g20
+                $0.layer.borderColor = UIColor.g30.cgColor
+                $0.backgroundColor = .g20
             }
         } else if self.isSelected {
             self.imageView.isHidden = false
@@ -105,7 +105,7 @@ open class DealiRadioButtonWithText: UIControl {
             self.imageView.isHidden = true
             self.circleView.isHidden = false
             self.circleView.do {
-                $0.layer.borderColor = DealiColor.g50.cgColor
+                $0.layer.borderColor = UIColor.g50.cgColor
                 $0.backgroundColor = .white
             }
         }
@@ -135,7 +135,7 @@ open class DealiRadioButtonWithText: UIControl {
         
         circleContainerView.addSubview(self.circleView)
         self.circleView.then {
-            $0.layer.borderColor = DealiColor.g50.cgColor
+            $0.layer.borderColor = UIColor.g50.cgColor
             $0.layer.borderWidth = 1.0
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 9.0

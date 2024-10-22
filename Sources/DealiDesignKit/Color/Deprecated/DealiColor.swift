@@ -14,7 +14,7 @@ public extension Color {
     }
 }
 
-@available(*, deprecated)
+@available(*, deprecated, renamed: "UIColor")
 public enum DealiColor {
     
     // 사용의 편의를 위함

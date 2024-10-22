@@ -171,7 +171,7 @@ class FontLabel: UIView {
         let label = UILabel()
         self.addSubview(label)
         label.then {
-            $0.attributedText = NSMutableAttributedString(string: "폰트asfgASFG_\(fontString)").font(font).color(DealiColor.g100).alignment(.left).setLineHeight()
+            $0.attributedText = NSMutableAttributedString(string: "폰트asfgASFG_\(fontString)").font(font).color(UIColor.g100).alignment(.left).setLineHeight()
             $0.backgroundColor = .yellow
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(6.0)

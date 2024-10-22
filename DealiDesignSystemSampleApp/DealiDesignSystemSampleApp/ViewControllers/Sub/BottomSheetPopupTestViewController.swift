@@ -224,13 +224,13 @@ extension BottomSheetPopupTestViewController {
     @objc func customBottomSheetButtonPressed() {
         let customView = UIView()
         customView.do {
-            $0.backgroundColor = DealiColor.g05
+            $0.backgroundColor = .g05
         }
         
         let colorImageView = UIImageView()
         customView.addSubview(colorImageView)
         colorImageView.then {
-            $0.backgroundColor = DealiColor.secondary01
+            $0.backgroundColor = .secondary01
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 50.0
         }.snp.makeConstraints {

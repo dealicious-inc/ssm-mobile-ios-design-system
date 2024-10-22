@@ -88,7 +88,7 @@ public class DealiDropdown: UIView {
                 $0.alignment = .left
             }
                
-            self.helperTextLabel.attributedText = NSAttributedString(string: helperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+            self.helperTextLabel.attributedText = NSAttributedString(string: helperText, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.g70, .paragraphStyle: style])
         }
     }
     
@@ -119,15 +119,15 @@ public class DealiDropdown: UIView {
         switch status {
         case .default:
             self.dropdown.isUserInteractionEnabled = true
-            self.dropdown.backgroundColor = DealiColor.primary04
-            self.contentLabel.textColor = DealiColor.g100
-            self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(DealiColor.g100)
+            self.dropdown.backgroundColor = .primary04
+            self.contentLabel.textColor = .g100
+            self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(.g100)
 
         case .disabled:
             self.dropdown.isUserInteractionEnabled = false
-            self.dropdown.backgroundColor = DealiColor.g10
-            self.contentLabel.textColor = DealiColor.g50
-            self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(DealiColor.g50)
+            self.dropdown.backgroundColor = .g10
+            self.contentLabel.textColor = .g50
+            self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(.g50)
         }
     }
     
@@ -163,7 +163,7 @@ public class DealiDropdown: UIView {
         self.titleContentView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -174,7 +174,7 @@ public class DealiDropdown: UIView {
         
         self.titleContentView.addSubview(self.requiredBadge)
         self.requiredBadge.then {
-            $0.backgroundColor = DealiColor.primary01
+            $0.backgroundColor = .primary01
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 2.5
             $0.isHidden = true
@@ -189,7 +189,7 @@ public class DealiDropdown: UIView {
             $0.axis = .horizontal
             $0.spacing = 16.0
             $0.alignment = .center
-            $0.layer.borderColor = DealiColor.g20.cgColor
+            $0.layer.borderColor = UIColor.g20.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 6.0
             $0.layer.masksToBounds = true
@@ -208,7 +208,7 @@ public class DealiDropdown: UIView {
         
         self.dropdown.addArrangedSubview(self.contentLabel)
         self.contentLabel.do {
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.font = .b2r14
         }
         
@@ -223,7 +223,7 @@ public class DealiDropdown: UIView {
         self.helperTextLabel.do {
             $0.isHidden = true
             $0.font = .b4r12
-            $0.textColor = DealiColor.g70
+            $0.textColor = .g70
             $0.textAlignment = .left
             $0.numberOfLines = 0
         }

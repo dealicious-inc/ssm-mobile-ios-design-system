@@ -40,12 +40,12 @@ public final class DealiSearchInput: UIView {
     private enum Constants {
         /// 검색어 TextField 관련 상수 모음
         static let font: UIFont = .systemFont(ofSize: 14)
-        static let placeholderColor: UIColor = DealiColor.g60
-        static let textColor: UIColor = DealiColor.g100
+        static let placeholderColor: UIColor = .g60
+        static let textColor: UIColor = .g100
         
         /// search image 관련 상수 모음
         static let imageSearch: UIImage? = UIImage.dealiIcon(named: "ic_search")
-        static let imageClear: UIImage? = UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(DealiColor.g50)
+        static let imageClear: UIImage? = UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(.g50)
         static let imageSearchSize: CGFloat = 24
         static let imageClearSize: CGFloat = 16
     }
@@ -54,7 +54,7 @@ public final class DealiSearchInput: UIView {
         /// StackView 관련 상수 모음
         static let radius: CGFloat = 6
         static let height: CGFloat = 40
-        static let backgroundColor: UIColor = DealiColor.g10
+        static let backgroundColor: UIColor = .g10
         static let spacing: CGFloat = 16
         static let layoutHMargin: CGFloat = 16
         static let layoutVMargin: CGFloat = 6
@@ -62,12 +62,12 @@ public final class DealiSearchInput: UIView {
     
     private enum SubKeywordViewConsants {
         /// Sub Keyword View 관련 상수 모음
-        static let backgroundColor: UIColor = DealiColor.primary04
+        static let backgroundColor: UIColor = .primary04
         static let radius: CGFloat = 6
-        static let borderColor: UIColor = DealiColor.g20
+        static let borderColor: UIColor = .g20
         static let borderWidth: CGFloat = 1
         static let maxWidth: CGFloat = 92
-        static let textColor: UIColor = DealiColor.g80
+        static let textColor: UIColor = .g80
         static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }
     
@@ -129,7 +129,7 @@ public final class DealiSearchInput: UIView {
             
             let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
             keyboardAccessoryView.do {
-                $0.backgroundColor = DealiColor.g20
+                $0.backgroundColor = .g20
             }
             
             let keyboardCloseButton = DealiControl.btnTextSmall04()

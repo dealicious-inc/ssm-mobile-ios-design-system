@@ -184,7 +184,7 @@ public class DealiBottomSheet: NSObject {
         
         let messageLabel = UILabel().then {
             $0.numberOfLines = 0
-            $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle])
+            $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle])
         }
         
         self.showBottomSheet(titleType: titleType,
@@ -269,7 +269,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         return UILabel().then {
             $0.numberOfLines = 0
             $0.font = .sh2sb18
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }
     }()
     
@@ -341,7 +341,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         
         self.view.addSubview(self.contentView)
         self.contentView.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -388,7 +388,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
                     
                     $0.delegate = self
                     $0.dataSource = self
-                    $0.backgroundColor = DealiColor.primary04
+                    $0.backgroundColor = .primary04
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
                     $0.left.right.equalToSuperview().inset(-16.0)
@@ -510,7 +510,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self else { return }
-            self.view.backgroundColor = DealiColor.b50
+            self.view.backgroundColor = .b50
             self.view.layoutIfNeeded()
         }
     }

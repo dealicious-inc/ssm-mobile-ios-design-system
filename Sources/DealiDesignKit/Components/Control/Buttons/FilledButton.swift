@@ -83,14 +83,14 @@ public enum ButtonFilledColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary01, text: DealiColor.primary04),
-                                  disabled: ClickableColorSet(background: DealiColor.g40, text: DealiColor.primary04))
+            return ClickableColor(normal: ClickableColorSet(background: .primary01, text: .primary04),
+                                  disabled: ClickableColorSet(background: .g40, text: .primary04))
         case .primary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.b40, text: DealiColor.primary04),
-                                  disabled: ClickableColorSet(background: DealiColor.b20, text: DealiColor.w50))
+            return ClickableColor(normal: ClickableColorSet(background: .b40, text: .primary04),
+                                  disabled: ClickableColorSet(background: .b20, text: .w50))
         case .gradient:
-            return ClickableColor(normal: ClickableColorSet(gradientBackground: DealiColor.primaryGradient, background: .clear, text: DealiColor.primary04),
-                                  disabled: ClickableColorSet(background: DealiColor.g40, text: DealiColor.primary04))
+            return ClickableColor(normal: ClickableColorSet(gradientBackground: UIColor.primaryGradient, background: .clear, text: .primary04),
+                                  disabled: ClickableColorSet(background: .g40, text: .primary04))
         }
     }
 }

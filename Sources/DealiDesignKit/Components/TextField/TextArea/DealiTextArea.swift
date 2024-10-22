@@ -30,36 +30,36 @@ public final class DealiTextArea: UIView, DealiTextField {
         self.inputStatus
             .bind(with: self) { owner, status in
                 
-                owner.textField.backgroundColor = DealiColor.primary04
-                owner.textField.layer.borderColor = DealiColor.g20.cgColor
-                owner.textField.textColor = DealiColor.g100
+                owner.textField.backgroundColor = .primary04
+                owner.textField.layer.borderColor = UIColor.g20.cgColor
+                owner.textField.textColor = .g100
                 owner.textField.isUserInteractionEnabled = true
 
                 owner.setNormalHelperText(text: owner.normalHelperText)
-                owner.placeholderLabel.textColor = DealiColor.g70
-                owner.textCounterLabel.textColor = DealiColor.g70
+                owner.placeholderLabel.textColor = .g70
+                owner.textCounterLabel.textColor = .g70
 
                 switch status {
                 case .focusIn:
-                    owner.textField.layer.borderColor = DealiColor.g100.cgColor
+                    owner.textField.layer.borderColor = UIColor.g100.cgColor
                 case .focusOut:
-                    owner.textField.layer.borderColor = DealiColor.g20.cgColor
+                    owner.textField.layer.borderColor = UIColor.g20.cgColor
                 case let .error(errorMsg):
                     owner.setError(for: errorMsg)
                 case .readOnly:
-                    owner.textField.backgroundColor = DealiColor.g05
-                    owner.textField.layer.borderColor = DealiColor.g05.cgColor
+                    owner.textField.backgroundColor = .g05
+                    owner.textField.layer.borderColor = UIColor.g05.cgColor
                     owner.textField.isEditable = false
                     owner.textField.isUserInteractionEnabled = false
-                    owner.textField.textColor = DealiColor.g80
-                    owner.placeholderLabel.textColor = DealiColor.g80
+                    owner.textField.textColor = .g80
+                    owner.placeholderLabel.textColor = .g80
 
                 case .disabled:
-                    owner.textField.backgroundColor = DealiColor.g10
+                    owner.textField.backgroundColor = .g10
                     owner.textField.isEditable = false
                     owner.textField.isUserInteractionEnabled = false
-                    owner.textField.textColor = DealiColor.g50
-                    owner.placeholderLabel.textColor = DealiColor.g70
+                    owner.textField.textColor = .g50
+                    owner.placeholderLabel.textColor = .g70
 
                 default:
                     break
@@ -225,7 +225,7 @@ public final class DealiTextArea: UIView, DealiTextField {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
             
             let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0)).then {
-                $0.backgroundColor = DealiColor.g20
+                $0.backgroundColor = .g20
             }
             
             let keyboardCloseButton = DealiControl.btnTextSmall04()
@@ -290,7 +290,7 @@ private extension DealiTextArea {
     ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     */
     func setUI() {
-        self.backgroundColor = DealiColor.primary04
+        self.backgroundColor = .primary04
         
         let contentStackView = UIStackView()
         self.addSubview(contentStackView)
@@ -324,13 +324,13 @@ private extension DealiTextArea {
             $0.autocorrectionType = .no
             $0.autocapitalizationType = .none
             $0.spellCheckingType = .no
-            $0.textColor = DealiColor.g100
-            $0.tintColor = DealiColor.g100
+            $0.textColor = .g100
+            $0.tintColor = .g100
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 6.0
             $0.layer.borderWidth = 1.0
-            $0.layer.borderColor = DealiColor.g20.cgColor
-            $0.backgroundColor = DealiColor.primary04
+            $0.layer.borderColor = UIColor.g20.cgColor
+            $0.backgroundColor = .primary04
             $0.textContainerInset = .init(top: 13.0, left: 9.0, bottom: 12.0, right: 12.0)
         }.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
@@ -342,7 +342,7 @@ private extension DealiTextArea {
         self.placeholderLabel.then {
             $0.font = .b2r14
             $0.isUserInteractionEnabled = false
-            $0.textColor = DealiColor.g70
+            $0.textColor = .g70
             $0.textAlignment = .left
             $0.text = self.placeholder
         }.snp.makeConstraints {
@@ -363,8 +363,8 @@ private extension DealiTextArea {
         bottomInfoStackView.addArrangedSubview(self.helperTextLabel)
         self.helperTextLabel.do {
             $0.font = .b4r12
-            $0.textColor = DealiColor.g70
-            $0.highlightedTextColor = DealiColor.primary01
+            $0.textColor = .g70
+            $0.highlightedTextColor = .primary01
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.isHidden = true
@@ -373,8 +373,8 @@ private extension DealiTextArea {
         bottomInfoStackView.addArrangedSubview(self.textCounterLabel)
         self.textCounterLabel.do {
             $0.font = .b4r12
-            $0.textColor = DealiColor.g70
-            $0.highlightedTextColor = DealiColor.primary01
+            $0.textColor = .g70
+            $0.highlightedTextColor = .primary01
             $0.textAlignment = .right
             $0.numberOfLines = 0
             $0.isHidden = true
@@ -392,7 +392,7 @@ private extension DealiTextArea {
         self.titleStackView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -402,7 +402,7 @@ private extension DealiTextArea {
         
         self.titleStackView.addSubview(self.requiredBadge)
         self.requiredBadge.then {
-            $0.backgroundColor = DealiColor.primary01
+            $0.backgroundColor = .primary01
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 2.5
             $0.isHidden = true
@@ -447,14 +447,14 @@ extension DealiTextArea: DealiTextFieldConfig {
         
         if let normalHelperText = text {
             self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.g70, .paragraphStyle: style])
         } else {
             self.helperTextLabel.isHidden = true
         }
     }
     
     func setError(for errorMessage: String?) {
-        self.textCounterLabel.textColor = DealiColor.error
+        self.textCounterLabel.textColor = .error
         
         let style = NSMutableParagraphStyle().then {
             $0.lineSpacing = 4.0
@@ -464,12 +464,12 @@ extension DealiTextArea: DealiTextFieldConfig {
         
         if let errorMessage = errorMessage {
             self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
+            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.error, .paragraphStyle: style])
         } else {
             self.setNormalHelperText(text: self.normalHelperText)
         }
         self.textField.do {
-            $0.layer.borderColor = DealiColor.error.cgColor
+            $0.layer.borderColor = UIColor.error.cgColor
         }
     }
 }

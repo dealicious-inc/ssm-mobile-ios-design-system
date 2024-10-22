@@ -39,7 +39,7 @@ public class DealiBottomSheetPopup: NSObject {
                 baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 2
             }
             
-            bottomSheetPopupViewController.popupTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
+            bottomSheetPopupViewController.popupTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: UIColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
         }
         
         
@@ -53,7 +53,7 @@ public class DealiBottomSheetPopup: NSObject {
                 baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 2
             }
             
-            bottomSheetPopupViewController.popupMessage = NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
+            bottomSheetPopupViewController.popupMessage = NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
         }
         
         
@@ -146,7 +146,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
         
         self.view.addSubview(self.contentView)
         self.contentView.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -275,7 +275,7 @@ final class DealiBottomSheetPopupViewController: UIViewController {
         
         UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self else { return }
-            self.view.backgroundColor = DealiColor.b50
+            self.view.backgroundColor = .b50
             self.view.layoutIfNeeded()
         }
         

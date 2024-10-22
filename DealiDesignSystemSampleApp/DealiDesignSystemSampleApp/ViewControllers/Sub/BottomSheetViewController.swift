@@ -23,7 +23,7 @@ class BottomSheetViewController: DealiBottomSheetViewController {
             $0.numberOfLines = 0
             $0.textAlignment = .left
             $0.font = .b2r14
-            $0.textColor = DealiColor.g80
+            $0.textColor = .g80
             $0.text = attrStr
         }.snp.makeConstraints {
             $0.top.equalToSuperview()

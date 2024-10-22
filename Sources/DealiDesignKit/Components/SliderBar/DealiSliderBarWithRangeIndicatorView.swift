@@ -65,7 +65,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
             let indicatorView = UIView()
             self.addSubview(indicatorView)
             indicatorView.then {
-                $0.backgroundColor = DealiColor.g30
+                $0.backgroundColor = .g30
             }.snp.makeConstraints {
                 $0.top.centerX.equalToSuperview()
                 $0.width.equalTo(1.0)
@@ -74,7 +74,7 @@ public final class DealiSliderBarWithRangeIndicatorView: UIView {
             
             self.addSubview(self.titleLabel)
             self.titleLabel.then {
-                $0.textColor = DealiColor.g80
+                $0.textColor = .g80
                 $0.text = self.title
                 $0.font = .b4r12
                 $0.textAlignment = .center

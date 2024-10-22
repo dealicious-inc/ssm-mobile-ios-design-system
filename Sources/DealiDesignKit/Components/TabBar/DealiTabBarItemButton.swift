@@ -76,7 +76,7 @@ final class DealiTabBarItemButton: UIButton {
         
         self.addSubview(self.badgeImageView)
         self.badgeImageView.then {
-            $0.backgroundColor = DealiColor.primary01
+            $0.backgroundColor = .primary01
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 2.0
             $0.isHidden = true
@@ -113,9 +113,9 @@ struct DealiTabBarItemButtonUIModel {
     /// 버튼 타이틀
     var title: String?
     /// 기본 텍스트 컬러
-    var textColor: UIColor = DealiColor.g100
+    var textColor: UIColor = .g100
     /// 선택된 텍스트 컬러
-    var selectedTextColor: UIColor = DealiColor.g100
+    var selectedTextColor: UIColor = .g100
     /// 기본 텍스트 폰트
     var font: UIFont = .b2r14
     /// 선택된 텍스트 폰트

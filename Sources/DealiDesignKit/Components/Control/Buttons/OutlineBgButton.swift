@@ -123,20 +123,20 @@ public enum ButtonOutlineBgColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.primary01, border: DealiColor.primary01),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .primary01, border: .primary01),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g30))
         case .secondary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.secondary01, border: DealiColor.secondary01),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .secondary01, border: .secondary01),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g30))
         case .secondary02:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g100),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g30))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g100, border: .g100),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g30))
         case .secondary03:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g30),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g100, border: .g30),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g20))
         case .secondary04:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g80, border: DealiColor.g30),
-                                  disabled: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g50, border: DealiColor.g20))
+            return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g80, border: .g30),
+                                  disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g20))
         }
     }
 }

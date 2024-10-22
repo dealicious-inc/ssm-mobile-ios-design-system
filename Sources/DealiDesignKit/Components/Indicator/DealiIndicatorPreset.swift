@@ -17,27 +17,27 @@ public enum DealiIndicatorPreset {
     public var normalColor: UIColor {
         switch self {
         case .dots:
-            return DealiColor.g30
+            return .g30
         case .number1:
-            return DealiColor.primary04
+            return .primary04
         default:
-            return DealiColor.w50
+            return .w50
         }
     }
     
     public var selectColor: UIColor {
         switch self {
         case .dots:
-            return DealiColor.primary01
+            return .primary01
         default:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     
     public var backgroundColor: UIColor {
         switch self {
         case .number2, .number3:
-            return DealiColor.b40
+            return .b40
         default:
             return .clear
         }

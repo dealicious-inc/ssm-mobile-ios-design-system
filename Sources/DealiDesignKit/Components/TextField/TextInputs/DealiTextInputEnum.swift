@@ -36,35 +36,35 @@ extension ETextInputStatus {
     var backgroundColor: UIColor {
         switch self {
         case .disabled:
-            return DealiColor.g10
+            return .g10
         case .readOnly:
-            return DealiColor.g05
+            return .g05
         default:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     
     var borderColor: CGColor {
         switch self {
         case .focusIn:
-            DealiColor.g100.cgColor
+            UIColor.g100.cgColor
         case .error:
-            DealiColor.error.cgColor
+            UIColor.error.cgColor
         case .readOnly:
             self.backgroundColor.cgColor
         default:
-            DealiColor.g20.cgColor
+            UIColor.g20.cgColor
         }
     }
     
     var textColor: UIColor {
         switch self {
         case .disabled:
-            return DealiColor.g50
+            return .g50
         case .readOnly:
-            return DealiColor.g80
+            return .g80
         default:
-            return DealiColor.g100
+            return .g100
         }
     }
 }

@@ -82,97 +82,96 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let numberInput = DealiTextInput_v2.number()
+        contentStackView.addArrangedSubview(numberInput)
+        numberInput.then {
+            $0.title = "숫자 텍스트 입력"
+            $0.placeholder = "Text Input"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            let button = DealiControl.btnOutlineMedium03()
+            button.title = "Default"
+            $0.actionButton = button
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
         
-//        let numberInput = DealiTextInput_v2.number()
-//        contentStackView.addArrangedSubview(numberInput)
-//        numberInput.then {
-//            $0.title = "숫자 텍스트 입력"
-//            $0.placeholder = "Text Input"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//            let button = DealiControl.btnOutlineMedium03()
-//            button.title = "Default"
-//            $0.actionButton = button
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let emailInput = DealiTextInput_v2.email()
-//        contentStackView.addArrangedSubview(emailInput)
-//        emailInput.then {
-//            $0.title = "이메일 텍스트 입력"
-//            $0.placeholder = "Text Input"
-//            $0.inputStatus = .disabled
-//            $0.text = "텍스트"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//            let button = DealiControl.btnFilledTonalMedium04()
-//            button.title = "Default"
-//            $0.actionButton = button
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let urlInput = DealiTextInput_v2.url()
-//        contentStackView.addArrangedSubview(urlInput)
-//        urlInput.then {
-//            $0.title = "urlText 입력"
-//            $0.placeholder = "Text Input"
-//            $0.inputStatus = .readOnly
-//            $0.text = "readOnly 텍스트"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//            let button = DealiControl.btnFilledTonalMedium04()
-//            button.title = "Default"
-//            $0.actionButton = button
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let phoneInput = DealiTextInput_v2.phone()
-//        contentStackView.addArrangedSubview(phoneInput)
-//        phoneInput.then {
-//            $0.title = "폰번호 텍스트 입력"
-//            $0.placeholder = "Text Input"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let priceInput = DealiTextInput_v2.price()
-//        contentStackView.addArrangedSubview(priceInput)
-//        priceInput.then {
-//            $0.title = "가격 텍스트 입력"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//            $0.placeholder = "가격 입력"
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let passwordInput = DealiTextInput_v2.password()
-//        contentStackView.addArrangedSubview(passwordInput)
-//        passwordInput.then {
-//            $0.title = "패스워드 텍스트 입력"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
-//        let disabledInput = DealiTextInput_v2()
-//        contentStackView.addArrangedSubview(disabledInput)
-//        disabledInput.then {
-//            $0.title = "비활성 텍스트인풋"
-//            $0.keyboardCloseButtonString = "닫기"
-//            $0.inputReturnKeyType = .done
-//            $0.inputStatus = .disabled
-//            $0.text = "DDDD"
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
-//        
+        let emailInput = DealiTextInput_v2.email()
+        contentStackView.addArrangedSubview(emailInput)
+        emailInput.then {
+            $0.title = "이메일 텍스트 입력"
+            $0.placeholder = "Text Input"
+            $0.inputStatus = .disabled
+            $0.text = "텍스트"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            let button = DealiControl.btnFilledTonalMedium04()
+            button.title = "Default"
+            $0.actionButton = button
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let urlInput = DealiTextInput_v2.url()
+        contentStackView.addArrangedSubview(urlInput)
+        urlInput.then {
+            $0.title = "urlText 입력"
+            $0.placeholder = "Text Input"
+            $0.inputStatus = .readOnly
+            $0.text = "readOnly 텍스트"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            let button = DealiControl.btnFilledTonalMedium04()
+            button.title = "Default"
+            $0.actionButton = button
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let phoneInput = DealiTextInput_v2.phone()
+        contentStackView.addArrangedSubview(phoneInput)
+        phoneInput.then {
+            $0.title = "폰번호 텍스트 입력"
+            $0.placeholder = "Text Input"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let priceInput = DealiTextInput_v2.price()
+        contentStackView.addArrangedSubview(priceInput)
+        priceInput.then {
+            $0.title = "가격 텍스트 입력"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.placeholder = "가격 입력"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let passwordInput = DealiTextInput_v2.password()
+        contentStackView.addArrangedSubview(passwordInput)
+        passwordInput.then {
+            $0.title = "패스워드 텍스트 입력"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let disabledInput = DealiTextInput_v2()
+        contentStackView.addArrangedSubview(disabledInput)
+        disabledInput.then {
+            $0.title = "비활성 텍스트인풋"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.inputStatus = .disabled
+            $0.text = "DDDD"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

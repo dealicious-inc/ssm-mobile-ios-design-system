@@ -287,7 +287,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     private let titleContentView = UIStackView()
     private let titleLabel = UILabel()
     /// 필수입력사항인지 나타내는 뱃지
-    private let requiredBadge = UIView()
+    private var requiredBadge = UIView()
     private let notVerifiedBadge = DealiTag()
     private let verifiedBadge = DealiTag()
     public let helperTextLabel = UILabel()
@@ -463,16 +463,8 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.top.bottom.left.equalToSuperview()
         }
         
+        self.requiredBadge = self.requiredBadgeView()
         self.titleContentView.addArrangedSubview(self.requiredBadge)
-        self.requiredBadge.then {
-            $0.backgroundColor = .primary01
-            $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = 2.5
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
-            $0.top.equalToSuperview().inset(4.0)
-        }
         
         self.titleContentView.addArrangedSubview(self.notVerifiedBadge)
         self.notVerifiedBadge.do {
@@ -665,4 +657,21 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         }
     }
     
+    private func requiredBadgeView() -> UIView {
+        let view = UIView()
+        
+        let requiredBadge = UIView()
+        view.addSubview(requiredBadge)
+        requiredBadge.then {
+            $0.backgroundColor = .primary01
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 2.5
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(4.0)
+            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        return view
+    }
 }

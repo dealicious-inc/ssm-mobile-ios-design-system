@@ -170,6 +170,20 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
+        
+        let descriptionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(descriptionComponents)
+        descriptionComponents.do {
+            $0.title = "Description Components"
+            $0.addTarget(self, action: #selector(descriptionComponentsPressed), for: .touchUpInside)
+        }
+        
+        let accordionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(accordionComponents)
+        accordionComponents.do {
+            $0.title = "Accordion Components"
+            $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -256,5 +270,13 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
+    
+    @objc func descriptionComponentsPressed() {
+        self.navigationController?.pushViewController(DescriptionComponentViewController(), animated: true)
+    }
+    
+    @objc func accordionComponentsPressed() {
+        self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
 }

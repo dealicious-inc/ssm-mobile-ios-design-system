@@ -93,7 +93,7 @@ public extension NSMutableAttributedString {
         }
         return self
     }
-    
+
     /// 폰트사이즈에 정의되어 있는 LineHeight값으로 text LineHeight 값 설정 및 baselineOffset 정의
     func setLineHeight() -> NSMutableAttributedString {
         let source = self.string

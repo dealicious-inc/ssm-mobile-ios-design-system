@@ -2,7 +2,7 @@
 //  Collection+Extension.swift
 //
 //
-//  Created by 이창호 on 9/3/24.
+//  Created by Lee Chang Ho on 8/22/24.
 //
 
 import Foundation

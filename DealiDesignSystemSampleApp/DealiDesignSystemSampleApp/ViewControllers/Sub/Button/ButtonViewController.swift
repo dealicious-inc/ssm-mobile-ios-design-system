@@ -208,22 +208,13 @@ class ButtonViewController: UIViewController {
         
         
         buttonArray.forEach { button in
-           if let new = button as? ClickableComponent {
-//               new.rightImage = ClickableImage(named: "ic_arrow_right")
-//               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
-               
-//                switch Int.random(in: 0...2) {
-//                case 0:
-//                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
-//                case 1:
-//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-//                default:
-//                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
-//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-//                }
+            if let new = button as? ClickableComponentButton {
+                
+                let view = ButtonComponentView(button: new)
+                self.stackView.addArrangedSubview(view)
+
+
             }
-            
-            self.stackView.addArrangedSubview(button)
         }
 
     }

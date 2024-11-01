@@ -39,10 +39,10 @@ class ChipViewController: UIViewController {
             $0.edges.equalToSuperview().inset(0.0)
         }
 
-        let chipsOutlineLargePrimary01 = ChipContentView(name: "chipOutlineLarge01", chipArray: (0..<4).map { _ in
+        let chipOutlineLarge01 = ChipContentView(name: "chipOutlineLarge01", chipArray: (0..<4).map { _ in
             DealiControl.chipOutlineLarge01()
         })
-        self.stackView.addArrangedSubview(chipsOutlineLargePrimary01)
+        self.stackView.addArrangedSubview(chipOutlineLarge01)
         
         let chipsOutlineMediumPrimary01 = ChipContentView(name: "chipOutlineMedium01", chipArray: (0..<4).map { _ in
             DealiControl.chipOutlineMedium01()

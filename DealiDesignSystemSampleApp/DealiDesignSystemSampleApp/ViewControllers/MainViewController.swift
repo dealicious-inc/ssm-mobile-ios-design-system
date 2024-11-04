@@ -150,6 +150,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
         }
         
+        let tabBarV2Components = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarV2Components)
+        tabBarV2Components.do {
+            $0.title = "TabBar v2 Components"
+            $0.addTarget(self, action: #selector(tabBarV2ComponentsPressed), for: .touchUpInside)
+        }
+        
         let checkComponents = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(checkComponents)
         checkComponents.do {
@@ -244,6 +251,10 @@ extension MainViewController {
     
     @objc func tabBarComponentsPressed() {
         self.navigationController?.pushViewController(TabBarComponentViewController(), animated: true)
+    }
+    
+    @objc func tabBarV2ComponentsPressed() {
+        self.navigationController?.pushViewController(TabBarV2ComponentViewController(), animated: true)
     }
     
     @objc func checkComponentsPressed() {

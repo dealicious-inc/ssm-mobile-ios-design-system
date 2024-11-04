@@ -12,9 +12,29 @@ import RxCocoa
 import DealiDesignKit
 
 final class TabBarComponentViewController: UIViewController {
-    private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
-                                  DealiTabBarItem.make(title: "2번 Tab"),
-                                          DealiTabBarItem.make(title: "3번 Tab")]
+    private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "전체"),
+                                  DealiTabBarItem.make(title: "여성의류"),
+                                          DealiTabBarItem.make(title: "여성잡화"),
+                                          DealiTabBarItem.make(title: "남성"),
+                                          DealiTabBarItem.make(title: "아동")]
+    
+    private var segmentTabBarItemArray02 = [DealiTabBarItem.make(title: "All"),
+                                  DealiTabBarItem.make(title: "Women's Clothing"),
+                                          DealiTabBarItem.make(title: "Women's Accessories"),
+                                          DealiTabBarItem.make(title: "Men"),
+                                          DealiTabBarItem.make(title: "Children")]
+    
+    private var sliderTabBarItemArray02 = [DealiTabBarItem.make(title: "전체"),
+                                  DealiTabBarItem.make(title: "여성의류"),
+                                          DealiTabBarItem.make(title: "여성잡화"),
+                                          DealiTabBarItem.make(title: "남성"),
+                                          DealiTabBarItem.make(title: "아동")]
+    
+    private var sliderTabBarItemArray03 = [DealiTabBarItem.make(title: "All"),
+                                           DealiTabBarItem.make(title: "Women's Clothing"),
+                                                   DealiTabBarItem.make(title: "Women's Accessories"),
+                                                   DealiTabBarItem.make(title: "Men"),
+                                                   DealiTabBarItem.make(title: "Children")]
     
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
@@ -28,8 +48,10 @@ final class TabBarComponentViewController: UIViewController {
                                  DealiTabBarItem.make(title: "9번 Tab")]
     
     private let tabBarView01 = DealiTabBar.tabBarSegment01()
+    private let tabBarView01_1 = DealiTabBar.tabBarSegment01()
     private let tabBarView02 = DealiTabBar.tabBarSlider01()
     private let tabBarView03 = DealiTabBar.tabBarSlider02()
+    private let tabBarView03_1 = DealiTabBar.tabBarSlider02()
     private let tabBarViewShort = DealiTabBar.tabBarSlider02()
     private let tabBarView04 = DealiTabBar.tabBarChip01()
     private let tabBarView05 = DealiTabBar.tabBarSlider03()
@@ -93,6 +115,14 @@ final class TabBarComponentViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        contentStackView.addArrangedSubview(self.tabBarView01_1)
+        self.tabBarView01_1.then {
+            $0.setTabBarItems(tabBarItemArray: segmentTabBarItemArray02)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let titleLabel02 = UILabel()
         contentStackView.addArrangedSubview(titleLabel02)
         titleLabel02.do {
@@ -117,7 +147,15 @@ final class TabBarComponentViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarView03)
         self.tabBarView03.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray02)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarView03_1)
+        self.tabBarView03_1.then {
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray03)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

@@ -77,6 +77,9 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         if let image = uiModel.iconURL, let size = uiModel.iconSize {
             self.iconImageView.setImage(url: image, size: size)
             self.iconImageView.isHidden = false
+        } else {
+            self.iconImageView.image = nil
+            self.iconImageView.isHidden = true
         }
     }
 }

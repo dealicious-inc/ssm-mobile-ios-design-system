@@ -52,6 +52,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
         }
         
+        let tabBarViewController = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarViewController)
+        tabBarViewController.do {
+            $0.title = "TabBar Controller"
+            $0.addTarget(self, action: #selector(tabBarViewControllerPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -188,6 +195,10 @@ final class MainViewController: UIViewController {
 
 // MARK: - Button Actions
 extension MainViewController {
+    
+    @objc func tabBarViewControllerPressed() {
+        self.navigationController?.pushViewController(TabBarViewController(), animated: true)
+    }
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)

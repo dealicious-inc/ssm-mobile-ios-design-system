@@ -30,9 +30,9 @@ public struct DealiTabBarItemCellUIModel {
     /// 아이콘 사이즈
     var iconSize: CGSize?
     
-    private var preset: DealiTabBarPreset?
+    private var preset: DealiTabBarPreset_V2?
     
-    static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemCellUIModel {
+    static func make(preset: DealiTabBarPreset_V2, tabbarItem: DealiTabBarItem) -> DealiTabBarItemCellUIModel {
         var uiModel = DealiTabBarItemCellUIModel()
         uiModel.preset = preset
         uiModel.title = tabbarItem.title

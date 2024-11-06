@@ -41,7 +41,8 @@ final public class DealiTabBarView_v2: UIView {
     public weak var delegate: DealiTabBarViewDelegate_v2?
 
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let selectedUnderLineImageView = UIImageView()
+    private let selectedLineScrollView = UIScrollView()
+    private let selectedLineImageView = UIImageView()
     private let bottomDividerView = UIView()
     
     private var tabBarItemInfoArray: [DealiTabBarItemInfo_v2] = []
@@ -49,19 +50,21 @@ final public class DealiTabBarView_v2: UIView {
     /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false
     public var isStandAloneView: Bool = false
     
-    private var selectedIndex: Int = 0 {
+    /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
+    private var isLayoutInitialized = false
+    
+    private var selectedIndex: Int = -1 {
         didSet {
-            for i in 0..<self.tabBarItemInfoArray.count {
-                self.tabBarItemInfoArray[i].itemSelected = (self.tabBarItemInfoArray[i].itemIndex == self.selectedIndex)
+            for index in 0..<self.tabBarItemInfoArray.count {
+                self.tabBarItemInfoArray[index].itemSelected = (self.tabBarItemInfoArray[index].itemIndex == self.selectedIndex)
             }
-            
             self.collectionView.reloadData()
         }
     }
     
-    private var preset: DealiTabBarPreset
+    private var preset: DealiTabBarPreset_V2
     
-    init(preset: DealiTabBarPreset) {
+    init(preset: DealiTabBarPreset_V2) {
         
         self.preset = preset
         
@@ -74,58 +77,6 @@ final public class DealiTabBarView_v2: UIView {
             $0.height.equalTo(preset.tabBarViewHeight)
         }
         
-//        switch preset.style {
-//        case .segment:
-//            self.addSubview(self.contentStackView)
-//            self.contentStackView.then {
-//                $0.axis = .horizontal
-//                $0.spacing = 0.0
-//                $0.distribution = .fillEqually
-//                $0.alignment = .center
-//            }.snp.makeConstraints {
-//                $0.top.bottom.equalToSuperview()
-//                $0.left.right.equalToSuperview().inset(preset.tabBarMargin)
-//            }
-//            
-//            self.addSubview(self.bottomDividerView)
-//            self.addSubview(self.selectedUnderLineImageView)
-//            
-//        default:
-//
-//            self.addSubview(self.contentScrollView)
-//            self.contentScrollView.then {
-//                $0.bounces = false
-//                $0.clipsToBounds = false
-//                $0.showsHorizontalScrollIndicator = false
-//                $0.showsVerticalScrollIndicator = false
-//            }.snp.makeConstraints {
-//                $0.bottom.equalToSuperview()
-//                $0.left.right.equalToSuperview().inset(preset.tabBarMargin)
-//                $0.height.equalTo(preset.tabBerContentHeight)
-//            }
-//            
-//            let contentView = UIView()
-//            self.contentScrollView.addSubview(contentView)
-//            contentView.snp.makeConstraints {
-//                $0.top.bottom.left.right.equalToSuperview()
-//                $0.height.equalToSuperview()
-//            }
-//            
-//            contentView.addSubview(self.contentStackView)
-//            self.contentStackView.then {
-//                $0.axis = .horizontal
-//                $0.spacing = preset.contentSpacing
-//                $0.distribution = .equalSpacing
-//                $0.alignment = .center
-//            }.snp.makeConstraints {
-//                $0.top.bottom.left.right.equalToSuperview()
-//            }
-//            
-//            self.addSubview(self.bottomDividerView)
-//            self.contentScrollView.addSubview(self.selectedUnderLineImageView)
-//            self.bringSubviewToFront(self.contentScrollView)
-//        }
-        
         let layout = UICollectionViewFlowLayout()
                 layout.scrollDirection = .horizontal
         self.addSubview(self.collectionView)
@@ -135,12 +86,19 @@ final public class DealiTabBarView_v2: UIView {
             if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
                 layout.do {
                     $0.scrollDirection = .horizontal
+                    $0.minimumLineSpacing = self.preset.itemSpacing
+                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarLRMargin, bottom: 2.0, right: self.preset.tabBarLRMargin)
                 }
             }
             $0.backgroundColor = .white
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
+            $0.clipsToBounds = false
         }.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(self.preset.tabBerContentHeight)
             $0.top.left.bottom.right.equalToSuperview()
         }
         
@@ -155,71 +113,67 @@ final public class DealiTabBarView_v2: UIView {
             }
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(-preset.tabBarMargin)
+            $0.left.right.equalToSuperview().inset(-preset.tabBarLRMargin)
             $0.height.equalTo(1.0)
         }
         
-        self.collectionView.addSubview(self.selectedUnderLineImageView)
-        self.selectedUnderLineImageView.then {
+        self.addSubview(self.selectedLineScrollView)
+        self.selectedLineScrollView.then {
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+            $0.isUserInteractionEnabled = false
+            $0.backgroundColor = .clear
             if case .sliderChip(_) = preset.style {
                 $0.isHidden = true
             } else {
                 $0.isHidden = false
             }
-            $0.backgroundColor = preset.selectedTextColor
         }.snp.makeConstraints {
+            $0.left.right.equalTo(self.collectionView)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(2.0)
-            $0.left.equalToSuperview().offset(0.0)
-            $0.width.equalTo(0.0)
         }
         
-        self.collectionView.bringSubviewToFront(self.selectedUnderLineImageView)
+        self.selectedLineScrollView.addSubview(self.selectedLineImageView)
+        self.selectedLineImageView.then {
+            $0.backgroundColor = preset.selectedTextColor
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(0.0)
+            $0.height.equalTo(2.0)
+            $0.width.equalTo(0.0)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// TabBar ItemButton click Event
-    @objc func itemPressed(_ sender: UIControl) {
-        self.setSelectedIndex(index: sender.tag, animated: true)
-    }
-    
-    private func setSelectedIndexWithScroll(index: Int) {
-        guard index < self.tabBarItemInfoArray.count else { return }
-        self.selectedIndex = index
+    public override func layoutSubviews() {
+        super.layoutSubviews()
         
-        print("contentStartPositionX = \(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX) / contentWidth = \(self.tabBarItemInfoArray[self.selectedIndex].contentWidth) / self.selectedUnderLineImageView isheiidn = \(self.selectedUnderLineImageView.isHidden)")
-        /// chip을 사용하는 tabBar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
-        if self.preset.style == .segment || self.preset.style == .sliderButton {
-            self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.left.equalToSuperview().offset(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                $0.width.equalTo(self.tabBarItemInfoArray[self.selectedIndex].contentWidth)
-            }
-        }
-        
-        /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
-        if self.preset.style != .segment && self.isStandAloneView {
-            self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentStartPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth)
+        self.selectedLineScrollView.contentSize.width = self.collectionView.contentSize.width
+       
+        print("collectionview width = \(self.collectionView.frame.width) / self.collectionView.contentSize.width = \(self.collectionView.contentSize.width)")
+        print("selectedLineScrollView width = \(self.selectedLineScrollView.frame.width) / self.selectedLineScrollView.contentSize.width = \(self.selectedLineScrollView.contentSize.width)")
+        if self.collectionView.frame.width > 0.0 && self.collectionView.contentSize.width > 0.0 && self.isLayoutInitialized == false && self.tabBarItemInfoArray.count > 0 {
+            print("뷰 옴기기")
+            self.isLayoutInitialized = true
+            self.setSelectedIndexWithScroll(index: self.selectedIndex)
         }
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = false, withoutAction: Bool = false) {
+    public func setSelectedIndex(index: Int, animated: Bool = false) {
         self.setSelectedIndexWithScroll(index: index)
-        if !withoutAction {
-            /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
-            self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
-        }
+        
+        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+        self.delegate?.didSelectTabBar(self, selectedIndex: self.selectedIndex, showScrollAnimation: animated)
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
     public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false) {
-        print("setTabBarItems")
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
-        
-        let offset = self.collectionView.contentOffset
         
         self.tabBarItemInfoArray.removeAll()
         
@@ -227,147 +181,82 @@ final public class DealiTabBarView_v2: UIView {
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-            
-            if let _ = item.icon, let iconSize = item.icon?.size {
-                contentWidth += iconSize.width + 2.0
+            if let _ = item.icon {
+                contentWidth += 16.0 + 2.0
             }
             
             switch self.preset.style {
-            case .sliderChip(let chipStyle):
-                break
-            default:
+            case .segment, .slider:
                 var itemInfo = DealiTabBarItemInfo_v2()
                 itemInfo.itemIndex = index
                 itemInfo.itemCellUIModel = DealiTabBarItemCellUIModel.make(preset: self.preset, tabbarItem: item)
-                itemInfo.itemSelected = (index == self.selectedIndex)
                 itemInfo.contentWidth = contentWidth
                 
                 if case .segment = self.preset.style {
-                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarMargin * 2.0)) / CGFloat(itemArray.count))
+                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarLRMargin * 2.0)) / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
                 } else {
-                    itemInfo.containerWidth = contentWidth + (self.preset.contentButtonPadding * 2.0)
+                    itemInfo.containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
                     itemInfo.contentWidth = contentWidth
                 }
                 
                 self.tabBarItemInfoArray.append(itemInfo)
-            }
-        }
-            
-//            switch self.preset.style {
-//            case .sliderChip(let chipStyle):
-//                switch chipStyle {
-//                case .chipFilledSmall02:
-//                    break
-////                    let itemChip = DealiControl.chipFilledSmall02()
-////                    self.contentStackView.addArrangedSubview(itemChip)
-////                    itemChip.then {
-////                        $0.title = title
-////                        $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
-////                        $0.tag = index
-////                        $0.isSelected = (index == self.selectedIndex)
-////                    }.snp.makeConstraints {
-////                        $0.centerY.equalToSuperview()
-////                    }
-////                    
-////                    var itemInfo = DealiTabBarItemInfo()
-////                    itemInfo.itemIndex = index
-////                    itemInfo.itemChip = itemChip
-////                    itemInfo.itemSelected = (index == self.selectedIndex)
-////                    
-////                    self.tabBarItemInfoArray.append(itemInfo)
-//                }
-//                
-//            default:
-//                
-//                let itemButton = DealiTabBarItemButton()
-//                self.contentStackView.addArrangedSubview(itemButton)
-//                itemButton.then {
-//                    $0.configure(uiModel: DealiTabBarItemButtonUIModel.make(preset: self.preset, tabbarItem: item))
-//                    $0.tag = index
-//                    $0.isSelected = (index == self.selectedIndex)
-//                    $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
-//                }.snp.makeConstraints {
-//                    $0.top.bottom.equalToSuperview()
-//                    
-//                    if case .sliderButton = self.preset.style {
-//                        $0.width.equalTo(buttonContentWidth + (self.preset.contentButtonPadding * 2.0))
-//                    }
-//                }
-//            
-//                var itemInfo = DealiTabBarItemInfo()
-//                itemInfo.itemIndex = index
-//                itemInfo.itemButton = itemButton
-//                itemInfo.itemSelected = (index == self.selectedIndex)
-//                itemInfo.contentWidth = buttonContentWidth
-//                
-//                self.tabBarItemInfoArray.append(itemInfo)
-//            }
-//        }
-        
-        self.collectionView.reloadData()
-        self.updateTabBarItemPositions()
-        
-        self.collectionView.setContentOffset((maintainContentOffset ? offset : .zero), animated: false)
-        self.setSelectedIndexWithScroll(index: startIndex)
-    }
-    
-    /// 특정 index에 위치한 tabbaritem의 title 변경 처리
-    public func changeTabBarButtonTitle(index: Int, title: String) {
-        guard index < self.tabBarItemInfoArray.count else { return }
-        
-        if case .sliderChip(_) = self.preset.style {
-//            self.tabBarItemInfoArray[index].itemChip?.title = title
-        } else {
-            if var uiModel = self.tabBarItemInfoArray[index].itemCellUIModel {
-                var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-                if let iconSize = self.tabBarItemInfoArray[index].itemCellUIModel?.iconSize {
-                    contentWidth += iconSize.width + 2.0
-                }
-                self.tabBarItemInfoArray[index].contentWidth = contentWidth
-                self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.contentButtonPadding * 2.0)
                 
-                uiModel.title = title
+            case .sliderChip(let chipStyle):
+                break
+            default:
+                break
             }
         }
-        self.collectionView.reloadData()
+        
+        self.selectedIndex = startIndex
         self.updateTabBarItemPositions()
+        
     }
     
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 position X 값을 갱신 및 세팅
     private func updateTabBarItemPositions() {
-        print("updateTabBarItemPositions_1")
         self.layoutIfNeeded()
         for index in 0..<self.tabBarItemInfoArray.count {
             
             let indexPath = IndexPath(item: index, section: 0)
-            print(indexPath)
+            
             if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
                 let cellXPosition = attributes.frame.origin.x
-                
-                print("\(indexPath) / cellXPosition = \(cellXPosition)")
+//                print("indexPath = \(indexPath) / cellXPosition = \(cellXPosition) / cellXPosition + self.preset.itemLRPadding = \(cellXPosition + self.preset.itemLRPadding)")
                 if case .segment = self.preset.style {
-                    self.tabBarItemInfoArray[index].contentStartPositionX = cellXPosition
-                } else if case .sliderButton = self.preset.style {
-                    self.tabBarItemInfoArray[index].contentStartPositionX = cellXPosition + self.preset.contentButtonPadding
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
+                } else if case .slider = self.preset.style {
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemLRPadding
                 }
             }
         }
-        print("contentStartPositionX = \(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX) / contentWidth = \(self.tabBarItemInfoArray[self.selectedIndex].contentWidth)")
-        if self.preset.style == .segment || self.preset.style == .sliderButton {
-            self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.left.equalToSuperview().offset(self.tabBarItemInfoArray[self.selectedIndex].contentStartPositionX)
-                $0.width.equalTo(self.tabBarItemInfoArray[self.selectedIndex].contentWidth)
-            }
+        
+        if self.isLayoutInitialized == true {
+            self.setSelectedIndexWithScroll(index: self.selectedIndex)
         }
     }
     
-    public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
+    private func setSelectedIndexWithScroll(index: Int) {
+        print("setSelectedIndexWithScroll")
         guard index < self.tabBarItemInfoArray.count else { return }
-        if self.preset.style == .segment || self.preset.style == .sliderButton {
-            if var itemCellUIModel = self.tabBarItemInfoArray[index].itemCellUIModel {
-                itemCellUIModel.shouldExposeNewBadge = shouldShowBadge
-                self.collectionView.reloadData()
+        self.selectedIndex = index
+
+        self.updateSelectedLine(width: self.tabBarItemInfoArray[self.selectedIndex].contentWidth, positionX: self.tabBarItemInfoArray[self.selectedIndex].contentPositionX)
+        
+        /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
+        if self.preset.style != .segment && self.isStandAloneView {
+//            self.collectionView.scrollToItem(at: IndexPath(item: self.selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
+            self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: true)
+        }
+    }
+    
+    /// chip을 사용하는 tabBar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
+    private func updateSelectedLine(width: CGFloat, positionX: CGFloat) {
+        if self.preset.style == .segment || self.preset.style == .slider {
+            self.selectedLineImageView.snp.updateConstraints {
+                $0.left.equalToSuperview().offset(positionX)
+                $0.width.equalTo(width)
             }
         }
     }
@@ -388,59 +277,101 @@ final public class DealiTabBarView_v2: UIView {
 
         if preIdx < 0 {
             if let item = self.tabBarItemInfoArray.first {
-                positionX = item.contentStartPositionX
+                positionX = item.contentPositionX
                 contentWidth = item.contentWidth
             }
         } else if nexIdx >= self.tabBarItemInfoArray.count {
             if let item = self.tabBarItemInfoArray.last {
-                positionX = item.contentStartPositionX
+                positionX = item.contentPositionX
                 contentWidth = item.contentWidth
             }
         } else {
             let preItem = self.tabBarItemInfoArray[preIdx]
             let nexItem = self.tabBarItemInfoArray[nexIdx]
-            positionX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
+            positionX = preItem.contentPositionX + (nexItem.contentPositionX - preItem.contentPositionX) * calc
             contentWidth = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
         }
         
         self.selectedIndex = page
         
-        if self.preset.style == .segment || self.preset.style == .sliderButton {
-            self.selectedUnderLineImageView.snp.updateConstraints {
-                $0.width.equalTo(contentWidth)
-                $0.left.equalToSuperview().offset(positionX)
-            }
-        }
-
-        if self.preset.style == .segment {
-            return
+        self.updateSelectedLine(width: contentWidth, positionX: positionX)
+        
+        if self.preset.style != .segment {
+            self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
         }
         
-        self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
+//        self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
     }
     
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
-    private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat) {
-//        var offset: CGFloat = -1
-//
+    private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
+        var offset: CGFloat = -1
+
+        if case .sliderChip(_) = self.preset.style {
+            if positionX < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+                offset = positionX
+            } else if (positionX + contentWidth) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
+                offset = (positionX + contentWidth) - self.collectionView.frame.width
+            }
+        } else {
+            
+            let centerOffsetX = (self.collectionView.frame.width / 2)
+            offset = positionX - centerOffsetX + (contentWidth / 2)
+            print("offset_1 = \(offset)")
+            offset = max(offset, 0)
+            print("offset_2 = \(offset)")
+            let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
+            offset = min(offset, maxOffsetX)
+            print("offset_3 = \(offset) / maxOffsetX = \(maxOffsetX)")
+            print("positionX = \(positionX) / contentWidth = \(contentWidth) / centerOffsetX = \(centerOffsetX)")
+        }
+
+        
+        if offset >= 0 {
+            print("offset_4 = \(offset)")
+            
+            self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
+        }
+        
+//        self.selectedLineScrollView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: false)
+    }
+    
+    
+    /// 특정 index에 위치한 tabbaritem의 title 변경 처리
+    public func changeTabBarButtonTitle(index: Int, title: String) {
+//        guard index < self.tabBarItemInfoArray.count else { return }
+//        
 //        if case .sliderChip(_) = self.preset.style {
-//            if positionX < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
-//                offset = positionX
-//            } else if (positionX + contentWidth) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
-//                offset = (positionX + contentWidth) - self.contentScrollView.frame.width
-//            }
+////            self.tabBarItemInfoArray[index].itemChip?.title = title
 //        } else {
-//            if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
-//                offset = (positionX - self.preset.contentButtonPadding)
-//            } else if (positionX + contentWidth + self.preset.contentButtonPadding) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
-//                offset = (positionX + contentWidth + self.preset.contentButtonPadding) - self.contentScrollView.frame.width
+//            if var uiModel = self.tabBarItemInfoArray[index].itemCellUIModel {
+//                var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
+//                if let _ = uiModel.iconURL {
+//                    contentWidth += 16.0 + 2.0
+//                }
+//                self.tabBarItemInfoArray[index].contentWidth = contentWidth
+//                self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.contentButtonPadding * 2.0)
+//                
+//                uiModel.title = title
 //            }
 //        }
-//
-//        if offset >= 0 {
-//            self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: true)
+//        self.collectionView.reloadData()
+//        self.updateTabBarItemPositions()
+    }
+    
+    
+    
+    public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
+//        guard index < self.tabBarItemInfoArray.count else { return }
+//        if self.preset.style == .segment || self.preset.style == .sliderButton {
+//            if var itemCellUIModel = self.tabBarItemInfoArray[index].itemCellUIModel {
+//                itemCellUIModel.shouldExposeNewBadge = shouldShowBadge
+//                self.collectionView.reloadData()
+//            }
 //        }
     }
+    
+    
 }
 
 extension DealiTabBarView_v2: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -463,9 +394,10 @@ extension DealiTabBarView_v2: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == self.selectedIndex {
+            return
+        }
         self.setSelectedIndex(index: indexPath.item, animated: true)
-//        let selector = self.viewModel.output.sectionArray[indexPath.section].listArray[indexPath.item].selector
-//        self.viewModel.perform(selector)
     }
 }
 
@@ -473,19 +405,14 @@ extension DealiTabBarView_v2: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.tabBarItemInfoArray[indexPath.item].containerWidth, height: self.preset.tabBarViewHeight)
     }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarMargin, bottom: 0.0, right: self.preset.tabBarMargin)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return self.preset.contentSpacing
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
-    }
+}
 
+extension DealiTabBarView_v2: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == self.collectionView {
+            self.selectedLineScrollView.contentOffset = self.collectionView.contentOffset
+        }
+    }
 }
 
 struct DealiTabBarItemInfo_v2 {
@@ -493,7 +420,7 @@ struct DealiTabBarItemInfo_v2 {
     var containerWidth: CGFloat = 0.0
     /// View 안에 들어가는 content width 정보
     var contentWidth: CGFloat = 0.0
-    var contentStartPositionX: CGFloat = 0.0
+    var contentPositionX: CGFloat = 0.0
     var itemIndex: Int = 0
     var itemCellUIModel: DealiTabBarItemCellUIModel?
     var itemSelected: Bool = false {

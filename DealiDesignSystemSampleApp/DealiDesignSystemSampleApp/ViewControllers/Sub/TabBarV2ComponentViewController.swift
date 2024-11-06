@@ -48,7 +48,7 @@ class TabBarV2ComponentViewController: UIViewController {
     
     private let tabBarView01 = DealiTabBar_v2.tabBarSegment01()
 //    private let tabBarView01_1 = DealiTabBar_v2.tabBarSegment01()
-//    private let tabBarView02 = DealiTabBar_v2.tabBarSlider01()
+    private let tabBarView02 = DealiTabBar_v2.tabBarSlider01()
 //    private let tabBarView03 = DealiTabBar_v2.tabBarSlider02()
 //    private let tabBarView03_1 = DealiTabBar_v2.tabBarSlider02()
 //    private let tabBarViewShort = DealiTabBar_v2.tabBarSlider02()
@@ -63,7 +63,7 @@ class TabBarV2ComponentViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "TabBar_V2"
-        self.view.backgroundColor = .lightGray
+        self.view.backgroundColor = .white
     }
     
     override func loadView() {
@@ -81,7 +81,7 @@ class TabBarV2ComponentViewController: UIViewController {
         let contentView = UIView()
         contentScrollView.addSubview(contentView)
         contentView.then {
-            $0.backgroundColor = .lightGray
+            $0.backgroundColor = .white
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
@@ -122,20 +122,20 @@ class TabBarV2ComponentViewController: UIViewController {
 //            $0.left.right.equalToSuperview()
 //        }
 //        
-//        let titleLabel02 = UILabel()
-//        contentStackView.addArrangedSubview(titleLabel02)
-//        titleLabel02.do {
-//            $0.text = "tabBarSlider01"
-//            $0.font = .b1sb15
-//        }
-//        
-//        contentStackView.addArrangedSubview(self.tabBarView02)
-//        self.tabBarView02.then {
-//            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray)
-//            $0.delegate = self
-//        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//        }
+        let titleLabel02 = UILabel()
+        contentStackView.addArrangedSubview(titleLabel02)
+        titleLabel02.do {
+            $0.text = "tabBarSlider01"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarView02)
+        self.tabBarView02.then {
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 5, isStandAloneView: true)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
 //        
 //        let titleLabel03 = UILabel()
 //        contentStackView.addArrangedSubview(titleLabel03)

@@ -101,6 +101,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
         }
         
+        let imageChipComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(imageChipComponentsButton)
+        imageChipComponentsButton.do {
+            $0.title = "Image Chip Components"
+            $0.addTarget(self, action: #selector(imageChipButtonPressed), for: .touchUpInside)
+        }
+        
         let switchComponentButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(switchComponentButton)
         switchComponentButton.do {
@@ -216,6 +223,10 @@ extension MainViewController {
     
     @objc func chipButtonPressed() {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
+    }
+    
+    @objc func imageChipButtonPressed() {
+        self.navigationController?.pushViewController(ImageChipViewController(), animated: true)
     }
     
     @objc func textInputButtonPressed() {

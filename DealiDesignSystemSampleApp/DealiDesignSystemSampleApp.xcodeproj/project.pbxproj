@@ -34,6 +34,7 @@
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D96495B2BDA227D00AC1BDE /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 4D96495A2BDA227D00AC1BDE /* RxKeyboard */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
+		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
@@ -73,6 +74,7 @@
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
 		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 		4D1FA9272AFC740000AA510F /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				4DE3261E2CDB611400E67FEC /* ImageChip */,
 				392C38A12C467A540088D176 /* DropdownViewController.swift */,
 				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
 				396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */,
@@ -205,6 +208,14 @@
 				392C389B2C4654CA0088D176 /* BottomSheetTestViewController.swift */,
 			);
 			path = Sub;
+			sourceTree = "<group>";
+		};
+		4DE3261E2CDB611400E67FEC /* ImageChip */ = {
+			isa = PBXGroup;
+			children = (
+				4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */,
+			);
+			path = ImageChip;
 			sourceTree = "<group>";
 		};
 		E6F22CDB2BBAA36700EACE6C /* TabbarViewController */ = {
@@ -336,6 +347,7 @@
 				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,
 				393D25822BEB615F00A2CC3F /* EmptyComponentViewController.swift in Sources */,
+				4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */,
 				E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

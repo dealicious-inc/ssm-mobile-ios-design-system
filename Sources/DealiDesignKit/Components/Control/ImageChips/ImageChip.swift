@@ -21,12 +21,13 @@ public class ImageChip: UIControl {
     var color: ClickableColorConfig
     
     private let contentStackView = UIStackView()
+    private var currentColor: ClickableColorSet?
     
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
     private let rightIconImageView = UIImageView()
     
-    init(config: ClickableConfig,
+    public init(config: ClickableConfig,
          color: ClickableColorConfig) {
         self.config = config
         self.color = color
@@ -68,11 +69,55 @@ private extension ImageChip {
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
+       
+        self.contentStackView.addArrangedSubview(self.titleLabel)
+        self.titleLabel.do {
+            $0.font = self.config.font.normal
+            $0.textAlignment = .left
+            $0.text = "imageChip"
+        }
+        
+        self.contentStackView.addArrangedSubview(self.rightIconImageView)
+        self.rightIconImageView.then {
+            $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
+        }
+        
+        self.updateContent(with: self.color.attribute.normal)
+
+    }
+    
+    
+    private func updateContent(with color: ClickableColorSet? = nil) {
+        if let color {
+            self.updateColor(color: color)
+        } else {
+            self.updateColor(color: self.currentColor)
+        }
+    }
+    
+    private func updateColor(color: ClickableColorSet?) {
+        guard let color else { return }
+        
+        self.currentColor = color
+        
+        self.backgroundColor = color.background
+        
+        if let borderColor = color.border {
+            self.layer.borderColor = borderColor.cgColor
+            self.layer.borderWidth = 1.0
+        }
+        
+        
+        self.titleLabel.textColor = color.text
+        
         
     }
     
     func setCornerRadius() {
-        var height = self.config.height.chip
+        let height = self.config.height.chip
         
         switch self.config.cornerRadius {
         case .none:

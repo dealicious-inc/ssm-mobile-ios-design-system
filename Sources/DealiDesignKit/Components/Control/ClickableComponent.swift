@@ -88,8 +88,7 @@ final class ClickableIndicatorView: UIView {
 }
 
 
-public class ChipComponent: UIControl {
- 
+public class ChipComponent: DealiChip {
     
     private var config: ClickableComponent.Configuration?
     private var gradientBackgroundLayer: CAGradientLayer?
@@ -189,11 +188,7 @@ public class ChipComponent: UIControl {
     
     /// size
     public var fixedSize: CGSize {
-        if self.config?.style == .button {
-            return CGSize(width: self.fixedWidth, height: self.config?.height?.button ?? 0)
-        } else {
-            return CGSize(width: self.fixedWidth, height: self.config?.height?.chip ?? 0)
-        }
+        return CGSize(width: self.fixedWidth, height: self.config?.height?.chip ?? 0)
     }
     
     /// size가 content 에 맞게 고정
@@ -261,20 +256,15 @@ public class ChipComponent: UIControl {
         set {
             super.isSelected = newValue
             
-            if self.config?.style == .chip { // 칩만 selected 가능.
-                if self.isEnabled == true {
-                    if newValue == true {
-                        self.updateColor(color: self.config?.color?.selected)
-                        self.titleLabel.font = self.config?.font?.selected
-                    } else {
-                        self.updateColor(color: self.config?.color?.normal)
-                        self.titleLabel.font = self.config?.font?.normal
-                    }
+            if self.isEnabled == true {
+                if newValue == true {
+                    self.updateColor(color: self.config?.color?.selected)
+                    self.titleLabel.font = self.config?.font?.selected
+                } else {
+                    self.updateColor(color: self.config?.color?.normal)
+                    self.titleLabel.font = self.config?.font?.normal
                 }
-            } else {
-                // 버튼은 selected 상태의 디자인이 없습니다. selected 를 사용해야 한다면 chip을 사용하세요.
             }
-            
         }
     }
     
@@ -326,11 +316,7 @@ public class ChipComponent: UIControl {
         }
         
         var height: CGFloat = 0.0
-        if configuration.style == .button {
-            height = configuration.height?.button ?? 0.0
-        } else {
-            height = configuration.height?.chip ?? 0.0
-        }
+        height = configuration.height?.chip ?? 0.0
         
         switch config.cornerRadius {
         case .fixed(let radius):
@@ -374,11 +360,8 @@ public class ChipComponent: UIControl {
         self.titleLabel.do {
             $0.font = config.font.normal
             $0.isHidden = true
-            if configuration.style == .button {
-                $0.textAlignment = .center
-            } else {
-                $0.textAlignment = .left
-            }
+            $0.textAlignment = .left
+            
         }
         self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.titleLabel)
         
@@ -433,9 +416,7 @@ public class ChipComponent: UIControl {
         self.currentColor = color
         
         self.backgroundColor = color.background
-        if self.config?.style == .button {
-            self.indicator.color = color.text
-        }
+       
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
             if singleImage.needOriginColor == false {
                 self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
@@ -658,13 +639,9 @@ extension ChipComponent {
             private func largePadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
                 switch self {
                 case .square:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    }
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    
                 case .raund:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
@@ -677,13 +654,9 @@ extension ChipComponent {
             private func mediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
                 switch self {
                 case .square:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    }
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    
                 case .raund:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
@@ -699,13 +672,9 @@ extension ChipComponent {
                     return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
                 case .raund:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
-                    }
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
+                    
                 case .text:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
@@ -714,7 +683,7 @@ extension ChipComponent {
             
         }
 
-        public var style: Style = .button
+        public var style: Style = .chip
         
         public var font: ClickableFont?
         

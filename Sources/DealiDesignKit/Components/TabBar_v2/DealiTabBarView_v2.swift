@@ -41,7 +41,6 @@ final public class DealiTabBarView_v2: UIView {
     public weak var delegate: DealiTabBarViewDelegate_v2?
 
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let selectedLineScrollView = UIScrollView()
     private let selectedLineImageView = UIImageView()
     private let bottomDividerView = UIView()
     
@@ -87,7 +86,7 @@ final public class DealiTabBarView_v2: UIView {
                 layout.do {
                     $0.scrollDirection = .horizontal
                     $0.minimumLineSpacing = self.preset.itemSpacing
-                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarLRMargin, bottom: 2.0, right: self.preset.tabBarLRMargin)
+                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarLRMargin, bottom: 0.0, right: self.preset.tabBarLRMargin)
                 }
             }
             $0.backgroundColor = .white
@@ -95,7 +94,6 @@ final public class DealiTabBarView_v2: UIView {
             $0.showsHorizontalScrollIndicator = false
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
-            $0.clipsToBounds = false
         }.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
             $0.height.equalTo(self.preset.tabBerContentHeight)
@@ -116,29 +114,13 @@ final public class DealiTabBarView_v2: UIView {
             $0.left.right.equalToSuperview().inset(-preset.tabBarLRMargin)
             $0.height.equalTo(1.0)
         }
+
         
-        self.addSubview(self.selectedLineScrollView)
-        self.selectedLineScrollView.then {
-            $0.showsVerticalScrollIndicator = false
-            $0.showsHorizontalScrollIndicator = false
-            $0.isUserInteractionEnabled = false
-            $0.backgroundColor = .clear
-            if case .sliderChip(_) = preset.style {
-                $0.isHidden = true
-            } else {
-                $0.isHidden = false
-            }
-        }.snp.makeConstraints {
-            $0.left.right.equalTo(self.collectionView)
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(2.0)
-        }
-        
-        self.selectedLineScrollView.addSubview(self.selectedLineImageView)
+        self.collectionView.addSubview(self.selectedLineImageView)
         self.selectedLineImageView.then {
             $0.backgroundColor = preset.selectedTextColor
         }.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalToSuperview().offset(preset.tabBerContentHeight - 2.0)
             $0.left.equalToSuperview().offset(0.0)
             $0.height.equalTo(2.0)
             $0.width.equalTo(0.0)
@@ -151,15 +133,11 @@ final public class DealiTabBarView_v2: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        self.selectedLineScrollView.contentSize.width = self.collectionView.contentSize.width
        
-        print("collectionview width = \(self.collectionView.frame.width) / self.collectionView.contentSize.width = \(self.collectionView.contentSize.width)")
-        print("selectedLineScrollView width = \(self.selectedLineScrollView.frame.width) / self.selectedLineScrollView.contentSize.width = \(self.selectedLineScrollView.contentSize.width)")
         if self.collectionView.frame.width > 0.0 && self.collectionView.contentSize.width > 0.0 && self.isLayoutInitialized == false && self.tabBarItemInfoArray.count > 0 {
-            print("뷰 옴기기")
+
             self.isLayoutInitialized = true
-            self.setSelectedIndexWithScroll(index: self.selectedIndex)
+            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
         }
     }
     
@@ -223,7 +201,6 @@ final public class DealiTabBarView_v2: UIView {
             
             if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
                 let cellXPosition = attributes.frame.origin.x
-//                print("indexPath = \(indexPath) / cellXPosition = \(cellXPosition) / cellXPosition + self.preset.itemLRPadding = \(cellXPosition + self.preset.itemLRPadding)")
                 if case .segment = self.preset.style {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
                 } else if case .slider = self.preset.style {
@@ -237,18 +214,18 @@ final public class DealiTabBarView_v2: UIView {
         }
     }
     
-    private func setSelectedIndexWithScroll(index: Int) {
+    private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {
         print("setSelectedIndexWithScroll")
         guard index < self.tabBarItemInfoArray.count else { return }
         self.selectedIndex = index
 
-        self.updateSelectedLine(width: self.tabBarItemInfoArray[self.selectedIndex].contentWidth, positionX: self.tabBarItemInfoArray[self.selectedIndex].contentPositionX)
         
         /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
         if self.preset.style != .segment && self.isStandAloneView {
-//            self.collectionView.scrollToItem(at: IndexPath(item: self.selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
-            self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: true)
+            self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: isMoveAnimation)
         }
+        
+        self.updateSelectedLine(width: self.tabBarItemInfoArray[self.selectedIndex].contentWidth, positionX: self.tabBarItemInfoArray[self.selectedIndex].contentPositionX)
     }
     
     /// chip을 사용하는 tabBar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
@@ -300,7 +277,6 @@ final public class DealiTabBarView_v2: UIView {
             self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
         }
         
-//        self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
     }
     
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
@@ -317,23 +293,15 @@ final public class DealiTabBarView_v2: UIView {
             
             let centerOffsetX = (self.collectionView.frame.width / 2)
             offset = positionX - centerOffsetX + (contentWidth / 2)
-            print("offset_1 = \(offset)")
             offset = max(offset, 0)
-            print("offset_2 = \(offset)")
             let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
             offset = min(offset, maxOffsetX)
-            print("offset_3 = \(offset) / maxOffsetX = \(maxOffsetX)")
-            print("positionX = \(positionX) / contentWidth = \(contentWidth) / centerOffsetX = \(centerOffsetX)")
         }
 
         
         if offset >= 0 {
-            print("offset_4 = \(offset)")
-            
             self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
         }
-        
-//        self.selectedLineScrollView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: false)
     }
     
     
@@ -404,14 +372,6 @@ extension DealiTabBarView_v2: UICollectionViewDataSource, UICollectionViewDelega
 extension DealiTabBarView_v2: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.tabBarItemInfoArray[indexPath.item].containerWidth, height: self.preset.tabBarViewHeight)
-    }
-}
-
-extension DealiTabBarView_v2: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == self.collectionView {
-            self.selectedLineScrollView.contentOffset = self.collectionView.contentOffset
-        }
     }
 }
 

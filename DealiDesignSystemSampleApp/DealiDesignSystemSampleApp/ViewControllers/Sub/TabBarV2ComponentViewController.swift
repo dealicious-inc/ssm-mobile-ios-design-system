@@ -49,7 +49,7 @@ class TabBarV2ComponentViewController: UIViewController {
     private let tabBarView01 = DealiTabBar_v2.tabBarSegment01()
 //    private let tabBarView01_1 = DealiTabBar_v2.tabBarSegment01()
     private let tabBarView02 = DealiTabBar_v2.tabBarSlider01()
-//    private let tabBarView03 = DealiTabBar_v2.tabBarSlider02()
+    private let tabBarView03 = DealiTabBar_v2.tabBarSlider02()
 //    private let tabBarView03_1 = DealiTabBar_v2.tabBarSlider02()
 //    private let tabBarViewShort = DealiTabBar_v2.tabBarSlider02()
 //    private let tabBarView04 = DealiTabBar_v2.tabBarChip01()

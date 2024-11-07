@@ -16,8 +16,6 @@ public enum DealiTabBarPreset_V2 {
     case tabBarSlider02
     /// slider 스타일 형식의 tabbar(chipFilledSmall02 을 사용)
     case tabBarChip01
-    /// slider 스타일 형식의 tabbar(기본 텍스트 컬러 - g100, 선택 텍스트 컬러 - primary01) tabBar02와 스탸일은 동일하지만 tabbar 높이 값이 작음
-    case tabBarSlider03
     
     /// tabber Item Style
     enum DealiTabBarStyle: Equatable {
@@ -68,7 +66,7 @@ public enum DealiTabBarPreset_V2 {
         switch self {
         case .tabBarSegment01, .tabBarSlider02:
             return DealiColor.g100
-        case .tabBarSlider01, .tabBarSlider03:
+        case .tabBarSlider01:
             return DealiColor.primary01
         case .tabBarChip01:
             return DealiColor.primary04
@@ -88,7 +86,7 @@ public enum DealiTabBarPreset_V2 {
     // MARK: itemLRPadding - item Text 양쪽 padding
     var itemLRPadding: CGFloat {
         switch self {
-        case .tabBarSlider01, .tabBarSlider02, .tabBarSlider03:
+        case .tabBarSlider01, .tabBarSlider02:
             return 12.0
         default:
             return 0.0
@@ -120,8 +118,6 @@ public enum DealiTabBarPreset_V2 {
         switch self {
         case .tabBarChip01:
             return 56.0
-        case .tabBarSlider03:
-            return 36.0
         default:
             return 44.0
         }

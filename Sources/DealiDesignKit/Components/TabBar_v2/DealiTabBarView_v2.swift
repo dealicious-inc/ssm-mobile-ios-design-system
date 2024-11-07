@@ -26,10 +26,6 @@ public class DealiTabBar_v2 {
     public static func tabBarChip01() -> DealiTabBarView_v2 {
         return DealiTabBarView_v2(preset: .tabBarChip01)
     }
-    
-    public static func tabBarSlider03() -> DealiTabBarView_v2 {
-        return DealiTabBarView_v2(preset: .tabBarSlider03)
-    }
 }
 
 @objc public protocol DealiTabBarViewDelegate_v2 {
@@ -41,8 +37,8 @@ final public class DealiTabBarView_v2: UIView {
     public weak var delegate: DealiTabBarViewDelegate_v2?
 
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let selectedLineImageView = UIImageView()
-    private let bottomDividerView = UIView()
+    private lazy var selectedLineView = UIView()
+    private lazy var bottomDividerView = UIView()
     
     private var tabBarItemInfoArray: [DealiTabBarItemInfo_v2] = []
     
@@ -100,24 +96,18 @@ final public class DealiTabBarView_v2: UIView {
             $0.top.left.bottom.right.equalToSuperview()
         }
         
-        
-        self.addSubview(self.bottomDividerView)
-        self.bottomDividerView.then {
-            if case .sliderChip(_) = preset.style {
-                $0.isHidden = true
-            } else {
-                $0.isHidden = false
-                $0.backgroundColor = DealiColor.g30
-            }
-        }.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(-preset.tabBarLRMargin)
-            $0.height.equalTo(1.0)
+        if preset.style == .segment || preset.style == .slider {
+            self.createSelectedLine()
         }
-
-        
-        self.collectionView.addSubview(self.selectedLineImageView)
-        self.selectedLineImageView.then {
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func createSelectedLine() {
+        self.collectionView.addSubview(self.selectedLineView)
+        self.selectedLineView.then {
             $0.backgroundColor = preset.selectedTextColor
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(preset.tabBerContentHeight - 2.0)
@@ -125,10 +115,17 @@ final public class DealiTabBarView_v2: UIView {
             $0.height.equalTo(2.0)
             $0.width.equalTo(0.0)
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        
+        self.collectionView.backgroundView = UIView()
+        
+        self.collectionView.backgroundView?.addSubview(self.bottomDividerView)
+        self.bottomDividerView.then {
+            $0.backgroundColor = DealiColor.g30
+        }.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(-preset.tabBarLRMargin)
+            $0.height.equalTo(1.0)
+        }
     }
     
     public override func layoutSubviews() {
@@ -141,7 +138,12 @@ final public class DealiTabBarView_v2: UIView {
         }
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = false) {
+    /// TabBar ItemChip click Event
+    @objc func itemPressed(_ sender: UIControl) {
+        self.setSelectedIndex(index: sender.tag, animated: true)
+    }
+    
+    public func setSelectedIndex(index: Int, animated: Bool = true) {
         self.setSelectedIndexWithScroll(index: index)
         
         /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
@@ -181,9 +183,27 @@ final public class DealiTabBarView_v2: UIView {
                 self.tabBarItemInfoArray.append(itemInfo)
                 
             case .sliderChip(let chipStyle):
-                break
-            default:
-                break
+                var itemChip: ClickableComponentChip!
+                switch chipStyle {
+                case .chipFilledSmall02:
+                    itemChip = DealiControl.chipFilledSmall02()
+                }
+                
+                itemChip.do {
+                    $0.title = title
+                    $0.addTarget(self, action: #selector(itemPressed(_:)), for: .touchUpInside)
+                    $0.tag = index
+                    $0.isSelected = (index == self.selectedIndex)
+                }
+                
+                var itemInfo = DealiTabBarItemInfo_v2()
+                itemInfo.itemIndex = index
+                itemInfo.itemChip = itemChip
+                itemInfo.itemSelected = (index == self.selectedIndex)
+                itemInfo.containerWidth = itemChip.fixedSize.width
+                itemInfo.contentWidth = itemChip.fixedSize.width
+                
+                self.tabBarItemInfoArray.append(itemInfo)
             }
         }
         
@@ -205,6 +225,8 @@ final public class DealiTabBarView_v2: UIView {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
                 } else if case .slider = self.preset.style {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemLRPadding
+                } else if case .sliderChip(_) = self.preset.style {
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
                 }
             }
         }
@@ -215,7 +237,6 @@ final public class DealiTabBarView_v2: UIView {
     }
     
     private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {
-        print("setSelectedIndexWithScroll")
         guard index < self.tabBarItemInfoArray.count else { return }
         self.selectedIndex = index
 
@@ -231,7 +252,7 @@ final public class DealiTabBarView_v2: UIView {
     /// chip을 사용하는 tabBar에서는 따로 underLine 표시되지않기 때문에 chip이 아닌 경우에만 값을 세팅하도록 처리
     private func updateSelectedLine(width: CGFloat, positionX: CGFloat) {
         if self.preset.style == .segment || self.preset.style == .slider {
-            self.selectedLineImageView.snp.updateConstraints {
+            self.selectedLineView.snp.updateConstraints {
                 $0.left.equalToSuperview().offset(positionX)
                 $0.width.equalTo(width)
             }
@@ -282,22 +303,11 @@ final public class DealiTabBarView_v2: UIView {
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
         var offset: CGFloat = -1
-
-        if case .sliderChip(_) = self.preset.style {
-            if positionX < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
-                offset = positionX
-            } else if (positionX + contentWidth) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
-                offset = (positionX + contentWidth) - self.collectionView.frame.width
-            }
-        } else {
-            
-            let centerOffsetX = (self.collectionView.frame.width / 2)
-            offset = positionX - centerOffsetX + (contentWidth / 2)
-            offset = max(offset, 0)
-            let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
-            offset = min(offset, maxOffsetX)
-        }
-
+        let centerOffsetX = (self.collectionView.frame.width / 2)
+        offset = positionX - centerOffsetX + (contentWidth / 2)
+        offset = max(offset, 0)
+        let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
+        offset = min(offset, maxOffsetX)
         
         if offset >= 0 {
             self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
@@ -307,36 +317,36 @@ final public class DealiTabBarView_v2: UIView {
     
     /// 특정 index에 위치한 tabbaritem의 title 변경 처리
     public func changeTabBarButtonTitle(index: Int, title: String) {
-//        guard index < self.tabBarItemInfoArray.count else { return }
-//        
-//        if case .sliderChip(_) = self.preset.style {
-////            self.tabBarItemInfoArray[index].itemChip?.title = title
-//        } else {
-//            if var uiModel = self.tabBarItemInfoArray[index].itemCellUIModel {
-//                var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
-//                if let _ = uiModel.iconURL {
-//                    contentWidth += 16.0 + 2.0
-//                }
-//                self.tabBarItemInfoArray[index].contentWidth = contentWidth
-//                self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.contentButtonPadding * 2.0)
-//                
-//                uiModel.title = title
-//            }
-//        }
-//        self.collectionView.reloadData()
-//        self.updateTabBarItemPositions()
+        guard index < self.tabBarItemInfoArray.count else { return }
+        
+        if case .sliderChip(_) = self.preset.style {
+            self.tabBarItemInfoArray[index].itemChip?.title = title
+            self.tabBarItemInfoArray[index].contentWidth = (self.tabBarItemInfoArray[index].itemChip?.fixedSize.width ?? 0.0)
+            self.tabBarItemInfoArray[index].containerWidth = (self.tabBarItemInfoArray[index].itemChip?.fixedSize.width ?? 0.0)
+        } else {
+            if var uiModel = self.tabBarItemInfoArray[index].itemCellUIModel {
+                var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
+                if let _ = uiModel.iconURL {
+                    contentWidth += 16.0 + 2.0
+                }
+                self.tabBarItemInfoArray[index].contentWidth = contentWidth
+                self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
+                
+                uiModel.title = title
+            }
+        }
+        self.collectionView.reloadData()
+        self.updateTabBarItemPositions()
     }
-    
-    
-    
+
     public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
-//        guard index < self.tabBarItemInfoArray.count else { return }
-//        if self.preset.style == .segment || self.preset.style == .sliderButton {
-//            if var itemCellUIModel = self.tabBarItemInfoArray[index].itemCellUIModel {
-//                itemCellUIModel.shouldExposeNewBadge = shouldShowBadge
-//                self.collectionView.reloadData()
-//            }
-//        }
+        guard index < self.tabBarItemInfoArray.count else { return }
+        if self.preset.style == .segment || self.preset.style == .slider {
+            if var itemCellUIModel = self.tabBarItemInfoArray[index].itemCellUIModel {
+                itemCellUIModel.shouldExposeNewBadge = shouldShowBadge
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     
@@ -351,11 +361,11 @@ extension DealiTabBarView_v2: UICollectionViewDataSource, UICollectionViewDelega
              
         if case .sliderChip(_) = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemChipStyleCell.self, indexPath: indexPath)
-//            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemCellUIModel!)
+            cell.configure(itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemTextStyleCell.self, indexPath: indexPath)
-            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemCellUIModel!)
+            cell.configure(itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         }
         
@@ -365,7 +375,7 @@ extension DealiTabBarView_v2: UICollectionViewDataSource, UICollectionViewDelega
         if indexPath.item == self.selectedIndex {
             return
         }
-        self.setSelectedIndex(index: indexPath.item, animated: true)
+        self.setSelectedIndex(index: indexPath.item)
     }
 }
 
@@ -383,10 +393,15 @@ struct DealiTabBarItemInfo_v2 {
     var contentPositionX: CGFloat = 0.0
     var itemIndex: Int = 0
     var itemCellUIModel: DealiTabBarItemCellUIModel?
+    var itemChip: ClickableComponentChip?
     var itemSelected: Bool = false {
         didSet {
             if let _ = self.itemCellUIModel {
                 self.itemCellUIModel?.isSelected = self.itemSelected
+            }
+            
+            if let itemChip = self.itemChip {
+                itemChip.isSelected = self.itemSelected
             }
         }
     }

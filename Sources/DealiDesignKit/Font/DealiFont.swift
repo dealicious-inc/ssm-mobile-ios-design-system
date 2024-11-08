@@ -61,8 +61,6 @@ enum DealiFont: String, CaseIterable {
                 return .semibold
             } else if self.rawValue.contains("Medium") {
                 return .medium
-            } else if self.rawValue.contains("Bold") {
-                return .bold
             } else {
                 return .regular
             }
@@ -71,22 +69,26 @@ enum DealiFont: String, CaseIterable {
         return .getPretendard(weight: weight, size: self.fontSize)
     }
     
-    public var font: UIFont {
-        var font: UIFont!
-        
-        if self.rawValue.contains("SemiBold") {
-            font = .getPretendard(weight: .semibold, size: self.fontSize)
-        } else if self.rawValue.contains("Medium") {
-            font = .getPretendard(weight: .medium, size: self.fontSize)
-        } else if self.rawValue.contains("Bold") {
-            font = .getPretendard(weight: .bold, size: self.fontSize)
-        } else {
-            font = .getPretendard(weight: .regular, size: self.fontSize)
+   
+}
+
+extension DealiFont {
+    
+    func makeBolder() -> UIFont {
+        var bolderWeight: UIFont.Weight {
+            return .semibold
         }
         
-        return font
+        return .getPretendard(weight: bolderWeight, size: self.fontSize)
     }
     
+    func makeThinner() -> UIFont {
+        var thinner: UIFont.Weight {
+            return .regular
+        }
+        
+        return .getPretendard(weight: thinner, size: self.fontSize)
+    }
 }
 
 struct DealiFontProperty {

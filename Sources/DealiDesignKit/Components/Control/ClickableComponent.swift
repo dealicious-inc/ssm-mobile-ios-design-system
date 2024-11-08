@@ -256,15 +256,15 @@ public class ChipComponent: DealiChip {
         set {
             super.isSelected = newValue
             
-            if self.isEnabled == true {
-                if newValue == true {
-                    self.updateColor(color: self.config?.color?.selected)
-                    self.titleLabel.font = self.config?.font?.selected
-                } else {
-                    self.updateColor(color: self.config?.color?.normal)
-                    self.titleLabel.font = self.config?.font?.normal
-                }
+            guard self.isEnabled else { return }
+            if newValue == true {
+                self.updateColor(color: self.config?.color?.selected)
+                self.titleLabel.font = self.config?.font?.selected
+            } else {
+                self.updateColor(color: self.config?.color?.normal)
+                self.titleLabel.font = self.config?.font?.normal
             }
+            
         }
     }
     

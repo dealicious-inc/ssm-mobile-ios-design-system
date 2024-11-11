@@ -12,9 +12,9 @@ import RxSwift
 
 final class ImageChipViewController: UIViewController {
     
-    private let imageChip = ImageChip(config: ChipsOutlineConfig.small, color: ChipsOutlineColor.primary01)
-    private let selectedImageChip = ImageChip(config: ChipsOutlineConfig.small, color: ChipsOutlineColor.primary01)
-    private let disabledImageChip = ImageChip(config: ChipsOutlineConfig.small, color: ChipsOutlineColor.primary01)
+    private let imageChip = ImageChip()
+    private let selectedImageChip = ImageChip()
+    private let disabledImageChip = ImageChip()
     
     
     private let disposeBag = DisposeBag()

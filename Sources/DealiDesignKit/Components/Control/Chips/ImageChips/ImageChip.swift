@@ -26,16 +26,19 @@ struct ChipConfig {
         }
     }
     
+    var style: ChipStyle
+    
     init(size: ChipSize, style: ChipStyle) {
         self.height = size.height
         self.imageSize = size.imageSize
         self.dealiFont = size.titleFont
         self.placeholderInset = size.placeholderInset
 
-        
-        self.titleColor = style.titleColor
-        self.backgroundColor = style.backgroundColor
-        self.borderColor = style.borderColor
+        self.style = style
+        let color = style.colors.getColor(for: .normal)
+        self.textColor = color.textColor
+        self.backgroundColor = color.backgroundColor
+        self.borderColor = color.borderColor
         self.radiusType = style.radius
     }
     
@@ -53,12 +56,15 @@ struct ChipConfig {
     var dealiFont: DealiFont
     
     private(set) var titleFont: UIFont?
-    var titleColor: UIColor
+    var textColor: UIColor
 
     var backgroundColor: UIColor
-    var borderColor: UIColor
+    var borderColor: UIColor?
     
     mutating func setConfig(for status: DealiChipStatus) {
+        
+        let color = self.style.colors.getColor(for: status)
+        self.configColor(color)
         
         switch status {
         case .normal, .disabled:
@@ -66,6 +72,12 @@ struct ChipConfig {
         case .selected:
             self.titleFont = self.dealiFont.makeBolder()
         }
+    }
+    
+    mutating func configColor(_ color: ChipColor) {
+        self.backgroundColor = color.backgroundColor
+        self.textColor = color.textColor
+        self.borderColor = color.backgroundColor
     }
 }
 
@@ -84,18 +96,41 @@ struct ChipStyle {
     }
     
     var radius: Radius = .capsule
-    var titleColor: UIColor = .black
-    var backgroundColor: UIColor = .white
-    var borderColor: UIColor = .black
-    
+    var colors: ChipColors
 }
 
 
+struct ChipColors {
+    private var normal: ChipColor
+    private var selected: ChipColor
+    private var disabled: ChipColor
+    
+    init(normal: ChipColor, selected: ChipColor, disabled: ChipColor) {
+        self.normal = normal
+        self.selected = selected
+        self.disabled = disabled
+    }
+    
+    func getColor(for status: DealiChipStatus) -> ChipColor {
+        switch status {
+        case .normal:
+            return self.normal
+        case .selected:
+            return self.selected
+        case .disabled:
+            return self.disabled
+        }
+    }
+}
+
+struct ChipColor {
+    var textColor: UIColor = .black
+    var backgroundColor: UIColor = .white
+    var borderColor: UIColor?
+}
+
 
 public class ImageChip: DealiChip {
-    
-    var config: ClickableConfig
-    var color: ClickableColorConfig
     
     var configuration = ChipConfig(
         size: ChipSize(
@@ -103,7 +138,13 @@ public class ImageChip: DealiChip {
             imageSize: .init(width: 38.0, height: 38.0),
             placeholderInset: 9.5,
             titleFont: .sh3Regular
-        ), style: ChipStyle()
+        ), style: ChipStyle(
+            colors: ChipColors(
+                normal: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5),
+                selected: ChipColor(textColor: DealiColor.primary04, backgroundColor: DealiColor.g100),
+                disabled: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5)
+            )
+        )
     )
     
     private let contentStackView = UIStackView()
@@ -122,11 +163,12 @@ public class ImageChip: DealiChip {
         }
     }
     
-    public init(config: ClickableConfig,
-         color: ClickableColorConfig) {
-        self.config = config
-        self.color = color
-        
+    public init() {
+        super.init(frame: .zero)
+    }
+    
+    init(config: ChipConfig) {
+        self.configuration = config
         super.init(frame: .zero)
         self.setUI()
     }
@@ -208,7 +250,7 @@ public class ImageChip: DealiChip {
        
         self.contentStackView.addArrangedSubview(self.titleLabel)
         self.titleLabel.do {
-            $0.font = self.config.font.normal
+            $0.font = self.configuration.titleFont
             $0.textAlignment = .left
             $0.text = "imageChip"
         }
@@ -222,40 +264,42 @@ public class ImageChip: DealiChip {
             $0.size.equalTo(self.configuration.rightIconImageSize)
         }
         
-        self.updateContent(with: self.color.attribute.normal)
-
+        self.updateContent()
     }
 
     override func updateUI(for state: DealiChipStatus) {
         self.configuration.status = state
         
-        switch state {
-        case .normal:
-            self.updateContent(with: self.color.attribute.normal)
-        case .selected:
-            self.updateContent(with: self.color.attribute.selected)
-        case .disabled:
-            self.updateContent(with: self.color.attribute.disabled)
-        }
+        self.updateContent()
     }
 }
 
 private extension ImageChip {
     
-    private func updateContent(with color: ClickableColorSet?) {
+    private func updateContent() {
         
         self.titleLabel.font = self.configuration.titleFont
-        self.titleLabel.textColor = self.configuration.titleColor
+        self.titleLabel.textColor = self.configuration.textColor
         
-        guard let color else { return }
-        self.updateColor(color: color)
+        let color = self.configuration.style.colors.getColor(for: self.status)
+        self.upadateColor(color)
+        
+    }
+    
+    func upadateColor(_ color: ChipColor) {
+        self.backgroundColor = color.backgroundColor
+        self.titleLabel.textColor = color.textColor
+        
+        if let borderColor = color.borderColor {
+            self.layer.borderColor = borderColor.cgColor
+            self.layer.borderWidth = 1.0
+        }
     }
     
     private func updateColor(color: ClickableColorSet?) {
         guard let color else { return }
         
         self.currentColor = color
-        
         self.backgroundColor = color.background
         
         if let borderColor = color.border {

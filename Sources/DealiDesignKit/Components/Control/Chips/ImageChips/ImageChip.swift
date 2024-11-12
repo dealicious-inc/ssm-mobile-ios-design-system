@@ -7,137 +7,14 @@
 
 import UIKit
 
-struct ChipConfig {
-    
-    var status: DealiChipStatus = .normal {
-        didSet {
-            self.setConfig(for: self.status)
-        }
-    }
-    
-    var radius: CGFloat {
-        switch self.radiusType {
-        case .none:
-            return 0.0
-        case .fixed(let radius):
-            return radius
-        case .capsule:
-            return self.height / 2
-        }
-    }
-    
-    var style: ChipStyle
-    
-    init(size: ChipSize, style: ChipStyle) {
-        self.height = size.height
-        self.imageSize = size.imageSize
-        self.dealiFont = size.titleFont
-        self.placeholderInset = size.placeholderInset
-
-        self.style = style
-        let color = style.colors.getColor(for: .normal)
-        self.textColor = color.textColor
-        self.backgroundColor = color.backgroundColor
-        self.borderColor = color.borderColor
-        self.radiusType = style.radius
-    }
-    
-    var radiusType: ChipStyle.Radius
-
-    var height: CGFloat
-    var imageSize: CGSize
-    var placeholderInset: CGFloat
-    var rightIconImageSize: CGSize = CGSize(width: 16.0, height: 16.0)
-
-    var leftPadding: CGFloat = 4.0
-    var rightPadding: CGFloat = 12.0
-    var verticalPadding: CGFloat = 4.0
-    
-    var dealiFont: DealiFont
-    
-    private(set) var titleFont: UIFont?
-    var textColor: UIColor
-
-    var backgroundColor: UIColor
-    var borderColor: UIColor?
-    
-    mutating func setConfig(for status: DealiChipStatus) {
-        
-        let color = self.style.colors.getColor(for: status)
-        self.configColor(color)
-        
-        switch status {
-        case .normal, .disabled:
-            self.titleFont = self.dealiFont.systemFont
-        case .selected:
-            self.titleFont = self.dealiFont.makeBolder()
-        }
-    }
-    
-    mutating func configColor(_ color: ChipColor) {
-        self.backgroundColor = color.backgroundColor
-        self.textColor = color.textColor
-        self.borderColor = color.backgroundColor
-    }
-}
-
-struct ChipSize {
-    var height: CGFloat
-    var imageSize: CGSize
-    var placeholderInset: CGFloat
-    var titleFont: DealiFont
-}
-
-struct ChipStyle {
-    enum Radius {
-        case none
-        case fixed(_ radius: CGFloat)
-        case capsule
-    }
-    
-    var radius: Radius = .capsule
-    var colors: ChipColors
-}
-
-
-struct ChipColors {
-    private var normal: ChipColor
-    private var selected: ChipColor
-    private var disabled: ChipColor
-    
-    init(normal: ChipColor, selected: ChipColor, disabled: ChipColor) {
-        self.normal = normal
-        self.selected = selected
-        self.disabled = disabled
-    }
-    
-    func getColor(for status: DealiChipStatus) -> ChipColor {
-        switch status {
-        case .normal:
-            return self.normal
-        case .selected:
-            return self.selected
-        case .disabled:
-            return self.disabled
-        }
-    }
-}
-
-struct ChipColor {
-    var textColor: UIColor = .black
-    var backgroundColor: UIColor = .white
-    var borderColor: UIColor?
-}
-
-
 public class ImageChip: DealiChip {
     
-    var configuration = ChipConfig(
+    var configuration = ImageChipConfig(
         size: ChipSize(
             height: 46.0,
             imageSize: .init(width: 38.0, height: 38.0),
             placeholderInset: 9.5,
-            titleFont: .sh3Regular
+            titleFont: DealiFont.sh3Regular
         ), style: ChipStyle(
             colors: ChipColors(
                 normal: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5),
@@ -167,7 +44,7 @@ public class ImageChip: DealiChip {
         super.init(frame: .zero)
     }
     
-    init(config: ChipConfig) {
+    init(config: ImageChipConfig) {
         self.configuration = config
         super.init(frame: .zero)
         self.setUI()
@@ -286,7 +163,7 @@ private extension ImageChip {
         
     }
     
-    func upadateColor(_ color: ChipColor) {
+    func upadateColor(_ color: ChipColorProtocol) {
         self.backgroundColor = color.backgroundColor
         self.titleLabel.textColor = color.textColor
         

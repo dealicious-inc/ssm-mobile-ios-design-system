@@ -72,7 +72,7 @@ enum DealiFont: String, CaseIterable {
    
 }
 
-extension DealiFont {
+extension DealiFont: FontProvider {
     
     func makeBolder() -> UIFont {
         var bolderWeight: UIFont.Weight {

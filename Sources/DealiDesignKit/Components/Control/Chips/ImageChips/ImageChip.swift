@@ -9,34 +9,41 @@ import UIKit
 
 public class ImageChip: DealiChip {
     
+    public override var intrinsicContentSize: CGSize {
+        var width = self.configuration.leftPadding + self.configuration.imageSize.width + self.configuration.rightPadding + self.configuration.interItemSpacing + ceil(self.titleLabel.intrinsicContentSize.width)
+        
+        if self.rightImage != nil {
+            width += self.configuration.contentSpacing
+            width += self.configuration.rightIconImageSize.width
+        }
+        
+        return CGSize(width: width, height: self.configuration.height)
+    }
+    
     var configuration = ImageChipConfig(
-        size: ChipSize(
-            height: 46.0,
-            imageSize: .init(width: 38.0, height: 38.0),
-            placeholderInset: 9.5,
-            titleFont: DealiFont.sh3Regular
-        ), style: ChipStyle(
-            colors: ChipColors(
-                normal: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5),
-                selected: ChipColor(textColor: DealiColor.primary04, backgroundColor: DealiColor.g100),
-                disabled: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5)
-            )
-        )
+        size: ImageChipSizeType.medium.size,
+        style: ImageStyleType.basic.style
     )
     
     private let contentStackView = UIStackView()
-    private var currentColor: ClickableColorSet?
-    
     private let highlightView = UIView()
     
-    private let imageView = UIImageView()
+    public let imageView = UIImageView()
     private let placeholderImageView = UIImageView()
     private let titleLabel = UILabel()
     private let rightIconImageView = UIImageView()
     
+    public var imageURL: URL? {
+        didSet {
+            self.imageView.setImage(url: imageURL, size: self.configuration.imageSize) { image in
+                self.placeholderImageView.isHidden = (image != nil)
+            }
+        }
+    }
+    
     public var placeholderImage: UIImage? = UIImage.dealiIcon(named: "ic_home_filled") {
         didSet {
-            self.imageView.image = self.placeholderImage
+            self.placeholderImageView.image = self.placeholderImage
         }
     }
     
@@ -44,8 +51,8 @@ public class ImageChip: DealiChip {
         super.init(frame: .zero)
     }
     
-    init(config: ImageChipConfig) {
-        self.configuration = config
+    init(configuration: ImageChipConfig) {
+        self.configuration = configuration
         super.init(frame: .zero)
         self.setUI()
     }
@@ -54,11 +61,17 @@ public class ImageChip: DealiChip {
         fatalError("init(coder:) has not been implemented")
     }
 
-    
     public var title: String? {
         didSet {
             self.titleLabel.text = self.title
             self.updateUI(for: self.status)
+        }
+    }
+    
+    public var rightImage: UIImage? {
+        didSet {
+            self.rightIconImageView.isHidden = (rightImage == nil)
+            self.updateContent()
         }
     }
     
@@ -89,21 +102,8 @@ public class ImageChip: DealiChip {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-                
-        self.addSubview(self.contentStackView)
-        self.contentStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalCentering
-            $0.spacing = 4.0
-            $0.isUserInteractionEnabled = false
-        }.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(self.configuration.leftPadding)
-            $0.right.equalToSuperview().inset(self.configuration.rightPadding)
-            $0.top.bottom.equalToSuperview().inset(self.configuration.verticalPadding)
-        }
         
-        self.contentStackView.addArrangedSubview(self.imageView)
+        self.addSubview(self.imageView)
         self.imageView.then {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
@@ -112,7 +112,8 @@ public class ImageChip: DealiChip {
             $0.layer.cornerRadius = self.configuration.imageSize.width / 2
             $0.backgroundColor = DealiColor.primary04
         }.snp.makeConstraints {
-            $0.top.bottom.left.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(self.configuration.verticalPadding)
+            $0.left.equalToSuperview().inset(self.configuration.leftPadding)
             $0.width.height.equalTo(self.configuration.imageSize.width)
             $0.size.equalTo(self.configuration.imageSize)
         }
@@ -124,18 +125,31 @@ public class ImageChip: DealiChip {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(self.configuration.placeholderInset)
         }
-       
+                
+        self.addSubview(self.contentStackView)
+        self.contentStackView.then {
+            $0.axis = .horizontal
+            $0.alignment = .center
+            $0.distribution = .equalCentering
+            $0.spacing = self.configuration.contentSpacing
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
+            $0.left.equalTo(self.imageView.snp.right).offset(self.configuration.interItemSpacing)
+            $0.right.equalToSuperview().inset(self.configuration.rightPadding)
+            $0.top.bottom.equalToSuperview()
+        }
+
         self.contentStackView.addArrangedSubview(self.titleLabel)
         self.titleLabel.do {
             $0.font = self.configuration.titleFont
             $0.textAlignment = .left
             $0.text = "imageChip"
+            $0.sizeToFit()
         }
         
         self.contentStackView.addArrangedSubview(self.rightIconImageView)
         self.rightIconImageView.then {
             $0.isHidden = true
-            $0.backgroundColor = .gray
             $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(self.configuration.rightIconImageSize)
@@ -149,18 +163,17 @@ public class ImageChip: DealiChip {
         
         self.updateContent()
     }
-}
-
-private extension ImageChip {
     
     private func updateContent() {
         
         self.titleLabel.font = self.configuration.titleFont
         self.titleLabel.textColor = self.configuration.textColor
+        self.titleLabel.sizeToFit()
+        self.rightIconImageView.image = self.rightImage?.withTintColor(self.configuration.textColor)
+        self.invalidateIntrinsicContentSize()
         
-        let color = self.configuration.style.colors.getColor(for: self.status)
+        let color = self.configuration.style.colorProvider.getColor(for: self.status)
         self.upadateColor(color)
-        
     }
     
     func upadateColor(_ color: ChipColorProtocol) {
@@ -171,24 +184,5 @@ private extension ImageChip {
             self.layer.borderColor = borderColor.cgColor
             self.layer.borderWidth = 1.0
         }
-    }
-    
-    private func updateColor(color: ClickableColorSet?) {
-        guard let color else { return }
-        
-        self.currentColor = color
-        self.backgroundColor = color.background
-        
-        if let borderColor = color.border {
-            self.layer.borderColor = borderColor.cgColor
-            self.layer.borderWidth = 1.0
-        }
-        
-        
-//        self.titleLabel.textColor = color.text
-        
-        self.backgroundColor = DealiColor.b5
-
-
     }
 }

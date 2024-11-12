@@ -9,7 +9,7 @@ import UIKit
 class ImageChipConfig: ChipConfigurable {
     
     func updateAppearance() {
-        let color = self.style.colors.getColor(for: status)
+        let color = self.style.colorProvider.getColor(for: status)
         self.configColor(color)
         
         switch self.status {
@@ -27,19 +27,12 @@ class ImageChipConfig: ChipConfigurable {
     }
     
     var radius: CGFloat {
-        switch self.radiusType {
-        case .none:
-            return 0.0
-        case .fixed(let radius):
-            return radius
-        case .capsule:
-            return self.height / 2
-        }
+        return self.style.radiusProvider.getRadius(for: self.height)
     }
     
     var style: ChipStyleProtocol
     var size: ChipSizeProtoocol
-        
+     
     init(size: ChipSizeProtoocol,
          style: ChipStyleProtocol) {
         
@@ -49,14 +42,11 @@ class ImageChipConfig: ChipConfigurable {
         self.placeholderInset = size.placeholderInset
         
         self.style = style
-        let color = style.colors.getColor(for: .normal)
+        let color = style.colorProvider.getColor(for: .normal)
         self.textColor = color.textColor
         self.backgroundColor = color.backgroundColor
         self.borderColor = color.borderColor
-        self.radiusType = style.radius
     }
-    
-    var radiusType: ChipRadiusType
     
     var height: CGFloat
     var imageSize: CGSize
@@ -64,6 +54,8 @@ class ImageChipConfig: ChipConfigurable {
     var rightIconImageSize: CGSize = CGSize(width: 16.0, height: 16.0)
     
     var leftPadding: CGFloat = 4.0
+    var interItemSpacing: CGFloat = 8.0
+    var contentSpacing: CGFloat = 4.0
     var rightPadding: CGFloat = 12.0
     var verticalPadding: CGFloat = 4.0
     
@@ -88,12 +80,12 @@ struct ChipSize: ChipSizeProtoocol {
 }
 
 struct ChipStyle: ChipStyleProtocol {
-    var radius: ChipRadiusType = .capsule
-    var colors: ChipColorsProtocol
+    var radiusProvider: RadiusProvider
+    var colorProvider: ChipColorProvider
 }
 
 
-struct ChipColors: ChipColorsProtocol {
+struct ChipColors: ChipColorProvider {
     private var normal: ChipColor
     private var selected: ChipColor
     private var disabled: ChipColor
@@ -117,7 +109,7 @@ struct ChipColors: ChipColorsProtocol {
 }
 
 struct ChipColor: ChipColorProtocol {
-    var textColor: UIColor = .black
-    var backgroundColor: UIColor = .white
+    var textColor: UIColor
+    var backgroundColor: UIColor
     var borderColor: UIColor?
 }

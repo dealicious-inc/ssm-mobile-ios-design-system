@@ -18,8 +18,8 @@ protocol ChipConfigurable {
 }
 
 protocol ChipStyleProtocol {
-    var radius: ChipRadiusType { get }
-    var colors: ChipColorsProtocol { get }
+    var radiusProvider: RadiusProvider { get }
+    var colorProvider: ChipColorProvider { get }
 }
 
 protocol ChipSizeProtoocol {
@@ -29,7 +29,7 @@ protocol ChipSizeProtoocol {
     var titleFont: FontProvider { get }
 }
 
-protocol ChipColorsProtocol {
+protocol ChipColorProvider {
     func getColor(for status: DealiChipStatus) -> ChipColorProtocol
 }
 
@@ -39,13 +39,18 @@ protocol ChipColorProtocol {
     var borderColor: UIColor? { get }
 }
 
-enum ChipRadiusType {
+enum ChipRadiusType: RadiusProvider {
     case none
     case fixed(_ radius: CGFloat)
     case capsule
-}
-
-protocol FontProvider {
-    var systemFont: UIFont { get }
-    func makeBolder() -> UIFont
+    
+    func getRadius(for height: CGFloat) -> CGFloat {
+        switch self {
+        case .none: return 0
+        case let .fixed(radius):
+            return radius
+        case .capsule:
+            return height / 2
+        }
+    }
 }

@@ -17,6 +17,12 @@ public class ImageChip: DealiChip {
             width += self.configuration.rightIconImageSize.width
         }
         
+        if self.customView != nil {
+            self.customView?.invalidateIntrinsicContentSize()
+            width += self.configuration.contentSpacing
+            width += self.customView?.intrinsicContentSize.width ?? 0
+        }
+        
         return CGSize(width: width, height: self.configuration.height)
     }
     
@@ -31,6 +37,7 @@ public class ImageChip: DealiChip {
     public let imageView = UIImageView()
     private let placeholderImageView = UIImageView()
     private let titleLabel = UILabel()
+    private let slotView = UIView()
     private let rightIconImageView = UIImageView()
     
     public var imageURL: URL? {
@@ -44,6 +51,17 @@ public class ImageChip: DealiChip {
     public var placeholderImage: UIImage? = UIImage.dealiIcon(named: "ic_home_filled") {
         didSet {
             self.placeholderImageView.image = self.placeholderImage
+        }
+    }
+    
+    public var customView: DealiCustomView? {
+        didSet {
+            self.slotView.isHidden = (self.customView == nil)
+            guard let customView = self.customView else { return }
+            self.slotView.addSubview(customView)
+            customView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
     }
     
@@ -145,6 +163,13 @@ public class ImageChip: DealiChip {
             $0.textAlignment = .left
             $0.text = "imageChip"
             $0.sizeToFit()
+        }
+        
+        self.contentStackView.addArrangedSubview(self.slotView)
+        self.slotView.then {
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.height.equalTo(20.0)
         }
         
         self.contentStackView.addArrangedSubview(self.rightIconImageView)

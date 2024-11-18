@@ -12,8 +12,6 @@ import UIKit
 */
 final public class DealiTabBarItemChipStyleCell: DealiTabBarItemBaseCell {
     
-    private var chipButton: ClickableComponentChip?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -24,18 +22,19 @@ final public class DealiTabBarItemChipStyleCell: DealiTabBarItemBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(itemInfo: DealiTabBarItemInfo_v2) {
-        guard let itemChip = itemInfo.itemChip else { return }
+    func configure(uiModel: DealiTabBarItemChipStyleCellUIModel?) {
+        guard let uiModel = uiModel else { return }
         
-        self.chipButton?.removeFromSuperview()
-        
-        self.chipButton = itemChip
-        if let chipButton = self.chipButton {
-            self.addSubview(chipButton)
-            chipButton.snp.makeConstraints {
+        if let itemChip = uiModel.itemChip {
+            self.addSubview(itemChip)
+            itemChip.snp.makeConstraints {
                 $0.center.equalToSuperview()
             }
         }
-        
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.subviews.forEach { $0.removeFromSuperview() }
     }
 }

@@ -11,7 +11,7 @@ import UIKit
  설명 : 탭바 아이템 텍스트 스타일 셀
  */
 final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
-    var uiModel: DealiTabBarItemCellUIModel?
+    var uiModel: DealiTabBarItemTextStyleCellUIModel?
     
     private let titleLabel = UILabel()
     private let badgeImageView = UIImageView()
@@ -66,8 +66,8 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(itemInfo: DealiTabBarItemInfo_v2) {
-        guard let uiModel = itemInfo.itemCellUIModel else { return }
+    func configure(uiModel: DealiTabBarItemTextStyleCellUIModel?) {
+        guard let uiModel = uiModel else { return }
         self.uiModel = uiModel
         
         self.titleLabel.text = uiModel.title

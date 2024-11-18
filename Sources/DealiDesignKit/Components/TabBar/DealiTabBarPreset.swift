@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum DealiTabBarPreset_V2 {
+public enum DealiTabBarPreset {
     /// segment 스타일 형식의 tabbar
     case tabBarSegment01
     /// slider 스타일 형식의 tabbar(기본 텍스트 컬러 - g100, 선택 텍스트 컬러 - primary01)

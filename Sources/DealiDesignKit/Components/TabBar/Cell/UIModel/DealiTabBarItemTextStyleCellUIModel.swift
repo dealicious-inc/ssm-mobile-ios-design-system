@@ -1,13 +1,13 @@
 //
-//  File.swift
-//  
+//  DealiTabBarItemTextStyleCellUIModel.swift
+//
 //
 //  Created by 이창호 on 11/4/24.
 //
 
 import UIKit
 
-public struct DealiTabBarItemCellUIModel {
+public struct DealiTabBarItemTextStyleCellUIModel {
     /// 뉴 뱃지 노출 유무
     var shouldExposeNewBadge: Bool = false
     /// TabBar Item 선택 유무
@@ -30,10 +30,10 @@ public struct DealiTabBarItemCellUIModel {
     /// 아이콘 사이즈
     var iconSize: CGSize?
     
-    private var preset: DealiTabBarPreset_V2?
+    private var preset: DealiTabBarPreset?
     
-    static func make(preset: DealiTabBarPreset_V2, tabbarItem: DealiTabBarItem) -> DealiTabBarItemCellUIModel {
-        var uiModel = DealiTabBarItemCellUIModel()
+    static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemTextStyleCellUIModel {
+        var uiModel = DealiTabBarItemTextStyleCellUIModel()
         uiModel.preset = preset
         uiModel.title = tabbarItem.title
         uiModel.textColor = preset.textColor

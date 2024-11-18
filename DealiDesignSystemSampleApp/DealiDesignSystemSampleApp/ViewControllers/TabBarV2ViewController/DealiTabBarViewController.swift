@@ -22,7 +22,7 @@ final class DealiTabBarViewController: UIViewController {
     
     weak var delegate: DealiTabBarViewControllerDelegate?
     
-    let tabBarView: DealiTabBarView_v2
+    let tabBarView: DealiTabBarView
     
     var contentScrollView = UIScrollView()
     private var contentStackView = UIStackView()
@@ -72,7 +72,7 @@ final class DealiTabBarViewController: UIViewController {
         }
     }
     
-    required init(tabBarView: DealiTabBarView_v2, tabBarItemArray: [DealiTabBarItem], isScrollEnabled: Bool = true, startIndex: Int = -1) {
+    required init(tabBarView: DealiTabBarView, tabBarItemArray: [DealiTabBarItem], isScrollEnabled: Bool = true, startIndex: Int = -1) {
         
         self.tabBarView = tabBarView
         self.tabBarItemArray = tabBarItemArray
@@ -213,11 +213,11 @@ final class DealiTabBarViewController: UIViewController {
     }
     
     func hiddenViewPage(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
-        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray, maintainContentOffset: maintainContentOffset)
-        
         for (index, item) in tabBarItemArray.enumerated() {
             self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
         }
+        
+        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray, maintainContentOffset: maintainContentOffset)
     }
     
     func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
@@ -225,8 +225,8 @@ final class DealiTabBarViewController: UIViewController {
     }
 }
 
-extension DealiTabBarViewController: DealiTabBarViewDelegate_v2 {
-    func didSelectTabBar(_ tabbarView: DealiTabBarView_v2, selectedIndex index: Int, showScrollAnimation animation: Bool) {
+extension DealiTabBarViewController: DealiTabBarViewDelegate {
+    func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
             guard let self else { return }
             self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)

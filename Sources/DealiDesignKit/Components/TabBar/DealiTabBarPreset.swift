@@ -103,8 +103,8 @@ public enum DealiTabBarPreset {
         }
     }
     
-    // MARK: TabBerContentHeight - TabBarView의 내부 content 높이
-    var tabBerContentHeight: CGFloat {
+    // MARK: TabBarContentHeight - TabBarView의 내부 content 높이
+    var tabBarContentHeight: CGFloat {
         switch self {
         case .tabBarChip01:
             return 56.0

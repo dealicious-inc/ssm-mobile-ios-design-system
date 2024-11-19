@@ -71,7 +71,7 @@ final public class DealiTabBarView: UIView {
             $0.backgroundColor = DealiColor.primary04
             $0.clipsToBounds = true
         }.snp.makeConstraints {
-            $0.height.equalTo(preset.tabBarViewHeight)
+            $0.height.equalTo(preset.tabBarViewHeight).priority(.high)
         }
         
         let layout = UICollectionViewFlowLayout()
@@ -94,8 +94,7 @@ final public class DealiTabBarView: UIView {
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
         }.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(self.preset.tabBerContentHeight)
-            $0.top.left.bottom.right.equalToSuperview()
+            $0.height.equalTo(self.preset.tabBarContentHeight)
         }
         
         if preset.style == .segment || preset.style == .slider {
@@ -112,7 +111,7 @@ final public class DealiTabBarView: UIView {
         self.selectedLineView.then {
             $0.backgroundColor = preset.selectedTextColor
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(preset.tabBerContentHeight - 2.0)
+            $0.top.equalToSuperview().offset(preset.tabBarContentHeight - 2.0)
             $0.left.equalToSuperview().offset(0.0)
             $0.height.equalTo(2.0)
             $0.width.equalTo(0.0)

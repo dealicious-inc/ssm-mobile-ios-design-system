@@ -119,6 +119,7 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarSegment01)
         self.tabBarSegment01.then {
+            $0.isStandAloneView = true
             $0.setTabBarItems(tabBarItemArray: segmentTabBarItemArray)
             $0.delegate = self
         }.snp.makeConstraints {
@@ -134,7 +135,9 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarSlider01)
         self.tabBarSlider01.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 6, isStandAloneView: true, isSelectedItemCentered: false)
+            $0.isStandAloneView = true
+            $0.isSelectedItemCentered = false
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 6)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -149,7 +152,8 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarSlider02)
         self.tabBarSlider02.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 4, isStandAloneView: true)
+            $0.isStandAloneView = true
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 4)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -164,7 +168,9 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarChip01)
         self.tabBarChip01.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 1, isStandAloneView: true, isSelectedItemCentered: false)
+            $0.isStandAloneView = true
+            $0.isSelectedItemCentered = false
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 1)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -362,10 +368,10 @@ extension TabBarViewController {
         self.tabBarSlider01Items[4].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.tabBarSlider02Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         
-        self.tabBarSegment01.setTabBarItems(tabBarItemArray: self.segmentTabBarItemArray, isStandAloneView: true)
-        self.tabBarSlider01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray, isStandAloneView: true)
-        self.tabBarSlider02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray, isStandAloneView: true)
-        self.tabBarChip01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray, isStandAloneView: true)
+        self.tabBarSegment01.setTabBarItems(tabBarItemArray: self.segmentTabBarItemArray)
+        self.tabBarSlider01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarSlider02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarChip01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
 
         self.tabBarSegment01ViewController?.hiddenViewPage(tabBarItemArray: self.segmentTabBarItems)
         self.tabBarSlider01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarSlider01Items)
@@ -387,17 +393,6 @@ extension TabBarViewController {
         self.tabBarChip01.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
     }
 }
-
-/*
- private var tabBarSegment01ViewController: DealiTabBarViewController?
- private var tabBarSlider01ViewController: DealiTabBarViewController?
- private var tabBarSlider02ViewController: DealiTabBarViewController?
- 
- private let tabBarSegment01 = DealiTabBar_v2.tabBarSegment01()
- private let tabBarSlider01 = DealiTabBar_v2.tabBarSlider01()
- private let tabBarSlider02 = DealiTabBar_v2.tabBarSlider02()
- private let tabBarChip01 = DealiTabBar_v2.tabBarChip01()
- */
 
 extension TabBarViewController: DealiTabBarViewDelegate {
     func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {

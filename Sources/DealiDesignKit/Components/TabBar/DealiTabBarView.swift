@@ -42,9 +42,9 @@ final public class DealiTabBarView: UIView {
     
     private var tabBarItemInfoArray: [DealiTabBarItemInfo] = []
     
-    /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false
+    /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false (중요!!!! setTabBarItems 함수보다 먼저 세팅)
     public var isStandAloneView: Bool = false
-    /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무
+    /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무 (중요!!!! setTabBarItems 함수보다 먼저 세팅)
     public var isSelectedItemCentered: Bool = true
     
     /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
@@ -148,14 +148,11 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
         self.tabBarItemInfoArray.removeAll()
-        
-        self.isStandAloneView = isStandAloneView
-        self.isSelectedItemCentered = isSelectedItemCentered
         
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }

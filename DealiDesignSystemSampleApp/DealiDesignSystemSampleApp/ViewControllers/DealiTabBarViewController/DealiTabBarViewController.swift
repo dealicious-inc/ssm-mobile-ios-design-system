@@ -131,6 +131,7 @@ final class DealiTabBarViewController: UIViewController {
         
         self.view.addSubview(self.tabBarView)
         self.tabBarView.then {
+            $0.isSelectedItemCentered = self.isSelectedItemCentered
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
@@ -190,7 +191,7 @@ final class DealiTabBarViewController: UIViewController {
         
         self.tabBarItemArray = items
     
-        self.tabBarView.setTabBarItems(tabBarItemArray: self.tabBarItemArray, isSelectedItemCentered: self.isSelectedItemCentered)
+        self.tabBarView.setTabBarItems(tabBarItemArray: self.tabBarItemArray)
 
         for index in 0..<self.tabBarItemArray.count {
             self.addChild(self.tabBarItemArray[index].viewController!)
@@ -215,12 +216,12 @@ final class DealiTabBarViewController: UIViewController {
         
     }
     
-    func hiddenViewPage(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
+    func hiddenViewPage(tabBarItemArray: [DealiTabBarItem]) {
         for (index, item) in tabBarItemArray.enumerated() {
             self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
         }
         
-        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray, maintainContentOffset: maintainContentOffset, isSelectedItemCentered: self.isSelectedItemCentered)
+        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray)
     }
     
     func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {

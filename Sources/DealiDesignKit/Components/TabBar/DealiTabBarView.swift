@@ -44,6 +44,8 @@ final public class DealiTabBarView: UIView {
     
     /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false
     public var isStandAloneView: Bool = false
+    /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무
+    public var isSelectedItemCentered: Bool = true
     
     /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
     private var isLayoutInitialized = false
@@ -146,13 +148,15 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true, startIndex: Int = 0, isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
         self.tabBarItemInfoArray.removeAll()
         
         self.isStandAloneView = isStandAloneView
+        self.isSelectedItemCentered = isSelectedItemCentered
+        
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
             var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
@@ -297,11 +301,28 @@ final public class DealiTabBarView: UIView {
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
         var offset: CGFloat = -1
-        let centerOffsetX = (self.collectionView.frame.width / 2)
-        offset = positionX - centerOffsetX + (contentWidth / 2)
-        offset = max(offset, 0)
-        let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
-        offset = min(offset, maxOffsetX)
+        
+        if self.isSelectedItemCentered == true {
+            let centerOffsetX = (self.collectionView.frame.width / 2)
+            offset = positionX - centerOffsetX + (contentWidth / 2)
+            offset = max(offset, 0)
+            let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
+            offset = min(offset, maxOffsetX)
+        } else {
+            if case .sliderChip(_) = self.preset.style {
+                if (positionX - self.preset.itemSpacing) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+                    offset = (positionX - self.preset.itemSpacing)
+                } else if (positionX + contentWidth + self.preset.itemSpacing) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
+                    offset = (positionX + contentWidth + self.preset.itemSpacing) - self.collectionView.frame.width
+                }
+            } else {
+                if (positionX - (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+                    offset = (positionX - (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin))
+                } else if (positionX + contentWidth + (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
+                    offset = (positionX + contentWidth + (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) - self.collectionView.frame.width
+                }
+            }
+        }
         
         if offset >= 0 {
             self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
@@ -320,15 +341,18 @@ final public class DealiTabBarView: UIView {
                 self.tabBarItemInfoArray[index].containerWidth = (itemChip.fixedSize.width)
             }
         } else {
-            if var uiModel = self.tabBarItemInfoArray[index].itemTextCellUIModel {
+            if let uiModel = self.tabBarItemInfoArray[index].itemTextCellUIModel {
                 var contentWidth = title.size(withAttributes: [.font: self.preset.selectedFont]).width
                 if let _ = uiModel.iconURL {
                     contentWidth += 16.0 + 2.0
                 }
-                self.tabBarItemInfoArray[index].contentWidth = contentWidth
-                self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
                 
-                uiModel.title = title
+                if case .slider = self.preset.style {
+                    self.tabBarItemInfoArray[index].contentWidth = contentWidth
+                    self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
+                }
+                
+                self.tabBarItemInfoArray[index].itemTextCellUIModel?.title = title
             }
         }
         self.collectionView.reloadData()
@@ -338,7 +362,6 @@ final public class DealiTabBarView: UIView {
     public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
         guard index < self.tabBarItemInfoArray.count else { return }
         if self.preset.style == .segment || self.preset.style == .slider {
-            print("showTabBarItemBadge segment / slider")
             self.tabBarItemInfoArray[index].itemTextCellUIModel?.shouldExposeNewBadge = shouldShowBadge
             self.collectionView.reloadData()
         }

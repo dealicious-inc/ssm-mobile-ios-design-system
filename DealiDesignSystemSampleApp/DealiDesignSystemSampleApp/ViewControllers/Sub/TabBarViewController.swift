@@ -134,7 +134,7 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarSlider01)
         self.tabBarSlider01.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 6, isStandAloneView: true)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 6, isStandAloneView: true, isSelectedItemCentered: false)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -164,7 +164,7 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarChip01)
         self.tabBarChip01.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 1, isStandAloneView: true)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 1, isStandAloneView: true, isSelectedItemCentered: false)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -238,6 +238,7 @@ class TabBarViewController: UIViewController {
         buttonContainerStackView.addArrangedSubview(self.changeTitleTabBatItemButton)
         self.changeTitleTabBatItemButton.then {
             $0.title = "특정 탭 Title 변경"
+            $0.isSelected = false
             $0.addTarget(self, action: #selector(changeTitleTabBatItemButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
@@ -300,7 +301,7 @@ class TabBarViewController: UIViewController {
         }
         
         let tabBarSlider02View = DealiTabBar.tabBarSlider02()
-        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items)
+        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items, isSelectedItemCentered: false)
         self.tabBarSlider02ViewController?.startPageIndex = 5
         if let tabBarSlider02ViewController = self.tabBarSlider02ViewController {
             self.insertChildController(tabBarSlider02ViewController, intoParentView: self.tabBarSlider02ContentView)
@@ -374,11 +375,16 @@ extension TabBarViewController {
     @objc func changeTitleTabBatItemButtonPressed() {
         self.changeTitleTabBatItemButton.isSelected.toggle()
         
-//        self.tabBarView01.changeTabBarButtonTitle(index: 0, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
-//        self.tabBarView02.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
-//        self.tabBarView03.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
-//        self.tabBarView04.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
-//        self.tabBarView05.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.changeTitleTabBatItemButton.title = (self.changeTitleTabBatItemButton.isSelected == true ? "특정 탭 Title 변경" : "특정 탭 Title 원복")
+        
+        self.tabBarSegment01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarSlider01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarSlider02ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        
+        self.tabBarSegment01.changeTabBarButtonTitle(index: 1, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarSlider01.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarSlider02.changeTabBarButtonTitle(index: 4, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarChip01.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
     }
 }
 

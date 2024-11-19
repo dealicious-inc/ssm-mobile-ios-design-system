@@ -32,6 +32,8 @@ final class DealiTabBarViewController: UIViewController {
     
     // 스크롤이벤트로 탭바를 변경할지 안할지 세팅
     private var isScrollEnabled: Bool = true
+    /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무
+    private var isSelectedItemCentered: Bool = true
     var autoVisible = true
     
     var rxSomethingChangedInside = PublishSubject<Any>()
@@ -72,7 +74,7 @@ final class DealiTabBarViewController: UIViewController {
         }
     }
     
-    required init(tabBarView: DealiTabBarView, tabBarItemArray: [DealiTabBarItem], isScrollEnabled: Bool = true, startIndex: Int = -1) {
+    required init(tabBarView: DealiTabBarView, tabBarItemArray: [DealiTabBarItem], isScrollEnabled: Bool = true, isSelectedItemCentered: Bool = true, startIndex: Int = -1) {
         
         self.tabBarView = tabBarView
         self.tabBarItemArray = tabBarItemArray
@@ -80,6 +82,7 @@ final class DealiTabBarViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.isScrollEnabled = isScrollEnabled
+        self.isSelectedItemCentered = isSelectedItemCentered
         self.startPageIndex = startIndex
     }
     
@@ -187,7 +190,7 @@ final class DealiTabBarViewController: UIViewController {
         
         self.tabBarItemArray = items
     
-        self.tabBarView.setTabBarItems(tabBarItemArray: self.tabBarItemArray)
+        self.tabBarView.setTabBarItems(tabBarItemArray: self.tabBarItemArray, isSelectedItemCentered: self.isSelectedItemCentered)
 
         for index in 0..<self.tabBarItemArray.count {
             self.addChild(self.tabBarItemArray[index].viewController!)
@@ -217,7 +220,7 @@ final class DealiTabBarViewController: UIViewController {
             self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
         }
         
-        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray, maintainContentOffset: maintainContentOffset)
+        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray, maintainContentOffset: maintainContentOffset, isSelectedItemCentered: self.isSelectedItemCentered)
     }
     
     func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
@@ -254,4 +257,12 @@ extension DealiTabBarViewController: UIScrollViewDelegate {
         
     }
     
+}
+
+extension UIScrollView {
+    var currentPage: Int {
+        get {
+            return lround(Double(self.contentOffset.x / UIScreen.main.bounds.width))
+        }
+    }
 }

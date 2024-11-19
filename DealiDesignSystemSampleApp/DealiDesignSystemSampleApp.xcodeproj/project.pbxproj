@@ -141,7 +141,7 @@
 		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				39D28C572CD9F5D900BA9638 /* TabBarV2ViewController */,
+				39D28C572CD9F5D900BA9638 /* DealiTabBarViewController */,
 				392C389A2C4654870088D176 /* BottomSheetTest */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				4D1FA9272AFC740000AA510F /* Sub */,
@@ -178,13 +178,13 @@
 			path = BottomSheetTest;
 			sourceTree = "<group>";
 		};
-		39D28C572CD9F5D900BA9638 /* TabBarV2ViewController */ = {
+		39D28C572CD9F5D900BA9638 /* DealiTabBarViewController */ = {
 			isa = PBXGroup;
 			children = (
 				39D28C582CD9F5FF00BA9638 /* DealiTabBarViewController.swift */,
 				39D28C5A2CD9FD0F00BA9638 /* DealiTabBarChildViewController.swift */,
 			);
-			path = TabBarV2ViewController;
+			path = DealiTabBarViewController;
 			sourceTree = "<group>";
 		};
 		4D1FA9272AFC740000AA510F /* Sub */ = {

@@ -82,7 +82,6 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        
         let numberInput = DealiTextInput_v2.number()
         contentStackView.addArrangedSubview(numberInput)
         numberInput.then {

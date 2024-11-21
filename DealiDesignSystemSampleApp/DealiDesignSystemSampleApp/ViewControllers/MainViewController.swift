@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = DealiColor.primary04
+        self.view.backgroundColor = .primary04
         
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"
@@ -64,6 +64,13 @@ final class MainViewController: UIViewController {
         fontComponentButton.do {
             $0.title = "Font"
             $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
+        }
+        
+        let colorButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(colorButton)
+        colorButton.do {
+            $0.title = "Color"
+            $0.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
         }
         
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()

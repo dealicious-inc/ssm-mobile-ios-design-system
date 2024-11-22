@@ -1,5 +1,5 @@
 //
-//  DealiTabBarView_v2.swift
+//  DealiTabBarView.swift
 //  
 //
 //  Created by 이창호 on 11/4/24.
@@ -11,20 +11,20 @@ import RxCocoa
 
 public class DealiTabBar {
     
-    public static func tabBarSegment01() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSegment01)
+    public static func tabBarSegment01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSegment01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarSlider01() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSlider01)
+    public static func tabBarSlider01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarSlider02() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSlider02)
+    public static func tabBarSlider02(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider02, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarChip01() -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarChip01)
+    public static func tabBarChip01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarChip01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
     }
 }
 
@@ -61,9 +61,11 @@ final public class DealiTabBarView: UIView {
     
     private var preset: DealiTabBarPreset
     
-    init(preset: DealiTabBarPreset) {
+    init(preset: DealiTabBarPreset, isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) {
         
         self.preset = preset
+        self.isStandAloneView = isStandAloneView
+        self.isSelectedItemCentered = isSelectedItemCentered
         
         super.init(frame: .zero)
         
@@ -84,7 +86,7 @@ final public class DealiTabBarView: UIView {
                 layout.do {
                     $0.scrollDirection = .horizontal
                     $0.minimumLineSpacing = self.preset.itemSpacing
-                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarLRMargin, bottom: 0.0, right: self.preset.tabBarLRMargin)
+                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
                 }
             }
             $0.backgroundColor = .white
@@ -124,7 +126,7 @@ final public class DealiTabBarView: UIView {
             $0.backgroundColor = DealiColor.g30
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(-preset.tabBarLRMargin)
+            $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)
             $0.height.equalTo(1.0)
         }
     }
@@ -168,10 +170,10 @@ final public class DealiTabBarView: UIView {
                 itemInfo.contentWidth = contentWidth
                 
                 if case .segment = self.preset.style {
-                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarLRMargin * 2.0)) / CGFloat(itemArray.count))
+                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarHorizontalMargin * 2.0)) / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
                 } else {
-                    itemInfo.containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
+                    itemInfo.containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                     itemInfo.contentWidth = contentWidth
                 }
                 
@@ -218,7 +220,7 @@ final public class DealiTabBarView: UIView {
                 if case .segment = self.preset.style {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
                 } else if case .slider = self.preset.style {
-                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemLRPadding
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemHorizontalPadding
                 } else if case .sliderChip(_) = self.preset.style {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
                 }
@@ -312,10 +314,10 @@ final public class DealiTabBarView: UIView {
                     offset = (positionX + contentWidth + self.preset.itemSpacing) - self.collectionView.frame.width
                 }
             } else {
-                if (positionX - (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
-                    offset = (positionX - (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin))
-                } else if (positionX + contentWidth + (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
-                    offset = (positionX + contentWidth + (self.preset.itemLRPadding + self.preset.itemSpacing + self.preset.tabBarLRMargin)) - self.collectionView.frame.width
+                if (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+                    offset = (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin))
+                } else if (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
+                    offset = (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) - self.collectionView.frame.width
                 }
             }
         }
@@ -345,7 +347,7 @@ final public class DealiTabBarView: UIView {
                 
                 if case .slider = self.preset.style {
                     self.tabBarItemInfoArray[index].contentWidth = contentWidth
-                    self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.itemLRPadding * 2.0)
+                    self.tabBarItemInfoArray[index].containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                 }
                 
                 self.tabBarItemInfoArray[index].itemTextCellUIModel?.title = title

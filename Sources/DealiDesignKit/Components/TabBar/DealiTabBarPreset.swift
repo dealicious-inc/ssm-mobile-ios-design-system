@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  DealiTabBarPreset.swift
+//
 //
 //  Created by 이창호 on 11/6/24.
 //
@@ -83,8 +83,8 @@ public enum DealiTabBarPreset {
         }
     }
     
-    // MARK: itemLRPadding - item Text 양쪽 padding
-    var itemLRPadding: CGFloat {
+    // MARK: itemHorizontalPadding - item Text 양쪽 padding
+    var itemHorizontalPadding: CGFloat {
         switch self {
         case .tabBarSlider01, .tabBarSlider02:
             return 12.0
@@ -93,8 +93,8 @@ public enum DealiTabBarPreset {
         }
     }
     
-    // MARK: tabBarLRMargin - TabbarView content영역 양쪽 margin
-    var tabBarLRMargin: CGFloat {
+    // MARK: tabBarHorizontalMargin - TabbarView content영역 양쪽 margin
+    var tabBarHorizontalMargin: CGFloat {
         switch self {
         case .tabBarSegment01, .tabBarChip01:
             return 16.0

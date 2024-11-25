@@ -108,6 +108,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
         }
         
+        let imageChipComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(imageChipComponentsButton)
+        imageChipComponentsButton.do {
+            $0.title = "Image Chip Components"
+            $0.addTarget(self, action: #selector(imageChipButtonPressed), for: .touchUpInside)
+        }
+        
         let switchComponentButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(switchComponentButton)
         switchComponentButton.do {
@@ -170,6 +177,20 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
+        
+        let descriptionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(descriptionComponents)
+        descriptionComponents.do {
+            $0.title = "Description Components"
+            $0.addTarget(self, action: #selector(descriptionComponentsPressed), for: .touchUpInside)
+        }
+        
+        let accordionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(accordionComponents)
+        accordionComponents.do {
+            $0.title = "Accordion Components"
+            $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -222,6 +243,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
     }
     
+    @objc func imageChipButtonPressed() {
+        self.navigationController?.pushViewController(ImageChipViewController(), animated: true)
+    }
+    
     @objc func textInputButtonPressed() {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
     }
@@ -256,5 +281,13 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
+    
+    @objc func descriptionComponentsPressed() {
+        self.navigationController?.pushViewController(DescriptionComponentViewController(), animated: true)
+    }
+    
+    @objc func accordionComponentsPressed() {
+        self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
 }

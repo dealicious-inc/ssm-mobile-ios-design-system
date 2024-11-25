@@ -195,7 +195,7 @@ final public class DealiTabBarView: UIView {
         
         var selectedIndex = self.selectedIndex
         
-        if selectedIndex == -1 || (startIndex > 0 && startIndex < self.tabBarItemInfoArray.count) {
+        if selectedIndex == -1 || (startIndex < self.tabBarItemInfoArray.count) {
             selectedIndex = startIndex
         } else {
             if selectedIndex >= self.tabBarItemInfoArray.count {

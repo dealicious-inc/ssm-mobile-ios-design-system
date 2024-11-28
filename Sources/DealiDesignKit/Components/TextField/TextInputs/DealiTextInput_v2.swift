@@ -70,7 +70,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     public var placeholder: String? {
         didSet {
             guard let placeholder else { return }
-            self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font: UIFont.b2r14, .foregroundColor: DealiColor.g70])
+            self.textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.font: UIFont.b2r14, .foregroundColor: UIColor.g70])
         }
     }
     
@@ -255,7 +255,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
             
             let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0)).then {
-                $0.backgroundColor = DealiColor.g20
+                $0.backgroundColor = .g20
             }
             
             let keyboardCloseButton = DealiControl.btnTextSmall04()
@@ -287,7 +287,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     private let titleContentView = UIStackView()
     private let titleLabel = UILabel()
     /// 필수입력사항인지 나타내는 뱃지
-    private let requiredBadge = UIView()
+    private var requiredBadge = UIView()
     private let notVerifiedBadge = DealiTag()
     private let verifiedBadge = DealiTag()
     public let helperTextLabel = UILabel()
@@ -428,7 +428,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
 extension DealiTextInput_v2: DealiTextFieldConfig {
     func setUI() {
         self.do {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }
         
         let contentStackView = UIStackView()
@@ -455,7 +455,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         self.titleContentView.addArrangedSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2r14
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -463,16 +463,8 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.top.bottom.left.equalToSuperview()
         }
         
+        self.requiredBadge = self.requiredBadgeView()
         self.titleContentView.addArrangedSubview(self.requiredBadge)
-        self.requiredBadge.then {
-            $0.backgroundColor = DealiColor.primary01
-            $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = 2.5
-            $0.isHidden = true
-        }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
-            $0.top.equalToSuperview().inset(4.0)
-        }
         
         self.titleContentView.addArrangedSubview(self.notVerifiedBadge)
         self.notVerifiedBadge.do {
@@ -505,8 +497,8 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 6.0
             $0.layer.borderWidth = 1.0
-            $0.layer.borderColor = DealiColor.g20.cgColor
-            $0.backgroundColor = DealiColor.primary04
+            $0.layer.borderColor = UIColor.g20.cgColor
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.height.equalTo(46.0)
@@ -527,7 +519,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
         self.textInputLeftLabel.then {
             $0.font = .b2r14
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .left
             $0.isHidden = true
         }.snp.makeConstraints {
@@ -544,8 +536,8 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             $0.autocorrectionType = .no
             $0.autocapitalizationType = .none
             $0.spellCheckingType = .no
-            $0.textColor = DealiColor.g100
-            $0.tintColor = DealiColor.g100
+            $0.textColor = .g100
+            $0.tintColor = .g100
             $0.delegate = self
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
@@ -554,7 +546,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         textFieldContentStackView.addArrangedSubview(self.clearButton)
         self.clearButton.then {
             $0.isHidden = true
-            $0.setImage(UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(DealiColor.g50), for: .normal)
+            $0.setImage(UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(.g50), for: .normal)
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
@@ -563,7 +555,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         self.textInputRightTimeLabel.then {
             $0.text = "00:00"
             $0.font = .b2r14
-            $0.textColor = DealiColor.error
+            $0.textColor = .error
             $0.textAlignment = .center
             $0.sizeToFit()
             $0.isHidden = true
@@ -582,8 +574,8 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         contentStackView.addArrangedSubview(self.helperTextLabel)
         self.helperTextLabel.then {
             $0.font = .b4r12
-            $0.textColor = DealiColor.g70
-            $0.highlightedTextColor = DealiColor.primary01
+            $0.textColor = .g70
+            $0.highlightedTextColor = .primary01
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.isHidden = true
@@ -600,7 +592,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
             }
             
             self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+            self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.g70, .paragraphStyle: style])
         } else {
             self.helperTextLabel.isHidden = true
         }
@@ -627,11 +619,11 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         
         if let errorMessage = errorMessage {
             self.helperTextLabel.isHidden = false
-            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.error, .paragraphStyle: style])
+            self.helperTextLabel.attributedText = NSAttributedString(string: errorMessage, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.error, .paragraphStyle: style])
         } else {
             if let normalHelperText = self.normalHelperText {
                 self.helperTextLabel.isHidden = false
-                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: DealiColor.g70, .paragraphStyle: style])
+                self.helperTextLabel.attributedText = NSAttributedString(string: normalHelperText, attributes: [.font: UIFont.b4r12, .foregroundColor: UIColor.g70, .paragraphStyle: style])
             } else {
                 self.helperTextLabel.isHidden = true
             }
@@ -665,4 +657,21 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         }
     }
     
+    private func requiredBadgeView() -> UIView {
+        let view = UIView()
+        
+        let requiredBadge = UIView()
+        view.addSubview(requiredBadge)
+        requiredBadge.then {
+            $0.backgroundColor = .primary01
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 2.5
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(4.0)
+            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        return view
+    }
 }

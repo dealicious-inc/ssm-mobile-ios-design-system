@@ -20,7 +20,7 @@ public class DealiDescriptionItem: UIView {
                 self.titleLabel.isHidden = false
                 self.titleLabel.attributedText = NSMutableAttributedString(string: title)
                     .font(.b3sb13)
-                    .color(DealiColor.g100)
+                    .color(UIColor.g100)
                     .alignment(.left)
                     .setLineHeight()
             } else {
@@ -104,7 +104,7 @@ public class DealiDescriptionItem: UIView {
                     bulletImageView.then {
                         $0.layer.cornerRadius = 1.5
                         $0.layer.masksToBounds = true
-                        $0.backgroundColor = DealiColor.g80
+                        $0.backgroundColor = UIColor.g80
                     }.snp.makeConstraints {
                         $0.top.bottom.equalToSuperview().inset(7.5)
                         $0.left.equalToSuperview()

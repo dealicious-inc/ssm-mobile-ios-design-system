@@ -22,7 +22,7 @@ struct DealiBottomSheetIconWithTextCellUIModel {
     }
     
     var optionTextColor: UIColor {
-        self.isSelected ? DealiColor.primary01 : DealiColor.g100
+        self.isSelected ? .primary01 : .g100
     }
     
     var isCheckIconHidden: Bool {
@@ -92,7 +92,7 @@ final class DealiBottomSheetIconWithTextCell: UICollectionViewCell {
         self.contentView.addSubview(self.optionLabel)
         self.optionLabel.then {
             $0.font = .b1r15
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(self.iconImageView.snp.right).offset(12.0)
@@ -101,7 +101,7 @@ final class DealiBottomSheetIconWithTextCell: UICollectionViewCell {
         self.contentView.addSubview(self.checkIconImageView)
         self.checkIconImageView.then {
             $0.isHidden = true
-            $0.image = UIImage(named: "ic_check", in: Bundle.module, compatibleWith: nil)?.withTintColor(DealiColor.primary01)
+            $0.image = UIImage(named: "ic_check", in: Bundle.module, compatibleWith: nil)?.withTintColor(.primary01)
 
         }.snp.makeConstraints {
             $0.centerY.equalToSuperview()

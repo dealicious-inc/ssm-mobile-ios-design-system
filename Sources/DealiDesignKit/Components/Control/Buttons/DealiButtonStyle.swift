@@ -24,11 +24,11 @@ import UIKit
 /// var defaultBackgroundColor: UIColor {
 ///      switch self.baseStyle {
 ///      case .filled:
-///          return DealiColor.primary01
+///          return .primary01
 ///      case .tonal:
-///          return DealiColor.bg07
+///          return .bg07
 ///      default:
-///          return DealiColor.primary04
+///          return .primary04
 ///      }
 /// }
 /// ```
@@ -56,39 +56,39 @@ public enum DealiButtonStyle: Equatable {
     var defaultBackgroundColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.primary01
+            return .primary01
         case .tonal:
-            return DealiColor.g10
+            return .g10
         case .text:
             return UIColor.clear
         default:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     
     var pressedBackgroundColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.primary02
+            return .primary02
         case .tonal:
-            return DealiColor.g10
+            return .g10
         case .text:
             return UIColor.clear
         default:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     
     var disabledBackgroundColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.g40
+            return .g40
         case .tonal:
-            return DealiColor.g10
+            return .g10
         case .text:
             return UIColor.clear
         default:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     
@@ -96,35 +96,35 @@ public enum DealiButtonStyle: Equatable {
     var textColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.primary04
+            return .primary04
         case .outlined:
-            return DealiColor.primary01
+            return .primary01
         case .tonal:
-            return DealiColor.g80
+            return .g80
         default:
-            return DealiColor.g80
+            return .g80
         }
     }
     
     var disabledTextColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.primary04
+            return .primary04
         default:
-            return DealiColor.g50
+            return .g50
         }
     }
     
     var pressedTextColor: UIColor {
         switch self.baseStyle {
         case .filled:
-            return DealiColor.primary04
+            return .primary04
         case .outlined:
-            return DealiColor.primary01
+            return .primary01
         case .tonal, .text:
-            return DealiColor.g100
+            return .g100
         default:
-            return DealiColor.g100
+            return .g100
         }
     }
     
@@ -135,20 +135,20 @@ public enum DealiButtonStyle: Equatable {
     var defaultBorderColor: CGColor {
         switch self.baseStyle {
         case .outlined:
-            return DealiColor.primary01.cgColor
+            return UIColor.primary01.cgColor
         case .tonal:
-            return DealiColor.g30.cgColor
+            return UIColor.g30.cgColor
         default:
-            return DealiColor.primary04.cgColor
+            return UIColor.primary04.cgColor
         }
     }
     
     var disabledBorderColor: CGColor {
         switch self.baseStyle {
         case .outlined, .tonal:
-            return DealiColor.g30.cgColor
+            return UIColor.g30.cgColor
         default:
-            return DealiColor.primary04.cgColor
+            return UIColor.primary04.cgColor
         }
     }
     

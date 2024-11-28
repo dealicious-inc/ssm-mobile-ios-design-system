@@ -283,7 +283,7 @@ class TabBarViewController: UIViewController {
         buttonContainerStackView.addArrangedSubview(self.moveTabBatItemButton)
         self.moveTabBatItemButton.then {
             $0.title = "특정 탭으로 이동"
-            $0.addTarget(self, action: #selector(moveTabBatItemButtonPressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(moveTabBarItemButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
         }
@@ -292,7 +292,7 @@ class TabBarViewController: UIViewController {
         self.hiddenTabBatItemButton.then {
             $0.title = "특정 탭 숨김"
             $0.isSelected = false
-            $0.addTarget(self, action: #selector(hiddenTabBatItemButtonPressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(hiddenTabBarItemButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
         }
@@ -301,7 +301,7 @@ class TabBarViewController: UIViewController {
         self.changeTitleTabBatItemButton.then {
             $0.title = "특정 탭 Title 변경"
             $0.isSelected = false
-            $0.addTarget(self, action: #selector(changeTitleTabBatItemButtonPressed), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(changeTitleTabBarItemButtonPressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
         }

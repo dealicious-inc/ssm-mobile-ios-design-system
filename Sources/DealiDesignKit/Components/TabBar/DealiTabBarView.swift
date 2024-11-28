@@ -74,7 +74,7 @@ final public class DealiTabBarView: UIView {
         super.init(frame: .zero)
         
         self.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
             $0.clipsToBounds = true
         }.snp.makeConstraints {
             $0.height.equalTo(preset.tabBarViewHeight).priority(.high)
@@ -127,7 +127,7 @@ final public class DealiTabBarView: UIView {
         
         self.collectionView.backgroundView?.addSubview(self.bottomDividerView)
         self.bottomDividerView.then {
-            $0.backgroundColor = DealiColor.g30
+            $0.backgroundColor = .g30
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)

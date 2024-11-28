@@ -60,9 +60,9 @@ public enum DealiTabBarPreset {
     var textColor: UIColor {
         switch self {
         case .tabBarSegment01:
-            return DealiColor.g70
+            return .g70
         default:
-            return DealiColor.g100
+            return .g100
         }
     }
     
@@ -70,11 +70,11 @@ public enum DealiTabBarPreset {
     var selectedTextColor: UIColor {
         switch self {
         case .tabBarSegment01, .tabBarSlider02:
-            return DealiColor.g100
+            return .g100
         case .tabBarSlider01:
-            return DealiColor.primary01
+            return .primary01
         case .tabBarChip01, .tabBarChip02:
-            return DealiColor.primary04
+            return .primary04
         }
     }
     

@@ -22,7 +22,7 @@ public struct DealiTabBarItemTextStyleCellUIModel {
     /// 버튼 타이틀
     var title: String?
     /// 기본 텍스트 컬러
-    var textColor: UIColor = DealiColor.g100
+    var textColor: UIColor = .g100
     /// 기본 텍스트 폰트
     var font: UIFont = .b2r14
     /// 아이콘 URL

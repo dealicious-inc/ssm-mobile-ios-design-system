@@ -50,7 +50,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         
         self.addSubview(self.badgeImageView)
         self.badgeImageView.then {
-            $0.backgroundColor = DealiColor.primary01
+            $0.backgroundColor = .primary01
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 2.0
             $0.isHidden = true

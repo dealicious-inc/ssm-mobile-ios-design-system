@@ -148,6 +148,8 @@ final public class DealiTabBarView: UIView {
     }
     
     public func setSelectedIndex(index: Int, animated: Bool = true) {
+        guard index >= 0 else { return }
+        
         self.setSelectedIndexWithScroll(index: index)
         
         /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달

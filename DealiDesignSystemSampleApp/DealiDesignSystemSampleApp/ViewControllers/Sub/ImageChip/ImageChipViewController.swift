@@ -29,7 +29,7 @@ final class ImageChipViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.backgroundColor = DealiColor.primary04
+        self.view.backgroundColor = UIColor.primary04
         
         let stackView = UIStackView()
         self.view.addSubview(stackView)
@@ -123,7 +123,7 @@ final class CustomTestView: DealiCustomView {
         let imageView = UIImageView()
         self.addSubview(imageView)
         imageView.then {
-            $0.image = UIImage.dealiIcon(named: "ic_speechbubble_filled")?.withTintColor(DealiColor.primary01)
+            $0.image = UIImage.dealiIcon(named: "ic_speechbubble_filled")?.withTintColor(UIColor.primary01)
         }.snp.makeConstraints {
             $0.size.equalTo(16)
             $0.left.equalToSuperview()
@@ -133,8 +133,8 @@ final class CustomTestView: DealiCustomView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .b2sb14
-            $0.textColor = DealiColor.primary01
-            $0.attributedText = NSMutableAttributedString(string: "5").font($0.font).color(DealiColor.primary01).alignment(.left).setLineHeight()
+            $0.textColor = UIColor.primary01
+            $0.attributedText = NSMutableAttributedString(string: "5").font($0.font).color(UIColor.primary01).alignment(.left).setLineHeight()
         }.snp.makeConstraints {
             $0.left.equalTo(imageView.snp.right).offset(2)
             $0.top.bottom.right.equalToSuperview()

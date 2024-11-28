@@ -125,10 +125,10 @@ public class ImageChip: DealiChip {
         self.imageView.then {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
-            $0.layer.borderColor = DealiColor.b5.cgColor
+            $0.layer.borderColor = UIColor.b5.cgColor
             $0.layer.borderWidth = 0.5
             $0.layer.cornerRadius = self.configuration.imageSize.width / 2
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = UIColor.primary04
         }.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview().inset(self.configuration.verticalPadding)
             $0.left.equalToSuperview().inset(self.configuration.leftPadding)
@@ -139,7 +139,7 @@ public class ImageChip: DealiChip {
         self.imageView.addSubview(self.placeholderImageView)
         self.placeholderImageView.then {
             let width = self.configuration.imageSize.width - self.configuration.placeholderInset * 2
-            $0.image = self.placeholderImage?.withTintColor(DealiColor.g30).resize(CGSize(width: width, height: width))
+            $0.image = self.placeholderImage?.withTintColor(UIColor.g30).resize(CGSize(width: width, height: width))
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(self.configuration.placeholderInset)
         }

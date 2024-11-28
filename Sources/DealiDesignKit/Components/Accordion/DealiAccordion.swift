@@ -21,7 +21,7 @@ public class DealiAccordion: UIView {
             if let title = self.title {
                 self.openButtonTitleLabel.attributedText = NSMutableAttributedString(string: title)
                     .font(.b2sb14)
-                    .color(DealiColor.g100)
+                    .color(UIColor.g100)
                     .alignment(.left)
                     .setLineHeight()
             }
@@ -50,7 +50,7 @@ public class DealiAccordion: UIView {
     }
     
     /// accordionView에 background color를 변경해야 할때 값 세팅
-    public var accordionViewBackgroundColor: UIColor = DealiColor.g10 {
+    public var accordionViewBackgroundColor: UIColor = UIColor.g10 {
         didSet {
             self.backgroundColor = self.accordionViewBackgroundColor
             self.openButton.setBackgroundColor(self.accordionViewBackgroundColor, for: .normal)
@@ -111,7 +111,7 @@ public class DealiAccordion: UIView {
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: "타이틀")
                 .font(.b2sb14)
-                .color(DealiColor.g100)
+                .color(UIColor.g100)
                 .alignment(.left)
                 .setLineHeight()
         }.snp.makeConstraints {
@@ -122,7 +122,7 @@ public class DealiAccordion: UIView {
         
         contentStackView.addArrangedSubview(self.dividerView)
         self.dividerView.then {
-            $0.backgroundColor = DealiColor.g30
+            $0.backgroundColor = UIColor.g30
             $0.isHidden = true
             $0.alpha = 0.0
         }.snp.makeConstraints {

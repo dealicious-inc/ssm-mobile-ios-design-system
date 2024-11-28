@@ -17,7 +17,7 @@ public enum DealiDescriptionStyle: Equatable {
     }
     
     var textColor: UIColor {
-        return DealiColor.g80
+        return UIColor.g80
     }
 }
 

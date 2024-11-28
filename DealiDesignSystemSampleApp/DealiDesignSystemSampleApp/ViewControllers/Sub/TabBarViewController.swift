@@ -469,7 +469,7 @@ extension TabBarViewController {
         self.tabBarChip02ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarChip02Items)
     }
     
-    @objc func changeTitleTabBatItemButtonPressed() {
+    @objc func changeTitleTabBarItemButtonPressed() {
         self.changeTitleTabBatItemButton.isSelected.toggle()
         
         self.changeTitleTabBatItemButton.title = (self.changeTitleTabBatItemButton.isSelected == true ? "특정 탭 Title 변경" : "특정 탭 Title 원복")

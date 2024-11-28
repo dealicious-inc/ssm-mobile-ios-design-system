@@ -15,7 +15,7 @@ public extension Color {
 }
 
 @available(*, deprecated, renamed: "UIColor")
-public enum UIColor {
+public enum DealiColor {
     
     // 사용의 편의를 위함
     public static let primary01: UIColor = PrimaryColor.primary01.color

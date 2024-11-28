@@ -424,7 +424,7 @@ extension TabBarViewController {
         
     }
     
-    @objc func moveTabBatItemButtonPressed() {
+    @objc func moveTabBarItemButtonPressed() {
         self.moveTabBatItemButton.isSelected.toggle()
         
         self.moveTabBatItemButton.title = (self.moveTabBatItemButton.isSelected == true ? "Tab으로 이동" : "0번 Tab으로 이동")

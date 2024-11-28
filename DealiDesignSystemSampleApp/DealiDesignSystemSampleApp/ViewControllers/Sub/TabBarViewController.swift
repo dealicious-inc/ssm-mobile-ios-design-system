@@ -72,6 +72,12 @@ class TabBarViewController: UIViewController {
         self.setTabBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.tabBarChip02.setSelectedIndex(index: 0)
+    }
+    
     override func loadView() {
         super.loadView()
         
@@ -194,7 +200,7 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarChip02)
         self.tabBarChip02.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 5)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: -2)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

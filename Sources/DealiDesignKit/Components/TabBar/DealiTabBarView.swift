@@ -1,6 +1,6 @@
 //
 //  DealiTabBarView.swift
-//  
+//
 //
 //  Created by 이창호 on 11/4/24.
 //
@@ -141,7 +141,9 @@ final public class DealiTabBarView: UIView {
         if self.collectionView.frame.width > 0.0 && self.collectionView.contentSize.width > 0.0 && self.isLayoutInitialized == false && self.tabBarItemInfoArray.count > 0 {
 
             self.isLayoutInitialized = true
-            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
+            if self.selectedIndex >= 0 {
+                self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
+            }
         }
     }
     
@@ -207,6 +209,11 @@ final public class DealiTabBarView: UIView {
             }
         }
         
+        /// startIndex 값이 -2인경우는 초기화면에서 선택된 탭이 없는경우이므로 selectedIndex 값을 -2로 설정
+        if startIndex == -2 {
+            selectedIndex = startIndex
+        }
+        
         self.selectedIndex = selectedIndex
         self.updateTabBarItemPositions()
         
@@ -231,7 +238,9 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
+        if self.selectedIndex >= 0 {
+            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
+        }
     }
     
     private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {

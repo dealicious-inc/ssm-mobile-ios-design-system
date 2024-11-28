@@ -16,6 +16,8 @@ public struct DealiTabBarItemChipStyleCellUIModel {
         switch chipStyle {
         case .chipFilledSmall02:
             uiModel.itemChip = DealiControl.chipFilledSmall02()
+        case .chipFilledSmall03:
+            uiModel.itemChip = DealiControl.chipFilledSmall03()
         }
         
         uiModel.itemChip?.do {

@@ -26,6 +26,10 @@ public class DealiTabBar {
     public static func tabBarChip01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
         return DealiTabBarView(preset: .tabBarChip01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
     }
+    
+    public static func tabBarChip02(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarChip02, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    }
 }
 
 @objc public protocol DealiTabBarViewDelegate {

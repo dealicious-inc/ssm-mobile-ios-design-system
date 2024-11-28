@@ -38,21 +38,25 @@ class TabBarViewController: UIViewController {
     private var tabBarSlider01Items: [DealiTabBarItem] = []
     private var tabBarSlider02Items: [DealiTabBarItem] = []
     private var tabBarChip01Items: [DealiTabBarItem] = []
+    private var tabBarChip02Items: [DealiTabBarItem] = []
     
     private var tabBarSegment01ViewController: DealiTabBarViewController?
     private var tabBarSlider01ViewController: DealiTabBarViewController?
     private var tabBarSlider02ViewController: DealiTabBarViewController?
     private var tabBarChip01ViewController: DealiTabBarViewController?
+    private var tabBarChip02ViewController: DealiTabBarViewController?
     
     private let tabBarSegment01 = DealiTabBar.tabBarSegment01(isStandAloneView:  true)
     private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isStandAloneView:  true, isSelectedItemCentered: false)
     private let tabBarSlider02 = DealiTabBar.tabBarSlider02(isStandAloneView:  true)
     private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView:  true, isSelectedItemCentered: true)
+    private let tabBarChip02 = DealiTabBar.tabBarChip02(isStandAloneView:  true)
     
     private let tabBarSegment01ContentView = UIView()
     private let tabBarSlider01ContentView = UIView()
     private let tabBarSlider02ContentView = UIView()
     private let tabBarChip01ContentView = UIView()
+    private let tabBarChip02ContentView = UIView()
     
     private let badgeOnOffButton = DealiControl.btnOutlineLarge01()
     private let moveTabBatItemButton = DealiControl.btnOutlineLarge01()
@@ -181,6 +185,21 @@ class TabBarViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let tabBarChip02TitleLabel = UILabel()
+        contentStackView.addArrangedSubview(tabBarChip02TitleLabel)
+        tabBarChip02TitleLabel.do {
+            $0.text = "tabBarChip01"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarChip02)
+        self.tabBarChip02.then {
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 5)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let tabBarSegment01ViewControllerTitleLabel = UILabel()
         contentStackView.addArrangedSubview(tabBarSegment01ViewControllerTitleLabel)
         tabBarSegment01ViewControllerTitleLabel.do {
@@ -229,6 +248,19 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarChip01ContentView)
         self.tabBarChip01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let tabBarChip02ViewControllerTitleLabel = UILabel()
+        contentStackView.addArrangedSubview(tabBarChip02ViewControllerTitleLabel)
+        tabBarChip02ViewControllerTitleLabel.do {
+            $0.text = "tabBarChip01_ViewController"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarChip02ContentView)
+        self.tabBarChip02ContentView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(300.0)
         }
@@ -312,11 +344,17 @@ class TabBarViewController: UIViewController {
         }
         
         for i in 0..<10 {
-            let viewController = DealiTabBarChildViewController()
-            viewController.view.backgroundColor = self.randomColor()
-            let tabBarItem = DealiTabBarItem.make(viewController, title: "\(i)번 Tab")
-            self.tabBarChip01Items.append(tabBarItem)
+            let chip01ViewController = DealiTabBarChildViewController()
+            chip01ViewController.view.backgroundColor = self.randomColor()
+            let tabBarItemChip01 = DealiTabBarItem.make(chip01ViewController, title: "\(i)번 Tab")
+            self.tabBarChip01Items.append(tabBarItemChip01)
+            
+            let chip02ViewController = DealiTabBarChildViewController()
+            chip02ViewController.view.backgroundColor = self.randomColor()
+            let tabBarItemChip02 = DealiTabBarItem.make(chip02ViewController, title: "\(i)번 Tab")
+            self.tabBarChip02Items.append(tabBarItemChip02)
         }
+
         
         let tabBarSegment01View = DealiTabBar.tabBarSegment01()
         self.tabBarSegment01ViewController = DealiTabBarViewController(tabBarView: tabBarSegment01View, tabBarItemArray: self.segmentTabBarItems)
@@ -345,6 +383,13 @@ class TabBarViewController: UIViewController {
         if let tabBarChip01ViewController = self.tabBarChip01ViewController {
             self.insertChildController(tabBarChip01ViewController, intoParentView: self.tabBarChip01ContentView)
         }
+        
+        let tabBarChip02View = DealiTabBar.tabBarChip02(isSelectedItemCentered: true)
+        self.tabBarChip02ViewController = DealiTabBarViewController(tabBarView: tabBarChip02View, tabBarItemArray: self.tabBarChip02Items)
+        self.tabBarChip02ViewController?.startPageIndex = 5
+        if let tabBarChip02ViewController = self.tabBarChip02ViewController {
+            self.insertChildController(tabBarChip02ViewController, intoParentView: self.tabBarChip02ContentView)
+        }
     }
     
     func randomColor() -> UIColor {
@@ -360,20 +405,16 @@ extension TabBarViewController {
     @objc func badgeOnOffButtonPressed() {
         print("badgeOnOffButtonPressed")
         self.badgeOnOffButton.isSelected.toggle()
-//        
-//        self.badgeOnOffButton.title = (self.badgeOnOffButton.isSelected == true ? "뱃지 On" : "뱃지 off")
-//        
-//        self.tabBarSegment01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        self.tabBarSlider01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        self.tabBarSlider02ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        self.tabBarChip01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        
-//        self.tabBarSegment01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        self.tabBarSlider01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-//        self.tabBarSlider02.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
         
-        self.tabBarSlider01.setTabBarItems(tabBarItemArray: (self.badgeOnOffButton.isSelected == true ? self.sliderTabBarItemArray02 : self.sliderTabBarItemArray), startIndex: 0)
+        self.badgeOnOffButton.title = (self.badgeOnOffButton.isSelected == true ? "뱃지 On" : "뱃지 off")
         
+        self.tabBarSegment01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        self.tabBarSlider01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        self.tabBarSlider02ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        
+        self.tabBarSegment01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        self.tabBarSlider01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        self.tabBarSlider02.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
         
     }
     
@@ -386,11 +427,13 @@ extension TabBarViewController {
         self.tabBarSlider01ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 6 : 0), animation: false)
         self.tabBarSlider02ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
         self.tabBarChip01ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
+        self.tabBarChip02ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
         
         self.tabBarSegment01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 2 : 0))
         self.tabBarSlider01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0))
         self.tabBarSlider02.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 3 : 0))
         self.tabBarChip01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
+        self.tabBarChip02.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
     }
     
     @objc func hiddenTabBatItemButtonPressed() {
@@ -405,16 +448,19 @@ extension TabBarViewController {
         self.tabBarSlider01Items[4].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.tabBarSlider02Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.tabBarChip01Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
+        self.tabBarChip02Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         
         self.tabBarSegment01.setTabBarItems(tabBarItemArray: self.segmentTabBarItemArray)
         self.tabBarSlider01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
         self.tabBarSlider02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
         self.tabBarChip01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarChip02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
 
         self.tabBarSegment01ViewController?.hiddenViewPage(tabBarItemArray: self.segmentTabBarItems)
         self.tabBarSlider01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarSlider01Items)
         self.tabBarSlider02ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarSlider02Items)
         self.tabBarChip01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarChip01Items)
+        self.tabBarChip02ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarChip02Items)
     }
     
     @objc func changeTitleTabBatItemButtonPressed() {
@@ -426,11 +472,13 @@ extension TabBarViewController {
         self.tabBarSlider01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarSlider02ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarChip02ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         
         self.tabBarSegment01.changeTabBarButtonTitle(index: 1, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarSlider01.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarSlider02.changeTabBarButtonTitle(index: 4, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip01.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarChip02.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
     }
 }
 

@@ -16,6 +16,8 @@ public enum DealiTabBarPreset {
     case tabBarSlider02
     /// slider 스타일 형식의 tabbar(chipFilledSmall02 을 사용)
     case tabBarChip01
+    /// slider 스타일 형식의 tabbar(chipFilledSmall03 을 사용)
+    case tabBarChip02
     
     /// tabber Item Style
     enum DealiTabBarStyle: Equatable {
@@ -27,6 +29,7 @@ public enum DealiTabBarPreset {
     /// tabber Item Style
     enum DealiTabBarSliderChipStyle: Equatable {
         case chipFilledSmall02
+        case chipFilledSmall03
     }
     
     // MARK: TabBarStyle
@@ -36,6 +39,8 @@ public enum DealiTabBarPreset {
             return .segment
         case .tabBarChip01:
             return .sliderChip(.chipFilledSmall02)
+        case .tabBarChip02:
+            return .sliderChip(.chipFilledSmall03)
         default:
             return .slider
         }
@@ -68,7 +73,7 @@ public enum DealiTabBarPreset {
             return DealiColor.g100
         case .tabBarSlider01:
             return DealiColor.primary01
-        case .tabBarChip01:
+        case .tabBarChip01, .tabBarChip02:
             return DealiColor.primary04
         }
     }
@@ -76,7 +81,7 @@ public enum DealiTabBarPreset {
     // MARK: itemSpacing - item간의 거리값
     var itemSpacing: CGFloat {
         switch self {
-        case .tabBarChip01:
+        case .tabBarChip01, .tabBarChip02:
             return 8.0
         default:
             return 0.0
@@ -96,7 +101,7 @@ public enum DealiTabBarPreset {
     // MARK: tabBarHorizontalMargin - TabbarView content영역 양쪽 margin
     var tabBarHorizontalMargin: CGFloat {
         switch self {
-        case .tabBarSegment01, .tabBarChip01:
+        case .tabBarSegment01, .tabBarChip01, .tabBarChip02:
             return 16.0
         default:
             return 4.0
@@ -106,7 +111,7 @@ public enum DealiTabBarPreset {
     // MARK: TabBarContentHeight - TabBarView의 내부 content 높이
     var tabBarContentHeight: CGFloat {
         switch self {
-        case .tabBarChip01:
+        case .tabBarChip01, .tabBarChip02:
             return 56.0
         default:
             return 44.0
@@ -116,7 +121,7 @@ public enum DealiTabBarPreset {
     // MARK: TabBarViewHeight - TabBarView 높이
     var tabBarViewHeight: CGFloat {
         switch self {
-        case .tabBarChip01:
+        case .tabBarChip01, .tabBarChip02:
             return 56.0
         default:
             return 44.0

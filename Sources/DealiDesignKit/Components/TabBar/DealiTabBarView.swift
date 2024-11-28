@@ -320,9 +320,11 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        if offset >= 0 {
-            self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
+        if offset < 0 {
+            offset = 0.0
         }
+        
+        self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
     }
     
     

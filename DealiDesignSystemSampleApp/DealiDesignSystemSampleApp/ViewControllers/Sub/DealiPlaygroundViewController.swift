@@ -144,7 +144,7 @@ final class TextInputValidationView: UIView {
         titleLabel.then {
             $0.font = .h2sb24
             $0.text = "TextInput Validation Test"
-            $0.backgroundColor = DealiColor.secondary03
+            $0.backgroundColor = .secondary03
             $0.textColor = .black
         }.snp.makeConstraints {
             $0.top.left.equalToSuperview()

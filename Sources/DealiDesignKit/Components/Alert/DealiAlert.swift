@@ -78,7 +78,7 @@ public class DealiAlert: NSObject {
         }
         
         self.showAttributedMessage(title: title,
-                                   message: NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: DealiColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset]),
+                                   message: NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset]),
                                    insertCustomView: insertCustomView,
                                    cancelButtonTitle: cancelButtonTitle,
                                    confirmButtonTitle: confirmButtonTitle,
@@ -104,7 +104,7 @@ public class DealiAlert: NSObject {
                 baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 2
             }
             
-            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
+            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: UIColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
         }
         
         alertViewController.alertMessage = message
@@ -165,7 +165,7 @@ final class DealiAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = DealiColor.b40
+        self.view.backgroundColor = .b40
         /// 외부에서 DealiAlert을 닫아야 하는 경우 호출
         NotificationCenter.default.addObserver(self, selector: #selector(closeAction(_:)), name: DealiAlert.closeNotificationName, object: nil)
     }
@@ -179,7 +179,7 @@ final class DealiAlertViewController: UIViewController {
         self.contentView.then {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 10.0
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
 //            $0.width.equalTo(280.0)

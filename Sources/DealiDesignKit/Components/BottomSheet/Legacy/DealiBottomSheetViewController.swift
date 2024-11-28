@@ -52,7 +52,7 @@ open class DealiBottomSheetViewController: UIViewController {
         self.view.addSubview(self.sheetView)
         self.sheetView.then {
             $0.clipsToBounds = true
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -61,7 +61,7 @@ open class DealiBottomSheetViewController: UIViewController {
         self.sheetView.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.font = .sh2sb18
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .left
         }.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24.0)
@@ -116,7 +116,7 @@ open class DealiBottomSheetViewController: UIViewController {
 
     public func showBottomSheet() {
         self.view.layoutIfNeeded()
-        self.view.backgroundColor = DealiColor.b50
+        self.view.backgroundColor = .b50
     
         self.sheetView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()

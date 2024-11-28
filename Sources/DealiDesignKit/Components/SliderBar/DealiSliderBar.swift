@@ -97,7 +97,7 @@ public final class DealiSliderBar: UIControl {
     private func setupViews() {
         self.addSubview(self.barView)
         self.barView.then {
-            $0.backgroundColor = DealiColor.g30
+            $0.backgroundColor = .g30
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 3.0
         }.snp.makeConstraints {
@@ -113,7 +113,7 @@ public final class DealiSliderBar: UIControl {
             $0.layer.shadowOffset = CGSize(width: 0, height: 1)
             $0.layer.shadowOpacity = 0.22
             $0.layer.shadowRadius = 3.0
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
             
             self.minPanGesture = UIPanGestureRecognizer(target: self, action: #selector(self.thumbDragged(using:)))
             self.minPanGesture.cancelsTouchesInView = false
@@ -132,7 +132,7 @@ public final class DealiSliderBar: UIControl {
             $0.layer.shadowOffset = CGSize(width: 1, height: 1)
             $0.layer.shadowOpacity = 0.22
             $0.layer.shadowRadius = 3.0
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
             self.maxPanGesture = UIPanGestureRecognizer(target: self, action: #selector(self.thumbDragged(using:)))
             self.maxPanGesture.cancelsTouchesInView = false
             
@@ -146,7 +146,7 @@ public final class DealiSliderBar: UIControl {
         
         self.addSubview(self.activeRangeBarView)
         self.activeRangeBarView.then {
-            $0.backgroundColor = DealiColor.primary01
+            $0.backgroundColor = .primary01
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 3.0
         }.snp.makeConstraints {

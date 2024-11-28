@@ -19,7 +19,7 @@ public class DealiEmptyTableViewCell: UITableViewCell {
         self.do {
             $0.clipsToBounds = true
             $0.contentView.clipsToBounds = true
-            $0.contentView.backgroundColor = DealiColor.primary04
+            $0.contentView.backgroundColor = .primary04
         }
         
         self.contentView.addSubview(self.emptyView)

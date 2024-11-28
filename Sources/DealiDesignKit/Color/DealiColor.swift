@@ -59,8 +59,11 @@ public struct DealiColor {
     public static let w15: UIColor = EtcColor.w15.color
     public static let w10: UIColor = EtcColor.w10.color
     public static let w5: UIColor = EtcColor.w5.color
-
     
+    // MARK: Mbs (소매 멤버십)
+    public static let mbs01: UIColor = MBSColor.mbs01.color
+    public static let mbs02: UIColor = MBSColor.mbs02.color
+    public static let mbsGradient: [UIColor] = MBSColor.mbsGradient.colors
     
     @available(*, deprecated, renamed: "b10")
     public static let etc01: UIColor = EtcColor.etc01.color
@@ -255,7 +258,20 @@ enum EtcColor: Int, ColorConfigurable {
     }
 }
 
-
+enum MBSColor: Int, ColorConfigurable, ColorsConfigurable {
+    case mbs01 = 0x1F5EFF
+    case mbs02 = 0xE5FE1E
+    case mbsGradient
+    
+    var gradient: [Int] {
+        switch self {
+        case .mbsGradient:
+            return [0x1F5EFF, 0xE5FE1E]
+        default:
+            return []
+        }
+    }
+}
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI

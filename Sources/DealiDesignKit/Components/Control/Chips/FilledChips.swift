@@ -51,10 +51,16 @@ extension DealiControl {
         return ClickableComponentChip(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.secondary01)
     }
+    
+    public static func chipFilledSmall03() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.small,
+                                      color: ChipsFilledColor.primary02)
+    }
 }
 
 public enum ChipsFilledColor: ClickableColorConfig {
     case primary01
+    case primary02
     case secondary01
     
     public var attribute: ClickableColor {
@@ -62,6 +68,10 @@ public enum ChipsFilledColor: ClickableColorConfig {
         case .primary01:
             return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: .clear),
                                   selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
+                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+        case .primary02:
+            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary04, text: DealiColor.g100, border: DealiColor.g20),
+                                  selected: ClickableColorSet(background: DealiColor.primary01, text: DealiColor.primary04, border: .clear),
                                   disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
         case .secondary01:
             return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g80, border: .clear),

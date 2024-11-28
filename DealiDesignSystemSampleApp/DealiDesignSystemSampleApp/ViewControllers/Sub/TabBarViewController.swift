@@ -372,7 +372,7 @@ extension TabBarViewController {
 //        self.tabBarSlider01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
 //        self.tabBarSlider02.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
         
-        self.tabBarSlider01.setTabBarItems(tabBarItemArray: (self.badgeOnOffButton.isSelected == true ? self.sliderTabBarItemArray02 : self.sliderTabBarItemArray), startIndex: 0, isMoveAnimation: false)
+        self.tabBarSlider01.setTabBarItems(tabBarItemArray: (self.badgeOnOffButton.isSelected == true ? self.sliderTabBarItemArray02 : self.sliderTabBarItemArray), startIndex: 0)
         
         
     }

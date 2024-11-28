@@ -149,7 +149,7 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0, isMoveAnimation: Bool = true) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
@@ -204,12 +204,12 @@ final public class DealiTabBarView: UIView {
         }
         
         self.selectedIndex = selectedIndex
-        self.updateTabBarItemPositions(isMoveAnimation: isMoveAnimation)
+        self.updateTabBarItemPositions()
         
     }
     
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 position X 값을 갱신 및 세팅
-    private func updateTabBarItemPositions(isMoveAnimation: Bool = true) {
+    private func updateTabBarItemPositions() {
         self.layoutIfNeeded()
         for index in 0..<self.tabBarItemInfoArray.count {
             
@@ -228,7 +228,8 @@ final public class DealiTabBarView: UIView {
         }
         
         if self.isLayoutInitialized == true {
-            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: isMoveAnimation)
+            print("DealiTabBarView updateTabBarItemPositions")
+            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
         }
     }
     
@@ -239,6 +240,7 @@ final public class DealiTabBarView: UIView {
         
         /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
         if self.preset.style != .segment && self.isStandAloneView {
+            print("DealiTabBarView setSelectedIndexWithScroll")
             self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: isMoveAnimation)
         }
         
@@ -299,8 +301,9 @@ final public class DealiTabBarView: UIView {
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
         var offset: CGFloat = -1
-        
+        print("DealiTabBarView moveScrollContentOffset _ 01")
         if self.isSelectedItemCentered == true {
+            print("DealiTabBarView moveScrollContentOffset _ 02")
             let centerOffsetX = (self.collectionView.frame.width / 2)
             offset = positionX - centerOffsetX + (contentWidth / 2)
             offset = max(offset, 0)
@@ -322,6 +325,7 @@ final public class DealiTabBarView: UIView {
             }
         }
         
+        print("DealiTabBarView moveScrollContentOffset _ 03 / offset = \(offset)")
         if offset >= 0 {
             self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
         }

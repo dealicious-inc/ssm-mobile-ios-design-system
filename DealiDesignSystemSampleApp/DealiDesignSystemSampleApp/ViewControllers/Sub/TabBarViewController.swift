@@ -442,7 +442,7 @@ extension TabBarViewController {
         self.tabBarChip02.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
     }
     
-    @objc func hiddenTabBatItemButtonPressed() {
+    @objc func hiddenTabBarItemButtonPressed() {
         self.hiddenTabBatItemButton.isSelected.toggle()
         
         self.hiddenTabBatItemButton.title = (self.hiddenTabBatItemButton.isSelected == true ? "Tab 노출" : "Tab 숨김")

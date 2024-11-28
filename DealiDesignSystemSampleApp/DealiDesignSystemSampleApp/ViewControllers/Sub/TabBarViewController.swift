@@ -18,13 +18,21 @@ class TabBarViewController: UIViewController {
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
                                   DealiTabBarItem.make(title: "3번 Tab"),
-//                                 DealiTabBarItem.make(title: "4번 Tab"),
                                          DealiTabBarItem.make(title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0))),
                                  DealiTabBarItem.make(title: "5번 Tab"),
                                  DealiTabBarItem.make(title: "6번 Tab"),
                                  DealiTabBarItem.make(title: "7번 Tab"),
                                  DealiTabBarItem.make(title: "8번 Tab"),
                                  DealiTabBarItem.make(title: "9번 Tab")]
+    
+    private var sliderTabBarItemArray02 = [DealiTabBarItem.make(title: "1번 TabTab"),
+                                  DealiTabBarItem.make(title: "2번 TabTab"),
+                                  DealiTabBarItem.make(title: "3번 TabTab"),
+                                 DealiTabBarItem.make(title: "5번 TabTab"),
+                                 DealiTabBarItem.make(title: "6번 TabTab"),
+                                 DealiTabBarItem.make(title: "7번 TabTab"),
+                                 DealiTabBarItem.make(title: "8번 TabTab"),
+                                 DealiTabBarItem.make(title: "9번 TabTab")]
     
     private var segmentTabBarItems: [DealiTabBarItem] = []
     private var tabBarSlider01Items: [DealiTabBarItem] = []
@@ -352,17 +360,19 @@ extension TabBarViewController {
     @objc func badgeOnOffButtonPressed() {
         print("badgeOnOffButtonPressed")
         self.badgeOnOffButton.isSelected.toggle()
+//        
+//        self.badgeOnOffButton.title = (self.badgeOnOffButton.isSelected == true ? "뱃지 On" : "뱃지 off")
+//        
+//        self.tabBarSegment01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        self.tabBarSlider01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        self.tabBarSlider02ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        self.tabBarChip01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        
+//        self.tabBarSegment01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        self.tabBarSlider01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+//        self.tabBarSlider02.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
         
-        self.badgeOnOffButton.title = (self.badgeOnOffButton.isSelected == true ? "뱃지 On" : "뱃지 off")
-        
-        self.tabBarSegment01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        self.tabBarSlider01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        self.tabBarSlider02ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        self.tabBarChip01ViewController?.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        
-        self.tabBarSegment01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        self.tabBarSlider01.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
-        self.tabBarSlider02.showTabBarItemBadge(index: 2, shouldShowBadge: (self.badgeOnOffButton.isSelected == true ? true : false))
+        self.tabBarSlider01.setTabBarItems(tabBarItemArray: (self.badgeOnOffButton.isSelected == true ? self.sliderTabBarItemArray02 : self.sliderTabBarItemArray), startIndex: 0, isMoveAnimation: false)
         
         
     }

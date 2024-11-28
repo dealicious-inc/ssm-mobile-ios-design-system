@@ -149,7 +149,7 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0, isMoveAnimation: Bool = true) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
@@ -204,12 +204,12 @@ final public class DealiTabBarView: UIView {
         }
         
         self.selectedIndex = selectedIndex
-        self.updateTabBarItemPositions()
+        self.updateTabBarItemPositions(isMoveAnimation: isMoveAnimation)
         
     }
     
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 position X 값을 갱신 및 세팅
-    private func updateTabBarItemPositions() {
+    private func updateTabBarItemPositions(isMoveAnimation: Bool = true) {
         self.layoutIfNeeded()
         for index in 0..<self.tabBarItemInfoArray.count {
             
@@ -228,7 +228,7 @@ final public class DealiTabBarView: UIView {
         }
         
         if self.isLayoutInitialized == true {
-            self.setSelectedIndexWithScroll(index: self.selectedIndex)
+            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: isMoveAnimation)
         }
     }
     

@@ -47,7 +47,7 @@ class TabBarViewController: UIViewController {
     private let tabBarSegment01 = DealiTabBar.tabBarSegment01(isStandAloneView:  true)
     private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isStandAloneView:  true, isSelectedItemCentered: false)
     private let tabBarSlider02 = DealiTabBar.tabBarSlider02(isStandAloneView:  true)
-    private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView:  true, isSelectedItemCentered: false)
+    private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView:  true, isSelectedItemCentered: true)
     
     private let tabBarSegment01ContentView = UIView()
     private let tabBarSlider01ContentView = UIView()
@@ -175,7 +175,7 @@ class TabBarViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.tabBarChip01)
         self.tabBarChip01.then {
-            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 1)
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: 5)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

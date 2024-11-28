@@ -227,10 +227,7 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        if self.isLayoutInitialized == true {
-            print("DealiTabBarView updateTabBarItemPositions")
-            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
-        }
+        self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
     }
     
     private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {
@@ -240,7 +237,6 @@ final public class DealiTabBarView: UIView {
         
         /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
         if self.preset.style != .segment && self.isStandAloneView {
-            print("DealiTabBarView setSelectedIndexWithScroll")
             self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: isMoveAnimation)
         }
         
@@ -301,9 +297,8 @@ final public class DealiTabBarView: UIView {
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
         var offset: CGFloat = -1
-        print("DealiTabBarView moveScrollContentOffset _ 01")
+        
         if self.isSelectedItemCentered == true {
-            print("DealiTabBarView moveScrollContentOffset _ 02")
             let centerOffsetX = (self.collectionView.frame.width / 2)
             offset = positionX - centerOffsetX + (contentWidth / 2)
             offset = max(offset, 0)
@@ -325,7 +320,6 @@ final public class DealiTabBarView: UIView {
             }
         }
         
-        print("DealiTabBarView moveScrollContentOffset _ 03 / offset = \(offset)")
         if offset >= 0 {
             self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
         }

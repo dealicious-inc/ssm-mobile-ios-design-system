@@ -37,9 +37,9 @@ public class DealiTabBar {
 }
 
 final public class DealiTabBarView: UIView {
-
+    
     public weak var delegate: DealiTabBarViewDelegate?
-
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private lazy var selectedLineView = UIView()
     private lazy var bottomDividerView = UIView()
@@ -81,7 +81,7 @@ final public class DealiTabBarView: UIView {
         }
         
         let layout = UICollectionViewFlowLayout()
-                layout.scrollDirection = .horizontal
+        layout.scrollDirection = .horizontal
         self.addSubview(self.collectionView)
         self.collectionView.then {
             $0.delegate = self
@@ -103,9 +103,31 @@ final public class DealiTabBarView: UIView {
             $0.height.equalTo(self.preset.tabBarContentHeight)
         }
         
-        if preset.style == .segment || preset.style == .slider {
+        self.collectionView.backgroundView = UIView()
+        
+        self.collectionView.backgroundView?.addSubview(self.bottomDividerView)
+        self.bottomDividerView.then {
+            switch self.preset.style {
+            case .sliderChip(let chipStyle):
+                if chipStyle == .chipFilledSmall02 {
+                    $0.backgroundColor = .white
+                } else {
+                    $0.backgroundColor = .g30
+                }
+            default:
+                $0.backgroundColor = .g30
+            }
+            
+        }.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)
+            $0.height.equalTo(1.0)
+        }
+        
+        if self.preset.style == .segment || preset.style == .slider {
             self.createSelectedLine()
         }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -113,6 +135,7 @@ final public class DealiTabBarView: UIView {
     }
     
     private func createSelectedLine() {
+        
         self.collectionView.addSubview(self.selectedLineView)
         self.selectedLineView.then {
             $0.backgroundColor = preset.selectedTextColor
@@ -123,23 +146,13 @@ final public class DealiTabBarView: UIView {
             $0.width.equalTo(0.0)
         }
         
-        self.collectionView.backgroundView = UIView()
-        
-        self.collectionView.backgroundView?.addSubview(self.bottomDividerView)
-        self.bottomDividerView.then {
-            $0.backgroundColor = .g30
-        }.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)
-            $0.height.equalTo(1.0)
-        }
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-       
+        
         if self.collectionView.frame.width > 0.0 && self.collectionView.contentSize.width > 0.0 && self.isLayoutInitialized == false && self.tabBarItemInfoArray.count > 0 {
-
+            
             self.isLayoutInitialized = true
             if self.selectedIndex >= 0 {
                 self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
@@ -248,7 +261,7 @@ final public class DealiTabBarView: UIView {
     private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {
         guard index < self.tabBarItemInfoArray.count else { return }
         self.selectedIndex = index
-
+        
         
         /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
         if self.preset.style != .segment && self.isStandAloneView {
@@ -270,18 +283,18 @@ final public class DealiTabBarView: UIView {
     
     /// ViewController ScrollView의 Scroll 이벤트가 발생했을 경우 Scroll offset 수치에 비례하게 UnderLine과 Tabbar Item Button이 움직이도록 처리하는 함수
     public func viewScroll(page: Int, fractional: CGFloat) {
-
+        
         if fractional.isInfinite {
             return
         }
-
+        
         let preIdx: Int = Int(floor(fractional))
         let nexIdx: Int = Int(ceil(fractional))
         let calc = fractional - CGFloat(preIdx)
-
+        
         var positionX = 0.0
         var contentWidth = 0.0
-
+        
         if preIdx < 0 {
             if let item = self.tabBarItemInfoArray.first {
                 positionX = item.contentPositionX
@@ -371,7 +384,7 @@ final public class DealiTabBarView: UIView {
         self.collectionView.reloadData()
         self.updateTabBarItemPositions()
     }
-
+    
     public func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
         guard index < self.tabBarItemInfoArray.count else { return }
         if self.preset.style == .segment || self.preset.style == .slider {
@@ -387,7 +400,7 @@ extension DealiTabBarView: UICollectionViewDataSource, UICollectionViewDelegate 
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-             
+        
         if case .sliderChip(_) = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemChipStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemChipCellUIModel)

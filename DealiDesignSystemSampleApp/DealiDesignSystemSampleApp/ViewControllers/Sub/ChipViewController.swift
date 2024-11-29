@@ -156,7 +156,7 @@ final class ChipContentView: UIView {
         self.titleLabel.then {
             $0.text = name
             $0.font = .b1sb15
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
             $0.top.equalToSuperview()

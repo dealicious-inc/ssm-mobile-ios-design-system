@@ -61,7 +61,7 @@ final class TextAreaViewController: UIViewController {
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = DealiColor.primary04
+        self.view.backgroundColor = .primary04
         
         
         self.view.addSubview(self.contentScrollView)

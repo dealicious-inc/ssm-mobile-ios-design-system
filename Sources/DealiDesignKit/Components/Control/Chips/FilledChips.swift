@@ -60,13 +60,13 @@ public enum ChipsFilledColor: ClickableColorConfig {
     public var attribute: ClickableColor {
         switch self {
         case .primary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: .clear),
-                                  selected: ClickableColorSet(background: DealiColor.primary03, text: DealiColor.primary01, border: DealiColor.primary01),
-                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+            return ClickableColor(normal: ClickableColorSet(background: .primary03, text: .primary01, border: .clear),
+                                  selected: ClickableColorSet(background: .primary03, text: .primary01, border: .primary01),
+                                  disabled: ClickableColorSet(background: .g10, text: .g50, border: .clear))
         case .secondary01:
-            return ClickableColor(normal: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g80, border: .clear),
-                                  selected: ClickableColorSet(background: DealiColor.g100, text: DealiColor.primary04, border: .clear),
-                                  disabled: ClickableColorSet(background: DealiColor.g10, text: DealiColor.g50, border: .clear))
+            return ClickableColor(normal: ClickableColorSet(background: .g10, text: .g80, border: .clear),
+                                  selected: ClickableColorSet(background: .g100, text: .primary04, border: .clear),
+                                  disabled: ClickableColorSet(background: .g10, text: .g50, border: .clear))
         }
     }
 }

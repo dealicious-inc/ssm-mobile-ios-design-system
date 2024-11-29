@@ -78,9 +78,9 @@ enum ImageStyleType {
             return ChipStyle(
                 radiusProvider: ChipRadiusType.capsule,
                 colorProvider: ChipColors(
-                    normal: ChipColor(textColor: DealiColor.g80, backgroundColor: DealiColor.b5),
-                    selected: ChipColor(textColor: DealiColor.primary04, backgroundColor: DealiColor.g100),
-                    disabled: ChipColor(textColor: DealiColor.g50, backgroundColor: DealiColor.b5)
+                    normal: ChipColor(textColor: UIColor.g80, backgroundColor: UIColor.b5),
+                    selected: ChipColor(textColor: UIColor.primary04, backgroundColor: UIColor.g100),
+                    disabled: ChipColor(textColor: UIColor.g50, backgroundColor: UIColor.b5)
                 )
             )
         }

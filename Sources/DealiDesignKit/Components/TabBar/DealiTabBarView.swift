@@ -67,7 +67,7 @@ final public class DealiTabBarView: UIView {
         super.init(frame: .zero)
         
         self.then {
-            $0.backgroundColor = DealiColor.primary04
+            $0.backgroundColor = .primary04
             $0.clipsToBounds = true
         }.snp.makeConstraints {
             $0.height.equalTo(preset.tabBarViewHeight)
@@ -130,7 +130,7 @@ final public class DealiTabBarView: UIView {
                 $0.isHidden = true
             } else {
                 $0.isHidden = false
-                $0.backgroundColor = DealiColor.g30
+                $0.backgroundColor = .g30
             }
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()

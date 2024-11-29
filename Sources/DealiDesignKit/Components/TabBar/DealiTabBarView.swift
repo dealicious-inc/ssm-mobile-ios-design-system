@@ -89,7 +89,7 @@ final public class DealiTabBarView: UIView {
             if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
                 layout.do {
                     $0.scrollDirection = .horizontal
-                    $0.minimumLineSpacing = self.preset.itemSpacing
+                    $0.minimumInteritemSpacing = self.preset.itemSpacing
                     $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
                 }
             }

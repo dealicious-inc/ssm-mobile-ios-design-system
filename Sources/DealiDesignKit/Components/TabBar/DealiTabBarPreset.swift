@@ -78,6 +78,18 @@ public enum DealiTabBarPreset {
         }
     }
     
+    // MARK: bottomDividerColor - bottom Divider Color
+    var bottomDividerColor: UIColor {
+        switch self {
+        case .tabBarChip01:
+            return .clear
+        case .tabBarChip02:
+            return .g20
+        default:
+            return .g30
+        }
+    }
+    
     // MARK: itemSpacing - item간의 거리값
     var itemSpacing: CGFloat {
         switch self {

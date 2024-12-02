@@ -107,17 +107,7 @@ final public class DealiTabBarView: UIView {
         
         self.collectionView.backgroundView?.addSubview(self.bottomDividerView)
         self.bottomDividerView.then {
-            switch self.preset.style {
-            case .sliderChip(let chipStyle):
-                if chipStyle == .chipFilledSmall02 {
-                    $0.backgroundColor = .white
-                } else {
-                    $0.backgroundColor = .g30
-                }
-            default:
-                $0.backgroundColor = .g30
-            }
-            
+            $0.backgroundColor = preset.bottomDividerColor
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)

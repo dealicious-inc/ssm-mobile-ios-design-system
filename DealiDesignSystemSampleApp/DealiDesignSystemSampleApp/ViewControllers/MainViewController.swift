@@ -52,6 +52,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
         }
         
+        let tabBarViewController = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarViewController)
+        tabBarViewController.do {
+            $0.title = "TabBar Controller"
+            $0.addTarget(self, action: #selector(tabBarViewControllerPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -157,13 +164,6 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
         
-        let tabBarComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tabBarComponents)
-        tabBarComponents.do {
-            $0.title = "TabBar Components"
-            $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
-        }
-        
         let checkComponents = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(checkComponents)
         checkComponents.do {
@@ -209,6 +209,10 @@ final class MainViewController: UIViewController {
 
 // MARK: - Button Actions
 extension MainViewController {
+    
+    @objc func tabBarViewControllerPressed() {
+        self.navigationController?.pushViewController(TabBarViewController(), animated: true)
+    }
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)
@@ -272,10 +276,6 @@ extension MainViewController {
     
     @objc func tagButtonPressed() {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
-    }
-    
-    @objc func tabBarComponentsPressed() {
-        self.navigationController?.pushViewController(TabBarComponentViewController(), animated: true)
     }
     
     @objc func checkComponentsPressed() {

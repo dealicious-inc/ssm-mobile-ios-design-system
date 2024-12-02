@@ -1,8 +1,8 @@
 //
-//  DealiScrollSegmentTabBarViewController.swift
+//  DealiTabBarViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by hoji on 2024/04/01.
+//  Created by 이창호 on 11/5/24.
 //  Copyright © 2024 Dealicious Inc. All rights reserved.
 //
 
@@ -11,27 +11,29 @@ import RxSwift
 import RxCocoa
 import DealiDesignKit
 
-@objc protocol DealiScrollSegmentTabBarViewControllerDelegate {
-    @objc optional func willChangeSelectedIndex(_ tabBarViewController: DealiScrollSegmentTabBarViewController, willSelectedIndex newIndex: Int, oldIndex: Int)
-    @objc optional func didChangeSelectedIndex(_ tabBarViewController: DealiScrollSegmentTabBarViewController, didSelectedIndex index: Int)
+@objc protocol DealiTabBarViewControllerDelegate {
+    @objc optional func willChangeSelectedIndex(_ tabBarViewController: DealiTabBarViewController, willSelectedIndex newIndex: Int, oldIndex: Int)
+    @objc optional func didChangeSelectedIndex(_ tabBarViewController: DealiTabBarViewController, didSelectedIndex index: Int)
 }
 
-final class DealiScrollSegmentTabBarViewController: UIViewController {
+final class DealiTabBarViewController: UIViewController {
 
     let disposeBag = DisposeBag()
     
-    weak var delegate: DealiScrollSegmentTabBarViewControllerDelegate?
+    weak var delegate: DealiTabBarViewControllerDelegate?
     
-    private let tabbarView: DealiTabBarView
+    let tabBarView: DealiTabBarView
     
-    private var contentScrollView = UIScrollView()
+    var contentScrollView = UIScrollView()
     private var contentStackView = UIStackView()
     
     // @이창호 ChildViewController와 1:1 매칭이 되는 탭바 아이템 리스트
-    var tabbarItemArray: [DealiTabBarItem] = []
+    var tabBarItemArray: [DealiTabBarItem] = []
     
     // 스크롤이벤트로 탭바를 변경할지 안할지 세팅
     private var isScrollEnabled: Bool = true
+    /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무
+    private var isSelectedItemCentered: Bool = true
     var autoVisible = true
     
     var rxSomethingChangedInside = PublishSubject<Any>()
@@ -57,12 +59,12 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
             self.delegate?.willChangeSelectedIndex?(self, willSelectedIndex: newValue, oldIndex: self.selectedIndex)
         }
         didSet {
-            for tabbarItem in self.tabbarItemArray {
-                if tabbarItem.viewController is DealiScrollSegmentTabBarChildViewController {
-                    let old = (tabbarItem.viewController as! DealiScrollSegmentTabBarChildViewController).isVisible
+            for tabbarItem in self.tabBarItemArray {
+                if tabbarItem.viewController is DealiTabBarChildViewController {
+                    let old = (tabbarItem.viewController as! DealiTabBarChildViewController).isVisible
                     let new = (self.selectedIndex == tabbarItem.page)
                     if old != new {
-                        (tabbarItem.viewController as! DealiScrollSegmentTabBarChildViewController).isVisible = new
+                        (tabbarItem.viewController as! DealiTabBarChildViewController).isVisible = new
                     }
                 }
             }
@@ -72,13 +74,16 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
         }
     }
     
-    required init(tabbarView: DealiTabBarView, isScrollEnabled: Bool = true) {
+    required init(tabBarView: DealiTabBarView, tabBarItemArray: [DealiTabBarItem], isScrollEnabled: Bool = true, isSelectedItemCentered: Bool = true, startIndex: Int = -1) {
         
-        self.tabbarView = tabbarView
+        self.tabBarView = tabBarView
+        self.tabBarItemArray = tabBarItemArray
         
         super.init(nibName: nil, bundle: nil)
         
         self.isScrollEnabled = isScrollEnabled
+        self.isSelectedItemCentered = isSelectedItemCentered
+        self.startPageIndex = startIndex
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,12 +93,12 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.autoVisible == true {
-            for tabbarItem in self.tabbarItemArray {
-                if tabbarItem.viewController is DealiScrollSegmentTabBarChildViewController {
-                    let old = (tabbarItem.viewController as! DealiScrollSegmentTabBarChildViewController).isVisible
+            for tabbarItem in self.tabBarItemArray {
+                if tabbarItem.viewController is DealiTabBarChildViewController {
+                    let old = (tabbarItem.viewController as! DealiTabBarChildViewController).isVisible
                     let new = (self.selectedIndex == tabbarItem.page)
                     if old != new {
-                        (tabbarItem.viewController as! DealiScrollSegmentTabBarChildViewController).isVisible = new
+                        (tabbarItem.viewController as! DealiTabBarChildViewController).isVisible = new
                     }
                 }
             }
@@ -102,9 +107,9 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        for tabbarItem in self.tabbarItemArray {
-            if tabbarItem.viewController is DealiScrollSegmentTabBarChildViewController {
-                (tabbarItem.viewController as! DealiScrollSegmentTabBarChildViewController).isVisible = false
+        for tabbarItem in self.tabBarItemArray {
+            if tabbarItem.viewController is DealiTabBarChildViewController {
+                (tabbarItem.viewController as! DealiTabBarChildViewController).isVisible = false
             }
         }
     }
@@ -124,9 +129,9 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.addSubview(self.tabbarView)
-        self.tabbarView.then {
-            $0.isStandAloneView = false
+        self.view.addSubview(self.tabBarView)
+        self.tabBarView.then {
+            $0.isSelectedItemCentered = self.isSelectedItemCentered
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
@@ -142,7 +147,7 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
             $0.isScrollEnabled = self.isScrollEnabled
         }.snp.makeConstraints { [unowned self] in
             $0.left.right.bottom.equalToSuperview()
-            $0.top.equalTo(tabbarView.snp.bottom).offset(0)
+            $0.top.equalTo(tabBarView.snp.bottom).offset(0)
             
         }
         
@@ -157,15 +162,17 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
             $0.height.equalTo(contentScrollView)
         }
         
-        self.set(items: self.tabbarItemArray)
+        self.set(items: self.tabBarItemArray)
     }
     
     func changeTabBarButtonTitle(index: Int, title: String) {
-        self.tabbarView.changeTabBarButtonTitle(index: index, title: title)
+        self.tabBarView.changeTabBarButtonTitle(index: index, title: title)
     }
     
     private func clear() {
-        self.contentStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
+        self.contentStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
         
         if self.children.count > 0 {
             self.children.forEach({
@@ -175,24 +182,24 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
             })
         }
         
-        self.tabbarItemArray.removeAll()
+        self.tabBarItemArray.removeAll()
     }
     
     func set(items: [DealiTabBarItem]) {
         
         self.clear()
         
-        self.tabbarItemArray = items
-        
-        self.tabbarView.setTabBarItems(tabBarItemArray: self.tabbarItemArray)
+        self.tabBarItemArray = items
+    
+        self.tabBarView.setTabBarItems(tabBarItemArray: self.tabBarItemArray)
 
-        for index in 0..<self.tabbarItemArray.count {
-            self.addChild(self.tabbarItemArray[index].viewController!)
-            guard let view = self.tabbarItemArray[index].viewController?.view else {
+        for index in 0..<self.tabBarItemArray.count {
+            self.addChild(self.tabBarItemArray[index].viewController!)
+            guard let view = self.tabBarItemArray[index].viewController?.view else {
                 continue
             }
 
-            self.tabbarItemArray[index].page = index
+            self.tabBarItemArray[index].page = index
 
             self.contentStackView.addArrangedSubview(view)
             view.snp.makeConstraints {
@@ -205,26 +212,25 @@ final class DealiScrollSegmentTabBarViewController: UIViewController {
     // 화면이 떠 있는 상태에서 다른 이벤트로 화면을 변경해줘야 하는 경우에 사용
     func moveViewerPageIndex(index: Int, animation: Bool = false) {
         self.selectedIndex = index
-        self.tabbarView.setSelectedIndex(index: self.selectedIndex, animated: animation)
+        self.tabBarView.setSelectedIndex(index: self.selectedIndex, animated: animation)
         
     }
     
-    func hiddenViewPage(tabbarItemArray: [DealiTabBarItem], maintainContentOffset: Bool = true) {
-        self.tabbarView.setTabBarItems(tabBarItemArray: tabbarItemArray, maintainContentOffset: maintainContentOffset)
-        
-        for (index, item) in tabbarItemArray.enumerated() {
+    func hiddenViewPage(tabBarItemArray: [DealiTabBarItem]) {
+        for (index, item) in tabBarItemArray.enumerated() {
             self.contentStackView.arrangedSubviews[index].isHidden = item.isHidden
         }
+        
+        self.tabBarView.setTabBarItems(tabBarItemArray: tabBarItemArray)
     }
     
     func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
-        self.tabbarView.showTabBarItemBadge(index: index, shouldShowBadge: shouldShowBadge)
+        self.tabBarView.showTabBarItemBadge(index: index, shouldShowBadge: shouldShowBadge)
     }
-
 }
 
-extension DealiScrollSegmentTabBarViewController: DealiTabBarViewDelegate {
-    func didSelectTabBar(_ tabBarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
+extension DealiTabBarViewController: DealiTabBarViewDelegate {
+    func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
             guard let self else { return }
             self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
@@ -232,7 +238,7 @@ extension DealiScrollSegmentTabBarViewController: DealiTabBarViewDelegate {
     }
 }
 
-extension DealiScrollSegmentTabBarViewController: UIScrollViewDelegate {
+extension DealiTabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.selectedIndex != scrollView.currentPage {
@@ -245,7 +251,7 @@ extension DealiScrollSegmentTabBarViewController: UIScrollViewDelegate {
             fractional = CGFloat(page)
         }
         
-        self.tabbarView.viewScroll(page: scrollView.currentPage, fractional: fractional)
+        self.tabBarView.viewScroll(page: scrollView.currentPage, fractional: fractional)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -253,7 +259,6 @@ extension DealiScrollSegmentTabBarViewController: UIScrollViewDelegate {
     }
     
 }
-
 
 extension UIScrollView {
     var currentPage: Int {

@@ -1,8 +1,8 @@
 //
-//  DealiScrollSegmentTabBarChildViewController.swift
+//  DealiTabBarChildViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by hoji on 2024/04/01.
+//  Created by 이창호 on 11/5/24.
 //  Copyright © 2024 Dealicious Inc. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DealiScrollSegmentTabBarChildViewController: UIViewController {
+class DealiTabBarChildViewController: UIViewController {
 
     var isAttachedAsChild: Bool = true
 
@@ -32,5 +32,4 @@ class DealiScrollSegmentTabBarChildViewController: UIViewController {
         super.viewDidLoad()
 
     }
-
 }

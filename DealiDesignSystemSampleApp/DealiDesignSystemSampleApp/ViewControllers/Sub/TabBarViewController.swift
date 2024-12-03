@@ -34,29 +34,50 @@ class TabBarViewController: UIViewController {
                                  DealiTabBarItem.make(title: "8번 TabTab"),
                                  DealiTabBarItem.make(title: "9번 TabTab")]
     
+    private var sliderTabBarItemImageChipArray = [DealiTabBarItem.make(title: "끈원피스",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "데님스커트",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34732842/157846177265350900_1178323558.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "크롭셔츠",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736763/157846804199136400_1319981992.png&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "스웨이드자켓",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736748/157846801645270200_1206718909.png&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "어깨패드",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34741496/157847665220578500_296545705.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "가디건",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34733634/157846308337719900_69033734.png&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "오버롤",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/35127962/157926910019452700_735798694.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
+                                                  DealiTabBarItem.make(title: "힙색",
+                                                                       icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34889263/157883634290091900_680130812.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100)))]
+    
     private var segmentTabBarItems: [DealiTabBarItem] = []
     private var tabBarSlider01Items: [DealiTabBarItem] = []
     private var tabBarSlider02Items: [DealiTabBarItem] = []
     private var tabBarChip01Items: [DealiTabBarItem] = []
     private var tabBarChip02Items: [DealiTabBarItem] = []
+    private var tabBarImgChip01Items: [DealiTabBarItem] = []
     
     private var tabBarSegment01ViewController: DealiTabBarViewController?
     private var tabBarSlider01ViewController: DealiTabBarViewController?
     private var tabBarSlider02ViewController: DealiTabBarViewController?
     private var tabBarChip01ViewController: DealiTabBarViewController?
     private var tabBarChip02ViewController: DealiTabBarViewController?
+    private var tabBarImgChip01ViewController: DealiTabBarViewController?
     
-    private let tabBarSegment01 = DealiTabBar.tabBarSegment01(isStandAloneView:  true)
-    private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isStandAloneView:  true, isSelectedItemCentered: false)
-    private let tabBarSlider02 = DealiTabBar.tabBarSlider02(isStandAloneView:  true)
-    private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView:  true, isSelectedItemCentered: true)
-    private let tabBarChip02 = DealiTabBar.tabBarChip02(isStandAloneView:  true)
+    private let tabBarSegment01 = DealiTabBar.tabBarSegment01(isStandAloneView: true)
+    private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isStandAloneView: true, isSelectedItemCentered: false)
+    private let tabBarSlider02 = DealiTabBar.tabBarSlider02(isStandAloneView: true)
+    private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView: true, isSelectedItemCentered: true)
+    private let tabBarChip02 = DealiTabBar.tabBarChip02(isStandAloneView: true)
+    private let tabBarImgChip01 = DealiTabBar.tabBarImgChip01(isStandAloneView: true, showImageChipSlotWhenSelected: false)
     
     private let tabBarSegment01ContentView = UIView()
     private let tabBarSlider01ContentView = UIView()
     private let tabBarSlider02ContentView = UIView()
     private let tabBarChip01ContentView = UIView()
     private let tabBarChip02ContentView = UIView()
+    private let tabBarImgChip01ContentView = UIView()
     
     private let badgeOnOffButton = DealiControl.btnOutlineLarge01()
     private let moveTabBatItemButton = DealiControl.btnOutlineLarge01()
@@ -194,13 +215,28 @@ class TabBarViewController: UIViewController {
         let tabBarChip02TitleLabel = UILabel()
         contentStackView.addArrangedSubview(tabBarChip02TitleLabel)
         tabBarChip02TitleLabel.do {
-            $0.text = "tabBarChip01"
+            $0.text = "tabBarChip02"
             $0.font = .b1sb15
         }
         
         contentStackView.addArrangedSubview(self.tabBarChip02)
         self.tabBarChip02.then {
             $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: -2)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let tabBarImgChip01TitleLabel = UILabel()
+        contentStackView.addArrangedSubview(tabBarImgChip01TitleLabel)
+        tabBarImgChip01TitleLabel.do {
+            $0.text = "tabBarImgChip01"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarImgChip01)
+        self.tabBarImgChip01.then {
+            $0.setTabBarItems(tabBarItemArray: sliderTabBarItemImageChipArray, startIndex: 0)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -261,12 +297,25 @@ class TabBarViewController: UIViewController {
         let tabBarChip02ViewControllerTitleLabel = UILabel()
         contentStackView.addArrangedSubview(tabBarChip02ViewControllerTitleLabel)
         tabBarChip02ViewControllerTitleLabel.do {
-            $0.text = "tabBarChip01_ViewController"
+            $0.text = "tabBarChip02_ViewController"
             $0.font = .b1sb15
         }
         
         contentStackView.addArrangedSubview(self.tabBarChip02ContentView)
         self.tabBarChip02ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let tabBarImgChip01ViewControllerTitleLabel = UILabel()
+        contentStackView.addArrangedSubview(tabBarImgChip01ViewControllerTitleLabel)
+        tabBarImgChip01ViewControllerTitleLabel.do {
+            $0.text = "tabBarImgChip01_ViewController"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarImgChip01ContentView)
+        self.tabBarImgChip01ContentView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(300.0)
         }
@@ -359,6 +408,20 @@ class TabBarViewController: UIViewController {
             chip02ViewController.view.backgroundColor = self.randomColor()
             let tabBarItemChip02 = DealiTabBarItem.make(chip02ViewController, title: "\(i)번 Tab")
             self.tabBarChip02Items.append(tabBarItemChip02)
+            
+            
+        }
+        
+        for tabBarImageChipItem in self.sliderTabBarItemImageChipArray {
+            
+            let imgChip01ViewController = DealiTabBarChildViewController()
+            imgChip01ViewController.view.backgroundColor = self.randomColor()
+            
+            var tabBarItemImgChip01 = tabBarImageChipItem
+            tabBarItemImgChip01.imageChipSlotView = ImageChipCustomView(growth: Int.random(in: 0...100))
+            tabBarItemImgChip01.viewController = imgChip01ViewController
+            
+            self.tabBarImgChip01Items.append(tabBarItemImgChip01)
         }
 
         
@@ -395,6 +458,13 @@ class TabBarViewController: UIViewController {
         self.tabBarChip02ViewController?.startPageIndex = 5
         if let tabBarChip02ViewController = self.tabBarChip02ViewController {
             self.insertChildController(tabBarChip02ViewController, intoParentView: self.tabBarChip02ContentView)
+        }
+        
+        let tabBarImgChip01View = DealiTabBar.tabBarImgChip01(isSelectedItemCentered: true)
+        self.tabBarImgChip01ViewController = DealiTabBarViewController(tabBarView: tabBarImgChip01View, tabBarItemArray: self.tabBarImgChip01Items)
+        self.tabBarImgChip01ViewController?.startPageIndex = 5
+        if let tabBarImgChip01ViewController = self.tabBarImgChip01ViewController {
+            self.insertChildController(tabBarImgChip01ViewController, intoParentView: self.tabBarImgChip01ContentView)
         }
     }
     
@@ -434,12 +504,14 @@ extension TabBarViewController {
         self.tabBarSlider02ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
         self.tabBarChip01ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
         self.tabBarChip02ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
+        self.tabBarImgChip01ViewController?.moveViewerPageIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0), animation: true)
         
         self.tabBarSegment01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 2 : 0))
         self.tabBarSlider01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 4 : 0))
         self.tabBarSlider02.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 3 : 0))
         self.tabBarChip01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
         self.tabBarChip02.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
+        self.tabBarImgChip01.setSelectedIndex(index: (self.moveTabBatItemButton.isSelected == true ? 5 : 0))
     }
     
     @objc func hiddenTabBarItemButtonPressed() {
@@ -455,18 +527,21 @@ extension TabBarViewController {
         self.tabBarSlider02Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.tabBarChip01Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         self.tabBarChip02Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
+        self.tabBarImgChip01Items[0].isHidden = (self.hiddenTabBatItemButton.isSelected == true ? true : false)
         
         self.tabBarSegment01.setTabBarItems(tabBarItemArray: self.segmentTabBarItemArray)
         self.tabBarSlider01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
         self.tabBarSlider02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
         self.tabBarChip01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
         self.tabBarChip02.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
+        self.tabBarImgChip01.setTabBarItems(tabBarItemArray: self.sliderTabBarItemArray)
 
         self.tabBarSegment01ViewController?.hiddenViewPage(tabBarItemArray: self.segmentTabBarItems)
         self.tabBarSlider01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarSlider01Items)
         self.tabBarSlider02ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarSlider02Items)
         self.tabBarChip01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarChip01Items)
         self.tabBarChip02ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarChip02Items)
+        self.tabBarImgChip01ViewController?.hiddenViewPage(tabBarItemArray: self.tabBarImgChip01Items)
     }
     
     @objc func changeTitleTabBarItemButtonPressed() {
@@ -479,12 +554,14 @@ extension TabBarViewController {
         self.tabBarSlider02ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip02ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarImgChip01ViewController?.changeTabBarButtonTitle(index: 2, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         
         self.tabBarSegment01.changeTabBarButtonTitle(index: 1, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarSlider01.changeTabBarButtonTitle(index: 3, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarSlider02.changeTabBarButtonTitle(index: 4, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip01.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
         self.tabBarChip02.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
+        self.tabBarImgChip01.changeTabBarButtonTitle(index: 5, title: (self.changeTitleTabBatItemButton.isSelected == true ? "Title 변경" : "원복"))
     }
 }
 
@@ -506,4 +583,45 @@ extension UIViewController {
         childController.didMove(toParent: self)
     }
     
+}
+
+final class ImageChipCustomView: DealiCustomView {
+    
+    override func calculateInstrinsicSize() -> CGSize {
+        var size = self.growthLabel.intrinsicContentSize
+        let width = size.width + 2 + 16
+        size.width = width
+        return size
+    }
+    
+    private let growthArrowImageView = UIImageView()
+    private let growthLabel = UILabel()
+    
+    init(growth: Int) {
+        super.init(frame: .zero)
+        
+        let imageView = UIImageView()
+        self.addSubview(imageView)
+        imageView.then {
+            $0.image = UIImage.dealiIcon(named: "ic_arrow_close_1_filled")?.withTintColor(UIColor.primary01)
+        }.snp.makeConstraints {
+            $0.size.equalTo(16.0)
+            $0.left.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        self.addSubview(self.growthLabel)
+        self.growthLabel.then {
+            $0.font = .b2sb14
+            $0.textColor = UIColor.primary01
+            $0.attributedText = NSMutableAttributedString(string: "\(growth)").font($0.font).color(UIColor.primary01).alignment(.left).setLineHeight()
+        }.snp.makeConstraints {
+            $0.left.equalTo(imageView.snp.right).offset(2)
+            $0.top.bottom.right.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

@@ -12,8 +12,7 @@ import DealiDesignKit
 class TabBarViewController: UIViewController {
     
     private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "전체"),
-                                  DealiTabBarItem.make(title: "여성의류"),
-                                          DealiTabBarItem.make(title: "여성잡화")]
+                                  DealiTabBarItem.make(title: "여성의류")]
     
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),
@@ -65,12 +64,12 @@ class TabBarViewController: UIViewController {
     private var tabBarChip02ViewController: DealiTabBarViewController?
     private var tabBarImgChip01ViewController: DealiTabBarViewController?
     
-    private let tabBarSegment01 = DealiTabBar.tabBarSegment01(isStandAloneView: true)
-    private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isStandAloneView: true, isSelectedItemCentered: false)
-    private let tabBarSlider02 = DealiTabBar.tabBarSlider02(isStandAloneView: true)
-    private let tabBarChip01 = DealiTabBar.tabBarChip01(isStandAloneView: true, isSelectedItemCentered: true)
-    private let tabBarChip02 = DealiTabBar.tabBarChip02(isStandAloneView: true)
-    private let tabBarImgChip01 = DealiTabBar.tabBarImgChip01(isStandAloneView: true, showImageChipSlotWhenSelected: false)
+    private let tabBarSegment01 = DealiTabBar.tabBarSegment01()
+    private let tabBarSlider01 = DealiTabBar.tabBarSlider01(isSelectedItemCentered: false)
+    private let tabBarSlider02 = DealiTabBar.tabBarSlider02()
+    private let tabBarChip01 = DealiTabBar.tabBarChip01(isSelectedItemCentered: true)
+    private let tabBarChip02 = DealiTabBar.tabBarChip02()
+    private let tabBarImgChip01 = DealiTabBar.tabBarImgChip01(showImageChipSlotWhenSelected: true)
     
     private let tabBarSegment01ContentView = UIView()
     private let tabBarSlider01ContentView = UIView()
@@ -357,7 +356,7 @@ class TabBarViewController: UIViewController {
     }
 
     private func setTabBar() {
-        for i in 0..<3 {
+        for i in 0..<2 {
             let viewController = DealiTabBarChildViewController()
             viewController.view.backgroundColor = self.randomColor()
             self.segmentTabBarItemArray[i].viewController = viewController
@@ -432,35 +431,35 @@ class TabBarViewController: UIViewController {
             self.insertChildController(tabBarSegment01ViewController, intoParentView: self.tabBarSegment01ContentView)
         }
         
-        let tabBarSlider01View = DealiTabBar.tabBarSlider01(isSelectedItemCentered: false)
-        self.tabBarSlider01ViewController = DealiTabBarViewController(tabBarView: tabBarSlider01View, tabBarItemArray: self.tabBarSlider01Items)
+        let tabBarSlider01View = DealiTabBar.tabBarSlider01()
+        self.tabBarSlider01ViewController = DealiTabBarViewController(tabBarView: tabBarSlider01View, tabBarItemArray: self.tabBarSlider01Items, isSelectedItemCentered: false)
         self.tabBarSlider01ViewController?.startPageIndex = 1
         if let tabBarSlider01ViewController = self.tabBarSlider01ViewController {
             self.insertChildController(tabBarSlider01ViewController, intoParentView: self.tabBarSlider01ContentView)
         }
         
-        let tabBarSlider02View = DealiTabBar.tabBarSlider02(isSelectedItemCentered: false)
-        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items)
+        let tabBarSlider02View = DealiTabBar.tabBarSlider02()
+        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items, isSelectedItemCentered: false)
         self.tabBarSlider02ViewController?.startPageIndex = 5
         if let tabBarSlider02ViewController = self.tabBarSlider02ViewController {
             self.insertChildController(tabBarSlider02ViewController, intoParentView: self.tabBarSlider02ContentView)
         }
         
-        let tabBarChip01View = DealiTabBar.tabBarChip01(isSelectedItemCentered: false)
-        self.tabBarChip01ViewController = DealiTabBarViewController(tabBarView: tabBarChip01View, tabBarItemArray: self.tabBarChip01Items)
+        let tabBarChip01View = DealiTabBar.tabBarChip01()
+        self.tabBarChip01ViewController = DealiTabBarViewController(tabBarView: tabBarChip01View, tabBarItemArray: self.tabBarChip01Items, isSelectedItemCentered: false)
         self.tabBarChip01ViewController?.startPageIndex = 5
         if let tabBarChip01ViewController = self.tabBarChip01ViewController {
             self.insertChildController(tabBarChip01ViewController, intoParentView: self.tabBarChip01ContentView)
         }
         
-        let tabBarChip02View = DealiTabBar.tabBarChip02(isSelectedItemCentered: true)
+        let tabBarChip02View = DealiTabBar.tabBarChip02()
         self.tabBarChip02ViewController = DealiTabBarViewController(tabBarView: tabBarChip02View, tabBarItemArray: self.tabBarChip02Items)
         self.tabBarChip02ViewController?.startPageIndex = 5
         if let tabBarChip02ViewController = self.tabBarChip02ViewController {
             self.insertChildController(tabBarChip02ViewController, intoParentView: self.tabBarChip02ContentView)
         }
         
-        let tabBarImgChip01View = DealiTabBar.tabBarImgChip01(isSelectedItemCentered: true)
+        let tabBarImgChip01View = DealiTabBar.tabBarImgChip01()
         self.tabBarImgChip01ViewController = DealiTabBarViewController(tabBarView: tabBarImgChip01View, tabBarItemArray: self.tabBarImgChip01Items)
         self.tabBarImgChip01ViewController?.startPageIndex = 5
         if let tabBarImgChip01ViewController = self.tabBarImgChip01ViewController {

@@ -34,6 +34,9 @@ final class DealiTabBarViewController: UIViewController {
     private var isScrollEnabled: Bool = true
     /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무
     private var isSelectedItemCentered: Bool = true
+
+    /// 현재 화면 이동이 TabBar 버튼클릭으로 인해 발생했는지에 대한 Bool값
+    private var isTabBarTriggered = false
     var autoVisible = true
     
     var rxSomethingChangedInside = PublishSubject<Any>()
@@ -227,31 +230,38 @@ final class DealiTabBarViewController: UIViewController {
     func showTabBarItemBadge(index: Int, shouldShowBadge: Bool) {
         self.tabBarView.showTabBarItemBadge(index: index, shouldShowBadge: shouldShowBadge)
     }
+    
 }
 
 extension DealiTabBarViewController: DealiTabBarViewDelegate {
     func didSelectTabBar(_ tabbarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool) {
+        self.isTabBarTriggered = true
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
-            guard let self else { return }
+                guard let self else { return }
             self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
+        } completion: { finished in
+            self.isTabBarTriggered = false
         }
+
     }
 }
 
 extension DealiTabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.selectedIndex != scrollView.currentPage {
-            self.selectedIndex = scrollView.currentPage
+        if self.isTabBarTriggered == false {
+            if self.selectedIndex != scrollView.currentPage {
+                self.selectedIndex = scrollView.currentPage
+            }
+            
+            let page = scrollView.currentPage
+            var fractional = scrollView.contentOffset.x / scrollView.frame.size.width
+            if fractional.isInfinite {
+                fractional = CGFloat(page)
+            }
+            
+            self.tabBarView.viewScroll(page: scrollView.currentPage, fractional: fractional)
         }
-        
-        let page = scrollView.currentPage
-        var fractional = scrollView.contentOffset.x / scrollView.frame.size.width
-        if fractional.isInfinite {
-            fractional = CGFloat(page)
-        }
-        
-        self.tabBarView.viewScroll(page: scrollView.currentPage, fractional: fractional)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

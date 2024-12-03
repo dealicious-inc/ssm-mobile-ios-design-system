@@ -215,7 +215,7 @@ public class ImageChip: DealiChip {
                 self.slotContainerView.isHidden = false
             }
         }
-        print("self.showSlotWhenSelected self.status = \(self.status) / slotContainerView = \(slotContainerView.isHidden)")
+        
         let color = self.configuration.style.colorProvider.getColor(for: self.status)
         self.upadateColor(color)
     }

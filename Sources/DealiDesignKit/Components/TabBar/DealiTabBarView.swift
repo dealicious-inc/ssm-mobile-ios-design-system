@@ -11,28 +11,28 @@ import RxCocoa
 
 public class DealiTabBar {
     
-    public static func tabBarSegment01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSegment01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    public static func tabBarSegment01(isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSegment01, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarSlider01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSlider01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    public static func tabBarSlider01(isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider01, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarSlider02(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarSlider02, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    public static func tabBarSlider02(isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarSlider02, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarChip01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarChip01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    public static func tabBarChip01(isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarChip01, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarChip02(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarChip02, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered)
+    public static func tabBarChip02(isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarChip02, isSelectedItemCentered: isSelectedItemCentered)
     }
     
-    public static func tabBarImgChip01(isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true, showImageChipSlotWhenSelected: Bool = true) -> DealiTabBarView {
-        return DealiTabBarView(preset: .tabBarImgChip01, isStandAloneView: isStandAloneView, isSelectedItemCentered: isSelectedItemCentered, showImageChipSlotWhenSelected: showImageChipSlotWhenSelected)
+    public static func tabBarImgChip01(isSelectedItemCentered: Bool = true, showImageChipSlotWhenSelected: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarImgChip01, isSelectedItemCentered: isSelectedItemCentered, showImageChipSlotWhenSelected: showImageChipSlotWhenSelected)
     }
 }
 
@@ -50,11 +50,8 @@ final public class DealiTabBarView: UIView {
     
     private var tabBarItemInfoArray: [DealiTabBarItemInfo] = []
     
-    /// 해당 TabBarView를 단독으로 사용되면 true / tabBarViewController 와 함께 사용되면 false (중요!!!! setTabBarItems 함수보다 먼저 세팅)
-    public var isStandAloneView: Bool = false
     /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무 (중요!!!! setTabBarItems 함수보다 먼저 세팅)
     public var isSelectedItemCentered: Bool = true
-    
     /// Image Chip Slot 영역이 선택 상태일 때만 노출되는지 여부
     /// true일 경우 선택 상태에서만 노출, false일 경우 항상 노출
     public var showImageChipSlotWhenSelected: Bool = true
@@ -75,10 +72,9 @@ final public class DealiTabBarView: UIView {
     
     private var preset: DealiTabBarPreset
     
-    init(preset: DealiTabBarPreset, isStandAloneView: Bool = false, isSelectedItemCentered: Bool = true, showImageChipSlotWhenSelected: Bool = true) {
+    init(preset: DealiTabBarPreset, isSelectedItemCentered: Bool = true, showImageChipSlotWhenSelected: Bool = true) {
         
         self.preset = preset
-        self.isStandAloneView = isStandAloneView
         self.isSelectedItemCentered = isSelectedItemCentered
         self.showImageChipSlotWhenSelected = showImageChipSlotWhenSelected
         
@@ -101,17 +97,21 @@ final public class DealiTabBarView: UIView {
                 layout.do {
                     $0.scrollDirection = .horizontal
                     $0.minimumInteritemSpacing = self.preset.itemSpacing
+                    $0.minimumLineSpacing = 0.0
                     $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
                 }
             }
+//            $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
             $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
+//            $0.isScrollEnabled = (self.preset.style != .segment)
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
             $0.register(cellClass: DealiTabBarItemImageChipStyleCell.self)
         }.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
             $0.height.equalTo(self.preset.tabBarContentHeight)
         }
         
@@ -122,7 +122,7 @@ final public class DealiTabBarView: UIView {
             $0.backgroundColor = preset.bottomDividerColor
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(-preset.tabBarHorizontalMargin)
+            $0.left.right.equalToSuperview()
             $0.height.equalTo(1.0)
         }
         
@@ -190,11 +190,11 @@ final public class DealiTabBarView: UIView {
                 var itemInfo = DealiTabBarItemInfo()
                 itemInfo.itemIndex = index
                 itemInfo.itemTextCellUIModel = DealiTabBarItemTextStyleCellUIModel.make(preset: self.preset, tabbarItem: item)
-                itemInfo.contentWidth = contentWidth
                 
                 if case .segment = self.preset.style {
                     itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarHorizontalMargin * 2.0)) / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
+                    print("UIScreen.main.bounds.size.width = \(UIScreen.main.bounds.size.width) / self.preset.tabBarHorizontalMargin = \(self.preset.tabBarHorizontalMargin) /  itemInfo.contentWidth = \(itemInfo.contentWidth)")
                 } else {
                     itemInfo.containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                     itemInfo.contentWidth = contentWidth
@@ -257,7 +257,9 @@ final public class DealiTabBarView: UIView {
             
             if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
                 let cellXPosition = attributes.frame.origin.x
-                
+                if self.preset.style == .segment {
+                    print("cellXPosition = \(cellXPosition) / attributes.frame width = \(attributes.frame.size.width)")
+                }
                 if self.preset.style == .slider {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemHorizontalPadding
                 } else {
@@ -274,8 +276,8 @@ final public class DealiTabBarView: UIView {
     private func setSelectedIndexWithScroll(index: Int, isMoveAnimation: Bool = true) {
         guard index < self.tabBarItemInfoArray.count else { return }
         
-        /// TabBar가 단독으로 생성되어 사용되는경우에만 TabBar Button 을 클릭했을 경우 해당 버튼이 화면에 모두 노출되도록 처리
-        if self.preset.style != .segment && self.isStandAloneView {
+        /// tabBar 스타일이 segment가 아닌경우에만 tabBar item 이 센터에 위치하게 하거나 화면에 노출되도록 이동함수 호출
+        if self.preset.style != .segment {
             self.moveScrollContentOffset(positionX: self.tabBarItemInfoArray[index].contentPositionX, contentWidth: self.tabBarItemInfoArray[index].contentWidth, isMoveAnimation: isMoveAnimation)
         }
         
@@ -328,7 +330,7 @@ final public class DealiTabBarView: UIView {
         self.updateSelectedLine(width: contentWidth, positionX: positionX)
         
         if self.preset.style != .segment {
-            self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
+            self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth, isMoveAnimation: true)
         }
         
     }
@@ -344,11 +346,13 @@ final public class DealiTabBarView: UIView {
             let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
             offset = min(offset, maxOffsetX)
         } else {
-            if self.preset.style == .segment || self.preset.style == .slider {
-                if (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+            if self.preset.style == .slider {
+                if (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) < self.collectionView.contentOffset.x {
                     offset = (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin))
+                    print("offset############## _ 01 = \(offset)")
                 } else if (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
                     offset = (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) - self.collectionView.frame.width
+                    print("offset############## _ 02 = \(offset)")
                 }
             } else {
                 if (positionX - self.preset.itemSpacing) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
@@ -358,7 +362,7 @@ final public class DealiTabBarView: UIView {
                 }
             }
         }
-        
+        print("offset############## _ 03 = \(offset)")
         if offset < 0 {
             offset = 0.0
         }

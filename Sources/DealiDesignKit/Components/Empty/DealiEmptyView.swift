@@ -91,7 +91,7 @@ public final class DealiEmptyView: UIView {
         self.titleLabel.then {
             $0.numberOfLines = 0
             $0.font = .sh3sb16
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
             $0.textAlignment = .center
             $0.isHidden = true
         }.snp.makeConstraints {
@@ -103,7 +103,7 @@ public final class DealiEmptyView: UIView {
         self.messageLabel.then {
             $0.numberOfLines = 0
             $0.font = .b2r14
-            $0.textColor = DealiColor.g60
+            $0.textColor = .g60
             $0.textAlignment = .center
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -142,9 +142,9 @@ public final class DealiEmptyView: UIView {
         self.emptyImageView.isHidden = (imageType == .noImage)
         switch imageType {
         case .notice:
-            self.emptyImageView.image = UIImage.dealiIcon(named: "ic_notice_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(DealiColor.g60)
+            self.emptyImageView.image = UIImage.dealiIcon(named: "ic_notice_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
         case .refresh:
-            self.emptyImageView.image = UIImage.dealiIcon(named: "ic_refresh_2_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(DealiColor.g60)
+            self.emptyImageView.image = UIImage.dealiIcon(named: "ic_refresh_2_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
         default:
             break
         }
@@ -162,7 +162,7 @@ public final class DealiEmptyView: UIView {
                 baselineOffset = ((titleFont.lineHeight * titleStyle.lineHeightMultiple) - titleFont.lineHeight) / 2
             }
             
-            self.titleLabel.attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFont, .foregroundColor: DealiColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
+            self.titleLabel.attributedText = NSMutableAttributedString(string: title, attributes: [.font: titleFont, .foregroundColor: UIColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
         } else {
             self.titleLabel.isHidden = true
         }
@@ -176,7 +176,7 @@ public final class DealiEmptyView: UIView {
             baselineOffset = ((messageFont.lineHeight * messageStyle.lineHeightMultiple) - messageFont.lineHeight) / 2
         }
         
-        self.messageLabel.attributedText = NSMutableAttributedString(string: message, attributes: [.font: messageFont, .foregroundColor: DealiColor.g60, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
+        self.messageLabel.attributedText = NSMutableAttributedString(string: message, attributes: [.font: messageFont, .foregroundColor: UIColor.g60, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset])
         
         if let actionButtonTitle = actionButtonTitle, actionButtonTitle.trimming().isEmpty == false {
             let width = (actionButtonTitle.size(withAttributes: [.font: UIFont.b1sb15]).width + (40.0))

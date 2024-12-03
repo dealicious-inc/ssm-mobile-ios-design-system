@@ -21,7 +21,7 @@ struct DealiBottomSheetMultiSelectCellUIModel {
     }
     
     var optionTextColor: UIColor {
-        self.isSelected ? DealiColor.primary01 : DealiColor.g100
+        self.isSelected ? .primary01 : .g100
     }
     
     var selectedActionHandler: (() -> Void)?
@@ -82,7 +82,7 @@ final class DealiBottomSheetMultiSelectCell: UICollectionViewCell {
         self.contentView.addSubview(self.optionLabel)
         self.optionLabel.then {
             $0.font = .b1r15
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(self.checkbox.snp.right).offset(12.0)

@@ -77,6 +77,15 @@ class ChipViewController: UIViewController {
         })
         self.stackView.addArrangedSubview(chipsFilledSmallPrimary01)
         
+        let chipsFilledSmallScondary01 = ChipContentView(name: "chipFilledSmall02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallScondary01)
+        
+        let chipsFilledSmallPrimary02 = ChipContentView(name: "chipFilledSmall03", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall03()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallPrimary02)
         
         
         let chipsSquareLargePrimary01 = ChipContentView(name: "chipOutlineSquareLarge01", chipArray: (0..<4).map { _ in
@@ -156,7 +165,7 @@ final class ChipContentView: UIView {
         self.titleLabel.then {
             $0.text = name
             $0.font = .b1sb15
-            $0.textColor = DealiColor.g100
+            $0.textColor = .g100
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20.0)
             $0.top.equalToSuperview()

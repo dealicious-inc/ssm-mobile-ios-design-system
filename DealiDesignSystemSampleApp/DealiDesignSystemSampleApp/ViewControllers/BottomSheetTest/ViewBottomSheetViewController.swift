@@ -26,7 +26,7 @@ class ViewBottomSheetViewController: DealiBottomSheetBaseViewController {
             $0.alignment = .fill
             $0.distribution = .equalSpacing
             $0.spacing = 8.0
-            $0.backgroundColor = DealiColor.g20
+            $0.backgroundColor = .g20
         }.snp.makeConstraints {
             $0.left.right.top.bottom.equalToSuperview()
         }
@@ -37,8 +37,8 @@ class ViewBottomSheetViewController: DealiBottomSheetBaseViewController {
             textLabel.then {
                 $0.text = "textLabel _ \(i)"
                 $0.font = .sh1r20
-                $0.textColor = DealiColor.g100
-                $0.backgroundColor = DealiColor.primary04
+                $0.textColor = .g100
+                $0.backgroundColor = .primary04
             }.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
                 $0.height.equalTo(50.0)

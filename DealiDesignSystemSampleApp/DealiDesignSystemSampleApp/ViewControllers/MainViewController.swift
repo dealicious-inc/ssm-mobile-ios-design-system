@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = DealiColor.primary04
+        self.view.backgroundColor = .primary04
         
         self.navigationItem.backButtonTitle = "Home"
         self.title = "iOS Design System Sample App"
@@ -52,6 +52,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
         }
         
+        let tabBarViewController = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(tabBarViewController)
+        tabBarViewController.do {
+            $0.title = "TabBar Controller"
+            $0.addTarget(self, action: #selector(tabBarViewControllerPressed), for: .touchUpInside)
+        }
+        
         let fontButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(fontButton)
         fontButton.do {
@@ -64,6 +71,13 @@ final class MainViewController: UIViewController {
         fontComponentButton.do {
             $0.title = "Font"
             $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
+        }
+        
+        let colorButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(colorButton)
+        colorButton.do {
+            $0.title = "Color"
+            $0.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
         }
         
         let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
@@ -99,6 +113,13 @@ final class MainViewController: UIViewController {
         chipComponentsButton.do {
             $0.title = "Chip Components"
             $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
+        }
+        
+        let imageChipComponentsButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(imageChipComponentsButton)
+        imageChipComponentsButton.do {
+            $0.title = "Image Chip Components"
+            $0.addTarget(self, action: #selector(imageChipButtonPressed), for: .touchUpInside)
         }
         
         let switchComponentButton = DealiControl.btnOutlineLarge03()
@@ -143,13 +164,6 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
         }
         
-        let tabBarComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tabBarComponents)
-        tabBarComponents.do {
-            $0.title = "TabBar Components"
-            $0.addTarget(self, action: #selector(tabBarComponentsPressed), for: .touchUpInside)
-        }
-        
         let checkComponents = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(checkComponents)
         checkComponents.do {
@@ -170,6 +184,20 @@ final class MainViewController: UIViewController {
             $0.title = "Empty Components"
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
+        
+        let descriptionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(descriptionComponents)
+        descriptionComponents.do {
+            $0.title = "Description Components"
+            $0.addTarget(self, action: #selector(descriptionComponentsPressed), for: .touchUpInside)
+        }
+        
+        let accordionComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(accordionComponents)
+        accordionComponents.do {
+            $0.title = "Accordion Components"
+            $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -181,6 +209,10 @@ final class MainViewController: UIViewController {
 
 // MARK: - Button Actions
 extension MainViewController {
+    
+    @objc func tabBarViewControllerPressed() {
+        self.navigationController?.pushViewController(TabBarViewController(), animated: true)
+    }
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)
@@ -218,6 +250,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(ChipViewController(), animated: true)
     }
     
+    @objc func imageChipButtonPressed() {
+        self.navigationController?.pushViewController(ImageChipViewController(), animated: true)
+    }
+    
     @objc func textInputButtonPressed() {
         self.navigationController?.pushViewController(TextInputViewController(), animated: true)
     }
@@ -242,10 +278,6 @@ extension MainViewController {
         self.navigationController?.pushViewController(TagViewController(), animated: true)
     }
     
-    @objc func tabBarComponentsPressed() {
-        self.navigationController?.pushViewController(TabBarComponentViewController(), animated: true)
-    }
-    
     @objc func checkComponentsPressed() {
         self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
     }
@@ -256,5 +288,13 @@ extension MainViewController {
     
     @objc func emptyComponentsPressed() {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+    }
+    
+    @objc func descriptionComponentsPressed() {
+        self.navigationController?.pushViewController(DescriptionComponentViewController(), animated: true)
+    }
+    
+    @objc func accordionComponentsPressed() {
+        self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
 }

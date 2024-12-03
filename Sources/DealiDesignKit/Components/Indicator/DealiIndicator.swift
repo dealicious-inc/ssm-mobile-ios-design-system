@@ -199,7 +199,7 @@ class DealiNumberIndicatorView: DealiIndicatorView {
             let dividerImageView = UIImageView()
             contentStackView.addArrangedSubview(dividerImageView)
             dividerImageView.then {
-                $0.backgroundColor = DealiColor.w20
+                $0.backgroundColor = .w20
             }.snp.makeConstraints {
                 $0.size.equalTo(CGSize(width: 1.0, height: 10.0))
             }

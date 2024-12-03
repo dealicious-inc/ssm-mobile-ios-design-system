@@ -41,9 +41,9 @@ public struct CheckboxStatus {
     var textColor: UIColor {
         switch self.isEnabled {
         case true:
-            return DealiColor.g100
+            return .g100
         case false:
-            return DealiColor.g50
+            return .g50
         }
     }
 }

@@ -24,15 +24,6 @@ class TabBarViewController: UIViewController {
                                  DealiTabBarItem.make(title: "8번 Tab"),
                                  DealiTabBarItem.make(title: "9번 Tab")]
     
-    private var sliderTabBarItemArray02 = [DealiTabBarItem.make(title: "1번 TabTab"),
-                                  DealiTabBarItem.make(title: "2번 TabTab"),
-                                  DealiTabBarItem.make(title: "3번 TabTab"),
-                                 DealiTabBarItem.make(title: "5번 TabTab"),
-                                 DealiTabBarItem.make(title: "6번 TabTab"),
-                                 DealiTabBarItem.make(title: "7번 TabTab"),
-                                 DealiTabBarItem.make(title: "8번 TabTab"),
-                                 DealiTabBarItem.make(title: "9번 TabTab")]
-    
     private var sliderTabBarItemImageChipArray = [DealiTabBarItem.make(title: "끈원피스",
                                                                        icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
                                                   DealiTabBarItem.make(title: "데님스커트",

@@ -249,10 +249,12 @@ extension DealiTabBarViewController: DealiTabBarViewDelegate {
 extension DealiTabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if self.selectedIndex != scrollView.currentPage {
+            self.selectedIndex = scrollView.currentPage
+        }
+        
         if self.isTabBarTriggered == false {
-            if self.selectedIndex != scrollView.currentPage {
-                self.selectedIndex = scrollView.currentPage
-            }
             
             let page = scrollView.currentPage
             var fractional = scrollView.contentOffset.x / scrollView.frame.size.width

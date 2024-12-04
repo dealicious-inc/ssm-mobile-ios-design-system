@@ -98,7 +98,6 @@ final public class DealiTabBarView: UIView {
                     $0.scrollDirection = .horizontal
                     $0.minimumInteritemSpacing = self.preset.itemSpacing
                     $0.minimumLineSpacing = 0.0
-//                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
                 }
             }
             $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)

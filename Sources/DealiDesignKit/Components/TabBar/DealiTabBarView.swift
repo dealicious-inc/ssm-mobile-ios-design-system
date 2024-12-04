@@ -98,14 +98,13 @@ final public class DealiTabBarView: UIView {
                     $0.scrollDirection = .horizontal
                     $0.minimumInteritemSpacing = self.preset.itemSpacing
                     $0.minimumLineSpacing = 0.0
-                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
+//                    $0.sectionInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
                 }
             }
-//            $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
+            $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
             $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
-//            $0.isScrollEnabled = (self.preset.style != .segment)
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
             $0.register(cellClass: DealiTabBarItemImageChipStyleCell.self)
@@ -330,7 +329,7 @@ final public class DealiTabBarView: UIView {
         self.updateSelectedLine(width: contentWidth, positionX: positionX)
         
         if self.preset.style != .segment {
-            self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth, isMoveAnimation: true)
+            self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth, isMoveAnimation: false)
         }
         
     }
@@ -340,36 +339,42 @@ final public class DealiTabBarView: UIView {
         var offset: CGFloat = -1
         
         if self.isSelectedItemCentered == true {
+            
             let centerOffsetX = (self.collectionView.frame.width / 2)
+            let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width + self.preset.tabBarHorizontalMargin
+
+            // ContentInset을 고려한 offset 계산
             offset = positionX - centerOffsetX + (contentWidth / 2)
-            offset = max(offset, 0)
-            let maxOffsetX = self.collectionView.contentSize.width - self.collectionView.frame.width
-            offset = min(offset, maxOffsetX)
-        } else {
-            if self.preset.style == .slider {
-                if (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) < self.collectionView.contentOffset.x {
-                    offset = (positionX - (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin))
-                    print("offset############## _ 01 = \(offset)")
-                } else if (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
-                    offset = (positionX + contentWidth + (self.preset.itemHorizontalPadding + self.preset.itemSpacing + self.preset.tabBarHorizontalMargin)) - self.collectionView.frame.width
-                    print("offset############## _ 02 = \(offset)")
-                }
-            } else {
-                if (positionX - self.preset.itemSpacing) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
-                    offset = (positionX - self.preset.itemSpacing)
-                } else if (positionX + contentWidth + self.preset.itemSpacing) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
-                    offset = (positionX + contentWidth + self.preset.itemSpacing) - self.collectionView.frame.width
-                }
+            offset = max(offset, -self.preset.tabBarHorizontalMargin) // 최소 offset을 tabBarHorizontalMargin에 맞춤
+            offset = min(offset, maxOffsetX) // 최대 offset을 maxOffsetX에 맞춤
+            
+            if offset != -1.0 {
+                self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
             }
-        }
-        print("offset############## _ 03 = \(offset)")
-        if offset < 0 {
-            offset = 0.0
+            
+        } else {
+            
+            var offsetMargin = 0.0
+            
+            if self.preset.style == .slider {
+                offsetMargin = (self.preset.tabBarHorizontalMargin + self.preset.itemHorizontalPadding)
+            } else {
+                offsetMargin = (self.preset.tabBarHorizontalMargin)
+            }
+            
+            if (positionX - offsetMargin) < self.collectionView.contentOffset.x || self.collectionView.frame.width <= 0 {
+                offset = (positionX - offsetMargin)
+            } else if (positionX + contentWidth + offsetMargin) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
+                offset = (positionX + contentWidth + offsetMargin) - self.collectionView.frame.width
+            }
+            
+            if offset != -1.0 {
+                self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
+            }
+
         }
         
-        self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
     }
-    
     
     /// 특정 index에 위치한 tabbaritem의 title 변경 처리
     public func changeTabBarButtonTitle(index: Int, title: String) {
@@ -539,3 +544,75 @@ struct DealiTabBarItemInfo {
         }
     }
 }
+
+
+/**
+ public func viewScroll(page: Int, fractional: CGFloat) {
+
+     if fractional.isInfinite {
+         return
+     }
+
+     let preIdx: Int = Int(floor(fractional))
+     let nexIdx: Int = Int(ceil(fractional))
+     let calc = fractional - CGFloat(preIdx)
+
+     var positionX = 0.0
+     var contentWidth = 0.0
+
+     if preIdx < 0 {
+         if let item = self.tabBarItemInfoArray.first {
+             positionX = item.contentStartPositionX
+             contentWidth = item.contentWidth
+         }
+     } else if nexIdx >= self.tabBarItemInfoArray.count {
+         if let item = self.tabBarItemInfoArray.last {
+             positionX = item.contentStartPositionX
+             contentWidth = item.contentWidth
+         }
+     } else {
+         let preItem = self.tabBarItemInfoArray[preIdx]
+         let nexItem = self.tabBarItemInfoArray[nexIdx]
+         positionX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
+         contentWidth = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
+     }
+     
+     self.selectedIndex = page
+     
+     if self.preset.style == .segment || self.preset.style == .sliderButton {
+         self.selectedUnderLineImageView.snp.updateConstraints {
+             $0.width.equalTo(contentWidth)
+             $0.left.equalToSuperview().offset(positionX)
+         }
+     }
+
+     if self.preset.style == .segment {
+         return
+     }
+     
+     self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
+ }
+ 
+ /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
+ private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat) {
+     var offset: CGFloat = -1
+
+     if case .sliderChip(_) = self.preset.style {
+         if positionX < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
+             offset = positionX
+         } else if (positionX + contentWidth) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
+             offset = (positionX + contentWidth) - self.contentScrollView.frame.width
+         }
+     } else {
+         if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
+             offset = (positionX - self.preset.contentButtonPadding)
+         } else if (positionX + contentWidth + self.preset.contentButtonPadding) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
+             offset = (positionX + contentWidth + self.preset.contentButtonPadding) - self.contentScrollView.frame.width
+         }
+     }
+
+     if offset >= 0 {
+         self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: true)
+     }
+ }
+ */

@@ -426,7 +426,7 @@ class TabBarViewController: UIViewController {
         
         let tabBarSegment01View = DealiTabBar.tabBarSegment01()
         self.tabBarSegment01ViewController = DealiTabBarViewController(tabBarView: tabBarSegment01View, tabBarItemArray: self.segmentTabBarItems)
-        self.tabBarSegment01ViewController?.startPageIndex = 7
+        self.tabBarSegment01ViewController?.startPageIndex = 1
         if let tabBarSegment01ViewController = self.tabBarSegment01ViewController {
             self.insertChildController(tabBarSegment01ViewController, intoParentView: self.tabBarSegment01ContentView)
         }
@@ -439,7 +439,7 @@ class TabBarViewController: UIViewController {
         }
         
         let tabBarSlider02View = DealiTabBar.tabBarSlider02()
-        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items, isSelectedItemCentered: false)
+        self.tabBarSlider02ViewController = DealiTabBarViewController(tabBarView: tabBarSlider02View, tabBarItemArray: self.tabBarSlider02Items, isSelectedItemCentered: true)
         self.tabBarSlider02ViewController?.startPageIndex = 5
         if let tabBarSlider02ViewController = self.tabBarSlider02ViewController {
             self.insertChildController(tabBarSlider02ViewController, intoParentView: self.tabBarSlider02ContentView)
@@ -460,7 +460,7 @@ class TabBarViewController: UIViewController {
         }
         
         let tabBarImgChip01View = DealiTabBar.tabBarImgChip01()
-        self.tabBarImgChip01ViewController = DealiTabBarViewController(tabBarView: tabBarImgChip01View, tabBarItemArray: self.tabBarImgChip01Items)
+        self.tabBarImgChip01ViewController = DealiTabBarViewController(tabBarView: tabBarImgChip01View, tabBarItemArray: self.tabBarImgChip01Items, isSelectedItemCentered: false)
         self.tabBarImgChip01ViewController?.startPageIndex = 5
         if let tabBarImgChip01ViewController = self.tabBarImgChip01ViewController {
             self.insertChildController(tabBarImgChip01ViewController, intoParentView: self.tabBarImgChip01ContentView)

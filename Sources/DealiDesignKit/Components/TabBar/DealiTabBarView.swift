@@ -336,7 +336,7 @@ final public class DealiTabBarView: UIView {
     /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
     private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat, isMoveAnimation: Bool = false) {
         /// content width가 frame width보다 작으면 offset 변경 처리를 하지 않도록 함
-        guard (self.collectionView.contentSize.width + (self.preset.tabBarHorizontalMargin * 2.0)) > self.collectionView.bounds.size.width && self.collectionView.bounds.size.width > 0.0 else {
+        guard (self.collectionView.contentSize.width + (self.preset.tabBarHorizontalMargin * 2.0)) > self.collectionView.bounds.size.width else {
             return
         }
         var offset: CGFloat = -1

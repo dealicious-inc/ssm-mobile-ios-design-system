@@ -9,7 +9,7 @@ import UIKit
 
 final class TextLinkConfig: ControlConfigurable {
     
-    var status: TextLinkStatus = .normal {
+    var status: DealiButtonStatus = .normal {
         didSet {
             self.updateAppearance()
         }
@@ -39,12 +39,6 @@ final class TextLinkConfig: ControlConfigurable {
     
 }
 
-enum TextLinkStatus {
-    case normal
-    case selected
-    case disabled
-}
-
 struct TextLinkStyle: ControlStyleProtocol {
     var underLineWhenSelected: Bool
     var colorProvider: TextLinkColors
@@ -59,13 +53,12 @@ struct TextLinkSize: ControlSizeProtocol {
 struct TextLinkColors: ControlColorPrivider {
     
     var normal: TextLinkColor
-    var selected: TextLinkColor
     var disabled: TextLinkColor
     
-    func getColor(for status: TextLinkStatus) -> TextLinkColor {
+    func getColor(for status: DealiButtonStatus) -> TextLinkColor {
         switch status {
         case .normal: return normal
-        case .selected: return selected
+        case .highlighted: return normal
         case .disabled: return disabled
         }
     }

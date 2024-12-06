@@ -1,39 +1,39 @@
 //
-//  DealiChip.swift
-//  ssm-mobile-ios-design-system
+//  SystemButton.swift
+//  DealiDesignKit
 //
-//  Created by 윤조현 on 11/7/24.
+//  Created by 윤조현 on 12/6/24.
 //
 
 import UIKit
 
-public enum DealiChipStatus: CaseIterable {
+public enum DealiButtonStatus {
     case normal
-    case selected
+    case highlighted
     case disabled
 }
 
-public class DealiChip: UIControl {
+public class SystemButton: UIButton {
     
-    public var status: DealiChipStatus {
+    public var status: DealiButtonStatus {
         get {
             guard self.isEnabled else { return .disabled }
-            return self.isSelected ? .selected : .normal
+            return self.isHighlighted ? .highlighted : .normal
             
         } set {
             self.setState(for: newValue)
-            self.isSelected = newValue == .selected
+            self.isHighlighted = newValue == .highlighted
             self.isEnabled = newValue != .disabled
             
             switch newValue {
             case .normal:
-                self.isSelected = false
+                self.isHighlighted = false
                 self.isEnabled = true
-            case .selected:
-                self.isSelected = true
+            case .highlighted:
+                self.isHighlighted = true
                 self.isEnabled = true
             case .disabled:
-                self.isSelected = false
+                self.isHighlighted = false
                 self.isEnabled = false
             }
         }
@@ -49,13 +49,13 @@ public class DealiChip: UIControl {
         }
     }
     
-    override public var isSelected: Bool {
+    override public var isHighlighted: Bool {
         get {
-            return super.isSelected
+            return super.isHighlighted
         } set {
-            super.isSelected = newValue
+            super.isHighlighted = newValue
             self.setState(for: self.status)
-
+            
         }
     }
     
@@ -66,20 +66,31 @@ public class DealiChip: UIControl {
         self.setState(for: self.status)
     }
     
+    private let highlightView = UIView()
+
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func setUI() {
-        
+        self.addSubview(self.highlightView)
+        self.highlightView.then {
+            $0.alpha = 0.0
+            $0.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.06)
+        }.snp.makeConstraints {
+            $0.edges.equalTo(UIEdgeInsets.zero)
+        }
     }
     
-    func setState(for status: DealiChipStatus) {
+    func setState(for status: DealiButtonStatus) {
         self.updateUI(for: status)
         
     }
     
-    func updateUI(for status: DealiChipStatus) {
+    func updateUI(for status: DealiButtonStatus) {
+        self.highlightView.alpha = status == .highlighted ? 1.0 : 0.0
+
         
     }
 

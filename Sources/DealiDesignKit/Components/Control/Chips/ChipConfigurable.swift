@@ -42,9 +42,3 @@ enum ChipRadiusType: RadiusProvider {
         }
     }
 }
-
-public enum DealiChipStatus: CaseIterable {
-    case normal
-    case selected
-    case disabled
-}

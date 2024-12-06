@@ -7,6 +7,6 @@
 
 import UIKit
 
-final class TextLink: UIButton {
+final class TextLink: SystemButton {
     
 }

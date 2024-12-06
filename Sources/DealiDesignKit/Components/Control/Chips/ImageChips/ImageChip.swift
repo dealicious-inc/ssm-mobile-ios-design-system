@@ -197,7 +197,9 @@ public class ImageChip: DealiChip {
         self.rightIconImageView.image = self.rightImage?.withTintColor(self.configuration.textColor)
         self.invalidateIntrinsicContentSize()
         
-        let color = self.configuration.style.colorProvider.getColor(for: self.status)
+        let provider = self.configuration.style.colorProvider as! ChipColors
+        let color: ChipColor = provider.getColor(for: status)
+                
         self.upadateColor(color)
     }
     

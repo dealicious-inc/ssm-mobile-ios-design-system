@@ -7,13 +7,6 @@
 
 import UIKit
 
-
-public enum DealiChipStatus: CaseIterable {
-    case normal
-    case selected
-    case disabled
-}
-
 public class DealiChip: UIControl {
     
     public var status: DealiChipStatus {

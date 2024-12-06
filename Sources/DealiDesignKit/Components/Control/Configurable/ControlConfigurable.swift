@@ -25,7 +25,6 @@ protocol ControlConfigurable {
 
 protocol ControlStyleProtocol {
     associatedtype ColorProvider = ControlColorPrivider
-    var radiusProvider: RadiusProvider { get }
     var colorProvider: ColorProvider { get }
 }
 

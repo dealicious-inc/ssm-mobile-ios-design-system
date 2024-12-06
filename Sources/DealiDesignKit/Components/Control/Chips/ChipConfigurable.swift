@@ -10,7 +10,9 @@ import UIKit
 protocol ChipConfigurable: ControlConfigurable where Style == any ChipStyleProtocol,
                                                      Size == any ChipSizeProtoocol { }
 
-protocol ChipStyleProtocol: ControlStyleProtocol { }
+protocol ChipStyleProtocol: ControlStyleProtocol {
+    var radiusProvider: RadiusProvider { get }
+}
 
 protocol ChipSizeProtoocol: ControlSizeProtocol {
     var height: CGFloat { get }

@@ -170,7 +170,7 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItem], startIndex: Int = 0) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItemProtocol], startIndex: Int = 0) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
@@ -488,29 +488,6 @@ extension DealiTabBarView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-public struct DealiTabBarItem {
-    public var viewController: UIViewController?
-    public var page: Int = 0
-    public var title: String?
-    /// 해당 메뉴 노출유무
-    public var isHidden: Bool = false
-    /// 배지 보여줄지 여부
-    public var showsBadge: Bool = false
-    public var icon: DealiTabBarIcon?
-    public var imageChipSlotView: DealiCustomView?
-    
-    public static func make(_ viewController: UIViewController? = nil, title: String, isHidden: Bool = false, showsBadge: Bool = false, icon: DealiTabBarIcon? = nil, imageChipSlotView: DealiCustomView? = nil) -> DealiTabBarItem {
-        var item = DealiTabBarItem()
-        item.viewController = viewController
-        item.title = title
-        item.icon = icon
-        item.isHidden = isHidden
-        item.showsBadge = showsBadge
-        item.imageChipSlotView = imageChipSlotView
-        return item
-    }
-}
-
 public struct DealiTabBarIcon {
     var url: URL?
     var size: CGSize
@@ -548,74 +525,45 @@ struct DealiTabBarItemInfo {
     }
 }
 
+public protocol DealiTabBarItemProtocol {
+    var viewController: UIViewController? { get set }
+    var page: Int { get set }
+    var title: String? { get set }
+    var isHidden: Bool { get set }
+    var showsBadge: Bool { get set }
+    var icon: DealiTabBarIcon? { get set }
+    var imageChipSlotView: DealiCustomView? { get set }
+    
+    static func make(_ viewController: UIViewController?,
+                     title: String,
+                     isHidden: Bool,
+                     showsBadge: Bool,
+                     icon: DealiTabBarIcon?,
+                     imageChipSlotView: DealiCustomView?) -> Self
+}
 
-/**
- public func viewScroll(page: Int, fractional: CGFloat) {
+public struct DealiTabBarItem: DealiTabBarItemProtocol {
+    public var viewController: UIViewController?
+    public var page: Int = 0
+    public var title: String?
+    public var isHidden: Bool = false
+    public var showsBadge: Bool = false
+    public var icon: DealiTabBarIcon?
+    public var imageChipSlotView: DealiCustomView?
 
-     if fractional.isInfinite {
-         return
-     }
-
-     let preIdx: Int = Int(floor(fractional))
-     let nexIdx: Int = Int(ceil(fractional))
-     let calc = fractional - CGFloat(preIdx)
-
-     var positionX = 0.0
-     var contentWidth = 0.0
-
-     if preIdx < 0 {
-         if let item = self.tabBarItemInfoArray.first {
-             positionX = item.contentStartPositionX
-             contentWidth = item.contentWidth
-         }
-     } else if nexIdx >= self.tabBarItemInfoArray.count {
-         if let item = self.tabBarItemInfoArray.last {
-             positionX = item.contentStartPositionX
-             contentWidth = item.contentWidth
-         }
-     } else {
-         let preItem = self.tabBarItemInfoArray[preIdx]
-         let nexItem = self.tabBarItemInfoArray[nexIdx]
-         positionX = preItem.contentStartPositionX + (nexItem.contentStartPositionX - preItem.contentStartPositionX) * calc
-         contentWidth = (preItem.contentWidth) + ((nexItem.contentWidth) - (preItem.contentWidth)) * calc
-     }
-     
-     self.selectedIndex = page
-     
-     if self.preset.style == .segment || self.preset.style == .sliderButton {
-         self.selectedUnderLineImageView.snp.updateConstraints {
-             $0.width.equalTo(contentWidth)
-             $0.left.equalToSuperview().offset(positionX)
-         }
-     }
-
-     if self.preset.style == .segment {
-         return
-     }
-     
-     self.moveScrollContentOffset(positionX: positionX, contentWidth: contentWidth)
- }
- 
- /// tabbar Item button을 클릭하거나 ViewController에서 스크롤이 발생했을경우 해당 선택된 tabbar Item Button이 화면에 노출되도록 offset 변경
- private func moveScrollContentOffset(positionX: CGFloat, contentWidth: CGFloat) {
-     var offset: CGFloat = -1
-
-     if case .sliderChip(_) = self.preset.style {
-         if positionX < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
-             offset = positionX
-         } else if (positionX + contentWidth) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
-             offset = (positionX + contentWidth) - self.contentScrollView.frame.width
-         }
-     } else {
-         if (positionX - self.preset.contentButtonPadding) < self.contentScrollView.contentOffset.x || self.contentScrollView.frame.width <= 0 {
-             offset = (positionX - self.preset.contentButtonPadding)
-         } else if (positionX + contentWidth + self.preset.contentButtonPadding) > self.contentScrollView.contentOffset.x + self.contentScrollView.frame.width {
-             offset = (positionX + contentWidth + self.preset.contentButtonPadding) - self.contentScrollView.frame.width
-         }
-     }
-
-     if offset >= 0 {
-         self.contentScrollView.setContentOffset(CGPoint(x: offset, y: self.contentScrollView.contentOffset.y), animated: true)
-     }
- }
- */
+    public static func make(_ viewController: UIViewController? = nil,
+                            title: String,
+                            isHidden: Bool = false,
+                            showsBadge: Bool = false,
+                            icon: DealiTabBarIcon? = nil,
+                            imageChipSlotView: DealiCustomView? = nil) -> DealiTabBarItem {
+        var item = DealiTabBarItem()
+        item.viewController = viewController
+        item.title = title
+        item.icon = icon
+        item.isHidden = isHidden
+        item.showsBadge = showsBadge
+        item.imageChipSlotView = imageChipSlotView
+        return item
+    }
+}

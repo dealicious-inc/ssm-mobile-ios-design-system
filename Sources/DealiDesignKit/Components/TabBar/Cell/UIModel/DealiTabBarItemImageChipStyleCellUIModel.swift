@@ -11,7 +11,7 @@ public struct DealiTabBarItemImageChipStyleCellUIModel {
     
     var itemImageChip: ImageChip?
     
-    static func make(imageChipStyle: DealiTabBarPreset.DealiTabBarSliderImageChipStyle, tabbarItem: DealiTabBarItem, showImageChipSlotWhenSelected: Bool) -> DealiTabBarItemImageChipStyleCellUIModel {
+    static func make(imageChipStyle: DealiTabBarPreset.DealiTabBarSliderImageChipStyle, tabbarItem: DealiTabBarItemProtocol, showImageChipSlotWhenSelected: Bool) -> DealiTabBarItemImageChipStyleCellUIModel {
         var uiModel = DealiTabBarItemImageChipStyleCellUIModel()
         switch imageChipStyle {
         case .imgChipSmall01:

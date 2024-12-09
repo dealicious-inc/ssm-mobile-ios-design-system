@@ -534,12 +534,6 @@ public protocol DealiTabBarItemProtocol {
     var icon: DealiTabBarIcon? { get set }
     var imageChipSlotView: DealiCustomView? { get set }
     
-    static func make(_ viewController: UIViewController?,
-                     title: String,
-                     isHidden: Bool,
-                     showsBadge: Bool,
-                     icon: DealiTabBarIcon?,
-                     imageChipSlotView: DealiCustomView?) -> Self
 }
 
 public struct DealiTabBarItem: DealiTabBarItemProtocol {

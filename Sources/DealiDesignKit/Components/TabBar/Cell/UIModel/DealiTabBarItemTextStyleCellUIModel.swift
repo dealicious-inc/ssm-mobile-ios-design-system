@@ -32,7 +32,7 @@ public struct DealiTabBarItemTextStyleCellUIModel {
     
     private var preset: DealiTabBarPreset?
     
-    static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItem) -> DealiTabBarItemTextStyleCellUIModel {
+    static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItemProtocol) -> DealiTabBarItemTextStyleCellUIModel {
         var uiModel = DealiTabBarItemTextStyleCellUIModel()
         uiModel.preset = preset
         uiModel.title = tabbarItem.title

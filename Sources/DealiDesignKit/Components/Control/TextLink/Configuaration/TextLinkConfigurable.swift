@@ -40,7 +40,6 @@ final class TextLinkConfig: ControlConfigurable {
 }
 
 struct TextLinkStyle: ControlStyleProtocol {
-    var underLineWhenSelected: Bool
     var colorProvider: TextLinkColors
 }
 
@@ -67,5 +66,18 @@ struct TextLinkColors: ControlColorPrivider {
 
 struct TextLinkColor {
     var textColor: UIColor
+    var iconColor: UIColor
     var backgroundColor: UIColor
+    
+    init(textColor: UIColor, iconColor: UIColor, backgroundColor: UIColor) {
+        self.textColor = textColor
+        self.iconColor = iconColor
+        self.backgroundColor = backgroundColor
+    }
+    
+    init(textColor: UIColor, backgroundColor: UIColor) {
+        self.textColor = textColor
+        self.iconColor = textColor
+        self.backgroundColor = backgroundColor
+    }
 }

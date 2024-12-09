@@ -108,6 +108,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(buttonComponentButtonPressed), for: .touchUpInside)
         }
         
+        let textLinkButton = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(textLinkButton)
+        textLinkButton.do {
+            $0.title = "TextLink Components"
+            $0.addTarget(self, action: #selector(textLinkComponentButtonPressed), for: .touchUpInside)
+        }
+        
         let chipComponentsButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(chipComponentsButton)
         chipComponentsButton.do {
@@ -216,6 +223,10 @@ extension MainViewController {
     
     @objc func buttonComponentButtonPressed() {
         self.navigationController?.pushViewController(ButtonViewController(), animated: true)
+    }
+    
+    @objc func textLinkComponentButtonPressed() {
+        self.navigationController?.pushViewController(TextLinkViewController(), animated: true)
     }
     
     @objc func colorButtonPressed() {

@@ -192,7 +192,6 @@ final public class DealiTabBarView: UIView {
                 if case .segment = self.preset.style {
                     itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarHorizontalMargin * 2.0)) / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
-                    print("UIScreen.main.bounds.size.width = \(UIScreen.main.bounds.size.width) / self.preset.tabBarHorizontalMargin = \(self.preset.tabBarHorizontalMargin) /  itemInfo.contentWidth = \(itemInfo.contentWidth)")
                 } else {
                     itemInfo.containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                     itemInfo.contentWidth = contentWidth
@@ -241,6 +240,9 @@ final public class DealiTabBarView: UIView {
             selectedIndex = startIndex
         }
         
+        /// TabBar가 세팅될때 offset 값을 초기 세팅으로 돌린 후에 포지션을 다시 적용한다.
+        self.collectionView.setContentOffset(CGPoint(x: -self.preset.tabBarHorizontalMargin, y: self.collectionView.contentOffset.y), animated: false)
+        
         self.selectedIndex = selectedIndex
         self.updateTabBarItemPositions()
         
@@ -255,9 +257,7 @@ final public class DealiTabBarView: UIView {
             
             if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
                 let cellXPosition = attributes.frame.origin.x
-                if self.preset.style == .segment {
-                    print("cellXPosition = \(cellXPosition) / attributes.frame width = \(attributes.frame.size.width)")
-                }
+                
                 if self.preset.style == .slider {
                     self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemHorizontalPadding
                 } else {
@@ -351,10 +351,6 @@ final public class DealiTabBarView: UIView {
             offset = max(offset, -self.preset.tabBarHorizontalMargin) // 최소 offset을 tabBarHorizontalMargin에 맞춤
             offset = min(offset, maxOffsetX) // 최대 offset을 maxOffsetX에 맞춤
             
-            if offset != -1.0 {
-                self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
-            }
-            
         } else {
             
             var offsetMargin = 0.0
@@ -370,11 +366,10 @@ final public class DealiTabBarView: UIView {
             } else if (positionX + contentWidth + offsetMargin) > self.collectionView.contentOffset.x + self.collectionView.frame.width {
                 offset = (positionX + contentWidth + offsetMargin) - self.collectionView.frame.width
             }
-            
-            if offset != -1.0 {
-                self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
-            }
-
+        }
+        
+        if offset != -1.0 {
+            self.collectionView.setContentOffset(CGPoint(x: offset, y: self.collectionView.contentOffset.y), animated: isMoveAnimation)
         }
         
     }
@@ -470,7 +465,7 @@ extension DealiTabBarView: UICollectionViewDataSource, UICollectionViewDelegate 
         if indexPath.item == self.selectedIndex {
             return
         }
-        
+        /// 탭바 이동시 터치하면 스크롤이 멈추는 이슈가 있어 해당 처리를 통해 스크롤 되고 잇을때 다른 터치를 받이 않도록 처리
         collectionView.isUserInteractionEnabled = false
         
         self.setSelectedIndex(index: indexPath.item)

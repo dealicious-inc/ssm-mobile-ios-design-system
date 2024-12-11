@@ -124,7 +124,7 @@ class TabBarViewController: UIViewController {
         let contentView = UIView()
         contentScrollView.addSubview(contentView)
         contentView.then {
-            $0.backgroundColor = .white
+            $0.backgroundColor = .clear
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()

@@ -87,8 +87,6 @@ final public class DealiTabBarView: UIView {
             $0.height.equalTo(preset.tabBarViewHeight).priority(.high)
         }
         
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
         self.addSubview(self.collectionView)
         self.collectionView.then {
             $0.delegate = self
@@ -103,6 +101,7 @@ final public class DealiTabBarView: UIView {
             $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
+            $0.backgroundColor = .clear
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
             $0.register(cellClass: DealiTabBarItemImageChipStyleCell.self)

@@ -101,7 +101,6 @@ final public class DealiTabBarView: UIView {
                 }
             }
             $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
-            $0.backgroundColor = .white
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)

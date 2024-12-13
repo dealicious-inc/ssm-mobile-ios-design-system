@@ -9,32 +9,41 @@ import UIKit
 
 final class TextLinkConfig: ControlConfigurable {
     
+    var style: TextLinkStyle
+    var size: TextLinkSize
+    
+    var textFont: UIFont
+    var textColor: UIColor
+    var iconColor: UIColor
+    var backgroundColor: UIColor
+    
+    init(size: TextLinkSize, style: TextLinkStyle) {
+        self.size = size
+        self.style = style
+        
+        self.textFont = size.font
+
+        let provider = self.style.colorProvider
+        let color = provider.getColor(for: self.status)
+        self.textColor = color.textColor
+        self.iconColor = color.iconColor
+        self.backgroundColor = color.backgroundColor
+    }
+    
     var status: DealiButtonStatus = .normal {
         didSet {
             self.updateAppearance()
         }
     }
-    
-    enum Constants {
-        static let iconImageSize: CGSize = CGSize(width: 16.0, height: 16.0)
-        static let interItemSpacing: CGFloat = 4.0
-        
-    }
-    
-    var color: TextLinkColor = TextLinkColor(textColor: .primary01, backgroundColor: .clear)
-    
-    var style: TextLinkStyle
-    var size: TextLinkSize
-    
-    
-    init(size: TextLinkSize, style: TextLinkStyle) {
-        self.size = size
-        self.style = style
-    }
-    
+
     func updateAppearance() {
-        let color = self.style.colorProvider.getColor(for: self.status)
-        self.color = color
+        let provider = self.style.colorProvider
+        let color = provider.getColor(for: self.status)
+        self.textColor = color.textColor
+        self.iconColor = color.iconColor
+        self.backgroundColor = color.backgroundColor
+        
+        
     }
     
 }

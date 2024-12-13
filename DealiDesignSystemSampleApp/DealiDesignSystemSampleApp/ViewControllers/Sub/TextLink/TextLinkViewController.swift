@@ -50,8 +50,17 @@ private extension TextLinkViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        self.stackView.addArrangedSubview(self.textLink)
-        
+        self.stackView.addArrangedSubview(self.textLink) 
+        self.textLink.then {
+//            $0.status = .disabled
+            $0.title = "김수한무거북이"
+            $0.leftImage = .init(dealiIconName: "ic_check")
+            $0.rightImage = .init(dealiIconName: "ic_x")
+
+        }.snp.makeConstraints {
+            $0.width.equalTo(140.0)
+            $0.height.equalTo(20.0)
+        }
         
         
     }

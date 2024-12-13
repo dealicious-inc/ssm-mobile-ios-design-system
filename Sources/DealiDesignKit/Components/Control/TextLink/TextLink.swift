@@ -9,10 +9,36 @@ import UIKit
 
 final public class TextLink: SystemButton {
     
-    var contentInsets: NSDirectionalEdgeInsets = .zero {
+    public var contentInsets: NSDirectionalEdgeInsets = .zero {
         didSet {
             self.setButtonConfiguarion()
         }
+    }
+    
+    public var title: String? {
+        didSet {
+            self.textLabel.text = self.title
+            self.updateUI(for: self.status)
+        }
+    }
+    
+    public var leftImage: ClickableImage? {
+        didSet {
+            self.leftIconImageView.image = self.leftImage?.uiImage?.withTintColor(self.systemConfig.iconColor)
+            self.leftIconImageView.isHidden = (self.leftImage == nil)
+        }
+    }
+    
+    public var rightImage: ClickableImage? {
+        didSet {
+            self.rightIconImageView.image = self.rightImage?.uiImage?.withTintColor(self.systemConfig.iconColor)
+            self.rightIconImageView.isHidden = (self.rightImage == nil)
+        }
+    }
+
+    enum Constants {
+        static let contentSpacing: CGFloat = 4.0
+        static let iconImageSize: CGSize = CGSize(width: 16.0, height: 16.0)
     }
     
     private var systemConfig = TextLinkConfig(size: TextLinkSizeType.large.size, style: TextLinkStyleType.primary01.style)
@@ -33,5 +59,46 @@ final public class TextLink: SystemButton {
         
         self.setButtonConfiguarion()
         
+        self.addSubview(self.contentStackView)
+        self.contentStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = Constants.contentSpacing
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        self.contentStackView.addArrangedSubview(self.leftIconImageView)
+        self.leftIconImageView.then {
+            $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
+        }.snp.makeConstraints {
+            $0.size.equalTo(Constants.iconImageSize)
+        }
+        
+        self.contentStackView.addArrangedSubview(self.textLabel)
+        self.textLabel.do {
+            $0.textAlignment = .left
+        }
+        
+        self.contentStackView.addArrangedSubview(self.rightIconImageView)
+        self.rightIconImageView.then {
+            $0.isHidden = true
+            $0.contentMode = .scaleAspectFill
+        }.snp.makeConstraints {
+            $0.size.equalTo(Constants.iconImageSize)
+        }
+    }
+    
+    override func updateUI(for state: DealiButtonStatus) {
+        self.systemConfig.status = state
+        self.updateContent()
+    }
+    
+    private func updateContent() {
+        self.textLabel.textColor = self.systemConfig.textColor
+        self.textLabel.font = self.systemConfig.textFont
+        
+        self.textLabel.attributedText = NSMutableAttributedString(string: self.title ?? "").setLineHeight()
     }
 }

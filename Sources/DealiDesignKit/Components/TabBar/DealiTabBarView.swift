@@ -42,6 +42,11 @@ public class DealiTabBar {
 
 final public class DealiTabBarView: UIView {
     
+    struct Section {
+        static let custom = 0
+        static let tabBar = 1
+    }
+    
     public weak var delegate: DealiTabBarViewDelegate?
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -49,6 +54,8 @@ final public class DealiTabBarView: UIView {
     private lazy var bottomDividerView = UIView()
     
     private var tabBarItemInfoArray: [DealiTabBarItemInfo] = []
+    
+    private var tabBarItemCustomInfoArray: [DealiTabBarItemInfo] = []
     
     /// 선택된 탭바아이템이 화면 중앙에 위치하는 인터랙션 적용 유무 (중요!!!! setTabBarItems 함수보다 먼저 세팅)
     public var isSelectedItemCentered: Bool = true
@@ -105,6 +112,7 @@ final public class DealiTabBarView: UIView {
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
             $0.register(cellClass: DealiTabBarItemImageChipStyleCell.self)
+            $0.register(cellClass: DealiTabBarItemCustomStyleCell.self)
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
@@ -168,11 +176,12 @@ final public class DealiTabBarView: UIView {
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장
-    public func setTabBarItems(tabBarItemArray: [DealiTabBarItemProtocol], startIndex: Int = 0) {
+    public func setTabBarItems(tabBarItemArray: [DealiTabBarItemProtocol], tabBarCustomItemArray: [DealiTabBarCustomItem]? = nil, startIndex: Int = 0) {
         /// 가려지는 tabbar item이 있다면 해당 아이템을 제외하고 TabBarView를 재구성
         let itemArray = tabBarItemArray.filter({ $0.isHidden == false })
         
         self.tabBarItemInfoArray.removeAll()
+        self.tabBarItemCustomInfoArray.removeAll()
         
         for (index, item) in itemArray.enumerated() {
             guard let title = item.title else { continue }
@@ -223,6 +232,16 @@ final public class DealiTabBarView: UIView {
             }
         }
         
+        if let tabBarCustomItemArray = tabBarCustomItemArray, tabBarCustomItemArray.count > 0 {
+            for (index, item) in tabBarCustomItemArray.enumerated() {
+                var itemInfo = DealiTabBarItemInfo()
+                itemInfo.itemIndex = index
+                itemInfo.itemCustomCellUIModel = DealiTabBarItemCustomStyleCellUIModel.make(tabbarItem: item)
+                self.tabBarItemCustomInfoArray.append(itemInfo)
+            }
+        }
+        
+        
         var selectedIndex = self.selectedIndex
         
         if selectedIndex == -1 || (startIndex < self.tabBarItemInfoArray.count) {
@@ -249,9 +268,25 @@ final public class DealiTabBarView: UIView {
     /// tabbar가 생성되거나 tabbar에 구성된 item의 정보가 변경되었을경우 해당 item 의 position X 값을 갱신 및 세팅
     private func updateTabBarItemPositions(isOnlyPositionUpdate: Bool = false) {
         self.layoutIfNeeded()
+        
+        for index in 0..<self.tabBarItemCustomInfoArray.count {
+            
+            let indexPath = IndexPath(item: index, section: Section.tabBar)
+            
+            if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
+                let cellXPosition = attributes.frame.origin.x
+                
+                if self.preset.style == .slider {
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition + self.preset.itemHorizontalPadding
+                } else {
+                    self.tabBarItemInfoArray[index].contentPositionX = cellXPosition
+                }
+            }
+        }
+        
         for index in 0..<self.tabBarItemInfoArray.count {
             
-            let indexPath = IndexPath(item: index, section: 0)
+            let indexPath = IndexPath(item: index, section: Section.tabBar)
             
             if let attributes = collectionView.layoutAttributesForItem(at: indexPath) {
                 let cellXPosition = attributes.frame.origin.x
@@ -434,50 +469,70 @@ final public class DealiTabBarView: UIView {
 }
 
 extension DealiTabBarView: UICollectionViewDataSource, UICollectionViewDelegate {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.tabBarItemInfoArray.count
+        switch section {
+        case Section.custom:
+            return self.tabBarItemCustomInfoArray.count
+        default:
+            return self.tabBarItemInfoArray.count
+        }
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if case .sliderChip(_) = self.preset.style {
-            let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemChipStyleCell.self, indexPath: indexPath)
-            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemChipCellUIModel)
+        switch indexPath.section {
+        case Section.custom:
+            let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemCustomStyleCell.self, indexPath: indexPath)
+//            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemChipCellUIModel)
             return cell
-        } else if case .sliderImageChip(_) = self.preset.style {
-            let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemImageChipStyleCell.self, indexPath: indexPath)
-            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemImageChipCellUIModel)
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemTextStyleCell.self, indexPath: indexPath)
-            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemTextCellUIModel)
-            return cell
+        default:
+            if case .sliderChip(_) = self.preset.style {
+                let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemChipStyleCell.self, indexPath: indexPath)
+                cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemChipCellUIModel)
+                return cell
+            } else if case .sliderImageChip(_) = self.preset.style {
+                let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemImageChipStyleCell.self, indexPath: indexPath)
+                cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemImageChipCellUIModel)
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemTextStyleCell.self, indexPath: indexPath)
+                cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemTextCellUIModel)
+                return cell
+            }
         }
-        
     }
     
-    
-    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if indexPath.item == self.selectedIndex {
-            return
+        switch indexPath.section {
+        case Section.custom:
+            break
+        default:
+            if indexPath.item == self.selectedIndex {
+                return
+            }
+            /// 탭바 이동시 터치하면 스크롤이 멈추는 이슈가 있어 해당 처리를 통해 스크롤 되고 잇을때 다른 터치를 받이 않도록 처리
+            collectionView.isUserInteractionEnabled = false
+            
+            self.setSelectedIndex(index: indexPath.item)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                collectionView.isUserInteractionEnabled = true
+            }
         }
-        /// 탭바 이동시 터치하면 스크롤이 멈추는 이슈가 있어 해당 처리를 통해 스크롤 되고 잇을때 다른 터치를 받이 않도록 처리
-        collectionView.isUserInteractionEnabled = false
-        
-        self.setSelectedIndex(index: indexPath.item)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            collectionView.isUserInteractionEnabled = true
-        }
-        
     }
 }
 
 extension DealiTabBarView: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.tabBarItemInfoArray[indexPath.item].containerWidth, height: self.preset.tabBarViewHeight)
+        
+        switch indexPath.section {
+        case Section.custom:
+            return CGSize(width: self.tabBarItemCustomInfoArray[indexPath.item].containerWidth, height: self.preset.tabBarViewHeight)
+        default:
+            return CGSize(width: self.tabBarItemInfoArray[indexPath.item].containerWidth, height: self.preset.tabBarViewHeight)
+        }
     }
 }
 
@@ -501,6 +556,7 @@ struct DealiTabBarItemInfo {
     var itemTextCellUIModel: DealiTabBarItemTextStyleCellUIModel?
     var itemChipCellUIModel: DealiTabBarItemChipStyleCellUIModel?
     var itemImageChipCellUIModel: DealiTabBarItemImageChipStyleCellUIModel?
+    var itemCustomCellUIModel: DealiTabBarItemCustomStyleCellUIModel?
     var itemSelected: Bool = false {
         didSet {
             if let _ = self.itemTextCellUIModel {
@@ -551,6 +607,16 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
         item.isHidden = isHidden
         item.showsBadge = showsBadge
         item.imageChipSlotView = imageChipSlotView
+        return item
+    }
+}
+
+public struct DealiTabBarCustomItem {
+    public var customView: UIView?
+
+    public static func make(customView: UIView) -> DealiTabBarCustomItem {
+        var item = DealiTabBarCustomItem()
+        item.customView = customView
         return item
     }
 }

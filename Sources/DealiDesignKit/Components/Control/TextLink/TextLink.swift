@@ -117,7 +117,7 @@ final public class TextLink: SystemButton {
         self.textLabel.font = self.systemConfig.textFont
         
         self.textLabel.attributedText = NSMutableAttributedString(string: self.title ?? "")
-            .underline(if: (self.systemConfig.withLine && self.status == .normal), color: self.systemConfig.textColor)
+            .underline(if: (self.systemConfig.withLine && self.status != .disabled), color: self.systemConfig.textColor)
             .setLineHeight()
         
         if self.leftImage != nil {

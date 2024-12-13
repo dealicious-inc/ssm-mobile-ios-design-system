@@ -188,6 +188,11 @@ public extension NSMutableAttributedString {
         return self
     }
     
+    func underline(if condition: Bool, color: UIColor) -> NSMutableAttributedString {
+        guard condition else { return self }
+        return self.underLine(style: .single, color: color)
+    }
+    
     func headIndent(_ headIndent: CGFloat) -> NSMutableAttributedString {
         let source = self.string
         

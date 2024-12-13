@@ -9,6 +9,9 @@ import Foundation
 
 public extension DealiControl {
     
+    static func textLinkLarge01() -> TextLink {
+        return TextLink(systemConfig: TextLinkConfig(size: TextLinkSizeType.large.size, style: TextLinkStyleType.primary01.style))
+    }
 }
 
 

@@ -12,8 +12,7 @@ import DealiDesignKit
 final class TextLinkViewController: UIViewController {
     
     private let stackView = UIStackView()
-    private let textLink = TextLink()
-    
+    private let textLink = DealiControl.textLinkLarge01()
     
     override func loadView() {
         self.view = .init()
@@ -25,7 +24,7 @@ final class TextLinkViewController: UIViewController {
 
 private extension TextLinkViewController {
     func setUI() {
-        self.view.backgroundColor = .systemGray2
+        self.view.backgroundColor = .primary04
         
         let scrollView = UIScrollView()
         
@@ -51,7 +50,15 @@ private extension TextLinkViewController {
         }
         
         self.stackView.addArrangedSubview(self.textLink)
-        
+        self.textLink.then {
+            $0.title = "textlink"
+            $0.leftImage = .init(dealiIconName: "ic_check")
+            $0.rightImage = .init(dealiIconName: "ic_x")
+            $0.contentInsets = .init(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0)
+
+        }.snp.makeConstraints {
+            $0.height.equalTo(20.0 + 20.0)
+        }
         
         
     }

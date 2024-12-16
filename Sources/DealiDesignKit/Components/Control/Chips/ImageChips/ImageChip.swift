@@ -63,12 +63,6 @@ public class ImageChip: DealiChip {
             slotView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
-            
-//            if self.showSlotWhenSelected == true {
-//                self.slotContainerView.isHidden = (self.status != .selected)
-//            } else {
-//                self.slotContainerView.isHidden = false
-//            }
         }
     }
     

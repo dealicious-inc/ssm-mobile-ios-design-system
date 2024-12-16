@@ -19,7 +19,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         let contentStackView = UIStackView()
         self.addSubview(contentStackView)
         contentStackView.then {

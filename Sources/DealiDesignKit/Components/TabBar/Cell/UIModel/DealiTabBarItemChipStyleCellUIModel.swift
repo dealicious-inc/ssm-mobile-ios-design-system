@@ -11,7 +11,7 @@ public struct DealiTabBarItemChipStyleCellUIModel {
     
     var itemChip: ClickableComponentChip?
     
-    static func make(chipStyle: DealiTabBarPreset.DealiTabBarSliderChipStyle, tabbarItem: DealiTabBarItem) -> DealiTabBarItemChipStyleCellUIModel {
+    static func make(chipStyle: DealiTabBarPreset.DealiTabBarSliderChipStyle, tabbarItem: DealiTabBarItemProtocol) -> DealiTabBarItemChipStyleCellUIModel {
         var uiModel = DealiTabBarItemChipStyleCellUIModel()
         switch chipStyle {
         case .chipFilledSmall02:

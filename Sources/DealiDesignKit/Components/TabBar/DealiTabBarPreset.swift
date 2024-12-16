@@ -35,7 +35,7 @@ public enum DealiTabBarPreset {
         case chipFilledSmall03
     }
     
-    /// tabber ImageChip Item Style
+    /// tab bar ImageChip Item Style
     enum DealiTabBarSliderImageChipStyle: Equatable {
         case imgChipSmall01
     }

@@ -17,7 +17,6 @@ public class ImageChip: DealiChip {
             width += self.configuration.rightIconImageSize.width
         }
         
-//        if self.customView != nil {
         if self.slotContainerView.isHidden == false {
             self.slotView?.invalidateIntrinsicContentSize()
             width += self.configuration.contentSpacing
@@ -210,7 +209,9 @@ public class ImageChip: DealiChip {
             }
         }
         
-        let color = self.configuration.style.colorProvider.getColor(for: self.status)
+        let provider = self.configuration.style.colorProvider as! ChipColors
+        let color: ChipColor = provider.getColor(for: status)
+                
         self.upadateColor(color)
     }
     

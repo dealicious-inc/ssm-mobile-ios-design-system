@@ -17,10 +17,10 @@ public class ImageChip: DealiChip {
             width += self.configuration.rightIconImageSize.width
         }
         
-        if self.customView != nil {
-            self.customView?.invalidateIntrinsicContentSize()
+        if self.slotContainerView.isHidden == false {
+            self.slotView?.invalidateIntrinsicContentSize()
             width += self.configuration.contentSpacing
-            width += self.customView?.intrinsicContentSize.width ?? 0
+            width += self.slotView?.intrinsicContentSize.width ?? 0
         }
         
         return CGSize(width: width, height: self.configuration.height)
@@ -37,7 +37,7 @@ public class ImageChip: DealiChip {
     public let imageView = UIImageView()
     private let placeholderImageView = UIImageView()
     private let titleLabel = UILabel()
-    private let slotView = UIView()
+    private let slotContainerView = UIView()
     private let rightIconImageView = UIImageView()
     
     public var imageURL: URL? {
@@ -54,16 +54,20 @@ public class ImageChip: DealiChip {
         }
     }
     
-    public var customView: DealiCustomView? {
+    public var slotView: DealiCustomView? {
         didSet {
-            self.slotView.isHidden = (self.customView == nil)
-            guard let customView = self.customView else { return }
-            self.slotView.addSubview(customView)
-            customView.snp.makeConstraints {
+            self.slotContainerView.isHidden = (self.slotView == nil)
+            guard let slotView = self.slotView else { return }
+            self.slotContainerView.addSubview(slotView)
+            slotView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
         }
     }
+    
+    /// Slot 영역이 선택 상태일 때만 노출되는지 여부
+    /// true일 경우 선택 상태에서만 노출, false일 경우 항상 노출
+    public var showSlotWhenSelected: Bool = false
     
     public init() {
         super.init(frame: .zero)
@@ -165,8 +169,8 @@ public class ImageChip: DealiChip {
             $0.sizeToFit()
         }
         
-        self.contentStackView.addArrangedSubview(self.slotView)
-        self.slotView.then {
+        self.contentStackView.addArrangedSubview(self.slotContainerView)
+        self.slotContainerView.then {
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.height.equalTo(20.0)
@@ -196,6 +200,14 @@ public class ImageChip: DealiChip {
         self.titleLabel.sizeToFit()
         self.rightIconImageView.image = self.rightImage?.withTintColor(self.configuration.textColor)
         self.invalidateIntrinsicContentSize()
+        
+        if self.slotView != nil {
+            if self.showSlotWhenSelected == true {
+                self.slotContainerView.isHidden = (self.status != .selected)
+            } else {
+                self.slotContainerView.isHidden = false
+            }
+        }
         
         let provider = self.configuration.style.colorProvider as! ChipColors
         let color: ChipColor = provider.getColor(for: status)

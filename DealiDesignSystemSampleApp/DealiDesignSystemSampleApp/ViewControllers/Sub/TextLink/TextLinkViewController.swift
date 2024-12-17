@@ -12,8 +12,27 @@ import DealiDesignKit
 final class TextLinkViewController: UIViewController {
     
     private let stackView = UIStackView()
-    private let textLink = TextLink()
     
+    private let textLinkArray: [TextLink] = [
+        DealiControl.textLinkLarge01(),
+        DealiControl.textLinkLineLarge01(),
+        DealiControl.textLinkLarge02(),
+        DealiControl.textLinkLineLarge02(),
+        DealiControl.textLinkLarge03(),
+        DealiControl.textLinkLineLarge03(),
+        DealiControl.textLinkLarge04(),
+        DealiControl.textLinkLineLarge04(),
+        DealiControl.textLinkLarge05(),
+        DealiControl.textLinkLineLarge05(),
+        DealiControl.textLinkLarge06(),
+        DealiControl.textLinkLineLarge06(),
+        DealiControl.textLinkLarge07(),
+        DealiControl.textLinkLineLarge07(),
+        DealiControl.textLinkMedium01(),
+        DealiControl.textLinkLineSmall01(),
+
+        
+    ]
     
     override func loadView() {
         self.view = .init()
@@ -25,7 +44,7 @@ final class TextLinkViewController: UIViewController {
 
 private extension TextLinkViewController {
     func setUI() {
-        self.view.backgroundColor = .systemGray2
+        self.view.backgroundColor = .w50
         
         let scrollView = UIScrollView()
         
@@ -50,18 +69,14 @@ private extension TextLinkViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        self.stackView.addArrangedSubview(self.textLink) 
-        self.textLink.then {
-//            $0.status = .disabled
-            $0.title = "김수한무거북이"
-            $0.leftImage = .init(dealiIconName: "ic_check")
-            $0.rightImage = .init(dealiIconName: "ic_x")
-
-        }.snp.makeConstraints {
-            $0.width.equalTo(140.0)
-            $0.height.equalTo(20.0)
+        for textLink in self.textLinkArray {
+            self.stackView.addArrangedSubview(textLink)
+            textLink.do {
+                $0.title = "textlink"
+                $0.leftImage = .init(dealiIconName: "ic_check")
+                $0.rightImage = .init(dealiIconName: "ic_x")
+            }
         }
-        
         
     }
 }

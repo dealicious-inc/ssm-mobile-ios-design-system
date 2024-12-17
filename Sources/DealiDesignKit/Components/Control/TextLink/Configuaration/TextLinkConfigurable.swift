@@ -16,8 +16,9 @@ final class TextLinkConfig: ControlConfigurable {
     var textColor: UIColor
     var iconColor: UIColor
     var backgroundColor: UIColor
+    var withLine: Bool = false
     
-    init(size: TextLinkSize, style: TextLinkStyle) {
+    init(size: TextLinkSize, style: TextLinkStyle, withLine: Bool = false) {
         self.size = size
         self.style = style
         
@@ -28,6 +29,7 @@ final class TextLinkConfig: ControlConfigurable {
         self.textColor = color.textColor
         self.iconColor = color.iconColor
         self.backgroundColor = color.backgroundColor
+        self.withLine = withLine
     }
     
     var status: DealiButtonStatus = .normal {
@@ -50,6 +52,7 @@ final class TextLinkConfig: ControlConfigurable {
 
 struct TextLinkStyle: ControlStyleProtocol {
     var colorProvider: TextLinkColors
+    var withLine: Bool = false
 }
 
 struct TextLinkSize: ControlSizeProtocol {

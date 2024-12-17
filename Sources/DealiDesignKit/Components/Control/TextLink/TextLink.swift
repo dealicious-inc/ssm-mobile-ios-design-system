@@ -17,7 +17,6 @@ final public class TextLink: SystemButton {
     
     public var title: String? {
         didSet {
-            self.textLabel.text = self.title
             self.updateUI(for: self.status)
         }
     }
@@ -43,6 +42,16 @@ final public class TextLink: SystemButton {
     
     private var systemConfig = TextLinkConfig(size: TextLinkSizeType.large.size, style: TextLinkStyleType.primary01.style)
     
+    init(systemConfig: TextLinkConfig) {
+        self.systemConfig = systemConfig
+        
+        super.init(frame: .zero)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let contentStackView = UIStackView()
     private let leftIconImageView = UIImageView()
     private let textLabel = UILabel()
@@ -52,6 +61,8 @@ final public class TextLink: SystemButton {
         var configuration = Configuration.plain()
         configuration.contentInsets = self.contentInsets
         self.configuration = configuration
+        
+        self.contentStackView.layoutMargins = self.contentInsets.toUIEdgeInsets()
     }
     
     override func setUI() {
@@ -62,8 +73,11 @@ final public class TextLink: SystemButton {
         self.addSubview(self.contentStackView)
         self.contentStackView.then {
             $0.axis = .horizontal
+            $0.alignment = .center
             $0.spacing = Constants.contentSpacing
             $0.isUserInteractionEnabled = false
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.layoutMargins = self.contentInsets.toUIEdgeInsets()
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -87,10 +101,13 @@ final public class TextLink: SystemButton {
             $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
             $0.size.equalTo(Constants.iconImageSize)
+
         }
     }
     
     override func updateUI(for state: DealiButtonStatus) {
+        super.updateUI(for: state)
+        
         self.systemConfig.status = state
         self.updateContent()
     }
@@ -99,6 +116,16 @@ final public class TextLink: SystemButton {
         self.textLabel.textColor = self.systemConfig.textColor
         self.textLabel.font = self.systemConfig.textFont
         
-        self.textLabel.attributedText = NSMutableAttributedString(string: self.title ?? "").setLineHeight()
+        self.textLabel.attributedText = NSMutableAttributedString(string: self.title ?? "")
+            .underline(if: (self.systemConfig.withLine && self.status != .disabled), color: self.systemConfig.textColor)
+            .setLineHeight()
+        
+        if self.leftImage != nil {
+            self.leftIconImageView.image = self.leftImage?.uiImage?.withTintColor(self.systemConfig.iconColor)
+        }
+        
+        if self.rightImage != nil {
+            self.rightIconImageView.image = self.rightImage?.uiImage?.withTintColor(self.systemConfig.iconColor)
+        }
     }
 }

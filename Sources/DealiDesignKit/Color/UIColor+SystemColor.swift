@@ -68,3 +68,10 @@ public extension UIColor {
     static var w10: UIColor { EtcColor.w10.uiColor() }
     static var w5: UIColor { EtcColor.w5.uiColor() }
 }
+
+// MARK: - 소매 멤버십
+public extension UIColor {
+    static var mbs01: UIColor { MBSColor.mbs01.uiColor() }
+    static var mbs02: UIColor { MBSColor.mbs02.uiColor() }
+    static var mbsGradient: [UIColor] { MBSColor.mbsGradient.colors }
+}

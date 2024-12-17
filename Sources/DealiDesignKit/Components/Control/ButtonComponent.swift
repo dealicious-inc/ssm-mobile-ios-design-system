@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class ClickableComponent: UIButton {
+public class ClickableComponent: SystemButton {
     
     private var config: ClickableComponent.Configuration?
     private var gradientBackgroundLayer: CAGradientLayer?

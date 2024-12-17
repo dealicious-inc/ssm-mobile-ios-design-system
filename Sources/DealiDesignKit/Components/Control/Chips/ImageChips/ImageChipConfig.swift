@@ -8,9 +8,14 @@ import UIKit
 
 class ImageChipConfig: ChipConfigurable {
     
+    var style: any ChipStyleProtocol
+    var size: any ChipSizeProtoocol
+    
     func updateAppearance() {
-        let color = self.style.colorProvider.getColor(for: status)
-        self.configColor(color)
+      
+        let provider = self.style.colorProvider as! ChipColors
+        let color: ChipColor = provider.getColor(for: status)
+        self.configColor(color as ChipColorProtocol)
         
         switch self.status {
         case .normal, .disabled:
@@ -29,12 +34,9 @@ class ImageChipConfig: ChipConfigurable {
     var radius: CGFloat {
         return self.style.radiusProvider.getRadius(for: self.height)
     }
-    
-    var style: ChipStyleProtocol
-    var size: ChipSizeProtoocol
      
-    init(size: ChipSizeProtoocol,
-         style: ChipStyleProtocol) {
+    init(size: any ChipSizeProtoocol,
+         style: any ChipStyleProtocol) {
         
         self.size = size
         self.height = size.height
@@ -42,7 +44,9 @@ class ImageChipConfig: ChipConfigurable {
         self.placeholderInset = size.placeholderInset
         
         self.style = style
-        let color = style.colorProvider.getColor(for: .normal)
+        
+        let provider = self.style.colorProvider as! ChipColors
+        let color = provider.getColor(for: .normal)
         self.textColor = color.textColor
         self.backgroundColor = color.backgroundColor
         self.borderColor = color.borderColor
@@ -79,13 +83,10 @@ struct ChipSize: ChipSizeProtoocol {
     var titleFont: FontProvider
 }
 
-struct ChipStyle: ChipStyleProtocol {
-    var radiusProvider: RadiusProvider
-    var colorProvider: ChipColorProvider
-}
-
-
-struct ChipColors: ChipColorProvider {
+struct ChipColors: ControlColorPrivider {
+    typealias Status = DealiChipStatus
+    typealias Color = ChipColor
+    
     private var normal: ChipColor
     private var selected: ChipColor
     private var disabled: ChipColor
@@ -96,7 +97,7 @@ struct ChipColors: ChipColorProvider {
         self.disabled = disabled
     }
     
-    func getColor(for status: DealiChipStatus) -> ChipColorProtocol {
+    func getColor(for status: Status) -> Color {
         switch status {
         case .normal:
             return self.normal
@@ -106,6 +107,12 @@ struct ChipColors: ChipColorProvider {
             return self.disabled
         }
     }
+}
+
+struct ChipStyle: ChipStyleProtocol {
+    
+    var radiusProvider: any RadiusProvider
+    var colorProvider: ColorProvider
 }
 
 struct ChipColor: ChipColorProtocol {

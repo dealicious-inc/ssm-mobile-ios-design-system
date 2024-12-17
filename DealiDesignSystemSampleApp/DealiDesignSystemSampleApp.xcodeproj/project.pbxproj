@@ -47,6 +47,7 @@
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
+		FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 		FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */; };
 		FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE527BB2CC6504C000FB3F7 /* ColorView.swift */; };
@@ -90,6 +91,7 @@
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
+		FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiPlaygroundViewController.swift; sourceTree = "<group>"; };
 		FCE527BB2CC6504C000FB3F7 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		4D1FA9272AFC740000AA510F /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				FC0838852D06C0B70028AE27 /* TextLink */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
 				4DE3261E2CDB611400E67FEC /* ImageChip */,
 				392C38A12C467A540088D176 /* DropdownViewController.swift */,
@@ -253,6 +256,14 @@
 				FCE527BB2CC6504C000FB3F7 /* ColorView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FC0838852D06C0B70028AE27 /* TextLink */ = {
+			isa = PBXGroup;
+			children = (
+				FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */,
+			);
+			path = TextLink;
 			sourceTree = "<group>";
 		};
 		FCEC04882A72B9A60004E5DB /* Packages */ = {
@@ -359,6 +370,7 @@
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
 				3990E48D2CC61E90007C2D9E /* DescriptionComponentViewController.swift in Sources */,
+				FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */,
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,

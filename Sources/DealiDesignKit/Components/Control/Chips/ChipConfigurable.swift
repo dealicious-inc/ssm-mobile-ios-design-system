@@ -7,33 +7,21 @@
 
 import UIKit
 
-protocol ChipConfigurable {
-    var status: DealiChipStatus { get set }
-    var radius: CGFloat { get }
-    
-    var style: ChipStyleProtocol { get }
-    var size: ChipSizeProtoocol { get }
-    
-    func updateAppearance()
-}
+protocol ChipConfigurable: ControlConfigurable where Style == any ChipStyleProtocol,
+                                                     Size == any ChipSizeProtoocol { }
 
-protocol ChipStyleProtocol {
+protocol ChipStyleProtocol: ControlStyleProtocol {
     var radiusProvider: RadiusProvider { get }
-    var colorProvider: ChipColorProvider { get }
 }
 
-protocol ChipSizeProtoocol {
+protocol ChipSizeProtoocol: ControlSizeProtocol {
     var height: CGFloat { get }
     var imageSize: CGSize { get }
     var placeholderInset: CGFloat { get }
     var titleFont: FontProvider { get }
 }
 
-protocol ChipColorProvider {
-    func getColor(for status: DealiChipStatus) -> ChipColorProtocol
-}
-
-protocol ChipColorProtocol {
+protocol ChipColorProtocol: ControlColorProtocol {
     var textColor: UIColor { get }
     var backgroundColor: UIColor { get }
     var borderColor: UIColor? { get }

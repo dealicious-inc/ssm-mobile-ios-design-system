@@ -144,3 +144,18 @@ enum ServiceColor: Int, ColorConfigurable, SystemColorConfig {
     case linkAndInfo = 0x2B66FD
     case success = 0x1BDA17
 }
+
+enum MBSColor: Int, ColorConfigurable, ColorsConfigurable, SystemColorConfig {
+    case mbs01 = 0x1F5EFF
+    case mbs02 = 0xE5FE1E
+    case mbsGradient
+    
+    var gradient: [Int] {
+        switch self {
+        case .mbsGradient:
+            return [0x1F5EFF, 0xE5FE1E]
+        default:
+            return []
+        }
+    }
+}

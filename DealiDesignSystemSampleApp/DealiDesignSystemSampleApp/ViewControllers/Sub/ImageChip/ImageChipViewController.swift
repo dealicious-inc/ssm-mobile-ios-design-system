@@ -47,7 +47,7 @@ final class ImageChipViewController: UIViewController {
         stackView.addArrangedSubview(imageChip)
         imageChip.rightImage = UIImage.dealiIcon(named: "ic_arrow_right")
         imageChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDh8UzRNS0xBc0JCNzR8fGVufDB8fHx8fA%3D%3D")
-        imageChip.customView = CustomTestView()
+        imageChip.slotView = CustomTestView()
         stackView.addArrangedSubview(selectedImageChip)
         selectedImageChip.status = .selected
         
@@ -63,7 +63,7 @@ final class ImageChipViewController: UIViewController {
         
         
         stackView.addArrangedSubview(smallImageChip)
-        smallImageChip.customView = CustomTestView()
+        smallImageChip.slotView = CustomTestView()
         stackView.addArrangedSubview(smallSelectedImageChip)
         smallSelectedImageChip.status = .selected
         

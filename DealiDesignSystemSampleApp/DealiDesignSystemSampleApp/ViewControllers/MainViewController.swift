@@ -205,6 +205,13 @@ final class MainViewController: UIViewController {
             $0.title = "Accordion Components"
             $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
         }
+        
+        let placeholderImageViewComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(placeholderImageViewComponents)
+        placeholderImageViewComponents.do {
+            $0.title = "PlaceholderImageView Components"
+            $0.addTarget(self, action: #selector(placeholderImageViewComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -308,4 +315,9 @@ extension MainViewController {
     @objc func accordionComponentsPressed() {
         self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
+    
+    @objc func placeholderImageViewComponentsPressed() {
+        self.navigationController?.pushViewController(DealiPlaceholderImageViewController(), animated: true)
+    }
 }
+

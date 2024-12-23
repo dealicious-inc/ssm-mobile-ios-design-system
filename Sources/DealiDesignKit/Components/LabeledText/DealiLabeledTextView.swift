@@ -7,11 +7,11 @@
 
 import UIKit
 
-final public class DealiLabeledTextView: DealiTabBarItemBaseCell {
+final public class DealiLabeledTextView: UIView {
     
     private let preset: DealiLabeledTextPreset
     
-    private let labelContainerView = UIView()
+    private let labeledStackView = UIStackView()
     private lazy var iconImageView = UIImageView()
     private lazy var numberingLabel = UILabel()
     private let messageLabel = UILabel()
@@ -54,13 +54,10 @@ final public class DealiLabeledTextView: DealiTabBarItemBaseCell {
         }
     }
     
-    private var customView: UIView? {
+    private var labeledCustomView: UIView? {
         didSet {
-            guard let customView = self.customView else { return }
-            self.labelContainerView.addSubview(customView)
-            customView.snp.makeConstraints {
-                $0.top.left.right.equalToSuperview()
-            }
+            guard let labeledCustomView = self.labeledCustomView else { return }
+            self.labeledStackView.addArrangedSubview(labeledCustomView)
         }
     }
     
@@ -69,10 +66,15 @@ final public class DealiLabeledTextView: DealiTabBarItemBaseCell {
         
         super.init(frame: .zero)
         
-        self.addSubview(self.labelContainerView)
-        self.labelContainerView.snp.makeConstraints {
+        self.addSubview(self.labeledStackView)
+        self.labeledStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = preset.itemSpacing
+            $0.alignment = .center
+            $0.distribution = .fill
+        }.snp.makeConstraints {
             $0.top.left.equalToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
+            $0.height.equalTo(18.0)
         }
         
         self.addSubview(self.messageLabel)
@@ -80,34 +82,29 @@ final public class DealiLabeledTextView: DealiTabBarItemBaseCell {
             $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.top.bottom.right.equalToSuperview()
-            $0.left.equalTo(labelContainerView.snp.right).offset(self.preset.itemSpacing)
+            $0.left.equalTo(labeledStackView.snp.right).offset(self.preset.itemSpacing)
         }
         
         switch self.preset.style {
         case .bullet:
             let bulletImageView = UIImageView()
-            self.labelContainerView.addSubview(bulletImageView)
+            self.labeledStackView.addArrangedSubview(bulletImageView)
             bulletImageView.then {
                 $0.layer.cornerRadius = 1.5
                 $0.layer.masksToBounds = true
                 $0.backgroundColor = self.preset.textColor
             }.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(7.5)
-                $0.left.right.equalToSuperview()
                 $0.size.equalTo(CGSize(width: 3.0, height: 3.0))
             }
         case .number:
-            self.labelContainerView.addSubview(self.numberingLabel)
+            self.labeledStackView.addArrangedSubview(self.numberingLabel)
             self.numberingLabel.snp.makeConstraints {
-                $0.top.left.right.equalToSuperview()
                 $0.width.equalTo(0.0)
             }
         case .icon:
-            self.labelContainerView.addSubview(self.iconImageView)
+            self.labeledStackView.addArrangedSubview(self.iconImageView)
             self.iconImageView.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(1.0)
-                $0.left.right.equalToSuperview()
-                $0.size.equalTo(CGSize(width: 3.0, height: 3.0))
+                $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
             }
         default:
             break
@@ -130,6 +127,7 @@ final public class DealiLabeledTextView: DealiTabBarItemBaseCell {
         
         self.iconName = model.iconName
         self.numberString = model.numberString
+        self.labeledCustomView = model.labeledCustomView
     }
     
 }

@@ -31,6 +31,14 @@ public class DealiLabeledText {
     public static func labeledTextIcon02() -> DealiLabeledTextGroupView {
         return DealiLabeledTextGroupView(preset: .labeledTextIcon02)
     }
+    
+    public static func labeledTextCustom01() -> DealiLabeledTextGroupView {
+        return DealiLabeledTextGroupView(preset: .labeledTextCustom01)
+    }
+    
+    public static func labeledTextCustom02() -> DealiLabeledTextGroupView {
+        return DealiLabeledTextGroupView(preset: .labeledTextCustom02)
+    }
 }
 
 public class DealiLabeledTextGroupView: UIView {
@@ -144,21 +152,4 @@ public class DealiLabeledTextGroupView: UIView {
             }
         }
     }
-    
-    
-    
-//    private func makeLabeledTextItemGroup(attributedMessageArray: [NSMutableAttributedString]) {
-//        self.labeledTextStackView.subviews.forEach { $0.removeFromSuperview() }
-//        
-//        for (index, attributedMessage) in attributedMessageArray.enumerated() {
-//            let itemView = DealiLabeledTextView(preset: self.preset)
-//            self.labeledTextStackView.addArrangedSubview(itemView)
-//            itemView.then {
-//                $0.attributedMessage = attributedMessage
-//                $0.number = "\(index + 1)."
-//            }.snp.makeConstraints {
-//                $0.left.right.equalToSuperview()
-//            }
-//        }
-//    }
 }

@@ -90,6 +90,12 @@ public final class DealiPlaceholderImageView: UIImageView {
         }
     }
     
+    public override var image: UIImage? {
+        didSet {
+            self.placeholderImageView.isHidden = (self.image != nil)
+        }
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         

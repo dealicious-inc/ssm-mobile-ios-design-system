@@ -317,7 +317,7 @@ extension MainViewController {
     }
     
     @objc func placeholderImageViewComponentsPressed() {
-        self.navigationController?.pushViewController(DealiPlaceholderImageViewController(), animated: true)
+        self.navigationController?.pushViewController(PlaceholderImageViewController(), animated: true)
     }
 }
 

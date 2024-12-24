@@ -11,7 +11,11 @@ import DealiDesignKit
 
 final class PlaceholderImageViewController: UIViewController {
 
-    private let changeIamgeViewSizeButton = DealiControl.btnOutlineLarge01()
+    private let rectanglePlaceholderImageView01 = DealiPlaceholderImageView()
+    private let rectanglePlaceholderImageView02 = DealiPlaceholderImageView()
+    
+    private let circlePlaceholderImageView01 = DealiPlaceholderImageView()
+    private let circlePlaceholderImageView02 = DealiPlaceholderImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,9 +57,8 @@ final class PlaceholderImageViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
          
-        let rectanglePlaceholderImageView01 = DealiPlaceholderImageView()
-        contentStackView.addArrangedSubview(rectanglePlaceholderImageView01)
-        rectanglePlaceholderImageView01.then {
+        contentStackView.addArrangedSubview(self.rectanglePlaceholderImageView01)
+        self.rectanglePlaceholderImageView01.then {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
             $0.viewShape = .rectangle
@@ -69,21 +72,19 @@ final class PlaceholderImageViewController: UIViewController {
             $0.backgroundColor = .g30
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(24.0)
-            $0.height.equalTo(100.0)
+            $0.height.equalTo(200.0)
         }
         
-        let rectanglePlaceholderImageView02 = DealiPlaceholderImageView()
-        rectanglePlaceholderImageView02ContainerView.addSubview(rectanglePlaceholderImageView02)
-        rectanglePlaceholderImageView02.then {
+        rectanglePlaceholderImageView02ContainerView.addSubview(self.rectanglePlaceholderImageView02)
+        self.rectanglePlaceholderImageView02.then {
             $0.imageStyle = .store
             $0.backgroundStyle = .ligth
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10.0)
         }
         
-        let circlePlaceholderImageView01 = DealiPlaceholderImageView()
-        contentStackView.addArrangedSubview(circlePlaceholderImageView01)
-        circlePlaceholderImageView01.then {
+        contentStackView.addArrangedSubview(self.circlePlaceholderImageView01)
+        self.circlePlaceholderImageView01.then {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
             $0.viewShape = .circle
@@ -100,9 +101,8 @@ final class PlaceholderImageViewController: UIViewController {
             $0.height.equalTo(150.0)
         }
         
-        let circlePlaceholderImageView02 = DealiPlaceholderImageView()
-        circlePlaceholderImageView02ContainerView.addSubview(circlePlaceholderImageView02)
-        circlePlaceholderImageView02.then {
+        circlePlaceholderImageView02ContainerView.addSubview(self.circlePlaceholderImageView02)
+        self.circlePlaceholderImageView02.then {
             $0.imageStyle = .store
             $0.backgroundStyle = .ligth
             $0.viewShape = .circle
@@ -111,16 +111,5 @@ final class PlaceholderImageViewController: UIViewController {
             $0.top.bottom.equalToSuperview().inset(25.0)
             $0.width.equalTo(100.0)
         }
-        
-        contentStackView.addArrangedSubview(self.changeIamgeViewSizeButton)
-        self.changeIamgeViewSizeButton.then {
-            $0.title = "ImageView Size 변경"
-            $0.isSelected = false
-            $0.addTarget(self, action: #selector(changeIamgeViewSizeButtonPressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-        }
     }
 }
-
-extension

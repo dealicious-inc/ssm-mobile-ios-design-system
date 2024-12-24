@@ -6,28 +6,7 @@
 //
 
 import UIKit
-//**TODO: @윤조현 창호님 작업 머지 후 변경
-public class LabeledText: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        let label = UILabel()
-        self.addSubview(label)
-        label.then {
-            $0.numberOfLines = 0
-            $0.attributedText = NSMutableAttributedString(string: "내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")
-                .font(.b3r13)
-                .color(.g80)
-                .setLineHeight()
-        }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+import SnapKit
 
 public final class DealiNotice: UIView {
 
@@ -38,13 +17,21 @@ public final class DealiNotice: UIView {
         textLink.snp.makeConstraints {
             $0.left.greaterThanOrEqualTo(self.titleLabel.snp.right).offset(16.0)
             $0.centerY.equalTo(self.titleLabel)
-            $0.left.right.equalToSuperview().inset(16.0)
+            $0.right.equalToSuperview().inset(16.0)
         }
     }
     
     public var title: String? {
         didSet {
-            self.titleLabel.text = title
+            self.titleContentView.isHidden = title == nil
+            
+            guard let title else { return }
+            let attributedTitle = NSMutableAttributedString(string: title)
+                .font(.b2sb14)
+                .color(.g100)
+                .setLineHeight()
+            
+            self.titleLabel.attributedText = attributedTitle
         }
     }
     
@@ -52,6 +39,7 @@ public final class DealiNotice: UIView {
     private var textLinkButton: TextLink?
     private let contentView = UIView()
     
+    private var titleContentView = UIView()
     override internal init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -62,14 +50,25 @@ public final class DealiNotice: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func addContents(_ view: UIView) {
+    public func addContents(_ view: UIView, layout: ((_ make: ConstraintMaker) -> Void)? = nil) {
         self.contentView.addSubview(view)
-        view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        
+        if let layout {
+            view.snp.makeConstraints(layout)
+        } else {
+            view.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
     }
     
-    public func addLabeledTexts(_ labeledTextArray: [LabeledText]) {
+    public func addLabeledTextGroup(_ group: DealiLabeledTextGroupView) {
+        self.addContents(group) {
+            $0.edges.equalToSuperview().inset(16.0)
+        }
+    }
+    
+    public func addLabeledTexts(_ labeledTextArray: [DealiLabeledTextView]) {
         let stackView = UIStackView().then {
             $0.axis = .vertical
             $0.spacing = 8.0
@@ -92,27 +91,22 @@ private extension DealiNotice {
         self.layer.cornerRadius = 10.0
         self.layer.masksToBounds = true
         
-        let titleView = self.titleView()
-        self.addSubview(titleView)
-        titleView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview().inset(16.0)
+        let stackView = UIStackView().then {
+            $0.axis = .vertical
+            $0.spacing = 0.0
         }
         
-        let dividerView = UIView()
-        self.addSubview(dividerView)
-        dividerView.then {
-            $0.backgroundColor = .g30
-        }.snp.makeConstraints {
-            $0.height.equalTo(1.0)
-            $0.left.right.equalToSuperview().inset(16.0)
-            $0.top.equalTo(titleView.snp.bottom).offset(16.0)
+        self.addSubview(stackView)
+        stackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+       
+        self.titleContentView = self.titleView().then {
+            $0.isHidden = true
         }
         
-        self.addSubview(self.contentView)
-        self.contentView.snp.makeConstraints {
-            $0.top.equalTo(dividerView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
-        }
+        stackView.addArrangedSubview(self.titleContentView)
+        stackView.addArrangedSubview(self.contentView)
     }
     
     func titleView() -> UIView {
@@ -123,17 +117,28 @@ private extension DealiNotice {
         iconImageView.then {
             $0.image = UIImage.dealiIcon(named: "ic_notice")
         }.snp.makeConstraints {
-            $0.left.centerY.equalToSuperview()
+            $0.left.equalToSuperview().inset(16.0)
+            $0.centerY.equalToSuperview()
             $0.size.equalTo(16.0)
         }
         
         titleContentView.addSubview(self.titleLabel)
         self.titleLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(16.0)
             $0.left.equalTo(iconImageView.snp.right).offset(8.0)
+            $0.centerY.equalToSuperview()
+        }
+        
+        let dividerView = UIView()
+        titleContentView.addSubview(dividerView)
+        dividerView.then {
+            $0.backgroundColor = .g30
+        }.snp.makeConstraints {
+            $0.height.equalTo(1.0)
+            $0.left.right.equalToSuperview().inset(16.0)
+            $0.bottom.equalToSuperview()
         }
         
         return titleContentView
     }
-    
-    
 }

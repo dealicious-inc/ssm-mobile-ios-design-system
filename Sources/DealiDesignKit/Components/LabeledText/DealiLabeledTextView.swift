@@ -130,4 +130,8 @@ final public class DealiLabeledTextView: UIView {
         self.labeledCustomView = model.labeledCustomView
     }
     
+    public convenience init(preset: DealiLabeledTextPreset, model: DealiLabeledTextModel) {
+        self.init(preset: preset)
+        self.configure(model: model)
+    }
 }

@@ -205,6 +205,13 @@ final class MainViewController: UIViewController {
             $0.title = "Accordion Components"
             $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
         }
+        
+        let noticeComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(noticeComponents)
+        noticeComponents.do {
+            $0.title = "Notice Components"
+            $0.addTarget(self, action: #selector(noticeComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -307,5 +314,9 @@ extension MainViewController {
     
     @objc func accordionComponentsPressed() {
         self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
+    }
+    
+    @objc func noticeComponentsPressed() {
+        self.navigationController?.pushViewController(NoticeViewController(), animated: true)
     }
 }

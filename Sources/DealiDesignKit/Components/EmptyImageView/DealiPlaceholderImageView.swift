@@ -143,7 +143,6 @@ public final class DealiPlaceholderImageView: UIImageView {
         let parentWidth = self.bounds.size.width
         var placeholderImageWidth = 0.0
         
-        print("self.bounds.size = \(self.bounds.size)")
         if self.isAspectRatioOneToOne() == true {
             /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
             if parentWidth <= 70.0 {

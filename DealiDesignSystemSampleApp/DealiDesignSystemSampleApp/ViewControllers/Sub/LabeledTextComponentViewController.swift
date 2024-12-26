@@ -62,41 +62,36 @@ final class LabeledTextComponentViewController: UIViewController {
             .font(.b3r13)
             .color(.g100)
             .alignment(.left)
-            .updateMultipleAttributes(for: ["가나다", "카타파"],
-                                      fontArray: [.b3sb13, .b3sb13],
-                                      colorArray: [.primary01, .secondary01])
+            .updateMultipleAttributes(for: [TextStyleAttributes(text: "가나다", font: .b3sb13, color: .primary01),
+                                            TextStyleAttributes(text: "카타파", font: .b3sb13, color: .secondary01)])
                 .setLineHeight(), iconName: "ic_plus_ad_forward"),
                                                DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")
                                                    .font(.b3r13)
                                                    .color(.g100)
                                                    .alignment(.left)
-                                                   .updateMultipleAttributes(for: ["가나다라마바사아", "자차카타파하내용"],
-                                                                             fontArray: [.b3sb13, .b3sb13],
-                                                                             colorArray: [.primary01, .secondary01])
+                                                   .updateMultipleAttributes(for: [TextStyleAttributes(text: "가나다라마바사아", font: .b3sb13, color: .primary01),
+                                                                                   TextStyleAttributes(text: "자차카타파하내용", font: .b3sb13, color: .secondary01)])
                                                        .setLineHeight(), iconName: "ic_plus_ad_forward"),
                                                DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")
                                                    .font(.b3r13)
                                                    .color(.g100)
                                                    .alignment(.left)
-                                                   .updateMultipleAttributes(for: ["가나다라마바", "아자차카타파하내용"],
-                                                                             fontArray: [.b3sb13, .b3sb13],
-                                                                             colorArray: [.primary01, .secondary01])
+                                                   .updateMultipleAttributes(for: [TextStyleAttributes(text: "가나다라마바", font: .b3sb13, color: .primary01),
+                                                                                   TextStyleAttributes(text: "아자차카타파하내용", font: .b3sb13, color: .secondary01)])
                                                        .setLineHeight(), iconName: "ic_repeat"),
                                                DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")
                                                    .font(.b3r13)
                                                    .color(.g100)
                                                    .alignment(.left)
-                                                   .updateMultipleAttributes(for: ["바사아", "하내용"],
-                                                                             fontArray: [.b3sb13, .b3sb13],
-                                                                             colorArray: [.primary01, .secondary01])
+                                                   .updateMultipleAttributes(for: [TextStyleAttributes(text: "바사아", font: .b3sb13, color: .primary01),
+                                                                                   TextStyleAttributes(text: "하내용", font: .b3sb13, color: .secondary01)])
                                                        .setLineHeight(), iconName: "ic_plus_ad_forward"),
                                                DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")
                                                    .font(.b3r13)
                                                    .color(.g100)
                                                    .alignment(.left)
-                                                   .updateMultipleAttributes(for: ["마바사아", "카타파하내용"],
-                                                                             fontArray: [.b3sb13, .b3sb13],
-                                                                             colorArray: [.primary01, .secondary01])
+                                                   .updateMultipleAttributes(for: [TextStyleAttributes(text: "마바사아", font: .b3sb13, color: .primary01),
+                                                                                   TextStyleAttributes(text: "카타파하내용", font: .b3sb13, color: .secondary01)])
                                                        .setLineHeight(), iconName: "ic_repeat")]
         
         var customLabeledText01ModelArray: [DealiLabeledTextModel] = []

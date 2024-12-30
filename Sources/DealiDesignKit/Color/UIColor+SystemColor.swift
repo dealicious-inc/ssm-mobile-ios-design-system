@@ -15,7 +15,7 @@ public extension UIColor {
     static var primary04: UIColor { PrimaryColor.primary04.uiColor() }
     static var primary05: UIColor { PrimaryColor.primary05.uiColor() }
     
-    static var primaryGradient: [UIColor] { Gradient.primaryGradient.colors }
+    static var primaryGradient: [UIColor] { PrimaryGradient.gradient.colors }
 }
 
 // MARK: - Secondary
@@ -73,5 +73,4 @@ public extension UIColor {
 public extension UIColor {
     static var mbs01: UIColor { MBSColor.mbs01.uiColor() }
     static var mbs02: UIColor { MBSColor.mbs02.uiColor() }
-    static var mbsGradient: [UIColor] { MBSColor.mbsGradient.colors }
 }

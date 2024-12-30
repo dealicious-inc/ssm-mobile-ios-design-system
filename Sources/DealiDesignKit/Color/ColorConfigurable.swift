@@ -148,14 +148,25 @@ enum ServiceColor: Int, ColorConfigurable, SystemColorConfig {
 enum MBSColor: Int, ColorConfigurable, ColorsConfigurable, SystemColorConfig {
     case mbs01 = 0x1F5EFF
     case mbs02 = 0xE5FE1E
-    case mbsGradient
+    case gradient01
+    case gradient02
     
     var gradient: [Int] {
         switch self {
-        case .mbsGradient:
-            return [0x1F5EFF, 0xE5FE1E]
+        case .gradient01:
+            return [MBSColor.mbs01.rawValue, MBSColor.mbs02.rawValue]
+        case .gradient02:
+            return [0x1F5EFF, 0x1F5EFF]
         default:
             return []
         }
     }
 }
+
+public extension Color {
+    static var primary01: Color {
+        PrimaryColor.primary01.uiColor().asColor()
+    }
+}
+
+

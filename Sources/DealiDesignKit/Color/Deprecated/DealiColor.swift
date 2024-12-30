@@ -6,13 +6,6 @@
 //
 
 import UIKit
-import SwiftUI
-
-public extension Color {
-    static var primary01: Color {
-        PrimaryColor.primary01.uiColor().asColor()
-    }
-}
 
 @available(*, deprecated, renamed: "UIColor")
 public enum DealiColor {
@@ -69,29 +62,3 @@ public enum DealiColor {
     public static let w5: UIColor = EtcColor.w5.color
 }
 
-protocol ColorsConfigurable: RawRepresentable where RawValue == Int {
-    var colors: [UIColor] { get }
-    var gradient: [Int] { get }
-}
-
-extension ColorsConfigurable {
-    var colors: [UIColor] {
-        var colorArray: [UIColor] = []
-        for hex in self.gradient {
-            colorArray.append(UIColor(rgb: hex, alpha: 1.0))
-        }
-        return colorArray
-    }
-}
-
-
-enum Gradient: Int, ColorsConfigurable {
-    case primaryGradient
-    
-    var gradient: [Int] {
-        switch self {
-        case .primaryGradient:
-            return [0xFB4760, 0xFE1EA4]
-        }
-    }
-}

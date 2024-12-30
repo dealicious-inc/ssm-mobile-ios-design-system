@@ -12,7 +12,6 @@ import DealiDesignKit
 
 final class MainViewController: UIViewController {
     
-    
     override func loadView() {
         self.view = .init()
         
@@ -209,7 +208,6 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
     }
 }

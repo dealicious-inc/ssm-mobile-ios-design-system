@@ -17,7 +17,7 @@ public enum DealiColor {
     public static let primary04: UIColor = PrimaryColor.primary04.color
     public static let primary05: UIColor = PrimaryColor.primary05.color
     
-    public static let primaryGradient: [UIColor] = Gradient.primaryGradient.colors
+    public static let primaryGradient: [UIColor] = PrimaryGradient.gradient.colors
     
     public static let secondary01: UIColor = SecondaryColor.secondary01.color
     public static let secondary02: UIColor = SecondaryColor.secondary02.color

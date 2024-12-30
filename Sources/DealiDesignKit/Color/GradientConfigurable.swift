@@ -17,11 +17,11 @@ public protocol GradientConfigurable {
 
 public extension GradientConfigurable {
     var startPoint: CGPoint {
-        return .zero
+        return CGPoint(x: 0.0, y: 0.5)
     }
     
     var endPoint: CGPoint {
-        return CGPoint(x: 1.0, y: 1.0)
+        return CGPoint(x: 1.0, y: 0.5)
     }
     
     var location: [NSNumber] {
@@ -43,7 +43,7 @@ public enum PrimaryGradient: GradientConfigurable {
     var endColor: UIColor {
         switch self {
         case .gradient:
-            return UIColor(rgb: 0xFF7051, alpha: 1.0)
+            return UIColor(rgb: 0xFE1EA4, alpha: 1.0)
         }
     }
     
@@ -51,7 +51,6 @@ public enum PrimaryGradient: GradientConfigurable {
         return [startColor, endColor]
     }
 }
-
 
 public enum MbsGradient: GradientConfigurable {
     case gradient01
@@ -94,18 +93,5 @@ public enum MbsGradient: GradientConfigurable {
         case .gradient02:
             return CGPoint(x: 1, y: 1.5)
         }
-    }
-}
-
-public extension UIView {
-    func setSystemGradient(_ gradient: GradientConfigurable) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = gradient.colors.map { $0.cgColor }
-        gradientLayer.locations = gradient.location
-
-        gradientLayer.startPoint = gradient.startPoint
-        gradientLayer.endPoint = gradient.endPoint
-        gradientLayer.frame = self.bounds
-        self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }

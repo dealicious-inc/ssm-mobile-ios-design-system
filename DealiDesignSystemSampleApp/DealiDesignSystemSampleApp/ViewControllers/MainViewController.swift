@@ -205,6 +205,13 @@ final class MainViewController: UIViewController {
             $0.title = "Accordion Components"
             $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
         }
+        
+        let toolTipComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(toolTipComponents)
+        toolTipComponents.do {
+            $0.title = "ToolTip Components"
+            $0.addTarget(self, action: #selector(toolTipButtonPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -307,5 +314,9 @@ extension MainViewController {
     
     @objc func accordionComponentsPressed() {
         self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
+    }
+    
+    @objc func toolTipButtonPressed() {
+        self.navigationController?.pushViewController(ToolTipViewController(), animated: true)
     }
 }

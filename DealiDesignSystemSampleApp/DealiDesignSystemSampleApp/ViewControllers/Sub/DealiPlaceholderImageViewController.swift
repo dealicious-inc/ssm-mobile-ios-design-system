@@ -123,4 +123,3 @@ final class PlaceholderImageViewController: UIViewController {
     }
 }
 
-extension

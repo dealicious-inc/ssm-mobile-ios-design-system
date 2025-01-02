@@ -169,7 +169,7 @@ final class AccordionComponentViewController: UIViewController {
     private func createLabeledTextItemModel(labeledPreset: DealiLabeledTextPreset, title: String? = nil, titleImageName: String? = nil, count: Int) -> DealiAccordionLabeledTextModel {
         var labeledModelArray: [DealiLabeledTextModel] = []
         for index in 0..<count {
-            labeledModelArray.append(DealiLabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하", iconName: ((index % 2 == 0) ? "ic_plus_ad_forward" : "ic_repeat"), numberString: "\(index + 1)."))
+            labeledModelArray.append(DealiLabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하", iconName: ((index % 2 == 0) ? "ic_plus_ad_forward" : "ic_repeat")))
         }
         
         return DealiAccordionLabeledTextModel(labeledPreset: labeledPreset, labeledModelArray: labeledModelArray, labeledTitle: title, labeledTitleImageName: titleImageName)

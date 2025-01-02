@@ -62,10 +62,19 @@ public final class DealiNotice: UIView {
         }
     }
     
-    public func addLabeledTextGroup(_ group: DealiLabeledTextGroupView) {
-        self.addContents(group) {
-            $0.edges.equalToSuperview().inset(16.0)
+    public func addLabeledTextGroups(_ groups: DealiLabeledTextGroupView..., spacing: CGFloat = 8.0) {
+        let stackView = UIStackView().then {
+            $0.axis = .vertical
+            $0.spacing = spacing
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.layoutMargins = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         }
+        
+        for group in groups {
+            stackView.addArrangedSubview(group)
+        }
+        
+        self.addContents(stackView)
     }
     
     public func addLabeledTexts(_ labeledTextArray: [DealiLabeledTextView]) {

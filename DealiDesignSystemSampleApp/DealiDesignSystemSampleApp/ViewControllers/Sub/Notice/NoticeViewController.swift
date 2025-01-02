@@ -116,7 +116,7 @@ private extension NoticeViewController {
         contentView.addSubview(noticeViewWithLabeledTextGroup)
         noticeViewWithLabeledTextGroup.then {
             $0.title = "Notice with LabeledText Group"
-            $0.addLabeledTextGroup(labeledTextGroupView)
+            $0.addLabeledTextGroups(labeledTextGroupView)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)
             $0.top.equalTo(noticeViewWithLabeledTexts.snp.bottom).offset(16.0)

@@ -78,7 +78,7 @@ final class PlaceholderImageViewController: UIViewController {
         rectanglePlaceholderImageView02ContainerView.addSubview(self.rectanglePlaceholderImageView02)
         self.rectanglePlaceholderImageView02.then {
             $0.imageStyle = .store
-            $0.backgroundStyle = .ligth
+            $0.backgroundStyle = .light
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10.0)
         }
@@ -104,7 +104,7 @@ final class PlaceholderImageViewController: UIViewController {
         circlePlaceholderImageView02ContainerView.addSubview(self.circlePlaceholderImageView02)
         self.circlePlaceholderImageView02.then {
             $0.imageStyle = .store
-            $0.backgroundStyle = .ligth
+            $0.backgroundStyle = .light
             $0.viewShape = .circle
         }.snp.makeConstraints {
             $0.center.equalToSuperview()

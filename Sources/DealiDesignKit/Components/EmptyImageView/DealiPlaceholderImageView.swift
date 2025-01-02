@@ -24,7 +24,7 @@ public enum DealiPlaceholderImageStyle {
 
 public enum DealiPlaceholderBackgroundColor {
     /// 흰색 배경색에 PlaceholderImage 는 어두운색
-    case ligth
+    case light
     /// 어두운 배경색에 PlaceholderImage 는 밝은색
     case dark
     
@@ -49,7 +49,7 @@ public enum DealiPlaceholderBackgroundColor {
     }
 }
 
-public enum DealiPlaceholderViewShape {
+public enum DealiPlaceholderViewShape: RadiusProvider {
     /// 사각형 형태의 imageView
     case rectangle
     /// 동그란 형태의 imageView
@@ -63,8 +63,14 @@ public enum DealiPlaceholderViewShape {
         return UIColor.b5.cgColor
     }
     
-    var radius: CGFloat {
-        return 6.0
+    func getRadius(for height: CGFloat) -> CGFloat {
+        switch self {
+        case .rectangle:
+            return 6.0
+        case .circle:
+            return height / 2.0
+            
+        }
     }
 }
 
@@ -78,7 +84,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         }
     }
     
-    public var backgroundStyle: DealiPlaceholderBackgroundColor = .ligth {
+    public var backgroundStyle: DealiPlaceholderBackgroundColor = .light {
         didSet {
             self.updateUI()
         }
@@ -127,11 +133,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         self.layer.borderWidth = self.viewShape.borderWidth
         self.layer.borderColor = self.viewShape.borderColor
         
-        if self.isAspectRatioOneToOne() == true && self.viewShape == .circle {
-            self.layer.cornerRadius = self.bounds.size.height / 2.0
-        } else {
-            self.layer.cornerRadius = self.viewShape.radius
-        }
+        self.layer.cornerRadius = self.viewShape.getRadius(for: self.bounds.size.height)
         
         self.updatePlaceholderUI()
     }
@@ -157,18 +159,12 @@ public final class DealiPlaceholderImageView: UIImageView {
                 placeholderImageWidth = parentWidth / 2.5
             }
             
-            /// 1:1 비율에 사이즈일 경우에만 circle 관련 cornerRadius 값이 적용되도록 수정
-            if self.viewShape == .circle {
-                self.layer.cornerRadius = parentWidth / 2.0
-            }
-            
         } else {
             /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
             placeholderImageWidth = parentWidth / 4.0
-            
-            /// 1:1 비율 사이즈가 아닌경우에는 circle 타입이더라도 View가 동그랗게 적용되지 않기 때문에 기본 cornerRadius 값이 적용 되도록 수정
-            self.layer.cornerRadius = self.viewShape.radius
         }
+        
+        self.layer.cornerRadius = self.viewShape.getRadius(for: parentWidth)
         
         self.placeholderImageView.snp.updateConstraints {
             $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageWidth))

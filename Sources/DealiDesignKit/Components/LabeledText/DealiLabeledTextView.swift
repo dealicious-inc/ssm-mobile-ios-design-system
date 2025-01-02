@@ -33,9 +33,10 @@ final public class DealiLabeledTextView: UIView {
         }
     }
     
-    private var numberString: String? {
+    private var number: Int? {
         didSet {
-            guard let numberString = self.numberString, self.preset.style == .number else { return }
+            guard let number = self.number, self.preset.style == .number else { return }
+            let numberString = "\(number)."
             self.numberingLabel.attributedText = NSMutableAttributedString(string: numberString)
                 .font(self.preset.font)
                 .color(self.preset.textColor)
@@ -126,7 +127,7 @@ final public class DealiLabeledTextView: UIView {
         }
         
         self.iconName = model.iconName
-        self.numberString = model.numberString
+        self.number = model.number
         self.labeledCustomView = model.labeledCustomView
     }
     

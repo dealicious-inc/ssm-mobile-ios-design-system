@@ -28,12 +28,13 @@ public class DealiToolTip: UIView {
         super.init(frame: frame)
         
         self.backgroundColor = .clear
+        self.alpha = 0.0
     }
     
     private func setToolTipLayout(arrowPosition: DealiToopTipArrowPosition) {
         self.addSubview(self.arrowImageView)
         self.arrowImageView.then {
-            $0.image = .dealiIcon(named: "tail")
+            $0.image = .dealiIcon(named: "img_tailanchor")
         }.snp.makeConstraints {
             $0.width.equalTo(12.0)
             $0.height.equalTo(6.0)
@@ -65,7 +66,7 @@ public class DealiToolTip: UIView {
         
         self.addSubview(self.containerView)
         self.containerView.then {
-            $0.backgroundColor = UIColor(rgb: 0x3668F4)
+            $0.backgroundColor = .secondary01
             $0.layer.cornerRadius = 6.0
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -89,6 +90,16 @@ public class DealiToolTip: UIView {
         }
     }
     
+    /// 툴팁 노출
+    ///
+    ///  - Parameters:
+    ///   - arrowPosition: 화살표 위치
+    ///   - text: 툴팁에 표시할 텍스트
+    ///   - superView: 툴팁을 추가할 뷰
+    ///   - outsideView: 툴팁 제외한 영역을 클릭했을 때 툴팁을 닫을 뷰
+    ///   - toolTipCondition: 툴팁을 노출할 조건
+    ///   - toolTipLayout: 툴팁 레이아웃
+    ///  - Returns: 툴팁 객체
     @discardableResult
     public static func show(
         arrowPosition: DealiToopTipArrowPosition,
@@ -118,19 +129,45 @@ public class DealiToolTip: UIView {
         dismissView.rx.tapGesture()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
-                toolTip?.removeFromSuperview()
+                toolTip?.dismissToolTip {
+                    toolTip?.removeFromSuperview()
+                }
+                
                 dismissView?.removeFromSuperview()
             }
             .disposed(by: toolTip.disposeBag)
         toolTip.rx.tapGestureOnTop()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
-                toolTip?.removeFromSuperview()
+                toolTip?.dismissToolTip {
+                    toolTip?.removeFromSuperview()
+                }
+                
                 dismissView?.removeFromSuperview()
             }
             .disposed(by: toolTip.disposeBag)
         
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: .curveEaseInOut,
+                       animations: { [weak toolTip] in
+            guard let toolTip else {return}
+            toolTip.alpha = 1.0
+        })
+        
         return toolTip
+    }
+    
+    private func dismissToolTip(completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: .curveEaseInOut,
+                       animations: { [weak self] in
+            guard let self else {return}
+            self.alpha = 0.0
+        }) { _ in
+            completion?()
+        }
     }
     
     required init?(coder: NSCoder) {

@@ -93,14 +93,14 @@ public struct DealiLabeledTextModel {
     public var message: String?
     public var attributedMessage: NSMutableAttributedString?
     public var iconName: String?
-    public var numberString: String?
+    public var number: Int?
     public var labeledCustomView: UIView?
     
-    public init(message: String? = nil, attributedMessage: NSMutableAttributedString? = nil, iconName: String? = nil, numberString: String? = nil, labeledCustomView: UIView? = nil) {
+    public init(message: String? = nil, attributedMessage: NSMutableAttributedString? = nil, iconName: String? = nil, number: Int = 0, labeledCustomView: UIView? = nil) {
         self.message = message
         self.attributedMessage = attributedMessage
         self.iconName = iconName
-        self.numberString = numberString
+        self.number = number
         self.labeledCustomView = labeledCustomView
     }
 }

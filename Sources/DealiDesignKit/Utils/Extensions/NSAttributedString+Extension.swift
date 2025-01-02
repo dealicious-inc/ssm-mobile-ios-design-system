@@ -7,6 +7,18 @@
 
 import UIKit
 
+public struct TextStyleAttributes {
+    var text: String
+    var font: UIFont?
+    var color: UIColor?
+    
+    public init(text: String, font: UIFont? = nil, color: UIColor? = nil) {
+        self.text = text
+        self.font = font
+        self.color = color
+    }
+}
+
 public extension NSMutableAttributedString {
     
     func font(_ font: UIFont) -> NSMutableAttributedString {
@@ -122,33 +134,33 @@ public extension NSMutableAttributedString {
         return self
     }
     
-    func updateAttributes(for string: String, font: UIFont? = nil, color: UIColor? = nil) -> NSMutableAttributedString {
+    func updateAttributes(for textStyle: TextStyleAttributes) -> NSMutableAttributedString {
         let source = self.string
         
         guard source.isEmpty == false else { return self }
         
-        let updateRange = (source as NSString).range(of: string)
-        if let font {
+        let updateRange = (source as NSString).range(of: textStyle.text)
+        if let font = textStyle.font {
             self.addAttribute(.font, value: font, range: updateRange)
         }
-        if let color {
+        if let color = textStyle.color {
             self.addAttribute(.foregroundColor, value: color, range: updateRange)
         }
         return self
     }
     
     /// stringArray와 대응되는 index의 font와 color를 사용합니다.
-    func updateMultipleAttributes(for stringArray: [String], fontArray: [UIFont] = [], colorArray: [UIColor] = []) -> NSMutableAttributedString {
+    func updateMultipleAttributes(for textStyleArray: [TextStyleAttributes]) -> NSMutableAttributedString {
         let source = self.string
         
         guard source.isEmpty == false else { return self }
         
-        for (index, string) in stringArray.enumerated() {
-            let updateRange = (source as NSString).range(of: string)
-            if let font = fontArray[safe: index] {
+        for (index, textStyle) in textStyleArray.enumerated() {
+            let updateRange = (source as NSString).range(of: textStyle.text)
+            if let font = textStyle.font {
                 self.addAttribute(.font, value: font, range: updateRange)
             }
-            if let color = colorArray[safe: index] {
+            if let color = textStyle.color {
                 self.addAttribute(.foregroundColor, value: color, range: updateRange)
             }
         }

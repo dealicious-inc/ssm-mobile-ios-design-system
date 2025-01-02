@@ -139,9 +139,7 @@ public class DealiLabeledTextGroupView: UIView {
         
         for (index, model) in modelArray.enumerated() {
             var cModel = model
-            if cModel.numberString == nil {
-                cModel.numberString = "\(index + 1)."
-            }
+            cModel.number = (index + 1)
             
             let itemView = DealiLabeledTextView(preset: self.preset)
             self.labeledTextStackView.addArrangedSubview(itemView)

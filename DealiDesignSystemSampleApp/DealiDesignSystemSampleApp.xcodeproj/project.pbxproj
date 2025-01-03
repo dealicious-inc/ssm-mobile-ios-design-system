@@ -28,7 +28,7 @@
 		396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */; };
 		396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */; };
 		396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */; };
-		3990E48D2CC61E90007C2D9E /* DescriptionComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990E48C2CC61E90007C2D9E /* DescriptionComponentViewController.swift */; };
+		3990E48D2CC61E90007C2D9E /* LabeledTextComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */; };
 		3990E48F2CC639C3007C2D9E /* AccordionComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */; };
 		39AE99772CF47D8B007CF381 /* DealiTabBarChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */; };
 		39AE99782CF47D8B007CF381 /* DealiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */; };
@@ -75,7 +75,7 @@
 		396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckComponentViewController.swift; sourceTree = "<group>"; };
 		396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
-		3990E48C2CC61E90007C2D9E /* DescriptionComponentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionComponentViewController.swift; sourceTree = "<group>"; };
+		3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabeledTextComponentViewController.swift; sourceTree = "<group>"; };
 		3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccordionComponentViewController.swift; sourceTree = "<group>"; };
 		39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarChildViewController.swift; sourceTree = "<group>"; };
 		39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarViewController.swift; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 				E6C115E42BE4855A00032960 /* IndicatorViewController.swift */,
 				393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */,
 				392C389B2C4654CA0088D176 /* BottomSheetTestViewController.swift */,
-				3990E48C2CC61E90007C2D9E /* DescriptionComponentViewController.swift */,
+				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
 				3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */,
 				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
 			);
@@ -372,7 +372,7 @@
 				390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */,
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
 				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
-				3990E48D2CC61E90007C2D9E /* DescriptionComponentViewController.swift in Sources */,
+				3990E48D2CC61E90007C2D9E /* LabeledTextComponentViewController.swift in Sources */,
 				FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */,
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,

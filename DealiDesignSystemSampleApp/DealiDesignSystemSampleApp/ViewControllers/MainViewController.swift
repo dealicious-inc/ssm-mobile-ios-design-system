@@ -192,11 +192,11 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
         }
         
-        let descriptionComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(descriptionComponents)
-        descriptionComponents.do {
-            $0.title = "Description Components"
-            $0.addTarget(self, action: #selector(descriptionComponentsPressed), for: .touchUpInside)
+        let labeledTextComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(labeledTextComponents)
+        labeledTextComponents.do {
+            $0.title = "Labeled Text Components"
+            $0.addTarget(self, action: #selector(labeledTextComponentsPressed), for: .touchUpInside)
         }
         
         let accordionComponents = DealiControl.btnOutlineLarge03()
@@ -308,8 +308,8 @@ extension MainViewController {
         self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
     }
     
-    @objc func descriptionComponentsPressed() {
-        self.navigationController?.pushViewController(DescriptionComponentViewController(), animated: true)
+    @objc func labeledTextComponentsPressed() {
+        self.navigationController?.pushViewController(LabeledTextComponentViewController(), animated: true)
     }
     
     @objc func accordionComponentsPressed() {

@@ -206,6 +206,13 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
         }
         
+        let noticeComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(noticeComponents)
+        noticeComponents.do {
+            $0.title = "Notice Components"
+            $0.addTarget(self, action: #selector(noticeComponentsPressed), for: .touchUpInside)
+        }
+      
         let placeholderImageViewComponents = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(placeholderImageViewComponents)
         placeholderImageViewComponents.do {
@@ -316,6 +323,10 @@ extension MainViewController {
         self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
     }
     
+    @objc func noticeComponentsPressed() {
+        self.navigationController?.pushViewController(NoticeViewController(), animated: true)
+    }
+  
     @objc func placeholderImageViewComponentsPressed() {
         self.navigationController?.pushViewController(PlaceholderImageViewController(), animated: true)
     }

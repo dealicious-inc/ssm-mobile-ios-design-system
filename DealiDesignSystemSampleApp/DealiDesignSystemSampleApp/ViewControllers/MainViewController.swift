@@ -100,6 +100,7 @@ final class MainViewController: UIViewController {
         self.addComponents(title: "Labeled Text Components", actionSelector: #selector(labeledTextComponentsPressed))
         self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
         self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
+        self.addComponents(title: "Notice Components", actionSelector: #selector(noticeComponentsPressed))
     }
 }
 
@@ -197,9 +198,13 @@ extension MainViewController {
     @objc func accordionComponentsPressed() {
         self.pushViewController(AccordionComponentViewController())
     }
-    
+  
     @objc func placeholderImageViewComponentsPressed() {
         self.pushViewController(PlaceholderImageViewController())
+    }
+    
+    @objc func noticeComponentsPressed() {
+        self.pushViewController(NoticeViewController())
     }
 }
 

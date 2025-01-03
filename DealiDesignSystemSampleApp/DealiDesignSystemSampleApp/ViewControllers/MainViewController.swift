@@ -53,29 +53,7 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
         }
         
-        self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
-        self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
-        self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
-        self.addComponents(title: "Color", actionSelector: #selector(colorButtonPressed))
-        self.addComponents(title: "BottomSheetPopup", actionSelector: #selector(bottomSheetPopupButtonPressed))
-        self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
-        self.addComponents(title: "RadioButton", actionSelector: #selector(radioButtonPressed))
-        self.addComponents(title: "Button Components", actionSelector: #selector(buttonComponentButtonPressed))
-        self.addComponents(title: "TextLink Components", actionSelector: #selector(textLinkComponentButtonPressed))
-        self.addComponents(title: "Chip Components", actionSelector: #selector(chipButtonPressed))
-        self.addComponents(title: "Image Chip Components", actionSelector: #selector(imageChipButtonPressed))
-        self.addComponents(title: "Toggle/Switch", actionSelector: #selector(toggleButtonPressed))
-        self.addComponents(title: "SliderBar", actionSelector: #selector(sliderBarButtonPressed))
-        self.addComponents(title: "TextInput Components", actionSelector: #selector(textInputButtonPressed))
-        self.addComponents(title: "TextArea Components", actionSelector: #selector(textAreaButtonPressed))
-        self.addComponents(title: "SearchInput Components", actionSelector: #selector(searchInputButtonPressed))
-        self.addComponents(title: "Tag Components", actionSelector: #selector(tagButtonPressed))
-        self.addComponents(title: "Check Components", actionSelector: #selector(checkComponentsPressed))
-        self.addComponents(title: "Indicator Components", actionSelector: #selector(indicatorComponentsPressed))
-        self.addComponents(title: "Empty Components", actionSelector: #selector(emptyComponentsPressed))
-        self.addComponents(title: "Description Components", actionSelector: #selector(descriptionComponentsPressed))
-        self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
-        
+        self.addComponentsButtons()
         self.setComponentBtnsStorerdByTitle()
     }
     
@@ -96,6 +74,32 @@ final class MainViewController: UIViewController {
             $0.title = title
             $0.addTarget(self, action: actionSelector, for: .touchUpInside)
         }
+    }
+    
+    private func addComponentsButtons() {
+        self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
+        self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
+        self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
+        self.addComponents(title: "Color", actionSelector: #selector(colorButtonPressed))
+        self.addComponents(title: "BottomSheetPopup", actionSelector: #selector(bottomSheetPopupButtonPressed))
+        self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
+        self.addComponents(title: "RadioButton", actionSelector: #selector(radioButtonPressed))
+        self.addComponents(title: "Button Components", actionSelector: #selector(buttonComponentButtonPressed))
+        self.addComponents(title: "TextLink Components", actionSelector: #selector(textLinkComponentButtonPressed))
+        self.addComponents(title: "Chip Components", actionSelector: #selector(chipButtonPressed))
+        self.addComponents(title: "Image Chip Components", actionSelector: #selector(imageChipButtonPressed))
+        self.addComponents(title: "Toggle/Switch", actionSelector: #selector(toggleButtonPressed))
+        self.addComponents(title: "SliderBar", actionSelector: #selector(sliderBarButtonPressed))
+        self.addComponents(title: "TextInput Components", actionSelector: #selector(textInputButtonPressed))
+        self.addComponents(title: "TextArea Components", actionSelector: #selector(textAreaButtonPressed))
+        self.addComponents(title: "SearchInput Components", actionSelector: #selector(searchInputButtonPressed))
+        self.addComponents(title: "Tag Components", actionSelector: #selector(tagButtonPressed))
+        self.addComponents(title: "Check Components", actionSelector: #selector(checkComponentsPressed))
+        self.addComponents(title: "Indicator Components", actionSelector: #selector(indicatorComponentsPressed))
+        self.addComponents(title: "Empty Components", actionSelector: #selector(emptyComponentsPressed))
+        self.addComponents(title: "Labeled Text Components", actionSelector: #selector(labeledTextComponentsPressed))
+        self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
+        self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
     }
 }
 
@@ -186,12 +190,16 @@ extension MainViewController {
         self.pushViewController(EmptyComponentViewController())
     }
     
-    @objc func descriptionComponentsPressed() {
-        self.pushViewController(DescriptionComponentViewController())
+    @objc func labeledTextComponentsPressed() {
+        self.pushViewController(LabeledTextComponentViewController())
     }
     
     @objc func accordionComponentsPressed() {
         self.pushViewController(AccordionComponentViewController())
+    }
+    
+    @objc func placeholderImageViewComponentsPressed() {
+        self.pushViewController(PlaceholderImageViewController())
     }
 }
 

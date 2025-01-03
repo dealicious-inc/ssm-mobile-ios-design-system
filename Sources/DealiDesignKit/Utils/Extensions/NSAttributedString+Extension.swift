@@ -137,7 +137,7 @@ public extension NSMutableAttributedString {
     func updateAttributes(for textStyle: TextStyleAttributes) -> NSMutableAttributedString {
         let source = self.string
         
-        guard source.isEmpty == false else { return self }
+        guard source.isEmpty == false, source.contains(textStyle.text) == true else { return self }
         
         let updateRange = (source as NSString).range(of: textStyle.text)
         if let font = textStyle.font {
@@ -155,13 +155,15 @@ public extension NSMutableAttributedString {
         
         guard source.isEmpty == false else { return self }
         
-        for (index, textStyle) in textStyleArray.enumerated() {
-            let updateRange = (source as NSString).range(of: textStyle.text)
-            if let font = textStyle.font {
-                self.addAttribute(.font, value: font, range: updateRange)
-            }
-            if let color = textStyle.color {
-                self.addAttribute(.foregroundColor, value: color, range: updateRange)
+        for (_, textStyle) in textStyleArray.enumerated() {
+            if source.contains(textStyle.text) {
+                let updateRange = (source as NSString).range(of: textStyle.text)
+                if let font = textStyle.font {
+                    self.addAttribute(.font, value: font, range: updateRange)
+                }
+                if let color = textStyle.color {
+                    self.addAttribute(.foregroundColor, value: color, range: updateRange)
+                }
             }
         }
         return self

@@ -33,6 +33,7 @@
 		39AE99772CF47D8B007CF381 /* DealiTabBarChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */; };
 		39AE99782CF47D8B007CF381 /* DealiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */; };
 		39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99792CF47D9E007CF381 /* TabBarViewController.swift */; };
+		39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
@@ -80,6 +81,7 @@
 		39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarChildViewController.swift; sourceTree = "<group>"; };
 		39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarViewController.swift; sourceTree = "<group>"; };
 		39AE99792CF47D9E007CF381 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImageViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				392C389B2C4654CA0088D176 /* BottomSheetTestViewController.swift */,
 				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
 				3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */,
+				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
 			);
 			path = Sub;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
+				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,

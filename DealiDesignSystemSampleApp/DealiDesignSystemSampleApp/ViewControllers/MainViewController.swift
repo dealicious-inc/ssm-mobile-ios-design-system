@@ -212,6 +212,13 @@ final class MainViewController: UIViewController {
             $0.title = "Notice Components"
             $0.addTarget(self, action: #selector(noticeComponentsPressed), for: .touchUpInside)
         }
+      
+        let placeholderImageViewComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(placeholderImageViewComponents)
+        placeholderImageViewComponents.do {
+            $0.title = "PlaceholderImageView Components"
+            $0.addTarget(self, action: #selector(placeholderImageViewComponentsPressed), for: .touchUpInside)
+        }
     }
     
     override func viewDidLoad() {
@@ -319,4 +326,9 @@ extension MainViewController {
     @objc func noticeComponentsPressed() {
         self.navigationController?.pushViewController(NoticeViewController(), animated: true)
     }
+  
+    @objc func placeholderImageViewComponentsPressed() {
+        self.navigationController?.pushViewController(PlaceholderImageViewController(), animated: true)
+    }
 }
+

@@ -1,5 +1,5 @@
 # DealiDesignKit
-<img alt="Static Badge" src="https://img.shields.io/badge/Swift_Package_Manager-compatible-green">
+<img alt="Static Badge" src="https://img.shields.io/badge/Swift_Package_Manager-compatible-brightgreen">
 
 딜리셔스의 디자인시스템을 구현한 SwiftPackage 입니다.
 

@@ -73,4 +73,6 @@ public extension UIColor {
 public extension UIColor {
     static var mbs01: UIColor { MBSColor.mbs01.uiColor() }
     static var mbs02: UIColor { MBSColor.mbs02.uiColor() }
+    @available(*, deprecated, message: "Use MbsGradient.gradient01.colors instead")
+    static var mbsGradient: [UIColor] { MbsGradient.gradient01.colors }
 }

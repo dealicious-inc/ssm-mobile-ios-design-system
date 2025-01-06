@@ -61,7 +61,7 @@ final class PlaceholderImageViewController: UIViewController {
         self.rectanglePlaceholderImageView01.then {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
-            $0.viewShape = .rectangle([.topLeft, .bottomLeft])
+            $0.viewShape = .rectangle([])
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 50.0, height: 50.0))
         }

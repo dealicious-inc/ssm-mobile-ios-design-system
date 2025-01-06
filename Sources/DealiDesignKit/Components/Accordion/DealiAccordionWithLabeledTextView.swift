@@ -15,11 +15,11 @@ final public class DealiAccordionWithLabeledTextView: DealiAccordionView {
             var itemViewArray: [UIView] = []
             
             for (_, model) in self.accordionLabeledTextModelArray.enumerated() {
-                let labeledTextGroupView = DealiLabeledTextGroupView(preset: model.labeledPreset)
+                let labeledTextGroupView = DealiLabeledTextGroupView(preset: model.preset)
                 labeledTextGroupView.do {
-                    $0.title = model.labeledTitle
-                    $0.titleImageName = model.labeledTitleImageName
-                    $0.configure(modelArray: model.labeledModelArray)
+                    $0.title = model.title
+                    $0.titleImageName = model.titleImageName
+                    $0.configure(modelArray: model.modelArray)
                 }
                 itemViewArray.append(labeledTextGroupView)
             }
@@ -30,15 +30,15 @@ final public class DealiAccordionWithLabeledTextView: DealiAccordionView {
 }
 
 public struct DealiAccordionLabeledTextModel {
-    var labeledPreset: DealiLabeledTextPreset = .labeledTextBullet01
-    var labeledModelArray: [DealiLabeledTextModel] = []
-    var labeledTitle: String?
-    var labeledTitleImageName: String?
+    var preset: DealiLabeledTextPreset = .labeledTextBullet01
+    var modelArray: [DealiLabeledTextModel] = []
+    var title: String?
+    var titleImageName: String?
     
-    public init(labeledPreset: DealiLabeledTextPreset, labeledModelArray: [DealiLabeledTextModel], labeledTitle: String? = nil, labeledTitleImageName: String? = nil) {
-        self.labeledPreset = labeledPreset
-        self.labeledModelArray = labeledModelArray
-        self.labeledTitle = labeledTitle
-        self.labeledTitleImageName = labeledTitleImageName
+    public init(preset: DealiLabeledTextPreset, modelArray: [DealiLabeledTextModel], title: String? = nil, titleImageName: String? = nil) {
+        self.preset = preset
+        self.modelArray = modelArray
+        self.title = title
+        self.titleImageName = titleImageName
     }
 }

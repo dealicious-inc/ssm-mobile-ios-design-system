@@ -51,7 +51,7 @@ public enum DealiPlaceholderBackgroundColor {
 
 public enum DealiPlaceholderViewShape: RadiusProvider {
     /// 사각형 형태의 imageView
-    case rectangle
+    case rectangle(_ corners: UIRectCorner)
     /// 동그란 형태의 imageView
     case circle
     
@@ -65,7 +65,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     
     func getRadius(for height: CGFloat) -> CGFloat {
         switch self {
-        case .rectangle:
+        case .rectangle(_):
             return 6.0
         case .circle:
             return height / 2.0
@@ -90,7 +90,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         }
     }
     
-    public var viewShape: DealiPlaceholderViewShape = .rectangle {
+    public var viewShape: DealiPlaceholderViewShape = .rectangle(.allCorners) {
         didSet {
             self.updateUI()
         }
@@ -133,7 +133,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         self.layer.borderWidth = self.viewShape.borderWidth
         self.layer.borderColor = self.viewShape.borderColor
         
-        self.layer.cornerRadius = self.viewShape.getRadius(for: self.bounds.size.height)
+        self.setRoundCorners()
         
         self.updatePlaceholderUI()
     }
@@ -164,7 +164,7 @@ public final class DealiPlaceholderImageView: UIImageView {
             placeholderImageWidth = parentWidth / 4.0
         }
         
-        self.layer.cornerRadius = self.viewShape.getRadius(for: parentWidth)
+        self.setRoundCorners()
         
         self.placeholderImageView.snp.updateConstraints {
             $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageWidth))
@@ -181,15 +181,38 @@ public final class DealiPlaceholderImageView: UIImageView {
             return false
         }
     }
-
-}
-
-public extension DealiPlaceholderImageView {
     
-    func addImageMarkingView(view: UIImageView, layout: (_ make: ConstraintMaker) -> Void) {
-        self.addSubview(view)
-        view.snp.makeConstraints {
-            layout($0)
+    private func setRoundCorners() {
+        let sublayer = self.layer.sublayers ?? [CALayer]()
+        for layer in sublayer {
+            if layer.name == "placeholderImagelayer" {
+                layer.removeFromSuperlayer()
+            }
         }
+        
+        let radius = self.viewShape.getRadius(for: self.bounds.size.height)
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        
+        switch self.viewShape {
+        case .rectangle(let corners):
+            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+        default:
+            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+        }
+        
+        self.layer.mask = maskLayer
+        
+        // Add border
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = maskLayer.path // Reuse the Bezier path
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = self.viewShape.borderColor
+        borderLayer.lineWidth = self.viewShape.borderWidth
+        borderLayer.frame = bounds
+        borderLayer.name = "placeholderImagelayer"
+        self.layer.insertSublayer(borderLayer, at: 0)
     }
+
 }

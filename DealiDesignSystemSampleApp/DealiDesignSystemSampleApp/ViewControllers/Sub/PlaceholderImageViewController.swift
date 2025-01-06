@@ -61,7 +61,7 @@ final class PlaceholderImageViewController: UIViewController {
         self.rectanglePlaceholderImageView01.then {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
-            $0.viewShape = .rectangle
+            $0.viewShape = .rectangle([])
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 50.0, height: 50.0))
         }
@@ -110,6 +110,113 @@ final class PlaceholderImageViewController: UIViewController {
             $0.center.equalToSuperview()
             $0.top.bottom.equalToSuperview().inset(25.0)
             $0.width.equalTo(100.0)
+        }
+        
+        let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
+        
+        let hOneCornerStackView = UIStackView()
+        contentStackView.addArrangedSubview(hOneCornerStackView)
+        hOneCornerStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 16.0
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(12.0)
+        }
+        
+        for i in 0..<4 {
+            let phImageView = DealiPlaceholderImageView()
+            hOneCornerStackView.addArrangedSubview(phImageView)
+            phImageView.then {
+                $0.imageStyle = ((i % 2) == 0 ? .store : .goods)
+                $0.backgroundStyle = .dark
+                switch i {
+                case 0:
+                    $0.viewShape = .rectangle(.topLeft)
+                case 1:
+                    $0.viewShape = .rectangle(.topRight)
+                case 2:
+                    $0.viewShape = .rectangle(.bottomRight)
+                case 3:
+                    $0.viewShape = .rectangle(.bottomLeft)
+                default:
+                    break
+                }
+                
+            }.snp.makeConstraints {
+                $0.size.equalTo(imageViewWidth)
+            }
+        }
+        
+        let hTwoCornerStackView = UIStackView()
+        contentStackView.addArrangedSubview(hTwoCornerStackView)
+        hTwoCornerStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 16.0
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(12.0)
+        }
+        
+        for i in 0..<4 {
+            let phImageView = DealiPlaceholderImageView()
+            hTwoCornerStackView.addArrangedSubview(phImageView)
+            phImageView.then {
+                $0.imageStyle = ((i % 2) == 0 ? .store : .goods)
+                $0.backgroundStyle = .dark
+                switch i {
+                case 0:
+                    $0.viewShape = .rectangle([.topLeft, .topRight])
+                case 1:
+                    $0.viewShape = .rectangle([.topRight, .bottomRight])
+                case 2:
+                    $0.viewShape = .rectangle([.bottomRight, .bottomLeft])
+                case 3:
+                    $0.viewShape = .rectangle([.bottomLeft, .topLeft])
+                default:
+                    break
+                }
+                
+            }.snp.makeConstraints {
+                $0.size.equalTo(imageViewWidth)
+            }
+        }
+        
+        let hThreeCornerStackView = UIStackView()
+        contentStackView.addArrangedSubview(hThreeCornerStackView)
+        hThreeCornerStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 16.0
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(12.0)
+        }
+        
+        for i in 0..<4 {
+            let phImageView = DealiPlaceholderImageView()
+            hThreeCornerStackView.addArrangedSubview(phImageView)
+            phImageView.then {
+                $0.imageStyle = ((i % 2) == 0 ? .store : .goods)
+                $0.backgroundStyle = .dark
+                switch i {
+                case 0:
+                    $0.viewShape = .rectangle([.topLeft, .topRight, .bottomRight])
+                case 1:
+                    $0.viewShape = .rectangle([.topRight, .bottomRight, .bottomLeft])
+                case 2:
+                    $0.viewShape = .rectangle([.bottomRight, .bottomLeft, .topLeft])
+                case 3:
+                    $0.viewShape = .rectangle([.bottomLeft, .topLeft, .topRight])
+                default:
+                    break
+                }
+                
+            }.snp.makeConstraints {
+                $0.size.equalTo(imageViewWidth)
+            }
         }
     }
 }

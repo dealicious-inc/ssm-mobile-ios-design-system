@@ -12,6 +12,8 @@ import DealiDesignKit
 
 final class MainViewController: UIViewController {
     
+    private let contentStackView = UIStackView()
+    private var componentButtonArray: [ClickableComponentButton] = []
     
     override func loadView() {
         self.view = .init()
@@ -34,9 +36,8 @@ final class MainViewController: UIViewController {
             $0.width.equalToSuperview()
         }
         
-        let contentStackView = UIStackView()
-        contentView.addSubview(contentStackView)
-        contentStackView.then {
+        contentView.addSubview(self.contentStackView)
+        self.contentStackView.then {
             $0.axis = .vertical
             $0.spacing = 20.0
         }.snp.makeConstraints {
@@ -52,165 +53,54 @@ final class MainViewController: UIViewController {
             $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
         }
         
-        let tabBarViewController = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tabBarViewController)
-        tabBarViewController.do {
-            $0.title = "TabBar Controller"
-            $0.addTarget(self, action: #selector(tabBarViewControllerPressed), for: .touchUpInside)
+        self.addComponentsButtons()
+        self.setComponentBtnsStorerdByTitle()
+    }
+    
+    private func setComponentBtnsStorerdByTitle() {
+        let sortedButtons = self.componentButtonArray.sorted { (button1, button2) -> Bool in
+            let title1 = button1.title ?? ""
+            let title2 = button2.title ?? ""
+            return title1 < title2
         }
         
-        let fontButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(fontButton)
-        fontButton.do {
-            $0.title = "Typography"
-            $0.addTarget(self, action: #selector(typoButtonPressed), for: .touchUpInside)
-        }
-        
-        let fontComponentButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(fontComponentButton)
-        fontComponentButton.do {
-            $0.title = "Font"
-            $0.addTarget(self, action: #selector(fontComponentButtonPressed), for: .touchUpInside)
-        }
-        
-        let colorButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(colorButton)
-        colorButton.do {
-            $0.title = "Color"
-            $0.addTarget(self, action: #selector(colorButtonPressed), for: .touchUpInside)
-        }
-        
-        let bottomSheetPopupButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(bottomSheetPopupButton)
-        bottomSheetPopupButton.do {
-            $0.title = "BottomSheetPopup"
-            $0.addTarget(self, action: #selector(bottomSheetPopupButtonPressed), for: .touchUpInside)
-        }
-        
-        let alertButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(alertButton)
-        alertButton.do {
-            $0.title = "Alert"
-            $0.addTarget(self, action: #selector(alertButtonPressed), for: .touchUpInside)
-        }
-        
-        let radioButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(radioButton)
-        radioButton.do {
-            $0.title = "RadioButton"
-            $0.addTarget(self, action: #selector(radioButtonPressed), for: .touchUpInside)
-        }
-        
-        let buttonComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(buttonComponentsButton)
-        buttonComponentsButton.do {
-            $0.title = "Button Components"
-            $0.addTarget(self, action: #selector(buttonComponentButtonPressed), for: .touchUpInside)
-        }
-        
-        let textLinkButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(textLinkButton)
-        textLinkButton.do {
-            $0.title = "TextLink Components"
-            $0.addTarget(self, action: #selector(textLinkComponentButtonPressed), for: .touchUpInside)
-        }
-        
-        let chipComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(chipComponentsButton)
-        chipComponentsButton.do {
-            $0.title = "Chip Components"
-            $0.addTarget(self, action: #selector(chipButtonPressed), for: .touchUpInside)
-        }
-        
-        let imageChipComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(imageChipComponentsButton)
-        imageChipComponentsButton.do {
-            $0.title = "Image Chip Components"
-            $0.addTarget(self, action: #selector(imageChipButtonPressed), for: .touchUpInside)
-        }
-        
-        let switchComponentButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(switchComponentButton)
-        switchComponentButton.do {
-            $0.title = "Toggle/Switch"
-            $0.addTarget(self, action: #selector(toggleButtonPressed), for: .touchUpInside)
-        }
-        
-        let sliderBarComponentButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(sliderBarComponentButton)
-        sliderBarComponentButton.do {
-            $0.title = "SliderBar"
-            $0.addTarget(self, action: #selector(sliderBarButtonPressed), for: .touchUpInside)
-        }
-        
-        let textInputComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(textInputComponentsButton)
-        textInputComponentsButton.do {
-            $0.title = "TextInput Components"
-            $0.addTarget(self, action: #selector(textInputButtonPressed), for: .touchUpInside)
-        }
-        
-        let textAreaComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(textAreaComponentsButton)
-        textAreaComponentsButton.do {
-            $0.title = "TextArea Components"
-            $0.addTarget(self, action: #selector(textAreaButtonPressed), for: .touchUpInside)
-        }
-        
-        let searchInputComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(searchInputComponentsButton)
-        searchInputComponentsButton.do {
-            $0.title = "SearchInput Components"
-            $0.addTarget(self, action: #selector(searchInputButtonPressed), for: .touchUpInside)
-        }
-        
-        let tagComponentsButton = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(tagComponentsButton)
-        tagComponentsButton.do {
-            $0.title = "Tag Components"
-            $0.addTarget(self, action: #selector(tagButtonPressed), for: .touchUpInside)
-        }
-        
-        let checkComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(checkComponents)
-        checkComponents.do {
-            $0.title = "Check Components"
-            $0.addTarget(self, action: #selector(checkComponentsPressed), for: .touchUpInside)
-        }
-        
-        let indicatorComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(indicatorComponents)
-        indicatorComponents.do {
-            $0.title = "Indicator Components"
-            $0.addTarget(self, action: #selector(indicatorComponentsPressed), for: .touchUpInside)
-        }
-        
-        let emptyComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(emptyComponents)
-        emptyComponents.do {
-            $0.title = "Empty Components"
-            $0.addTarget(self, action: #selector(emptyComponentsPressed), for: .touchUpInside)
-        }
-        
-        let labeledTextComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(labeledTextComponents)
-        labeledTextComponents.do {
-            $0.title = "Labeled Text Components"
-            $0.addTarget(self, action: #selector(labeledTextComponentsPressed), for: .touchUpInside)
-        }
-        
+        sortedButtons.forEach { self.contentStackView.addArrangedSubview($0) }
+    }
+    
+    private func addComponents(title: String, actionSelector: Selector) {
         let accordionComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(accordionComponents)
+        self.componentButtonArray.append(accordionComponents)
         accordionComponents.do {
-            $0.title = "Accordion Components"
-            $0.addTarget(self, action: #selector(accordionComponentsPressed), for: .touchUpInside)
+            $0.title = title
+            $0.addTarget(self, action: actionSelector, for: .touchUpInside)
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
+    private func addComponentsButtons() {
+        self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
+        self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
+        self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
+        self.addComponents(title: "Color", actionSelector: #selector(colorButtonPressed))
+        self.addComponents(title: "BottomSheetPopup", actionSelector: #selector(bottomSheetPopupButtonPressed))
+        self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
+        self.addComponents(title: "RadioButton", actionSelector: #selector(radioButtonPressed))
+        self.addComponents(title: "Button Components", actionSelector: #selector(buttonComponentButtonPressed))
+        self.addComponents(title: "TextLink Components", actionSelector: #selector(textLinkComponentButtonPressed))
+        self.addComponents(title: "Chip Components", actionSelector: #selector(chipButtonPressed))
+        self.addComponents(title: "Image Chip Components", actionSelector: #selector(imageChipButtonPressed))
+        self.addComponents(title: "Toggle/Switch", actionSelector: #selector(toggleButtonPressed))
+        self.addComponents(title: "SliderBar", actionSelector: #selector(sliderBarButtonPressed))
+        self.addComponents(title: "TextInput Components", actionSelector: #selector(textInputButtonPressed))
+        self.addComponents(title: "TextArea Components", actionSelector: #selector(textAreaButtonPressed))
+        self.addComponents(title: "SearchInput Components", actionSelector: #selector(searchInputButtonPressed))
+        self.addComponents(title: "Tag Components", actionSelector: #selector(tagButtonPressed))
+        self.addComponents(title: "Check Components", actionSelector: #selector(checkComponentsPressed))
+        self.addComponents(title: "Indicator Components", actionSelector: #selector(indicatorComponentsPressed))
+        self.addComponents(title: "Empty Components", actionSelector: #selector(emptyComponentsPressed))
+        self.addComponents(title: "Labeled Text Components", actionSelector: #selector(labeledTextComponentsPressed))
+        self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
+        self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
+        self.addComponents(title: "Notice Components", actionSelector: #selector(noticeComponentsPressed))
     }
 }
 
@@ -218,94 +108,109 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     
     @objc func tabBarViewControllerPressed() {
-        self.navigationController?.pushViewController(TabBarViewController(), animated: true)
+        self.pushViewController(TabBarViewController())
     }
     
     @objc func buttonComponentButtonPressed() {
-        self.navigationController?.pushViewController(ButtonViewController(), animated: true)
+        self.pushViewController(ButtonViewController())
     }
     
     @objc func textLinkComponentButtonPressed() {
-        self.navigationController?.pushViewController(TextLinkViewController(), animated: true)
+        self.pushViewController(TextLinkViewController())
     }
     
     @objc func colorButtonPressed() {
-        self.navigationController?.pushViewController(ColorViewController(), animated: true)
+        self.pushViewController(ColorViewController())
     }
     
     @objc func playButtonPressed() {
-        self.navigationController?.pushViewController(DealiPlaygroundViewController(), animated: true)
+        self.pushViewController(DealiPlaygroundViewController())
     }
     
     @objc func typoButtonPressed() {
-        self.navigationController?.pushViewController(TypographyViewController(), animated: true)
+        self.pushViewController(TypographyViewController())
     }
     
     @objc func fontComponentButtonPressed() {
-        self.navigationController?.pushViewController(FontComponentViewController(), animated: true)
+        self.pushViewController(FontComponentViewController())
     }
     
     @objc func bottomSheetPopupButtonPressed() {
-        self.navigationController?.pushViewController(BottomSheetPopupTestViewController(), animated: true)
+        self.pushViewController(BottomSheetPopupTestViewController())
     }
     
     @objc func alertButtonPressed() {
-        self.navigationController?.pushViewController(AlertTestViewController(), animated: true)
+        self.pushViewController(AlertTestViewController())
     }
     
     @objc func radioButtonPressed() {
-        self.navigationController?.pushViewController(RadioButtonViewController(), animated: true)
+        self.pushViewController(RadioButtonViewController())
     }
     
     @objc func chipButtonPressed() {
-        self.navigationController?.pushViewController(ChipViewController(), animated: true)
+        self.pushViewController(ChipViewController())
     }
     
     @objc func imageChipButtonPressed() {
-        self.navigationController?.pushViewController(ImageChipViewController(), animated: true)
+        self.pushViewController(ImageChipViewController())
     }
     
     @objc func textInputButtonPressed() {
-        self.navigationController?.pushViewController(TextInputViewController(), animated: true)
+        self.pushViewController(TextInputViewController())
     }
     
     @objc func textAreaButtonPressed() {
-        self.navigationController?.pushViewController(TextAreaViewController(), animated: true)
+        self.pushViewController(TextAreaViewController())
     }
     
     @objc func searchInputButtonPressed() {
-        self.navigationController?.pushViewController(SearchInputViewController(), animated: true)
+        self.pushViewController(SearchInputViewController())
     }
     
     @objc func toggleButtonPressed() {
-        self.navigationController?.pushViewController(SwitchViewController(), animated: true)
+        self.pushViewController(SwitchViewController())
     }
     
     @objc func sliderBarButtonPressed() {
-        self.navigationController?.pushViewController(SliderBarViewController(), animated: true)
+        self.pushViewController(SliderBarViewController())
     }
     
     @objc func tagButtonPressed() {
-        self.navigationController?.pushViewController(TagViewController(), animated: true)
+        self.pushViewController(TagViewController())
     }
     
     @objc func checkComponentsPressed() {
-        self.navigationController?.pushViewController(CheckComponentViewController(), animated: true)
+        self.pushViewController(CheckComponentViewController())
     }
     
     @objc func indicatorComponentsPressed() {
-        self.navigationController?.pushViewController(IndicatorViewController(), animated: true)
+        self.pushViewController(IndicatorViewController())
     }
     
     @objc func emptyComponentsPressed() {
-        self.navigationController?.pushViewController(EmptyComponentViewController(), animated: true)
+        self.pushViewController(EmptyComponentViewController())
     }
     
     @objc func labeledTextComponentsPressed() {
-        self.navigationController?.pushViewController(LabeledTextComponentViewController(), animated: true)
+        self.pushViewController(LabeledTextComponentViewController())
     }
     
     @objc func accordionComponentsPressed() {
-        self.navigationController?.pushViewController(AccordionComponentViewController(), animated: true)
+        self.pushViewController(AccordionComponentViewController())
+    }
+  
+    @objc func placeholderImageViewComponentsPressed() {
+        self.pushViewController(PlaceholderImageViewController())
+    }
+    
+    @objc func noticeComponentsPressed() {
+        self.pushViewController(NoticeViewController())
+    }
+}
+
+//MARK: - UIViewController Extension
+extension UIViewController {
+    func pushViewController(_ viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

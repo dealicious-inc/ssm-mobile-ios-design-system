@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DealiDesignKit
 
 struct ColorView: View {
     var columns = [
@@ -87,13 +88,39 @@ struct ColorView: View {
             ]
         ),
     ]
-                 
+         
     var body: some View {
         ZStack {
             Color(uiColor: .systemFill)
                 .ignoresSafeArea(edges: .all)
             
             ScrollView {
+                VStack {
+                    RepresentedGradientColorItemView(
+                        gradientData: GradientColorData(
+                            name: "primaryGradient",
+                            gradient: PrimaryGradient.gradient
+                        )
+                    )
+                    .frame(height: 100)
+                    
+                    RepresentedGradientColorItemView(
+                        gradientData: GradientColorData(
+                            name: "mbs gradient01",
+                            gradient: MbsGradient.gradient01
+                        )
+                    )
+                    .frame(height: 100)
+                    
+                    RepresentedGradientColorItemView(
+                        gradientData: GradientColorData(
+                            name: "mbs gradient02",
+                            gradient: MbsGradient.gradient02
+                        )
+                    )
+                    .frame(height: 100)
+                }
+                
                 LazyVGrid(columns: columns, pinnedViews: [.sectionHeaders]) {
                     ForEach(sections, id: \.id) { section in
                         
@@ -105,8 +132,8 @@ struct ColorView: View {
                     }
                     
                 }
-                .padding()
             }
+            .padding()
         }
         
     }

@@ -51,7 +51,7 @@ final class AccordionComponentViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview().inset(16.0)
         }
          
-        let accordionView01 = DealiAccordion()
+        let accordionView01 = DealiAccordionView()
         contentStackView.addArrangedSubview(accordionView01)
         accordionView01.then {
             $0.title = "아코디언 01"
@@ -60,7 +60,7 @@ final class AccordionComponentViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionView02 = DealiAccordion()
+        let accordionView02 = DealiAccordionView()
         contentStackView.addArrangedSubview(accordionView02)
         accordionView02.then {
             $0.title = "아코디언 02"
@@ -71,7 +71,7 @@ final class AccordionComponentViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionView03 = DealiAccordion()
+        let accordionView03 = DealiAccordionView()
         contentStackView.addArrangedSubview(accordionView03)
         accordionView03.then {
             $0.title = "아코디언 03"
@@ -81,43 +81,71 @@ final class AccordionComponentViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionWithDescription01 = DealiAccordionWithDescription()
-        contentStackView.addArrangedSubview(accordionWithDescription01)
-        accordionWithDescription01.then {
-            $0.title = "Description Accordion01"
-            $0.descriptionModelArray = [self.createDescriptionItemModel(style: .bullet, count: 5)]
+        let accordionWithLabeledTextBullet01 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextBullet01)
+        accordionWithLabeledTextBullet01.then {
+            $0.title = "LabeledText Accordion Bullet01"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextBullet01, count: 4)]
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionWithDescription02 = DealiAccordionWithDescription()
-        contentStackView.addArrangedSubview(accordionWithDescription02)
-        accordionWithDescription02.then {
-            $0.title = "Description Accordion02"
-            $0.descriptionModelArray = [self.createDescriptionItemModel(style: .numbering, count: 2)]
+        let accordionWithLabeledTextBullet02 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextBullet02)
+        accordionWithLabeledTextBullet02.then {
+            $0.title = "LabeledText Accordion Bullet02"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextBullet02, count: 5)]
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionWithDescription03 = DealiAccordionWithDescription()
-        contentStackView.addArrangedSubview(accordionWithDescription03)
-        accordionWithDescription03.then {
-            $0.title = "Description Accordion03"
-            $0.descriptionModelArray = [self.createDescriptionItemModel(style: .bullet, title: "bullet", count: 3),
-                                        self.createDescriptionItemModel(style: .numbering, title: "numbering", count: 7)]
+        let accordionWithLabeledTextNumber01 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextNumber01)
+        accordionWithLabeledTextNumber01.then {
+            $0.title = "LabeledText Accordion Number01"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextNumber01, count: 6)]
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
         
-        let accordionWithDescription04 = DealiAccordionWithDescription()
-        contentStackView.addArrangedSubview(accordionWithDescription04)
-        accordionWithDescription04.then {
-            $0.title = "Description Accordion04"
-            $0.descriptionModelArray = [self.createDescriptionItemModel(style: .bullet, title: "bullet01", count: 2),
-                                        self.createDescriptionItemModel(style: .numbering, title: "numbering01", count: 4),
-                                        self.createDescriptionItemModel(style: .numbering, title: "numbering02", count: 3),
-                                        self.createDescriptionItemModel(style: .bullet, title: "bullet02", count: 5)]
-            $0.accordionItemSpacing = 12.0
+        let accordionWithLabeledTextNumber02 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextNumber02)
+        accordionWithLabeledTextNumber02.then {
+            $0.title = "LabeledText Accordion Number02"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextNumber02, count: 7)]
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let accordionWithLabeledTextIcon01 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextIcon01)
+        accordionWithLabeledTextIcon01.then {
+            $0.title = "LabeledText Accordion Icon01"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextIcon01, count: 6)]
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let accordionWithLabeledTextIcon02 = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextIcon02)
+        accordionWithLabeledTextIcon02.then {
+            $0.title = "LabeledText Accordion Icon02"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextNumber02, count: 5)]
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let accordionWithLabeledTextTotal = DealiAccordionWithLabeledTextView()
+        contentStackView.addArrangedSubview(accordionWithLabeledTextTotal)
+        accordionWithLabeledTextTotal.then {
+            $0.title = "LabeledText Accordion Total"
+            $0.accordionLabeledTextModelArray = [self.createLabeledTextItemModel(preset: .labeledTextBullet01, title: "Bullet01", count: 1),
+                                                 self.createLabeledTextItemModel(preset: .labeledTextBullet02, title: "Bullet02", titleImageName: "ic_info", count: 2),
+                                                 self.createLabeledTextItemModel(preset: .labeledTextNumber01, title: "Number01", count: 3),
+                                                 self.createLabeledTextItemModel(preset: .labeledTextNumber02, title: "Number02", titleImageName: "ic_info", count: 4),
+                                                 self.createLabeledTextItemModel(preset: .labeledTextIcon01, title: "Icon01", count: 3),
+                                                 self.createLabeledTextItemModel(preset: .labeledTextIcon02, title: "Icon02", titleImageName: "ic_info", count: 2)]
+            $0.accordionItemSpacing = 50.0
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
@@ -138,13 +166,13 @@ final class AccordionComponentViewController: UIViewController {
         return accordionTestViewArray
     }
     
-    private func createDescriptionItemModel(style: DealiDescriptionStyle, title: String? = nil, count: Int) -> DealiDescriptionItemModel {
-        var descriptionStringArray: [String] = []
-        for _ in 0..<count {
-            descriptionStringArray.append("내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")
+    private func createLabeledTextItemModel(preset: DealiLabeledTextPreset, title: String? = nil, titleImageName: String? = nil, count: Int) -> DealiAccordionLabeledTextModel {
+        var labeledModelArray: [DealiLabeledTextModel] = []
+        for index in 0..<count {
+            labeledModelArray.append(DealiLabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하", iconName: ((index % 2 == 0) ? "ic_plus_ad_forward" : "ic_repeat")))
         }
         
-        return DealiDescriptionItemModel(style: style, descriptionStringArray: descriptionStringArray, title: title)
+        return DealiAccordionLabeledTextModel(preset: preset, modelArray: labeledModelArray, title: title, titleImageName: titleImageName)
     }
     
     private func getRandomColor() -> UIColor {

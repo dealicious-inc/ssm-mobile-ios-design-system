@@ -1,70 +1,37 @@
 # DealiDesignKit
+<img alt="Static Badge" src="https://img.shields.io/badge/Swift_Package_Manager-compatible-brightgreen">
 
-딜리셔스 디자인시스템을 iOS 프로젝트에 적용하기 위한 SwiftPackage 입니다. 
+딜리셔스의 디자인시스템을 구현한 SwiftPackage 입니다.
+
+
+## 프로젝트 구성
+
+- `DealiDesignKit` - 디자인시스템을 구현한 Swift Package
+- `DealiDesignSystemSampleApp` - `DealiDesignKit` 모듈을 Local Package 로 보고 있는 샘플 앱입니다. 여기에서 사용방식을 테스트할 수 있고 샘플로 구현된 디자인 시스템 컴포넌트를 볼 수 있습니다. 
+
+## Requirements
+
+- iOS 15.0 +
+
+
+
+## Version
+
+메이저, 마이너 버전은 시스템 상의 변경사항으로 인한 업데이트 패치는 기타 수정사항이 있을 때 업데이트를 반영합니다. 
+
+[디자인시스템 버전관리 문서](https://dealicious.atlassian.net/wiki/spaces/design/pages/3758096531)
+
+## Design Specs
+
+디자인 스펙은 피그마에서 관리하고 있습니다. 
+
 > [모바일 디자인시스템 가이드](https://www.figma.com/file/5WsL9kg8fteVvSDUw4L1s6/%5B%EC%8B%A0%EC%83%81%EB%A7%88%EC%BC%93%5D-M_Design-system-Guide?type=design&node-id=1%3A5&t=n9argT42uUZTYYhE-1) 
 
-## 브랜치 전략
-DealiDesignKit 은 `dev`, `release` 브랜치로 나누어 사용합니다.
-- `dev`: 디자인 시스템 작업 시 사용하는 브랜치.
-- `release`: 디자인 시스템 작업한 부분의 PR 이 완료된 브랜치.
-  
-디자인 시스템에 추가 및 수정이 필요한 부분은 `dev` 에서 작업하여 `release` 로 PR 을 올립니다.
+## Installaltion
 
-## 신상마켓 프로젝트에 사용하는 방법
-- 프로젝트 진행 중일 시: Package의 **`dev` 브랜치의 최신 커밋을 바라보도록** Swift Package 를 연동합니다.
-
-  
-- 앱스토어 검수 등록 시: **`release` 브랜치의 최신 커밋을 바라보도록** 합니다.
-
-
-## 개발에 도움이 되는 팁
-### 1. SwiftUI Preview 활용하기
-> SwiftPackage 특성상 변경사항을 확인하기 위해서는 커밋을 하고, SwiftPackage 를 사용하는 쪽에서 package update를 한 후 새로 빌드해서 확인하는 과정을 거쳐야 합니다. 따라서 작은 수정사항을 확인하기 위해서도 지나치게 많은 커밋과 업데이트, 빌드가 필요했습니다. 이를 줄이기 위해 `UIViewRepresentable` protocol을 준수하는 `UIViewPreview` 를 만들었습니다. 이를 통해 `UIView` 를 SwiftUI의 뷰로 변환해 프리뷰를 사용해 커밋하기 전에 UI 및 간단한 인터렉션을 확인할 수 있도록 하였습니다. 
-
-사용 시에는 UIView 를 `UIViewPreview` 로 감싸고 프리뷰를 만들어 사용합니다. 아래 예시를 참고해 주세요. 
-#### 사용 예시 - `CheckboxWithText` 프리뷰
-- 프리뷰 코드
-```swift
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct CheckboxPreview: PreviewProvider {
-    static var testString = "김수한무거북이와 두루미"
-    static var disableState: CheckboxStatus = .disabled
-
-    static var previews: some View {
-        VStack(alignment: .leading) {
-            Text("체크박스 + 텍스트")
-            UIViewPreview {
-                let checkboxWithText = CheckboxWithText(title: testString, status: .normal(isSelected: true))
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-            
-            UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
-                checkboxWithText.title = testString
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-
-            UIViewPreview {
-                let checkboxWithText = CheckboxWithText()
-                checkboxWithText.title = testString
-                checkboxWithText.status = .disabled
-                checkboxWithText.font = DealiFont.b1Bold.systemFont
-
-                return checkboxWithText
-            }
-        }
-        .padding(10.0)
-        .previewLayout(.sizeThatFits)
-    }
-}
-#endif
+#### Swift Pacakge Manager
 
 ```
-- 프리뷰 내용
+https://github.com/dealicious-inc/ssm-mobile-ios-design-system.git
+```
 
-![CheckboxWithText Preview](https://github.com/dealicious-inc/ssm-mobile-ios-design-system/assets/72622744/013f4088-ccec-4ccd-bd06-9156532e715c)

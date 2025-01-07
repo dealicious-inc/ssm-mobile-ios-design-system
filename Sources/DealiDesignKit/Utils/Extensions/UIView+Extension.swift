@@ -23,3 +23,16 @@ extension UIView {
         self.clipsToBounds = true
     }
 }
+
+public extension UIView {
+    func setSystemGradient(_ gradient: GradientConfigurable) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = gradient.colors.map { $0.cgColor }
+        gradientLayer.locations = gradient.location
+        gradientLayer.startPoint = gradient.startPoint
+        gradientLayer.endPoint = gradient.endPoint
+        gradientLayer.frame = self.bounds
+        
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+}

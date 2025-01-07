@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -349,7 +349,6 @@
 			packageReferences = (
 				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				4D9649592BDA227D00AC1BDE /* XCRemoteSwiftPackageReference "RxKeyboard" */,
-				FC5D88282D2BB52C008F7133 /* XCLocalSwiftPackageReference "../../ssm-mobile-ios-design-system" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
@@ -629,13 +628,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		FC5D88282D2BB52C008F7133 /* XCLocalSwiftPackageReference "../../ssm-mobile-ios-design-system" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../ssm-mobile-ios-design-system";
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {

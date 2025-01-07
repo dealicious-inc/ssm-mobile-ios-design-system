@@ -13,7 +13,7 @@ final class ToolTipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Accordion Component"
+        self.title = "ToolTip Component"
         self.view.backgroundColor = .white
     }
     

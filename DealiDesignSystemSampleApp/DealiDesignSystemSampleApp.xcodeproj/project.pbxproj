@@ -17,6 +17,7 @@
 		042EA8B22A14C7D700370706 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B12A14C7D700370706 /* Assets.xcassets */; };
 		042EA8B52A14C7D700370706 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */; };
 		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
+		047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D08462D23C156003EA0C0 /* ToolTipViewController.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
 		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390D485A2C88456B00C30C0E /* FontComponentViewController.swift */; };
@@ -67,6 +68,7 @@
 		042EA8B42A14C7D700370706 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042EA8B62A14C7D700370706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		047D08462D23C156003EA0C0 /* ToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipViewController.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
 		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		390D485A2C88456B00C30C0E /* FontComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontComponentViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
 				3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */,
 				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
+				047D08462D23C156003EA0C0 /* ToolTipViewController.swift */,
 			);
 			path = Sub;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */,
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
+				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,

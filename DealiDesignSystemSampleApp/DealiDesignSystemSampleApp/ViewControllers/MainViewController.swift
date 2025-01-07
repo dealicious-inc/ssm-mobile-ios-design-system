@@ -74,6 +74,13 @@ final class MainViewController: UIViewController {
             $0.title = title
             $0.addTarget(self, action: actionSelector, for: .touchUpInside)
         }
+        
+        let toolTipComponents = DealiControl.btnOutlineLarge03()
+        contentStackView.addArrangedSubview(toolTipComponents)
+        toolTipComponents.do {
+            $0.title = "ToolTip Components"
+            $0.addTarget(self, action: #selector(toolTipButtonPressed), for: .touchUpInside)
+        }
     }
     
     private func addComponentsButtons() {
@@ -212,5 +219,9 @@ extension MainViewController {
 extension UIViewController {
     func pushViewController(_ viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc func toolTipButtonPressed() {
+        self.navigationController?.pushViewController(ToolTipViewController(), animated: true)
     }
 }

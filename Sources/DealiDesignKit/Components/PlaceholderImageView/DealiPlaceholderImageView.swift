@@ -52,7 +52,7 @@ public enum DealiPlaceholderBackgroundColor {
 /*
  viewShape = .rectangle([]) : 라운드가 없는 직각사각형
  viewShape = .rectangle(.allCorners) : 모든 코너에 라운드값 적용
- viewShape = .rectangle([.topLeft, .topRight, .bottomRight, .bottomLeft]) : 선택적으로 라운드를 적용하고 식은 코너 지정
+ viewShape = .rectangle([.topLeft, .topRight, .bottomRight, .bottomLeft]) : 선택적으로 라운드를 적용하고 싶은 코너 지정
  */
 public enum DealiPlaceholderViewShape: RadiusProvider {
     /// 사각형 형태의 imageView

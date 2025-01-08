@@ -14,7 +14,7 @@ final public class DealiTabBarItemImageChipStyleCell: DealiTabBarItemBaseCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.selectionStyle = .none
+        self.selectionStyle = .alpha
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,7 +25,7 @@ final public class DealiTabBarItemImageChipStyleCell: DealiTabBarItemBaseCell {
         guard let uiModel = uiModel else { return }
         
         if let itemImageChip = uiModel.itemImageChip {
-            self.addSubview(itemImageChip)
+            self.contentView.addSubview(itemImageChip)
             itemImageChip.snp.makeConstraints {
                 $0.center.equalToSuperview()
             }
@@ -34,6 +34,6 @@ final public class DealiTabBarItemImageChipStyleCell: DealiTabBarItemBaseCell {
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.subviews.forEach { $0.removeFromSuperview() }
+        self.contentView.subviews.forEach { $0.removeFromSuperview() }
     }
 }

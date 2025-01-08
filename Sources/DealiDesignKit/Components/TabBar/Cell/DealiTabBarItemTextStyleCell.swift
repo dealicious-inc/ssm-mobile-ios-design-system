@@ -21,7 +21,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         super.init(frame: frame)
 
         let contentStackView = UIStackView()
-        self.addSubview(contentStackView)
+        self.contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.isUserInteractionEnabled = false
             $0.spacing = 0.0
@@ -48,7 +48,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
             $0.clipsToBounds = true
         }
         
-        self.addSubview(self.badgeImageView)
+        self.contentView.addSubview(self.badgeImageView)
         self.badgeImageView.then {
             $0.backgroundColor = .primary01
             $0.clipsToBounds = true

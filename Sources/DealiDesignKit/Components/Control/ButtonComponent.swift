@@ -265,7 +265,7 @@ public class ClickableComponent: SystemButton {
         self.addSubview(self.highlightView)
         self.highlightView.then {
             $0.alpha = 0.0
-            $0.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.06)
+            $0.backgroundColor = .b2
         }.snp.makeConstraints {
             $0.edges.equalTo(UIEdgeInsets.zero)
         }

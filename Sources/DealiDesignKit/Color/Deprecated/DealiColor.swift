@@ -52,6 +52,7 @@ public enum DealiColor {
     public static let b20: UIColor = EtcColor.b20.color
     public static let b10: UIColor = EtcColor.b10.color
     public static let b5: UIColor = EtcColor.b5.color
+    public static let b2: UIColor = EtcColor.b2.color
     public static let w90: UIColor = EtcColor.w90.color
     public static let w70: UIColor = EtcColor.w70.color
     public static let w50: UIColor = EtcColor.w50.color

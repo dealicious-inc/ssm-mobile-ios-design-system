@@ -65,7 +65,7 @@ enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
     case etc08
     case etc09
     
-    case b70, b50, b40, b30, b20, b10, b5
+    case b70, b50, b40, b30, b20, b10, b5, b2
     case w90, w70, w50, w30, w20, w15, w10, w5
     
     var rgb: Int {
@@ -75,7 +75,7 @@ enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
         case .etc04, .etc05, .etc07, .etc08, .etc09:
             return 0xFFFFFF
             
-        case .b5, .b10, .b20, .b30, .b40, .b50, .b70:
+        case .b2, .b5, .b10, .b20, .b30, .b40, .b50, .b70:
             return 0x000000
         case .w90, .w70, .w50, .w30, .w20, .w15, .w10, .w5:
             return 0xFFFFFF
@@ -118,6 +118,8 @@ enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
             return 0.10
         case .b5:
             return 0.05
+        case .b2:
+            return 0.02
         case .w90:
             return 0.90
         case .w70:

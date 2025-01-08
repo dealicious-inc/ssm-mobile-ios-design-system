@@ -74,16 +74,10 @@ final class MainViewController: UIViewController {
             $0.title = title
             $0.addTarget(self, action: actionSelector, for: .touchUpInside)
         }
-        
-        let toolTipComponents = DealiControl.btnOutlineLarge03()
-        contentStackView.addArrangedSubview(toolTipComponents)
-        toolTipComponents.do {
-            $0.title = "ToolTip Components"
-            $0.addTarget(self, action: #selector(toolTipButtonPressed), for: .touchUpInside)
-        }
     }
     
     private func addComponentsButtons() {
+        self.addComponents(title: "ToolTip Components", actionSelector: #selector(toolTipButtonPressed))
         self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
         self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
         self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
@@ -213,15 +207,15 @@ extension MainViewController {
     @objc func noticeComponentsPressed() {
         self.pushViewController(NoticeViewController())
     }
+    
+    @objc func toolTipButtonPressed() {
+        self.pushViewController(ToolTipViewController())
+    }
 }
 
 //MARK: - UIViewController Extension
 extension UIViewController {
     func pushViewController(_ viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    @objc func toolTipButtonPressed() {
-        self.navigationController?.pushViewController(ToolTipViewController(), animated: true)
     }
 }

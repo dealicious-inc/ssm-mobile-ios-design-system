@@ -464,6 +464,7 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
         }
         
         self.requiredBadge = self.requiredBadgeView()
+        self.requiredBadge.isHidden = true
         self.titleContentView.addArrangedSubview(self.requiredBadge)
         
         self.titleContentView.addArrangedSubview(self.notVerifiedBadge)

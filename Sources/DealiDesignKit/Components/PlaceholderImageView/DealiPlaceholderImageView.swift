@@ -155,6 +155,7 @@ open class DealiPlaceholderImageView: UIImageView {
         
         let parentWidth = self.bounds.size.width
         var placeholderImageWidth = 0.0
+        var placeholderImageHeight = 0.0
         
         if self.isAspectRatioOneToOne() == true {
             /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
@@ -163,16 +164,25 @@ open class DealiPlaceholderImageView: UIImageView {
             } else {
                 placeholderImageWidth = parentWidth / 2.5
             }
+            placeholderImageHeight = placeholderImageWidth
             
         } else {
             /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
             placeholderImageWidth = parentWidth / 4.0
+            
+            if imageStyle == .goods {
+                placeholderImageView.contentMode = .scaleAspectFill
+                placeholderImageHeight = placeholderImageWidth * 4 / 3
+            } else {
+                placeholderImageView.contentMode = .scaleAspectFit
+                placeholderImageHeight = placeholderImageWidth
+            }
         }
         
         self.setRoundCorners()
         
         self.placeholderImageView.snp.updateConstraints {
-            $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageWidth))
+            $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageHeight))
         }
     }
     

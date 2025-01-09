@@ -13,6 +13,7 @@ final class PlaceholderImageViewController: UIViewController {
 
     private let rectanglePlaceholderImageView01 = DealiPlaceholderImageView()
     private let rectanglePlaceholderImageView02 = DealiPlaceholderImageView()
+    private let rectanglePlaceholderImageView03 = DealiPlaceholderImageView()
     
     private let circlePlaceholderImageView01 = DealiPlaceholderImageView()
     private let circlePlaceholderImageView02 = DealiPlaceholderImageView()
@@ -81,6 +82,23 @@ final class PlaceholderImageViewController: UIViewController {
             $0.backgroundStyle = .light
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10.0)
+        }
+        
+        // 3:4 비율 상품뷰
+        let rectangleRatioContainerView = UIView()
+        contentStackView.addArrangedSubview(rectangleRatioContainerView)
+        rectangleRatioContainerView.then {
+            $0.backgroundColor = .white
+        }.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 126.0, height: 168.0))
+        }
+        
+        rectangleRatioContainerView.addSubview(self.rectanglePlaceholderImageView03)
+        self.rectanglePlaceholderImageView03.then {
+            $0.backgroundStyle = .dark
+        }.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         contentStackView.addArrangedSubview(self.circlePlaceholderImageView01)

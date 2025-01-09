@@ -79,7 +79,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     }
 }
 
-public final class DealiPlaceholderImageView: UIImageView {
+public class DealiPlaceholderImageView: UIImageView {
 
     private let placeholderImageView = UIImageView()
     

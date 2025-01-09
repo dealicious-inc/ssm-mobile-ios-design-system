@@ -79,7 +79,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     }
 }
 
-public class DealiPlaceholderImageView: UIImageView {
+open class DealiPlaceholderImageView: UIImageView {
 
     private let placeholderImageView = UIImageView()
     
@@ -129,7 +129,7 @@ public class DealiPlaceholderImageView: UIImageView {
         self.updateUI()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

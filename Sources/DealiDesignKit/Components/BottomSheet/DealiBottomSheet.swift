@@ -45,7 +45,12 @@ public enum EBottomSheetTitleType: Equatable {
 public enum EBottomSheetButtonType: Equatable {
     case hidden
     case oneButton(buttonTitle: String?)
-    case twoButton(confirmTitle: String?, cancelTitle: String?)
+    case twoButton(confirmTitle: String?, cancelTitle: String?, cancelButtonType: EBottomSheetCancelButtonType? = .btnOutlineLarge01)
+}
+
+public enum EBottomSheetCancelButtonType {
+    case btnOutlineLarge01
+    case btnOutlineLarge06
 }
 
 public class DealiBottomSheet: NSObject {
@@ -280,11 +285,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         }
     }()
     
-    private lazy var cancelButton: ClickableComponentButton = {
-        return DealiControl.btnOutlineLarge01().then {
-            $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
-        }
-    }()
+    private lazy var cancelButton: ClickableComponentButton = DealiControl.btnOutlineLarge01()
     
     private lazy var confirmButton: ClickableComponentButton = {
         return DealiControl.btnFilledLarge01().then {
@@ -481,7 +482,9 @@ class DealiBottomSheetSystemViewController: UIViewController {
             self.confirmButton.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview()
             }
-        case .twoButton(let confirmTitle, let cancelTitle):
+        case .twoButton(let confirmTitle, let cancelTitle, let cancelButtonType):
+            self.cancelButton = cancelButtonType == .btnOutlineLarge01 ? DealiControl.btnOutlineLarge01() : DealiControl.btnOutlineLarge06()
+            self.cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
             buttonStackView.addArrangedSubview(self.cancelButton)
             self.cancelButton.title = cancelTitle
             self.cancelButton.snp.makeConstraints {

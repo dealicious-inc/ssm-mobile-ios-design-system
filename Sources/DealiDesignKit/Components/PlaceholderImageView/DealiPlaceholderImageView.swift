@@ -147,7 +147,7 @@ open class DealiPlaceholderImageView: UIImageView {
     private func updatePlaceholderUI() {
         switch imageStyle {
         case .custom(let image):
-            self.backgroundColor = .primary04
+            self.backgroundColor = .g10
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clear.cgColor
             
@@ -167,7 +167,6 @@ open class DealiPlaceholderImageView: UIImageView {
         
         switch imageStyle {
         case .custom(_):
-            placeholderImageView.contentMode = .scaleAspectFill
             placeholderImageWidth = self.bounds.size.width
             placeholderImageHeight = self.bounds.size.height
             

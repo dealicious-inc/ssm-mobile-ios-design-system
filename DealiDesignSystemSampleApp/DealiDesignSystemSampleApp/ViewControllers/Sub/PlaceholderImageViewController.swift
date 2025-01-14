@@ -84,23 +84,6 @@ final class PlaceholderImageViewController: UIViewController {
             $0.edges.equalToSuperview().inset(10.0)
         }
         
-        // 3:4 비율 상품뷰
-        let rectangleRatioContainerView = UIView()
-        contentStackView.addArrangedSubview(rectangleRatioContainerView)
-        rectangleRatioContainerView.then {
-            $0.backgroundColor = .white
-        }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 126.0, height: 168.0))
-        }
-        
-        rectangleRatioContainerView.addSubview(self.rectanglePlaceholderImageView03)
-        self.rectanglePlaceholderImageView03.then {
-            $0.backgroundStyle = .dark
-        }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         contentStackView.addArrangedSubview(self.circlePlaceholderImageView01)
         self.circlePlaceholderImageView01.then {
             $0.imageStyle = .goods
@@ -128,6 +111,44 @@ final class PlaceholderImageViewController: UIViewController {
             $0.center.equalToSuperview()
             $0.top.bottom.equalToSuperview().inset(25.0)
             $0.width.equalTo(100.0)
+        }
+        
+        // 3:4 비율 상품뷰
+        let hRatioImageStackView = UIStackView()
+        contentStackView.addArrangedSubview(hRatioImageStackView)
+        hRatioImageStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 16.0
+            $0.alignment = .leading
+            $0.distribution = .equalSpacing
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(12.0)
+            $0.height.equalTo(168.0)
+        }
+        
+        hRatioImageStackView.addArrangedSubview(self.rectanglePlaceholderImageView03)
+        self.rectanglePlaceholderImageView03.then {
+            $0.backgroundStyle = .dark
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 126.0, height: 168.0))
+        }
+        
+        // custom placeholder image
+        let customPlaceholderImageView01 = DealiPlaceholderImageView()
+        hRatioImageStackView.addArrangedSubview(customPlaceholderImageView01)
+        customPlaceholderImageView01.then {
+            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_ssmk")!)
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 126.0, height: 126.0))
+        }
+        
+        let customPlaceholderImageView02 = DealiPlaceholderImageView()
+        hRatioImageStackView.addArrangedSubview(customPlaceholderImageView02)
+        customPlaceholderImageView02.then {
+            $0.viewShape = .circle
+            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_pluscircle_filled")!)
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 126.0, height: 126.0))
         }
         
         let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0

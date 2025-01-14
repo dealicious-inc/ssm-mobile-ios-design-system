@@ -11,13 +11,14 @@ import SnapKit
 public enum DealiPlaceholderImageStyle {
     case goods
     case store
+    case custom(_ image: UIImage)
     
     var placeholderImageName: String {
         switch self {
-        case .goods:
-            return "ic_empty40"
-        default:
+        case .store:
             return "ic_home_filled"
+        default:
+            return "ic_empty40"
         }
     }
 }
@@ -144,10 +145,17 @@ open class DealiPlaceholderImageView: UIImageView {
     }
     
     private func updatePlaceholderUI() {
-        
-        guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
-        
-        self.placeholderImageView.image = placeholderImage
+        switch imageStyle {
+        case .custom(let image):
+            self.backgroundColor = .primary04
+            self.layer.borderWidth = 0
+            self.layer.borderColor = UIColor.clear.cgColor
+            
+            self.placeholderImageView.image = image
+        default:
+            guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
+            self.placeholderImageView.image = placeholderImage
+        }
     }
     
     private func resizePlaceholderImage() {
@@ -157,25 +165,34 @@ open class DealiPlaceholderImageView: UIImageView {
         var placeholderImageWidth = 0.0
         var placeholderImageHeight = 0.0
         
-        if self.isAspectRatioOneToOne() == true {
-            /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
-            if parentWidth <= 70.0 {
-                placeholderImageWidth = parentWidth / 2.0
-            } else {
-                placeholderImageWidth = parentWidth / 2.5
-            }
-            placeholderImageHeight = placeholderImageWidth
+        switch imageStyle {
+        case .custom(_):
+            placeholderImageView.contentMode = .scaleAspectFill
+            placeholderImageWidth = self.bounds.size.width
+            placeholderImageHeight = self.bounds.size.height
             
-        } else {
-            /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
-            placeholderImageWidth = parentWidth / 4.0
-            
-            if imageStyle == .goods {
-                placeholderImageView.contentMode = .scaleAspectFill
-                placeholderImageHeight = placeholderImageWidth * 4 / 3
-            } else {
-                placeholderImageView.contentMode = .scaleAspectFit
+        default:
+            if self.isAspectRatioOneToOne() == true {
+                /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
+                if parentWidth <= 70.0 {
+                    placeholderImageWidth = parentWidth / 2.0
+                } else {
+                    placeholderImageWidth = parentWidth / 2.5
+                }
                 placeholderImageHeight = placeholderImageWidth
+                
+            } else {
+                /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
+                placeholderImageWidth = parentWidth / 4.0
+                
+                switch imageStyle {
+                case .goods:
+                    placeholderImageView.contentMode = .scaleAspectFill
+                    placeholderImageHeight = placeholderImageWidth * 4 / 3
+                default:
+                    placeholderImageView.contentMode = .scaleAspectFit
+                    placeholderImageHeight = placeholderImageWidth
+                }
             }
         }
         

@@ -8,8 +8,12 @@
 
 import UIKit
 import DealiDesignKit
+import RxSwift
+import RxCocoa
 
 final class BottomSheetPopupTestViewController: UIViewController {
+    
+    let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +112,15 @@ final class BottomSheetPopupTestViewController: UIViewController {
         customBottomSheetButton.then {
             $0.title = "custom 팝업"
             $0.addTarget(self, action: #selector(customBottomSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let bottomSheetButton_01 = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(bottomSheetButton_01)
+        bottomSheetButton_01.then {
+            $0.title = "커스텀 버튼 팝업"
+            $0.addTarget(self, action: #selector(bottomSheetButton_01Pressed), for: .touchUpInside)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
@@ -261,5 +274,27 @@ extension BottomSheetPopupTestViewController {
         }
         
         DealiBottomSheet.showBottomSheet(optionContentView: customView, popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
+    }
+    
+    @objc func bottomSheetButton_01Pressed() {
+        let contentView = UIView()
+        let contentbutton = DealiControl.btnFilledLarge01()
+        contentView.addSubview(contentbutton)
+        contentbutton.then {
+            $0.title = "Bottom Sheet 닫기"
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(50.0)
+            $0.left.right.equalToSuperview().inset(16.0)
+        }
+        
+        let handler = DealiBottomSheet.showBottomSheet(optionContentView: contentView,
+                                         popupPresentingViewController: self,
+                                         cancelAction: nil) {
+            print("bottomSheet 닫고 처리하기")
+        }
+        
+        contentbutton.rx.tap.asSignal().emit(with: self) { owner, _ in
+            handler()
+        }.disposed(by: self.disposeBag)
     }
 }

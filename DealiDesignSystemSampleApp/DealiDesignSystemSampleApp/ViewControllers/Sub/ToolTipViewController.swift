@@ -94,6 +94,9 @@ final class ToolTipViewController: UIViewController {
             toolTipLayout: {
                 $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
                 $0.centerX.equalToSuperview()
+            },
+            toolTipAction: {
+                print("Top Left ToolTip Action")
             }
         )
     }

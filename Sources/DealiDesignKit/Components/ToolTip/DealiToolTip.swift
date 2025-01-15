@@ -99,6 +99,7 @@ public class DealiToolTip: UIView {
     ///   - outsideView: 툴팁 제외한 영역을 클릭했을 때 툴팁을 닫을 뷰
     ///   - toolTipCondition: 툴팁을 노출할 조건
     ///   - toolTipLayout: 툴팁 레이아웃
+    ///   - toolTipAction: 툴팁 클릭 액션 (optional) - 툴팁이 사라지면서 실행
     ///  - Returns: 툴팁 객체
     @discardableResult
     public static func show(
@@ -107,7 +108,8 @@ public class DealiToolTip: UIView {
         superView: UIView,
         outsideView: UIView,
         toolTipCondition: () -> Bool,
-        toolTipLayout: (ConstraintMaker) -> Void
+        toolTipLayout: (ConstraintMaker) -> Void,
+        toolTipAction: (() -> Void)? = nil
     ) -> DealiToolTip? {
         guard toolTipCondition() else { return nil }
         
@@ -126,6 +128,9 @@ public class DealiToolTip: UIView {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        superView.bringSubviewToFront(toolTip)
+        
         dismissView.rx.tapGesture()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
@@ -142,7 +147,7 @@ public class DealiToolTip: UIView {
                 toolTip?.dismissToolTip {
                     toolTip?.removeFromSuperview()
                 }
-                
+                toolTipAction?()
                 dismissView?.removeFromSuperview()
             }
             .disposed(by: toolTip.disposeBag)

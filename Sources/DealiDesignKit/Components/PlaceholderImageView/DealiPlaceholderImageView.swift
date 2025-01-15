@@ -11,7 +11,7 @@ import SnapKit
 public enum DealiPlaceholderImageStyle {
     case goods
     case store
-    case custom(_ image: UIImage)
+    case custom(_ image: UIImage? = nil)
     
     var placeholderImageName: String {
         switch self {
@@ -149,7 +149,12 @@ open class DealiPlaceholderImageView: UIImageView {
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clear.cgColor
             
-            self.placeholderImageView.image = image
+            if let image {
+                self.placeholderImageView.image = image
+            } else {
+                guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
+                self.placeholderImageView.image = placeholderImage
+            }
         default:
             guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
             self.placeholderImageView.image = placeholderImage

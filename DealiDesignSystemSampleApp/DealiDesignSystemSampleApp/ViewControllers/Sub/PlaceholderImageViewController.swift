@@ -113,7 +113,8 @@ final class PlaceholderImageViewController: UIViewController {
             $0.width.equalTo(100.0)
         }
         
-        // 3:4 비율 상품뷰
+        let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
+        
         let hRatioImageStackView = UIStackView()
         contentStackView.addArrangedSubview(hRatioImageStackView)
         hRatioImageStackView.then {
@@ -126,6 +127,7 @@ final class PlaceholderImageViewController: UIViewController {
             $0.height.equalTo(168.0)
         }
         
+        // 3:4 비율 상품뷰
         hRatioImageStackView.addArrangedSubview(self.rectanglePlaceholderImageView03)
         self.rectanglePlaceholderImageView03.then {
             $0.backgroundStyle = .dark
@@ -139,19 +141,18 @@ final class PlaceholderImageViewController: UIViewController {
         customPlaceholderImageView01.then {
             $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_ssmk")!)
         }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 126.0, height: 126.0))
+            $0.size.equalTo(imageViewWidth)
         }
         
         let customPlaceholderImageView02 = DealiPlaceholderImageView()
         hRatioImageStackView.addArrangedSubview(customPlaceholderImageView02)
         customPlaceholderImageView02.then {
             $0.viewShape = .circle
-            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_pluscircle_filled")!)
+//            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_pluscircle_filled")!)
+            $0.imageStyle = .custom()
         }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 126.0, height: 126.0))
+            $0.size.equalTo(imageViewWidth)
         }
-        
-        let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
         
         let hOneCornerStackView = UIStackView()
         contentStackView.addArrangedSubview(hOneCornerStackView)

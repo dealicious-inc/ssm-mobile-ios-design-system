@@ -120,9 +120,7 @@ open class DealiPlaceholderImageView: UIImageView {
         self.clipsToBounds = true
         
         self.addSubview(self.placeholderImageView)
-        self.placeholderImageView.then {
-            $0.contentMode = .scaleAspectFit
-        }.snp.makeConstraints {
+        self.placeholderImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalTo(CGSize.zero)
         }
@@ -147,7 +145,7 @@ open class DealiPlaceholderImageView: UIImageView {
     private func updatePlaceholderUI() {
         switch imageStyle {
         case .custom(let image):
-            self.backgroundColor = .g10
+            self.backgroundColor = .clear
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clear.cgColor
             
@@ -167,11 +165,14 @@ open class DealiPlaceholderImageView: UIImageView {
         
         switch imageStyle {
         case .custom(_):
+            placeholderImageView.contentMode = .center
             placeholderImageWidth = self.bounds.size.width
             placeholderImageHeight = self.bounds.size.height
             
         default:
             if self.isAspectRatioOneToOne() == true {
+                placeholderImageView.contentMode = .scaleAspectFit
+                
                 /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
                 if parentWidth <= 70.0 {
                     placeholderImageWidth = parentWidth / 2.0

@@ -145,7 +145,7 @@ open class DealiPlaceholderImageView: UIImageView {
     private func updatePlaceholderUI() {
         switch imageStyle {
         case .custom(let image):
-            self.backgroundColor = .clear
+            self.backgroundColor = .g10
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clear.cgColor
             

@@ -144,13 +144,15 @@ open class DealiPlaceholderImageView: UIImageView {
     
     private func updatePlaceholderUI() {
         switch imageStyle {
-        case .custom(let image) where image != nil:
+        case .custom(let image):
             self.backgroundColor = .g10
             self.layer.borderWidth = 0
-            self.layer.borderColor = UIColor.clear.cgColor
             
             if let image {
                 self.placeholderImageView.image = image
+            } else {
+                guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
+                self.placeholderImageView.image = placeholderImage
             }
         default:
             guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }

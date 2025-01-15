@@ -58,6 +58,15 @@ final class BottomSheetPopupTestViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let bottomSheetPopupButton011 = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(bottomSheetPopupButton011)
+        bottomSheetPopupButton011.then {
+            $0.title = "2버튼 팝업 (취소버튼 btnOutlineLarge06)"
+            $0.addTarget(self, action: #selector(bottomSheetPopupButton011Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let singleSelectBottomSheetButton = DealiControl.btnOutlineLarge01()
         contentStackView.addArrangedSubview(singleSelectBottomSheetButton)
         singleSelectBottomSheetButton.then {
@@ -114,6 +123,18 @@ extension BottomSheetPopupTestViewController {
             titleType: .titleCloseButton(title: "2버튼 팝업"),
             message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
             buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"),
+            popupPresentingViewController: self,
+            cancelAction: nil, confirmAction: nil
+        )
+    }
+    
+    @objc func bottomSheetPopupButton011Pressed() {
+        debugPrint("bottomSheetPopupButton01Pressed")
+
+        DealiBottomSheet.showTextOnly(
+            titleType: .titleCloseButton(title: "2버튼 팝업"),
+            message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
+            buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소", cancelButtonType: .btnOutlineLarge06),
             popupPresentingViewController: self,
             cancelAction: nil, confirmAction: nil
         )

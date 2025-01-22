@@ -203,6 +203,9 @@ public class DealiBottomSheet: NSObject {
                              confirmAction: confirmAction)
     }
     
+    public typealias HideBottomSheetHandler = (() -> Void)
+    
+    @discardableResult
     public class func showBottomSheet(titleType: EBottomSheetTitleType = .hidden,
                                       optionContentView: UIView,
                                       buttonType: EBottomSheetButtonType = .hidden,
@@ -211,7 +214,7 @@ public class DealiBottomSheet: NSObject {
                                       shouldDismissWhenSelect: Bool = false,
                                       popupPresentingViewController: UIViewController,
                                       cancelAction: (() -> Void)?,
-                                      confirmAction: (() -> Void)?) {
+                                      confirmAction: (() -> Void)?) -> HideBottomSheetHandler {
         
         let viewController = DealiBottomSheetSystemViewController().then {
             $0.contentContainerView = optionContentView
@@ -224,7 +227,13 @@ public class DealiBottomSheet: NSObject {
             $0.confirmAction = confirmAction
         }
         
+        let handler: HideBottomSheetHandler = {
+            viewController.hidePopup(hideHandler: confirmAction)
+        }
+        
         popupPresentingViewController.present(viewController, animated: false)
+        
+        return handler
     }
     
 }
@@ -518,7 +527,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         }
     }
     
-    private func hidePopup(hideHandler: (() -> Void)? = nil) {
+    func hidePopup(hideHandler: (() -> Void)? = nil) {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
             $0.left.right.equalToSuperview()

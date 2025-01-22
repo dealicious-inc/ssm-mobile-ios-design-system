@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxKeyboard
+import RxSwift
 
 enum EBottomSheetOptionType: Equatable {
     case singleSelect
@@ -233,6 +235,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
     private let contentView = UIView()
     private var cornerLayer: CAShapeLayer?
     private let contentStackView = UIStackView()
+    private let disposeBag = DisposeBag()
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -309,6 +312,19 @@ class DealiBottomSheetSystemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setKeyboard()
+    }
+    
+    private func setKeyboard() {
+        RxKeyboard.instance.visibleHeight
+            .drive(with: self) { owner, keyboardVisibleHeight in
+                owner.contentView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.bottom.equalToSuperview().inset(keyboardVisibleHeight)
+                }
+                owner.view.layoutIfNeeded()    
+            }
+            .disposed(by: self.disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -507,7 +523,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         self.contentView.layoutIfNeeded()
         
         self.contentView.snp.remakeConstraints {
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(0)
             $0.left.right.equalToSuperview()
         }
         

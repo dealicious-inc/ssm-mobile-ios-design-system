@@ -80,7 +80,7 @@ public enum MbsGradient: GradientConfigurable {
     public var startPoint: CGPoint {
         switch self {
         case .gradient01:
-            return CGPoint(x: 0.0, y: 0.45)
+            return CGPoint(x: 0.0, y: 0.5)
         case .gradient02:
             return CGPoint(x: 0.0, y: 0.0)
         }
@@ -89,7 +89,7 @@ public enum MbsGradient: GradientConfigurable {
     public var endPoint: CGPoint {
         switch self {
         case .gradient01:
-            return CGPoint(x: 1.0, y: 0.6 )
+            return CGPoint(x: 1.0, y: 0.5)
         case .gradient02:
             return CGPoint(x: 1, y: 1.5)
         }

@@ -25,9 +25,11 @@ extension UIView {
 }
 
 public extension UIView {
-    func setSystemGradient(_ gradient: GradientConfigurable) {
+    @discardableResult
+    func setSystemGradient(_ gradient: GradientConfigurable) -> CAGradientLayer {
         let gradientLayer = self.systemGradient(gradient)
         self.layer.insertSublayer(gradientLayer, at: 0)
+        return gradientLayer
     }
     
     func systemGradient(_ gradient: GradientConfigurable) -> CAGradientLayer {

@@ -17,11 +17,11 @@ public protocol GradientConfigurable {
 
 public extension GradientConfigurable {
     var startPoint: CGPoint {
-        return CGPoint(x: 0.0, y: 0.5)
+        return CGPoint(x: 0.0, y: 1.0)
     }
     
     var endPoint: CGPoint {
-        return CGPoint(x: 1.0, y: 0.5)
+        return CGPoint(x: 1.0, y: 1.0)
     }
     
     var location: [NSNumber] {

@@ -133,12 +133,7 @@ open class DealiPlaceholderImageView: UIImageView {
     }
     
     private func updateUI() {
-        self.backgroundColor = self.backgroundStyle.backgroundColor
-        self.layer.borderWidth = self.viewShape.borderWidth
-        self.layer.borderColor = self.viewShape.borderColor
-        
         self.setRoundCorners()
-        
         self.updatePlaceholderUI()
     }
     
@@ -155,6 +150,10 @@ open class DealiPlaceholderImageView: UIImageView {
                 self.placeholderImageView.image = placeholderImage
             }
         default:
+            self.backgroundColor = self.backgroundStyle.backgroundColor
+            self.layer.borderWidth = self.viewShape.borderWidth
+            self.layer.borderColor = self.viewShape.borderColor
+            
             guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
             self.placeholderImageView.image = placeholderImage
         }

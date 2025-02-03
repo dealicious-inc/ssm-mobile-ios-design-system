@@ -16,12 +16,27 @@ extension DealiControl {
     
     public static func btnFilledLarge02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.large,
-                                        color: ButtonFilledColor.gradient)
+                                        color: ButtonFilledColor.primaryGradient)
     }
     
     public static func btnFilledLarge03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.large,
                                         color: ButtonFilledColor.primary02)
+    }
+    
+    public static func btnFilledLarge04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
+                                        color: ButtonFilledColor.mbs01)
+    }
+    
+    public static func btnFilledLarge05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
+                                        color: ButtonFilledColor.mbsGradient)
+    }
+    
+    public static func btnFilledLarge06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.large,
+                                        color: ButtonFilledColor.primary05)
     }
 
     // MARK: - Medium
@@ -32,12 +47,27 @@ extension DealiControl {
     
     public static func btnFilledMedium02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.medium,
-                                        color: ButtonFilledColor.gradient)
+                                        color: ButtonFilledColor.primaryGradient)
     }
     
     public static func btnFilledMedium03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.medium,
                                         color: ButtonFilledColor.primary02)
+    }
+    
+    public static func btnFilledMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.medium,
+                                        color: ButtonFilledColor.mbs01)
+    }
+    
+    public static func btnFilledMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.medium,
+                                        color: ButtonFilledColor.mbsGradient)
+    }
+    
+    public static func btnFilledMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.medium,
+                                        color: ButtonFilledColor.primary05)
     }
     
     // MARK: - Semi Medium
@@ -48,7 +78,7 @@ extension DealiControl {
     
     public static func btnFilledSemiMedium02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
-                                        color: ButtonFilledColor.gradient)
+                                        color: ButtonFilledColor.primaryGradient)
     }
     
     public static func btnFilledSemiMedium03() -> ClickableComponentButton {
@@ -56,6 +86,20 @@ extension DealiControl {
                                         color: ButtonFilledColor.primary02)
     }
     
+    public static func btnFilledSemiMedium04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.mbs01)
+    }
+    
+    public static func btnFilledSemiMedium05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.mbsGradient)
+    }
+    
+    public static func btnFilledSemiMedium06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.semiMedium,
+                                        color: ButtonFilledColor.primary05)
+    }
     
     // MARK: - Small
     public static func btnFilledSmall01() -> ClickableComponentButton {
@@ -65,12 +109,27 @@ extension DealiControl {
     
     public static func btnFilledSmall02() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
-                                        color: ButtonFilledColor.gradient)
+                                        color: ButtonFilledColor.primaryGradient)
     }
     
     public static func btnFilledSmall03() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary02)
+    }
+    
+    public static func btnFilledSmall04() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.small,
+                                        color: ButtonFilledColor.mbs01)
+    }
+    
+    public static func btnFilledSmall05() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.small,
+                                        color: ButtonFilledColor.mbsGradient)
+    }
+    
+    public static func btnFilledSmall06() -> ClickableComponentButton {
+        return ClickableComponentButton(config: ButtonFilledConfig.small,
+                                        color: ButtonFilledColor.primary05)
     }
 }
 
@@ -78,7 +137,10 @@ extension DealiControl {
 public enum ButtonFilledColor: ClickableColorConfig {
     case primary01
     case primary02
-    case gradient
+    case primary05
+    case mbs01
+    case primaryGradient
+    case mbsGradient
     
     public var attribute: ClickableColor {
         switch self {
@@ -88,9 +150,20 @@ public enum ButtonFilledColor: ClickableColorConfig {
         case .primary02:
             return ClickableColor(normal: ClickableColorSet(background: .b40, text: .primary04),
                                   disabled: ClickableColorSet(background: .b20, text: .w50))
-        case .gradient:
-            return ClickableColor(normal: ClickableColorSet(gradientBackground: UIColor.primaryGradient, background: .clear, text: .primary04),
+        case .primary05:
+            return ClickableColor(normal: ClickableColorSet(background: .primary05, text: .primary04),
                                   disabled: ClickableColorSet(background: .g40, text: .primary04))
+      
+        case .mbs01:
+            return ClickableColor(normal: ClickableColorSet(background: .mbs01, text: .primary04),
+                                  disabled: ClickableColorSet(background: .g40, text: .primary04))
+        case .primaryGradient:
+            return ClickableColor(normal: ClickableColorSet(gradient: PrimaryGradient.gradient, background: .clear, text: .primary04),
+                                  disabled: ClickableColorSet(background: .g40, text: .primary04))
+        case .mbsGradient:
+            return ClickableColor(normal: ClickableColorSet(gradient: MbsGradient.gradient01, background: .clear, text: .primary04),
+                                  disabled: ClickableColorSet(background: .g40, text: .primary04))
+            
         }
     }
 }

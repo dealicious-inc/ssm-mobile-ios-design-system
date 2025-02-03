@@ -363,7 +363,7 @@ public class ClickableComponent: SystemButton {
                 self.layer.borderColor = borderColor.cgColor
                 self.layer.borderWidth = 1.0
             }
-            if color.gradientBackground != nil {
+            if color.gradient != nil {
                 self.gradientBackgroundLayer?.isHidden = false
             } else {
                 self.gradientBackgroundLayer?.isHidden = true
@@ -444,24 +444,15 @@ public class ClickableComponent: SystemButton {
 
     /// Gradient Background
     private func setBackgroundGradient(color: ClickableColorSet?) {
-        guard let gradientColors = color?.gradientBackground, gradientColors.count > 0 else { return }
+        guard let gradient = color?.gradient else { return }
         
         if let gradientBackgroundLayer = self.gradientBackgroundLayer {
             gradientBackgroundLayer.removeFromSuperlayer()
             self.gradientBackgroundLayer = nil
         }
-        
-        let layer = CAGradientLayer()
-        layer.do {
-            $0.colors = gradientColors.map({$0.cgColor})
-            $0.locations = [0.0, 1.0]
-            $0.startPoint = CGPoint(x: 0.0, y: 1.0)
-            $0.endPoint = CGPoint(x: 1.0, y: 1.0)
-            $0.frame = bounds
-//            $0.cornerRadius = cornerRadius
-        }
-        self.layer.insertSublayer(layer, at: 0)
-        self.gradientBackgroundLayer = layer
+
+        let gradientLayer = self.setSystemGradient(gradient)
+        self.gradientBackgroundLayer = gradientLayer
     }
     
     // MARK: Indicator
@@ -702,7 +693,7 @@ public protocol ClickableColorConfig {
 }
 
 public struct ClickableColorSet {
-    var gradientBackground: [UIColor]?
+    var gradient: GradientConfigurable?
     var background: UIColor
     var text: UIColor
     var border: UIColor?

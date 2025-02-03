@@ -88,7 +88,7 @@ public enum ButtonFilledRoundColor: ClickableColorConfig {
             return ClickableColor(normal: ClickableColorSet(background: .b40, text: .primary04),
                                   disabled: ClickableColorSet(background: .b20, text: .w50))
         case .gradient:
-            return ClickableColor(normal: ClickableColorSet(gradientBackground: UIColor.primaryGradient, background: .clear, text: .primary04),
+            return ClickableColor(normal: ClickableColorSet(gradient: PrimaryGradient.gradient, background: .clear, text: .primary04),
                                   disabled: ClickableColorSet(background: .g40, text: .primary04))
         }
     }

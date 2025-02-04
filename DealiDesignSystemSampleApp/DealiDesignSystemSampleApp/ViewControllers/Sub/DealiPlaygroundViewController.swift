@@ -101,7 +101,7 @@ final class TextInputValidationView: UIView {
                     return current
                 }
                 invalidOption.setErrorMessage(for: current)
-                self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
+                self.restrictedTextInput.errorStatus = .error(invalidOption.errorMessage)
 
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)

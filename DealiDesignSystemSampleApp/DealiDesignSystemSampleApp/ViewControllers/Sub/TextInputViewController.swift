@@ -26,12 +26,12 @@ final class TextInputViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        
         self.realTimeInput.rx.textEditingControlProperty
             .bind(with: self) { owner, text in
                 if let text = text, text.rangeOfCharacter(from: .decimalDigits) != nil {
-                    owner.realTimeInput.inputStatus = .error("숫자를 포함할 수 없습니다.")
+                    owner.realTimeInput.errorStatus = .error("숫자를 포함할 수 없습니다.")
                 } else {
+                    owner.realTimeInput.errorStatus = .none
                     owner.realTimeInput.inputStatus = self.realTimeInput.textField.isFirstResponder ? .focusIn : .focusOut
                 }
             }

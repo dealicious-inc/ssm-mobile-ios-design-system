@@ -132,9 +132,12 @@ private extension DealiNotice {
         }
         
         titleContentView.addSubview(self.titleLabel)
-        self.titleLabel.snp.makeConstraints {
+        self.titleLabel.then{
+            $0.numberOfLines = 0
+        }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(16.0)
             $0.left.equalTo(iconImageView.snp.right).offset(8.0)
+            $0.right.lessThanOrEqualToSuperview()
             $0.centerY.equalToSuperview()
         }
         

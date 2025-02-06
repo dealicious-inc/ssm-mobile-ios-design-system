@@ -61,7 +61,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     case circle
     
     var borderWidth: CGFloat {
-        return 0.5
+        return 1.0
     }
     
     var borderColor: CGColor {

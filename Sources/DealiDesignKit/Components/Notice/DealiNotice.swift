@@ -137,7 +137,7 @@ private extension DealiNotice {
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(16.0)
             $0.left.equalTo(iconImageView.snp.right).offset(8.0)
-            $0.right.lessThanOrEqualToSuperview()
+            $0.right.lessThanOrEqualToSuperview().inset(8.0)
             $0.centerY.equalToSuperview()
         }
         

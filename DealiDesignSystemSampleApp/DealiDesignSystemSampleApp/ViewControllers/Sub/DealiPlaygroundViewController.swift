@@ -9,7 +9,6 @@
 import UIKit
 import DealiDesignKit
 import RxSwift
-import RxKeyboard
 import OSLog
 import Then
 
@@ -22,16 +21,6 @@ final class DealiPlaygroundViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Playground"
-        
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] keyboardHeight in
-                guard let self else { return }
-                let bottomMargin = keyboardHeight > 0 ? keyboardHeight + 20.0 : 0
-                self.scrollView.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().inset(bottomMargin)
-                }
-            })
-            .disposed(by: self.disposeBag)
     }
     
     override func loadView() {
@@ -65,7 +54,43 @@ final class DealiPlaygroundViewController: UIViewController {
         let textInputView = TextInputValidationView()
         contentStackView.addArrangedSubview(textInputView)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardShowNotification(_ notification: NSNotification) {
 
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        let keyboardVisibleHeight = keyboardFrame.cgRectValue.height
+        let bottomMargin = keyboardVisibleHeight > 0 ? keyboardVisibleHeight + 20.0 : 0
+        self.scrollView.snp.updateConstraints {
+            $0.bottom.equalToSuperview().inset(bottomMargin)
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    @objc func keyboardHideNotification(_ notification: NSNotification) {
+
+        guard let _ = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        self.scrollView.snp.updateConstraints {
+            $0.bottom.equalToSuperview().inset(0.0)
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
 }
 
 final class TextInputValidationView: UIView {

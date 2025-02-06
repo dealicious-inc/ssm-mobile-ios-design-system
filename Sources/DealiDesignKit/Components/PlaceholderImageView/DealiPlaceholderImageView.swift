@@ -11,13 +11,14 @@ import SnapKit
 public enum DealiPlaceholderImageStyle {
     case goods
     case store
+    case custom(_ image: UIImage? = nil)
     
     var placeholderImageName: String {
         switch self {
-        case .goods:
-            return "ic_empty40"
-        default:
+        case .store:
             return "ic_home_filled"
+        default:
+            return "ic_empty40"
         }
     }
 }
@@ -61,7 +62,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     case circle
     
     var borderWidth: CGFloat {
-        return 0.5
+        return 1.0
     }
     
     var borderColor: CGColor {
@@ -79,7 +80,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
     }
 }
 
-public final class DealiPlaceholderImageView: UIImageView {
+open class DealiPlaceholderImageView: UIImageView {
 
     private let placeholderImageView = UIImageView()
     
@@ -89,7 +90,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         }
     }
     
-    public var backgroundStyle: DealiPlaceholderBackgroundColor = .light {
+    public var backgroundStyle: DealiPlaceholderBackgroundColor = .dark {
         didSet {
             self.updateUI()
         }
@@ -119,9 +120,7 @@ public final class DealiPlaceholderImageView: UIImageView {
         self.clipsToBounds = true
         
         self.addSubview(self.placeholderImageView)
-        self.placeholderImageView.then {
-            $0.contentMode = .scaleAspectFit
-        }.snp.makeConstraints {
+        self.placeholderImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalTo(CGSize.zero)
         }
@@ -129,25 +128,35 @@ public final class DealiPlaceholderImageView: UIImageView {
         self.updateUI()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func updateUI() {
-        self.backgroundColor = self.backgroundStyle.backgroundColor
-        self.layer.borderWidth = self.viewShape.borderWidth
-        self.layer.borderColor = self.viewShape.borderColor
-        
         self.setRoundCorners()
-        
         self.updatePlaceholderUI()
     }
     
     private func updatePlaceholderUI() {
-        
-        guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
-        
-        self.placeholderImageView.image = placeholderImage
+        switch imageStyle {
+        case .custom(let image):
+            self.backgroundColor = .g10
+            self.layer.borderWidth = 0
+            
+            if let image {
+                self.placeholderImageView.image = image
+            } else {
+                guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
+                self.placeholderImageView.image = placeholderImage
+            }
+        default:
+            self.backgroundColor = self.backgroundStyle.backgroundColor
+            self.layer.borderWidth = self.viewShape.borderWidth
+            self.layer.borderColor = self.viewShape.borderColor
+            
+            guard let placeholderImage = UIImage.dealiIcon(named: self.imageStyle.placeholderImageName)?.withTintColor(self.backgroundStyle.imageColor) else { return }
+            self.placeholderImageView.image = placeholderImage
+        }
     }
     
     private func resizePlaceholderImage() {
@@ -155,24 +164,45 @@ public final class DealiPlaceholderImageView: UIImageView {
         
         let parentWidth = self.bounds.size.width
         var placeholderImageWidth = 0.0
+        var placeholderImageHeight = 0.0
         
-        if self.isAspectRatioOneToOne() == true {
-            /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
-            if parentWidth <= 70.0 {
-                placeholderImageWidth = parentWidth / 2.0
-            } else {
-                placeholderImageWidth = parentWidth / 2.5
-            }
+        switch imageStyle {
+        case .custom(let image) where image != nil:
+            placeholderImageView.contentMode = .center
+            placeholderImageWidth = self.bounds.size.width
+            placeholderImageHeight = self.bounds.size.height
             
-        } else {
-            /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
-            placeholderImageWidth = parentWidth / 4.0
+        default:
+            if self.isAspectRatioOneToOne() == true {
+                placeholderImageView.contentMode = .scaleAspectFit
+                
+                /// 1:1 비율의 사이즈 일경우 empty image 사이즈 비율은 width 가 70보다 작거나 같을경우 1:2 비율, 70보다 클경우 1:2.5 비율로 정의
+                if parentWidth <= 70.0 {
+                    placeholderImageWidth = parentWidth / 2.0
+                } else {
+                    placeholderImageWidth = parentWidth / 2.5
+                }
+                placeholderImageHeight = placeholderImageWidth
+                
+            } else {
+                /// 3:4 비율 사이즈와 그 이외의 비율은 empty image 사이즈 비율은 1:4로 정의
+                placeholderImageWidth = parentWidth / 4.0
+                
+                switch imageStyle {
+                case .goods:
+                    placeholderImageView.contentMode = .scaleAspectFill
+                    placeholderImageHeight = placeholderImageWidth * 4 / 3
+                default:
+                    placeholderImageView.contentMode = .scaleAspectFit
+                    placeholderImageHeight = placeholderImageWidth
+                }
+            }
         }
         
         self.setRoundCorners()
         
         self.placeholderImageView.snp.updateConstraints {
-            $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageWidth))
+            $0.size.equalTo(CGSize(width: placeholderImageWidth, height: placeholderImageHeight))
         }
     }
     

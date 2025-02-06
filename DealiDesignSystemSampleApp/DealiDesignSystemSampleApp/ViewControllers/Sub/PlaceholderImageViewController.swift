@@ -13,6 +13,7 @@ final class PlaceholderImageViewController: UIViewController {
 
     private let rectanglePlaceholderImageView01 = DealiPlaceholderImageView()
     private let rectanglePlaceholderImageView02 = DealiPlaceholderImageView()
+    private let rectanglePlaceholderImageView03 = DealiPlaceholderImageView()
     
     private let circlePlaceholderImageView01 = DealiPlaceholderImageView()
     private let circlePlaceholderImageView02 = DealiPlaceholderImageView()
@@ -113,6 +114,45 @@ final class PlaceholderImageViewController: UIViewController {
         }
         
         let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
+        
+        let hRatioImageStackView = UIStackView()
+        contentStackView.addArrangedSubview(hRatioImageStackView)
+        hRatioImageStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 16.0
+            $0.alignment = .leading
+            $0.distribution = .equalSpacing
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(12.0)
+            $0.height.equalTo(168.0)
+        }
+        
+        // 3:4 비율 상품뷰
+        hRatioImageStackView.addArrangedSubview(self.rectanglePlaceholderImageView03)
+        self.rectanglePlaceholderImageView03.then {
+            $0.backgroundStyle = .dark
+        }.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 126.0, height: 168.0))
+        }
+        
+        // custom placeholder image
+        let customPlaceholderImageView01 = DealiPlaceholderImageView()
+        hRatioImageStackView.addArrangedSubview(customPlaceholderImageView01)
+        customPlaceholderImageView01.then {
+            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_ssmk")!)
+        }.snp.makeConstraints {
+            $0.size.equalTo(imageViewWidth)
+        }
+        
+        let customPlaceholderImageView02 = DealiPlaceholderImageView()
+        hRatioImageStackView.addArrangedSubview(customPlaceholderImageView02)
+        customPlaceholderImageView02.then {
+            $0.viewShape = .circle
+//            $0.imageStyle = .custom(UIImage.dealiIcon(named: "ic_pluscircle_filled")!)
+            $0.imageStyle = .custom()
+        }.snp.makeConstraints {
+            $0.size.equalTo(imageViewWidth)
+        }
         
         let hOneCornerStackView = UIStackView()
         contentStackView.addArrangedSubview(hOneCornerStackView)

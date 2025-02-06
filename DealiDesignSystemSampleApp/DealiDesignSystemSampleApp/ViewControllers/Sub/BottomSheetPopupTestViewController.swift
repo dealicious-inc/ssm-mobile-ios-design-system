@@ -261,6 +261,15 @@ extension BottomSheetPopupTestViewController {
             $0.backgroundColor = .g05
         }
         
+        let textInput = DealiTextInput_v2()
+        customView.addSubview(textInput)
+        textInput.then {
+            $0.placeholder = "텍스트필드"
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20.0)
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+
         let colorImageView = UIImageView()
         customView.addSubview(colorImageView)
         colorImageView.then {
@@ -268,7 +277,8 @@ extension BottomSheetPopupTestViewController {
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 50.0
         }.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.top.equalTo(textInput.snp.bottom).offset(20.0)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 100.0, height: 100.0))
         }

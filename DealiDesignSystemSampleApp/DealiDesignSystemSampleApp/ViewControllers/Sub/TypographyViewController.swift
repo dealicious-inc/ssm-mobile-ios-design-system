@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import DealiDesignKit
-import RxKeyboard
 
 /**
  설명: 폰트 관련

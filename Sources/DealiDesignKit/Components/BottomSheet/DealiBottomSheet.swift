@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 enum EBottomSheetOptionType: Equatable {
     case singleSelect
@@ -320,6 +321,46 @@ class DealiBottomSheetSystemViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardShowNotification(_ notification: NSNotification) {
+
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        let keyboardVisibleHeight = keyboardFrame.cgRectValue.height
+        
+        self.contentView.snp.remakeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(keyboardVisibleHeight)
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    @objc func keyboardHideNotification(_ notification: NSNotification) {
+
+        guard let _ = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        self.contentView.snp.remakeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(0.0)
+        }
+        self.view.layoutIfNeeded()
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -516,7 +557,7 @@ class DealiBottomSheetSystemViewController: UIViewController {
         self.contentView.layoutIfNeeded()
         
         self.contentView.snp.remakeConstraints {
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(0)
             $0.left.right.equalToSuperview()
         }
         

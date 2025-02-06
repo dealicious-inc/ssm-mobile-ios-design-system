@@ -102,7 +102,7 @@ private extension NoticeViewController {
         
         contentView.addSubview(noticeViewWithLabeledTexts)
         noticeViewWithLabeledTexts.then {
-            $0.title = "Notice with LabeledText Array"
+            $0.title = "Notice with LabeledText ArrayNotice with LabeledText ArrayNotice with LabeledText ArrayNotice with LabeledText ArrayNotice with LabeledText ArrayNotice with LabeledText Array"
             $0.addLabeledTexts(labeledTextViews)
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16.0)

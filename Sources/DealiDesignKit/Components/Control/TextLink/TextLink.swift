@@ -106,8 +106,6 @@ final public class TextLink: SystemButton {
     }
     
     override func updateUI(for state: DealiButtonStatus) {
-        super.updateUI(for: state)
-        
         self.systemConfig.status = state
         self.updateContent()
     }

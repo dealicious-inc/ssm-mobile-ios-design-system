@@ -45,6 +45,8 @@
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
+		E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */; };
+		E5E0642D2D5F12C700925FAF /* SwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* SwiftUIBaseView.swift */; };
 		E648FA9A2BB2C81E009F11F6 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
@@ -94,6 +96,8 @@
 		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
+		E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBaseViewController.swift; sourceTree = "<group>"; };
+		E5E0642C2D5F12C700925FAF /* SwiftUIBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseView.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				04AD45112A15EF1000093BEB /* Others */,
 				04AD45102A15EF0400093BEB /* Views */,
 				04AD450F2A15EEF900093BEB /* ViewControllers */,
+				E5E064292D5F0E0500925FAF /* SwiftUIViewControllers */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
 			);
 			path = DealiDesignSystemSampleApp;
@@ -161,6 +166,8 @@
 			children = (
 				392C389A2C4654870088D176 /* BottomSheetTest */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
+				E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */,
+				E5E0642C2D5F12C700925FAF /* SwiftUIBaseView.swift */,
 				39AE99762CF47D8B007CF381 /* DealiTabBarViewController */,
 				4D1FA9272AFC740000AA510F /* Sub */,
 			);
@@ -273,6 +280,13 @@
 				4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E5E064292D5F0E0500925FAF /* SwiftUIViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftUIViewControllers;
 			sourceTree = "<group>";
 		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {
@@ -389,9 +403,11 @@
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
+				E5E0642D2D5F12C700925FAF /* SwiftUIBaseView.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
+				E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,

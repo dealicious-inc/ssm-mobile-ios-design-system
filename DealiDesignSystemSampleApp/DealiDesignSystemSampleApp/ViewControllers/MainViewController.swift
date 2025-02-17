@@ -55,11 +55,18 @@ final class MainViewController: UIViewController {
         }
         
         
-        let swiftUIButton = DealiControl.btnFilledTonalLarge03()
+        let swiftUIButton = DealiControl.btnOutlineLarge03()
         contentStackView.addArrangedSubview(swiftUIButton)
         swiftUIButton.do {
             $0.title = "SwiftUI Base"
             $0.addTarget(self, action: #selector(handleSwiftUIBaseButtonPress), for: .touchUpInside)
+        }
+        
+        let fullSwiftUIButton = DealiControl.btnFilledTonalLarge03()
+        contentStackView.addArrangedSubview(fullSwiftUIButton)
+        fullSwiftUIButton.do {
+            $0.title = "Full SwiftUI Base"
+            $0.addTarget(self, action: #selector(handleFullSwiftUIBaseButtonPress), for: .touchUpInside)
         }
     }
     
@@ -69,17 +76,21 @@ final class MainViewController: UIViewController {
     }
     
     @objc func handleSwiftUIBaseButtonPress() {
-        self.pushSwiftUIView(view: SwiftUIBaseView())
+        self.pushViewController(SwiftUIBaseViewController())
+    }
+    
+    @objc func handleFullSwiftUIBaseButtonPress() {
+        self.pushSwiftUIView(SwiftUIBaseView())
         
         // 특정 View를 UIKit에 추가하는 방법
-//        let testViewController = UIViewController()
-//        testViewController.view.backgroundColor = .white
-//        let alertView = AlertView().UIKit()
-//        testViewController.view.addSubview(alertView)
-//        alertView.snp.makeConstraints {
-//            $0.center.equalToSuperview()
-//        }
-//        self.pushViewController(testViewController)
+        //        let testViewController = UIViewController()
+        //        testViewController.view.backgroundColor = .white
+        //        let alertView = AlertView().UIKit()
+        //        testViewController.view.addSubview(alertView)
+        //        alertView.snp.makeConstraints {
+        //            $0.center.equalToSuperview()
+        //        }
+        //        self.pushViewController(testViewController)
     }
 }
 
@@ -90,10 +101,22 @@ extension UIViewController {
     }
     
     /// SwiftUI View를 HostViewController로 push 합니다.
-    func pushSwiftUIView<Content: View>(view: Content) {
+    func pushSwiftUIView<Content: View>(_ view: Content) {
         let hostingViewController = UIHostingController(rootView: view)
         hostingViewController.navigationItem.hidesBackButton = false
         
         self.navigationController?.pushViewController(hostingViewController, animated: true)
     }
+    
+    func present<Content: View>(_ view: Content) {
+        let hostingViewController = UIHostingController(rootView: view)
+        hostingViewController.navigationItem.hidesBackButton = false
+        hostingViewController.modalPresentationStyle = .overFullScreen
+        hostingViewController.modalTransitionStyle = .crossDissolve
+        hostingViewController.view.backgroundColor = .clear
+        
+        self.present(hostingViewController, animated: false)
+    }
+    
+    
 }

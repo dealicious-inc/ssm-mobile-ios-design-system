@@ -34,6 +34,8 @@
 		39AE99782CF47D8B007CF381 /* DealiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */; };
 		39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99792CF47D9E007CF381 /* TabBarViewController.swift */; };
 		39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */; };
+		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
+		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
@@ -85,6 +87,8 @@
 		39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarViewController.swift; sourceTree = "<group>"; };
 		39AE99792CF47D9E007CF381 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImageViewController.swift; sourceTree = "<group>"; };
+		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
+		3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
@@ -148,7 +152,6 @@
 				04AD45112A15EF1000093BEB /* Others */,
 				04AD45102A15EF0400093BEB /* Views */,
 				04AD450F2A15EEF900093BEB /* ViewControllers */,
-				E5E064292D5F0E0500925FAF /* SwiftUIViewControllers */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
 			);
 			path = DealiDesignSystemSampleApp;
@@ -168,8 +171,10 @@
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */,
 				E5E0642C2D5F12C700925FAF /* SwiftUIBaseView.swift */,
+				3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */,
 				39AE99762CF47D8B007CF381 /* DealiTabBarViewController */,
 				4D1FA9272AFC740000AA510F /* Sub */,
+				3B92CD032D62CE57006A2057 /* SwiftUISubViews */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -210,6 +215,14 @@
 				39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */,
 			);
 			path = DealiTabBarViewController;
+			sourceTree = "<group>";
+		};
+		3B92CD032D62CE57006A2057 /* SwiftUISubViews */ = {
+			isa = PBXGroup;
+			children = (
+				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
+			);
+			path = SwiftUISubViews;
 			sourceTree = "<group>";
 		};
 		4D1FA9272AFC740000AA510F /* Sub */ = {
@@ -280,13 +293,6 @@
 				4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		E5E064292D5F0E0500925FAF /* SwiftUIViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SwiftUIViewControllers;
 			sourceTree = "<group>";
 		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {
@@ -405,6 +411,7 @@
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				E5E0642D2D5F12C700925FAF /* SwiftUIBaseView.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
+				3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
 				E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */,
@@ -428,6 +435,7 @@
 				39AE99772CF47D8B007CF381 /* DealiTabBarChildViewController.swift in Sources */,
 				4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */,
 				E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */,
+				3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

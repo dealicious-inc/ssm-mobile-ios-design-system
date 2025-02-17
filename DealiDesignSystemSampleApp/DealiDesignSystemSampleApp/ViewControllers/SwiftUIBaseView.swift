@@ -6,14 +6,14 @@
 //  Copyright © 2025 Dealicious Inc. All rights reserved.
 //
 
-import UIKit.UIView
+import UIKit//.UIView
 import SwiftUI
 import RxSwift
 
 import DealiDesignKit
 
 struct SwiftUIBaseView: View {
-    let components: [Component] = [Component(title: "Alert", linkView: AlertView())]
+    let components: [Component] = [Component(title: "Alert", linkView: AlertTestView())]
     
     
     var body: some View {
@@ -25,7 +25,6 @@ struct SwiftUIBaseView: View {
                 }
                 .navigationBarTitle("SwiftUI Base Components", displayMode: .inline)
         } else {
-            // Fallback on earlier versions
             EmptyView()
         }
     }

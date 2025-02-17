@@ -7,9 +7,22 @@
 
 import UIKit
 import DealiDesignKit
+import SwiftUI
 
 class AlertTestViewController: UIViewController {
-
+    
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,7 +93,10 @@ class AlertTestViewController: UIViewController {
 extension AlertTestViewController {
     @objc func alertButton01Pressed() {
         debugPrint("alertButton01Pressed")
-
+        if isSwiftUI {
+            return
+        }
+        
         DealiAlert.show(message: "Alert 테스트중",
                         cancelButtonTitle: "취소",
                         confirmButtonTitle: "확인",
@@ -90,7 +106,15 @@ extension AlertTestViewController {
     
     @objc func alertButton02Pressed() {
         debugPrint("alertButton02Pressed")
-
+        if isSwiftUI {
+            var alert = AlertView()
+            alert.addTitle("1버튼 Alert")
+            alert.addMessage("SwiftUI 테스트")
+            
+            self.present(alert)
+            return
+        }
+        
         DealiAlert.showConfirm(title: "1버튼 Alert",
                                message: "확인버튼만 있는 팝업입니다.",
                                confirmButtonTitle: "확인",
@@ -101,6 +125,11 @@ extension AlertTestViewController {
     
     @objc func alertButton03Pressed() {
         debugPrint("alertButton03Pressed")
+        
+        if isSwiftUI {
+            
+            return
+        }
         
         DealiAlert.showCheckBox(title: "Title입니다.",
                                 message: "체크박스 팝업 테스트중",

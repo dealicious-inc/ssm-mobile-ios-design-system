@@ -33,13 +33,14 @@ public struct AlertView: View {
         ZStack{
             Color(.b40).opacity(opacity).ignoresSafeArea()
             
-            VStack(spacing: 20) {
+            VStack {
                 Text(viewModel.title ?? "")
                     .font(Font(UIFont.sh2sb18))
                     .foregroundStyle(Color(UIColor.g100))
 //                    .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
+                Spacer().frame(height: 10)
                 
                 Text(viewModel.message ?? "")
                     .font(Font(UIFont.sh3r16))
@@ -47,6 +48,8 @@ public struct AlertView: View {
 //                    .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
+                Spacer().frame(height: 24)
+                
                 HStack(spacing: 10) {
                     Button("확인") {
                         withAnimation(dismissAnimation) {
@@ -57,28 +60,31 @@ public struct AlertView: View {
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
-                    .font(Font(UIFont.sh3r16))
-                    .frame(maxWidth: .infinity, maxHeight: 50.0)
+                    .font(Font(UIFont.b2sb14))
+                    .frame(maxWidth: .infinity, maxHeight: 46.0)
                     .background(Color(UIColor.primary01))
                     .foregroundColor(.white)
-                    .cornerRadius(8.0)
+                    .cornerRadius(6.0)
                 }
                 
             }
-            .padding(.all, 20)
-            .frame(maxWidth: .infinity)
+            .padding(.top, 24.0)
+            .padding(.bottom, 20)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: 280.0)
             .background(Color.white).opacity(opacity)
-            .cornerRadius(8.0)
-            .padding(.horizontal, 50)
+            .cornerRadius(10.0)
         }
         .onAppear {
             withAnimation(presentAnimation) {
                 opacity = 1.0
             }
-        }.onTapGesture {
+        }
+        .onTapGesture {
             withAnimation(dismissAnimation) {
                 opacity = 0.0
             }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
                 presentationMode.wrappedValue.dismiss()
             }

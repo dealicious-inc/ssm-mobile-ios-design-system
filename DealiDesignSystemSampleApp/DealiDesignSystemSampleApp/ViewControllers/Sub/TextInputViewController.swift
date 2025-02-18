@@ -14,6 +14,7 @@ final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
     private let textInput = DealiTextInput_v2.text()
+    private let realTimeInput = DealiTextInput_v2.text()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,16 @@ final class TextInputViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        self.realTimeInput.rx.textEditingControlProperty
+            .bind(with: self) { owner, text in
+                if let text = text, text.rangeOfCharacter(from: .decimalDigits) != nil {
+                    owner.realTimeInput.errorStatus = .error("숫자를 포함할 수 없습니다.")
+                } else {
+                    owner.realTimeInput.errorStatus = .none
+                    owner.realTimeInput.inputStatus = self.realTimeInput.textField.isFirstResponder ? .focusIn : .focusOut
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     var disposeBag = DisposeBag()
@@ -78,6 +89,19 @@ final class TextInputViewController: UIViewController {
             
             $0.notVerifiedBadgeText = "미인증"
             $0.verifiedBadgeText = "인증"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        contentStackView.addArrangedSubview(realTimeInput)
+        realTimeInput.then {
+            $0.title = "실시간 검증 입력"
+            $0.placeholder = "Text Input"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            let button = DealiControl.btnOutlineMedium03()
+            button.title = "Default"
+            $0.actionButton = button
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

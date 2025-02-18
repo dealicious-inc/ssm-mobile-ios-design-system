@@ -150,18 +150,31 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     /// confirmed 속성 나타낼 때 사용
     public var confirmingCondition: ((String?) -> Bool)?
    
+    /// TextInput 에러 상태 세팅
+    public var errorStatus: ETextInputErrorStatus = .none {
+        didSet {
+            switch self.errorStatus {
+            case let .error(errorMessage):
+                self.setError(for: errorMessage)
+                return
+            default:
+                break
+            }
+        }
+    }
+    
     /// TextInputStatus 따라 ui처리
     public var inputStatus: ETextInputStatus = .normal {
         didSet {
+            if case .error = self.errorStatus {
+                return
+            }
+            
             self.textField.textColor = self.inputStatus.textColor
             self.textFieldContentView.layer.borderColor = self.inputStatus.borderColor
             self.textFieldContentView.backgroundColor = self.inputStatus.backgroundColor
 
             switch self.inputStatus {
-            case let .error(errorMessage):
-                self.setError(for: errorMessage)
-                return
-                
             case .focusIn:
                 self.becomeFirstResponder()
 
@@ -612,6 +625,10 @@ extension DealiTextInput_v2: DealiTextFieldConfig {
     }
     
     func setError(for errorMessage: String?) {
+        
+        self.textField.textColor = self.errorStatus.textColor
+        self.textFieldContentView.layer.borderColor = self.errorStatus.borderColor
+        self.textFieldContentView.backgroundColor = self.errorStatus.backgroundColor
         
         let style = NSMutableParagraphStyle().then {
             $0.lineHeightMultiple = 1.12

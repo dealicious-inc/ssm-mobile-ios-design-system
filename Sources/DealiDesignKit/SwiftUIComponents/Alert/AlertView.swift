@@ -34,6 +34,7 @@ public struct AlertView: View {
             Color(.b40).opacity(opacity).ignoresSafeArea()
             
             VStack {
+                // Title
                 Text(viewModel.title ?? "")
                     .font(Font(UIFont.sh2sb18))
                     .foregroundStyle(Color(UIColor.g100))
@@ -42,6 +43,7 @@ public struct AlertView: View {
                 
                 Spacer().frame(height: 10)
                 
+                // Message
                 Text(viewModel.message ?? "")
                     .font(Font(UIFont.sh3r16))
                     .foregroundStyle(Color(UIColor.g80))
@@ -50,21 +52,19 @@ public struct AlertView: View {
 
                 Spacer().frame(height: 24)
                 
+                // Button
                 HStack(spacing: 10) {
-                    Button("확인") {
-                        withAnimation(dismissAnimation) {
-                            opacity = 0.0
+//                    ButtonView().btnOutlineMedium01()
+//                        .addTitle("취소")
+//                        .addAction {
+//                            dismiss()
+//                        }
+                    
+                    ButtonView().btnFilledLarge01()
+                        .addTitle("확인")
+                        .addAction {
+                            dismiss()
                         }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
-                    .font(Font(UIFont.b2sb14))
-                    .frame(maxWidth: .infinity, maxHeight: 46.0)
-                    .background(Color(UIColor.primary01))
-                    .foregroundColor(.white)
-                    .cornerRadius(6.0)
                 }
                 
             }
@@ -81,13 +81,17 @@ public struct AlertView: View {
             }
         }
         .onTapGesture {
-            withAnimation(dismissAnimation) {
-                opacity = 0.0
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
-                presentationMode.wrappedValue.dismiss()
-            }
+            dismiss()
+        }
+    }
+    
+    private func dismiss() {
+        withAnimation(dismissAnimation) {
+            opacity = 0.0
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
+            presentationMode.wrappedValue.dismiss()
         }
     }
     
@@ -95,21 +99,20 @@ public struct AlertView: View {
     
 }
 
+// MARK: - Set ViewModel
 public extension AlertView {
-    
-    @discardableResult
-    mutating func addTitle(_ title: String) -> AlertView {
+    func addTitle(_ title: String) -> AlertView {
         viewModel.title = title
         return self
     }
     
-    @discardableResult
-    mutating func addMessage(_ message: String) -> AlertView {
+    func addMessage(_ message: String) -> AlertView {
         viewModel.message = message
         return self
     }
 }
 
+// MARK: - Preview
 #Preview {
     AlertView()
 }

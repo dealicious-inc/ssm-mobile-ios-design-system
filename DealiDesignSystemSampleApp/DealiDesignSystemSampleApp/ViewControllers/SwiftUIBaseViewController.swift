@@ -70,6 +70,7 @@ final class SwiftUIBaseViewController: UIViewController {
     
     private func addComponentsButtons() {
         self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
+        self.addComponents(title: "Button", actionSelector: #selector(ButtonsButtonPressed))
     }
 }
 
@@ -77,5 +78,9 @@ final class SwiftUIBaseViewController: UIViewController {
 extension SwiftUIBaseViewController {
     @objc func alertButtonPressed() {
         self.pushViewController(AlertTestViewController(isSwiftUI: true))
+    }
+    
+    @objc func ButtonsButtonPressed() {
+        self.pushViewController(ButtonViewController(isSwiftUI: true))
     }
 }

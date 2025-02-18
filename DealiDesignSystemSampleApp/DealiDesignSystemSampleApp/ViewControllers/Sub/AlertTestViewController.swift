@@ -107,11 +107,11 @@ extension AlertTestViewController {
     @objc func alertButton02Pressed() {
         debugPrint("alertButton02Pressed")
         if isSwiftUI {
-            var alert = AlertView()
-            alert.addTitle("1버튼 Alert")
-            alert.addMessage("SwiftUI 테스트")
+            let alertView = AlertView()
+                .addTitle("1버튼 Alert")
+                .addMessage("SwiftUI 테스트")
             
-            self.present(alert)
+            self.present(alertView)
             return
         }
         

@@ -17,14 +17,11 @@ struct AlertTestView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                Button("1버튼 팝업") {
-                    showAlert.toggle()
-                }
-                .padding()
-                .background(.white)
-                .foregroundColor(.blue)
-                .cornerRadius(10)
-                .border(.blue, width: 1)
+                ButtonView().btnFilledLarge01()
+                    .addTitle("1버튼 Alert")
+                    .addAction {
+                        showAlert.toggle()
+                    }
                 
                 Spacer()
             }
@@ -32,13 +29,10 @@ struct AlertTestView: View {
             .navigationBarTitle("Alert", displayMode: .inline)
             
             if showAlert {
-//                AlertView(isAppeared: $showAlert)
                 AlertView()
+                    .addTitle("1버튼 Alert")
+                    .addMessage("SwiftUI 테스트")
             }
-//            .fullScreenCover(isPresented: $showAlert) {
-//                AlertView(isAppeared: $showAlert)
-//            }
-                
         }
     }
 }

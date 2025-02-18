@@ -59,6 +59,7 @@ public extension View {
     ///SwiftUI View를 UIKit View로 변환합니다.
     func UIKit() -> UIView {
         let view: UIView = UIHostingController(rootView: self).view
+        view.backgroundColor = .clear
         return view
     }
 }

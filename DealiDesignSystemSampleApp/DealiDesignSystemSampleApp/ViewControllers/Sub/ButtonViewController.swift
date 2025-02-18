@@ -8,10 +8,23 @@
 import UIKit
 import DealiDesignKit
 import SnapKit
+import SwiftUI
 
 class ButtonViewController: UIViewController {
     
     private let stackView = UIStackView()
+    
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -47,6 +60,11 @@ class ButtonViewController: UIViewController {
             $0.alignment = .center
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20.0)
+        }
+        
+        if isSwiftUI {
+            self.addSwiftUIButtons()
+            return
         }
         
         let testStackView = UIStackView()
@@ -272,6 +290,34 @@ class ButtonViewController: UIViewController {
                     b.stopIndicator()
                 }
             }
+        }
+        
+    }
+    
+    func addSwiftUIButtons() {
+        var buttonArray: [UIView] = []
+        
+        let largeButtonArray: [UIView] = [
+            ButtonView().btnFilledLarge01().addTitle("btnFilledLarge01").UIKit()
+        ]
+        
+        let mediumButtonArray: [UIView] = [
+            ButtonView().btnFilledMedium01().addTitle("btnFilledMedium01").UIKit(),
+            ButtonView().btnOutlineMedium01().addTitle("btnOutlineMedium01").UIKit()
+        ]
+        let semiMediumButtonArray: [UIView] = []
+        let smallButtonArray: [UIView] = []
+        
+        buttonArray += largeButtonArray
+        buttonArray += mediumButtonArray
+        buttonArray += semiMediumButtonArray
+        buttonArray += smallButtonArray
+        
+        buttonArray.forEach { button in
+            self.stackView.addArrangedSubview(button)
+//            button.snp.makeConstraints {
+//                $0.left.right.equalToSuperview()
+//            }
         }
         
     }

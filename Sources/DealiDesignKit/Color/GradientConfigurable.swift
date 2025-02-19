@@ -73,7 +73,8 @@ public enum MbsGradient: GradientConfigurable {
         case .gradient01:
             return [0.31, 1.0]
         case .gradient02:
-            return [0.2, 1.0]
+            return [0.3, 1.0]
+            
         }
     }
     
@@ -82,7 +83,7 @@ public enum MbsGradient: GradientConfigurable {
         case .gradient01:
             return CGPoint(x: 0.0, y: 0.5)
         case .gradient02:
-            return CGPoint(x: 0.0, y: 0.0)
+            return CGPoint(x: 0.3, y: 0.2)
         }
     }
     
@@ -91,7 +92,7 @@ public enum MbsGradient: GradientConfigurable {
         case .gradient01:
             return CGPoint(x: 1.0, y: 0.5)
         case .gradient02:
-            return CGPoint(x: 1, y: 1.5)
+            return CGPoint(x: 1, y: 1.3)
         }
     }
 }

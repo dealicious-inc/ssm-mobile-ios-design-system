@@ -61,10 +61,11 @@ public struct AlertView: View {
 //                        }
                     
                     ButtonView().btnFilledLarge01()
-                        .addTitle("확인")
+                        .setTitle("확인")
                         .addAction {
                             dismiss()
                         }
+                        .frame(maxWidth: .infinity)
                 }
                 
             }

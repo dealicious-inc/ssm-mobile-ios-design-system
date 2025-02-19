@@ -18,7 +18,7 @@ struct AlertTestView: View {
         ZStack {
             VStack(spacing: 20) {
                 ButtonView().btnFilledLarge01()
-                    .addTitle("1버튼 Alert")
+                    .setTitle("1버튼 Alert")
                     .addAction {
                         showAlert.toggle()
                     }

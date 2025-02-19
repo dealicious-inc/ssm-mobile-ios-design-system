@@ -25,6 +25,8 @@
 		392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */; };
 		392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C38A12C467A540088D176 /* DropdownViewController.swift */; };
 		393D25822BEB615F00A2CC3F /* EmptyComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */; };
+		394980602D65CD76000508FB /* HojiMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3949805F2D65CD76000508FB /* HojiMain.swift */; };
+		394980632D65D11E000508FB /* HNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394980622D65D11E000508FB /* HNavigationView.swift */; };
 		396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */; };
 		396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */; };
 		396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */; };
@@ -74,6 +76,8 @@
 		392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		392C38A12C467A540088D176 /* DropdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropdownViewController.swift; sourceTree = "<group>"; };
 		393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponentViewController.swift; sourceTree = "<group>"; };
+		3949805F2D65CD76000508FB /* HojiMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HojiMain.swift; sourceTree = "<group>"; };
+		394980622D65D11E000508FB /* HNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNavigationView.swift; sourceTree = "<group>"; };
 		396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckComponentViewController.swift; sourceTree = "<group>"; };
 		396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 		042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				3949805D2D65CD3F000508FB /* HojiSwiftUI */,
 				04AD45112A15EF1000093BEB /* Others */,
 				04AD45102A15EF0400093BEB /* Views */,
 				04AD450F2A15EEF900093BEB /* ViewControllers */,
@@ -194,6 +199,31 @@
 				392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */,
 			);
 			path = BottomSheetTest;
+			sourceTree = "<group>";
+		};
+		3949805D2D65CD3F000508FB /* HojiSwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				3949805E2D65CD53000508FB /* Main */,
+			);
+			path = HojiSwiftUI;
+			sourceTree = "<group>";
+		};
+		3949805E2D65CD53000508FB /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				394980612D65D0EE000508FB /* View */,
+				3949805F2D65CD76000508FB /* HojiMain.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		394980612D65D0EE000508FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				394980622D65D11E000508FB /* HNavigationView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		39AE99762CF47D8B007CF381 /* DealiTabBarViewController */ = {
@@ -389,6 +419,7 @@
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
+				394980602D65CD76000508FB /* HojiMain.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
@@ -404,6 +435,7 @@
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				3990E48F2CC639C3007C2D9E /* AccordionComponentViewController.swift in Sources */,
 				392C389E2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift in Sources */,
+				394980632D65D11E000508FB /* HNavigationView.swift in Sources */,
 				39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */,
 				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,

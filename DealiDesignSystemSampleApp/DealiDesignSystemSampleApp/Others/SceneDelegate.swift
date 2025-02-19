@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SwiftUI
 import DealiDesignKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -22,8 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         registerDealiSystemFonts()
         
-        let mainViewController = MainViewController()
-        let navigationController = UINavigationController(rootViewController: mainViewController)
+//        let mainViewController = MainViewController()
+//        let navigationController = UINavigationController(rootViewController: mainViewController)
         
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithDefaultBackground()
@@ -32,7 +32,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().compactAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         
-        window?.rootViewController = navigationController
+//        window?.rootViewController = navigationController
+        window?.rootViewController = UIHostingController(rootView: HojiMain())
         window?.makeKeyAndVisible()
     }
 

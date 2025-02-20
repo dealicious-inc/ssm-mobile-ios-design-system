@@ -62,4 +62,17 @@ public extension View {
         view.backgroundColor = .clear
         return view
     }
+    
+    func hosting() -> UIHostingController<Self> {
+        let hostingVC = UIHostingController(rootView: self)
+        hostingVC.view.backgroundColor = .clear
+        return hostingVC
+    }
+    
+}
+
+public extension UIHostingController {
+    func updateView(_ view: Content) {
+        self.rootView = view
+    }
 }

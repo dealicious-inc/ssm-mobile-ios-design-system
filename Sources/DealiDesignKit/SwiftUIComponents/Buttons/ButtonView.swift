@@ -12,9 +12,8 @@ public struct ButtonView: View {
     @ObservedObject
     private var viewModel: ViewModel
     
-    private var action: () -> Void = {}
-    
-    final class ViewModel: ObservableObject {
+    final public class ViewModel: ObservableObject {
+        var action: () -> Void = {}
         var config: ClickableConfig = ButtonFilledConfig.large
         var color: ClickableColorConfig = ButtonFilledColor.primary01
         
@@ -31,57 +30,73 @@ public struct ButtonView: View {
         @Published var foregroundColor: Color?
         @Published var borderColor: Color = .clear
         @Published var isEnabled: Bool = true
+        @Published var isLoading: Bool = false
     }
     
     public var body: some View {
-        Button(viewModel.title ?? "") {
-            action()
-        }
-        .font(viewModel.font)
-        .background(
-            Group {
-                if let gradientBackground = viewModel.gradientBackground {
-                    LinearGradient(
-                        gradient: Gradient(colors: gradientBackground.colors),
-                        startPoint: gradientBackground.startPoint,
-                        endPoint: gradientBackground.endPoint
-                    )
-                } else {
-                    viewModel.backgroundColor
-                }
-            })
-        .foregroundColor(viewModel.foregroundColor)
-        .cornerRadius(viewModel.cornerRadius)
-        .disabled(!viewModel.isEnabled)
-        .overlay(
-            RoundedRectangle(cornerRadius: 6.0)
-                .stroke(viewModel.borderColor)
-        )
-        .buttonStyle(HighlightButtonStyle(viewModel: viewModel))
-    }
+        ZStack {
+            Button(viewModel.title ?? "") {
+                viewModel.action()
+            }
+            .font(viewModel.font)
+            .background(
+                Group {
+                    if let gradientBackground = viewModel.gradientBackground {
+                        LinearGradient(
+                            gradient: Gradient(colors: gradientBackground.colors),
+                            startPoint: gradientBackground.startPoint,
+                            endPoint: gradientBackground.endPoint
+                        )
+                    } else {
+                        viewModel.backgroundColor
+                    }
+                })
+            .foregroundColor(viewModel.isLoading ? .clear : viewModel.foregroundColor)
+            .cornerRadius(viewModel.cornerRadius)
+            .disabled(!viewModel.isEnabled)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6.0)
+                    .stroke(viewModel.borderColor)
+            )
+            .buttonStyle(ButtonViewStyle(viewModel: viewModel))
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }}
     
     public init(action: @escaping () -> Void = {}) {
         self.viewModel = ViewModel()
-        self.action = action
+        self.viewModel.action = action
     }
 }
 
 // MARK: - Set ViewModel
 public extension ButtonView {
+    @discardableResult
     func setTitle(_ title: String) -> Self {
         viewModel.title = title
         return self
     }
     
+    @discardableResult
     func addAction(_ action: @escaping () -> Void) -> Self {
-        var copy = self
-        copy.action = action
+        viewModel.action = action
         return self
     }
     
+    @discardableResult
     func setEnabled(_ isEnabled: Bool) -> Self {
         viewModel.isEnabled = isEnabled
         setDisabledConfitStyle()
+        return self
+    }
+    
+    @discardableResult
+    func setLoading(_ isLoading: Bool) -> Self {
+        viewModel.isLoading = isLoading
         return self
     }
 }
@@ -129,17 +144,22 @@ public extension ButtonView {
 }
 
 // MARK: - HighlightButtonStyle
-struct HighlightButtonStyle: ButtonStyle {
+struct ButtonViewStyle: ButtonStyle {
     let viewModel: ButtonView.ViewModel
     
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
-            if configuration.isPressed {
-                RoundedRectangle(cornerRadius: 6.0)
-                    .fill(Color(.b2))
-                    .allowsHitTesting(false)
+            if viewModel.isLoading {
+//                ProgressView()
+//                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                if configuration.isPressed && viewModel.isEnabled {
+                    RoundedRectangle(cornerRadius: 6.0)
+                        .fill(Color(.b2))
+                        .allowsHitTesting(false)
+                }
             }
-            
             configuration.label
                 .padding(.leading, viewModel.leftPaddingSet?.normal)
                 .padding(.trailing, viewModel.rightPaddingSet?.normal)
@@ -147,6 +167,19 @@ struct HighlightButtonStyle: ButtonStyle {
         .frame(height: viewModel.config.height.button)
     }
 }
+
+//extension ButtonView: UIViewControllerRepresentable {
+//    
+//    var content: () -> Content
+//    
+//    public func makeUIViewController(context: Context) -> some UIViewController {
+//        UIHostingController(rootView: content())
+//    }
+//    
+//    public func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+//        host.rootView = content()
+//    }
+//}
 
 // MARK: - GradientBackground
 struct GradientBackground {

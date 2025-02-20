@@ -31,12 +31,14 @@ class ButtonViewController: UIViewController {
         
         self.view.backgroundColor = .systemGray2
         
-        let switchView = UISwitch()
-        let switchItem = UIBarButtonItem(customView: switchView)
-        self.navigationItem.rightBarButtonItem = switchItem
-        switchView.do {
-            $0.onTintColor = .primary01
-            $0.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
+        if !isSwiftUI {
+            let switchView = UISwitch()
+            let switchItem = UIBarButtonItem(customView: switchView)
+            self.navigationItem.rightBarButtonItem = switchItem
+            switchView.do {
+                $0.onTintColor = .primary01
+                $0.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
+            }
         }
         
         let scrollView = UIScrollView()
@@ -294,7 +296,58 @@ class ButtonViewController: UIViewController {
         
     }
     
+}
+
+extension ButtonViewController {
+    func addSwiftUIStyleButtons() {
+        let loadingStackview = UIStackView()
+        loadingStackview.do {
+            $0.spacing = 10
+            $0.axis = .horizontal
+        }
+        
+        #warning("좋은 호스팅 업데이트방법이 없을까...")
+        let button = ButtonView()
+        let buttonHosting = button.hosting()
+        button
+            .btnFilledLarge01()
+            .setTitle("ButtonLoadingTest")
+            .setLoading(false)
+            .addAction {
+                buttonHosting.updateView(button.setLoading(true))
+            }
+        loadingStackview.addArrangedSubview(
+            button.UIKit()
+        )
+        
+        let buttonOn = ButtonView().btnOutlineBgLarge01().setTitle("On")
+            .addAction {
+                buttonHosting.updateView(button.setLoading(true))
+            }
+            .UIKit()
+        loadingStackview.addArrangedSubview(buttonOn)
+        
+        let buttonOff = ButtonView().btnOutlineBgLarge01().setTitle("Off")
+            .addAction {
+                buttonHosting.updateView(button.setLoading(false))
+            }
+            .UIKit()
+        loadingStackview.addArrangedSubview(buttonOff)
+        
+        self.stackView.addArrangedSubview(loadingStackview)
+        
+        self.stackView.addArrangedSubview(
+            ButtonView()
+                .btnFilledLarge01()
+                .setTitle("Button Disabled")
+                .setEnabled(false)
+                .UIKit()
+        )
+    }
+    
     func addSwiftUIButtons() {
+        addSwiftUIStyleButtons()
+        
         var buttonArray: [UIView] = []
         
         let largeButtonArray: [UIView] = [
@@ -469,7 +522,6 @@ class ButtonViewController: UIViewController {
             self.stackView.addArrangedSubview(button)
         }
     }
-    
 }
 
 extension UIImage {

@@ -27,6 +27,12 @@ public struct AlertView: View {
     final class ViewModel: ObservableObject {
         @Published var title: String?
         @Published var message: String?
+        
+        @Published var confirmButtonTitle: String?
+        var confirmButtonAction: () -> Void = {}
+        
+        @Published var cancelButtonTitle: String?
+        var cancelButtonAction: () -> Void = {}
     }
     
     public var body: some View {
@@ -54,20 +60,26 @@ public struct AlertView: View {
                 
                 // Button
                 HStack(spacing: 10) {
-//                    ButtonView().btnOutlineMedium01()
-//                        .addTitle("취소")
-//                        .addAction {
-//                            dismiss()
-//                        }
+                    if let cancelButtonTitle = viewModel.cancelButtonTitle {
+                        ButtonView().btnOutlineMedium01()
+                            .setTitle(cancelButtonTitle)
+                            .addAction {
+                                viewModel.cancelButtonAction()
+                                dismiss()
+                            }
+                    }
                     
-                    ButtonView().btnFilledLarge01()
-                        .setTitle("확인")
-                        .addAction {
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
+                    if let confirmButtonTitle = viewModel.confirmButtonTitle {
+                        ButtonView().btnFilledLarge01()
+                            .setTitle(confirmButtonTitle)
+                            .addAction {
+                                viewModel.confirmButtonAction()
+                                dismiss()
+                            }
+                            .frame(maxWidth: .infinity)
+                    }
                 }
-                
+                .frame(maxWidth: .infinity)
             }
             .padding(.top, 24.0)
             .padding(.bottom, 20)
@@ -102,13 +114,29 @@ public struct AlertView: View {
 
 // MARK: - Set ViewModel
 public extension AlertView {
-    func addTitle(_ title: String) -> AlertView {
+    func addTitle(_ title: String) -> Self {
         viewModel.title = title
         return self
     }
     
-    func addMessage(_ message: String) -> AlertView {
+    func addMessage(_ message: String) -> Self {
         viewModel.message = message
+        return self
+    }
+    
+    func addConfirmButton(title: String, action: (() -> Void)? = nil) -> Self {
+        viewModel.confirmButtonTitle = title
+        if let action {
+            viewModel.confirmButtonAction = action
+        }
+        return self
+    }
+    
+    func addCancelButton(title: String, action: (() -> Void)? = nil) -> Self {
+        viewModel.cancelButtonTitle = title
+        if let action {
+            viewModel.cancelButtonAction = action
+        }
         return self
     }
 }

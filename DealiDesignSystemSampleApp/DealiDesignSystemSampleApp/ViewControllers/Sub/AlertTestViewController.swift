@@ -94,7 +94,12 @@ extension AlertTestViewController {
     @objc func alertButton01Pressed() {
         debugPrint("alertButton01Pressed")
         if isSwiftUI {
-            return
+            let alertView = AlertView()
+                .addTitle("1버튼 Alert")
+                .addMessage("SwiftUI 테스트")
+                .addConfirmButton(title: "확인")
+                .addCancelButton(title: "취소")
+            self.present(alertView)
         }
         
         DealiAlert.show(message: "Alert 테스트중",
@@ -110,7 +115,7 @@ extension AlertTestViewController {
             let alertView = AlertView()
                 .addTitle("1버튼 Alert")
                 .addMessage("SwiftUI 테스트")
-            
+                .addConfirmButton(title: "확인")
             self.present(alertView)
             return
         }

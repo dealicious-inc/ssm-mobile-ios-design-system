@@ -24,21 +24,22 @@ public struct ButtonView: View {
         var cornerRadius: CGFloat = 0.0
         
         @Published var title: String?
-        @Published var backgroundColor: Color?
-        @Published var gradientBackground: GradientBackground?
-        
-        @Published var foregroundColor: Color?
-        @Published var borderColor: Color = .clear
         @Published var isEnabled: Bool = true
         @Published var isLoading: Bool = false
+        @Published var leftImage: UIImage?
+        @Published var rightImage: UIImage?
+        
+        @Published var backgroundColor: Color?
+        @Published var gradientBackground: GradientBackground?
+        @Published var foregroundColor: Color?
+        @Published var borderColor: Color = .clear
     }
     
     public var body: some View {
         ZStack {
-            Button(viewModel.title ?? "") {
-                viewModel.action()
+            Button(action: viewModel.action) {
+                EmptyView()
             }
-            .font(viewModel.font)
             .background(
                 Group {
                     if let gradientBackground = viewModel.gradientBackground {
@@ -51,21 +52,21 @@ public struct ButtonView: View {
                         viewModel.backgroundColor
                     }
                 })
-            .foregroundColor(viewModel.isLoading ? .clear : viewModel.foregroundColor)
             .cornerRadius(viewModel.cornerRadius)
             .disabled(!viewModel.isEnabled)
             .overlay(
                 RoundedRectangle(cornerRadius: 6.0)
                     .stroke(viewModel.borderColor)
             )
-            .buttonStyle(ButtonViewStyle(viewModel: viewModel))
+            .buttonStyle(ButtonViewStyle(viewModel: viewModel, isLoading: viewModel.isLoading))
             
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        }}
+        }
+    }
     
     public init(action: @escaping () -> Void = {}) {
         self.viewModel = ViewModel()
@@ -90,13 +91,25 @@ public extension ButtonView {
     @discardableResult
     func setEnabled(_ isEnabled: Bool) -> Self {
         viewModel.isEnabled = isEnabled
-        setDisabledConfitStyle()
+        setConfigStyle(isEnabled: isEnabled)
         return self
     }
     
     @discardableResult
     func setLoading(_ isLoading: Bool) -> Self {
         viewModel.isLoading = isLoading
+        return self
+    }
+    
+    @discardableResult
+    func setLeftImage(_ image: UIImage?) -> Self {
+        viewModel.leftImage = image
+        return self
+    }
+    
+    @discardableResult
+    func setRightImage(_ image: UIImage?) -> Self {
+        viewModel.rightImage = image
         return self
     }
 }
@@ -122,64 +135,70 @@ public extension ButtonView {
         let padding = viewModel.config.padding.value(with: config.height, style: .button)
         viewModel.leftPaddingSet = padding.left
         viewModel.rightPaddingSet = padding.right
-        
-        let attribute = viewModel.color.attribute
-        if let gradient = attribute.normal.gradient {
-            viewModel.gradientBackground = GradientBackground(colors: gradient.colors.map { Color($0) },
-                                                              startPoint: UnitPoint(x: gradient.startPoint.x, y: gradient.startPoint.y),
-                                                              endPoint: UnitPoint(x: gradient.endPoint.x, y: gradient.endPoint.y))
-        } else {
-            viewModel.backgroundColor = Color(attribute.normal.background)
-        }
-        viewModel.foregroundColor = Color(attribute.normal.text)
-        viewModel.borderColor = Color(attribute.normal.border ?? .clear)
+        self.setConfigStyle(isEnabled: true)
     }
     
-    private func setDisabledConfitStyle() {
+    private func setConfigStyle(isEnabled: Bool = true) {
         let attribute = viewModel.color.attribute
-        viewModel.backgroundColor = Color(attribute.disabled.background)
-        viewModel.foregroundColor = Color(attribute.disabled.text)
-        viewModel.borderColor = Color(attribute.disabled.border ?? .clear)
+        if isEnabled {
+            if let gradient = attribute.normal.gradient {
+                viewModel.gradientBackground = GradientBackground(colors: gradient.colors.map { Color($0) },
+                                                                  startPoint: UnitPoint(x: gradient.startPoint.x, y: gradient.startPoint.y),
+                                                                  endPoint: UnitPoint(x: gradient.endPoint.x, y: gradient.endPoint.y))
+            } else {
+                viewModel.backgroundColor = Color(attribute.normal.background)
+            }
+            viewModel.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.normal.text)
+            viewModel.borderColor = Color(attribute.normal.border ?? .clear)
+        } else {
+            viewModel.backgroundColor = Color(attribute.disabled.background)
+            viewModel.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.disabled.text)
+            viewModel.borderColor = Color(attribute.disabled.border ?? .clear)
+        }
     }
 }
 
 // MARK: - HighlightButtonStyle
 struct ButtonViewStyle: ButtonStyle {
     let viewModel: ButtonView.ViewModel
+    var isLoading: Bool
     
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
-            if viewModel.isLoading {
-//                ProgressView()
-//                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
+            if !viewModel.isLoading {
                 if configuration.isPressed && viewModel.isEnabled {
                     RoundedRectangle(cornerRadius: 6.0)
                         .fill(Color(.b2))
                         .allowsHitTesting(false)
                 }
             }
-            configuration.label
-                .padding(.leading, viewModel.leftPaddingSet?.normal)
-                .padding(.trailing, viewModel.rightPaddingSet?.normal)
+            
+            HStack(spacing: 4.0) {
+                if let leftImage = viewModel.leftImage, !isLoading {
+                    Image(uiImage: leftImage)
+                } else {
+                    EmptyView()
+                }
+                
+                Text(viewModel.title ?? "")
+                    .font(viewModel.font)
+                    .foregroundColor(isLoading ? .clear : viewModel.foregroundColor)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
+                if let rightImage = viewModel.rightImage, !isLoading {
+                    Image(uiImage: rightImage)
+                } else {
+                    EmptyView()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.leading, viewModel.leftPaddingSet?.normal)
+            .padding(.trailing, viewModel.rightPaddingSet?.normal)
         }
         .frame(height: viewModel.config.height.button)
+        .contentShape(Rectangle())
     }
 }
-
-//extension ButtonView: UIViewControllerRepresentable {
-//    
-//    var content: () -> Content
-//    
-//    public func makeUIViewController(context: Context) -> some UIViewController {
-//        UIHostingController(rootView: content())
-//    }
-//    
-//    public func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-//        host.rootView = content()
-//    }
-//}
 
 // MARK: - GradientBackground
 struct GradientBackground {

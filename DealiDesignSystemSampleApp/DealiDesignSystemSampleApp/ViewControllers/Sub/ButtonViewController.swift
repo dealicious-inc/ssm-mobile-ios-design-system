@@ -300,21 +300,21 @@ class ButtonViewController: UIViewController {
 
 extension ButtonViewController {
     func addSwiftUIStyleButtons() {
+        // Loading
         let loadingStackview = UIStackView()
         loadingStackview.do {
             $0.spacing = 10
             $0.axis = .horizontal
         }
         
-        #warning("좋은 호스팅 업데이트방법이 없을까...")
         let button = ButtonView()
-        let buttonHosting = button.hosting()
         button
             .btnFilledLarge01()
-            .setTitle("ButtonLoadingTest")
+            .setTitle("setLoading")
             .setLoading(false)
+            .setLeftImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
             .addAction {
-                buttonHosting.updateView(button.setLoading(true))
+                button.setLoading(true)
             }
         loadingStackview.addArrangedSubview(
             button.UIKit()
@@ -322,27 +322,81 @@ extension ButtonViewController {
         
         let buttonOn = ButtonView().btnOutlineBgLarge01().setTitle("On")
             .addAction {
-                buttonHosting.updateView(button.setLoading(true))
+                button.setLoading(true)
             }
             .UIKit()
         loadingStackview.addArrangedSubview(buttonOn)
         
         let buttonOff = ButtonView().btnOutlineBgLarge01().setTitle("Off")
             .addAction {
-                buttonHosting.updateView(button.setLoading(false))
+                button.setLoading(false)
             }
             .UIKit()
         loadingStackview.addArrangedSubview(buttonOff)
         
         self.stackView.addArrangedSubview(loadingStackview)
         
-        self.stackView.addArrangedSubview(
+        // Enabled
+        let enabledButtonStackview = UIStackView()
+        enabledButtonStackview.do {
+            $0.spacing = 10
+            $0.axis = .horizontal
+        }
+        
+        let enabledButton = ButtonView()
+            .btnFilledLarge01()
+            .setTitle("setEnabled")
+        
+        enabledButtonStackview.addArrangedSubview(
+            enabledButton.UIKit()
+        )
+        
+        enabledButtonStackview.addArrangedSubview(
             ButtonView()
-                .btnFilledLarge01()
-                .setTitle("Button Disabled")
-                .setEnabled(false)
+                .btnOutlineBgLarge01()
+                .setTitle("Enabled")
+                .addAction {
+                    enabledButton.setEnabled(true)
+                }
                 .UIKit()
         )
+        
+        enabledButtonStackview.addArrangedSubview(
+            ButtonView()
+                .btnOutlineBgLarge01()
+                .setTitle("Disabled")
+                .addAction {
+                    enabledButton.setEnabled(false)
+                }
+                .UIKit()
+        )
+        
+        self.stackView.addArrangedSubview(enabledButtonStackview)
+        
+        // Image
+        let imageButtonStackview = UIStackView()
+        imageButtonStackview.do {
+            $0.spacing = 10
+            $0.axis = .horizontal
+        }
+        
+        imageButtonStackview.addArrangedSubview(
+            ButtonView()
+                .btnFilledLarge01()
+                .setTitle("LeftImage Button")
+                .setLeftImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
+                .UIKit()
+        )
+        
+        imageButtonStackview.addArrangedSubview(
+            ButtonView()
+                .btnFilledLarge01()
+                .setTitle("RightImage Button")
+                .setRightImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
+                .UIKit()
+        )
+        
+        self.stackView.addArrangedSubview(imageButtonStackview)
     }
     
     func addSwiftUIButtons() {

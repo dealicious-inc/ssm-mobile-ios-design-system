@@ -39,7 +39,6 @@
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
-		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */; };
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
@@ -88,7 +87,6 @@
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorItemView.swift; sourceTree = "<group>"; };
-		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
 		4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorItemView.swift; sourceTree = "<group>"; };
 		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
@@ -222,7 +220,6 @@
 				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
 				390D485A2C88456B00C30C0E /* FontComponentViewController.swift */,
 				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
-				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
 				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
 				4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */,
 				39AE99792CF47D9E007CF381 /* TabBarViewController.swift */,
@@ -374,7 +371,6 @@
 			files = (
 				042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */,
 				392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */,
-				4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 open class DealiBottomSheetBaseViewController: UIViewController {
     
     private var cornerLayer: CAShapeLayer?
-    private let contentView = UIView()
+    public let contentView = UIView()
     public let contentStackView = UIStackView()
     public let containerView = UIView()
     

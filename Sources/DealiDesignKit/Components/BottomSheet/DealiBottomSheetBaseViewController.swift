@@ -27,6 +27,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     
     public var shouldCalulateHeightBasedOnScrollView: Bool = true
     
+    private var isBottomSheetShown: Bool = false
+    
     /// 타이들 영역 노출 타입
     public var titleType: EBottomSheetTitleType = .hidden {
         didSet {
@@ -83,12 +85,6 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.showBottomSheet()
-    }
-    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -106,6 +102,10 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
         self.updateContainerViewHeight()
         
+        if !self.isBottomSheetShown {
+            self.showBottomSheet()
+            self.isBottomSheetShown = true
+        }
     }
     
     open override func loadView() {

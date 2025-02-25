@@ -9,10 +9,12 @@ import SwiftUI
 
 public struct ButtonView: View {
     
-    @ObservedObject
-    private var viewModel: ViewModel
+    @ObservedObject private var viewModel: ViewModel
     
-    final public class ViewModel: ObservableObject {
+    // indicator animation state
+    @State private var isRotating = false
+    
+    final class ViewModel: ObservableObject {
         var action: () -> Void = {}
         var config: ClickableConfig = ButtonFilledConfig.large
         var color: ClickableColorConfig = ButtonFilledColor.primary01
@@ -24,6 +26,7 @@ public struct ButtonView: View {
         var cornerRadius: CGFloat = 0.0
         
         @Published var title: String?
+        @Published var titleAlignment: TextAlignment = .leading
         @Published var isEnabled: Bool = true
         @Published var isLoading: Bool = false
         @Published var leftImage: UIImage?
@@ -58,12 +61,23 @@ public struct ButtonView: View {
                 RoundedRectangle(cornerRadius: 6.0)
                     .stroke(viewModel.borderColor)
             )
-            .buttonStyle(ButtonViewStyle(viewModel: viewModel, isLoading: viewModel.isLoading))
+            .buttonStyle(ButtonViewStyle(viewModel: viewModel))
+            .frame(height: viewModel.config.height.button)
             
             if viewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                Image(uiImage: UIImage(named: "loading")!)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .rotationEffect(.degrees(isRotating ? 360 : 0))
+                    .animation(.linear(duration: 1.5).repeatForever(autoreverses: false), value: isRotating)
+                    .opacity(viewModel.isLoading ? 1 : 0)
+                    .onAppear {
+                        isRotating = true
+                    }
+                    .onDisappear {
+                        isRotating = false
+                    }
+            } else {
+                EmptyView()
             }
         }
     }
@@ -71,46 +85,6 @@ public struct ButtonView: View {
     public init(action: @escaping () -> Void = {}) {
         self.viewModel = ViewModel()
         self.viewModel.action = action
-    }
-}
-
-// MARK: - Set ViewModel
-public extension ButtonView {
-    @discardableResult
-    func setTitle(_ title: String) -> Self {
-        viewModel.title = title
-        return self
-    }
-    
-    @discardableResult
-    func addAction(_ action: @escaping () -> Void) -> Self {
-        viewModel.action = action
-        return self
-    }
-    
-    @discardableResult
-    func setEnabled(_ isEnabled: Bool) -> Self {
-        viewModel.isEnabled = isEnabled
-        setConfigStyle(isEnabled: isEnabled)
-        return self
-    }
-    
-    @discardableResult
-    func setLoading(_ isLoading: Bool) -> Self {
-        viewModel.isLoading = isLoading
-        return self
-    }
-    
-    @discardableResult
-    func setLeftImage(_ image: UIImage?) -> Self {
-        viewModel.leftImage = image
-        return self
-    }
-    
-    @discardableResult
-    func setRightImage(_ image: UIImage?) -> Self {
-        viewModel.rightImage = image
-        return self
     }
 }
 
@@ -160,8 +134,7 @@ public extension ButtonView {
 
 // MARK: - HighlightButtonStyle
 struct ButtonViewStyle: ButtonStyle {
-    let viewModel: ButtonView.ViewModel
-    var isLoading: Bool
+    @ObservedObject var viewModel: ButtonView.ViewModel
     
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
@@ -174,18 +147,19 @@ struct ButtonViewStyle: ButtonStyle {
             }
             
             HStack(spacing: 4.0) {
-                if let leftImage = viewModel.leftImage, !isLoading {
+                if let leftImage = viewModel.leftImage, !viewModel.isLoading {
                     Image(uiImage: leftImage)
                 } else {
                     EmptyView()
                 }
                 
                 Text(viewModel.title ?? "")
+                    .multilineTextAlignment(viewModel.titleAlignment)
                     .font(viewModel.font)
-                    .foregroundColor(isLoading ? .clear : viewModel.foregroundColor)
+                    .foregroundColor(viewModel.isLoading ? .clear : viewModel.foregroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                if let rightImage = viewModel.rightImage, !isLoading {
+                if let rightImage = viewModel.rightImage, !viewModel.isLoading {
                     Image(uiImage: rightImage)
                 } else {
                     EmptyView()
@@ -197,6 +171,59 @@ struct ButtonViewStyle: ButtonStyle {
         }
         .frame(height: viewModel.config.height.button)
         .contentShape(Rectangle())
+    }
+}
+
+
+// MARK: - Set ViewModel
+public extension ButtonView {
+    @discardableResult
+    func setTitle(_ title: String) -> Self {
+        viewModel.title = title
+        return self
+    }
+    
+    @discardableResult
+    func setTitleAlignment(_ alignment: TextAlignment) -> Self {
+        viewModel.titleAlignment = alignment
+        return self
+    }
+    
+    @discardableResult
+    func addAction(_ action: @escaping () -> Void) -> Self {
+        viewModel.action = action
+        return self
+    }
+    
+    @discardableResult
+    func setEnabled(_ isEnabled: Bool) -> Self {
+        viewModel.isEnabled = isEnabled
+        setConfigStyle(isEnabled: isEnabled)
+        return self
+    }
+    
+    @discardableResult
+    func setLoading(_ isLoading: Bool) -> Self {
+        viewModel.isLoading = isLoading
+        return self
+    }
+    
+    @discardableResult
+    func toggleLoading() -> Self {
+        viewModel.isLoading.toggle()
+        return self
+    }
+    
+    @discardableResult
+    func setLeftImage(_ image: UIImage?) -> Self {
+        viewModel.leftImage = image
+        return self
+    }
+    
+    @discardableResult
+    func setRightImage(_ image: UIImage?) -> Self {
+        viewModel.rightImage = image
+        return self
     }
 }
 

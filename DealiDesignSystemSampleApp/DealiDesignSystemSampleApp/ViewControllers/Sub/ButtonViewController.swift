@@ -307,29 +307,29 @@ extension ButtonViewController {
             $0.axis = .horizontal
         }
         
-        let button = ButtonView()
-        button
+        let loadingButton = ButtonView()
+        loadingButton
             .btnFilledLarge01()
             .setTitle("setLoading")
             .setLoading(false)
             .setLeftImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
             .addAction {
-                button.setLoading(true)
+                loadingButton.toggleLoading()
             }
         loadingStackview.addArrangedSubview(
-            button.UIKit()
+            loadingButton.UIKit()
         )
         
         let buttonOn = ButtonView().btnOutlineBgLarge01().setTitle("On")
             .addAction {
-                button.setLoading(true)
+                loadingButton.setLoading(true)
             }
             .UIKit()
         loadingStackview.addArrangedSubview(buttonOn)
         
         let buttonOff = ButtonView().btnOutlineBgLarge01().setTitle("Off")
             .addAction {
-                button.setLoading(false)
+                loadingButton.setLoading(false)
             }
             .UIKit()
         loadingStackview.addArrangedSubview(buttonOff)
@@ -345,7 +345,7 @@ extension ButtonViewController {
         
         let enabledButton = ButtonView()
             .btnFilledLarge01()
-            .setTitle("setEnabled")
+            .setTitle("isEnabled True")
         
         enabledButtonStackview.addArrangedSubview(
             enabledButton.UIKit()
@@ -357,6 +357,7 @@ extension ButtonViewController {
                 .setTitle("Enabled")
                 .addAction {
                     enabledButton.setEnabled(true)
+                    enabledButton.setTitle("isEnabled True")
                 }
                 .UIKit()
         )
@@ -367,6 +368,7 @@ extension ButtonViewController {
                 .setTitle("Disabled")
                 .addAction {
                     enabledButton.setEnabled(false)
+                    enabledButton.setTitle("isEnabled False")
                 }
                 .UIKit()
         )
@@ -379,20 +381,33 @@ extension ButtonViewController {
             $0.spacing = 10
             $0.axis = .horizontal
         }
+        let image = UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0))
         
         imageButtonStackview.addArrangedSubview(
             ButtonView()
-                .btnFilledLarge01()
-                .setTitle("LeftImage Button")
-                .setLeftImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
+                .btnFilledSemiMedium01()
+                .setTitle("Left Image")
+                .setTitleAlignment(.leading)
+                .setLeftImage(image)
                 .UIKit()
         )
         
         imageButtonStackview.addArrangedSubview(
             ButtonView()
-                .btnFilledLarge01()
-                .setTitle("RightImage Button")
-                .setRightImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
+                .btnFilledSemiMedium01()
+                .setTitle("Right Image")
+                .setTitleAlignment(.trailing)
+                .setRightImage(image)
+                .UIKit()
+        )
+        
+        imageButtonStackview.addArrangedSubview(
+            ButtonView()
+                .btnFilledSemiMedium01()
+                .setTitle("Both Image")
+                .setTitleAlignment(.center)
+                .setLeftImage(image)
+                .setRightImage(image)
                 .UIKit()
         )
         

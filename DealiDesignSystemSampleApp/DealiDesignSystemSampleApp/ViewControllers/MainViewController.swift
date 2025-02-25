@@ -80,7 +80,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc func handleFullSwiftUIBaseButtonPress() {
-        self.pushSwiftUIView(SwiftUIBaseView())
+        self.pushSwiftUIView(FullSwiftUIBaseView())
         
         // 특정 View를 UIKit에 추가하는 방법
         //        let testViewController = UIViewController()

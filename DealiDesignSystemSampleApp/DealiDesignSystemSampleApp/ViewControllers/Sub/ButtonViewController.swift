@@ -312,7 +312,6 @@ extension ButtonViewController {
             .btnFilledLarge01()
             .setTitle("setLoading")
             .setLoading(false)
-            .setLeftImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
             .addAction {
                 loadingButton.toggleLoading()
             }
@@ -501,6 +500,7 @@ extension ButtonViewController {
             ButtonView().btnTextMedium06().setTitle("btnTextMedium06").UIKit(),
             ButtonView().btnTextMedium07().setTitle("btnTextMedium07").UIKit()
         ]
+        
         let semiMediumButtonArray: [UIView] = [
             ButtonView().btnFilledSemiMedium01().setTitle("btnFilledSemiMedium01").UIKit(),
             ButtonView().btnFilledSemiMedium02().setTitle("btnFilledSemiMedium02").UIKit(),
@@ -541,6 +541,7 @@ extension ButtonViewController {
             ButtonView().btnTextSemiMedium06().setTitle("btnTextSemiMedium06").UIKit(),
             ButtonView().btnTextSemiMedium07().setTitle("btnTextSemiMedium07").UIKit()
         ]
+        
         let smallButtonArray: [UIView] = [
             ButtonView().btnFilledSmall01().setTitle("btnFilledSmall01").UIKit(),
             ButtonView().btnFilledSmall02().setTitle("btnFilledSmall02").UIKit(),

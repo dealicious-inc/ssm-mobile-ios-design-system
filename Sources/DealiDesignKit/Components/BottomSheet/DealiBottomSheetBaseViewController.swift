@@ -25,6 +25,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     /// close버튼 클릭시 호출되는 ActionHandler
     public var closeActionHandler: (() -> Void)?
     
+    public var shouldCalulateHeightBasedOnScrollView: Bool = true
+    
     /// 타이들 영역 노출 타입
     public var titleType: EBottomSheetTitleType = .hidden {
         didSet {
@@ -243,6 +245,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     /// containerView 에 ScrollView 타입에 View 가 addSubView 되었을때 기본적으로 높이 계산 함수
     /// 추후에 ScrollView 이외에 다른 View가 addSubView 되었을경우에는 해당 함수를 override해서 높이 계산을 재정의
     open func updateContainerViewHeight() {
+        guard self.shouldCalulateHeightBasedOnScrollView else { return }
+        
         for addView in self.containerView.subviews {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()

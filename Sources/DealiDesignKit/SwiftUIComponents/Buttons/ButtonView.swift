@@ -40,42 +40,12 @@ public struct ButtonView: View {
     
     public var body: some View {
         ZStack {
-            Button(action: viewModel.action) {
-                EmptyView()
-            }
-            .background(
-                Group {
-                    if let gradientBackground = viewModel.gradientBackground {
-                        LinearGradient(
-                            gradient: Gradient(colors: gradientBackground.colors),
-                            startPoint: gradientBackground.startPoint,
-                            endPoint: gradientBackground.endPoint
-                        )
-                    } else {
-                        viewModel.backgroundColor
-                    }
-                })
-            .cornerRadius(viewModel.cornerRadius)
-            .disabled(!viewModel.isEnabled)
-            .overlay(
-                RoundedRectangle(cornerRadius: 6.0)
-                    .stroke(viewModel.borderColor)
-            )
-            .buttonStyle(ButtonViewStyle(viewModel: viewModel))
-            .frame(height: viewModel.config.height.button)
+            buttonContainerView
+                .frame(height: viewModel.config.height.button)
             
             if viewModel.isLoading {
-                Image(uiImage: UIImage(named: "loading")!)
+                IndicatorImageView
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .rotationEffect(.degrees(isRotating ? 360 : 0))
-                    .animation(.linear(duration: 1.5).repeatForever(autoreverses: false), value: isRotating)
-                    .opacity(viewModel.isLoading ? 1 : 0)
-                    .onAppear {
-                        isRotating = true
-                    }
-                    .onDisappear {
-                        isRotating = false
-                    }
             } else {
                 EmptyView()
             }
@@ -85,6 +55,46 @@ public struct ButtonView: View {
     public init(action: @escaping () -> Void = {}) {
         self.viewModel = ViewModel()
         self.viewModel.action = action
+    }
+    
+    @ViewBuilder
+    private var buttonContainerView: some View {
+        Button(action: viewModel.action) {
+            EmptyView()
+        }
+        .background(
+            Group {
+                if let gradientBackground = viewModel.gradientBackground {
+                    LinearGradient(
+                        gradient: Gradient(colors: gradientBackground.colors),
+                        startPoint: gradientBackground.startPoint,
+                        endPoint: gradientBackground.endPoint
+                    )
+                } else {
+                    viewModel.backgroundColor
+                }
+            })
+        .cornerRadius(viewModel.cornerRadius)
+        .disabled(!viewModel.isEnabled)
+        .overlay(
+            RoundedRectangle(cornerRadius: 6.0)
+                .stroke(viewModel.borderColor)
+        )
+        .buttonStyle(ButtonViewStyle(viewModel: viewModel))
+    }
+    
+    @ViewBuilder
+    private var IndicatorImageView: some View {
+        Image(uiImage: UIImage(named: "loading")!)
+            .rotationEffect(.degrees(isRotating ? 360.0 : 0.0))
+            .animation(.linear(duration: 1.5).repeatForever(autoreverses: false), value: isRotating)
+            .opacity(viewModel.isLoading ? 1.0 : 0.0)
+            .onAppear {
+                isRotating = true
+            }
+            .onDisappear {
+                isRotating = false
+            }
     }
 }
 
@@ -140,9 +150,7 @@ struct ButtonViewStyle: ButtonStyle {
         ZStack {
             if !viewModel.isLoading {
                 if configuration.isPressed && viewModel.isEnabled {
-                    RoundedRectangle(cornerRadius: 6.0)
-                        .fill(Color(.b2))
-                        .allowsHitTesting(false)
+                    rippleView
                 }
             }
             
@@ -170,7 +178,14 @@ struct ButtonViewStyle: ButtonStyle {
             .padding(.trailing, viewModel.rightPaddingSet?.normal)
         }
         .frame(height: viewModel.config.height.button)
-        .contentShape(Rectangle())
+        .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
+    }
+    
+    @ViewBuilder
+    private var rippleView: some View {
+        RoundedRectangle(cornerRadius: 6.0)
+            .fill(Color(.b2))
+            .allowsHitTesting(false)
     }
 }
 

@@ -95,10 +95,13 @@ extension AlertTestViewController {
         debugPrint("alertButton01Pressed")
         if isSwiftUI {
             let alertView = AlertView()
-                .addTitle("1버튼 Alert")
-                .addMessage("SwiftUI 테스트")
-                .addConfirmButton(title: "확인")
-                .addCancelButton(title: "취소")
+                .addMessage("2버튼 Alert 테스트")
+                .addConfirmButton(title: "확인", action: {
+                    print("확인 클릭")
+                })
+                .addCancelButton(title: "취소", action: {
+                    print("취소 클릭")
+                })
             self.present(alertView)
         }
         
@@ -114,7 +117,7 @@ extension AlertTestViewController {
         if isSwiftUI {
             let alertView = AlertView()
                 .addTitle("1버튼 Alert")
-                .addMessage("SwiftUI 테스트")
+                .addMessage("1버튼 Alert 테스트")
                 .addConfirmButton(title: "확인")
             self.present(alertView)
             return
@@ -131,8 +134,15 @@ extension AlertTestViewController {
     @objc func alertButton03Pressed() {
         debugPrint("alertButton03Pressed")
         
+        
         if isSwiftUI {
-            
+            // DealiCheckboxWithText 전환 필요
+//            let alertView = AlertView()
+//                .addTitle("2버튼 체크박스 Alert")
+//                .addMessage("2버튼 체크박스 Alert 테스트")
+//                .addConfirmButton(title: "확인")
+//                .addCancelButton(title: "취소")
+//            self.present(alertView)
             return
         }
         

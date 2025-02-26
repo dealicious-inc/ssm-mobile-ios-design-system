@@ -108,6 +108,7 @@ extension UIViewController {
         self.navigationController?.pushViewController(hostingViewController, animated: true)
     }
     
+    /// SwiftUI View를 present 합니다.
     func present<Content: View>(_ view: Content) {
         let hostingViewController = UIHostingController(rootView: view)
         hostingViewController.navigationItem.hidesBackButton = false

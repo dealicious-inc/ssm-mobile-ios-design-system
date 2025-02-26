@@ -117,6 +117,4 @@ extension UIViewController {
         
         self.present(hostingViewController, animated: false)
     }
-    
-    
 }

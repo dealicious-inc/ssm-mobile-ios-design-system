@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit.UIViewController
 
 public struct AlertView: View {
     /// For UIKit Base
@@ -48,11 +49,11 @@ public struct AlertView: View {
                 .background(.clear)
                 .frame(alignment: .center)
         }
-        .onAppear { show() }
+        .onAppear { viewAppear() }
         .onTapGesture { viewDismiss() }
     }
     
-    private func show() {
+    private func viewAppear() {
         withAnimation(presentAnimation) {
             opacity = 1.0
         }
@@ -170,6 +171,17 @@ public extension AlertView {
     func fullSwiftUI()  -> Self {
         self.viewModel.isFullSwiftUI = true
         return self
+    }
+    
+    // UIKit에서 AlertView 노출 시 사용
+    func show(_ sourceViewController: UIViewController) {
+        let hostingViewController = UIHostingController(rootView: self)
+        hostingViewController.navigationItem.hidesBackButton = false
+        hostingViewController.modalPresentationStyle = .overFullScreen
+        hostingViewController.modalTransitionStyle = .crossDissolve
+        hostingViewController.view.backgroundColor = .clear
+        
+        sourceViewController.present(hostingViewController, animated: false)
     }
 }
 

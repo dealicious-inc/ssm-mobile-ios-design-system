@@ -111,7 +111,8 @@ public struct AlertView: View {
             // Button
             HStack(spacing: 10.0) {
                 if let cancelButtonTitle = viewModel.cancelButtonTitle {
-                    ButtonView().btnOutlineMedium01()
+                    ButtonView()
+                        .setStyle(.btnOutlineMedium01)
                         .setTitle(cancelButtonTitle)
                         .addAction {
                             viewModel.cancelButtonAction()
@@ -120,7 +121,8 @@ public struct AlertView: View {
                 }
                 
                 if let confirmButtonTitle = viewModel.confirmButtonTitle {
-                    ButtonView().btnFilledLarge01()
+                    ButtonView()
+                        .setStyle(.btnFilledLarge01)
                         .setTitle(confirmButtonTitle)
                         .addAction {
                             viewModel.confirmButtonAction()

@@ -119,10 +119,10 @@ public extension ButtonView {
         let padding = viewModel.config.padding.value(with: config.height, style: .button)
         viewModel.leftPaddingSet = padding.left
         viewModel.rightPaddingSet = padding.right
-        self.setConfigStyle(isEnabled: true)
+        self.setColorConfigStyle(isEnabled: true)
     }
     
-    private func setConfigStyle(isEnabled: Bool = true) {
+    private func setColorConfigStyle(isEnabled: Bool = true) {
         let attribute = viewModel.color.attribute
         if isEnabled {
             if let gradient = attribute.normal.gradient {
@@ -193,6 +193,12 @@ struct ButtonViewStyle: ButtonStyle {
 // MARK: - Set ViewModel
 public extension ButtonView {
     @discardableResult
+    func setStyle(_ style: ButtonConfigStyle) -> Self {
+        setConfigStyle(config: style.config, color: style.color)
+        return self
+    }
+    
+    @discardableResult
     func setTitle(_ title: String) -> Self {
         viewModel.title = title
         return self
@@ -213,7 +219,7 @@ public extension ButtonView {
     @discardableResult
     func setEnabled(_ isEnabled: Bool) -> Self {
         viewModel.isEnabled = isEnabled
-        setConfigStyle(isEnabled: isEnabled)
+        setColorConfigStyle(isEnabled: isEnabled)
         return self
     }
     
@@ -256,691 +262,338 @@ struct GradientBackground {
 
 // MARK: - Style
 public extension ButtonView {
-    // MARK: Large
-    // MARK: Filled
-    func btnFilledLarge01() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.primary01)
-        return self
-    }
     
-    func btnFilledLarge02() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.primaryGradient)
-        return self
-    }
-    
-    func btnFilledLarge03() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.primary02)
-        return self
-    }
-    
-    func btnFilledLarge04() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.mbs01)
-        return self
-    }
-    
-    func btnFilledLarge05() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.mbsGradient)
-        return self
-    }
-    
-    func btnFilledLarge06() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.large, color: ButtonFilledColor.primary05)
-        return self
-    }
-    
-    // MARK: FilledRound
-    func btnFilledRoundLarge01() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.large, color: ButtonFilledRoundColor.primary01)
-        return self
-    }
-    
-    func btnFilledRoundLarge02() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.large, color: ButtonFilledRoundColor.gradient)
-        return self
-    }
-    
-    func btnFilledRoundLarge03() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.large, color: ButtonFilledRoundColor.primary02)
-        return self
-    }
-    
-    // MARK: FilledTonal
-    func btnFilledTonalLarge01() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.primary01)
-        return self
-    }
-    
-    func btnFilledTonalLarge02() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalLarge03() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalLarge04() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.secondary02)
-        return self
-    }
-    
-    func btnFilledTonalLarge05() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.secondary03)
-        return self
-    }
-    
-    func btnFilledTonalLarge06() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.large, color: ButtonFilledTonalColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline
-    func btnOutlineLarge01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.primary01)
-        return self
-    }
-    
-    func btnOutlineLarge02() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.primary02)
-        return self
-    }
-    
-    func btnOutlineLarge03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineLarge04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineLarge05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineLarge06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline Bg
-    func btnOutlineBgLarge01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineBgColor.primary01)
-        return self
-    }
-    
-    func btnOutlineBgLarge03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineBgColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineBgLarge04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineBgColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineBgLarge05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineBgColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineBgLarge06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.large, color: ButtonOutlineBgColor.secondary04)
-        return self
-    }
-    
-    // MARK: Text
-    func btnTextLarge01() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.primary01)
-        return self
-    }
-    
-    func btnTextLarge02() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.primary02)
-        return self
-    }
-    
-    func btnTextLarge03() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.secondary01)
-        return self
-    }
-    
-    func btnTextLarge04() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.secondary02)
-        return self
-    }
-    
-    func btnTextLarge05() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.secondary03)
-        return self
-    }
-    
-    func btnTextLarge06() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.secondary04)
-        return self
-    }
-    
-    func btnTextLarge07() -> Self {
-        setConfigStyle(config: ButtonTextConfig.large, color: ButtonTextColor.secondary05)
-        return self
-    }
-    
-    // MARK: - Medium
-    // MARK: Filled
-    func btnFilledMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.primary01)
-        return self
-    }
-    
-    func btnFilledMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.primaryGradient)
-        return self
-    }
-    
-    func btnFilledMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.primary02)
-        return self
-    }
-    
-    func btnFilledMedium04() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.mbs01)
-        return self
-    }
-    
-    func btnFilledMedium05() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.mbsGradient)
-        return self
-    }
-    
-    func btnFilledMedium06() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.medium, color: ButtonFilledColor.primary05)
-        return self
-    }
-    
-    // MARK: FilledRound
-    func btnFilledRoundMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.medium, color: ButtonFilledRoundColor.primary01)
-        return self
-    }
-    
-    func btnFilledRoundMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.medium, color: ButtonFilledRoundColor.gradient)
-        return self
-    }
-    
-    func btnFilledRoundMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.medium, color: ButtonFilledRoundColor.primary02)
-        return self
-    }
-    
-    // MARK: FilledTonal
-    func btnFilledTonalMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.primary01)
-        return self
-    }
-    
-    func btnFilledTonalMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalMedium04() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.secondary02)
-        return self
-    }
-    
-    func btnFilledTonalMedium05() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.secondary03)
-        return self
-    }
-    
-    func btnFilledTonalMedium06() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.medium, color: ButtonFilledTonalColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline
-    func btnOutlineMedium01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.primary01)
-        return self
-    }
-    
-    func btnOutlineMedium02() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.primary02)
-        return self
-    }
-    
-    func btnOutlineMedium03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineMedium04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineMedium05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineMedium06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline Bg
-    func btnOutlineBgMedium01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineBgColor.primary01)
-        return self
-    }
-    
-    func btnOutlineBgMedium03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineBgColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineBgMedium04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineBgColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineBgMedium05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineBgColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineBgMedium06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.medium, color: ButtonOutlineBgColor.secondary04)
-        return self
-    }
-    
-    // MARK: Text
-    func btnTextMedium01() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.primary01)
-        return self
-    }
-    
-    func btnTextMedium02() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.primary02)
-        return self
-    }
-    
-    func btnTextMedium03() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.secondary01)
-        return self
-    }
-    
-    func btnTextMedium04() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.secondary02)
-        return self
-    }
-    
-    func btnTextMedium05() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.secondary03)
-        return self
-    }
-    
-    func btnTextMedium06() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.secondary04)
-        return self
-    }
-    
-    func btnTextMedium07() -> Self {
-        setConfigStyle(config: ButtonTextConfig.medium, color: ButtonTextColor.secondary05)
-        return self
-    }
-    
-    // MARK: - Semi Medium
-    // MARK: Filled
-    func btnFilledSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.primary01)
-        return self
-    }
-    
-    func btnFilledSemiMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.primaryGradient)
-        return self
-    }
-    
-    func btnFilledSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.primary02)
-        return self
-    }
-    
-    func btnFilledSemiMedium04() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.mbs01)
-        return self
-    }
-    
-    func btnFilledSemiMedium05() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.mbsGradient)
-        return self
-    }
-    
-    func btnFilledSemiMedium06() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.semiMedium, color: ButtonFilledColor.primary05)
-        return self
-    }
-    
-    // MARK: FilledRound
-    func btnFilledRoundSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.semiMedium, color: ButtonFilledRoundColor.primary01)
-        return self
-    }
-    
-    func btnFilledRoundSemiMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.semiMedium, color: ButtonFilledRoundColor.gradient)
-        return self
-    }
-    
-    func btnFilledRoundSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.semiMedium, color: ButtonFilledRoundColor.primary02)
-        return self
-    }
-    
-    // MARK: FilledTonal
-    func btnFilledTonalSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.primary01)
-        return self
-    }
-    
-    func btnFilledTonalSemiMedium02() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalSemiMedium04() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.secondary02)
-        return self
-    }
-    
-    func btnFilledTonalSemiMedium05() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.secondary03)
-        return self
-    }
-    
-    func btnFilledTonalSemiMedium06() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.semiMedium, color: ButtonFilledTonalColor.secondary04)
-        return self
-    }
-    
-    //MARK: Outline
-    func btnOutlineSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.primary01)
-        return self
-    }
-    
-    func btnOutlineSemiMedium02() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.primary02)
-        return self
-    }
-    
-    func btnOutlineSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineSemiMedium04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineSemiMedium05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineSemiMedium06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline Bg
-    func btnOutlineBgSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineBgColor.primary01)
-        return self
-    }
-    
-    func btnOutlineBgSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineBgColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineBgSemiMedium04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineBgColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineBgSemiMedium05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineBgColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineBgSemiMedium06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.semiMedium, color: ButtonOutlineBgColor.secondary04)
-        return self
-    }
-    
-    // MARK: Text
-    func btnTextSemiMedium01() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.primary01)
-        return self
-    }
-    
-    func btnTextSemiMedium02() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.primary02)
-        return self
-    }
-    
-    func btnTextSemiMedium03() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.secondary01)
-        return self
-    }
-    
-    func btnTextSemiMedium04() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.secondary02)
-        return self
-    }
-    
-    func btnTextSemiMedium05() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.secondary03)
-        return self
-    }
-    
-    func btnTextSemiMedium06() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.secondary04)
-        return self
-    }
-    
-    func btnTextSemiMedium07() -> Self {
-        setConfigStyle(config: ButtonTextConfig.semiMedium, color: ButtonTextColor.secondary05)
-        return self
-    }
-    
-    // MARK: - Small
-    // MARK: Filled
-    func btnFilledSmall01() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.primary01)
-        return self
-    }
-    
-    func btnFilledSmall02() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.primaryGradient)
-        return self
-    }
-    
-    func btnFilledSmall03() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.primary02)
-        return self
-    }
-    
-    func btnFilledSmall04() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.mbs01)
-        return self
-    }
-    
-    func btnFilledSmall05() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.mbsGradient)
-        return self
-    }
-    
-    func btnFilledSmall06() -> Self {
-        setConfigStyle(config: ButtonFilledConfig.small, color: ButtonFilledColor.primary05)
-        return self
-    }
-    
-    // MARK: FilledRound
-    func btnFilledRoundSmall01() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.small, color: ButtonFilledRoundColor.primary01)
-        return self
-    }
-    
-    func btnFilledRoundSmall02() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.small, color: ButtonFilledRoundColor.gradient)
-        return self
-    }
-    
-    func btnFilledRoundSmall03() -> Self {
-        setConfigStyle(config: ButtonFilledRoundConfig.small, color: ButtonFilledRoundColor.primary02)
-        return self
-    }
-    
-    // MARK: FilledTonal
-    func btnFilledTonalSmall01() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.primary01)
-        return self
-    }
-    
-    func btnFilledTonalSmall02() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalSmall03() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.primary02)
-        return self
-    }
-    
-    func btnFilledTonalSmall04() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.secondary02)
-        return self
-    }
-    
-    func btnFilledTonalSmall05() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.secondary03)
-        return self
-    }
-    
-    func btnFilledTonalSmall06() -> Self {
-        setConfigStyle(config: ButtonFilledTonalConfig.small, color: ButtonFilledTonalColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline
-    func btnOutlineSmall01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.primary01)
-        return self
-    }
-    
-    func btnOutlineSmall02() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.primary02)
-        return self
-    }
-    
-    func btnOutlineSmall03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineSmall04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineSmall05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineSmall06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineColor.secondary04)
-        return self
-    }
-    
-    // MARK: Outline Bg
-    func btnOutlineBgSmall01() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineBgColor.primary01)
-        return self
-    }
-    
-    func btnOutlineBgSmall03() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineBgColor.secondary01)
-        return self
-    }
-    
-    func btnOutlineBgSmall04() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineBgColor.secondary02)
-        return self
-    }
-    
-    func btnOutlineBgSmall05() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineBgColor.secondary03)
-        return self
-    }
-    
-    func btnOutlineBgSmall06() -> Self {
-        setConfigStyle(config: ButtonOutlineConfig.small, color: ButtonOutlineBgColor.secondary04)
-        return self
-    }
-    
-    // MARK: Text
-    func btnTextSmall01() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.primary01)
-        return self
-    }
-    
-    func btnTextSmall02() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.primary02)
-        return self
-    }
-    
-    func btnTextSmall03() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.secondary01)
-        return self
-    }
-    
-    func btnTextSmall04() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.secondary02)
-        return self
-    }
-    
-    func btnTextSmall05() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.secondary03)
-        return self
-    }
-    
-    func btnTextSmall06() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.secondary04)
-        return self
-    }
-    
-    func btnTextSmall07() -> Self {
-        setConfigStyle(config: ButtonTextConfig.small, color: ButtonTextColor.secondary05)
-        return self
+    enum ButtonConfigStyle {
+        // MARK: Large
+        /// Filled
+        case btnFilledLarge01
+        case btnFilledLarge02
+        case btnFilledLarge03
+        case btnFilledLarge04
+        case btnFilledLarge05
+        case btnFilledLarge06
+        
+        /// FilledRound
+        case btnFilledRoundLarge01
+        case btnFilledRoundLarge02
+        case btnFilledRoundLarge03
+        
+        /// FilledTonal
+        case btnFilledTonalLarge01
+        case btnFilledTonalLarge02
+        case btnFilledTonalLarge03
+        case btnFilledTonalLarge04
+        case btnFilledTonalLarge05
+        case btnFilledTonalLarge06
+        
+        /// Outline
+        case btnOutlineLarge01
+        case btnOutlineLarge02
+        case btnOutlineLarge03
+        case btnOutlineLarge04
+        case btnOutlineLarge05
+        case btnOutlineLarge06
+        
+        /// Outline Bg
+        case btnOutlineBgLarge01
+        case btnOutlineBgLarge03
+        case btnOutlineBgLarge04
+        case btnOutlineBgLarge05
+        case btnOutlineBgLarge06
+        
+        /// Text
+        case btnTextLarge01
+        case btnTextLarge02
+        case btnTextLarge03
+        case btnTextLarge04
+        case btnTextLarge05
+        case btnTextLarge06
+        case btnTextLarge07
+        
+        // MARK: - Medium
+        /// Filled
+        case btnFilledMedium01
+        case btnFilledMedium02
+        case btnFilledMedium03
+        case btnFilledMedium04
+        case btnFilledMedium05
+        case btnFilledMedium06
+        
+        /// FilledRound
+        case btnFilledRoundMedium01
+        case btnFilledRoundMedium02
+        case btnFilledRoundMedium03
+        
+        /// FilledTonal
+        case btnFilledTonalMedium01
+        case btnFilledTonalMedium02
+        case btnFilledTonalMedium03
+        case btnFilledTonalMedium04
+        case btnFilledTonalMedium05
+        case btnFilledTonalMedium06
+        
+        /// Outline
+        case btnOutlineMedium01
+        case btnOutlineMedium02
+        case btnOutlineMedium03
+        case btnOutlineMedium04
+        case btnOutlineMedium05
+        case btnOutlineMedium06
+        
+        /// Outline Bg
+        case btnOutlineBgMedium01
+        case btnOutlineBgMedium03
+        case btnOutlineBgMedium04
+        case btnOutlineBgMedium05
+        case btnOutlineBgMedium06
+        
+        /// Text
+        case btnTextMedium01
+        case btnTextMedium02
+        case btnTextMedium03
+        case btnTextMedium04
+        case btnTextMedium05
+        case btnTextMedium06
+        case btnTextMedium07
+        
+        // MARK: - Semi Medium
+        /// Filled
+        case btnFilledSemiMedium01
+        case btnFilledSemiMedium02
+        case btnFilledSemiMedium03
+        case btnFilledSemiMedium04
+        case btnFilledSemiMedium05
+        case btnFilledSemiMedium06
+        
+        /// FilledRound
+        case btnFilledRoundSemiMedium01
+        case btnFilledRoundSemiMedium02
+        case btnFilledRoundSemiMedium03
+        
+        /// FilledTonal
+        case btnFilledTonalSemiMedium01
+        case btnFilledTonalSemiMedium02
+        case btnFilledTonalSemiMedium03
+        case btnFilledTonalSemiMedium04
+        case btnFilledTonalSemiMedium05
+        case btnFilledTonalSemiMedium06
+        
+        /// Outline
+        case btnOutlineSemiMedium01
+        case btnOutlineSemiMedium02
+        case btnOutlineSemiMedium03
+        case btnOutlineSemiMedium04
+        case btnOutlineSemiMedium05
+        case btnOutlineSemiMedium06
+        
+        /// Outline Bg
+        case btnOutlineBgSemiMedium01
+        case btnOutlineBgSemiMedium03
+        case btnOutlineBgSemiMedium04
+        case btnOutlineBgSemiMedium05
+        case btnOutlineBgSemiMedium06
+        
+        /// Text
+        case btnTextSemiMedium01
+        case btnTextSemiMedium02
+        case btnTextSemiMedium03
+        case btnTextSemiMedium04
+        case btnTextSemiMedium05
+        case btnTextSemiMedium06
+        case btnTextSemiMedium07
+        
+        // MARK: - Small
+        /// Filled
+        case btnFilledSmall01
+        case btnFilledSmall02
+        case btnFilledSmall03
+        case btnFilledSmall04
+        case btnFilledSmall05
+        case btnFilledSmall06
+        
+        /// FilledRound
+        case btnFilledRoundSmall01
+        case btnFilledRoundSmall02
+        case btnFilledRoundSmall03
+        
+        /// FilledTonal
+        case btnFilledTonalSmall01
+        case btnFilledTonalSmall02
+        case btnFilledTonalSmall03
+        case btnFilledTonalSmall04
+        case btnFilledTonalSmall05
+        case btnFilledTonalSmall06
+        
+        /// Outline
+        case btnOutlineSmall01
+        case btnOutlineSmall02
+        case btnOutlineSmall03
+        case btnOutlineSmall04
+        case btnOutlineSmall05
+        case btnOutlineSmall06
+        
+        /// Outline Bg
+        case btnOutlineBgSmall01
+        case btnOutlineBgSmall03
+        case btnOutlineBgSmall04
+        case btnOutlineBgSmall05
+        case btnOutlineBgSmall06
+        
+        /// Text
+        case btnTextSmall01
+        case btnTextSmall02
+        case btnTextSmall03
+        case btnTextSmall04
+        case btnTextSmall05
+        case btnTextSmall06
+        case btnTextSmall07
+        
+        // MARK: - Config
+        var config: ClickableConfig {
+            switch self {
+                // Filled
+            case .btnFilledLarge01, .btnFilledLarge02, .btnFilledLarge03, .btnFilledLarge04, .btnFilledLarge05, .btnFilledLarge06:
+                return ButtonFilledConfig.large
+            case .btnFilledMedium01, .btnFilledMedium02, .btnFilledMedium03, .btnFilledMedium04, .btnFilledMedium05, .btnFilledMedium06:
+                return ButtonFilledConfig.medium
+            case .btnFilledSemiMedium01, .btnFilledSemiMedium02, .btnFilledSemiMedium03, .btnFilledSemiMedium04, .btnFilledSemiMedium05, .btnFilledSemiMedium06:
+                return ButtonFilledConfig.semiMedium
+            case .btnFilledSmall01, .btnFilledSmall02, .btnFilledSmall03, .btnFilledSmall04, .btnFilledSmall05, .btnFilledSmall06:
+                return ButtonFilledConfig.small
+                
+                // ✅ FilledRound
+            case .btnFilledRoundLarge01, .btnFilledRoundLarge02, .btnFilledRoundLarge03:
+                return ButtonFilledRoundConfig.large
+            case .btnFilledRoundMedium01, .btnFilledRoundMedium02, .btnFilledRoundMedium03:
+                return ButtonFilledRoundConfig.medium
+            case .btnFilledRoundSemiMedium01, .btnFilledRoundSemiMedium02, .btnFilledRoundSemiMedium03:
+                return ButtonFilledRoundConfig.semiMedium
+            case .btnFilledRoundSmall01, .btnFilledRoundSmall02, .btnFilledRoundSmall03:
+                return ButtonFilledRoundConfig.small
+                
+                // ✅ FilledTonal
+            case .btnFilledTonalLarge01, .btnFilledTonalLarge02, .btnFilledTonalLarge03, .btnFilledTonalLarge04, .btnFilledTonalLarge05, .btnFilledTonalLarge06:
+                return ButtonFilledTonalConfig.large
+            case .btnFilledTonalMedium01, .btnFilledTonalMedium02, .btnFilledTonalMedium03, .btnFilledTonalMedium04, .btnFilledTonalMedium05, .btnFilledTonalMedium06:
+                return ButtonFilledTonalConfig.medium
+            case .btnFilledTonalSemiMedium01, .btnFilledTonalSemiMedium02, .btnFilledTonalSemiMedium03, .btnFilledTonalSemiMedium04, .btnFilledTonalSemiMedium05, .btnFilledTonalSemiMedium06:
+                return ButtonFilledTonalConfig.semiMedium
+            case .btnFilledTonalSmall01, .btnFilledTonalSmall02, .btnFilledTonalSmall03, .btnFilledTonalSmall04, .btnFilledTonalSmall05, .btnFilledTonalSmall06:
+                return ButtonFilledTonalConfig.small
+                
+                // ✅ Outline
+            case .btnOutlineLarge01, .btnOutlineLarge02, .btnOutlineLarge03, .btnOutlineLarge04, .btnOutlineLarge05, .btnOutlineLarge06:
+                return ButtonOutlineConfig.large
+            case .btnOutlineMedium01, .btnOutlineMedium02, .btnOutlineMedium03, .btnOutlineMedium04, .btnOutlineMedium05, .btnOutlineMedium06:
+                return ButtonOutlineConfig.medium
+            case .btnOutlineSemiMedium01, .btnOutlineSemiMedium02, .btnOutlineSemiMedium03, .btnOutlineSemiMedium04, .btnOutlineSemiMedium05, .btnOutlineSemiMedium06:
+                return ButtonOutlineConfig.semiMedium
+            case .btnOutlineSmall01, .btnOutlineSmall02, .btnOutlineSmall03, .btnOutlineSmall04, .btnOutlineSmall05, .btnOutlineSmall06:
+                return ButtonOutlineConfig.small
+                
+                // ✅ Outline Bg
+            case .btnOutlineBgLarge01, .btnOutlineBgLarge03, .btnOutlineBgLarge04, .btnOutlineBgLarge05, .btnOutlineBgLarge06:
+                return ButtonOutlineConfig.large
+            case .btnOutlineBgMedium01, .btnOutlineBgMedium03, .btnOutlineBgMedium04, .btnOutlineBgMedium05, .btnOutlineBgMedium06:
+                return ButtonOutlineConfig.medium
+            case .btnOutlineBgSemiMedium01, .btnOutlineBgSemiMedium03, .btnOutlineBgSemiMedium04, .btnOutlineBgSemiMedium05, .btnOutlineBgSemiMedium06:
+                return ButtonOutlineConfig.semiMedium
+            case .btnOutlineBgSmall01, .btnOutlineBgSmall03, .btnOutlineBgSmall04, .btnOutlineBgSmall05, .btnOutlineBgSmall06:
+                return ButtonOutlineConfig.small
+                
+                // ✅ Text
+            case .btnTextLarge01, .btnTextLarge02, .btnTextLarge03, .btnTextLarge04, .btnTextLarge05, .btnTextLarge06, .btnTextLarge07:
+                return ButtonTextConfig.large
+            case .btnTextMedium01, .btnTextMedium02, .btnTextMedium03, .btnTextMedium04, .btnTextMedium05, .btnTextMedium06, .btnTextMedium07:
+                return ButtonTextConfig.medium
+            case .btnTextSemiMedium01, .btnTextSemiMedium02, .btnTextSemiMedium03, .btnTextSemiMedium04, .btnTextSemiMedium05, .btnTextSemiMedium06, .btnTextSemiMedium07:
+                return ButtonTextConfig.semiMedium
+            case .btnTextSmall01, .btnTextSmall02, .btnTextSmall03, .btnTextSmall04, .btnTextSmall05, .btnTextSmall06, .btnTextSmall07:
+                return ButtonTextConfig.small
+            }
+        }
+        
+        // MARK: - Color
+        var color: ClickableColorConfig {
+            switch self {
+                // ✅ ButtonFilledColor
+            case .btnFilledLarge01, .btnFilledMedium01, .btnFilledSemiMedium01, .btnFilledSmall01:
+                return ButtonFilledColor.primary01
+            case .btnFilledLarge02, .btnFilledMedium02, .btnFilledSemiMedium02, .btnFilledSmall02:
+                return ButtonFilledColor.primaryGradient
+            case .btnFilledLarge03, .btnFilledMedium03, .btnFilledSemiMedium03, .btnFilledSmall03:
+                return ButtonFilledColor.primary02
+            case .btnFilledLarge04, .btnFilledMedium04, .btnFilledSemiMedium04, .btnFilledSmall04:
+                return ButtonFilledColor.mbs01
+            case .btnFilledLarge05, .btnFilledMedium05, .btnFilledSemiMedium05, .btnFilledSmall05:
+                return ButtonFilledColor.mbsGradient
+            case .btnFilledLarge06, .btnFilledMedium06, .btnFilledSemiMedium06, .btnFilledSmall06:
+                return ButtonFilledColor.primary05
+                
+                // ✅ ButtonFilledRoundColor
+            case .btnFilledRoundLarge01, .btnFilledRoundMedium01, .btnFilledRoundSemiMedium01, .btnFilledRoundSmall01:
+                return ButtonFilledRoundColor.primary01
+            case .btnFilledRoundLarge02, .btnFilledRoundMedium02, .btnFilledRoundSemiMedium02, .btnFilledRoundSmall02:
+                return ButtonFilledRoundColor.primary02
+            case .btnFilledRoundLarge03, .btnFilledRoundMedium03, .btnFilledRoundSemiMedium03, .btnFilledRoundSmall03:
+                return ButtonFilledRoundColor.primary01
+                
+                // ✅ ButtonFilledTonalColor
+            case .btnFilledTonalLarge01, .btnFilledTonalMedium01, .btnFilledTonalSemiMedium01, .btnFilledTonalSmall01:
+                return ButtonFilledTonalColor.primary01
+            case .btnFilledTonalLarge02, .btnFilledTonalMedium02, .btnFilledTonalSemiMedium02, .btnFilledTonalSmall02:
+                return ButtonFilledTonalColor.primary02
+            case .btnFilledTonalLarge03, .btnFilledTonalMedium03, .btnFilledTonalSemiMedium03, .btnFilledTonalSmall03:
+                return ButtonFilledTonalColor.primary02
+            case .btnFilledTonalLarge04, .btnFilledTonalMedium04, .btnFilledTonalSemiMedium04, .btnFilledTonalSmall04:
+                return ButtonFilledTonalColor.secondary02
+            case .btnFilledTonalLarge05, .btnFilledTonalMedium05, .btnFilledTonalSemiMedium05, .btnFilledTonalSmall05:
+                return ButtonFilledTonalColor.secondary03
+            case .btnFilledTonalLarge06, .btnFilledTonalMedium06, .btnFilledTonalSemiMedium06, .btnFilledTonalSmall06:
+                return ButtonFilledTonalColor.secondary04
+                
+                // ✅ ButtonOutlineColor
+            case .btnOutlineLarge01, .btnOutlineMedium01, .btnOutlineSemiMedium01, .btnOutlineSmall01:
+                return ButtonOutlineColor.primary01
+            case .btnOutlineLarge02, .btnOutlineMedium02, .btnOutlineSemiMedium02, .btnOutlineSmall02:
+                return ButtonOutlineColor.primary02
+            case .btnOutlineLarge03, .btnOutlineMedium03, .btnOutlineSemiMedium03, .btnOutlineSmall03:
+                return ButtonOutlineColor.secondary01
+            case .btnOutlineLarge04, .btnOutlineMedium04, .btnOutlineSemiMedium04, .btnOutlineSmall04:
+                return ButtonOutlineColor.secondary02
+            case .btnOutlineLarge05, .btnOutlineMedium05, .btnOutlineSemiMedium05, .btnOutlineSmall05:
+                return ButtonOutlineColor.secondary03
+            case .btnOutlineLarge06, .btnOutlineMedium06, .btnOutlineSemiMedium06, .btnOutlineSmall06:
+                return ButtonOutlineColor.secondary04
+                
+                // ✅ ButtonOutlineBgColor
+            case .btnOutlineBgLarge01, .btnOutlineBgMedium01, .btnOutlineBgSemiMedium01, .btnOutlineBgSmall01:
+                return ButtonOutlineBgColor.primary01
+            case .btnOutlineBgLarge03, .btnOutlineBgMedium03, .btnOutlineBgSemiMedium03, .btnOutlineBgSmall03:
+                return ButtonOutlineBgColor.secondary01
+            case .btnOutlineBgLarge04, .btnOutlineBgMedium04, .btnOutlineBgSemiMedium04, .btnOutlineBgSmall04:
+                return ButtonOutlineBgColor.secondary02
+            case .btnOutlineBgLarge05, .btnOutlineBgMedium05, .btnOutlineBgSemiMedium05, .btnOutlineBgSmall05:
+                return ButtonOutlineBgColor.secondary03
+            case .btnOutlineBgLarge06, .btnOutlineBgMedium06, .btnOutlineBgSemiMedium06, .btnOutlineBgSmall06:
+                return ButtonOutlineBgColor.secondary04
+                
+                // ✅ ButtonTextColor
+            case .btnTextLarge01, .btnTextMedium01, .btnTextSemiMedium01, .btnTextSmall01:
+                return ButtonTextColor.primary01
+            case .btnTextLarge02, .btnTextMedium02, .btnTextSemiMedium02, .btnTextSmall02:
+                return ButtonTextColor.primary02
+            case .btnTextLarge03, .btnTextMedium03, .btnTextSemiMedium03, .btnTextSmall03:
+                return ButtonTextColor.secondary01
+            case .btnTextLarge04, .btnTextMedium04, .btnTextSemiMedium04, .btnTextSmall04:
+                return ButtonTextColor.secondary02
+            case .btnTextLarge05, .btnTextMedium05, .btnTextSemiMedium05, .btnTextSmall05:
+                return ButtonTextColor.secondary03
+            case .btnTextLarge06, .btnTextMedium06, .btnTextSemiMedium06, .btnTextSmall06:
+                return ButtonTextColor.secondary04
+            case .btnTextLarge07, .btnTextMedium07, .btnTextSemiMedium07, .btnTextSmall07:
+                return ButtonTextColor.secondary05
+            }
+        }
     }
 }

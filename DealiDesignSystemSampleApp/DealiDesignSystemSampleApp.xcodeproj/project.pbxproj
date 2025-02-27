@@ -222,6 +222,7 @@
 		3B92CD032D62CE57006A2057 /* SwiftUISubViews */ = {
 			isa = PBXGroup;
 			children = (
+				5FDB1DA92D702EC100F34CF7 /* LabeledText */,
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 			);
@@ -296,6 +297,13 @@
 				4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		5FDB1DA92D702EC100F34CF7 /* LabeledText */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LabeledText;
 			sourceTree = "<group>";
 		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {

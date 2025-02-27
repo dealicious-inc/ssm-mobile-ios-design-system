@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,6 +37,7 @@
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
 		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
+		4D3C4A582D70054A0052B8E7 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4D3C4A572D70054A0052B8E7 /* DealiDesignKit */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
@@ -50,13 +51,11 @@
 		E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */; };
 		E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */; };
 		E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */; };
-		E648FA9A2BB2C81E009F11F6 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
 		FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
-		FC5D882A2D2BB52C008F7133 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC5D88292D2BB52C008F7133 /* DealiDesignKit */; };
 		FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */; };
 		FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE527BB2CC6504C000FB3F7 /* ColorView.swift */; };
 /* End PBXBuildFile section */
@@ -111,7 +110,6 @@
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiPlaygroundViewController.swift; sourceTree = "<group>"; };
 		FCE527BB2CC6504C000FB3F7 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
-		FCEC04892A72B9A60004E5DB /* DealiDesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DealiDesignKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,8 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E648FA9A2BB2C81E009F11F6 /* DealiDesignKit in Frameworks */,
-				FC5D882A2D2BB52C008F7133 /* DealiDesignKit in Frameworks */,
+				4D3C4A582D70054A0052B8E7 /* DealiDesignKit in Frameworks */,
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
 				041ABC082A174598001772F3 /* RxSwift in Frameworks */,
@@ -309,7 +306,6 @@
 		FCEC04882A72B9A60004E5DB /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				FCEC04892A72B9A60004E5DB /* DealiDesignKit */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -334,8 +330,7 @@
 				041ABC032A174598001772F3 /* RxCocoa */,
 				041ABC052A174598001772F3 /* RxRelay */,
 				041ABC072A174598001772F3 /* RxSwift */,
-				E6D2214A2AAEE733000A6411 /* DealiDesignKit */,
-				FC5D88292D2BB52C008F7133 /* DealiDesignKit */,
+				4D3C4A572D70054A0052B8E7 /* DealiDesignKit */,
 			);
 			productName = DealiDesignSystemSampleApp;
 			productReference = 042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */;
@@ -368,6 +363,7 @@
 			mainGroup = 042EA89C2A14C7D500370706;
 			packageReferences = (
 				041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				4D3C4A562D70054A0052B8E7 /* XCLocalSwiftPackageReference "../../ssm-mobile-ios-design-system" */,
 			);
 			productRefGroup = 042EA8A62A14C7D500370706 /* Products */;
 			projectDirPath = "";
@@ -653,6 +649,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		4D3C4A562D70054A0052B8E7 /* XCLocalSwiftPackageReference "../../ssm-mobile-ios-design-system" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../ssm-mobile-ios-design-system";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -680,11 +683,7 @@
 			package = 041ABC022A174598001772F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		E6D2214A2AAEE733000A6411 /* DealiDesignKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DealiDesignKit;
-		};
-		FC5D88292D2BB52C008F7133 /* DealiDesignKit */ = {
+		4D3C4A572D70054A0052B8E7 /* DealiDesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DealiDesignKit;
 		};

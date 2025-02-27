@@ -437,7 +437,6 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
         guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeBottomSheetOnOutsideTouch == true else { return }
         
         if self.cancelActionOnOutsideTouch == true {

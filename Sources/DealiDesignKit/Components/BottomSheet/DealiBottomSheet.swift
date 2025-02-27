@@ -338,7 +338,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         if let contentContainerView = self.contentContainerView {
             self.contentStackView.addArrangedSubview(contentContainerView)
             contentContainerView.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
+                $0.left.right.equalToSuperview().inset(16.0)
             }
             
             if self.optionType != nil {
@@ -372,7 +372,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             let buttonContainerView = self.buttonContainerView()
             self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
+                $0.left.right.equalToSuperview().inset(16.0)
             }
         }
     }

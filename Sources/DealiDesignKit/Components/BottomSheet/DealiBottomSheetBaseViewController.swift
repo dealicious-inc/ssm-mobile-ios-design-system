@@ -131,7 +131,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.spacing = 4.0
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
-            $0.left.right.equalToSuperview().inset(16.0)
+            $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         
@@ -206,6 +206,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.alignment = .center
             $0.distribution = .fill
             $0.spacing = 16.0
+            $0.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+            $0.isLayoutMarginsRelativeArrangement = true
         }.snp.makeConstraints {
             $0.top.left.right.bottom.equalToSuperview()
         }

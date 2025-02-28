@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LabeledTextView: View {
     
-    var preset: DealiLabeledTextPreset
+    public var preset: LabeledTextPreset
+    public var model: LabeledTextModel
     
     var body: some View {
         HStack(alignment: .top, spacing: self.preset.itemSpacing) {
@@ -20,8 +21,10 @@ struct LabeledTextView: View {
                     .offset(y: 7.5)
                     
             case .icon:
-                Image(uiImage: .dealiIcon(named: "ic_plus_ad_forward")!).renderingMode(.template).resizable().foregroundStyle(Color(uiColor: self.preset.textColor)).frame(width: 16.0, height: 16.0, alignment: .center)
-                    .offset(y: 1.0)
+                if let icon = model.icon {
+                    Image(uiImage: icon).renderingMode(.template).resizable().foregroundStyle(Color(uiColor: self.preset.textColor)).frame(width: 16.0, height: 16.0, alignment: .center)
+                        .offset(y: 1.0)
+                }
             case .number:
                 Text("1.").foregroundStyle(Color(uiColor: self.preset.textColor))
                     .font(self.preset.font)
@@ -29,7 +32,7 @@ struct LabeledTextView: View {
                 Circle().frame(width: 3.0, height: 3.0)
             }
             
-            Text("가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디")
+            Text(model.message)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(Color(uiColor: self.preset.textColor))
                 .font(self.preset.font)
@@ -39,14 +42,14 @@ struct LabeledTextView: View {
 }
 
 #Preview {
-    LabeledTextView(preset: .labeledTextBullet01)
-    LabeledTextView(preset: .labeledTextBullet02)
+    LabeledTextView(preset: .labeledTextBullet01, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
+    LabeledTextView(preset: .labeledTextBullet02, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
     
-    LabeledTextView(preset: .labeledTextIcon01)
-    LabeledTextView(preset: .labeledTextIcon02)
+    LabeledTextView(preset: .labeledTextIcon01, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디", icon: .dealiIcon(named: "ic_plus_ad_forward")))
+    LabeledTextView(preset: .labeledTextIcon02, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디", icon: .dealiIcon(named: "ic_repeat")))
     
-    LabeledTextView(preset: .labeledTextNumber01)
-    LabeledTextView(preset: .labeledTextNumber02)
+    LabeledTextView(preset: .labeledTextNumber01, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
+    LabeledTextView(preset: .labeledTextNumber02, model: LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
 }
 
 extension View {

@@ -25,9 +25,11 @@ struct CheckboxView: View {
                     .resizable()
                     .frame(width: 24.0, height: 24.0)
                 
-                Text(label ?? "")
-                    .font(Font(UIFont.b2r14))
-                    .foregroundStyle(Color(self.viewModel.textColor))
+                if let label = self.label {
+                    Text(label)
+                        .font(Font(UIFont.b2r14))
+                        .foregroundStyle(Color(self.viewModel.textColor))
+                }
             }
         }
     }

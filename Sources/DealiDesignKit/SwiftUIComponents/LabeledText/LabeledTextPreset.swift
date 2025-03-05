@@ -92,10 +92,22 @@ public struct LabeledTextModel: Identifiable {
     public let id = UUID()
     public var message: String
     public var icon: UIImage?
-    var number: Int?
+    public var number: Int?
     
     public init(message: String, icon: UIImage? = nil) {
         self.message = message
         self.icon = icon
+    }
+}
+
+public struct LabeledTextGroupModel {
+    public var title: String
+    public var icon: UIImage?
+    public var labeledModelArray: [LabeledTextModel]
+    
+    public init(title: String, icon: UIImage? = nil, labeledModelArray: [LabeledTextModel]) {
+        self.title = title
+        self.icon = icon
+        self.labeledModelArray = labeledModelArray
     }
 }

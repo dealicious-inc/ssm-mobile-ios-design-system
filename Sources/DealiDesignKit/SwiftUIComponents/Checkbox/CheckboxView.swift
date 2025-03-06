@@ -7,18 +7,22 @@
 
 import SwiftUI
 
-struct CheckboxView: View {
-    @StateObject var viewModel = CheckboxViewModel()
-    var label: String?
+public struct CheckboxView: View {
+    @StateObject public var viewModel = CheckboxViewModel()
+    public var label: String?
     
-    init(label: String?, viewModel: CheckboxViewModel = CheckboxViewModel()) {
+    public init(label: String? = nil, viewModel: CheckboxViewModel = CheckboxViewModel()) {
         self.label = label
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
-    var body: some View {
+    public var body: some View {
         Button(action: {
-            self.viewModel.toggle()
+            if self.viewModel.isEnabled {
+                self.viewModel.toggle()
+            } else {
+                return
+            }
         }) {
             HStack(spacing: 8.0) {
                 Image(self.viewModel.imageName, bundle: .module)
@@ -32,12 +36,20 @@ struct CheckboxView: View {
                 }
             }
         }
+        .disabled(!self.viewModel.isEnabled)
     }
 }
 
-final class CheckboxViewModel: ObservableObject {
-    @Published var isSelected: Bool = false
-    @Published var isEnabled: Bool = true
+public final class CheckboxViewModel: ObservableObject {
+    @Published public var isSelected: Bool = false
+    @Published public var isEnabled: Bool = true
+    
+    public init() {}
+    
+    public init(isSelected: Bool = false, isEnabled: Bool = true) {
+        self.isSelected = isSelected
+        self.isEnabled = isEnabled
+    }
     
     func toggle() {
         guard self.isEnabled else { return }

@@ -72,6 +72,8 @@ final class SwiftUIBaseViewController: UIViewController {
     private func addComponentsButtons() {
         self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
         self.addComponents(title: "Button", actionSelector: #selector(ButtonsButtonPressed))
+        self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
+
     }
 }
 
@@ -83,6 +85,10 @@ extension SwiftUIBaseViewController {
     
     @objc func ButtonsButtonPressed() {
         self.pushViewController(ButtonViewController(isSwiftUI: true))
+    }
+    
+    @objc func checkboxButtonPressed() {
+        self.pushViewController(CheckComponentViewController(isSwiftUI: true))
     }
 }
 

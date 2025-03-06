@@ -271,7 +271,12 @@ private extension CheckComponentViewController {
             $0.distribution = .equalSpacing
         }
         
-        let defaultCheckbox = CheckboxView(label: "기본 상태", viewModel: .init())
+        let defaultCheckbox = CheckboxView(label: "기본 상태", viewModel: .init()) { isSelected in
+            debugPrint("isSelected: \(isSelected)")
+        }
+        
+        defaultCheckbox.viewModel.isSelected = true
+        
         contentStackView.addArrangedSubview(defaultCheckbox.UIKit())
         
         let selectedCheckbox = CheckboxView(label: "선택 상태", viewModel: .init(isSelected: true))

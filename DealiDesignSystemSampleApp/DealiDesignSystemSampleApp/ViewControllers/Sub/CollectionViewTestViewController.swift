@@ -16,6 +16,8 @@ final class CollectionViewTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "CollectionView"
+        
         self.view.addSubview(self.collectionView)
         self.collectionView.then {
             $0.delegate = self

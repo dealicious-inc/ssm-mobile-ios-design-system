@@ -30,6 +30,7 @@ class ButtonViewController: UIViewController {
         super.loadView()
         
         self.view.backgroundColor = .systemGray2
+        self.title = "Button"
         
         if !isSwiftUI {
             let switchView = UISwitch()

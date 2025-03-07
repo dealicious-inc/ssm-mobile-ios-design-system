@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUICore
 
 public enum LabeledTextPreset {
     /**
@@ -93,10 +94,14 @@ public struct LabeledTextModel: Identifiable {
     public var message: String
     public var icon: UIImage?
     public var number: Int?
+    public var customView: AnyView?
     
-    public init(message: String, icon: UIImage? = nil) {
+    public init(message: String, icon: UIImage? = nil, customView: (any View)? = nil) {
         self.message = message
         self.icon = icon
+        if let customView = customView {
+            self.customView = AnyView(customView)
+        }
     }
 }
 

@@ -65,14 +65,14 @@ public struct LabeledTextGroupView: View {
                         .font(.b3sb13)
                 }
                 
-                
-                ForEach(model.labeledModelArray.enumerated().map { (index, labeledTextModel) in
-                    var copyModel = labeledTextModel
-                    copyModel.number = index + 1
-                    return copyModel
-                }, id: \.id) { model in
-                    LabeledTextView().preset(self.preset).setModel(model)
-                }
+
+//                ForEach(model.labeledModelArray.enumerated().map { (index, labeledTextModel) in
+//                    var copyModel = labeledTextModel
+//                    copyModel.number = index + 1
+//                    return copyModel
+//                }, id: \.id) { model in
+//                    LabeledTextView().preset(self.preset).setModel(model)
+//                }
             }
         }
     }

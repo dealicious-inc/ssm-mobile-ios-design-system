@@ -27,14 +27,14 @@ struct LabeledTestView: View {
     @ViewBuilder
     private var singleLabeledTextView: some View {
         VStack(spacing: 10.0) {
-            LabeledTextView().preset(.labeledTextBullet01).setModel(LabeledTextModel(message: "가나다라마바사"))
-            LabeledTextView().preset(.labeledTextBullet02).setModel(LabeledTextModel(message: "가나다라마바사"))
-            
-            LabeledTextView().preset(.labeledTextNumber01).setModel(LabeledTextModel(message: "가나다라마바사"))
-            LabeledTextView().preset(.labeledTextNumber02).setModel(LabeledTextModel(message: "가나다라마바사"))
-            
-            LabeledTextView().preset(.labeledTextIcon01).setModel(LabeledTextModel(message: "가나다라마바사", icon: .dealiIcon(named: "ic_plus_ad_forward")))
-            LabeledTextView().preset(.labeledTextIcon02).setModel(LabeledTextModel(message: "가나다라마바사", icon: .dealiIcon(named: "ic_repeat")))
+//            LabeledTextView().preset(.labeledTextBullet01).setModel(LabeledTextModel(message: "가나다라마바사"))
+//            LabeledTextView().preset(.labeledTextBullet02).setModel(LabeledTextModel(message: "가나다라마바사"))
+//            
+//            LabeledTextView().preset(.labeledTextNumber01).setModel(LabeledTextModel(message: "가나다라마바사"))
+//            LabeledTextView().preset(.labeledTextNumber02).setModel(LabeledTextModel(message: "가나다라마바사"))
+//            
+//            LabeledTextView().preset(.labeledTextIcon01).setModel(LabeledTextModel(message: "가나다라마바사", icon: .dealiIcon(named: "ic_plus_ad_forward")))
+//            LabeledTextView().preset(.labeledTextIcon02).setModel(LabeledTextModel(message: "가나다라마바사", icon: .dealiIcon(named: "ic_repeat")))
         }
     }
     

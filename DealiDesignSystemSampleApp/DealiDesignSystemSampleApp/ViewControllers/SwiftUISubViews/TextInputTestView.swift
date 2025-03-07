@@ -12,15 +12,40 @@ import DealiDesignKit
 struct TextInputTestView: View {
     var body: some View {
         NavigationView {
-            ScrollView(.vertical) {
-                VStack(spacing: 10) {
-                    TextInputView()
-                    Spacer()
-                }
-                .padding(20)
+            VStack(spacing: 10) {
+                TextInputView()
+                    .setTitleText("타이틀 텍스트")
+                    .setHelperText("헬퍼 텍스트")
+                    .setPlaceholder("Placeholder Text")
+                    .setRequiredBadge()
+                    .setConfirmButton(title: "확인", action: {
+                        print("확인")
+                    })
+                
+                TextInputView()
+                    .setTitleText("타이틀 텍스트")
+                    .setHelperText("헬퍼 텍스트")
+                    .setPlaceholder("Placeholder Text")
+                    .setRequiredBadge()
+                    .setTimer()
+                
+                TextInputView()
+                    .setInputText("Text Input")
+                    .setTitleText("타이틀 텍스트")
+                    .setHelperText("헬퍼 텍스트")
+                    .setPlaceholder("Placeholder Text")
+                    .setValid(isValid: false)
+                
+                TextInputView()
+                    .setInputText("Text InputText InputText InputText InputText InputText InputText InputText InputText InputText Input")
+                    .setInputText("Text Input")
+                    .setTitleText("타이틀 텍스트")
+                    .setHelperText("헬퍼 텍스트")
+                    .setPlaceholder("Placeholder Text")
+                
+                Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
+            .padding(20)
         }.navigationBarTitle("TextInput", displayMode: .inline)
     }
 }

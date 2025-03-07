@@ -544,7 +544,7 @@ public extension ButtonView {
             case .btnFilledTonalLarge02, .btnFilledTonalMedium02, .btnFilledTonalSemiMedium02, .btnFilledTonalSmall02:
                 return ButtonFilledTonalColor.primary02
             case .btnFilledTonalLarge03, .btnFilledTonalMedium03, .btnFilledTonalSemiMedium03, .btnFilledTonalSmall03:
-                return ButtonFilledTonalColor.primary02
+                return ButtonFilledTonalColor.secondary01
             case .btnFilledTonalLarge04, .btnFilledTonalMedium04, .btnFilledTonalSemiMedium04, .btnFilledTonalSmall04:
                 return ButtonFilledTonalColor.secondary02
             case .btnFilledTonalLarge05, .btnFilledTonalMedium05, .btnFilledTonalSemiMedium05, .btnFilledTonalSmall05:

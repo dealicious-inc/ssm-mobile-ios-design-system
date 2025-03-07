@@ -14,6 +14,19 @@ final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
     private let textInput = DealiTextInput_v2.text()
+    private let contentStackView = UIStackView()
+    
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +61,7 @@ final class TextInputViewController: UIViewController {
             $0.width.equalToSuperview()
         }
         
-        let contentStackView = UIStackView()
+        
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
@@ -59,6 +72,35 @@ final class TextInputViewController: UIViewController {
             $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
+        
+        if self.isSwiftUI {
+            self.setSwiftUI()
+        } else {
+            self.setUIKit()
+        }
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.size.height, right: 0.0)
+        self.contentScrollView.contentInset = contentInset
+        self.contentScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        self.contentScrollView.contentInset = contentInset
+        self.contentScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    func setUIKit() {
         contentStackView.addArrangedSubview(self.textInput)
         self.textInput.then {
             $0.title = "일반 텍스트 입력"
@@ -171,26 +213,10 @@ final class TextInputViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
-        
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
-        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.size.height, right: 0.0)
-        self.contentScrollView.contentInset = contentInset
-        self.contentScrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        let contentInset = UIEdgeInsets.zero
-        self.contentScrollView.contentInset = contentInset
-        self.contentScrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    func setSwiftUI() {
+        let textInput = TextInputTestView()
+        contentStackView.addArrangedSubview(textInput.UIKit())
     }
 }

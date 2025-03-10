@@ -216,7 +216,115 @@ final class TextInputViewController: UIViewController {
     }
     
     func setSwiftUI() {
-        let textInput = TextInputTestView()
-        contentStackView.addArrangedSubview(textInput.UIKit())
+        contentStackView.alignment = .leading
+        
+        let normalInput = TextInputView()
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setMandatory()
+            .setConfirmButton(title: "확인", action: {
+                print("확인")
+            })
+            .UIKit()
+        contentStackView.addArrangedSubview(normalInput)
+        normalInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let timerInput = TextInputView()
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setMandatory()
+            .setTimer(250)
+            .UIKit()
+        contentStackView.addArrangedSubview(timerInput)
+        timerInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let longTextInput =  TextInputView()
+            .setInputText("Text InputText InputText InputText InputText InputText InputText InputText InputText InputText Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .UIKit()
+        contentStackView.addArrangedSubview(longTextInput)
+        longTextInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let errorDefaultInput =  TextInputView()
+            .setInputText("Error Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setInputStatus(.error(nil))
+            .UIKit()
+        contentStackView.addArrangedSubview(errorDefaultInput)
+        errorDefaultInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let errorHelperInput =  TextInputView()
+            .setInputText("Error Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setInputStatus(.error("errorMessage show"))
+            .UIKit()
+        contentStackView.addArrangedSubview(errorHelperInput)
+        errorHelperInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let readOnlyInput =  TextInputView()
+            .setInputText("ReadOnly Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setInputStatus(.readOnly)
+            .UIKit()
+        contentStackView.addArrangedSubview(readOnlyInput)
+        readOnlyInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let disabledInput =  TextInputView()
+            .setInputText("Disabled Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("Placeholder Text")
+            .setInputStatus(.disabled)
+            .UIKit()
+        contentStackView.addArrangedSubview(disabledInput)
+        disabledInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let confirmTrueInput =  TextInputView()
+            .setInputText("Error Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("setConfirmed true")
+            .setConfirmed(true)
+            .UIKit()
+        contentStackView.addArrangedSubview(confirmTrueInput)
+        confirmTrueInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let confirmFalseInput =  TextInputView()
+            .setInputText("Error Input")
+            .setTitleText("타이틀 텍스트")
+            .setHelperText("헬퍼 텍스트")
+            .setPlaceholder("setConfirmed false")
+            .setConfirmed(false)
+            .UIKit()
+        contentStackView.addArrangedSubview(confirmFalseInput)
+        confirmFalseInput.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }

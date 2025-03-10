@@ -13,18 +13,22 @@ public struct TextInputView: View {
     @FocusState private var isFocused: Bool // 키보드 포커스 바인딩
     
     final private class ViewModel: ObservableObject {
+        @Published var backgroundColor: Color = Color(ETextInputStatus.normal.backgroundColor)
+        
         @Published var inputText: String = ""
+        @Published var inputTextColor: Color = Color(ETextInputStatus.normal.textColor)
+        
         @Published var placeholder: String = ""
         @Published var titleText: String?
         @Published var helperText: String?
+        var normalHelperText: String?
         @Published var helperTextColor: Color = Color(UIColor.g70)
         
         @Published var isRequiredBadgeExposure: Bool = false
-        @Published var isTimerExposure: Bool = false
+        @Published var timerText: String?
         
-        @Published var isValidImageExposure: Bool = false
-        @Published var isValid: Bool = false
-        @Published var borderColor: Color = Color(UIColor.g20)
+        @Published var isRightImageExposure: Bool = false
+        @Published var borderColor: Color = Color(ETextInputStatus.normal.borderColor)
         
         @Published var isClearImageExposure: Bool = false
         
@@ -50,24 +54,44 @@ public struct TextInputView: View {
     
     public init() { }
     
-    #warning("상태에 따른 디자인 변경 필요")
-    private func setTextInputStatus(_ enabled: Bool) {
-        // enabled, disabled
+    private func setTextInputStatus(_ status: ETextInputStatus) {
+        viewModel.inputTextColor = Color(status.textColor)
+        viewModel.backgroundColor = Color(status.backgroundColor)
+        viewModel.borderColor = Color(status.borderColor)
+        viewModel.isEnabled = true
         
-        // focused
-        
-        // normal
-        
-        // error
+        switch status {
+        case let .error(errorMessage):
+            setErrorHelperText(errorMessage: errorMessage)
+            
+        case .disabled, .readOnly:
+            viewModel.isEnabled = false
+            
+        case .focusIn:
+            isFocused = true
+            
+        case .focusOut:
+            isFocused = false
+            
+        default:
+            setNormalHelperText()
+        }
     }
     
-    private func setValidation(isValid: Bool) {
-        viewModel.isValid = isValid
-        viewModel.isValidImageExposure = isValid
+    private func setErrorHelperText(errorMessage: String?) {
+        if let errorMessage = errorMessage {
+            viewModel.helperText = errorMessage
+            viewModel.helperTextColor = Color(UIColor.error)
+        }
         
-        let errorColor = Color(UIColor.error)
-        viewModel.borderColor = isValid ? Color(UIColor.g20) : errorColor
-        viewModel.helperTextColor = isValid ? Color(UIColor.g70) : errorColor
+        viewModel.isRightImageExposure = false
+    }
+    
+    private func setNormalHelperText() {
+        if let normalHelperText = viewModel.normalHelperText {
+            viewModel.helperText = normalHelperText
+            viewModel.helperTextColor = Color(UIColor.g70)
+        }
     }
 }
 
@@ -82,7 +106,7 @@ public extension TextInputView {
         if let title = viewModel.titleText, !title.isEmpty {
             Text(title)
                 .font(Font(UIFont.b2r14))
-                .foregroundStyle(Color(UIColor.g100))
+                .foregroundStyle(viewModel.inputTextColor)
                 .overlay(
                     Group {
                         if viewModel.isRequiredBadgeExposure {
@@ -113,7 +137,6 @@ public extension TextInputView {
         HStack(spacing: 16) {
             TextInputView
             ClearImageView
-            ValidImageView
             TimerView
         }
         .padding(EdgeInsets(top: 13, leading: 16, bottom: 13, trailing: 16))
@@ -122,21 +145,27 @@ public extension TextInputView {
             RoundedRectangle(cornerRadius: 6.0)
                 .stroke(viewModel.borderColor)
         )
+        .background(viewModel.backgroundColor)
     }
     
     @ViewBuilder
     private var TextInputView: some View {
         TextField(viewModel.placeholder, text: $viewModel.inputText)
+            .foregroundStyle(viewModel.inputTextColor)
             .textFieldStyle(.plain)
             .submitLabel(.done) // 키보드 return 타입
             .keyboardType(.default)
             .disableAutocorrection(true) // 자동수정 비활성화
             .focused($isFocused)
             .onChange(of: isFocused) { focused in
-                viewModel.isClearImageExposure = focused
+                viewModel.isClearImageExposure = !viewModel.inputText.isEmpty && focused
+                setTextInputStatus(focused ? .focusIn : .focusOut)
+            }
+            .onChange(of: viewModel.inputText) { _ in
+                viewModel.isClearImageExposure = !viewModel.inputText.isEmpty && isFocused
             }
             .onSubmit {
-                isFocused = false
+                setTextInputStatus(.focusOut)
             }
     }
     
@@ -149,12 +178,14 @@ public extension TextInputView {
                 .foregroundColor(Color(UIColor.g50)) // resizable 보다 나중에 호출 필요 (반환타입이 some View)
                 .aspectRatio(contentMode: .fit) // 원본 비율 유지하면서 맞춤
                 .frame(width: 16, height: 16)
+        } else {
+            ValidImageView
         }
     }
     
     @ViewBuilder
     private var ValidImageView: some View {
-        if viewModel.isValidImageExposure && viewModel.isValid {
+        if viewModel.isRightImageExposure {
             Image("ic_check", bundle: .module)
                 .resizable()
                 .frame(width: 16, height: 16)
@@ -163,10 +194,10 @@ public extension TextInputView {
     
     @ViewBuilder
     private var TimerView: some View {
-        if viewModel.isTimerExposure {
-            Text("05:00")
-                .font(Font(UIFont.b2r14))
-                .foregroundStyle(Color(UIColor.error))
+        if let timer = viewModel.timerText {
+        Text(timer)
+            .font(Font(UIFont.b2r14))
+            .foregroundStyle(Color(UIColor.error))
         }
     }
     
@@ -196,7 +227,8 @@ public extension TextInputView {
     
     @discardableResult
     func setHelperText(_ text: String) -> Self {
-        viewModel.helperText = text
+        viewModel.normalHelperText = text
+        setNormalHelperText()
         return self
     }
     
@@ -213,15 +245,32 @@ public extension TextInputView {
     }
     
     @discardableResult
-    func setRequiredBadge() -> Self {
+    func setMandatory() -> Self {
         viewModel.isRequiredBadgeExposure = true
         return self
     }
     
-    // 시간 text 지정 필요.. 혹은 내부에서 timer 돌리는 방식이라던가,, 그럼 invalidate도 유의하고 잔여시간도 외부에서 get 할 수 있어야함
     @discardableResult
-    func setTimer() -> Self {
-        viewModel.isTimerExposure = true
+    func setInputStatus(_ status: ETextInputStatus) -> Self {
+        setTextInputStatus(status)
+        return self
+    }
+    
+    @discardableResult
+    func setTimer(_ seconds: Int) -> Self {
+        let minutes = seconds / 60
+        let seconds = seconds % 60
+        
+        let formattedTime = String(format: "%02d:%02d", minutes, seconds)
+        viewModel.timerText = formattedTime
+        
+        return self
+    }
+    
+    @discardableResult
+    func setConfirmed(_ isConfirmed: Bool) -> Self {
+        setTextInputStatus(.normal)
+        viewModel.isRightImageExposure = isConfirmed
         return self
     }
     
@@ -235,13 +284,7 @@ public extension TextInputView {
     
     @discardableResult
     func setEnabled(_ isEnabled: Bool) -> Self {
-        viewModel.isEnabled = isEnabled
-        return self
-    }
-    
-    @discardableResult
-    func setValid(isValid: Bool) -> Self {
-        setValidation(isValid: isValid)
+        setTextInputStatus(isEnabled ? .normal : .disabled)
         return self
     }
 }

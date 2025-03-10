@@ -12,40 +12,57 @@ import DealiDesignKit
 struct TextInputTestView: View {
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
-                TextInputView()
-                    .setTitleText("타이틀 텍스트")
-                    .setHelperText("헬퍼 텍스트")
-                    .setPlaceholder("Placeholder Text")
-                    .setRequiredBadge()
-                    .setConfirmButton(title: "확인", action: {
-                        print("확인")
-                    })
-                
-                TextInputView()
-                    .setTitleText("타이틀 텍스트")
-                    .setHelperText("헬퍼 텍스트")
-                    .setPlaceholder("Placeholder Text")
-                    .setRequiredBadge()
-                    .setTimer()
-                
-                TextInputView()
-                    .setInputText("Text Input")
-                    .setTitleText("타이틀 텍스트")
-                    .setHelperText("헬퍼 텍스트")
-                    .setPlaceholder("Placeholder Text")
-                    .setValid(isValid: false)
-                
-                TextInputView()
-                    .setInputText("Text InputText InputText InputText InputText InputText InputText InputText InputText InputText Input")
-                    .setInputText("Text Input")
-                    .setTitleText("타이틀 텍스트")
-                    .setHelperText("헬퍼 텍스트")
-                    .setPlaceholder("Placeholder Text")
-                
-                Spacer()
+            ScrollView(.vertical) {
+                VStack(spacing: 10) {
+                    TextInputView()
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                        .setMandatory()
+                        .setConfirmButton(title: "확인", action: {
+                            print("확인")
+                        })
+                    
+                    TextInputView()
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                        .setMandatory()
+                        .setTimer(250)
+                    
+                    TextInputView()
+                        .setInputText("Text InputText InputText InputText InputText InputText InputText InputText InputText InputText Input")
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                    
+                    TextInputView()
+                        .setInputText("Error Input")
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                        .setInputStatus(.error("errorMessage show"))
+                    
+                    TextInputView()
+                        .setInputText("ReadOnly Input")
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                        .setInputStatus(.readOnly)
+                    
+                    TextInputView()
+                        .setInputText("Disabled Input")
+                        .setTitleText("타이틀 텍스트")
+                        .setHelperText("헬퍼 텍스트")
+                        .setPlaceholder("Placeholder Text")
+                        .setInputStatus(.disabled)
+                    
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(10)
             }
-            .padding(20)
+            .frame(maxWidth: .infinity)
         }.navigationBarTitle("TextInput", displayMode: .inline)
     }
 }

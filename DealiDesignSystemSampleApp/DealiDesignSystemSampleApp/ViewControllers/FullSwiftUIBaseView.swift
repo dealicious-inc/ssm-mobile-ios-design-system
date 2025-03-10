@@ -14,8 +14,8 @@ import DealiDesignKit
 
 struct FullSwiftUIBaseView: View {
     let components: [Component] = [Component(title: "Alert", linkView: AlertTestView()),
-                                   Component(title: "Button", linkView: ButtonTestView())]
-    
+                                   Component(title: "Button", linkView: ButtonTestView()),
+                                   Component(title: "TextInput", linkView: TextInputTestView())]
     
     var body: some View {
         if #available(iOS 16.0, *) {

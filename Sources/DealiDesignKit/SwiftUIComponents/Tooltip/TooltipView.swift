@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// 작업중! PR엔 있지만 미완성
 public struct TooltipView: View {
     public var label: String
     public var tailPosition: ETooltipTailPosition = .bottomCenter

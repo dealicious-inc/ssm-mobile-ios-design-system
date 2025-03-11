@@ -70,11 +70,11 @@ public struct TextInputView: View {
             
         case .focusIn:
             viewModel.isClearImageExposure = !viewModel.inputText.isEmpty
-            UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+            showKeyboard(true)
 
         case .focusOut:
             viewModel.isClearImageExposure = false
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            showKeyboard(false)
             
         default:
             setNormalHelperText()
@@ -94,6 +94,18 @@ public struct TextInputView: View {
         if let normalHelperText = viewModel.normalHelperText {
             viewModel.helperText = normalHelperText
             viewModel.helperTextColor = Color(UIColor.g70)
+        }
+    }
+    
+    private func clearText() {
+        viewModel.inputText = ""
+    }
+    
+    private func showKeyboard(_ show: Bool) {
+        if show {
+            UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+        } else {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 }
@@ -178,6 +190,9 @@ public extension TextInputView {
                 .foregroundColor(Color(UIColor.g50)) // resizable 보다 나중에 호출 필요 (반환타입이 some View)
                 .aspectRatio(contentMode: .fit) // 원본 비율 유지하면서 맞춤
                 .frame(width: 16, height: 16)
+                .onTapGesture {
+                    clearText()
+                }
         } else {
             ValidImageView
         }

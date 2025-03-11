@@ -63,15 +63,19 @@ public struct TextInputView: View {
         switch status {
         case let .error(errorMessage):
             setErrorHelperText(errorMessage: errorMessage)
+            viewModel.borderColor = Color(status.borderColor)
             
         case .disabled, .readOnly:
             viewModel.isEnabled = false
+            viewModel.borderColor = Color(status.borderColor)
             
         case .focusIn:
             isFocused = true
-            
+            viewModel.isClearImageExposure = !viewModel.inputText.isEmpty
+
         case .focusOut:
             isFocused = false
+            viewModel.isClearImageExposure = false
             
         default:
             setNormalHelperText()
@@ -146,27 +150,25 @@ public extension TextInputView {
                 .stroke(viewModel.borderColor)
         )
         .background(viewModel.backgroundColor)
+        
     }
     
     @ViewBuilder
     private var TextInputView: some View {
-        TextField(viewModel.placeholder, text: $viewModel.inputText)
-            .foregroundStyle(viewModel.inputTextColor)
-            .textFieldStyle(.plain)
-            .submitLabel(.done) // 키보드 return 타입
-            .keyboardType(.default)
-            .disableAutocorrection(true) // 자동수정 비활성화
-            .focused($isFocused)
-            .onChange(of: isFocused) { focused in
-                viewModel.isClearImageExposure = !viewModel.inputText.isEmpty && focused
-                setTextInputStatus(focused ? .focusIn : .focusOut)
-            }
-            .onChange(of: viewModel.inputText) { _ in
-                viewModel.isClearImageExposure = !viewModel.inputText.isEmpty && isFocused
-            }
-            .onSubmit {
-                setTextInputStatus(.focusOut)
-            }
+        TextField(viewModel.placeholder, text: $viewModel.inputText, onEditingChanged: { isEditing in
+            // submit 클릭 등 자연스러운 포커스 변경 시에는 isFocused가 호출되지 않는다고함
+            setTextInputStatus(isEditing ? .focusIn : .focusOut)
+        })
+        .focused($isFocused)
+        .foregroundStyle(viewModel.inputTextColor)
+        .textFieldStyle(.plain)
+        .submitLabel(.done) // 키보드 return 타입
+        .keyboardType(.default)
+        .disableAutocorrection(true) // 자동수정 비활성화
+        .autocapitalization(.none) // 자동 대문자화 비활성화
+        .onChange(of: viewModel.inputText) { _ in
+            viewModel.isClearImageExposure = !viewModel.inputText.isEmpty
+        }
     }
     
     @ViewBuilder
@@ -209,7 +211,7 @@ public extension TextInputView {
                 .setTitle(viewModel.buttonTitle ?? "")
                 .setEnabled(viewModel.isEnabled)
                 .addAction {
-                    isFocused = false
+                    setTextInputStatus(.focusOut)
                     viewModel.buttonAction()
                 }
                 .frame(width: 84)

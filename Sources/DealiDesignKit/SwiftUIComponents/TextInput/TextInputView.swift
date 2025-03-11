@@ -10,7 +10,6 @@ import SwiftUI
 public struct TextInputView: View {
     
     @ObservedObject private var viewModel: ViewModel = ViewModel()
-    @FocusState private var isFocused: Bool // 키보드 포커스 바인딩
     
     final private class ViewModel: ObservableObject {
         @Published var backgroundColor: Color = Color(ETextInputStatus.normal.backgroundColor)
@@ -70,12 +69,12 @@ public struct TextInputView: View {
             viewModel.borderColor = Color(status.borderColor)
             
         case .focusIn:
-            isFocused = true
             viewModel.isClearImageExposure = !viewModel.inputText.isEmpty
+            UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
 
         case .focusOut:
-            isFocused = false
             viewModel.isClearImageExposure = false
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             
         default:
             setNormalHelperText()
@@ -159,7 +158,6 @@ public extension TextInputView {
             // submit 클릭 등 자연스러운 포커스 변경 시에는 isFocused가 호출되지 않는다고함
             setTextInputStatus(isEditing ? .focusIn : .focusOut)
         })
-        .focused($isFocused)
         .foregroundStyle(viewModel.inputTextColor)
         .textFieldStyle(.plain)
         .submitLabel(.done) // 키보드 return 타입

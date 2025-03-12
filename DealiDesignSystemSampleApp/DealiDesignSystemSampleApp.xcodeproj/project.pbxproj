@@ -55,6 +55,8 @@
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
+		FC0680612D81938F0076CC09 /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680602D81938F0076CC09 /* EmptyViewController.swift */; };
+		FC0680632D81A8980076CC09 /* ErrorViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680622D81A8980076CC09 /* ErrorViewTest.swift */; };
 		FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 		FC5D882A2D2BB52C008F7133 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC5D88292D2BB52C008F7133 /* DealiDesignKit */; };
@@ -109,6 +111,8 @@
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
+		FC0680602D81938F0076CC09 /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
+		FC0680622D81A8980076CC09 /* ErrorViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewTest.swift; sourceTree = "<group>"; };
 		FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiPlaygroundViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
+				FC0680622D81A8980076CC09 /* ErrorViewTest.swift */,
 			);
 			path = SwiftUISubViews;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 		4D1FA9272AFC740000AA510F /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				FC06805F2D81936C0076CC09 /* Empty */,
 				4D584A1C2D1A82A1007BB775 /* Notice */,
 				FC0838852D06C0B70028AE27 /* TextLink */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
@@ -299,6 +305,14 @@
 				4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FC06805F2D81936C0076CC09 /* Empty */ = {
+			isa = PBXGroup;
+			children = (
+				FC0680602D81938F0076CC09 /* EmptyViewController.swift */,
+			);
+			path = Empty;
 			sourceTree = "<group>";
 		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {
@@ -417,6 +431,7 @@
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */,
+				FC0680632D81A8980076CC09 /* ErrorViewTest.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
@@ -431,6 +446,7 @@
 				4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */,
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
+				FC0680612D81938F0076CC09 /* EmptyViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				3990E48F2CC639C3007C2D9E /* AccordionComponentViewController.swift in Sources */,

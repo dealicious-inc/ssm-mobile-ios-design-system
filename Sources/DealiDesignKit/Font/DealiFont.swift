@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 /// 디자인시스템 Font에 적용되는 스타일. 스타일 관리용으로 내부적으로만 사용. 실제 사용은 UIFont extension에 정의된 정적변수를 사용한다.
 ///
@@ -148,6 +149,13 @@ extension UIFont {
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
             debugPrint(error!.takeUnretainedValue())
         }
+        
+//        guard let url = Bundle.module.url(forResource: fontName, withExtension: nil) else {
+//            print("폰트 로드 실패")
+//            return
+//        }
+//        print("폰트 로드")
+//        CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
     }
 }
 
@@ -169,5 +177,12 @@ fileprivate extension UIFont {
         let descriptor = UIFontDescriptor(fontAttributes: attributes)
         let font = UIFont(descriptor: descriptor, size: pointSize)
         return font
+    }
+}
+
+extension View {
+    public func loadCustomFonts() -> some View {
+        registerDealiSystemFonts()
+        return self
     }
 }

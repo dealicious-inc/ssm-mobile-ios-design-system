@@ -10,12 +10,23 @@ import SwiftUI
 import DealiDesignKit
 
 struct LabeledTestView: View {
+    
+    
+    
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
                 VStack(spacing: 20) {
-                    singleLabeledTextView
-                    labeledTextGroupView
+                    
+//                    let styleText = AttributedString("가나다라마바사아자차카타파하")
+//                        .updateAttributedString(for: [TextStyleAttributes(text: "가나다라", font: .h1sb32, color: .red),
+//                                                                                                      TextStyleAttributes(text: "마바사", font: .h2sb24, color: .blue)])
+//                    
+//                    LabeledTextView()
+//                        .preset(.labeledTextNumber01)
+//                        .model(LabeledTextModel(message: styleText, icon: .dealiIcon(named: "ic_plus_ad_forward")))
+//                    singleLabeledTextView
+//                    labeledTextGroupView
                 }
                 .padding(EdgeInsets(top: 0.0, leading: 16.0, bottom: 0.0, trailing: 16.0))
             }
@@ -27,6 +38,8 @@ struct LabeledTestView: View {
     @ViewBuilder
     private var singleLabeledTextView: some View {
         VStack(spacing: 10.0) {
+            
+            
 //            LabeledTextView().preset(.labeledTextBullet01).setModel(LabeledTextModel(message: "가나다라마바사"))
 //            LabeledTextView().preset(.labeledTextBullet02).setModel(LabeledTextModel(message: "가나다라마바사"))
 //            
@@ -40,7 +53,9 @@ struct LabeledTestView: View {
     
     @ViewBuilder
     private var labeledTextGroupView: some View {
-        let groupModel = LabeledTextGroupModel(title: "타이틀", icon: .dealiIcon(named: "ic_info"), labeledModelArray: [LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사")])
+//        [LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사"), LabeledTextModel(message: "가나다라마바사")]
+        
+        let groupModel = LabeledTextGroupModel(title: "타이틀", icon: .dealiIcon(named: "ic_info"), labeledModelArray: [])
         VStack(spacing: 20.0) {
             LabeledText.labeledTextBullet01.setModel(groupModel)
             LabeledText.labeledTextBullet02.setModel(groupModel)

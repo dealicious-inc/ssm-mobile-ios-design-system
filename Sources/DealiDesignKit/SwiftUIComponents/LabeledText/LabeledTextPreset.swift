@@ -65,7 +65,7 @@ public enum LabeledTextPreset {
     }
     
     var font: UIFont {
-        return .b3r13
+        return .h1sb32
     }
     
     var textColor: UIColor {
@@ -89,14 +89,18 @@ public enum LabeledTextPreset {
     }
 }
 
+
+
 public struct LabeledTextModel: Identifiable {
     public let id = UUID()
-    public var message: String
+    public var message: AttributedString
+    public var text: String
     public var icon: UIImage?
     public var number: Int?
     public var customView: AnyView?
     
-    public init(message: String, icon: UIImage? = nil, customView: (any View)? = nil) {
+    public init(text: String, message: AttributedString, icon: UIImage? = nil, customView: (any View)? = nil) {
+        self.text = text
         self.message = message
         self.icon = icon
         if let customView = customView {

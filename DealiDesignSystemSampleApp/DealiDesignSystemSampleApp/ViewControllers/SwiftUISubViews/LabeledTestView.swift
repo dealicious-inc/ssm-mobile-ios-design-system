@@ -27,6 +27,10 @@ struct LabeledTestView: View {
 //                        .model(LabeledTextModel(message: styleText, icon: .dealiIcon(named: "ic_plus_ad_forward")))
 //                    singleLabeledTextView
 //                    labeledTextGroupView
+                    
+                    AttributedText("가나다라마바사")
+                        .font(.h1sb32)
+                        .color(.g100)
                 }
                 .padding(EdgeInsets(top: 0.0, leading: 16.0, bottom: 0.0, trailing: 16.0))
             }

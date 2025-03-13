@@ -38,14 +38,15 @@ public struct LabeledTextView: View {
             HStack(alignment: .top, spacing: 0) {
                 labelView
                 
-//                Text(model.message)
-//                    .frame(maxWidth: .infinity, alignment: .leading)
-//                    .foregroundStyle(textColor)
+                Text(model.message)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(textColor)
 //                    .background(Color.gray)
-//                    .font(uimodel.preset.font)
-                AttributedText(model.text)
                     .font(uimodel.preset.font)
-                    .color(uimodel.preset.textColor)
+                
+//                AttributedText(model.text)
+//                    .font(uimodel.preset.font)
+//                    .color(uimodel.preset.textColor)
             }
         }
     }
@@ -116,8 +117,8 @@ public struct LabeledTextView: View {
     
     var text = {
         var dd = AttributedString("가나다라마바사아자차카타파하")
-//        dd.applyStyles([TextStyleAttributes(text: "가나다라", font: .h1sb32, color: .red),
-//                         TextStyleAttributes(text: "마바사", font: .h2sb24, color: .blue)])
+        dd = dd.applyStyles([TextStyleAttributes(text: "가나다", font: .h1sb32, color: .red),
+                         TextStyleAttributes(text: "마바사", font: .h2sb24, color: .blue)])
         return dd
     }
     
@@ -154,12 +155,14 @@ public struct LabeledTextView: View {
 
 public extension AttributedString {
     func applyStyles(_ styles: [TextStyleAttributes]) -> AttributedString {
+        var text = self
         for style in styles {
-            if let range = self.range(of: style.text) {
-//                self[range].foregroundColor = style.color
-//                self[range].font = Font(style.font!)
+            if let range = text.range(of: style.text) {
+                
+                text[range].foregroundColor = style.color
+                text[range].font = Font(style.font!)
             }
         }
-        return self
+        return text
     }
 }

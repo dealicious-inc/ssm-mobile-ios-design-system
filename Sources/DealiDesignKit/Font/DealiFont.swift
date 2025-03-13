@@ -149,13 +149,6 @@ extension UIFont {
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
             debugPrint(error!.takeUnretainedValue())
         }
-        
-//        guard let url = Bundle.module.url(forResource: fontName, withExtension: nil) else {
-//            print("폰트 로드 실패")
-//            return
-//        }
-//        print("폰트 로드")
-//        CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
     }
 }
 

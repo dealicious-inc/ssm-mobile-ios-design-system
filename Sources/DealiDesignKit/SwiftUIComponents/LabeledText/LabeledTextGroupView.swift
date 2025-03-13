@@ -7,89 +7,130 @@
 
 import SwiftUI
 
-public struct LabeledText {
-    public static var labeledTextBullet01: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextBullet01)
-    }
-    
-    public static var labeledTextBullet02: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextBullet02)
-    }
-    
-    public static var labeledTextNumber01: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextNumber01)
-    }
-    
-    public static var labeledTextNumber02: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextNumber02)
-    }
-    
-    public static var labeledTextIcon01: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextIcon01)
-    }
-    
-    public static var labeledTextIcon02: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextIcon02)
-    }
-    
-    public static var labeledTextCustom01: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextCustom01)
-    }
-    
-    public static var labeledTextCustom02: LabeledTextGroupView {
-        LabeledTextGroupView(preset: .labeledTextCustom02)
-    }
-}
-
 public struct LabeledTextGroupView: View {
-    public var preset: LabeledTextPreset
-    
-    private var model: LabeledTextGroupModel?
-    
-    public init(preset: LabeledTextPreset) {
-        self.preset = preset
+    @ObservedObject private var viewModel = ViewModel()
+
+    final class ViewModel: ObservableObject {
+        @Published var preset: LabeledTextPreset = .labeledTextBullet01
+        @Published var title: String?
+        @Published var icon: UIImage?
+        @Published var labeledModelArray: [LabeledTextModel] = []
     }
+    
+    public init() { }
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 8.0) {
-            if let model = self.model {
-                HStack(alignment: .center, spacing: 8.0) {
-                    if let titleIconImage = model.icon {
-                        Image(uiImage: titleIconImage).renderingMode(.template).resizable().foregroundStyle(Color(uiColor: .g100)).frame(width: 16.0, height: 16.0, alignment: .center)
-                    }
-                    
-                    Text(model.title)
+            HStack(alignment: .center, spacing: 8.0) {
+                if let titleIconImage = viewModel.icon {
+                    Image(uiImage: titleIconImage).renderingMode(.template).resizable().foregroundStyle(Color(uiColor: .g100)).frame(width: 16.0, height: 16.0, alignment: .center)
+                }
+                
+                if let title = viewModel.title {
+                    Text(title)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .lineLimit(1)
                         .foregroundStyle(Color(uiColor: .g100))
-//                        .font(.b3sb13)
+                        .font(.b3sb13)
                 }
-                
+            }
 
-//                ForEach(model.labeledModelArray.enumerated().map { (index, labeledTextModel) in
-//                    var copyModel = labeledTextModel
-//                    copyModel.number = index + 1
-//                    return copyModel
-//                }, id: \.id) { model in
-//                    LabeledTextView().preset(self.preset).setModel(model)
-//                }
+            ForEach(viewModel.labeledModelArray, id: \.id) {
+                LabeledTextView()
+                    .preset(viewModel.preset)
+                    .model($0)
             }
         }
     }
     
-    public func setModel(_ model: LabeledTextGroupModel) -> LabeledTextGroupView {
-        var copy = self
-        copy.model = model
-        return copy
+    public func preset(_ preset: LabeledTextPreset) -> Self {
+        viewModel.preset = preset
+        return self
     }
+    
+    public func title(_ title: String) -> Self {
+        viewModel.title = title
+        return self
+    }
+    
+    public func icon(_ icon: UIImage?) -> Self {
+        viewModel.icon = icon
+        return self
+    }
+    
+    public func labeledModelArray(_ labeledModelArray: [LabeledTextModel]) -> Self {
+        viewModel.labeledModelArray = labeledModelArray.enumerated().map {
+            var updateModel = $1
+            updateModel.number = $0 + 1
+            return updateModel
+        }
+        
+        for model in viewModel.labeledModelArray {
+            print("model number: \(model.number)")
+        }
+        return self
+    }
+  
 }
 
 #Preview {
-//    let model = LabeledTextGroupModel(title: "타이틀", labeledModelArray: [LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"),
-//                                                                        LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"),
-//                                                                        LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"),
-//                                                                        LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"),
-//                                                                        LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디")])
-//    LabeledTextGroupView(preset: .labeledTextNumber01).setModel(model)
-//    LabeledTextGroupView(preset: .labeledTextBullet01,title: "타이틀",titleIconImage: .dealiIcon(named: "ic_info"), items: [LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하"), LabeledTextModel(message: "내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하")])
+    
+    let modelArray: [LabeledTextModel] = {
+        [
+            LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
+            LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
+            LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
+            LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
+            LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient))
+        ]
+    }()
+        
+    
+    VStack(spacing: 20.0) {
+        LabeledTextGroupView()
+            .preset(.labeledTextBullet01)
+            .title("Bullet01")
+            .icon(.dealiIcon(named: "ic_info"))
+            .labeledModelArray(modelArray)
+        
+        LabeledTextGroupView()
+            .preset(.labeledTextBullet02)
+            .labeledModelArray(modelArray)
+            .title("Bullet02")
+        
+        LabeledTextGroupView()
+            .preset(.labeledTextNumber01)
+            .title("Number01")
+            .labeledModelArray(modelArray)
+        
+        LabeledTextGroupView()
+            .preset(.labeledTextNumber02)
+            .labeledModelArray(modelArray)
+            .icon(.dealiIcon(named: "ic_info"))
+            .title("Number02")
+        
+        LabeledTextGroupView()
+            .preset(.labeledTextIcon01)
+            .labeledModelArray(modelArray)
+            .icon(.dealiIcon(named: "ic_info"))
+            .title("Icon01")
+        
+        LabeledTextGroupView()
+            .preset(.labeledTextIcon02)
+            .labeledModelArray(modelArray)
+            .title("Icon02")
+        
+        LabeledTextGroupView()
+            .title("Custom01")
+            .preset(.labeledTextCustom01)
+            .labeledModelArray(modelArray)
+            .icon(.dealiIcon(named: "ic_info"))
+        
+        LabeledTextGroupView()
+            .title("Custom02")
+            .preset(.labeledTextCustom01)
+            .icon(.dealiIcon(named: "ic_info"))
+            .labeledModelArray(modelArray)
+    }
+    
 }

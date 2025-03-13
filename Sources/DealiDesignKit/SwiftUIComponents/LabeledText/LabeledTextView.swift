@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct LabeledTextView: View {
     
-    @ObservedObject private var uimodel = ViewModel()
+    @ObservedObject private var viewModel = ViewModel()
 
     final class ViewModel: ObservableObject {
         @Published var preset: LabeledTextPreset = .labeledTextBullet01
@@ -17,45 +17,27 @@ public struct LabeledTextView: View {
         @Published var text: [TextStyleAttributes]?
     }
     
-    var text = {
-        var dd = AttributedString("가나다라마바사아자차카타파하")
-        dd.applyStyles([TextStyleAttributes(text: "가나다라", font: .h1sb32, color: .red),
-                         TextStyleAttributes(text: "마바사", font: .h2sb24, color: .blue)])
-        return dd
-    }
-        
-    
-    public init() {
-        
-        registerDealiSystemFonts()
-        
-    }
+    public init() { }
     
     public var body: some View {
         
-        if let model = uimodel.model {
-            let textColor = Color(uiColor: uimodel.preset.textColor)
-            HStack(alignment: .top, spacing: 0) {
+        if let model = viewModel.model {
+            HStack(alignment: .top, spacing: viewModel.preset.itemSpacing) {
                 labelView
                 
                 Text(model.message)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(textColor)
-//                    .background(Color.gray)
-                    .font(uimodel.preset.font)
-                
-//                AttributedText(model.text)
-//                    .font(uimodel.preset.font)
-//                    .color(uimodel.preset.textColor)
+                    .foregroundStyle(Color(uiColor: viewModel.preset.textColor))
+                    .font(viewModel.preset.font)
             }
         }
     }
     
     @ViewBuilder
     private var labelView: some View {
-        if let model = uimodel.model {
-            let textColor = Color(uiColor: uimodel.preset.textColor)
-            switch uimodel.preset.style {
+        if let model = viewModel.model {
+            let textColor = Color(uiColor: viewModel.preset.textColor)
+            switch viewModel.preset.style {
             case .bullet:
                 Circle()
                     .frame(width: 3, height: 3)
@@ -68,32 +50,19 @@ public struct LabeledTextView: View {
                         .renderingMode(.template)
                         .resizable()
                         .foregroundStyle(textColor)
-                        .background(Color.green)
                         .frame(width: 16, height: 16)
                         .offset(y: 1)
                 }
                 
             case .number:
-                Text("가\n파")
+                Text("0.")
                     .foregroundStyle(textColor)
-                    .font(uimodel.preset.font)
-                
-//                Text("테스트중").font(Font.custom("PretendardJP-Bold", size: 32))
-                VStack(spacing: 0.0) {
-                    Rectangle()
-                        .frame(width: 40.0, height: 40.0)
-                        .foregroundStyle(Color.blue)
-
-                    Rectangle()
-                        .frame(width: 40.0, height: 40.0)
-                        .foregroundStyle(Color.gray)
-                }
+                    .font(viewModel.preset.font)
                 
             case .custom:
                 if let customView = model.customView {
                     customView
                         .foregroundStyle(textColor)
-                        .background(Color.green)
                         .offset(y: 1)
                 }
             }
@@ -102,12 +71,12 @@ public struct LabeledTextView: View {
     }
     
     public func preset(_ preset: LabeledTextPreset) -> Self {
-        uimodel.preset = preset
+        viewModel.preset = preset
         return self
     }
     
     public func model(_ model: LabeledTextModel) -> Self {
-        uimodel.model = model
+        viewModel.model = model
         return self
     }
 
@@ -115,54 +84,39 @@ public struct LabeledTextView: View {
 
 #Preview {
     
-    var text = {
-        var dd = AttributedString("가나다라마바사아자차카타파하")
-        dd = dd.applyStyles([TextStyleAttributes(text: "가나다", font: .h1sb32, color: .red),
-                         TextStyleAttributes(text: "마바사", font: .h2sb24, color: .blue)])
-        return dd
-    }
-    
-    LabeledTextView()
-        .preset(.labeledTextNumber01)
-        .model(LabeledTextModel(text: "안녕하세요.\n반갑습니다.", message: text()))
-    
-//    LabeledTextView()
-//        .preset(.labeledTextCustom01)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아가나다라마바사아자차카타파하 가나다라마바사아자차 카타파하", icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0)))
-    
-//    LabeledTextView()
-//        .preset(.labeledTextBullet02)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
-//
-//    LabeledTextView()
-//        .preset(.labeledTextNumber01)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
-//    LabeledTextView()
-//        .preset(.labeledTextNumber02)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디"))
-//
-//    LabeledTextView()
-//        .preset(.labeledTextIcon01)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디", icon: .dealiIcon(named: "ic_plus_ad_forward")))
-//    LabeledTextView()
-//        .preset(.labeledTextIcon02)
-//        .model(LabeledTextModel(message: "가나다라마바사아자차카타파하 아야어여오요우유으이 가갸거겨고교규그기 나냐너녀노뇨누느니 다댜더뎌도됴두듀드디", icon: .dealiIcon(named: "ic_repeat")))
-    
- 
-}
-
-
-
-public extension AttributedString {
-    func applyStyles(_ styles: [TextStyleAttributes]) -> AttributedString {
-        var text = self
-        for style in styles {
-            if let range = text.range(of: style.text) {
-                
-                text[range].foregroundColor = style.color
-                text[range].font = Font(style.font!)
-            }
-        }
-        return text
+    VStack(spacing: 20) {
+        LabeledTextView()
+            .preset(.labeledTextBullet01)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+        
+        LabeledTextView()
+            .preset(.labeledTextBullet02)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+        
+        
+        LabeledTextView()
+            .preset(.labeledTextNumber01)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+        
+        LabeledTextView()
+            .preset(.labeledTextNumber02)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+        
+        LabeledTextView()
+            .preset(.labeledTextIcon01)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward")))
+        
+        LabeledTextView()
+            .preset(.labeledTextIcon02)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_repeat")))
+        
+        LabeledTextView()
+            .preset(.labeledTextCustom01)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)))
+        
+        LabeledTextView()
+            .preset(.labeledTextCustom02)
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)))
     }
 }
+

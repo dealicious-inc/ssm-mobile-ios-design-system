@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import SwiftUICore
+import SwiftUI
+
 
 public enum LabeledTextPreset {
     /**
@@ -65,7 +66,7 @@ public enum LabeledTextPreset {
     }
     
     var font: UIFont {
-        return .h1sb32
+        return .b3r13
     }
     
     var textColor: UIColor {
@@ -94,29 +95,15 @@ public enum LabeledTextPreset {
 public struct LabeledTextModel: Identifiable {
     public let id = UUID()
     public var message: AttributedString
-    public var text: String
     public var icon: UIImage?
     public var number: Int?
     public var customView: AnyView?
     
-    public init(text: String, message: AttributedString, icon: UIImage? = nil, customView: (any View)? = nil) {
-        self.text = text
+    public init(message: AttributedString, icon: UIImage? = nil, customView: (any View)? = nil) {
         self.message = message
         self.icon = icon
         if let customView = customView {
             self.customView = AnyView(customView)
         }
-    }
-}
-
-public struct LabeledTextGroupModel {
-    public var title: String
-    public var icon: UIImage?
-    public var labeledModelArray: [LabeledTextModel]
-    
-    public init(title: String, icon: UIImage? = nil, labeledModelArray: [LabeledTextModel]) {
-        self.title = title
-        self.icon = icon
-        self.labeledModelArray = labeledModelArray
     }
 }

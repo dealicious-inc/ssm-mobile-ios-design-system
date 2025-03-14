@@ -103,7 +103,9 @@ private extension EmptyViewController {
                 
         testViewModels.forEach { viewModel in
             contentStackView.addArrangedSubview(
-                DLEmptyView(viewModel: viewModel)
+                DLEmptyView(viewModel: viewModel) {
+                    print("Button clicked")
+                }
                     .UIKit()
             )
         }

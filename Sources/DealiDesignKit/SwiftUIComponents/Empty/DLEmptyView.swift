@@ -11,9 +11,12 @@ public struct DLEmptyView: View {
 
     @ObservedObject public var viewModel: DLEmptyViewModel
     
-    public init(viewModel: DLEmptyViewModel = DLEmptyViewModel()) {
+    public init(viewModel: DLEmptyViewModel = DLEmptyViewModel(), action: @escaping @MainActor () -> Void = {}) {
         self.viewModel = viewModel
+        self.action = action
     }
+    
+    public var action: () -> Void = { }
     
     public var body: some View {
         VStack(alignment: .center, spacing: 12.0) {
@@ -52,12 +55,14 @@ public struct DLEmptyView: View {
 
     @ViewBuilder var buttonView: some View {
         if let buttonTitle = self.viewModel.buttonTitle {
-            ButtonView()
-                .setStyle(.btnFilledLarge01)
-                .setTitle(buttonTitle)
-                .frame(minWidth: 170.0)
-                .fixedSize()
-                .padding(.top, 12.0)
+            ButtonView {
+                self.action()
+            }
+            .setStyle(.btnFilledLarge01)
+            .setTitle(buttonTitle)
+            .frame(minWidth: 170.0)
+            .fixedSize()
+            .padding(.top, 12.0)
         }
 
     }

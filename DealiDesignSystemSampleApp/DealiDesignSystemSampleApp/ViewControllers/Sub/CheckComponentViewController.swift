@@ -11,10 +11,13 @@ import SwiftUI
 import RxSwift
 import RxCocoa
 import DealiDesignKit
+import Combine
 
 class CheckComponentViewController: UIViewController {
     
     private let isSwiftUI: Bool
+    private let testViewModel = CheckboxViewModel(isSelected: true)
+    private var cancellables = Set<AnyCancellable>()
     
     init(isSwiftUI: Bool = false) {
         self.isSwiftUI = isSwiftUI
@@ -33,6 +36,12 @@ class CheckComponentViewController: UIViewController {
 
         self.title = "Check"
         self.view.backgroundColor = .white
+        
+        self.testViewModel.$isSelected
+            .sink { isSelected in
+                debugPrint("isSelected: \(isSelected)")
+            }.store(in: &cancellables)
+        
     }
     
     override func loadView() {
@@ -271,13 +280,11 @@ private extension CheckComponentViewController {
             $0.distribution = .equalSpacing
         }
         
-        let defaultCheckbox = CheckboxView(label: "기본 상태", viewModel: .init()) { isSelected in
-            debugPrint("isSelected: \(isSelected)")
-        }
+        let defaultCheckbox = CheckboxView(label: "기본 상태", viewModel: .init())
         
         contentStackView.addArrangedSubview(defaultCheckbox.UIKit())
         
-        let selectedCheckbox = CheckboxView(label: "선택 상태", viewModel: .init(isSelected: true))
+        let selectedCheckbox = CheckboxView(label: "선택 상태", viewModel: self.testViewModel) 
         contentStackView.addArrangedSubview(selectedCheckbox.UIKit())
         
         let disabledDefaultCheckbox = CheckboxView(label: "비활성 비선택 상태", viewModel: .init(isEnabled: false))

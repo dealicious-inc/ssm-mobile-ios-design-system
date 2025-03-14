@@ -11,9 +11,7 @@ public struct DLEmptyView: View {
 
     @EnvironmentObject public var viewModel: DLEmptyViewModel
     
-    public init() {
-        
-    }
+    public init() {}
     
     public var body: some View {
         VStack(alignment: .center, spacing: 12.0) {

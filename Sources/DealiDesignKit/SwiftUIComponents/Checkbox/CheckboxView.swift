@@ -10,19 +10,16 @@ import SwiftUI
 public struct CheckboxView: View {
     @ObservedObject public var viewModel = CheckboxViewModel()
     public var label: String?
-    public var onTap: ((Bool) -> Void)?
     
-    public init(label: String? = nil, viewModel: CheckboxViewModel = CheckboxViewModel(), onTap: ((Bool) -> Void)? = nil) {
+    public init(label: String? = nil, viewModel: CheckboxViewModel = CheckboxViewModel()) {
         self.label = label
         self._viewModel = ObservedObject(wrappedValue: viewModel)
-        self.onTap = onTap
     }
     
     public var body: some View {
         Button(action: {
             guard self.viewModel.isEnabled else { return }
             self.viewModel.toggle()
-            self.onTap?(self.viewModel.isSelected)
         }) {
             HStack(spacing: 8.0) {
                 Image(self.viewModel.imageName, bundle: .module)

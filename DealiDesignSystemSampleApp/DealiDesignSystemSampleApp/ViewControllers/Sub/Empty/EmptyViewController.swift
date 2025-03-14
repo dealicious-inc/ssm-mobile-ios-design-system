@@ -66,7 +66,7 @@ final class EmptyViewController: UIViewController {
     }
 }
 
-private extension EmptyViewController { 
+private extension EmptyViewController {
     func swiftUIView() -> UIStackView {
         let viewModel = DLEmptyViewModel(
             iconImage: Image.dealiIcon(named: "ic_refresh_2_filled"),
@@ -103,8 +103,7 @@ private extension EmptyViewController {
                 
         testViewModels.forEach { viewModel in
             contentStackView.addArrangedSubview(
-                DLEmptyView()
-                    .environmentObject(viewModel)
+                DLEmptyView(viewModel: viewModel)
                     .UIKit()
             )
         }

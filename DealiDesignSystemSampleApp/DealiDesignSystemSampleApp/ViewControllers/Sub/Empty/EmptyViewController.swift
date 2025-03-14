@@ -66,8 +66,33 @@ final class EmptyViewController: UIViewController {
     }
 }
 
-private extension EmptyViewController {
+private extension EmptyViewController { 
     func swiftUIView() -> UIStackView {
+        let viewModel = DLEmptyViewModel(
+            iconImage: Image.dealiIcon(named: "ic_refresh_2_filled"),
+            title: "타이틀이 들어가는 영역이예요.",
+            subtitle: "서브타이틀이 들어가는 영역이예요.",
+            buttonTitle: "재시도"
+        )
+        
+        let testViewModels: [DLEmptyViewModel] = [
+            viewModel,
+            DLEmptyViewModel(
+                iconImage: nil,
+                subtitle: "등록된 상품이 없어요."
+            ),
+            DLEmptyViewModel(
+                subtitle: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요."
+            ),
+            DLEmptyViewModel(
+                subtitle: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.",
+                buttonTitle: "재시도"
+            ),
+            DLEmptyViewModel(
+                subtitle: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.",
+                buttonTitle: "일이삼사오육칠팔구십일이삼사"
+            )
+        ]
         
         let contentStackView = UIStackView().then {
             $0.axis = .vertical
@@ -75,40 +100,17 @@ private extension EmptyViewController {
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }
-        
-        contentStackView.addArrangedSubview(
-            ErrorView(
-                title: .constant("타이틀이 들어가는 영역이예요."),
-                subtitle: .constant("데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요."),
-                buttonTitle: .constant("재시도")
+                
+        testViewModels.forEach { viewModel in
+            contentStackView.addArrangedSubview(
+                DLEmptyView()
+                    .environmentObject(viewModel)
+                    .UIKit()
             )
-            .UIKit()
-        )
+        }
         
-        contentStackView.addArrangedSubview(
-            ErrorView(
-                iconImage: nil,
-                subtitle: .constant("등록된 상품이 없어요.")
-            )
-            .UIKit()
-        )
-        
-        contentStackView.addArrangedSubview(
-            ErrorView(
-                subtitle: .constant("데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.")
-            )
-            .UIKit()
-        )
-        
-        contentStackView.addArrangedSubview(
-            ErrorView(
-                title: .constant("타이틀이 들어가는 영역이예요."),
-                subtitle: .constant("데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요."),
-                buttonTitle: .constant("일이삼사오육칠팔구십일이삼사")
-            )
-            .UIKit()
-        )
-        
+        viewModel.setTitle("타이틀 바꿨습니다")
+
         return contentStackView
     }
 }

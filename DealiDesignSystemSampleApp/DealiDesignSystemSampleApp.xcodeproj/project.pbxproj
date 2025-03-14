@@ -56,7 +56,7 @@
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
 		FC0680612D81938F0076CC09 /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680602D81938F0076CC09 /* EmptyViewController.swift */; };
-		FC0680632D81A8980076CC09 /* ErrorViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680622D81A8980076CC09 /* ErrorViewTest.swift */; };
+		FC0680632D81A8980076CC09 /* EmptyViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680622D81A8980076CC09 /* EmptyViewTest.swift */; };
 		FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
 		FC5D882A2D2BB52C008F7133 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC5D88292D2BB52C008F7133 /* DealiDesignKit */; };
@@ -112,7 +112,7 @@
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
 		FC0680602D81938F0076CC09 /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
-		FC0680622D81A8980076CC09 /* ErrorViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewTest.swift; sourceTree = "<group>"; };
+		FC0680622D81A8980076CC09 /* EmptyViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTest.swift; sourceTree = "<group>"; };
 		FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
 		FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiPlaygroundViewController.swift; sourceTree = "<group>"; };
@@ -231,7 +231,7 @@
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
-				FC0680622D81A8980076CC09 /* ErrorViewTest.swift */,
+				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
 			);
 			path = SwiftUISubViews;
 			sourceTree = "<group>";
@@ -431,7 +431,7 @@
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */,
-				FC0680632D81A8980076CC09 /* ErrorViewTest.swift in Sources */,
+				FC0680632D81A8980076CC09 /* EmptyViewTest.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,

@@ -35,12 +35,7 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
             getter: { textField in
                 textField.text
             },
-            setter: { textField, value in
-                if base.textField.text != value {
-                    base.textField.text = value
-                }
-            }
+            setter: { _, _ in }
         )
     }
-    
 }

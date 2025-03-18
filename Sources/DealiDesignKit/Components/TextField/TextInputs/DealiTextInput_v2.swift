@@ -101,18 +101,21 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 self.textField.text = newValue
                 
                 guard inputStatus != .readOnly && inputStatus != .disabled else { return }
-                
-                if self.sendValuedChagedActionInSetter {
-                    self.textField.sendActions(for: .valueChanged)
-                    
-                    if self.inputStatus != .focusIn {
-                        self.textField.sendActions(for: .editingDidEnd)
-                    }
-                }
-                
+                self.sendAdditionalEditingEvents()
             }
         }
     }
+    
+    private func sendAdditionalEditingEvents() {
+        if self.sendValuedChagedActionInSetter {
+            self.textField.sendActions(for: .valueChanged)
+            
+            if self.inputStatus != .focusIn {
+                self.textField.sendActions(for: .editingDidEnd)
+            }
+        }
+    }
+    
     public var font: UIFont = .b2r14 {
         didSet {
             self.textField.font = self.font

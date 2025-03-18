@@ -13,7 +13,7 @@ import RxCocoa
  텍스트 필드(Text Fields)는 사용자가 텍스트 입력 및 확인 시 활용되는 컴포넌트입니다.
  한 줄 입력인 텍스트 필드(Input)와 여러 줄 입력인 텍스트 영역(Text Area)으로 나뉩니다.
  */
-public protocol DealiTextField {
+public protocol DealiTextField: AnyObject {
     
     associatedtype T: UITextInput
     var textField: T { get }

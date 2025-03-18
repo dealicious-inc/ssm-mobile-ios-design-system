@@ -38,4 +38,10 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
             setter: { _, _ in }
         )
     }
+    
+    public var textEditingChanged: Observable<String?> {
+        return base.textField.rx.controlEvent([.editingChanged, .valueChanged]).map { _ in
+            return base.textField.text
+        }
+    }
 }

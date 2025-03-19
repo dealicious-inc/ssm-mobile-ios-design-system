@@ -13,8 +13,8 @@ import RxSwift
 final class TextInputViewController: UIViewController {
 
     private let contentScrollView = UIScrollView()
-    private let textInput = DealiTextInput_v2.text()
-    private let realTimeInput = DealiTextInput_v2.text()
+    private let textInput = DealiTextInput.text()
+    private let realTimeInput = DealiTextInput.text()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,7 +106,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let numberInput = DealiTextInput_v2.number()
+        let numberInput = DealiTextInput.number()
         contentStackView.addArrangedSubview(numberInput)
         numberInput.then {
             $0.title = "숫자 텍스트 입력"
@@ -120,7 +120,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let emailInput = DealiTextInput_v2.email()
+        let emailInput = DealiTextInput.email()
         contentStackView.addArrangedSubview(emailInput)
         emailInput.then {
             $0.title = "이메일 텍스트 입력"
@@ -136,7 +136,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let urlInput = DealiTextInput_v2.url()
+        let urlInput = DealiTextInput.url()
         contentStackView.addArrangedSubview(urlInput)
         urlInput.then {
             $0.title = "urlText 입력"
@@ -152,7 +152,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let phoneInput = DealiTextInput_v2.phone()
+        let phoneInput = DealiTextInput.phone()
         contentStackView.addArrangedSubview(phoneInput)
         phoneInput.then {
             $0.title = "폰번호 텍스트 입력"
@@ -163,7 +163,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let priceInput = DealiTextInput_v2.price()
+        let priceInput = DealiTextInput.price()
         contentStackView.addArrangedSubview(priceInput)
         priceInput.then {
             $0.title = "가격 텍스트 입력"
@@ -174,7 +174,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let passwordInput = DealiTextInput_v2.password()
+        let passwordInput = DealiTextInput.password()
         contentStackView.addArrangedSubview(passwordInput)
         passwordInput.then {
             $0.title = "패스워드 텍스트 입력"
@@ -184,7 +184,7 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let disabledInput = DealiTextInput_v2()
+        let disabledInput = DealiTextInput()
         contentStackView.addArrangedSubview(disabledInput)
         disabledInput.then {
             $0.title = "비활성 텍스트인풋"

@@ -1,5 +1,5 @@
 //
-//  DealiTextInput_v2.swift
+//  DealiTextInput.swift
 //
 //
 //  Created by hoji on 2023/11/01.
@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-open class DealiTextInput_v2: UIView, DealiTextField {
+open class DealiTextInput: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
     
@@ -390,7 +390,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
 }
 
 // MARK: - UITextFieldDelegate
-extension DealiTextInput_v2: UITextFieldDelegate {
+extension DealiTextInput: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard self.textInputFormat == .price else { return true }
         
@@ -416,7 +416,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
 }
 
 // MARK: - UI Configuration
-extension DealiTextInput_v2: DealiTextFieldConfig {
+extension DealiTextInput: DealiTextFieldConfig {
     func setUI() {
         self.do {
             $0.backgroundColor = .primary04

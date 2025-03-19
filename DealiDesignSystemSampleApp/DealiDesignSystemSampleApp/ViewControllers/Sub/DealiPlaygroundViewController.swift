@@ -96,13 +96,13 @@ final class DealiPlaygroundViewController: UIViewController {
 final class TextInputValidationView: UIView {
     
     private let disposeBag = DisposeBag()
-    private let restrictedTextInput = DealiTextInput_v2()
+    private let restrictedTextInput = DealiTextInput()
     
 
     private var restrictionOption: DealiCharacterOptions = []
     
     // MARK: - ErrorMsg
-    private let allowedTextInput = DealiTextInput_v2()
+    private let allowedTextInput = DealiTextInput()
     private var allowingOption: DealiCharacterOptions = []
     
     override init(frame: CGRect) {

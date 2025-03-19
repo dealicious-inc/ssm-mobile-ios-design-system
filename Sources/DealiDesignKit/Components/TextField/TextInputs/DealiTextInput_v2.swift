@@ -15,10 +15,6 @@ open class DealiTextInput_v2: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
     
-    /// 값을 직접 setter 에서 할당 시 valueChanged 액션을 트리거할지 여부. default는 true
-    public var sendValuedChagedActionInSetter: Bool = true
-
-    
     // MARK: - PUBLIC
     public init() {
         super.init(frame: .zero)
@@ -103,7 +99,15 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         }
     }
     
-    public func sendEditingEvents() {
+    /// text 를 할당하고 `editingChanged`  호출하고 싶을 때 사용
+    /// - Parameter text: 넣고자 하는 Text
+    public func initText(_ text: String? = nil) {
+        self.text = text
+        self.sendEditingEvents()
+    }
+    
+    private func sendEditingEvents() {
+        guard inputStatus != .readOnly && inputStatus != .disabled else { return }
         self.textField.sendActions(for: .editingChanged)
         
         if self.inputStatus != .focusIn {

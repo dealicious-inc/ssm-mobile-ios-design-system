@@ -31,7 +31,7 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
     
     public var textEditingControlProperty: ControlProperty<String?> {
         return base.textField.rx.controlProperty(
-            editingEvents: [.editingChanged, .valueChanged],
+            editingEvents: [.editingChanged],
             getter: { textField in
                 textField.text
             },

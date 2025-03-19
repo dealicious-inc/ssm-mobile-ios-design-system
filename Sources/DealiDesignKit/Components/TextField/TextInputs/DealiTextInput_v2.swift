@@ -99,20 +99,15 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         } set {
             if self.textField.text != newValue {
                 self.textField.text = newValue
-                
-                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
-                self.sendAdditionalEditingEvents()
             }
         }
     }
     
-    private func sendAdditionalEditingEvents() {
-        if self.sendValuedChagedActionInSetter {
-            self.textField.sendActions(for: .valueChanged)
-            
-            if self.inputStatus != .focusIn {
-                self.textField.sendActions(for: .editingDidEnd)
-            }
+    public func sendEditingEvents() {
+        self.textField.sendActions(for: .editingChanged)
+        
+        if self.inputStatus != .focusIn {
+            self.textField.sendActions(for: .editingDidEnd)
         }
     }
     
@@ -223,31 +218,6 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 $0.centerY.equalToSuperview()
             }
         }
-    }
-    
-    // MARK:  Reactive Event Stream
-    /// 포커스 아웃 이벤트 모두 담은 Driver
-    @available(*, deprecated, renamed: "rx.editingDidFinish")
-    public var textFieldDidEndEditing: Driver<Bool>!
-    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
-    @available(*, deprecated, renamed: "rx.editingDidEndOnExit")
-    public var editingDidEndOnExit: Driver<Void>!
-    @available(*, deprecated, renamed: "rx.editingDidEnd")
-    public var editingDidEnd: Driver<Void>!
-    /// 입력 시마다 불리는 stream
-    @available(*, deprecated, renamed: "rx.textEditingControlProperty")
-    public var changedTextControlProperty: ControlProperty<String?> {
-        return self.textField.rx.controlProperty(
-            editingEvents: [.editingChanged, .valueChanged],
-            getter: { textField in
-                textField.text
-            },
-            setter: { textField, value in
-                if self.textField.text != value {
-                    self.textField.text = value
-                }
-            }
-        )
     }
     
     // MARK: Keyboard, Resonponder
@@ -400,6 +370,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             .bind(with: self) { owner, _ in
                 owner.text = nil
                 owner.clearButton.isHidden = true
+                owner.sendEditingEvents()
             }
             .disposed(by: self.disposeBag)
         

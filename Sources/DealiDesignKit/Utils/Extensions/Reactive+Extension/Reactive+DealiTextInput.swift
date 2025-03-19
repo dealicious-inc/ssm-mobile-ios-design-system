@@ -35,13 +35,18 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
             getter: { textField in
                 textField.text
             },
-            setter: { _, _ in }
+            setter:  { textField, value in
+                if base.text != value {
+                    base.text = value
+                }
+            }
+
         )
     }
     
     public var textEditingChanged: Observable<String?> {
-        return base.textField.rx.controlEvent([.editingChanged, .valueChanged]).map { _ in
-            return base.textField.text
+        return base.textField.rx.controlEvent([.editingChanged]).map { _ in
+            return base.text
         }
     }
 }

@@ -17,6 +17,7 @@ public protocol DealiTextField: AnyObject {
     
     associatedtype T: UITextInput
     var textField: T { get }
+    var text: String? { get set }
 }
 
 protocol DealiTextFieldConfig {

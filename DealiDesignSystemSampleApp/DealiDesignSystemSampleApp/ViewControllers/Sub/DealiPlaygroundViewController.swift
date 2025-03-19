@@ -110,11 +110,9 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
-        self.restrictedTextInput.rx.textEditingControlProperty
-            .orEmpty
-            .changed
-            .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
-                
+        self.restrictedTextInput.rx.textEditingChanged
+            .scan(self.restrictedTextInput.text ?? "") { _, current -> String? in
+                guard let current else { return current }
                 self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")
                 self.restrictionOption.setErrorMessage(for: .numeric, errorMessage: "숫자 금지")
                 self.restrictionOption.setErrorMessage(for: .korean, errorMessage:"한글 금지")

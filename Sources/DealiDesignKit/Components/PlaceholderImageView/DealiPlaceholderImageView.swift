@@ -225,25 +225,21 @@ open class DealiPlaceholderImageView: UIImageView {
         
         let radius = self.viewShape.getRadius(for: self.bounds.size.height)
         
-        let borderLayer = CAShapeLayer()
         let maskLayer = CAShapeLayer()
         maskLayer.frame = bounds
         
-        let borderRect = bounds.insetBy(dx: self.viewShape.borderWidth / 2, dy: self.viewShape.borderWidth / 2)
-        let cornerRadiiSize = CGSize(width: radius, height: radius)
-        
         switch self.viewShape {
         case .rectangle(let corners):
-            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: cornerRadiiSize).cgPath
-            borderLayer.path = UIBezierPath(roundedRect: borderRect, byRoundingCorners: corners, cornerRadii: cornerRadiiSize).cgPath
+            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
         default:
-            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: cornerRadiiSize).cgPath
-            borderLayer.path = UIBezierPath(roundedRect: borderRect, byRoundingCorners: .allCorners, cornerRadii: cornerRadiiSize).cgPath
+            maskLayer.path = UIBezierPath(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
         }
         
         self.layer.mask = maskLayer
         
         // Add border
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = maskLayer.path // Reuse the Bezier path
         borderLayer.fillColor = UIColor.clear.cgColor
         borderLayer.strokeColor = self.viewShape.borderColor
         borderLayer.lineWidth = self.viewShape.borderWidth

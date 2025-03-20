@@ -89,7 +89,8 @@ public class DealiToolTip: UIView {
         self.titleLabel.then {
             $0.font = .b3sb13
             $0.textColor = .primary04
-            $0.textAlignment = .center
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(16.0)
         }
@@ -136,7 +137,7 @@ public class DealiToolTip: UIView {
         
         let toolTip = DealiToolTip()
         toolTip.setToolTipLayout(arrowPosition: arrowPosition)
-        toolTip.titleLabel.text = text
+        toolTip.titleLabel.attributedText = NSMutableAttributedString(string: text).font(.b3sb13).setLineHeight()
         toolTip.setColor(color)
         superView.addSubview(toolTip)
         toolTip.snp.makeConstraints {

@@ -14,7 +14,7 @@ final class ToolTipViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "ToolTip Component"
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .g70
     }
     
     let toolTipSuperView = UIView()
@@ -87,6 +87,7 @@ final class ToolTipViewController: UIViewController {
     @objc func topLeftButtonPressed(_ sender: UIButton) {
         DealiToolTip.show(
             arrowPosition: .topLeft,
+            color: .white,
             text: "Top Left",
             superView: self.view,
             outsideView: self.view,

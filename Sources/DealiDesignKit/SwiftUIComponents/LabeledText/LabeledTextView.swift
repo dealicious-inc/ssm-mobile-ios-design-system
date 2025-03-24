@@ -14,7 +14,7 @@ public struct LabeledTextView: View {
     final class ViewModel: ObservableObject {
         @Published var preset: LabeledTextPreset = .labeledTextBullet01
         @Published var model: LabeledTextModel?
-        @Published var text: [TextStyleAttributes]?
+        @Published var number: Int?
     }
     
     public init() { }
@@ -55,7 +55,7 @@ public struct LabeledTextView: View {
                 }
                 
             case .number:
-                Text("0.")
+                Text("\(self.viewModel.number ?? 0).")
                     .foregroundStyle(textColor)
                     .font(viewModel.preset.font)
                 
@@ -79,6 +79,11 @@ public struct LabeledTextView: View {
         viewModel.model = model
         return self
     }
+    
+    public func number(_ number: Int?) -> Self {
+        viewModel.number = number
+        return self
+    }
 
 }
 
@@ -91,8 +96,7 @@ public struct LabeledTextView: View {
         
         LabeledTextView()
             .preset(.labeledTextBullet02)
-            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
-        
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하").highlighted([TextStyleAttributes(text: "가나다라", color: .primary01)])))
         
         LabeledTextView()
             .preset(.labeledTextNumber01)

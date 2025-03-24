@@ -30,84 +30,97 @@ struct LabeledTestView: View {
         VStack(spacing: 20) {
             LabeledTextView()
                 .preset(.labeledTextBullet01)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하 내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
             
             LabeledTextView()
                 .preset(.labeledTextBullet02)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하 내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
             
             
             LabeledTextView()
                 .preset(.labeledTextNumber01)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하 내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
             
             LabeledTextView()
                 .preset(.labeledTextNumber02)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하")))
             
             LabeledTextView()
                 .preset(.labeledTextIcon01)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward")))
             
             LabeledTextView()
                 .preset(.labeledTextIcon02)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_repeat")))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하 내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_repeat")))
             
             LabeledTextView()
                 .preset(.labeledTextCustom01)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)))
             
             LabeledTextView()
                 .preset(.labeledTextCustom02)
-                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)))
+                .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)))
         }
     }
     
     @ViewBuilder
     private var labeledTextGroupView: some View {
-
-//        let model: LabeledTextGroupModel = {
-//            LabeledTextGroupModel(title: "타이틀", labeledModelArray: [
-//                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
-//                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
-//                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
-//                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
-//                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient))
-//            ])
-//        }()
+        let modelArray: [LabeledTextModel] = {
+            [
+                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
+                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
+                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient)),
+                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Circle().frame(width: 16.0, height: 16.0).foregroundStyle(MbsGradient.gradient02.swiftUIGradient)),
+                LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하"), icon: .dealiIcon(named: "ic_plus_ad_forward"), customView: Rectangle().frame(width: 32.0, height: 16.0).foregroundStyle(MbsGradient.gradient01.swiftUIGradient))
+            ]
+        }()
+            
         
         VStack(spacing: 20.0) {
-//            LabeledTextGroupView()
-//                .preset(.labeledTextBullet01)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextBullet02)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextNumber01)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextNumber02)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextIcon01)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextIcon02)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextCustom01)
-//                .model(model)
-//            
-//            LabeledTextGroupView()
-//                .preset(.labeledTextCustom01)
-//                .model(model)
+            LabeledTextGroupView()
+                .preset(.labeledTextBullet01)
+                .title("Bullet01")
+                .icon(.dealiIcon(named: "ic_info"))
+                .labeledModelArray(modelArray)
+            
+            LabeledTextGroupView()
+                .preset(.labeledTextBullet02)
+                .labeledModelArray(modelArray)
+                .title("Bullet02")
+            
+            LabeledTextGroupView()
+                .preset(.labeledTextNumber01)
+                .title("Number01")
+                .labeledModelArray(modelArray)
+            
+            LabeledTextGroupView()
+                .preset(.labeledTextNumber02)
+                .labeledModelArray(modelArray)
+                .icon(.dealiIcon(named: "ic_info"))
+                .title("Number02")
+            
+            LabeledTextGroupView()
+                .preset(.labeledTextIcon01)
+                .labeledModelArray(modelArray)
+                .icon(.dealiIcon(named: "ic_info"))
+                .title("Icon01")
+            
+            LabeledTextGroupView()
+                .preset(.labeledTextIcon02)
+                .labeledModelArray(modelArray)
+                .title("Icon02")
+            
+            LabeledTextGroupView()
+                .title("Custom01")
+                .preset(.labeledTextCustom01)
+                .labeledModelArray(modelArray)
+                .icon(.dealiIcon(named: "ic_info"))
+            
+            LabeledTextGroupView()
+                .title("Custom02")
+                .preset(.labeledTextCustom01)
+                .icon(.dealiIcon(named: "ic_info"))
+                .labeledModelArray(modelArray)
         }
     }
 }

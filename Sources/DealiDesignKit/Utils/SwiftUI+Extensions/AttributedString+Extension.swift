@@ -10,7 +10,8 @@ import SwiftUI
 
 public extension AttributedString {
     /// 특정 단어에 대해 스타일(폰트, 색상) 변경
-    func highlighted(_ styles: [TextStyleAttributes]) -> AttributedString {
+    func highlighted(_ styles: [TextStyleAttributes]?) -> AttributedString {
+        guard let styles = styles else { return self }
         var newString = self
         for style in styles {
             if let range = newString.range(of: style.text) {

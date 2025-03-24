@@ -96,7 +96,6 @@ public struct LabeledTextModel: Identifiable {
     public let id = UUID()
     public var message: AttributedString
     public var icon: UIImage?
-    public var number: Int?
     public var customView: AnyView?
     
     public init(message: AttributedString, icon: UIImage? = nil, customView: (any View)? = nil) {

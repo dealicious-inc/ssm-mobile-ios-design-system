@@ -17,8 +17,8 @@ public extension View {
         return self
             .font(Font(font))
             .lineSpacing(lineHeight - font.lineHeight)
-//            .background(Color(uiColor: .white))
+            .background(Color(uiColor: .white))
             .padding(.vertical, offset)
-//            .background(Color(uiColor: .red))
+            .background(Color(uiColor: .red))
     }
 }

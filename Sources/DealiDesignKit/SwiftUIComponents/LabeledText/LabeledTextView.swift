@@ -29,6 +29,7 @@ public struct LabeledTextView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(Color(uiColor: viewModel.preset.textColor))
                     .font(viewModel.preset.font)
+                    .background(Color.clear)
             }
         }
     }

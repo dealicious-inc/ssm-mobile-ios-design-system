@@ -15,7 +15,8 @@ import DealiDesignKit
 struct FullSwiftUIBaseView: View {
     let components: [Component] = [Component(title: "Alert", linkView: AlertTestView()),
                                    Component(title: "Button", linkView: ButtonTestView()),
-                                   Component(title: "LabeledText", linkView: LabeledTestView())]
+                                   Component(title: "LabeledText", linkView: LabeledTestView()),
+                                   Component(title: "Accordion", linkView: AccordionTestView())]
     
     
     var body: some View {

@@ -54,11 +54,11 @@ struct AccordionTestView: View {
                         .contentViews(viewArray)
                     AccordionView()
                         .title("LabeledText_03")
-                        .contentViews(viewArray)
                         .isInitiallyOpen()
+                        .withLabeledText(preset: .labeledTextNumber02, labeledModelArray: modelArray)
                     AccordionView()
                         .title("LabeledText_04")
-                        .contentViews(viewArray)
+                        .withLabeledText(labeledModelArray: modelArray)
                 }
                 .padding(EdgeInsets(top: 16.0, leading: 16.0, bottom: 0.0, trailing: 16.0))
             }

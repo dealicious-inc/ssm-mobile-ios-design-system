@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 public struct AccordionView: View {
     @ObservedObject private var viewModel = ViewModel()
@@ -51,7 +52,8 @@ public struct AccordionView: View {
                         
                     }
                 }.padding(16.0)
-            }.background(viewModel.backgroundColor)
+            }.background(Color.clear).buttonStyle(PressButton())
+                
             
             if viewModel.shouldExposeContent {
                 contentView
@@ -68,7 +70,7 @@ public struct AccordionView: View {
     private var contentView: some View {
         VStack(spacing: viewModel.contentTopPadding) {
             Divider()
-                .frame(width: .infinity, height: 1.0)
+                .frame(height: 1.0)
                 .background(Color(uiColor: .g30))
                 
             VStack(spacing: viewModel.contentItemSpacing) {
@@ -96,6 +98,13 @@ public struct AccordionView: View {
         }
         return self
     }
+    /// content에 들어갈 View array 정보
+    public func contentUIViews(_ viewArray: [UIView]) -> Self {
+        viewModel.contentViews = viewArray.map {
+            return AnyView($0.toSwiftUIView())
+        }
+        return self
+    }
     /// title Button 와 content 간의 간격 수치 설정
     public func contentTopPadding(_ padding: CGFloat) -> Self {
         viewModel.contentTopPadding = padding
@@ -114,6 +123,38 @@ public struct AccordionView: View {
     }
 }
 
+extension AccordionView {
+    public func withLabeledText(preset: LabeledTextPreset = .labeledTextBullet01, title: String? = nil, icon: UIImage? = nil, labeledModelArray: [LabeledTextModel]) -> Self {
+        viewModel.contentViews = [AnyView(LabeledTextGroupView()
+            .preset(preset)
+            .title(title)
+            .icon(icon)
+            .labeledModelArray(labeledModelArray))]
+        return self
+    }
+}
+
+struct PressButton: ButtonStyle {
+  
+  func makeBody(configuration: Configuration) -> some View {
+      ZStack {
+          configuration.label
+          GeometryReader { proxy  in
+              if configuration.isPressed {
+                  rippleView
+                      .frame(width: proxy.size.width, height: proxy.size.height)
+              }
+          }
+      }.contentShape(Rectangle())
+  }
+    
+    @ViewBuilder
+    private var rippleView: some View {
+        Rectangle()
+            .fill(Color(.b2))
+    }
+}
+
 #Preview {
     
     let modelArray: [LabeledTextModel] = {
@@ -126,30 +167,9 @@ public struct AccordionView: View {
         ]
     }()
     
-    let sss: [(any View)] = {
-        [
-            LabeledTextGroupView()
-                .preset(.labeledTextNumber01)
-                .icon(.dealiIcon(named: "ic_info"))
-                .labeledModelArray(modelArray)
-//            Circle()
-//                .frame(width: 100.0, height: 100.0)
-//                .foregroundStyle(MbsGradient.gradient01.swiftUIGradient),
-//            
-//            Circle()
-//                .frame(width: 100.0, height: 100.0)
-//                .foregroundStyle(MbsGradient.gradient01.swiftUIGradient),
-//            
-//            Circle()
-//                .frame(width: 100.0, height: 100.0)
-//                .foregroundStyle(MbsGradient.gradient01.swiftUIGradient)
-            
-        ]
-    }()
-    
     AccordionView()
         .title("LabeledText")
-        .contentViews(sss)
         .contentItemSpacing(12.0)
         .isInitiallyOpen()
+        .withLabeledText(preset: .labeledTextNumber02, title: "LabeledTextGroup", labeledModelArray: modelArray)
 }

@@ -49,7 +49,7 @@ public struct LabeledTextGroupView: View {
         return self
     }
     
-    public func title(_ title: String) -> Self {
+    public func title(_ title: String?) -> Self {
         viewModel.title = title
         return self
     }

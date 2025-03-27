@@ -29,6 +29,8 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
         return base.textField.rx.controlEvent([.editingDidEnd, .editingDidEndOnExit])
     }
     
+    
+    @available(*, deprecated, message: "Use textEditingChanged instead")
     public var textEditingControlProperty: ControlProperty<String?> {
         return base.textField.rx.controlProperty(
             editingEvents: [.editingChanged],
@@ -40,7 +42,6 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
                     base.text = value
                 }
             }
-
         )
     }
     
@@ -49,4 +50,21 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
             return base.text
         }
     }
+    
 }
+
+extension Reactive where Base: DealiTextInput {
+    /// 텍스트 적용 시 editingChanged 이벤트 방출도 가능한 Binder
+    public var textWithEditingChanged: Binder<(text: String?, withEditingChanged: Bool)> {
+        return Binder(self.base) { base, value in
+            guard base.text != value.text else { return }
+            
+            if value.withEditingChanged {
+                base.initText(value.text)
+            } else {
+                base.text = value.text
+            }
+        }
+    }
+}
+

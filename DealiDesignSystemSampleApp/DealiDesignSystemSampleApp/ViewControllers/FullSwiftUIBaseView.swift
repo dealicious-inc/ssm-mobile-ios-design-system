@@ -16,7 +16,8 @@ struct FullSwiftUIBaseView: View {
     let components: [Component] = [Component(title: "Alert", linkView: AlertTestView()),
                                    Component(title: "Button", linkView: ButtonTestView()),
                                    Component(title: "LabeledText", linkView: LabeledTestView()),
-                                   Component(title: "Accordion", linkView: AccordionTestView())]
+                                   Component(title: "Accordion", linkView: AccordionTestView()),
+                                   Component(title: "TextLink", linkView: TextLinkTestView())]
     
     
     var body: some View {

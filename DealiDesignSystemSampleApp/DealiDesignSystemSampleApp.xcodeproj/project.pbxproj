@@ -49,6 +49,7 @@
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
+		5FEF636A2D966F2400248F3E /* TextLinkTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEF63692D966F2400248F3E /* TextLinkTestView.swift */; };
 		E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */; };
 		E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */; };
 		E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */; };
@@ -105,6 +106,7 @@
 		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
+		5FEF63692D966F2400248F3E /* TextLinkTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkTestView.swift; sourceTree = "<group>"; };
 		E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTestView.swift; sourceTree = "<group>"; };
 		E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBaseViewController.swift; sourceTree = "<group>"; };
 		E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSwiftUIBaseView.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				398927722D76C41200B20CC3 /* LabeledTestView.swift */,
 				398370942D91533A005C5CCD /* AccordionTestView.swift */,
+				5FEF63692D966F2400248F3E /* TextLinkTestView.swift */,
 			);
 			path = SwiftUISubViews;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
 				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */,
+				5FEF636A2D966F2400248F3E /* TextLinkTestView.swift in Sources */,
 				4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */,
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,

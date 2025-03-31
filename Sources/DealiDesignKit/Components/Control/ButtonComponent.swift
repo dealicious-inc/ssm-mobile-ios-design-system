@@ -743,7 +743,7 @@ public struct ClickableImage {
     public init(dealiIconName: String, needOriginColor: Bool = false) {
         self.named = dealiIconName
         self.needOriginColor = needOriginColor
-        self.uiImage = UIImage.dealiIcon(named: dealiIconName)
+        self.uiImage = UIImage.dealiIcon(named: dealiIconName)?.resize(CGSize(width: 16.0, height: 16.0))
     }
     public init(_ image: UIImage?, needOriginColor: Bool = false) {
         self.named = ""

@@ -25,6 +25,8 @@ struct ColorView: View {
                 ColorData(name: "primary03", color: UIColor.primary03.asColor(), isDarkShade: false),
                 ColorData(name: "primary04", color: UIColor.primary04.asColor(), isDarkShade: false),
                 ColorData(name: "primary05", color: UIColor.primary05.asColor()),
+                ColorData(name: "primary06", color: UIColor.primary06.asColor()),
+                ColorData(name: "primary07", color: UIColor.primary07.asColor()),
             ]
         ),
         ColorFamilyData(

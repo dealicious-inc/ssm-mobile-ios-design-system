@@ -41,6 +41,7 @@
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
+		4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DB4F3D32D7968A200C49ABF /* CheckboxTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */; };
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
@@ -98,6 +99,7 @@
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorItemView.swift; sourceTree = "<group>"; };
+		4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputTestView.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxTestView.swift; sourceTree = "<group>"; };
 		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
 				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
+				4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */,
 			);
 			path = SwiftUISubViews;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */,
 				4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
+				4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import UIKit
 import DealiDesignKit
+import SwiftUI
 
 final class ToolTipViewController: UIViewController {
     
@@ -129,17 +130,21 @@ final class ToolTipViewController: UIViewController {
     }
     
     @objc func topRightButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .topRight,
-            text: "Top Right",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        if isSwiftUI {
+            ToolTipView().show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .topRight,
+                text: "Top Right",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
+                    $0.centerX.equalToSuperview()
+                }
+            )
+        }
     }
     
     @objc func bottomLeftButtonPressed(_ sender: UIButton) {

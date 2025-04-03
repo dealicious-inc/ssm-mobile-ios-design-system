@@ -33,3 +33,5 @@ public enum ETextFieldStatus: Equatable {
     case disabled
     case readOnly
 }
+
+public typealias TextUpdateEvent = (text: String?, withEditingChanged: Bool)

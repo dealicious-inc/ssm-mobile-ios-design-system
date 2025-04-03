@@ -55,7 +55,7 @@ extension Reactive where Base: DealiTextField, Base.T == UITextField {
 
 extension Reactive where Base: DealiTextInput {
     /// 텍스트 적용 시 editingChanged 이벤트 방출도 가능한 Binder
-    public var textWithEditingChanged: Binder<(text: String?, withEditingChanged: Bool)> {
+    public var textWithEditingChanged: Binder<TextUpdateEvent> {
         return Binder(self.base) { base, value in
             guard base.text != value.text else { return }
             

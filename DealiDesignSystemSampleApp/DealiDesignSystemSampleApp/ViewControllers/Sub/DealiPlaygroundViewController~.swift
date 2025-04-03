@@ -131,10 +131,9 @@ final class TextInputValidationView: UIView {
                 }
 
             }
-            .map { text -> TextUpdateEvent in
-                return (text, false)
+            .bind(with: self) { owner, text in
+                owner.restrictedTextInput.text = text
             }
-            .bind(to: self.restrictedTextInput.rx.textWithEditingChanged)
             .disposed(by: self.disposeBag)
     }
     

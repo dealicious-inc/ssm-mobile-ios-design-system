@@ -16,7 +16,7 @@ public enum DealiBadgeType: CaseIterable {
     case mdeiumN
     case largeN
     
-    var image: UIImage? {
+    public var image: UIImage? {
         switch self {
         case .smallN:
             .dealiIcon(named: "ic_new_s")
@@ -68,7 +68,7 @@ final public class DealiBadge: UIView {
     private let countLabel = UILabel()
     private let imageView = UIImageView()
     
-    init(badgeType: DealiBadgeType, badgeCount: Int? = nil) {
+    public init(badgeType: DealiBadgeType, badgeCount: Int? = nil) {
         self.badgeType = badgeType
         super.init(frame: .zero)
         
@@ -84,7 +84,7 @@ final public class DealiBadge: UIView {
         self.setCornerRadius(self.size.height / 2.0)
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
             
         self.frame.size = self.size

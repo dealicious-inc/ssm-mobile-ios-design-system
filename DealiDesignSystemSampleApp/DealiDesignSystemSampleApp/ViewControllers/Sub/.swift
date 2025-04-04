@@ -8,7 +8,7 @@
 import UIKit
 import DealiDesignKit
 
-final class BadgeViewController: UIViewController {
+final class : UIViewController {
     override func loadView() {
         super.loadView()
         
@@ -24,7 +24,6 @@ final class BadgeViewController: UIViewController {
                 badge = DealiBadge(badgeType: .doubleDigit, badgeCount: 99)
             default:
                 badge = DealiBadge(badgeType: badgeType)
-
             }
             
             stackView.addArrangedSubview(badge)

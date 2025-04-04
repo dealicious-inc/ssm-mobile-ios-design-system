@@ -211,6 +211,10 @@ extension MainViewController {
     @objc func toolTipButtonPressed() {
         self.pushViewController(ToolTipViewController())
     }
+    
+    @objc func badgeButtonPressed() {
+        self.pushViewController(BadgeViewController())
+    }
 }
 
 //MARK: - UIViewController Extension

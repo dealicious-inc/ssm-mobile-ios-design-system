@@ -28,14 +28,19 @@ final class BadgeViewController: UIViewController {
             }
             
             stackView.addArrangedSubview(badge)
+            badge.snp.makeConstraints {
+                $0.size.equalTo(badge.size)
+            }
         }
         
         self.view.addSubview(stackView)
         stackView.then {
             $0.axis = .horizontal
             $0.spacing = 4.0
+            $0.alignment = .center
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
+            $0.height.equalTo(40)
         }
     }
 }

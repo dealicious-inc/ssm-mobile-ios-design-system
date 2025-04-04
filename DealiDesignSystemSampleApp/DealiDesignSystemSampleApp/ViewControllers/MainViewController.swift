@@ -102,6 +102,7 @@ final class MainViewController: UIViewController {
         self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
         self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
         self.addComponents(title: "Notice Components", actionSelector: #selector(noticeComponentsPressed))
+        self.addComponents(title: "Badge Components", actionSelector: #selector(badgeButtonPressed))
     }
 }
 

@@ -13,14 +13,14 @@ public enum DealiBadgeType: CaseIterable {
     case singleDigit
     case doubleDigit
     case smallN
-    case mdeiumN
+    case mediumN
     case largeN
     
     public var image: UIImage? {
         switch self {
         case .smallN:
             .dealiIcon(named: "ic_new_s")
-        case .medium:
+        case .mediumN:
             .dealiIcon(named: "ic_new_m")
         case .largeN:
             .dealiIcon(named: "ic_new_l")
@@ -46,7 +46,7 @@ final public class DealiBadge: UIView {
         }
     }
     
-    var size: CGSize {
+    public var size: CGSize {
         switch self.badgeType {
         case .small:
             return CGSize(width: 4.0, height: 4.0)
@@ -58,7 +58,7 @@ final public class DealiBadge: UIView {
             return self.systemLayoutSizeFitting(CGSize(width: UIView.layoutFittingCompressedSize.width, height: 14.0))
         case .smallN:
             return CGSize(width: 14.0, height: 14.0)
-        case .mdeiumN:
+        case .mediumN:
             return CGSize(width: 16.0, height: 16.0)
         case .largeN:
             return CGSize(width: 18.0, height: 18.0)
@@ -84,19 +84,13 @@ final public class DealiBadge: UIView {
         self.setCornerRadius(self.size.height / 2.0)
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-            
-        self.frame.size = self.size
-    }
-
-    
     private func addCountLabel(count: Int) {
         self.addSubview(self.countLabel)
         self.countLabel.then {
             $0.font = .c1sb10
             $0.textColor = .primary04
             $0.text = "\(count)"
+            $0.textAlignment = .center
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(self.badgeType == .doubleDigit ? 4.0 : 0.0)
             $0.top.bottom.equalToSuperview()

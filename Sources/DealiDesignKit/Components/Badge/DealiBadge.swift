@@ -33,7 +33,7 @@ public enum DealiBadgeType: CaseIterable {
 final public class DealiBadge: UIView {
     
     var badgeType: DealiBadgeType
-    var badgeCount: Int? {
+    public var badgeCount: Int? {
         didSet {
             guard let badgeCount else { return }
             
@@ -85,6 +85,8 @@ final public class DealiBadge: UIView {
     }
     
     private func addCountLabel(count: Int) {
+        self.countLabel.removeFromSuperview()
+        
         self.addSubview(self.countLabel)
         self.countLabel.then {
             $0.font = .c1sb10

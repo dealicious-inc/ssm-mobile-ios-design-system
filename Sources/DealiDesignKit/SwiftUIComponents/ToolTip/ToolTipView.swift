@@ -15,6 +15,8 @@ public struct ToolTipView: View {
     
     @State private var opacity = 0.0
     
+    private var targetFrame: CGRect = .zero
+    
     private let animateDuration: CGFloat = 0.2
     public var presentAnimation: Animation {
         Animation.easeOut(duration: Double(animateDuration))
@@ -25,7 +27,10 @@ public struct ToolTipView: View {
     
     public var body: some View {
         ZStack {
-            Color(.clear).opacity(opacity)
+            Color.clear  // 투명한 배경을 전체 화면에 깔아줌 (탭 인식용)
+                .contentShape(Rectangle()) // 터치 영역 명시
+                .ignoresSafeArea()
+                .onTapGesture { viewDismiss() }
             
             Text("Top Right")
                 .font(Font(UIFont.b3sb13))
@@ -40,11 +45,15 @@ public struct ToolTipView: View {
                         .scaleEffect(x: 1, y: -1)
                         .offset(x: -21, y: -6),
                     alignment: .topTrailing
-                    
+                )
+                .offset(
+                    x: targetFrame.origin.x,
+                    y: targetFrame.origin.y + targetFrame.height + 8 // 기준 뷰 아래로 툴팁 배치
                 )
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .opacity(opacity)
         .onAppear { viewAppear() }
-        .onTapGesture { viewDismiss() }
     }
     
     public init(isPresented: Binding<Bool> = .constant(true)) {
@@ -88,6 +97,17 @@ public struct ToolTipView: View {
         hostingViewController.view.backgroundColor = .clear
         
         sourceViewController.present(hostingViewController, animated: false)
+        
+//        guard let window = targetView.window else { return }
+
+        // 기준 뷰의 화면 내 절대 좌표 계산
+//        let targetFrame = targetView.convert(targetView.bounds, to: window)
+    }
+    
+    public func setTargetFrame(_ targetView: UIView) -> Self {
+        var copy = self
+        copy.targetFrame = targetView.frame//targetView.convert(targetView.bounds, to: targetView.window)
+        return copy
     }
 }
 

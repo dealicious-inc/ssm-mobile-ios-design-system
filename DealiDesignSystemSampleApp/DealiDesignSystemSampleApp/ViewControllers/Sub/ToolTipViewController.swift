@@ -131,7 +131,9 @@ final class ToolTipViewController: UIViewController {
     
     @objc func topRightButtonPressed(_ sender: UIButton) {
         if isSwiftUI {
-            ToolTipView().show(self)
+            ToolTipView()
+                .setTargetFrame(self.toolTipSuperView)
+                .show(self)
         } else {
             DealiToolTip.show(
                 arrowPosition: .topRight,

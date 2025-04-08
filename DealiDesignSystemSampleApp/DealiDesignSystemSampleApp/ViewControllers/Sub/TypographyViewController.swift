@@ -16,7 +16,7 @@ import DealiDesignKit
 final class TypographyViewController: UIViewController {
     
     private var disposeBag = DisposeBag()
-    private let textInput = DealiTextInput_v2()
+    private let textInput = DealiTextInput()
     
     var text: String? {
         didSet {

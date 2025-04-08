@@ -261,7 +261,7 @@ extension BottomSheetPopupTestViewController {
             $0.backgroundColor = .g05
         }
         
-        let textInput = DealiTextInput_v2()
+        let textInput = DealiTextInput()
         customView.addSubview(textInput)
         textInput.then {
             $0.placeholder = "텍스트필드"

@@ -185,7 +185,7 @@ final class TextAreaViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
-        let disabledText = DealiTextInput_v2()
+        let disabledText = DealiTextInput()
         contentStackView.addArrangedSubview(disabledText)
         disabledText.then {
             $0.title = "Disabled Text Input"

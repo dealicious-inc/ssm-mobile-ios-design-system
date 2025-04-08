@@ -125,7 +125,9 @@ public final class DealiEmptyView: UIView {
             $0.centerX.equalToSuperview()
         }
         
-        self.actionButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+        self.actionButton.rx.tap
+            .throttle(.milliseconds(1000), latest: false, scheduler: MainScheduler.asyncInstance)
+            .asSignal(onErrorJustReturn: ()).emit(with: self) { owner, _ in
             if let handler = owner.actionHandler {
                 handler()
             }

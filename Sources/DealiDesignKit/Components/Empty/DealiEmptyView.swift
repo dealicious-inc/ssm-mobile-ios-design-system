@@ -9,10 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-public enum DealiEmptyImageType {
+public enum DealiEmptyImageType: Equatable {
     case notice  // notice image
     case refresh // refresh image
     case noImage // 이미지 없음
+    /// 커스텀 이미지 가능
+    case image(UIImage?)
 }
 
 public final class DealiEmptyView: UIView {
@@ -39,28 +41,6 @@ public final class DealiEmptyView: UIView {
         willSet {
             guard newValue == false, let scrollView = self.superview as? UIScrollView else { return }
             scrollView.sendSubviewToBack(self)
-//            if let collectionView = scrollView as? UICollectionView {
-//                
-//                var headerHeight = 0.0
-//
-//                if let layoutAttributes = collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader,
-//                                                                                                 at: IndexPath(item: 0, section: 0)) {
-//                    headerHeight = layoutAttributes.frame.height
-//                }
-//                
-//                self.snp.remakeConstraints {
-//                    $0.top.equalToSuperview().offset(headerHeight)
-//                    $0.left.right.bottom.equalToSuperview()
-//                    $0.width.equalToSuperview()
-//                }
-//            } else if let tableView = scrollView as? UITableView {
-//                let headerHeight = tableView.sectionHeaderHeight
-//                self.snp.remakeConstraints {
-//                    $0.top.equalToSuperview().offset(headerHeight)
-//                    $0.left.right.bottom.equalToSuperview()
-//                    $0.width.equalToSuperview()
-//                }
-//            }
         }
     }
     
@@ -74,7 +54,7 @@ public final class DealiEmptyView: UIView {
             $0.axis = .vertical
             $0.alignment = .center
             $0.distribution = .fill
-            $0.spacing = 12.0
+            $0.spacing = 8.0
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(topMargin)
             $0.left.right.equalToSuperview().inset(24.0)
@@ -83,7 +63,6 @@ public final class DealiEmptyView: UIView {
         
         self.contentStackView.addArrangedSubview(self.emptyImageView)
         self.emptyImageView.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 32.0, height: 32.0))
             $0.centerX.equalToSuperview()
         }
         
@@ -147,6 +126,8 @@ public final class DealiEmptyView: UIView {
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_notice_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
         case .refresh:
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_refresh_2_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
+        case let .customImage(image):
+            self.emptyImageView.image = image?.resize(CGSize(width: 68.0, height: 68.0))
         default:
             break
         }

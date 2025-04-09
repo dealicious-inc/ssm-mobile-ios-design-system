@@ -101,6 +101,15 @@ final class EmptyComponentViewController: UIViewController {
             debugPrint("refreshIconTitleMessageButtonEmpty 재시도 버튼 클릭")
         }
         
+        let customImageMessageButtonEmpty = DealiEmptyView()
+        contentStackView.addArrangedSubview(customImageMessageButtonEmpty)
+        customImageMessageButtonEmpty.then {
+            $0.topMargin = 0.0
+            $0.set(imageType: .image(UIImage.dealiIcon(named: "ic_refresh_2_filled")), title: "타이틀이 들어가는 영역이예요.", message: "데이터를 불러오지 못했어요.\n네트워크 확인 후 새로고침 버튼을 눌러주세요.", actionButtonTitle: "재시도")
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
     }
 
 }

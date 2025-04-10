@@ -2,222 +2,201 @@
 //  MainViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by 이남준 on 2023/05/17.
+//  Created by 윤조현 on 4/10/25.
+//  Copyright © 2025 Dealicious Inc. All rights reserved.
 //
 
 import UIKit
-import RxSwift
-import DealiDesignKit
 
 final class MainViewController: UIViewController {
     
-    private let contentStackView = UIStackView()
-    private var componentButtonArray: [ClickableComponentButton] = []
+    private enum Section: Int, CaseIterable {
+        case searchBar
+        case playground
+        case token
+        case atom
+        case molcule
+    }
+
+    lazy var componentSectionData: [Int: ComponentSectionData] = [
+        Section.token.rawValue : tokenSectionData,
+        Section.atom.rawValue: atomSectionData,
+        Section.molcule.rawValue: molculeSectionData
+    ]
     
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.compositionalLayout)
+    
+    private lazy var compositionalLayout: UICollectionViewLayout = {
+        UICollectionViewCompositionalLayout { sectionIndex, env in
+            switch Section(rawValue: sectionIndex) {
+            case .token, .atom, .molcule:
+                return self.componentLayout()
+            default:
+                return self.singleItemLayout()
+            }
+        }
+    }()
+
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = .primary04
+        self.view.backgroundColor = .systemBackground
         
-        self.navigationItem.backButtonTitle = "Home"
-        self.title = "iOS Design System Sample App"
-        
-        let scrollView = UIScrollView()
-        self.view.addSubview(scrollView)
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        let contentView = UIView()
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
-        }
-        
-        contentView.addSubview(self.contentStackView)
-        self.contentStackView.then {
-            $0.axis = .vertical
-            $0.spacing = 20.0
+        self.view.addSubview(self.collectionView)
+        self.collectionView.then {
+            $0.delegate = self
+            $0.dataSource = self
+            $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30.0)
-            $0.left.right.equalToSuperview().inset(20.0)
-            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
-        let playgroundButton = DealiControl.btnFilledTonalLarge03()
-        contentStackView.addArrangedSubview(playgroundButton)
-        playgroundButton.do {
-            $0.title = "Playground"
-            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
-        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        self.addComponentsButtons()
-        self.setComponentBtnsStorerdByTitle()
     }
     
-    private func setComponentBtnsStorerdByTitle() {
-        let sortedButtons = self.componentButtonArray.sorted { (button1, button2) -> Bool in
-            let title1 = button1.title ?? ""
-            let title2 = button2.title ?? ""
-            return title1 < title2
-        }
-        
-        sortedButtons.forEach { self.contentStackView.addArrangedSubview($0) }
-    }
+    var tokenSectionData =
+        ComponentSectionData(
+            title: "Token",
+            items: [
+                ItemData(title: "Color", type: .color),
+                ItemData(title: "Typography", type: .typography),
+                ItemData(title: "Font", type: .font),
+            ]
+        )
     
-    private func addComponents(title: String, actionSelector: Selector) {
-        let accordionComponents = DealiControl.btnOutlineLarge03()
-        self.componentButtonArray.append(accordionComponents)
-        accordionComponents.do {
-            $0.title = title
-            $0.addTarget(self, action: actionSelector, for: .touchUpInside)
-        }
-    }
+    var atomSectionData =
+        ComponentSectionData(
+            title: "Atom",
+            items: [
+                ItemData(title: "Accordion", type: .accordion),
+                ItemData(title: "Badge", type: .badge),
+                ItemData(title: "Button", type: .button),
+                ItemData(title: "Checkbox", type: .checkbox),
+                ItemData(title: "Chip", type: .chip),
+                ItemData(title: "Dropdown", type: .dropdown),
+                ItemData(title: "ImageChip", type: .imageChip),
+                ItemData(title: "Indicator", type: .indicator),
+                ItemData(title: "LabeledText", type: .labeledText),
+                ItemData(title: "Placeholder", type: .placeholder),
+                ItemData(title: "RadioButton", type: .radioButton),
+                ItemData(title: "SearchInput", type: .searchInput),
+                ItemData(title: "SliderBar", type: .sliderBar),
+                ItemData(title: "DealiSwitch", type: .dealiSwitch),
+                ItemData(title: "Tag", type: .tag),
+                ItemData(title: "TextArea", type: .textArea),
+                ItemData(title: "TextInput", type: .textInput),
+                ItemData(title: "TextLink", type: .textLink),
+                ItemData(title: "ToolTip", type: .toolTip),
+            ]
+        )
     
-    private func addComponentsButtons() {
-        self.addComponents(title: "ToolTip Components", actionSelector: #selector(toolTipButtonPressed))
-        self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
-        self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
-        self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
-        self.addComponents(title: "Color", actionSelector: #selector(colorButtonPressed))
-        self.addComponents(title: "BottomSheetPopup", actionSelector: #selector(bottomSheetPopupButtonPressed))
-        self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
-        self.addComponents(title: "RadioButton", actionSelector: #selector(radioButtonPressed))
-        self.addComponents(title: "Button Components", actionSelector: #selector(buttonComponentButtonPressed))
-        self.addComponents(title: "TextLink Components", actionSelector: #selector(textLinkComponentButtonPressed))
-        self.addComponents(title: "Chip Components", actionSelector: #selector(chipButtonPressed))
-        self.addComponents(title: "Image Chip Components", actionSelector: #selector(imageChipButtonPressed))
-        self.addComponents(title: "Toggle/Switch", actionSelector: #selector(toggleButtonPressed))
-        self.addComponents(title: "SliderBar", actionSelector: #selector(sliderBarButtonPressed))
-        self.addComponents(title: "TextInput Components", actionSelector: #selector(textInputButtonPressed))
-        self.addComponents(title: "TextArea Components", actionSelector: #selector(textAreaButtonPressed))
-        self.addComponents(title: "SearchInput Components", actionSelector: #selector(searchInputButtonPressed))
-        self.addComponents(title: "Tag Components", actionSelector: #selector(tagButtonPressed))
-        self.addComponents(title: "Check Components", actionSelector: #selector(checkComponentsPressed))
-        self.addComponents(title: "Indicator Components", actionSelector: #selector(indicatorComponentsPressed))
-        self.addComponents(title: "Empty Components", actionSelector: #selector(emptyComponentsPressed))
-        self.addComponents(title: "Labeled Text Components", actionSelector: #selector(labeledTextComponentsPressed))
-        self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
-        self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
-        self.addComponents(title: "Notice Components", actionSelector: #selector(noticeComponentsPressed))
-        self.addComponents(title: "Badge Components", actionSelector: #selector(badgeButtonPressed))
-    }
+    var molculeSectionData =
+        ComponentSectionData(
+            title: "Molecule",
+            items: [
+                ItemData(title: "Alert", type: .alert),
+                ItemData(title: "BottomSheet", type: .bottomSheet),
+                ItemData(title: "Empty", type: .empty),
+                ItemData(title: "Notice", type: .notice),
+                ItemData(title: "TabBar", type: .tabBar),
+
+            ]
+        )
 }
 
-// MARK: - Button Actions
+private extension MainViewController {
+    
+    func singleItemLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension: .fractionalHeight(1.0))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        return section
+    }
+    
+    func componentLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2), heightDimension: .absolute(60.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 10)
+        
+        let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension: .estimated(100.0))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        return section
+    }
+    
+}
+
+// ActionHandler
 extension MainViewController {
-    
-    @objc func tabBarViewControllerPressed() {
-        self.pushViewController(TabBarViewController())
-    }
-    
-    @objc func buttonComponentButtonPressed() {
-        self.pushViewController(ButtonViewController())
-    }
-    
-    @objc func textLinkComponentButtonPressed() {
-        self.pushViewController(TextLinkViewController())
-    }
-    
-    @objc func colorButtonPressed() {
-        self.pushViewController(ColorViewController())
-    }
-    
-    @objc func playButtonPressed() {
-        self.pushViewController(DealiPlaygroundViewController())
-    }
-    
-    @objc func typoButtonPressed() {
-        self.pushViewController(TypographyViewController())
-    }
-    
-    @objc func fontComponentButtonPressed() {
-        self.pushViewController(FontComponentViewController())
-    }
-    
-    @objc func bottomSheetPopupButtonPressed() {
-        self.pushViewController(BottomSheetPopupTestViewController())
-    }
-    
-    @objc func alertButtonPressed() {
-        self.pushViewController(AlertTestViewController())
-    }
-    
-    @objc func radioButtonPressed() {
-        self.pushViewController(RadioButtonViewController())
-    }
-    
-    @objc func chipButtonPressed() {
-        self.pushViewController(ChipViewController())
-    }
-    
-    @objc func imageChipButtonPressed() {
-        self.pushViewController(ImageChipViewController())
-    }
-    
-    @objc func textInputButtonPressed() {
-        self.pushViewController(TextInputViewController())
-    }
-    
-    @objc func textAreaButtonPressed() {
-        self.pushViewController(TextAreaViewController())
-    }
-    
-    @objc func searchInputButtonPressed() {
-        self.pushViewController(SearchInputViewController())
-    }
-    
-    @objc func toggleButtonPressed() {
-        self.pushViewController(SwitchViewController())
-    }
-    
-    @objc func sliderBarButtonPressed() {
-        self.pushViewController(SliderBarViewController())
-    }
-    
-    @objc func tagButtonPressed() {
-        self.pushViewController(TagViewController())
-    }
-    
-    @objc func checkComponentsPressed() {
-        self.pushViewController(CheckComponentViewController())
-    }
-    
-    @objc func indicatorComponentsPressed() {
-        self.pushViewController(IndicatorViewController())
-    }
-    
-    @objc func emptyComponentsPressed() {
-        self.pushViewController(EmptyComponentViewController())
-    }
-    
-    @objc func labeledTextComponentsPressed() {
-        self.pushViewController(LabeledTextComponentViewController())
-    }
-    
-    @objc func accordionComponentsPressed() {
-        self.pushViewController(AccordionComponentViewController())
-    }
-  
-    @objc func placeholderImageViewComponentsPressed() {
-        self.pushViewController(PlaceholderImageViewController())
-    }
-    
-    @objc func noticeComponentsPressed() {
-        self.pushViewController(NoticeViewController())
-    }
-    
-    @objc func toolTipButtonPressed() {
-        self.pushViewController(ToolTipViewController())
-    }
-    
-    @objc func badgeButtonPressed() {
-        self.pushViewController(BadgeViewController())
+    func handleAction(with item: ItemData) {
+        ActionManager.shared.performAction(for: item) {
+            self.pushViewController(item.nextVC)
+        }
     }
 }
 
-//MARK: - UIViewController Extension
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch Section(rawValue: indexPath.section) {
+        case .token, .atom, .molcule:
+            guard let section = componentSectionData[indexPath.section] else { return }
+            let item = section.items[indexPath.item]
+            self.handleAction(with: item)
+            
+        default:
+            return
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Section.allCases.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch Section(rawValue: section) {
+        case .token, .atom, .molcule:
+            let section = componentSectionData[section]
+            return section?.items.count ?? 0
+        default:
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch Section(rawValue: indexPath.section) {
+        case .token, .atom, .molcule:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+            guard let section = componentSectionData[indexPath.section] else { return cell }
+            let item = section.items[indexPath.item]
+            cell.configure(item)
+            return cell
+            
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+            return cell
+        }
+    }
+    
+    
+}
+
 extension UIViewController {
     func pushViewController(_ viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)

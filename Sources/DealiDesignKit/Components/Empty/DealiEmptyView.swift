@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-public enum DealiEmptyImageType: Equatable {
+public enum DealiEmptyImageType: Equatable, Hashable {
     case notice  // notice image
     case refresh // refresh image
     case noImage // 이미지 없음

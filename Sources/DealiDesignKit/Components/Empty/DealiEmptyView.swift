@@ -126,7 +126,7 @@ public final class DealiEmptyView: UIView {
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_notice_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
         case .refresh:
             self.emptyImageView.image = UIImage.dealiIcon(named: "ic_refresh_2_filled")?.resize(CGSize(width: 32.0, height: 32.0)).withTintColor(.g60)
-        case let .customImage(image):
+        case let .image(image):
             self.emptyImageView.image = image?.resize(CGSize(width: 68.0, height: 68.0))
         default:
             break

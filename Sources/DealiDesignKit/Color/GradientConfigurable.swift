@@ -36,7 +36,7 @@ public enum PrimaryGradient: GradientConfigurable {
     var startColor: UIColor {
         switch self {
         case .gradient:
-            return UIColor(rgb: 0xFB493A, alpha: 1.0)
+            return UIColor(rgb: 0xFB4760, alpha: 1.0)
         }
     }
     

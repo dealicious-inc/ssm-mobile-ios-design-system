@@ -229,7 +229,11 @@ open class DealiPlaceholderImageView: UIImageView {
         let maskLayer = CAShapeLayer()
         maskLayer.frame = bounds
         
-        let borderRect = bounds.insetBy(dx: self.viewShape.borderWidth / 2, dy: self.viewShape.borderWidth / 2)
+        let halfBorder = self.viewShape.borderWidth / 2
+        let maxInset = min(bounds.width / 2, bounds.height / 2)
+        let safeInset = min(halfBorder, maxInset)
+        
+        let borderRect = bounds.insetBy(dx: safeInset, dy: safeInset)
         let cornerRadiiSize = CGSize(width: radius, height: radius)
         
         switch self.viewShape {

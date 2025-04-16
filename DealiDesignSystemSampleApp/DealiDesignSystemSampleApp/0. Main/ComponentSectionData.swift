@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct ComponentSectionData {
+struct ComponentSectionData: Hashable {
     let title: String
     let items: [ItemData]
     

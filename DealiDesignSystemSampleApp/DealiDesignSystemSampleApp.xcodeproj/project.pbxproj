@@ -33,6 +33,7 @@
 		39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
+		4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
@@ -85,6 +86,7 @@
 		39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImageViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
+		4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 			children = (
 				4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */,
 				4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */,
+				4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
+				4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */,
 				4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				4DA7ED7F2DA76EF30029165D /* MainViewController.swift in Sources */,

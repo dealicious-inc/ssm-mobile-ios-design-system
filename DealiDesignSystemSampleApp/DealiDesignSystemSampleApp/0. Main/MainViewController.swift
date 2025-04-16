@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DealiDesignKit
 
 final class MainViewController: UIViewController {
     
@@ -46,6 +47,7 @@ final class MainViewController: UIViewController {
         self.collectionView.then {
             $0.delegate = self
             $0.dataSource = self
+            $0.register(SearchBarCell.self, forCellWithReuseIdentifier: SearchBarCell.identifier)
             $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
             $0.register(ComponentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ComponentHeaderView.identifier)
         }.snp.makeConstraints {
@@ -116,12 +118,12 @@ private extension MainViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension: .fractionalHeight(1.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension:  .absolute(50.0))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         return section
     }
     
@@ -175,6 +177,8 @@ extension MainViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section) {
+        case .searchBar:
+            return 1
         case .token, .atom, .molcule:
             let section = componentSectionData[section]
             return section?.items.count ?? 0
@@ -185,6 +189,9 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch Section(rawValue: indexPath.section) {
+        case .searchBar:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCell.identifier, for: indexPath) as! SearchBarCell
+            return cell
         case .token, .atom, .molcule:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
             guard let section = componentSectionData[indexPath.section] else { return cell }
@@ -216,4 +223,28 @@ extension UIViewController {
     func pushViewController(_ viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+}
+
+extension MainViewController: DealiSearchInputDelegate {
+    func search(keyword: String?) {
+        
+    }
+    
+    func clear() {
+        
+    }
+    
+    func beginEditing() {
+        
+    }
+    
+    func endEditing() {
+        self.resignFirstResponder()
+    }
+    
+    func editingChanged(keyword: String?) {
+        
+    }
+    
+    
 }

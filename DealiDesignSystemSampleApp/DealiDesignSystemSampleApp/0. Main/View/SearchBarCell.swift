@@ -29,27 +29,3 @@ final class SearchBarCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-extension SearchBarCell: DealiSearchInputDelegate {
-    func search(keyword: String?) {
-        
-    }
-    
-    func clear() {
-        
-    }
-    
-    func beginEditing() {
-        
-    }
-    
-    func endEditing() {
-        self.resignFirstResponder()
-    }
-    
-    func editingChanged(keyword: String?) {
-        
-    }
-    
-    
-}

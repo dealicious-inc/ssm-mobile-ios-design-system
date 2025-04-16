@@ -13,12 +13,11 @@ final class MainViewController: UIViewController {
     
     private enum Section: Int, CaseIterable {
         case searchBar
-        case playground
         case token
         case atom
         case molcule
     }
-
+    
     lazy var componentSectionData: [Int: ComponentSectionData] = [
         Section.token.rawValue : tokenSectionData,
         Section.atom.rawValue: atomSectionData,
@@ -37,16 +36,17 @@ final class MainViewController: UIViewController {
             }
         }
     }()
-
+        
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ItemData>! = nil
+    
     override func loadView() {
         self.view = .init()
         
         self.view.backgroundColor = .systemBackground
-        
+      
         self.view.addSubview(self.collectionView)
         self.collectionView.then {
             $0.delegate = self
-            $0.dataSource = self
             $0.register(SearchBarCell.self, forCellWithReuseIdentifier: SearchBarCell.identifier)
             $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
             $0.register(ComponentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ComponentHeaderView.identifier)
@@ -54,71 +54,72 @@ final class MainViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
+        self.configureDataSource()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "DesignSystem Sample App"
     }
     
     var tokenSectionData =
-        ComponentSectionData(
-            title: "Token",
-            items: [
-                ItemData(title: "Color", type: .color),
-                ItemData(title: "Typography", type: .typography),
-                ItemData(title: "Font", type: .font),
-            ]
-        )
+    ComponentSectionData(
+        title: "Token",
+        items: [
+            ItemData(title: "Color", type: .color),
+            ItemData(title: "Typography", type: .typography),
+            ItemData(title: "Font", type: .font),
+        ]
+    )
     
     var atomSectionData =
-        ComponentSectionData(
-            title: "Atom",
-            items: [
-                ItemData(title: "Accordion", type: .accordion),
-                ItemData(title: "Badge", type: .badge),
-                ItemData(title: "Button", type: .button),
-                ItemData(title: "Checkbox", type: .checkbox),
-                ItemData(title: "Chip", type: .chip),
-                ItemData(title: "Dropdown", type: .dropdown),
-                ItemData(title: "ImageChip", type: .imageChip),
-                ItemData(title: "Indicator", type: .indicator),
-                ItemData(title: "LabeledText", type: .labeledText),
-                ItemData(title: "Placeholder", type: .placeholder),
-                ItemData(title: "RadioButton", type: .radioButton),
-                ItemData(title: "SearchInput", type: .searchInput),
-                ItemData(title: "SliderBar", type: .sliderBar),
-                ItemData(title: "DealiSwitch", type: .dealiSwitch),
-                ItemData(title: "Tag", type: .tag),
-                ItemData(title: "TextArea", type: .textArea),
-                ItemData(title: "TextInput", type: .textInput),
-                ItemData(title: "TextLink", type: .textLink),
-                ItemData(title: "ToolTip", type: .toolTip),
-            ]
-        )
+    ComponentSectionData(
+        title: "Atom",
+        items: [
+            ItemData(title: "Accordion", type: .accordion),
+            ItemData(title: "Badge", type: .badge),
+            ItemData(title: "Button", type: .button),
+            ItemData(title: "Checkbox", type: .checkbox),
+            ItemData(title: "Chip", type: .chip),
+            ItemData(title: "Dropdown", type: .dropdown),
+            ItemData(title: "ImageChip", type: .imageChip),
+            ItemData(title: "Indicator", type: .indicator),
+            ItemData(title: "LabeledText", type: .labeledText),
+            ItemData(title: "Placeholder", type: .placeholder),
+            ItemData(title: "RadioButton", type: .radioButton),
+            ItemData(title: "SearchInput", type: .searchInput),
+            ItemData(title: "SliderBar", type: .sliderBar),
+            ItemData(title: "DealiSwitch", type: .dealiSwitch),
+            ItemData(title: "Tag", type: .tag),
+            ItemData(title: "TextArea", type: .textArea),
+            ItemData(title: "TextInput", type: .textInput),
+            ItemData(title: "TextLink", type: .textLink),
+            ItemData(title: "ToolTip", type: .toolTip),
+        ]
+    )
     
     var molculeSectionData =
-        ComponentSectionData(
-            title: "Molecule",
-            items: [
-                ItemData(title: "Alert", type: .alert),
-                ItemData(title: "BottomSheet", type: .bottomSheet),
-                ItemData(title: "Empty", type: .empty),
-                ItemData(title: "Notice", type: .notice),
-                ItemData(title: "TabBar", type: .tabBar),
-
-            ]
-        )
+    ComponentSectionData(
+        title: "Molecule",
+        items: [
+            ItemData(title: "Alert", type: .alert),
+            ItemData(title: "BottomSheet", type: .bottomSheet),
+            ItemData(title: "Empty", type: .empty),
+            ItemData(title: "Notice", type: .notice),
+            ItemData(title: "TabBar", type: .tabBar),
+            
+        ]
+    )
 }
 
 private extension MainViewController {
     
     func singleItemLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension:  .absolute(50.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension:  .estimated(50.0))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -158,64 +159,105 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch Section(rawValue: indexPath.section) {
+        let sectionIdentifier = dataSource.sectionIdentifier(for: indexPath.section)
+        switch sectionIdentifier {
         case .token, .atom, .molcule:
-            guard let section = componentSectionData[indexPath.section] else { return }
-            let item = section.items[indexPath.item]
+            guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
             self.handleAction(with: item)
-            
         default:
-            return
+            break
         }
     }
 }
 
-extension MainViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.allCases.count
-    }
+// MARK: - Diffable Datasource
+extension MainViewController {
+    func configureDataSource() {
+        self.dataSource = UICollectionViewDiffableDataSource<Section, ItemData>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            switch Section(rawValue: indexPath.section) {
+            case .searchBar:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCell.identifier, for: indexPath) as! SearchBarCell
+                cell.searchInput.delegate = self
+                return cell
+            case .token, .atom, .molcule:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+                cell.configure(itemIdentifier)
+                
+                
+                return cell
+                
+            default:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+                return cell
+            }
+        }
+        
+        self.dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch Section(rawValue: section) {
-        case .searchBar:
-            return 1
-        case .token, .atom, .molcule:
-            let section = componentSectionData[section]
-            return section?.items.count ?? 0
-        default:
-            return 0
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+
+            switch section {
+            case .token, .atom, .molcule:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ComponentHeaderView.identifier, for: indexPath) as! ComponentHeaderView
+
+                if let sectionData = self.componentSectionData[section.rawValue] {
+                    header.title = sectionData.title
+                }
+                return header
+
+            default:
+                return nil
+            }
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch Section(rawValue: indexPath.section) {
-        case .searchBar:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCell.identifier, for: indexPath) as! SearchBarCell
-            return cell
-        case .token, .atom, .molcule:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
-            guard let section = componentSectionData[indexPath.section] else { return cell }
-            let item = section.items[indexPath.item]
-            cell.configure(item)
-            return cell
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
             
-        default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
-            return cell
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items ?? [])
+            }
         }
+        
+        self.dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch Section(rawValue: indexPath.section) {
-        case .token, .atom, .molcule:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ComponentHeaderView.identifier, for: indexPath) as! ComponentHeaderView
-            let section = componentSectionData[indexPath.section]
-            header.title = section?.title
-            return header
-        default:
-            return UICollectionReusableView()
+    func performQuery(with filter: String?) {
+        guard let filter, filter.isEmpty == false else {
+            self.resetResult()
+            return
         }
-      
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+            
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items.filter { $0.title?.localizedCaseInsensitiveContains(filter) ?? false } ?? [])
+            }
+        }
+        
+        self.dataSource.apply(snapshot, animatingDifferences: true)
+        
+    }
+    
+    func resetResult() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+            
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items ?? [])
+            }
+        }
+        self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
@@ -231,7 +273,7 @@ extension MainViewController: DealiSearchInputDelegate {
     }
     
     func clear() {
-        
+        self.resetResult()
     }
     
     func beginEditing() {
@@ -239,12 +281,10 @@ extension MainViewController: DealiSearchInputDelegate {
     }
     
     func endEditing() {
-        self.resignFirstResponder()
+
     }
     
     func editingChanged(keyword: String?) {
-        
+        self.performQuery(with: keyword)
     }
-    
-    
 }

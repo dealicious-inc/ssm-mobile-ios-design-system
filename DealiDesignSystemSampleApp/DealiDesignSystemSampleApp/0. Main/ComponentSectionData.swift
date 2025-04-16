@@ -9,10 +9,10 @@
 import UIKit
 
 struct ComponentSectionData: Hashable {
-    let title: String
+    let title: String?
     let items: [ItemData]
     
-    init(title: String, items: [ItemData]) {
+    init(title: String?, items: [ItemData]) {
         self.title = title
         self.items = items
     }
@@ -20,8 +20,8 @@ struct ComponentSectionData: Hashable {
 }
 
 struct ItemData: Hashable {
-    let title: String
-    let type: ActionType
+    var title: String?
+    var type: ActionType = .color
     
 }
 

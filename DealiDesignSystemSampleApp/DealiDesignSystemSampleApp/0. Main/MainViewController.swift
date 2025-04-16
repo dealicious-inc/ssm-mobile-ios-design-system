@@ -47,6 +47,7 @@ final class MainViewController: UIViewController {
             $0.delegate = self
             $0.dataSource = self
             $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
+            $0.register(ComponentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ComponentHeaderView.identifier)
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -135,7 +136,10 @@ private extension MainViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.boundarySupplementaryItems = [
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40.0)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        ]
         return section
     }
     
@@ -194,7 +198,18 @@ extension MainViewController: UICollectionViewDataSource {
         }
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch Section(rawValue: indexPath.section) {
+        case .token, .atom, .molcule:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ComponentHeaderView.identifier, for: indexPath) as! ComponentHeaderView
+            let section = componentSectionData[indexPath.section]
+            header.title = section?.title
+            return header
+        default:
+            return UICollectionReusableView()
+        }
+      
+    }
 }
 
 extension UIViewController {

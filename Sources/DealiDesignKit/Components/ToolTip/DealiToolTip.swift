@@ -154,7 +154,7 @@ public class DealiToolTip: UIView {
         
         superView.bringSubviewToFront(toolTip)
         
-        dismissView.rx.tapGesture()
+        dismissView.rx.touchDownGesture()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
                 toolTip?.dismissToolTip {

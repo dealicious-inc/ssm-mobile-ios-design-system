@@ -10,8 +10,15 @@ import SwiftUI
 import DealiDesignKit
 
 struct SearchInputTestView: View {
+    @State private var text: String = "텍스트 입력 중"
+    @State private var isFocused: Bool = false
+
     var body: some View {
-        DLSearchInput()
+        DLSearchInput(
+            text: $text,
+            isFocused: $isFocused,
+            placeholder: "상품을 검색해주세요"
+        )
     }
 }
 

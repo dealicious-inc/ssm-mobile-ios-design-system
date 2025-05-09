@@ -22,10 +22,6 @@ public struct DLSearchInput: View {
         self.onSearch = onSearch ?? { }
     }
     
-    private var isClearButtonVisible: Bool {
-        !text.isEmpty
-    }
-    
     public var body: some View {
         ZStack {
             HStack(spacing: 16.0) {
@@ -50,6 +46,7 @@ public struct DLSearchInput: View {
                 buttonContainerView
             }
             .frame(height: 24.0)
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 16.0)
             .padding(.vertical, 8.0)
             .background(Color(uiColor: .g10))
@@ -57,15 +54,25 @@ public struct DLSearchInput: View {
         }
         .padding(.vertical, 4.0)
         .padding(.horizontal, 16.0)
+        .onTapGesture {
+            // UIKit에서 internalFocus onChange 불리지 않아 추가
+            self.isFocused = true
+        }
     }
     
     private var buttonContainerView: some View {
         HStack(spacing: 12.0) {
-            if isClearButtonVisible {
+            if !text.isEmpty {
                 clearButton
+                    .onAppear {
+                        debugPrint("clearButton 보임: \(self.text)")
+                    }
+                    .onDisappear {
+                        debugPrint("clearButton 사라짐: \(self.text)")
+                    }
             }
             
-            if isFocused {
+            if isFocused || text.isEmpty {
                 searchButton
             }
         }
@@ -73,13 +80,18 @@ public struct DLSearchInput: View {
     
     private var clearButton: some View {
         Button {
-            self.text = ""
+            withAnimation(.easeInOut(duration: 0.1)) {
+                self.text = ""
+            }
         } label: {
             Image.dealiIcon(named: "ic_x_circle_filled")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 16.0, height: 16.0)
                 .foregroundStyle(Color(.g50))
+            
+        }
+        .onChange(of: text) { newValue in
             
         }
     }
@@ -96,7 +108,7 @@ public struct DLSearchInput: View {
 
 
 struct DLSearchInput_Previews: PreviewProvider {
- 
+    
     static var previews: some View {
         Group {
             DLSearchInput(text: .constant(""), isFocused: .constant(false), placeholder: "상품을 검색해주세요")

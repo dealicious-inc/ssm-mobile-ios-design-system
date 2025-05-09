@@ -242,13 +242,13 @@
 		4D1FA9272AFC740000AA510F /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				FC0138542DCDCB3600900585 /* SearchInput */,
 				FC06805F2D81936C0076CC09 /* Empty */,
 				4D584A1C2D1A82A1007BB775 /* Notice */,
 				FC0838852D06C0B70028AE27 /* TextLink */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
 				4DE3261E2CDB611400E67FEC /* ImageChip */,
 				392C38A12C467A540088D176 /* DropdownViewController.swift */,
-				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
 				396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */,
 				FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */,
 				5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */,
@@ -308,6 +308,14 @@
 				4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FC0138542DCDCB3600900585 /* SearchInput */ = {
+			isa = PBXGroup;
+			children = (
+				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
+			);
+			path = SearchInput;
 			sourceTree = "<group>";
 		};
 		FC06805F2D81936C0076CC09 /* Empty */ = {

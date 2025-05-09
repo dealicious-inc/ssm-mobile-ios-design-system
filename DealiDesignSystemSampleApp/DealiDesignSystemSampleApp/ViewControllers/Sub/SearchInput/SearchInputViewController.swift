@@ -10,7 +10,26 @@ import UIKit
 import DealiDesignKit
 
 final class SearchInputViewController: UIViewController {
-
+    
+    var isSwiftUI: Bool = false
+    var swiftUIText: String = "텍스트 입력" {
+        didSet {
+            debugPrint("swiftUIText: \(swiftUIText)")
+        }
+    }
+    
+    var swiftUIIsFocused: Bool = false
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,12 +40,16 @@ final class SearchInputViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        self.setUI()
+    }
+    
+    func setUI() {
         let contentScrollView = UIScrollView()
         self.view.addSubview(contentScrollView)
         contentScrollView.then {
             $0.bounces = false
         }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
 
         let contentView = UIView()
@@ -34,19 +57,32 @@ final class SearchInputViewController: UIViewController {
         contentView.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.edges.width.equalToSuperview()
         }
-
-        let contentStackView = UIStackView()
+        
+        let contentStackView: UIStackView = {
+            if self.isSwiftUI {
+                return self.swiftUIView()
+            } else {
+                return self.uikitView()
+            }
+        }()
+        
         contentScrollView.addSubview(contentStackView)
-        contentStackView.then {
+        contentStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(20.0)
+        }
+    }
+}
+
+// MARK: - UIKit
+extension SearchInputViewController {
+    func uikitView() -> UIStackView {
+        let contentStackView = UIStackView().then {
             $0.axis = .vertical
             $0.spacing = 10.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
-        }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview().inset(20.0)
         }
         
         let searchBarView1 = DealiSearchInput(delegate: self)
@@ -124,9 +160,10 @@ final class SearchInputViewController: UIViewController {
         }
         
         searchBarSubCategoryView3.updateSubKeyword("ChangeKeyword")
+        
+        return contentStackView
     }
 }
-
 extension SearchInputViewController: DealiSearchInputDelegate {
     func endEditing() {
         
@@ -150,5 +187,52 @@ extension SearchInputViewController: DealiSearchInputDelegate {
     
     func editingChanged(keyword: String?) {
         
+    }
+}
+
+import SwiftUI
+
+// MARK: - SwiftUI
+extension SearchInputViewController {
+    private var textBinding: Binding<String> {
+        Binding(
+            get: { self.swiftUIText },
+            set: { newValue in
+                if self.swiftUIText != newValue {
+                    self.swiftUIText = newValue
+                }
+            }
+        )
+    }
+    
+    private var focusBinding: Binding<Bool> {
+        Binding(
+            get: { self.swiftUIIsFocused },
+            set: { newValue in
+                if self.swiftUIIsFocused != newValue {
+                    self.swiftUIIsFocused = newValue
+                }
+            }
+        )
+    }
+    
+    func swiftUIView() -> UIStackView {
+        let contentStackView = UIStackView().then {
+            $0.axis = .vertical
+            $0.spacing = 30.0
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+        }
+        
+        let view = DLSearchInput(text: textBinding, isFocused: focusBinding, placeholder: "상품을 검색해주세요.", onSearch: {
+            debugPrint("검색 클릭. 검색어: \(self.swiftUIText)")
+        }).UIKit()
+        
+        contentStackView.addArrangedSubview(view)
+        view.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        return contentStackView
     }
 }

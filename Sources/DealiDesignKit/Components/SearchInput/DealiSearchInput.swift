@@ -83,7 +83,7 @@ public final class DealiSearchInput: UIView {
             self.updateKeyword(keyword)
         }
     }
-    private weak var delegate: DealiSearchInputDelegate?
+    public weak var delegate: DealiSearchInputDelegate?
     private let disposeBag = DisposeBag()
     
     /// keyword 세팅

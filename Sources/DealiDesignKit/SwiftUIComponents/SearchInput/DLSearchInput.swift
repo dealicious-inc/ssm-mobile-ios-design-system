@@ -6,18 +6,31 @@
 //
 
 import SwiftUI
+import Combine
+
+public final class DLSearchInputViewModel: ObservableObject {
+    @Published public var text: String = ""
+    @Published public var isFocused: Bool = false
+    
+    public init(text: String = "", isFocused: Bool = false) {
+        self.text = text
+        self.isFocused = isFocused
+    }
+}
 
 public struct DLSearchInput: View {
-    @Binding private var text: String
-    @Binding var isFocused: Bool
+    @ObservedObject public var viewModel: DLSearchInputViewModel
     @FocusState private var internalFocus: Bool
     
     public var placeholder: String = "상품을 검색해주세요."
-    public var onSearch: (() -> Void) = { }
+    public var onSearch: () -> Void = { }
     
-    public init(text: Binding<String>, isFocused: Binding<Bool>, placeholder: String, onSearch: (() -> Void)? = nil) {
-        self._text = text
-        self._isFocused = isFocused
+    public init(
+        viewModel: DLSearchInputViewModel,
+        placeholder: String = "상품을 검색해주세요.",
+        onSearch: (() -> Void)? = nil
+    ) {
+        self.viewModel = viewModel
         self.placeholder = placeholder
         self.onSearch = onSearch ?? { }
     }
@@ -27,20 +40,14 @@ public struct DLSearchInput: View {
             HStack(spacing: 16.0) {
                 TextField(
                     "",
-                    text: $text,
+                    text: $viewModel.text,
                     prompt: Text(placeholder)
                         .foregroundColor(Color(uiColor: .g60))
                         .font((Font(UIFont.b2r14)))
                 )
                 .font(Font(UIFont.b2r14))
                 .foregroundStyle(Color(uiColor: .g100))
-                .focused($internalFocus)
-                .onChange(of: isFocused) { internalFocus = $0 }
-                .onChange(of: internalFocus) { isFocused = $0 }
-                .onSubmit {
-                    self.isFocused = false
-                    self.onSearch()
-                }
+                
                 .disableAutocorrection(true)
                 
                 buttonContainerView
@@ -55,24 +62,24 @@ public struct DLSearchInput: View {
         .padding(.vertical, 4.0)
         .padding(.horizontal, 16.0)
         .onTapGesture {
-            // UIKit에서 internalFocus onChange 불리지 않아 추가
-            self.isFocused = true
+            viewModel.isFocused = true
         }
+        .onSubmit {
+            viewModel.isFocused = false
+            onSearch()
+        }
+        .focused($internalFocus)
+        .onChange(of: viewModel.isFocused) { internalFocus = $0 }
+        .onChange(of: internalFocus) { viewModel.isFocused = $0 }
     }
     
     private var buttonContainerView: some View {
         HStack(spacing: 12.0) {
-            if !text.isEmpty {
+            if !viewModel.text.isEmpty {
                 clearButton
-                    .onAppear {
-                        debugPrint("clearButton 보임: \(self.text)")
-                    }
-                    .onDisappear {
-                        debugPrint("clearButton 사라짐: \(self.text)")
-                    }
             }
             
-            if isFocused || text.isEmpty {
+            if viewModel.isFocused || viewModel.text.isEmpty {
                 searchButton
             }
         }
@@ -81,7 +88,7 @@ public struct DLSearchInput: View {
     private var clearButton: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.1)) {
-                self.text = ""
+                viewModel.text = ""
             }
         } label: {
             Image.dealiIcon(named: "ic_x_circle_filled")
@@ -89,17 +96,13 @@ public struct DLSearchInput: View {
                 .renderingMode(.template)
                 .frame(width: 16.0, height: 16.0)
                 .foregroundStyle(Color(.g50))
-            
-        }
-        .onChange(of: text) { newValue in
-            
         }
     }
     
     private var searchButton: some View {
         Button(action: {
-            self.isFocused = false
-            self.onSearch()
+            viewModel.isFocused = false
+            onSearch()
         }, label: {
             Image.dealiIcon(named: "ic_search")
         })
@@ -111,14 +114,23 @@ struct DLSearchInput_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            DLSearchInput(text: .constant(""), isFocused: .constant(false), placeholder: "상품을 검색해주세요")
-                .previewDisplayName("기본")
+            DLSearchInput(
+                viewModel: .init(),
+                placeholder: "상품을 검색해주세요"
+            )
+            .previewDisplayName("기본")
             
-            DLSearchInput(text: .constant("텍스트 입력 중"), isFocused: .constant(true), placeholder: "상품을 검색해주세요")
-                .previewDisplayName("입력 중")
+            DLSearchInput(
+                viewModel: .init(text: "텍스트 입력", isFocused: true),
+                placeholder: "상품을 검색해주세요"
+            )
+            .previewDisplayName("입력 중")
             
-            DLSearchInput(text: .constant("텍스트 입력 완료"), isFocused: .constant(false), placeholder: "상품을 검색해주세요")
-                .previewDisplayName("입력 후")
+            DLSearchInput(
+                viewModel: .init(text: "텍스트 입력"),
+                placeholder: "상품을 검색해주세요"
+            )
+            .previewDisplayName("입력 후")
         }
         .previewLayout(.sizeThatFits)
     }

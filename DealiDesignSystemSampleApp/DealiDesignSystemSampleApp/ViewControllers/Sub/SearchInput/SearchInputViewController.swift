@@ -12,13 +12,8 @@ import DealiDesignKit
 final class SearchInputViewController: UIViewController {
     
     var isSwiftUI: Bool = false
-    var swiftUIText: String = "텍스트 입력" {
-        didSet {
-            debugPrint("swiftUIText: \(swiftUIText)")
-        }
-    }
     
-    var swiftUIIsFocused: Bool = false
+    var swiftUIViewModel: DLSearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
     init(isSwiftUI: Bool = false) {
         self.isSwiftUI = isSwiftUI
@@ -194,28 +189,7 @@ import SwiftUI
 
 // MARK: - SwiftUI
 extension SearchInputViewController {
-    private var textBinding: Binding<String> {
-        Binding(
-            get: { self.swiftUIText },
-            set: { newValue in
-                if self.swiftUIText != newValue {
-                    self.swiftUIText = newValue
-                }
-            }
-        )
-    }
-    
-    private var focusBinding: Binding<Bool> {
-        Binding(
-            get: { self.swiftUIIsFocused },
-            set: { newValue in
-                if self.swiftUIIsFocused != newValue {
-                    self.swiftUIIsFocused = newValue
-                }
-            }
-        )
-    }
-    
+   
     func swiftUIView() -> UIStackView {
         let contentStackView = UIStackView().then {
             $0.axis = .vertical
@@ -224,9 +198,13 @@ extension SearchInputViewController {
             $0.distribution = .equalSpacing
         }
         
-        let view = DLSearchInput(text: textBinding, isFocused: focusBinding, placeholder: "상품을 검색해주세요.", onSearch: {
-            debugPrint("검색 클릭. 검색어: \(self.swiftUIText)")
-        }).UIKit()
+        let view = DLSearchInput(
+            viewModel: self.swiftUIViewModel,
+            placeholder: "상품을 검색해주세요",
+            onSearch: {
+                debugPrint("검색 클릭. 검색어: \(self.swiftUIViewModel.text)")
+            }
+        ).UIKit()
         
         contentStackView.addArrangedSubview(view)
         view.snp.makeConstraints {

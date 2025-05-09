@@ -15,10 +15,10 @@ struct SearchInputTestView: View {
 
     var body: some View {
         DLSearchInput(
-            text: $text,
-            isFocused: $isFocused,
+            viewModel: .init(text: text, isFocused: isFocused),
             placeholder: "상품을 검색해주세요"
         )
+        .previewDisplayName("입력 중")
     }
 }
 

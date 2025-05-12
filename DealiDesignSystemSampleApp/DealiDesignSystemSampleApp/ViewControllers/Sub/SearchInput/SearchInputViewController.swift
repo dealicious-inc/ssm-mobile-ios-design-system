@@ -204,11 +204,18 @@ extension SearchInputViewController {
             onSearch: {
                 debugPrint("검색 클릭. 검색어: \(self.swiftUIViewModel.text)")
             }
-        ).UIKit()
+        )
         
-        contentStackView.addArrangedSubview(view)
-        view.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+        let hostingController = UIHostingController(rootView: view)
+        if let uiView = hostingController.view {
+            self.addChild(hostingController)
+
+            contentStackView.addArrangedSubview(uiView)
+            uiView.snp.makeConstraints {
+                $0.horizontalEdges.equalToSuperview()
+            }
+            
+            hostingController.didMove(toParent: self)
         }
         
         return contentStackView

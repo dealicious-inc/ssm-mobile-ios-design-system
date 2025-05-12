@@ -47,7 +47,6 @@ public struct DLSearchInput: View {
                 )
                 .font(Font(UIFont.b2r14))
                 .foregroundStyle(Color(uiColor: .g100))
-                
                 .disableAutocorrection(true)
                 
                 buttonContainerView
@@ -61,16 +60,22 @@ public struct DLSearchInput: View {
         }
         .padding(.vertical, 4.0)
         .padding(.horizontal, 16.0)
-        .onTapGesture {
-            viewModel.isFocused = true
-        }
+        .focused($internalFocus)
         .onSubmit {
             viewModel.isFocused = false
             onSearch()
         }
-        .focused($internalFocus)
-        .onChange(of: viewModel.isFocused) { internalFocus = $0 }
-        .onChange(of: internalFocus) { viewModel.isFocused = $0 }
+        .onChange(of: internalFocus) { newValue in
+            if viewModel.isFocused != internalFocus {
+                viewModel.isFocused = internalFocus
+            }
+        }
+        .onChange(of: viewModel.isFocused) { newValue in
+            if internalFocus != viewModel.isFocused {
+                internalFocus = viewModel.isFocused
+            }
+        }
+        
     }
     
     private var buttonContainerView: some View {

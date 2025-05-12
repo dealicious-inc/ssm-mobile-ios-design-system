@@ -12,11 +12,7 @@ import DealiDesignKit
 final class SearchInputViewController: UIViewController {
     
     var isSwiftUI: Bool = false
-    var results: [HostingViewResult] = []
-    
-    deinit {
-        results.forEach { $0.detach() }
-    }
+    var detachBag: AnyDetachBag = .init()
     
     var swiftUIViewModel: DLSearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
@@ -211,7 +207,7 @@ extension SearchInputViewController {
             }
         ).toUIView(embeddedIn: self)
         
-        self.results.append(result)
+        self.detachBag.add(result)
         
         let view = result.view
         contentStackView.addArrangedSubview(view)

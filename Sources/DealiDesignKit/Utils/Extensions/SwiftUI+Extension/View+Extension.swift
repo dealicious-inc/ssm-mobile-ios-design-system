@@ -8,7 +8,25 @@
 import SwiftUI
 import UIKit
 
-public struct HostingViewResult {
+final public class AnyDetachBag {
+    private var results: [Detachable] = []
+    
+    public func add(_ result: any Detachable) {
+        self.results.append(result)
+    }
+    
+    public init() {}
+    
+    deinit {
+        results.forEach { $0.detach() }
+    }
+}
+
+public protocol Detachable {
+    func detach()
+}
+
+public struct HostingViewResult: Detachable {
     public let view: UIView
     public let controller: UIViewController
 

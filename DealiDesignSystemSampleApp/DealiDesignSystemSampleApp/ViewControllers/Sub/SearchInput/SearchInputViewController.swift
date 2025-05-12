@@ -12,6 +12,11 @@ import DealiDesignKit
 final class SearchInputViewController: UIViewController {
     
     var isSwiftUI: Bool = false
+    var results: [HostingViewResult] = []
+    
+    deinit {
+        results.forEach { $0.detach() }
+    }
     
     var swiftUIViewModel: DLSearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
@@ -197,27 +202,24 @@ extension SearchInputViewController {
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }
-        
-        let view = DLSearchInput(
+       
+        let result =  DLSearchInput(
             viewModel: self.swiftUIViewModel,
             placeholder: "상품을 검색해주세요",
             onSearch: {
                 debugPrint("검색 클릭. 검색어: \(self.swiftUIViewModel.text)")
             }
-        )
+        ).toUIView(embeddedIn: self)
         
-        let hostingController = UIHostingController(rootView: view)
-        if let uiView = hostingController.view {
-            self.addChild(hostingController)
-
-            contentStackView.addArrangedSubview(uiView)
-            uiView.snp.makeConstraints {
-                $0.horizontalEdges.equalToSuperview()
-            }
-            
-            hostingController.didMove(toParent: self)
+        self.results.append(result)
+        
+        let view = result.view
+        contentStackView.addArrangedSubview(view)
+        
+        view.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
         }
-        
+            
         return contentStackView
     }
 }

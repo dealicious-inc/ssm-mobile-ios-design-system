@@ -17,7 +17,8 @@ struct FullSwiftUIBaseView: View {
                                    Component(title: "Button", linkView: ButtonTestView()),
                                    Component(title: "Checkbox", linkView: CheckboxTestView()),
                                    Component(title: "EmptyView", linkView: EmptyViewTest()),
-                                   Component(title: "SearchInput", linkView: SearchInputTestView())
+                                   Component(title: "SearchInput", linkView: SearchInputTestView()),
+                                   Component(title: "Toast", linkView: ToastTestView())
     ]
     
     

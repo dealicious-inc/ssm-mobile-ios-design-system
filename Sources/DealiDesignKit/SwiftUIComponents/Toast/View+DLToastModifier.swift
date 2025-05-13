@@ -19,17 +19,21 @@ struct DLToastModifier: ViewModifier {
                 VStack {
                     Spacer()
                     DLToastView(message: message)
-                        .padding(.bottom, 40)
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top))
+                        )
                 }
+                .padding(.bottom, 40)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                        withAnimation(.linear) {
-                            isPresented = false
-                        }
+                        isPresented = false
+                        
                     }
                 }
             }
         }
+        .animation(.easeIn(duration: 0.2), value: isPresented)
+        
     }
 }
 
@@ -41,7 +45,7 @@ public extension View {
 
 struct DLToastPreviewWrapper: View {
     @State private var isPresented = false
-
+    
     var body: some View {
         ZStack {
             Button {

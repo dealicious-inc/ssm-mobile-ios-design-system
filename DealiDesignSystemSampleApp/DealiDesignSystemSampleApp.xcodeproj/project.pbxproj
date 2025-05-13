@@ -37,10 +37,12 @@
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
 		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
+		4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
+		4DA438C72DD2F3CF006F94EC /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */; };
 		4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DB4F3D32D7968A200C49ABF /* CheckboxTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */; };
@@ -95,10 +97,12 @@
 		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
 		3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
+		4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTestView.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorItemView.swift; sourceTree = "<group>"; };
+		4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
 		4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputTestView.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxTestView.swift; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
 				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
 				4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */,
+				4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */,
 			);
 			path = SwiftUISubViews;
 			sourceTree = "<group>";
@@ -242,6 +247,7 @@
 		4D1FA9272AFC740000AA510F /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				4DA438C32DD2F3A1006F94EC /* Toast */,
 				FC0138542DCDCB3600900585 /* SearchInput */,
 				FC06805F2D81936C0076CC09 /* Empty */,
 				4D584A1C2D1A82A1007BB775 /* Notice */,
@@ -281,6 +287,14 @@
 				4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */,
 			);
 			path = Notice;
+			sourceTree = "<group>";
+		};
+		4DA438C32DD2F3A1006F94EC /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 		4DE3261E2CDB611400E67FEC /* ImageChip */ = {
@@ -431,6 +445,7 @@
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
+				4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */,
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,
 				4DB4F3D32D7968A200C49ABF /* CheckboxTestView.swift in Sources */,
@@ -459,6 +474,7 @@
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
 				FC0680612D81938F0076CC09 /* EmptyViewController.swift in Sources */,
+				4DA438C72DD2F3CF006F94EC /* ToastViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				3990E48F2CC639C3007C2D9E /* AccordionComponentViewController.swift in Sources */,

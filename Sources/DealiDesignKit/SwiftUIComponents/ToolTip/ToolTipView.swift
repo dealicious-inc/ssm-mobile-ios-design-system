@@ -14,8 +14,25 @@ public struct ToolTipView: View {
     @Binding var isPresented: Bool
     
     @State private var opacity = 0.0
+    @State private var tooltipWidth: CGFloat = 0
+    @State private var tooltipHeight: CGFloat = 0
+    
+    public enum TailAlignment {
+        case left
+        case center
+        case right
+    }
+    
+    private enum Constants {
+        static let tailImageWidth: CGFloat = 12
+        static let tailImageHeight: CGFloat = 6
+        static let tailImageXOffset: CGFloat = -21
+        static let tailImageYOffset: CGFloat = -6
+    }
     
     private var targetFrame: CGRect = .zero
+    @State private var tailAlignment: TailAlignment = .right
+    private var text: String = ""
     
     private let animateDuration: CGFloat = 0.2
     public var presentAnimation: Animation {
@@ -26,34 +43,46 @@ public struct ToolTipView: View {
     }
     
     public var body: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             Color.clear  // 투명한 배경을 전체 화면에 깔아줌 (탭 인식용)
                 .contentShape(Rectangle()) // 터치 영역 명시
                 .ignoresSafeArea()
                 .onTapGesture { viewDismiss() }
-            
-            Text("Top Right")
-                .font(Font(UIFont.b3sb13))
-                .foregroundColor(.white)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 6.0)
-                        .fill(Color(UIColor.secondary01))
-                )
+            tooltipText
                 .overlay(
-                    tailImage
-                        .scaleEffect(x: 1, y: -1)
-                        .offset(x: -21, y: -6),
-                    alignment: .topTrailing
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(key: TooltipSizeKey.self, value: CGSize(width: geo.size.width, height: geo.size.height))
+                    }
                 )
                 .offset(
-                    x: targetFrame.origin.x,
-                    y: targetFrame.origin.y + targetFrame.height + 8 // 기준 뷰 아래로 툴팁 배치
+                    x: tooltipXOffset(),//targetFrame.midX - (tooltipWidth + Constants.tailImageXOffset),
+                    y: targetFrame.maxY + Constants.tailImageHeight//targetFrame.maxY + Constants.tailImageYOffset - (tooltipHeight / 2)
                 )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .opacity(opacity)
         .onAppear { viewAppear() }
+        .onPreferenceChange(TooltipSizeKey.self) { size in
+            self.tooltipWidth = size.width
+            self.tooltipHeight = size.height
+        }
+    }
+    
+    private var tooltipText: some View {
+//                Text("최근의 상품 찜수 등의 정보를\n종합하여 지금 보고 계신 매장의\n오늘 인기 있는 상품을 알려드려요")
+        Text(text)
+            .font(Font(UIFont.b3sb13))
+            .foregroundColor(.white)
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 6.0)
+                    .fill(Color(UIColor.secondary01))
+            )
+            .overlay(
+                tailImage,
+                alignment: tailAlignment.alignment()
+            )
     }
     
     public init(isPresented: Binding<Bool> = .constant(true)) {
@@ -64,7 +93,10 @@ public struct ToolTipView: View {
     private var tailImage: some View {
         Image("img_tailanchor", bundle: .module)
             .resizable()
-            .frame(width: 12, height: 6)
+            .frame(width: Constants.tailImageWidth, height: Constants.tailImageHeight)
+            .scaleEffect(x: 1, y: -1)
+//            .offset(x: Constants.tailImageXOffset, y: Constants.tailImageYOffset)
+            .offset(x: tailImageXOffset(), y: Constants.tailImageYOffset)
     }
     
     private func viewAppear() {
@@ -97,17 +129,64 @@ public struct ToolTipView: View {
         hostingViewController.view.backgroundColor = .clear
         
         sourceViewController.present(hostingViewController, animated: false)
-        
-//        guard let window = targetView.window else { return }
-
-        // 기준 뷰의 화면 내 절대 좌표 계산
-//        let targetFrame = targetView.convert(targetView.bounds, to: window)
     }
     
     public func setTargetFrame(_ targetView: UIView) -> Self {
         var copy = self
-        copy.targetFrame = targetView.frame//targetView.convert(targetView.bounds, to: targetView.window)
+        copy.targetFrame = targetView.frame
+        copy.targetFrame.origin.y -= (targetView.window?.safeAreaInsets.top ?? 0)//targetView.convert(targetView.bounds, to: targetView.window)
         return copy
+    }
+    
+    public func setArrowPosition(_ alignment: TailAlignment) -> Self {
+        var copy = self
+        copy._tailAlignment = State(initialValue: alignment)
+        return copy
+    }
+    
+    public func setText(_ text: String) -> Self {
+        var copy = self
+        copy.text = text
+        return copy
+    }
+    
+    private func tooltipXOffset() -> CGFloat {
+        switch tailAlignment {
+        case .left:
+            return targetFrame.minX - Constants.tailImageXOffset
+        case .center:
+            return targetFrame.midX - (tooltipWidth / 2)
+        case .right:
+            return targetFrame.midX - (tooltipWidth + Constants.tailImageXOffset)
+        }
+    }
+    
+    private func tailImageXOffset() -> CGFloat {
+        switch tailAlignment {
+        case .left:
+            return -Constants.tailImageXOffset//Constants.tailImageWidth / 2
+        case .center:
+            return 0
+        case .right:
+            return Constants.tailImageXOffset
+        }
+    }
+}
+
+private struct TooltipSizeKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
+private extension ToolTipView.TailAlignment {
+    func alignment() -> Alignment {
+        switch self {
+        case .left: return .topLeading
+        case .center: return .top
+        case .right: return .topTrailing
+        }
     }
 }
 

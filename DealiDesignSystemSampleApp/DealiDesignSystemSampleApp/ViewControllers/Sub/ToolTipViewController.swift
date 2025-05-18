@@ -133,6 +133,8 @@ final class ToolTipViewController: UIViewController {
         if isSwiftUI {
             ToolTipView()
                 .setTargetFrame(self.toolTipSuperView)
+                .setArrowPosition(.left)
+                .setText("Top Right")
                 .show(self)
         } else {
             DealiToolTip.show(

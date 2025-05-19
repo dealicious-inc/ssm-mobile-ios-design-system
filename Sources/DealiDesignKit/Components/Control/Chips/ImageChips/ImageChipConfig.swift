@@ -22,7 +22,7 @@ class ImageChipConfig: ChipConfigurable {
             self.titleFont = self.size.titleFont.systemFont
         case .selected:
             self.titleFont = self.size.titleFont.makeBolder()
-        }
+       }
     }
     
     var status: DealiChipStatus = .normal {

@@ -15,6 +15,7 @@ import RxCocoa
  설명: UI Elements - SearchInput
  */
 
+@MainActor
 public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
     func clear()

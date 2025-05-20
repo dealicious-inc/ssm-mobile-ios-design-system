@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct DealiCharacterOptions: OptionSet, CaseIterable, Hashable {
-    public static var allCases: [DealiCharacterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
+public struct DealiCharacterOptions: OptionSet, CaseIterable, Hashable, Sendable {
+    public static let allCases: [DealiCharacterOptions] = [.alphabet, .numeric, .korean, .japanese, .specialCharacter]
     
     public var rawValue: Int
     
@@ -16,7 +16,7 @@ public struct DealiCharacterOptions: OptionSet, CaseIterable, Hashable {
         self.rawValue = rawValue
     }
     
-    public static var alphabet = DealiCharacterOptions(rawValue: 1<<0)
+    public static let alphabet = DealiCharacterOptions(rawValue: 1<<0)
     public static let numeric = DealiCharacterOptions(rawValue: 1<<1)
     public static let korean = DealiCharacterOptions(rawValue: 1<<2)
     public static let japanese = DealiCharacterOptions(rawValue: 1<<3)

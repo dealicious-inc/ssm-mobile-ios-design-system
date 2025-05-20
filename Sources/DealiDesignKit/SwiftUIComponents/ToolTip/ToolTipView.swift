@@ -56,8 +56,8 @@ public struct ToolTipView: View {
                     }
                 )
                 .offset(
-                    x: tooltipXOffset(),//targetFrame.midX - (tooltipWidth + Constants.tailImageXOffset),
-                    y: targetFrame.maxY + Constants.tailImageHeight//targetFrame.maxY + Constants.tailImageYOffset - (tooltipHeight / 2)
+                    x: tooltipXOffset(),
+                    y: targetFrame.maxY + Constants.tailImageHeight
                 )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -70,7 +70,6 @@ public struct ToolTipView: View {
     }
     
     private var tooltipText: some View {
-//                Text("최근의 상품 찜수 등의 정보를\n종합하여 지금 보고 계신 매장의\n오늘 인기 있는 상품을 알려드려요")
         Text(text)
             .font(Font(UIFont.b3sb13))
             .foregroundColor(.white)
@@ -95,7 +94,6 @@ public struct ToolTipView: View {
             .resizable()
             .frame(width: Constants.tailImageWidth, height: Constants.tailImageHeight)
             .scaleEffect(x: 1, y: -1)
-//            .offset(x: Constants.tailImageXOffset, y: Constants.tailImageYOffset)
             .offset(x: tailImageXOffset(), y: Constants.tailImageYOffset)
     }
     
@@ -153,18 +151,18 @@ public struct ToolTipView: View {
     private func tooltipXOffset() -> CGFloat {
         switch tailAlignment {
         case .left:
-            return targetFrame.minX - Constants.tailImageXOffset
+            return targetFrame.midX - (tooltipWidth / 2) - Constants.tailImageXOffset
         case .center:
             return targetFrame.midX - (tooltipWidth / 2)
         case .right:
-            return targetFrame.midX - (tooltipWidth + Constants.tailImageXOffset)
+            return targetFrame.midX - (tooltipWidth / 2) + Constants.tailImageXOffset
         }
     }
     
     private func tailImageXOffset() -> CGFloat {
         switch tailAlignment {
         case .left:
-            return -Constants.tailImageXOffset//Constants.tailImageWidth / 2
+            return -Constants.tailImageXOffset
         case .center:
             return 0
         case .right:

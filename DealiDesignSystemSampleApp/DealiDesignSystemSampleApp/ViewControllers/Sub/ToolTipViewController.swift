@@ -99,41 +99,57 @@ final class ToolTipViewController: UIViewController {
     }
     
     @objc func topLeftButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .topLeft,
-            text: "Top Left",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
-                $0.centerX.equalToSuperview()
-            },
-            toolTipAction: {
-                print("Top Left ToolTip Action")
-            }
-        )
+        if isSwiftUI {
+            ToolTipView()
+                .setTargetFrame(self.toolTipSuperView)
+                .setArrowPosition(.left)
+                .setText("Top Left")
+                .show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .topLeft,
+                text: "Top Left",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
+                    $0.centerX.equalToSuperview()
+                },
+                toolTipAction: {
+                    print("Top Left ToolTip Action")
+                }
+            )
+        }
     }
     
     @objc func topCenterButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .topCenter,
-            text: "Top Center",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        if isSwiftUI {
+            ToolTipView()
+                .setTargetFrame(self.toolTipSuperView)
+                .setArrowPosition(.center)
+                .setText("Top Center")
+                .show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .topCenter,
+                text: "Top Center",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
+                    $0.centerX.equalToSuperview()
+                }
+            )
+        }
     }
     
     @objc func topRightButtonPressed(_ sender: UIButton) {
         if isSwiftUI {
             ToolTipView()
                 .setTargetFrame(self.toolTipSuperView)
-                .setArrowPosition(.left)
+                .setArrowPosition(.right)
                 .setText("Top Right")
                 .show(self)
         } else {

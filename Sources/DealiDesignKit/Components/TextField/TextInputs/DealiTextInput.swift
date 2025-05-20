@@ -1,5 +1,5 @@
 //
-//  DealiTextInput_v2.swift
+//  DealiTextInput.swift
 //
 //
 //  Created by hoji on 2023/11/01.
@@ -11,13 +11,10 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-open class DealiTextInput_v2: UIView, DealiTextField {
+
+open class DealiTextInput: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
-    
-    /// 값을 직접 setter 에서 할당 시 valueChanged 액션을 트리거할지 여부. default는 true
-    public var sendValuedChagedActionInSetter: Bool = true
-
     
     // MARK: - PUBLIC
     public init() {
@@ -99,20 +96,26 @@ open class DealiTextInput_v2: UIView, DealiTextField {
         } set {
             if self.textField.text != newValue {
                 self.textField.text = newValue
-                
-                guard inputStatus != .readOnly && inputStatus != .disabled else { return }
-                
-                if self.sendValuedChagedActionInSetter {
-                    self.textField.sendActions(for: .valueChanged)
-                    
-                    if self.inputStatus != .focusIn {
-                        self.textField.sendActions(for: .editingDidEnd)
-                    }
-                }
-                
             }
         }
     }
+    
+    /// text 를 할당하고 `editingChanged`  호출하고 싶을 때 사용
+    /// - Parameter text: 넣고자 하는 Text
+    public func initText(_ text: String? = nil) {
+        self.text = text
+        self.sendEditingEvents()
+    }
+    
+    private func sendEditingEvents() {
+        guard inputStatus != .readOnly && inputStatus != .disabled else { return }
+        self.textField.sendActions(for: .editingChanged)
+        
+        if self.inputStatus != .focusIn {
+            self.textField.sendActions(for: .editingDidEnd)
+        }
+    }
+    
     public var font: UIFont = .b2r14 {
         didSet {
             self.textField.font = self.font
@@ -220,31 +223,6 @@ open class DealiTextInput_v2: UIView, DealiTextField {
                 $0.centerY.equalToSuperview()
             }
         }
-    }
-    
-    // MARK:  Reactive Event Stream
-    /// 포커스 아웃 이벤트 모두 담은 Driver
-    @available(*, deprecated, renamed: "rx.editingDidFinish")
-    public var textFieldDidEndEditing: Driver<Bool>!
-    /// return, next 키 등 눌렀을 때 포커스 조정 등의 처리를 위한 Driver
-    @available(*, deprecated, renamed: "rx.editingDidEndOnExit")
-    public var editingDidEndOnExit: Driver<Void>!
-    @available(*, deprecated, renamed: "rx.editingDidEnd")
-    public var editingDidEnd: Driver<Void>!
-    /// 입력 시마다 불리는 stream
-    @available(*, deprecated, renamed: "rx.textEditingControlProperty")
-    public var changedTextControlProperty: ControlProperty<String?> {
-        return self.textField.rx.controlProperty(
-            editingEvents: [.editingChanged, .valueChanged],
-            getter: { textField in
-                textField.text
-            },
-            setter: { textField, value in
-                if self.textField.text != value {
-                    self.textField.text = value
-                }
-            }
-        )
     }
     
     // MARK: Keyboard, Resonponder
@@ -397,6 +375,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
             .bind(with: self) { owner, _ in
                 owner.text = nil
                 owner.clearButton.isHidden = true
+                owner.sendEditingEvents()
             }
             .disposed(by: self.disposeBag)
         
@@ -412,7 +391,7 @@ open class DealiTextInput_v2: UIView, DealiTextField {
 }
 
 // MARK: - UITextFieldDelegate
-extension DealiTextInput_v2: UITextFieldDelegate {
+extension DealiTextInput: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard self.textInputFormat == .price else { return true }
         
@@ -438,7 +417,7 @@ extension DealiTextInput_v2: UITextFieldDelegate {
 }
 
 // MARK: - UI Configuration
-extension DealiTextInput_v2: DealiTextFieldConfig {
+extension DealiTextInput: DealiTextFieldConfig {
     func setUI() {
         self.do {
             $0.backgroundColor = .primary04

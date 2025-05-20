@@ -14,6 +14,8 @@ public extension UIColor {
     static var primary03: UIColor { PrimaryColor.primary03.uiColor() }
     static var primary04: UIColor { PrimaryColor.primary04.uiColor() }
     static var primary05: UIColor { PrimaryColor.primary05.uiColor() }
+    static var primary06: UIColor { PrimaryColor.primary06.uiColor() }
+    static var primary07: UIColor { PrimaryColor.primary07.uiColor() }
     
     static var primaryGradient: [UIColor] { PrimaryGradient.gradient.colors }
 }

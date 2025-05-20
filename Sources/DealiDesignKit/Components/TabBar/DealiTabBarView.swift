@@ -36,6 +36,7 @@ public class DealiTabBar {
     }
 }
 
+@MainActor
 @objc public protocol DealiTabBarViewDelegate {
     @objc func didSelectTabBar(_ tabBarView: DealiTabBarView, selectedIndex index: Int, showScrollAnimation animation: Bool)
 }

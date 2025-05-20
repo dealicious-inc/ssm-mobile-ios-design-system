@@ -10,7 +10,7 @@ import Foundation
 
 typealias ActionClosure = () -> Void
 
-final class ActionManager {
+final class ActionManager: Sendable {
     
     static let shared = ActionManager()
     private init() { }

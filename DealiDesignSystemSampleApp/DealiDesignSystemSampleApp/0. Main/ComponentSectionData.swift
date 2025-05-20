@@ -62,6 +62,7 @@ enum ActionType: Hashable {
 }
 
 extension ItemData {
+    @MainActor
     var nextVC: UIViewController {
         switch self.type {
         case .color:

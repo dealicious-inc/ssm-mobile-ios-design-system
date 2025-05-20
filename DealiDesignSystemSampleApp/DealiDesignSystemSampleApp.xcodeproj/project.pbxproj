@@ -433,7 +433,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */,
-				4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,

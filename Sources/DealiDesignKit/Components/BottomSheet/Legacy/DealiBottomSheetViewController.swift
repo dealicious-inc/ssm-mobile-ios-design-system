@@ -12,6 +12,7 @@ import RxCocoa
 /**
  설명: 버텀시트 디자인
  */
+@available(*, deprecated, message: "DealiBottomSheetBaseViewController를 사용해주세요.")
 open class DealiBottomSheetViewController: UIViewController {
     
     /// 우상단 닫기 버튼. default 는 미노출.

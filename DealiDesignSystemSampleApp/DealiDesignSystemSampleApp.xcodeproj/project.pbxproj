@@ -13,13 +13,10 @@
 		041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041ABC0B2A175E19001772F3 /* ColorViewController.swift */; };
 		042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8A82A14C7D500370706 /* AppDelegate.swift */; };
 		042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AA2A14C7D500370706 /* SceneDelegate.swift */; };
-		042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AC2A14C7D500370706 /* MainViewController.swift */; };
 		042EA8B22A14C7D700370706 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B12A14C7D700370706 /* Assets.xcassets */; };
 		042EA8B52A14C7D700370706 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */; };
-		042EA8C12A15AD5200370706 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8C02A15AD5200370706 /* MainView.swift */; };
 		047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D08462D23C156003EA0C0 /* ToolTipViewController.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
-		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390D485A2C88456B00C30C0E /* FontComponentViewController.swift */; };
 		392C389E2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */; };
 		392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */; };
@@ -35,10 +32,17 @@
 		39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99792CF47D9E007CF381 /* TabBarViewController.swift */; };
 		39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
+		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
+		4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
+		4DA7ED762DA61A3E0029165D /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
+		4DA7ED7F2DA76EF30029165D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED7E2DA76EF30029165D /* MainViewController.swift */; };
+		4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED832DA79F850029165D /* ComponentSectionData.swift */; };
+		4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED862DA7AA390029165D /* ActionManager.swift */; };
+		4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */; };
 		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */; };
@@ -61,14 +65,11 @@
 		042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DealiDesignSystemSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042EA8A82A14C7D500370706 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		042EA8AA2A14C7D500370706 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		042EA8AC2A14C7D500370706 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		042EA8B12A14C7D700370706 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042EA8B42A14C7D700370706 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042EA8B62A14C7D700370706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		042EA8C02A15AD5200370706 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		047D08462D23C156003EA0C0 /* ToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipViewController.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
-		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		390D485A2C88456B00C30C0E /* FontComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontComponentViewController.swift; sourceTree = "<group>"; };
 		392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -84,10 +85,16 @@
 		39AE99792CF47D9E007CF381 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImageViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
+		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
+		4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorItemView.swift; sourceTree = "<group>"; };
+		4DA7ED7E2DA76EF30029165D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		4DA7ED832DA79F850029165D /* ComponentSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSectionData.swift; sourceTree = "<group>"; };
+		4DA7ED862DA7AA390029165D /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
+		4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentCollectionViewCell.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
 		4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorItemView.swift; sourceTree = "<group>"; };
@@ -110,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA7ED762DA61A3E0029165D /* DealiDesignKit in Frameworks */,
 				FC5D882A2D2BB52C008F7133 /* DealiDesignKit in Frameworks */,
 				041ABC062A174598001772F3 /* RxRelay in Frameworks */,
 				041ABC042A174598001772F3 /* RxCocoa in Frameworks */,
@@ -141,10 +149,14 @@
 		042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				04AD45112A15EF1000093BEB /* Others */,
-				04AD45102A15EF0400093BEB /* Views */,
-				04AD450F2A15EEF900093BEB /* ViewControllers */,
+				4DA7ED852DA7AA2E0029165D /* Utils */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
+				FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */,
+				4DA7ED772DA668310029165D /* 0. Main */,
+				4DA7ED782DA668560029165D /* 1. Token */,
+				4DA7ED7B2DA6694A0029165D /* 2. Atom */,
+				4DA7ED792DA668660029165D /* 3. Molecule */,
+				04AD45112A15EF1000093BEB /* Others */,
 			);
 			path = DealiDesignSystemSampleApp;
 			sourceTree = "<group>";
@@ -154,26 +166,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				392C389A2C4654870088D176 /* BottomSheetTest */,
-				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
-				39AE99762CF47D8B007CF381 /* DealiTabBarViewController */,
-				4D1FA9272AFC740000AA510F /* Sub */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		04AD45102A15EF0400093BEB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				042EA8C02A15AD5200370706 /* MainView.swift */,
-				04AD45142A15EF5900093BEB /* TypographyView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		04AD45112A15EF1000093BEB /* Others */ = {
@@ -205,48 +197,115 @@
 			path = DealiTabBarViewController;
 			sourceTree = "<group>";
 		};
-		4D1FA9272AFC740000AA510F /* Sub */ = {
-			isa = PBXGroup;
-			children = (
-				4D584A1C2D1A82A1007BB775 /* Notice */,
-				FC0838852D06C0B70028AE27 /* TextLink */,
-				4DF5ABE82CC25C2300BFB7D6 /* Color */,
-				4DE3261E2CDB611400E67FEC /* ImageChip */,
-				392C38A12C467A540088D176 /* DropdownViewController.swift */,
-				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
-				396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */,
-				FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */,
-				5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */,
-				4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */,
-				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
-				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
-				390D485A2C88456B00C30C0E /* FontComponentViewController.swift */,
-				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
-				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
-				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
-				4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */,
-				39AE99792CF47D9E007CF381 /* TabBarViewController.swift */,
-				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
-				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
-				396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */,
-				4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */,
-				E6C115E42BE4855A00032960 /* IndicatorViewController.swift */,
-				393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */,
-				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
-				3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */,
-				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
-				047D08462D23C156003EA0C0 /* ToolTipViewController.swift */,
-				FC0680712D9FB0AC0076CC09 /* BadgeViewController.swift */,
-			);
-			path = Sub;
-			sourceTree = "<group>";
-		};
 		4D584A1C2D1A82A1007BB775 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
 				4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */,
 			);
 			path = Notice;
+			sourceTree = "<group>";
+		};
+		4DA7ED772DA668310029165D /* 0. Main */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED802DA79DD60029165D /* View */,
+				4DA7ED7E2DA76EF30029165D /* MainViewController.swift */,
+				4DA7ED832DA79F850029165D /* ComponentSectionData.swift */,
+			);
+			path = "0. Main";
+			sourceTree = "<group>";
+		};
+		4DA7ED782DA668560029165D /* 1. Token */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED7A2DA669180029165D /* Typography */,
+				4DF5ABE82CC25C2300BFB7D6 /* Color */,
+			);
+			path = "1. Token";
+			sourceTree = "<group>";
+		};
+		4DA7ED792DA668660029165D /* 3. Molecule */ = {
+			isa = PBXGroup;
+			children = (
+				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
+				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
+				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
+				393D25812BEB615F00A2CC3F /* EmptyComponentViewController.swift */,
+				392C389A2C4654870088D176 /* BottomSheetTest */,
+				39AE99762CF47D8B007CF381 /* DealiTabBarViewController */,
+				4D584A1C2D1A82A1007BB775 /* Notice */,
+				4DA7ED7D2DA669F40029165D /* TabBar */,
+			);
+			path = "3. Molecule";
+			sourceTree = "<group>";
+		};
+		4DA7ED7A2DA669180029165D /* Typography */ = {
+			isa = PBXGroup;
+			children = (
+				04AD45122A15EF4400093BEB /* TypographyViewController.swift */,
+				390D485A2C88456B00C30C0E /* FontComponentViewController.swift */,
+			);
+			path = Typography;
+			sourceTree = "<group>";
+		};
+		4DA7ED7B2DA6694A0029165D /* 2. Atom */ = {
+			isa = PBXGroup;
+			children = (
+				3990E48E2CC639C3007C2D9E /* AccordionComponentViewController.swift */,
+				4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */,
+				396EF4BB2BD8F129006CEF43 /* CheckComponentViewController.swift */,
+				5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */,
+				392C38A12C467A540088D176 /* DropdownViewController.swift */,
+				E6C115E42BE4855A00032960 /* IndicatorViewController.swift */,
+				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
+				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
+				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
+				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
+				4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */,
+				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
+				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
+				4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */,
+				396EF4BF2BDA04B8006CEF43 /* TextInputViewController.swift */,
+				047D08462D23C156003EA0C0 /* ToolTipViewController.swift */,
+				4DA7ED7C2DA669AF0029165D /* Badge */,
+				4DE3261E2CDB611400E67FEC /* ImageChip */,
+				FC0838852D06C0B70028AE27 /* TextLink */,
+			);
+			path = "2. Atom";
+			sourceTree = "<group>";
+		};
+		4DA7ED7C2DA669AF0029165D /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				FC0680712D9FB0AC0076CC09 /* BadgeViewController.swift */,
+			);
+			path = Badge;
+			sourceTree = "<group>";
+		};
+		4DA7ED7D2DA669F40029165D /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				39AE99792CF47D9E007CF381 /* TabBarViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		4DA7ED802DA79DD60029165D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */,
+				4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */,
+				4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4DA7ED852DA7AA2E0029165D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED862DA7AA390029165D /* ActionManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		4DE3261E2CDB611400E67FEC /* ImageChip */ = {
@@ -373,33 +432,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042EA8AD2A14C7D500370706 /* MainViewController.swift in Sources */,
 				392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */,
-				4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
+				4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,
 				390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */,
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
-				042EA8C12A15AD5200370706 /* MainView.swift in Sources */,
 				3990E48D2CC61E90007C2D9E /* LabeledTextComponentViewController.swift in Sources */,
 				FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */,
 				392C38A22C467A540088D176 /* DropdownViewController.swift in Sources */,
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
+				4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */,
+				4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
+				4DA7ED7F2DA76EF30029165D /* MainViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
+				4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
-				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				FC0680722D9FB0AC0076CC09 /* BadgeViewController.swift in Sources */,
 				4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */,
 				4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */,
+				4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */,
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
@@ -571,6 +632,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.deali.DealiDesignSystemSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -599,6 +661,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.deali.DealiDesignSystemSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

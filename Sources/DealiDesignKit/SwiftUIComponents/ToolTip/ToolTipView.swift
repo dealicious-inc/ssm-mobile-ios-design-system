@@ -13,26 +13,34 @@ public struct ToolTipView: View {
     /// For Full SwiftUI Base
     @Binding var isPresented: Bool
     
-    @State private var opacity = 0.0
-    @State private var tooltipWidth: CGFloat = 0
-    @State private var tooltipHeight: CGFloat = 0
-    
     public enum TailAlignment {
-        case left
-        case center
-        case right
+        case topLeft
+        case bottomLeft
+        case topCenter
+        case bottomCenter
+        case topRight
+        case bottomRight
+    }
+    
+    public enum ToolTipColor {
+        case blue
+        case white
     }
     
     private enum Constants {
         static let tailImageWidth: CGFloat = 12
         static let tailImageHeight: CGFloat = 6
         static let tailImageXOffset: CGFloat = -21
-        static let tailImageYOffset: CGFloat = -6
     }
     
+    @State private var opacity = 0.0
+    @State private var tooltipWidth: CGFloat = 0
+    @State private var tooltipHeight: CGFloat = 0
+    private var arrowPosition: TailAlignment = .topLeft
     private var targetFrame: CGRect = .zero
-    @State private var tailAlignment: TailAlignment = .right
     private var text: String = ""
+    private var color: ToolTipColor = .blue
+    // padding
     
     private let animateDuration: CGFloat = 0.2
     public var presentAnimation: Animation {
@@ -57,7 +65,7 @@ public struct ToolTipView: View {
                 )
                 .offset(
                     x: tooltipXOffset(),
-                    y: targetFrame.maxY + Constants.tailImageHeight
+                    y: tooltipYOffset()
                 )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -72,51 +80,55 @@ public struct ToolTipView: View {
     private var tooltipText: some View {
         Text(text)
             .font(Font(UIFont.b3sb13))
-            .foregroundColor(.white)
+            .foregroundColor(color.title())
             .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 6.0)
-                    .fill(Color(UIColor.secondary01))
+                    .fill(color.background())
             )
             .overlay(
                 tailImage,
-                alignment: tailAlignment.alignment()
+                alignment: arrowPosition.alignment()
             )
+    }
+    
+    private var tailImage: some View {
+        Image("img_tailanchor", bundle: .module)
+            .resizable()
+            .frame(width: Constants.tailImageWidth, height: Constants.tailImageHeight)
+            .scaleEffect(x: 1, y: tailImageYScale())
+            .offset(x: tailImageXOffset(), y: tailImageYOffset())
     }
     
     public init(isPresented: Binding<Bool> = .constant(true)) {
         self._isPresented = isPresented
     }
-    
-    @ViewBuilder
-    private var tailImage: some View {
-        Image("img_tailanchor", bundle: .module)
-            .resizable()
-            .frame(width: Constants.tailImageWidth, height: Constants.tailImageHeight)
-            .scaleEffect(x: 1, y: -1)
-            .offset(x: tailImageXOffset(), y: Constants.tailImageYOffset)
+}
+
+extension ToolTipView {
+    public func targetFrame(_ targetView: UIView) -> Self {
+        var copy = self
+        copy.targetFrame = targetView.frame
+        copy.targetFrame.origin.y -= (targetView.window?.safeAreaInsets.top ?? 0)
+        return copy
     }
     
-    private func viewAppear() {
-        withAnimation(presentAnimation) {
-            opacity = 1.0
-        }
+    public func arrowPosition(_ alignment: TailAlignment) -> Self {
+        var copy = self
+        copy.arrowPosition = alignment
+        return copy
     }
     
-    private func viewDismiss() {
-        withAnimation(dismissAnimation) {
-            opacity = 0.0
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
-//            if viewModel.isFullSwiftUI {
-//                // NavigationLink를 사용하지 않은 SwiftUI View에서 Alert노출 시, 하단 View가 함께 dismiss되어서 isPresented를 사용.
-//                isPresented = false
-//            } else {
-                // UIKit에서는 하위 뷰 dismiss 처리
-                dismiss()
-//            }
-        }
+    public func text(_ text: String) -> Self {
+        var copy = self
+        copy.text = text
+        return copy
+    }
+    
+    public func color(_ color: ToolTipColor) -> Self {
+        var copy = self
+        copy.color = color
+        return copy
     }
     
     public func show(_ sourceViewController: UIViewController) {
@@ -128,45 +140,67 @@ public struct ToolTipView: View {
         
         sourceViewController.present(hostingViewController, animated: false)
     }
-    
-    public func setTargetFrame(_ targetView: UIView) -> Self {
-        var copy = self
-        copy.targetFrame = targetView.frame
-        copy.targetFrame.origin.y -= (targetView.window?.safeAreaInsets.top ?? 0)//targetView.convert(targetView.bounds, to: targetView.window)
-        return copy
+}
+
+extension ToolTipView {
+    private func viewAppear() {
+        withAnimation(presentAnimation) { opacity = 1.0 }
     }
     
-    public func setArrowPosition(_ alignment: TailAlignment) -> Self {
-        var copy = self
-        copy._tailAlignment = State(initialValue: alignment)
-        return copy
-    }
-    
-    public func setText(_ text: String) -> Self {
-        var copy = self
-        copy.text = text
-        return copy
+    private func viewDismiss() {
+        withAnimation(dismissAnimation) { opacity = 0.0 }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
+            dismiss()
+        }
     }
     
     private func tooltipXOffset() -> CGFloat {
-        switch tailAlignment {
-        case .left:
+        switch arrowPosition {
+        case .topLeft, .bottomLeft:
             return targetFrame.midX - (tooltipWidth / 2) - Constants.tailImageXOffset
-        case .center:
+        case .topCenter, .bottomCenter:
             return targetFrame.midX - (tooltipWidth / 2)
-        case .right:
+        case .topRight, .bottomRight:
             return targetFrame.midX - (tooltipWidth / 2) + Constants.tailImageXOffset
         }
     }
     
+    private func tooltipYOffset() -> CGFloat {
+        switch arrowPosition {
+        case .topLeft, .topCenter, .topRight:
+            return targetFrame.maxY + Constants.tailImageHeight
+        case .bottomLeft, .bottomCenter, .bottomRight:
+            return targetFrame.minY - Constants.tailImageHeight - tooltipHeight
+        }
+    }
+    
     private func tailImageXOffset() -> CGFloat {
-        switch tailAlignment {
-        case .left:
+        switch arrowPosition {
+        case .topLeft, .bottomLeft:
             return -Constants.tailImageXOffset
-        case .center:
+        case .topCenter, .bottomCenter:
             return 0
-        case .right:
+        case .topRight, .bottomRight:
             return Constants.tailImageXOffset
+        }
+    }
+    
+    private func tailImageYOffset() -> CGFloat {
+        switch arrowPosition {
+        case .topLeft, .topCenter, .topRight:
+            return -Constants.tailImageHeight
+        case .bottomLeft, .bottomCenter, .bottomRight:
+            return Constants.tailImageHeight
+        }
+    }
+    
+    private func tailImageYScale() -> CGFloat {
+        switch arrowPosition {
+        case .topLeft, .topCenter, .topRight:
+            return -1
+        case .bottomLeft, .bottomCenter, .bottomRight:
+            return 1
         }
     }
 }
@@ -181,9 +215,28 @@ private struct TooltipSizeKey: PreferenceKey {
 private extension ToolTipView.TailAlignment {
     func alignment() -> Alignment {
         switch self {
-        case .left: return .topLeading
-        case .center: return .top
-        case .right: return .topTrailing
+        case .topLeft: return .topLeading
+        case .bottomLeft: return.bottomLeading
+        case .topCenter: return .top
+        case .bottomCenter: return .bottom
+        case .topRight: return .topTrailing
+        case .bottomRight: return .bottomTrailing
+        }
+    }
+}
+
+private extension ToolTipView.ToolTipColor {
+    func background() -> Color {
+        switch self {
+        case .blue: return Color(uiColor: .secondary01)
+        case .white: return Color(uiColor: .primary04)
+        }
+    }
+    
+    func title() -> Color {
+        switch self {
+        case .blue: return Color(uiColor: .primary04)
+        case .white: return Color(uiColor: .g100)
         }
     }
 }

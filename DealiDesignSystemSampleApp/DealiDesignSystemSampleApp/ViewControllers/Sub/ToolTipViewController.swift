@@ -28,7 +28,7 @@ final class ToolTipViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "ToolTip Component"
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .g10
     }
     
     let toolTipSuperView = UIView()
@@ -101,9 +101,9 @@ final class ToolTipViewController: UIViewController {
     @objc func topLeftButtonPressed(_ sender: UIButton) {
         if isSwiftUI {
             ToolTipView()
-                .setTargetFrame(self.toolTipSuperView)
-                .setArrowPosition(.left)
-                .setText("Top Left")
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.topLeft)
+                .text("Top Left")
                 .show(self)
         } else {
             DealiToolTip.show(
@@ -126,9 +126,9 @@ final class ToolTipViewController: UIViewController {
     @objc func topCenterButtonPressed(_ sender: UIButton) {
         if isSwiftUI {
             ToolTipView()
-                .setTargetFrame(self.toolTipSuperView)
-                .setArrowPosition(.center)
-                .setText("Top Center")
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.topCenter)
+                .text("Top Center")
                 .show(self)
         } else {
             DealiToolTip.show(
@@ -148,9 +148,9 @@ final class ToolTipViewController: UIViewController {
     @objc func topRightButtonPressed(_ sender: UIButton) {
         if isSwiftUI {
             ToolTipView()
-                .setTargetFrame(self.toolTipSuperView)
-                .setArrowPosition(.right)
-                .setText("Top Right")
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.topRight)
+                .text("Top Right")
                 .show(self)
         } else {
             DealiToolTip.show(
@@ -168,44 +168,71 @@ final class ToolTipViewController: UIViewController {
     }
     
     @objc func bottomLeftButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .bottomLeft,
-            text: "Bottom Left",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        if isSwiftUI {
+            ToolTipView()
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.bottomLeft)
+                .text("Bottom Left")
+                .color(.white)
+                .show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .bottomLeft,
+                text: "Bottom Left",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
+                    $0.centerX.equalToSuperview()
+                }
+            )
+        }
     }
     
     @objc func bottomCenterButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .bottomCenter,
-            text: "Bottom Center",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        if isSwiftUI {
+            ToolTipView()
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.bottomCenter)
+                .text("Bottom Center")
+                .color(.white)
+                .show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .bottomCenter,
+                text: "Bottom Center",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
+                    $0.centerX.equalToSuperview()
+                }
+            )
+        }
     }
     
     @objc func bottomRightButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .bottomRight,
-            text: "Bottom Right",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        if isSwiftUI {
+            ToolTipView()
+                .targetFrame(self.toolTipSuperView)
+                .arrowPosition(.bottomRight)
+                .text("Bottom Right")
+                .color(.white)
+                .show(self)
+        } else {
+            DealiToolTip.show(
+                arrowPosition: .bottomRight,
+                text: "Bottom Right",
+                superView: self.view,
+                outsideView: self.view,
+                toolTipCondition: { return true },
+                toolTipLayout: {
+                    $0.bottom.equalTo(self.toolTipSuperView.snp.top).offset(-2.0)
+                    $0.centerX.equalToSuperview()
+                }
+            )
+        }
     }
 }

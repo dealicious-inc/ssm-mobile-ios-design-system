@@ -19,8 +19,6 @@ protocol ControlConfigurable {
     
     var style: Style { get }
     var size: Size { get }
-    
-    func updateAppearance()
 }
 
 protocol ControlStyleProtocol {
@@ -32,12 +30,8 @@ protocol ControlSizeProtocol {
     var height: CGFloat { get }
 }
 
-protocol ControlColorProtocol {
-    
-}
-
 protocol ControlColorPrivider {
     associatedtype Status
-    associatedtype Color = ControlColorProtocol
+    associatedtype Color
     func getColor(for status: Status) -> Color
 }

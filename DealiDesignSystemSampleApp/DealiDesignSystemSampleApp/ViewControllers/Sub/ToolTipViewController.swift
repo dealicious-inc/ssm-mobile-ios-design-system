@@ -28,7 +28,7 @@ final class ToolTipViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "ToolTip Component"
-        self.view.backgroundColor = .g10
+        self.view.backgroundColor = .g20
     }
     
     let toolTipSuperView = UIView()
@@ -151,6 +151,7 @@ final class ToolTipViewController: UIViewController {
                 .targetFrame(self.toolTipSuperView)
                 .arrowPosition(.topRight)
                 .text("Top Right")
+                .padding(5.0)
                 .show(self)
         } else {
             DealiToolTip.show(
@@ -220,6 +221,7 @@ final class ToolTipViewController: UIViewController {
                 .arrowPosition(.bottomRight)
                 .text("Bottom Right")
                 .color(.white)
+                .padding(5.0)
                 .show(self)
         } else {
             DealiToolTip.show(

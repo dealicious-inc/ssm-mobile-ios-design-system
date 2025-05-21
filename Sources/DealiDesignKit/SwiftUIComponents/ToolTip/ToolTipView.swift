@@ -40,7 +40,7 @@ public struct ToolTipView: View {
     private var targetFrame: CGRect = .zero
     private var text: String = ""
     private var color: ToolTipColor = .blue
-    // padding
+    private var padding: CGFloat = 0.0
     
     private let animateDuration: CGFloat = 0.2
     public var presentAnimation: Animation {
@@ -95,8 +95,10 @@ public struct ToolTipView: View {
     private var tailImage: some View {
         Image("img_tailanchor", bundle: .module)
             .resizable()
+            .renderingMode(.template)
             .frame(width: Constants.tailImageWidth, height: Constants.tailImageHeight)
             .scaleEffect(x: 1, y: tailImageYScale())
+            .foregroundColor(color.background())
             .offset(x: tailImageXOffset(), y: tailImageYOffset())
     }
     
@@ -128,6 +130,12 @@ extension ToolTipView {
     public func color(_ color: ToolTipColor) -> Self {
         var copy = self
         copy.color = color
+        return copy
+    }
+    
+    public func padding(_ padding: CGFloat) -> Self {
+        var copy = self
+        copy.padding = padding
         return copy
     }
     
@@ -169,9 +177,9 @@ extension ToolTipView {
     private func tooltipYOffset() -> CGFloat {
         switch arrowPosition {
         case .topLeft, .topCenter, .topRight:
-            return targetFrame.maxY + Constants.tailImageHeight
+            return targetFrame.maxY + Constants.tailImageHeight + padding
         case .bottomLeft, .bottomCenter, .bottomRight:
-            return targetFrame.minY - Constants.tailImageHeight - tooltipHeight
+            return targetFrame.minY - Constants.tailImageHeight - tooltipHeight - padding
         }
     }
     

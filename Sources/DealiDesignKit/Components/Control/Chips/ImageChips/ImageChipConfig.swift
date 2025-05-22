@@ -83,7 +83,7 @@ struct ChipSize: ChipSizeProtoocol {
     var titleFont: FontProvider
 }
 
-struct ChipColors: ControlColorPrivider {
+struct ChipColors: ColorProvider {
     typealias Status = DealiChipStatus
     typealias Color = ChipColor
     
@@ -112,7 +112,7 @@ struct ChipColors: ControlColorPrivider {
 struct ChipStyle: ChipStyleProtocol {
     
     var radiusProvider: any RadiusProvider
-    var colorProvider: ColorProvider
+    var colorProvider: any ColorProvider
 }
 
 struct ChipColor: ChipColorProtocol {

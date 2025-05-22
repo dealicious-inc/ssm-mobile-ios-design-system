@@ -11,6 +11,11 @@ public enum DealiChipStatus: CaseIterable {
     case normal
     case selected
     case disabled
+    
+    mutating func toggle() {
+        guard self != .disabled else { return }
+        self = self == .selected ? .normal : .selected
+    }
 }
 
 public class DealiChip: UIControl {

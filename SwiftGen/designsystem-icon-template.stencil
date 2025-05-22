@@ -1,0 +1,159 @@
+// swiftlint:disable all
+// Generated using SwiftGen — https://github.com/SwiftGen/SwiftGen
+
+{% if catalogs %}
+{% macro hasValuesBlock assets filter %}
+  {%- for asset in assets -%}
+    {%- if asset.type == filter -%}
+      1
+    {%- elif asset.items -%}
+      {% call hasValuesBlock asset.items filter %}
+    {%- endif -%}
+  {%- endfor -%}
+{% endmacro %}
+{% set enumName %}{{param.enumName|default:"Asset"}}{% endset %}
+{% set imageType %}{{param.imageTypeName|default:"DesignSystemImage"}}{% endset %}
+{% set forceNamespaces %}{{if param.forceProvidesNamespaces|default:"false"}}{% endset %}
+{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{% set hasImage %}{% for catalog in catalogs %}{% call hasValuesBlock catalog.assets "image" %}{% endfor %}{% endset %}
+  import UIKit
+#if canImport(SwiftUI)
+  import SwiftUI
+#endif
+
+// swiftlint:disable superfluous_disable_command file_length implicit_return
+
+// MARK: - Asset Catalogs
+
+{% macro enumBlock assets %}
+  {% call casesBlock assets %}
+  {% if param.allValues %}
+
+  // swiftlint:disable trailing_comma
+  {% set hasItems %}{% call hasValuesBlock assets "image" %}{% endset %}
+  {% if hasItems %}
+  @available(*, deprecated, message: "All values properties are now deprecated")
+  static let allImages: [{{imageType}}] = [
+    {% filter indent:2," ",true %}{% call allValuesBlock assets "image" "" %}{% endfilter %}
+  ]
+  {% endif %}
+  // swiftlint:enable trailing_comma
+  {% endif %}
+{% endmacro %}
+{% macro casesBlock assets %}
+  {% for asset in assets %}
+  {% if asset.type == "image" %}
+  static let {{asset.name|replace:" ","_"|replace:"-","_"|lowerFirstWord|escapeReservedKeywords}} = {{imageType}}(name: "{{asset.value}}")
+  {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
+  {{accessModifier}} enum {{asset.name|escapeReservedKeywords}} {
+    {% filter indent:2," ",true %}{% call casesBlock asset.items %}{% endfilter %}
+  }
+  {% elif asset.items %}
+  {% call casesBlock asset.items %}
+  {% endif %}
+  {% endfor %}
+{% endmacro %}
+{% macro allValuesBlock assets filter prefix %}
+  {% for asset in assets %}
+  {% if asset.type == filter %}
+  {{prefix}}{{asset.name|lowerFirstWord|escapeReservedKeywords}},
+  {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
+  {% set prefix2 %}{{prefix}}{{asset.name|escapeReservedKeywords}}.{% endset %}
+  {% call allValuesBlock asset.items filter prefix2 %}
+  {% elif asset.items %}
+  {% call allValuesBlock asset.items filter prefix %}
+  {% endif %}
+  {% endfor %}
+{% endmacro %}
+// swiftlint:disable identifier_name line_length nesting type_body_length type_name
+{{accessModifier}} enum {{enumName}} {
+  {% if catalogs.count > 1 or param.forceFileNameEnum %}
+  {% for catalog in catalogs %}
+  {{accessModifier}} enum {{catalog.name|escapeReservedKeywords}} {
+    {% if catalog.assets %}
+    {% filter indent:2," ",true %}{% call enumBlock catalog.assets %}{% endfilter %}
+    {% endif %}
+  }
+  {% endfor %}
+  {% else %}
+  {% call enumBlock catalogs.first.assets %}
+  {% endif %}
+}
+// swiftlint:enable identifier_name line_length nesting type_body_length type_name
+
+// MARK: - Implementation Details
+{% if hasImage %}
+
+{{accessModifier}} struct {{imageType}} {
+  {{accessModifier}} fileprivate(set) var name: String
+
+  {{accessModifier}} typealias UIKitImage = UIImage
+
+  {{accessModifier}} var image: UIKitImage {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    let image = UIKitImage(named: name, in: bundle, compatibleWith: nil)
+    guard let result = image else {
+      fatalError("Unable to load image asset named \(name).")
+    }
+    return result
+  }
+
+  {{accessModifier}} func image(compatibleWith traitCollection: UITraitCollection) -> UIKitImage {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    guard let result = UIKitImage(named: name, in: bundle, compatibleWith: traitCollection) else {
+      fatalError("Unable to load image asset named \(name).")
+    }
+    return result
+  }
+
+  #if canImport(SwiftUI)
+  {{accessModifier}} var swiftUIImage: SwiftUI.Image {
+    SwiftUI.Image(asset: self)
+  }
+  #endif
+}
+
+{{accessModifier}} extension {{imageType}}.UIKitImage {
+  convenience init?(asset: {{imageType}}) {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    self.init(named: asset.name, in: bundle, compatibleWith: nil)
+  }
+}
+
+#if canImport(SwiftUI)
+{{accessModifier}} extension SwiftUI.Image {
+  init(asset: {{imageType}}) {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    self.init(asset.name, bundle: bundle)
+  }
+
+  init(asset: {{imageType}}, label: Text) {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    self.init(asset.name, bundle: bundle, label: label)
+  }
+
+  init(decorative asset: {{imageType}}) {
+    let bundle = {{param.bundle|default:"BundleToken.bundle"}}
+    self.init(decorative: asset.name, bundle: bundle)
+  }
+}
+#endif
+{% endif %}
+{% if not param.bundle %}
+
+// swiftlint:disable convenience_type
+private final class BundleToken {
+  static let bundle: Bundle = {
+    #if SWIFT_PACKAGE
+    return Bundle.module
+    #else
+    return Bundle(for: BundleToken.self)
+    #endif
+  }()
+}
+// swiftlint:enable convenience_type
+{% endif %}
+{% else %}
+// No assets found
+{% endif %}
+

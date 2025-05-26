@@ -41,19 +41,22 @@ public struct DealiImageChip<Content: View>: View {
     @ObservedObject var viewModel: DealiImageChipViewModel
     var action: (() -> Void)?
     var content: Content
-    var config: DLImageChipConfig = DLImageChipConfig(
-        size: ImageChipSizeType.large.size,
-        style: ImageStyleType.basic.style
-    )
+    var preset: ImageChipPreset = .imgChipLarge01
+    
+    private var config: DLImageChipConfig {
+        return preset.config
+    }
     
     public init(
         viewModel: DealiImageChipViewModel,
         action: (() -> Void)? = nil,
-        @ViewBuilder content: (() -> Content)
+        @ViewBuilder content: (() -> Content),
+        preset: ImageChipPreset = .imgChipLarge01
     ) {
         self.viewModel = viewModel
         self.action = action
         self.content = content()
+        self.preset = preset
     }
     
     public var body: some View {

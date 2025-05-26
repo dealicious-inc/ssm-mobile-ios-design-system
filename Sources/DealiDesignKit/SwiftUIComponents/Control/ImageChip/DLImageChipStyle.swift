@@ -73,3 +73,29 @@ struct DLImageChipConfig: ChipConfigurable {
     var imageSize: CGSize
     var placeholderInset: CGFloat
 }
+
+public enum ImageChipPreset: CaseIterable {
+    case imgChipLarge01
+    case imgChipMedium01
+    case imgChipSmall01
+    
+    var config: DLImageChipConfig {
+        switch self {
+        case .imgChipLarge01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.large.size,
+                style: ImageStyleType.basic.style
+            )
+        case .imgChipMedium01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.medium.size,
+                style: ImageStyleType.basic.style
+            )
+        case .imgChipSmall01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.small.size,
+                style: ImageStyleType.basic.style
+            )
+        }
+    }
+}

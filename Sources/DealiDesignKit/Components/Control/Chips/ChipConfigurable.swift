@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-protocol ChipConfigurable: ControlConfigurable where Style == any ChipStyleProtocol,
+protocol ChipConfigurable: ControlConfigurable where Variant == any ChipStyleProtocol,
                                                      Size == any ChipSizeProtoocol { }
 
 protocol ChipStyleProtocol: ControlStyleProtocol {

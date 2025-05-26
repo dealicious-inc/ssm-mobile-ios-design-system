@@ -11,26 +11,23 @@ import Foundation
  설명: 버튼, 칩 configure 추상화
  */
 protocol ControlConfigurable {
-    associatedtype Status
-    associatedtype Style = ControlStyleProtocol
+    associatedtype Variant = ControlStyleProtocol
     associatedtype Size = ControlSizeProtocol
-    
-    var status: Status { get set }
-    
-    var style: Style { get }
+        
+    var style: Variant { get }
     var size: Size { get }
 }
 
 protocol ControlStyleProtocol {
-    associatedtype ColorProvider = ControlColorPrivider
-    var colorProvider: ColorProvider { get }
+    associatedtype Provider = ColorPrivider
+    var colorProvider: Provider { get }
 }
 
 protocol ControlSizeProtocol {
     var height: CGFloat { get }
 }
 
-protocol ControlColorPrivider {
+protocol ColorPrivider {
     associatedtype Status
     associatedtype Color
     func getColor(for status: Status) -> Color

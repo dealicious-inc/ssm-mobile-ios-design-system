@@ -11,7 +11,7 @@
 // MARK: - Asset Catalogs
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
-internal enum DealiIcon {
+public enum DealiIcon {
   static let ic_dresses = DesignSystemImage(name: "ic_dresses")
   static let ic_earrings = DesignSystemImage(name: "ic_earrings")
   static let ic_kidsclothes = DesignSystemImage(name: "ic_kidsclothes")
@@ -253,12 +253,12 @@ internal enum DealiIcon {
 
 // MARK: - Implementation Details
 
-internal struct DesignSystemImage {
-  internal fileprivate(set) var name: String
+public struct DesignSystemImage {
+  public fileprivate(set) var name: String
 
-  internal typealias UIKitImage = UIImage
+  public typealias UIKitImage = UIImage
 
-  internal var image: UIKitImage {
+  public var image: UIKitImage {
     let bundle = BundleToken.bundle
     let image = UIKitImage(named: name, in: bundle, compatibleWith: nil)
     guard let result = image else {
@@ -267,7 +267,7 @@ internal struct DesignSystemImage {
     return result
   }
 
-  internal func image(compatibleWith traitCollection: UITraitCollection) -> UIKitImage {
+  public func image(compatibleWith traitCollection: UITraitCollection) -> UIKitImage {
     let bundle = BundleToken.bundle
     guard let result = UIKitImage(named: name, in: bundle, compatibleWith: traitCollection) else {
       fatalError("Unable to load image asset named \(name).")
@@ -276,13 +276,13 @@ internal struct DesignSystemImage {
   }
 
   #if canImport(SwiftUI)
-  internal var swiftUIImage: SwiftUI.Image {
+  public var swiftUIImage: SwiftUI.Image {
     SwiftUI.Image(asset: self)
   }
   #endif
 }
 
-internal extension DesignSystemImage.UIKitImage {
+public extension DesignSystemImage.UIKitImage {
   convenience init?(asset: DesignSystemImage) {
     let bundle = BundleToken.bundle
     self.init(named: asset.name, in: bundle, compatibleWith: nil)
@@ -290,7 +290,7 @@ internal extension DesignSystemImage.UIKitImage {
 }
 
 #if canImport(SwiftUI)
-internal extension SwiftUI.Image {
+public extension SwiftUI.Image {
   init(asset: DesignSystemImage) {
     let bundle = BundleToken.bundle
     self.init(asset.name, bundle: bundle)

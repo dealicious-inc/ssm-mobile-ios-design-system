@@ -14,7 +14,7 @@
 {% set enumName %}{{param.enumName|default:"Asset"}}{% endset %}
 {% set imageType %}{{param.imageTypeName|default:"DesignSystemImage"}}{% endset %}
 {% set forceNamespaces %}{{if param.forceProvidesNamespaces|default:"false"}}{% endset %}
-{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{% set accessModifier %}public{% endset %}
 {% set hasImage %}{% for catalog in catalogs %}{% call hasValuesBlock catalog.assets "image" %}{% endfor %}{% endset %}
   import UIKit
 #if canImport(SwiftUI)

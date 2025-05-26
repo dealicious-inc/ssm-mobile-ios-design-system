@@ -463,16 +463,13 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
             var uiModel = DealiBottomSheetSingleSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
                 
                 if self.shouldDismissWhenSelect {
-                    self.hideBottomSheet {
-                        self.selectAction?([indexPath.item])
-                    }
-                } else {
-                    self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.hideBottomSheet()
                 }
             }
             
@@ -503,16 +500,13 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
             var uiModel = DealiBottomSheetIconWithTextCellUIModel.map(optionData: self.optionData[indexPath.item])
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
                 
                 if self.shouldDismissWhenSelect {
-                    self.hideBottomSheet {
-                        self.selectAction?([indexPath.item])
-                    }
-                } else {
-                    self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.hideBottomSheet()
                 }
             }
             
@@ -524,16 +518,13 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
             
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
+                self.selectAction?([indexPath.item])
+                self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
+                self.optionData[indexPath.item].isSelected = true
+                self.collectionView.reloadData()
                 
                 if self.shouldDismissWhenSelect {
-                    self.hideBottomSheet {
-                        self.selectAction?([indexPath.item])
-                    }
-                } else {
-                    self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.hideBottomSheet()
                 }
             }
             cell.configure(with: uiModel)

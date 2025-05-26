@@ -46,7 +46,7 @@ final class ClickableIndicatorView: UIView {
     private let indicatorImageView = UIImageView()
 
     private var indicatorImage: UIImage? {
-        return UIImage.dealiIcon(named: "ic_loading_filled")
+        return UIImage(named: "loading")
     }
     
     var color: UIColor = .white {

@@ -14,7 +14,7 @@
 {% set enumName %}{{param.enumName|default:"Asset"}}{% endset %}
 {% set imageType %}{{param.imageTypeName|default:"DesignSystemImage"}}{% endset %}
 {% set forceNamespaces %}{{param.forceProvidesNamespaces|default:"false"}}{% endset %}
-{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{% set accessModifier %}public{% endset %}
 {% set hasImage %}{% for catalog in catalogs %}{% call hasValuesBlock catalog.assets "image" %}{% endfor %}{% endset %}
   import UIKit
 #if canImport(SwiftUI)
@@ -33,7 +33,7 @@
   {% set hasItems %}{% call hasValuesBlock assets "image" %}{% endset %}
   {% if hasItems %}
   @available(*, deprecated, message: "All values properties are now deprecated")
-  static let allImages: [{{imageType}}] = [
+  {{accessModifier}} static let allImages: [{{imageType}}] = [
     {% filter indent:2," ",true %}{% call allValuesBlock assets "image" "" %}{% endfilter %}
   ]
   {% endif %}
@@ -43,7 +43,7 @@
 {% macro casesBlock assets %}
   {% for asset in assets %}
   {% if asset.type == "image" %}
-  static let {{asset.name|replace:" ","_"|replace:"-","_"|lowerFirstWord|escapeReservedKeywords}} = {{imageType}}(name: "{{asset.value}}")
+  {{accessModifier}} static let {{asset.name|replace:" ","_"|replace:"-","_"|lowerFirstWord|escapeReservedKeywords}} = {{imageType}}(name: "{{asset.value}}")
   {% elif asset.items and ( forceNamespaces == "true" or asset.isNamespaced == "true" ) %}
   {{accessModifier}} enum {{asset.name|escapeReservedKeywords}} {
     {% filter indent:2," ",true %}{% call casesBlock asset.items %}{% endfilter %}

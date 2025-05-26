@@ -43,7 +43,6 @@
 		4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED832DA79F850029165D /* ComponentSectionData.swift */; };
 		4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED862DA7AA390029165D /* ActionManager.swift */; };
 		4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */; };
-		4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */; };
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
@@ -361,6 +360,7 @@
 				042EA8A12A14C7D500370706 /* Sources */,
 				042EA8A22A14C7D500370706 /* Frameworks */,
 				042EA8A32A14C7D500370706 /* Resources */,
+				3B075AEA2DE4411A00433ABF /* SwiftGen Script */,
 			);
 			buildRules = (
 			);
@@ -426,6 +426,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3B075AEA2DE4411A00433ABF /* SwiftGen Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftGen Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Debug configuration에서만 실행\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n    echo \"SwiftGen is skipped for non-Debug builds.\"\n    exit 0\nfi\n\n# Apple Silicon 대응\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n# SwiftGen 설치 여부 확인\nif ! command -v swiftgen &> /dev/null; then\n    echo \"warning: SwiftGen not installed. Install via 'brew install swiftgen'\"\n    exit 1\nfi\n\n# 변경된 Asset 파일 목록 가져오기\nchanged_files=$(git diff HEAD --name-only --diff-filter=ACMRD | grep -E \"\\.xcassets($|/)\")\n\n# 변경된 파일이 없으면 종료\nif [ -z \"$changed_files\" ]; then\n    echo \"No relevant asset files changed.\"\n    exit 0\nfi\n\n# SwiftGen 실행\necho \"Running SwiftGen...\"\nswiftgen config run --config \"${SRCROOT}/../SwiftGen/swiftgen.yml\"\n\n# SwiftGen 실행 결과 확인\nif [ $? -ne 0 ]; then\n    echo \"SwiftGen failed. Please check your configuration.\"\n    exit 1\nelse\n    echo \"SwiftGen ran successfully.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		042EA8A12A14C7D500370706 /* Sources */ = {

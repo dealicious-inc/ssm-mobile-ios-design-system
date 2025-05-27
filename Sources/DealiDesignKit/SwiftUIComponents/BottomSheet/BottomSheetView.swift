@@ -9,10 +9,6 @@ import SwiftUI
 
 public struct BottomSheetView: View {
     @State private var isShowing: Bool = true
-    @State private var dragOffset: CGFloat = 0
-        
-    private let dismissThreshold: CGFloat = 100
-        
     
     public init(isShowing: Bool = true) {
         self.isShowing = isShowing

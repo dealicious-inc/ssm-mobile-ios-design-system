@@ -37,6 +37,13 @@ public struct HostingViewResult: Detachable {
     }
 }
 
+public extension HostingViewResult {
+    func detached(by detatchBag: AnyDetachBag) -> Self {
+        detatchBag.add(self)
+        return self
+    }
+}
+
 public extension View {
     func toUIView(embeddedIn parent: UIViewController) -> HostingViewResult {
         let hostingController = UIHostingController(rootView: self)

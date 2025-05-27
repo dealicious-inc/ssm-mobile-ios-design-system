@@ -75,6 +75,7 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
         self.addComponents(title: "ErrorView", actionSelector: #selector(errorViewButtonPressed))
         self.addComponents(title: "SearchInput", actionSelector: #selector(searchInputButtonPressed))
+        self.addComponents(title: "ImageChip", actionSelector: #selector(imageChipButtonPressed))
 
 
     }
@@ -100,6 +101,11 @@ extension SwiftUIBaseViewController {
     
     @objc func searchInputButtonPressed() {
         self.pushViewController(SearchInputViewController(isSwiftUI: true))
+    }
+    
+    @objc func imageChipButtonPressed() {
+        self.pushViewController(ImageChipViewController(isSwiftUI: true))
+
     }
 }
 

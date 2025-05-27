@@ -14,12 +14,22 @@ public final class DealiImageChipViewModel: ObservableObject {
     @Published var status: DealiChipStatus = .normal
     @Published var iconName: String?
     
+    public var isSelected: Bool {
+        get {
+            return self.status == .selected
+        } set {
+            guard self.status != .disabled else { return }
+            self.status = newValue ? .selected : .normal
+        }
+    }
+    
+    
     var url: URL? {
         guard let urlString = urlString else { return nil }
         return URL(string: urlString)
     }
     
-    init(
+    public init(
         urlString: String?,
         text: String?,
         status: DealiChipStatus = .normal,
@@ -90,6 +100,7 @@ public struct DealiImageChip<Content: View>: View {
             .background(style.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: style.cornerRadius))
         }
+        .disabled(viewModel.status == .disabled)
     }
     
     func imageView(for style: DLImageChipStyle) -> some View {

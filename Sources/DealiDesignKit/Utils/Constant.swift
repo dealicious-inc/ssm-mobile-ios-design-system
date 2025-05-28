@@ -14,3 +14,5 @@ public var safeAreaBottomMargin: CGFloat {
     }
     return 0
 }
+
+public let TEXT_LINK: String = "TextLink"

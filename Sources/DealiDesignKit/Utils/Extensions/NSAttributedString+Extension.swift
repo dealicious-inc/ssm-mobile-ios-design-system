@@ -11,11 +11,13 @@ public struct TextStyleAttributes {
     var text: String
     var font: UIFont?
     var color: UIColor?
+    var underline: Bool
     
-    public init(text: String, font: UIFont? = nil, color: UIColor? = nil) {
+    public init(text: String, font: UIFont? = nil, color: UIColor? = nil, underline: Bool = true) {
         self.text = text
         self.font = font
         self.color = color
+        self.underline = underline
     }
 }
 
@@ -272,5 +274,73 @@ public extension NSMutableAttributedString {
                                                      options: .regularExpression)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         return self.htmlString(htmlString, fontSize: fontSize)
+    }
+    
+    func applyLinkStyle(for linkStyle: TextStyleAttributes) -> NSMutableAttributedString {
+        let source = self.string
+        guard source.isEmpty == false, source.contains(linkStyle.text) else { return self }
+        
+        let range = (source as NSString).range(of: linkStyle.text)
+        
+        // 기존에 적용된 색상 가져오기 (없으면 systemBlue 사용)
+        let existingColor = self.attribute(.foregroundColor, at: range.location, effectiveRange: nil) as? UIColor
+        let resolvedColor = linkStyle.color ?? existingColor ?? UIColor.g100
+        
+        if let font = linkStyle.font {
+            self.addAttribute(.font, value: font, range: range)
+        }
+        
+        self.addAttribute(.foregroundColor, value: resolvedColor, range: range)
+        
+        if linkStyle.underline {
+            self.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+            self.addAttribute(.underlineColor, value: resolvedColor, range: range)
+        }
+        
+        self.addAttribute(.init(TEXT_LINK), value: linkStyle.text, range: range)
+        
+        return self
+    }
+    
+    func applyMultipleLinkStyle(for linkStyleArray: [TextStyleAttributes]) -> NSMutableAttributedString {
+        
+        let source = self.string
+        
+        guard source.isEmpty == false else { return self }
+        
+        for (_, linkStyle) in linkStyleArray.enumerated() {
+            if source.contains(linkStyle.text) {
+                let range = (source as NSString).range(of: linkStyle.text)
+                // 기존에 적용된 색상 가져오기 (없으면 systemBlue 사용)
+                let existingColor = self.attribute(.foregroundColor, at: range.location, effectiveRange: nil) as? UIColor
+                let resolvedColor = linkStyle.color ?? existingColor ?? UIColor.g100
+                
+                if let font = linkStyle.font {
+                    self.addAttribute(.font, value: font, range: range)
+                }
+                
+                self.addAttribute(.foregroundColor, value: resolvedColor, range: range)
+                
+                if linkStyle.underline {
+                    self.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+                    self.addAttribute(.underlineColor, value: linkStyle.color ?? UIColor.systemBlue, range: range)
+                }
+                
+                self.addAttribute(.init(TEXT_LINK), value: linkStyle.text, range: range)
+            }
+        }
+        return self
+    }
+}
+
+public extension NSAttributedString {
+    /// 지정된 인덱스에 해당하는 커스텀 링크 텍스트 반환
+    func linkText(at index: Int, linkKey: NSAttributedString.Key = NSAttributedString.Key(TEXT_LINK)) -> String? {
+        guard index >= 0 && index < self.length else { return nil }
+        let attributes = self.attributes(at: index, effectiveRange: nil)
+        if let linkText = attributes[linkKey] as? String {
+            return linkText
+        }
+        return nil
     }
 }

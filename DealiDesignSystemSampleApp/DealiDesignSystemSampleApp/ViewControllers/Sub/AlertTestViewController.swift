@@ -136,14 +136,6 @@ extension AlertTestViewController {
         
         
         if isSwiftUI {
-            // DealiCheckboxWithText 전환 필요
-//            AlertView()
-//                .addTitle("2버튼 체크박스 Alert")
-//                .addMessage("2버튼 체크박스 Alert 테스트")
-//                .addConfirmButton(title: "확인")
-//                .addCancelButton(title: "취소")
-//                .show(self)
-            
             AlertView(config: .init(title: "2버튼 체크박스 Alert",
                                     message: "2버튼 체크박스 테스트",
                                     checkbox: CheckboxView(label: "기본 상태", viewModel: .init()),

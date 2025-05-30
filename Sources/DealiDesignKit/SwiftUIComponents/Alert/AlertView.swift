@@ -73,14 +73,15 @@ public struct AlertView: View {
     
     public var body: some View {
         ZStack{
-            Color(.b40).opacity(opacity).ignoresSafeArea(.all)
+            Color(.b40)
+                .opacity(opacity)
+                .ignoresSafeArea()
+                .onTapGesture { dismissAlert() }
             
             alertContent
                 .padding(.horizontal, 40)
-                .frame(alignment: .center)
         }
-        .onAppear { viewAppear() }
-        .onTapGesture { dismissAlert() }
+        .onAppear { showAlert() }
     }
     
     @ViewBuilder
@@ -158,7 +159,7 @@ public struct AlertView: View {
 }
 
 extension AlertView {
-    private func viewAppear() {
+    private func showAlert() {
         withAnimation(presentAnimation) {
             opacity = 1.0
         }
@@ -169,7 +170,7 @@ extension AlertView {
             opacity = 0.0
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + animateDuration) {
             if isFullSwiftUI {
                 // NavigationLink를 사용하지 않은 SwiftUI View에서 Alert노출 시, 하단 View가 함께 dismiss되어서 isPresented를 사용.
                 isPresented = false
@@ -177,7 +178,7 @@ extension AlertView {
                 // UIKit에서는 하위 뷰 dismiss 처리
                 dismiss()
             }
-        }
+//        }
     }
     
     // UIKit에서 AlertView 노출 시 사용

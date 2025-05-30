@@ -7,41 +7,101 @@
 
 import SwiftUI
 
-public struct ButtonView: View {
+//config
+
+public final class ButtonViewModel: ObservableObject {
+    @Published var type: ButtonView.ButtonConfigStyle = .btnFilledLarge01
+    @Published var title: String?
+    @Published var isEnabled: Bool = true
+    @Published var isLoading: Bool = false
     
-    @ObservedObject private var viewModel: ViewModel
+    var leftImage: UIImage?
+    var rightImage: UIImage?
+    var titleAlignment: TextAlignment = .leading
     
-    // indicator animation state
-    @State private var isRotating = false
+    var style = ConfigStyle()
     
-    final class ViewModel: ObservableObject {
-        var action: () -> Void = {}
+    public init(type: ButtonView.ButtonConfigStyle,
+                title: String,
+                isEnabled: Bool = true,
+                isLoading: Bool = false,
+                leftImage: UIImage? = nil,
+                rightImage: UIImage? = nil,
+                titleAlignment: TextAlignment = .leading) {
+        self.type = type
+        self.title = title
+        self.isEnabled = isEnabled
+        self.isLoading = isLoading
+        
+        self.leftImage = leftImage
+        self.rightImage = rightImage
+        self.titleAlignment = titleAlignment
+    }
+    
+    internal struct ConfigStyle {
         var config: ClickableConfig = ButtonFilledConfig.large
         var color: ClickableColorConfig = ButtonFilledColor.primary01
+        
+        var backgroundColor: Color?
+        var gradientBackground: GradientBackground?
+        var foregroundColor: Color?
+        var borderColor: Color = .clear
         
         var font: Font?
         var height: CGFloat = 0.0
         var leftPaddingSet: ClickablePaddingSet?
         var rightPaddingSet: ClickablePaddingSet?
         var cornerRadius: CGFloat = 0.0
-        
-        @Published var title: String?
-        @Published var titleAlignment: TextAlignment = .leading
-        @Published var isEnabled: Bool = true
-        @Published var isLoading: Bool = false
-        @Published var leftImage: UIImage?
-        @Published var rightImage: UIImage?
-        
-        @Published var backgroundColor: Color?
-        @Published var gradientBackground: GradientBackground?
-        @Published var foregroundColor: Color?
-        @Published var borderColor: Color = .clear
     }
+}
+
+public struct ButtonView: View {
+    
+    @ObservedObject private var viewModel: ButtonViewModel
+    /// indicator animation state
+    @State private var isRotating = false
+    public var action: () -> Void = { }
+    
+    
+    public init(
+        viewModel: ButtonViewModel,
+        action:  (() -> Void)? = nil
+    ) {
+        self.viewModel = viewModel
+        self.action = action ?? {}
+        
+        self.setConfigStyle(config: viewModel.type.config, color: viewModel.type.color)
+    }
+    
+    
+//    final class ViewModel: ObservableObject {
+//        var action: () -> Void = {}
+//        var config: ClickableConfig = ButtonFilledConfig.large
+//        var color: ClickableColorConfig = ButtonFilledColor.primary01
+//        
+//        var font: Font?
+//        var height: CGFloat = 0.0
+//        var leftPaddingSet: ClickablePaddingSet?
+//        var rightPaddingSet: ClickablePaddingSet?
+//        var cornerRadius: CGFloat = 0.0
+//        
+//        @Published var title: String?
+//        @Published var titleAlignment: TextAlignment = .leading
+//        @Published var isEnabled: Bool = true
+//        @Published var isLoading: Bool = false
+//        @Published var leftImage: UIImage?
+//        @Published var rightImage: UIImage?
+//        
+//        @Published var backgroundColor: Color?
+//        @Published var gradientBackground: GradientBackground?
+//        @Published var foregroundColor: Color?
+//        @Published var borderColor: Color = .clear
+//    }
     
     public var body: some View {
         ZStack {
             buttonContainerView
-                .frame(height: viewModel.config.height.button)
+                .frame(height: viewModel.style.config.height.button)
             
             if viewModel.isLoading {
                 IndicatorImageView
@@ -52,19 +112,19 @@ public struct ButtonView: View {
         }
     }
     
-    public init(action: @escaping () -> Void = {}) {
-        self.viewModel = ViewModel()
-        self.viewModel.action = action
-    }
+//    public init(action: @escaping () -> Void = {}) {
+//        self.viewModel = ViewModel()
+//        self.viewModel.action = action
+//    }
     
     @ViewBuilder
     private var buttonContainerView: some View {
-        Button(action: viewModel.action) {
+        Button(action: self.action) {
             EmptyView()
         }
         .background(
             Group {
-                if let gradientBackground = viewModel.gradientBackground {
+                if let gradientBackground = viewModel.style.gradientBackground {
                     LinearGradient(
                         gradient: Gradient(colors: gradientBackground.colors),
                         startPoint: gradientBackground.startPoint,
@@ -74,11 +134,11 @@ public struct ButtonView: View {
                     viewModel.backgroundColor
                 }
             })
-        .cornerRadius(viewModel.cornerRadius)
+        .cornerRadius(viewModel.style.cornerRadius)
         .disabled(!viewModel.isEnabled)
         .overlay(
             RoundedRectangle(cornerRadius: 6.0)
-                .stroke(viewModel.borderColor)
+                .stroke(viewModel.style.borderColor)
         )
         .buttonStyle(ButtonViewStyle(viewModel: viewModel))
     }
@@ -100,51 +160,57 @@ public struct ButtonView: View {
 
 // MARK: - Set Button StyleConfig
 public extension ButtonView {
-    private func setConfigStyle(config: ClickableConfig, color: ClickableColorConfig) {
-        viewModel.config = config
-        viewModel.color  = color
+    private mutating func setConfigStyle(config: ClickableConfig, color: ClickableColorConfig) {
+        viewModel.style.config = config
+        viewModel.style.color = color
+        viewModel.style.font = Font(config.font.normal)
+        viewModel.style.height = config.height.button
         
-        viewModel.font = Font(config.font.normal)
-        viewModel.height = config.height.button
+//        viewModel.config = config
+//        viewModel.color  = color
+//        
+//        viewModel.font = Font(config.font.normal)
+//        viewModel.height = config.height.button
         
         switch config.cornerRadius {
         case .fixed(let radius):
-            viewModel.cornerRadius = radius
+            viewModel.style.cornerRadius = radius
         case .capsule:
-            viewModel.cornerRadius = viewModel.height / 2.0
+            viewModel.style.cornerRadius = viewModel.style.height / 2.0
         default:
             break
         }
         
-        let padding = viewModel.config.padding.value(with: config.height, style: .button)
-        viewModel.leftPaddingSet = padding.left
-        viewModel.rightPaddingSet = padding.right
+        let padding = config.padding.value(with: config.height, style: .button)
+        viewModel.style.leftPaddingSet = padding.left
+        viewModel.style.rightPaddingSet = padding.right
         self.setColorConfigStyle(isEnabled: true)
     }
     
     private func setColorConfigStyle(isEnabled: Bool = true) {
-        let attribute = viewModel.color.attribute
+        let attribute = viewModel.style.color.attribute
         if isEnabled {
             if let gradient = attribute.normal.gradient {
-                viewModel.gradientBackground = GradientBackground(colors: gradient.colors.map { Color($0) },
+                viewModel.style.gradientBackground = GradientBackground(colors: gradient.colors.map { Color($0) },
                                                                   startPoint: UnitPoint(x: gradient.startPoint.x, y: gradient.startPoint.y),
                                                                   endPoint: UnitPoint(x: gradient.endPoint.x, y: gradient.endPoint.y))
             } else {
-                viewModel.backgroundColor = Color(attribute.normal.background)
+                viewModel.style.backgroundColor = Color(attribute.normal.background)
             }
-            viewModel.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.normal.text)
-            viewModel.borderColor = Color(attribute.normal.border ?? .clear)
+            viewModel.style.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.normal.text)
+            viewModel.style.borderColor = Color(attribute.normal.border ?? .clear)
         } else {
-            viewModel.backgroundColor = Color(attribute.disabled.background)
-            viewModel.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.disabled.text)
-            viewModel.borderColor = Color(attribute.disabled.border ?? .clear)
+            viewModel.style.backgroundColor = Color(attribute.disabled.background)
+            viewModel.style.foregroundColor = viewModel.isLoading ? .clear : Color(attribute.disabled.text)
+            viewModel.style.borderColor = Color(attribute.disabled.border ?? .clear)
         }
     }
 }
 
 // MARK: - HighlightButtonStyle
 struct ButtonViewStyle: ButtonStyle {
-    @ObservedObject var viewModel: ButtonView.ViewModel
+//    @ObservedObject var viewModel: ButtonView.ViewModel
+    var viewModel: ButtonViewModel
     
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
@@ -163,8 +229,8 @@ struct ButtonViewStyle: ButtonStyle {
                 
                 Text(viewModel.title ?? "")
                     .multilineTextAlignment(viewModel.titleAlignment)
-                    .font(viewModel.font)
-                    .foregroundColor(viewModel.isLoading ? .clear : viewModel.foregroundColor)
+                    .font(viewModel.style.font)
+                    .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 if let rightImage = viewModel.rightImage, !viewModel.isLoading {
@@ -174,10 +240,10 @@ struct ButtonViewStyle: ButtonStyle {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.leading, viewModel.leftPaddingSet?.normal)
-            .padding(.trailing, viewModel.rightPaddingSet?.normal)
+            .padding(.leading, viewModel.style.leftPaddingSet?.normal)
+            .padding(.trailing, viewModel.style.rightPaddingSet?.normal)
         }
-        .frame(height: viewModel.config.height.button)
+        .frame(height: viewModel.style.config.height.button)
         .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
     }
     

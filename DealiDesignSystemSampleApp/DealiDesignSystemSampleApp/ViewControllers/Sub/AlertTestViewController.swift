@@ -98,10 +98,10 @@ extension AlertTestViewController {
                                                   action: { print("확인 클릭") })
             let cancelButton = AlertButton(title: "취소",
                                                   action: { print("취소 클릭") })
-            let alertConfig = AlertConfig(message: "2버튼 Alert",
-                                          confirm: confirmButton,
+            let viewModel = AlertViewModel(message: "2버튼 Alert",
+                                           confirm: confirmButton,
                                           cancel: cancelButton)
-            AlertView(config: alertConfig)
+            AlertView(viewModel: viewModel)
             .show(self)
             return
         }
@@ -116,7 +116,7 @@ extension AlertTestViewController {
     @objc func alertButton02Pressed() {
         debugPrint("alertButton02Pressed")
         if isSwiftUI {
-            AlertView(config: .init(title: "1버튼 Alert",
+            AlertView(viewModel: .init(title: "1버튼 Alert",
                                     message: "1버튼 Alert 테스트",
                                     confirm: .init(title: "확인")))
             .show(self)
@@ -136,7 +136,7 @@ extension AlertTestViewController {
         
         
         if isSwiftUI {
-            AlertView(config: .init(title: "2버튼 체크박스 Alert",
+            AlertView(viewModel: .init(title: "2버튼 체크박스 Alert",
                                     message: "2버튼 체크박스 테스트",
                                     checkbox: CheckboxView(label: "기본 상태", viewModel: .init()),
                                     confirm: .init(title: "확인"),

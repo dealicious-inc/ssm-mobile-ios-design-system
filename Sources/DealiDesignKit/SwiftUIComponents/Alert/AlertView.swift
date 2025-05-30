@@ -21,7 +21,7 @@ public struct AlertButton {
     }
 }
 
-public struct AlertConfig {
+public struct AlertViewModel {
     public var title: String?
     public var message: String?
     public var checkbox: CheckboxView?
@@ -49,7 +49,7 @@ public struct AlertView: View {
     /// For Full SwiftUI Base
     @Binding var isPresented: Bool
     
-    let config: AlertConfig
+    let viewModel: AlertViewModel
     var isFullSwiftUI: Bool = false
     
     @State private var backgroundOpacity = 0.0
@@ -64,10 +64,10 @@ public struct AlertView: View {
     }
     
     public init(isPresented: Binding<Bool> = .constant(true),
-                config: AlertConfig,
+                viewModel: AlertViewModel,
                 isFullSwiftUI: Bool = false) {
         self._isPresented = isPresented
-        self.config = config
+        self.viewModel = viewModel
         self.isFullSwiftUI = isFullSwiftUI
     }
     
@@ -101,7 +101,7 @@ public struct AlertView: View {
     
     @ViewBuilder
     private var titleText: some View {
-        if let title = config.title, !title.isEmpty {
+        if let title = viewModel.title, !title.isEmpty {
             Text(title)
                 .font(Font(UIFont.sh2sb18))
                 .foregroundStyle(Color(UIColor.g100))
@@ -113,7 +113,7 @@ public struct AlertView: View {
     
     @ViewBuilder
     private var messageText: some View {
-        if let message = config.message, !message.isEmpty {
+        if let message = viewModel.message, !message.isEmpty {
             Spacer().frame(height: 4.0)
             Text(message)
                 .font(Font(UIFont.sh3r16))
@@ -124,7 +124,7 @@ public struct AlertView: View {
     
     @ViewBuilder
     private var checkbox: some View {
-        if let checkbox = config.checkbox {
+        if let checkbox = viewModel.checkbox {
             Spacer().frame(height: 16.0)
             checkbox
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -135,7 +135,7 @@ public struct AlertView: View {
     private var buttonContainer: some View {
         Spacer().frame(height: 24.0)
         HStack(spacing: 10.0) {
-            if let cancel = config.cancel {
+            if let cancel = viewModel.cancel {
                 ButtonView()
                     .setStyle(.btnOutlineMedium01)
                     .setTitle(cancel.title)
@@ -145,7 +145,7 @@ public struct AlertView: View {
                     }
             }
             
-            if let confirm = config.confirm {
+            if let confirm = viewModel.confirm {
                 ButtonView()
                     .setStyle(.btnFilledLarge01)
                     .setTitle(confirm.title)
@@ -197,7 +197,7 @@ extension AlertView {
 #Preview {
     AlertView(
         isPresented: .constant(true),
-        config: .init(title: "타이틀", message: "메세지", confirm: .init(title: "확인"), cancel: .init(title: "취소"))
+        viewModel: .init(title: "타이틀", message: "메세지", confirm: .init(title: "확인"), cancel: .init(title: "취소"))
     )
 }
 

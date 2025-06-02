@@ -11,15 +11,15 @@ import SwiftUI
 
 public final class ButtonViewModel: ObservableObject {
     @Published var type: ButtonView.ButtonConfigStyle = .btnFilledLarge01
-    @Published var title: String?
-    @Published var isEnabled: Bool = true
-    @Published var isLoading: Bool = false
+    @Published public var title: String?
+    @Published public var isEnabled: Bool = true
+    @Published public var isLoading: Bool = false
     
     var leftImage: UIImage?
     var rightImage: UIImage?
     var titleAlignment: TextAlignment = .leading
     
-    var style = ConfigStyle()
+    @Published var style = ConfigStyle()
     
     public init(type: ButtonView.ButtonConfigStyle,
                 title: String,
@@ -62,7 +62,6 @@ public struct ButtonView: View {
     @State private var isRotating = false
     public var action: () -> Void = { }
     
-    
     public init(
         viewModel: ButtonViewModel,
         action:  (() -> Void)? = nil
@@ -73,30 +72,23 @@ public struct ButtonView: View {
         self.setConfigStyle(config: viewModel.type.config, color: viewModel.type.color)
     }
     
-    
-//    final class ViewModel: ObservableObject {
-//        var action: () -> Void = {}
-//        var config: ClickableConfig = ButtonFilledConfig.large
-//        var color: ClickableColorConfig = ButtonFilledColor.primary01
-//        
-//        var font: Font?
-//        var height: CGFloat = 0.0
-//        var leftPaddingSet: ClickablePaddingSet?
-//        var rightPaddingSet: ClickablePaddingSet?
-//        var cornerRadius: CGFloat = 0.0
-//        
-//        @Published var title: String?
-//        @Published var titleAlignment: TextAlignment = .leading
-//        @Published var isEnabled: Bool = true
-//        @Published var isLoading: Bool = false
-//        @Published var leftImage: UIImage?
-//        @Published var rightImage: UIImage?
-//        
-//        @Published var backgroundColor: Color?
-//        @Published var gradientBackground: GradientBackground?
-//        @Published var foregroundColor: Color?
-//        @Published var borderColor: Color = .clear
-//    }
+    public init(type: ButtonConfigStyle,
+             title: String,
+             isEnabled: Bool = true,
+             isLoading: Bool = false,
+             leftImage: UIImage? = nil,
+             rightImage: UIImage? = nil,
+             titleAlignment: TextAlignment = .leading,
+             action: (() -> Void)? = nil) {
+            let viewModel = ButtonViewModel(type: type,
+                                            title: title,
+                                            isEnabled: isEnabled,
+                                            isLoading: isLoading,
+                                            leftImage: leftImage,
+                                            rightImage: rightImage,
+                                            titleAlignment: titleAlignment)
+            self.init(viewModel: viewModel, action: action)
+        }
     
     public var body: some View {
         ZStack {
@@ -110,12 +102,10 @@ public struct ButtonView: View {
                 EmptyView()
             }
         }
+        .onChange(of: viewModel.isEnabled) { newValue in
+            setColorConfigStyle(isEnabled: newValue)
+        }
     }
-    
-//    public init(action: @escaping () -> Void = {}) {
-//        self.viewModel = ViewModel()
-//        self.viewModel.action = action
-//    }
     
     @ViewBuilder
     private var buttonContainerView: some View {
@@ -131,7 +121,7 @@ public struct ButtonView: View {
                         endPoint: gradientBackground.endPoint
                     )
                 } else {
-                    viewModel.backgroundColor
+                    viewModel.style.backgroundColor
                 }
             })
         .cornerRadius(viewModel.style.cornerRadius)
@@ -165,12 +155,6 @@ public extension ButtonView {
         viewModel.style.color = color
         viewModel.style.font = Font(config.font.normal)
         viewModel.style.height = config.height.button
-        
-//        viewModel.config = config
-//        viewModel.color  = color
-//        
-//        viewModel.font = Font(config.font.normal)
-//        viewModel.height = config.height.button
         
         switch config.cornerRadius {
         case .fixed(let radius):
@@ -209,8 +193,7 @@ public extension ButtonView {
 
 // MARK: - HighlightButtonStyle
 struct ButtonViewStyle: ButtonStyle {
-//    @ObservedObject var viewModel: ButtonView.ViewModel
-    var viewModel: ButtonViewModel
+    @ObservedObject var viewModel: ButtonViewModel
     
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
@@ -255,65 +238,6 @@ struct ButtonViewStyle: ButtonStyle {
     }
 }
 
-
-// MARK: - Set ViewModel
-public extension ButtonView {
-    @discardableResult
-    func setStyle(_ style: ButtonConfigStyle) -> Self {
-        setConfigStyle(config: style.config, color: style.color)
-        return self
-    }
-    
-    @discardableResult
-    func setTitle(_ title: String) -> Self {
-        viewModel.title = title
-        return self
-    }
-    
-    @discardableResult
-    func setTitleAlignment(_ alignment: TextAlignment) -> Self {
-        viewModel.titleAlignment = alignment
-        return self
-    }
-    
-    @discardableResult
-    func addAction(_ action: @escaping () -> Void) -> Self {
-        viewModel.action = action
-        return self
-    }
-    
-    @discardableResult
-    func setEnabled(_ isEnabled: Bool) -> Self {
-        viewModel.isEnabled = isEnabled
-        setColorConfigStyle(isEnabled: isEnabled)
-        return self
-    }
-    
-    @discardableResult
-    func setLoading(_ isLoading: Bool) -> Self {
-        viewModel.isLoading = isLoading
-        return self
-    }
-    
-    @discardableResult
-    func toggleLoading() -> Self {
-        viewModel.isLoading.toggle()
-        return self
-    }
-    
-    @discardableResult
-    func setLeftImage(_ image: UIImage?) -> Self {
-        viewModel.leftImage = image
-        return self
-    }
-    
-    @discardableResult
-    func setRightImage(_ image: UIImage?) -> Self {
-        viewModel.rightImage = image
-        return self
-    }
-}
-
 // MARK: - GradientBackground
 struct GradientBackground {
     let colors: [Color]
@@ -323,7 +247,7 @@ struct GradientBackground {
 
 // MARK: - Preview
 #Preview {
-    ButtonView()
+    ButtonView(type: .btnFilledLarge01, title: "btnFilledLarge01")
 }
 
 // MARK: - Style

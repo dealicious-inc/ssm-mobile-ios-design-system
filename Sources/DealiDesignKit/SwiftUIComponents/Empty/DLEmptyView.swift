@@ -52,14 +52,13 @@ public struct DLEmptyView: View {
             }
         }
     }
-
+    
     @ViewBuilder var buttonView: some View {
         if let buttonTitle = self.viewModel.buttonTitle {
-            ButtonView {
+            ButtonView(type: .btnFilledLarge01,
+                       title: buttonTitle) {
                 self.action()
             }
-            .setStyle(.btnFilledLarge01)
-            .setTitle(buttonTitle)
             .frame(minWidth: 170.0)
             .fixedSize()
             .padding(.top, 12.0)

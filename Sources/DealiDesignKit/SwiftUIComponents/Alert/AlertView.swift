@@ -63,6 +63,19 @@ public struct AlertView: View {
         Animation.easeOut(duration: Double(animateDuration))
     }
     
+    public init(title: String? = nil,
+                message: String,
+                checkbox: CheckboxView? = nil,
+                confirm: AlertButton? = nil,
+                cancel: AlertButton? = nil) {
+        let viewModel = AlertViewModel(title: title,
+                                       message: message,
+                                       checkbox: checkbox,
+                                       confirm: confirm,
+                                       cancel: cancel)
+        self.init(viewModel: viewModel)
+    }
+    
     public init(isPresented: Binding<Bool> = .constant(true),
                 viewModel: AlertViewModel,
                 isFullSwiftUI: Bool = false) {

@@ -11,7 +11,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-
 open class DealiTextInput: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
@@ -27,39 +26,26 @@ open class DealiTextInput: UIView, DealiTextField {
     /// TextInput title 세팅
     public var title: String? {
         didSet {
-            self.titleContentView.isHidden = false
-            self.titleLabel.text = self.title
+            self.titleView.setTitle(title)
         }
     }
     
     /// 필수입력값인지 나타내는 변수. 기본값은 false.
     public var isMandatory: Bool = false {
         didSet {
-            self.requiredBadge.isHidden = !self.isMandatory
+            self.titleView.setMandatory(isMandatory)
         }
     }
     
     public var notVerifiedBadgeText: String? {
         didSet {
-            guard let text = self.notVerifiedBadgeText, text.isEmpty == false else {
-                self.notVerifiedBadge.isHidden = true
-                return
-            }
-            
-            self.notVerifiedBadge.isHidden = false
-            self.notVerifiedBadge.text = text
+            self.titleView.setNotVerifiedBadgeText(notVerifiedBadgeText)
         }
     }
     
     public var verifiedBadgeText: String? {
         didSet {
-            guard let text = self.verifiedBadgeText, text.isEmpty == false else {
-                self.verifiedBadge.isHidden = true
-                return
-            }
-            
-            self.verifiedBadge.isHidden = false
-            self.verifiedBadge.text = text
+            self.titleView.setVerifiedBadgeText(verifiedBadgeText)
         }
     }
     
@@ -87,7 +73,6 @@ open class DealiTextInput: UIView, DealiTextField {
             }
         }
     }
-    
     
     /// TextInput text 세팅
     public var text: String? {
@@ -174,8 +159,8 @@ open class DealiTextInput: UIView, DealiTextField {
             }
             
             self.textField.textColor = self.inputStatus.textColor
-            self.textFieldContentView.layer.borderColor = self.inputStatus.borderColor
-            self.textFieldContentView.backgroundColor = self.inputStatus.backgroundColor
+            self.textFieldContentStackView.layer.borderColor = self.inputStatus.borderColor
+            self.textFieldContentStackView.backgroundColor = self.inputStatus.backgroundColor
 
             switch self.inputStatus {
             case .focusIn:
@@ -213,7 +198,7 @@ open class DealiTextInput: UIView, DealiTextField {
     public var actionButton: ClickableComponentButton? {
         didSet {
             guard let actionButton = self.actionButton else { return }
-            self.textFieldButtonStackView.addArrangedSubview(actionButton)
+            self.horizontalContentStackView.addArrangedSubview(actionButton)
             
             actionButton.then {
                 if $0.isFixedSize == false {
@@ -275,16 +260,11 @@ open class DealiTextInput: UIView, DealiTextField {
     public var blockOutOfRangePriceInput: Bool = true
     
     // MARK: - INTERNAL, PRIVATE
-    private let titleContentView = UIStackView()
-    private let titleLabel = UILabel()
-    /// 필수입력사항인지 나타내는 뱃지
-    private var requiredBadge = UIView()
-    private let notVerifiedBadge = DealiTag()
-    private let verifiedBadge = DealiTag()
+    private let titleView = DealiTextInputTitleView()
     public let helperTextLabel = UILabel()
     
-    private let textFieldButtonStackView = UIStackView()
-    private let textFieldContentView = UIView()
+    private let horizontalContentStackView = UIStackView()
+    private let textFieldContentStackView = UIStackView()
     
     private let textInputRightTimeLabel = UILabel()
     private let textInputLeftLabel = UILabel()
@@ -354,7 +334,7 @@ open class DealiTextInput: UIView, DealiTextField {
 
         
         Driver.merge([
-            self.rx.textEditingControlProperty.asDriver().map { _ in return true },
+            self.rx.textEditingChanged.asDriver(onErrorJustReturn: nil).map { _ in return true },
             self.rx.controlEvent(.editingDidBegin).asDriver().map { _ in return true },
             self.rx.controlEvent(.valueChanged).asDriver().map { _ in return false },
             self.rx.editingDidFinish.asDriver().map { _ in return false }
@@ -423,60 +403,20 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.backgroundColor = .primary04
         }
         
-        let contentStackView = UIStackView()
-        self.addSubview(contentStackView)
-        contentStackView.then {
+        let stackView = UIStackView()
+        self.addSubview(stackView)
+        stackView.then {
             $0.axis = .vertical
             $0.distribution = .equalSpacing
-            $0.alignment = .center
+            $0.alignment = .leading
             $0.spacing = 4.0
         }.snp.makeConstraints {
             $0.top.left.bottom.right.equalToSuperview()
         }
         
-        contentStackView.addArrangedSubview(self.titleContentView)
-        self.titleContentView.then {
-            $0.isHidden = true
-            $0.axis = .horizontal
-            $0.spacing = 4.0
-            $0.alignment = .top
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        self.titleContentView.addArrangedSubview(self.titleLabel)
-        self.titleLabel.then {
-            $0.font = .b2r14
-            $0.textColor = .g100
-            $0.textAlignment = .left
-            $0.numberOfLines = 0
-            $0.setContentHuggingPriority(.required, for: .horizontal)
-        }.snp.makeConstraints {
-            $0.top.bottom.left.equalToSuperview()
-        }
-        
-        self.requiredBadge = self.requiredBadgeView()
-        self.requiredBadge.isHidden = true
-        self.titleContentView.addArrangedSubview(self.requiredBadge)
-        
-        self.titleContentView.addArrangedSubview(self.notVerifiedBadge)
-        self.notVerifiedBadge.do {
-            $0.type = .tagOutlineSmall01
-            $0.text = "미인증"
-            $0.isHidden = true
-        }
-        
-        self.titleContentView.addArrangedSubview(self.verifiedBadge)
-        self.verifiedBadge.do {
-            $0.type = .tagOutlineSmall02
-            $0.text = "인증 완료"
-            $0.isHidden = true
-        }
-        
-        self.titleContentView.addArrangedSubview(UIView())
-        
-        contentStackView.addArrangedSubview(self.textFieldButtonStackView)
-        self.textFieldButtonStackView.then {
+        stackView.addArrangedSubview(self.titleView)
+        stackView.addArrangedSubview(self.horizontalContentStackView)
+        self.horizontalContentStackView.then {
             $0.axis = .horizontal
             $0.distribution = .fill
             $0.alignment = .center
@@ -485,31 +425,25 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.left.right.equalToSuperview()
         }
         
-        self.textFieldButtonStackView.addArrangedSubview(self.textFieldContentView)
-        self.textFieldContentView.then {
+        self.horizontalContentStackView.addArrangedSubview(self.textFieldContentStackView)
+        self.textFieldContentStackView.then {
             $0.layer.masksToBounds = true
             $0.layer.cornerRadius = 6.0
             $0.layer.borderWidth = 1.0
             $0.layer.borderColor = UIColor.g20.cgColor
             $0.backgroundColor = .primary04
+            $0.axis = .horizontal
+            $0.distribution = .fill
+            $0.alignment = .center
+            $0.spacing = 16.0
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.layoutMargins = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 12.0)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.height.equalTo(46.0)
         }
         
-        let textFieldContentStackView = UIStackView()
-        self.textFieldContentView.addSubview(textFieldContentStackView)
-        textFieldContentStackView.then {
-            $0.axis = .horizontal
-            $0.distribution = .fill
-            $0.alignment = .center
-            $0.spacing = 14.0
-        }.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(16.0)
-        }
-        
-        textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
+        self.textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
         self.textInputLeftLabel.then {
             $0.font = .b2r14
             $0.textColor = .g100
@@ -520,9 +454,9 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.width.equalTo("(+880)".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
         }
         
-        textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
+        self.textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
         
-        textFieldContentStackView.addArrangedSubview(self.textField)
+        self.textFieldContentStackView.addArrangedSubview(self.textField)
         self.textField.then {
             $0.font = .b2r14
             $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -536,15 +470,21 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.top.bottom.equalToSuperview()
         }
         
-        textFieldContentStackView.addArrangedSubview(self.clearButton)
+        self.textFieldContentStackView.addArrangedSubview(self.clearButton)
         self.clearButton.then {
             $0.isHidden = true
-            $0.setImage(UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(.g50), for: .normal)
+            
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 4.0, leading: 4.0, bottom: 4.0, trailing: 4.0)
+            configuration.image = UIImage.dealiIcon(named: "ic_x_circle_filled")?.withTintColor(.g50).resize(CGSize(width: 16.0, height: 16.0))
+            $0.configuration = configuration
         }.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
+        self.textFieldContentStackView.setCustomSpacing(8.0, after: self.clearButton)
+        
+        self.textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
         self.textInputRightTimeLabel.then {
             $0.text = "00:00"
             $0.font = .b2r14
@@ -557,14 +497,14 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.width.equalTo("00:00".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
         }
         
-        textFieldContentStackView.addArrangedSubview(self.textInputRightImageView)
+        self.textFieldContentStackView.addArrangedSubview(self.textInputRightImageView)
         self.textInputRightImageView.then {
             $0.isHidden = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 16.0, height: 16.0))
         }
         
-        contentStackView.addArrangedSubview(self.helperTextLabel)
+        stackView.addArrangedSubview(self.helperTextLabel)
         self.helperTextLabel.then {
             $0.font = .b4r12
             $0.textColor = .g70
@@ -606,8 +546,8 @@ extension DealiTextInput: DealiTextFieldConfig {
     func setError(for errorMessage: String?) {
         
         self.textField.textColor = self.errorStatus.textColor
-        self.textFieldContentView.layer.borderColor = self.errorStatus.borderColor
-        self.textFieldContentView.backgroundColor = self.errorStatus.backgroundColor
+        self.textFieldContentStackView.layer.borderColor = self.errorStatus.borderColor
+        self.textFieldContentStackView.backgroundColor = self.errorStatus.backgroundColor
         
         let style = NSMutableParagraphStyle().then {
             $0.lineHeightMultiple = 1.12
@@ -652,6 +592,123 @@ extension DealiTextInput: DealiTextFieldConfig {
             self.self.textInputRightImageView.isHidden = true
             self.textInputRightImageView.isHidden = true
         }
+    }
+    
+    private func requiredBadgeView() -> UIView {
+        let view = UIView()
+        
+        let requiredBadge = UIView()
+        view.addSubview(requiredBadge)
+        requiredBadge.then {
+            $0.backgroundColor = .primary01
+            $0.layer.masksToBounds = true
+            $0.layer.cornerRadius = 2.5
+        }.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(4.0)
+            $0.size.equalTo(CGSize(width: 5.0, height: 5.0))
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        return view
+    }
+  
+}
+
+final class DealiTextInputTitleView: UIStackView {
+    
+    private let titleLabel = UILabel()
+    /// 필수입력사항인지 나타내는 뱃지
+    private var requiredBadge = UIView()
+    private let notVerifiedBadge = DealiTag()
+    private let verifiedBadge = DealiTag()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.setUI()
+    }
+    
+    func setTitle(_ title: String?) {
+        guard let title = title, title.isEmpty == false else {
+            self.isHidden = true
+            return
+        }
+        
+        self.isHidden = false
+        self.titleLabel.text = title
+    }
+    
+    func setMandatory(_ isMandatory: Bool) {
+        self.requiredBadge.isHidden = !isMandatory
+    }
+    
+    func setNotVerifiedBadgeText(_ text: String?) {
+        guard let text = text, text.isEmpty == false else {
+            self.notVerifiedBadge.isHidden = true
+            return
+        }
+        
+        self.notVerifiedBadge.isHidden = false
+        self.notVerifiedBadge.text = text
+
+    }
+    
+    func setVerifiedBadgeText(_ text: String?) {
+        guard let text = text, text.isEmpty == false else {
+            self.verifiedBadge.isHidden = true
+            return
+        }
+        
+        self.verifiedBadge.isHidden = false
+        self.verifiedBadge.text = text
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setUI() {
+        self.then {
+            $0.axis = .horizontal
+            $0.spacing = 4.0
+            $0.alignment = .top
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.height.equalTo(20.0)
+        }
+        
+        self.addArrangedSubview(self.titleLabel)
+        self.titleLabel.then {
+            $0.font = .b2r14
+            $0.textColor = .g100
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
+            $0.setContentHuggingPriority(.required, for: .horizontal)
+        }.snp.makeConstraints {
+            $0.top.bottom.left.equalToSuperview()
+        }
+        
+        self.requiredBadge = self.requiredBadgeView()
+        self.requiredBadge.isHidden = true
+        self.addArrangedSubview(self.requiredBadge)
+        
+        self.addArrangedSubview(self.notVerifiedBadge)
+        self.notVerifiedBadge.do {
+            $0.type = .tagOutlineSmall01
+            $0.text = "미인증"
+            $0.isHidden = true
+        }
+        
+        self.addArrangedSubview(self.verifiedBadge)
+        self.verifiedBadge.do {
+            $0.type = .tagOutlineSmall02
+            $0.text = "인증 완료"
+            $0.isHidden = true
+        }
+        
+        self.addArrangedSubview(UIView())
+    
+        
     }
     
     private func requiredBadgeView() -> UIView {

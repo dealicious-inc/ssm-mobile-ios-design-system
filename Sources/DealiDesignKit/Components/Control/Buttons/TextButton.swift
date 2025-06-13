@@ -9,146 +9,146 @@ import UIKit
 
 extension DealiControl {
     // MARK: Large
-    public static func btnTextLarge01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.primary01)
     }
   
-    public static func btnTextLarge02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.primary02)
     }
    
-    public static func btnTextLarge03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary01)
     }
     
-    public static func btnTextLarge04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary02)
     }
    
-    public static func btnTextLarge05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary03)
     }
     
-    public static func btnTextLarge06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary04)
     }
     
-    public static func btnTextLarge07() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.large,
+    public static func btnTextLarge07() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.large,
                                         color: ButtonTextColor.secondary05)
     }
     
     // MARK: - Medium
-    public static func btnTextMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.primary01)
     }
     
-    public static func btnTextMedium02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.primary02)
     }
     
-    public static func btnTextMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary01)
     }
     
-    public static func btnTextMedium04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary02)
     }
     
-    public static func btnTextMedium05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary03)
     }
     
-    public static func btnTextMedium06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary04)
     }
     
-    public static func btnTextMedium07() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.medium,
+    public static func btnTextMedium07() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.medium,
                                         color: ButtonTextColor.secondary05)
     }
     
     // MARK: - Semi Medium
-    public static func btnTextSemiMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.primary01)
     }
     
-    public static func btnTextSemiMedium02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.primary02)
     }
     
-    public static func btnTextSemiMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.secondary01)
     }
     
-    public static func btnTextSemiMedium04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.secondary02)
     }
     
-    public static func btnTextSemiMedium05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.secondary03)
     }
     
-    public static func btnTextSemiMedium06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.secondary04)
     }
     
-    public static func btnTextSemiMedium07() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.semiMedium,
+    public static func btnTextSemiMedium07() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.semiMedium,
                                         color: ButtonTextColor.secondary05)
     }
     
     // MARK: - Small
-    public static func btnTextSmall01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.primary01)
     }
     
-    public static func btnTextSmall02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.primary02)
     }
     
-    public static func btnTextSmall03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary01)
     }
     
-    public static func btnTextSmall04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary02)
     }
     
-    public static func btnTextSmall05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary03)
     }
     
-    public static func btnTextSmall06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary04)
     }
     
-    public static func btnTextSmall07() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonTextConfig.small,
+    public static func btnTextSmall07() -> ButtonComponent {
+        return ButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary05)
     }
     

@@ -8,36 +8,36 @@
 import UIKit
 
 extension DealiControl {
-    public static func chipOutlineSquareLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.large,
+    public static func chipOutlineSquareLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.large,
                                       color: ChipsSquareColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineSquareLarge01")
-    public static func chipsSquareLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.large,
+    public static func chipsSquareLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.large,
                                       color: ChipsSquareColor.primary01)
     }
     
-    public static func chipOutlineSquareMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.medium,
+    public static func chipOutlineSquareMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.medium,
                                       color: ChipsSquareColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineSquareMedium01")
-    public static func chipsSquareBoldMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.medium,
+    public static func chipsSquareBoldMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.medium,
                                       color: ChipsSquareColor.primary01)
     }
     
-    public static func chipOutlineSquareSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.small,
+    public static func chipOutlineSquareSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.small,
                                       color: ChipsSquareColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineSquareSmall01")
-    public static func chipsSquareSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsSquareConfig.small,
+    public static func chipsSquareSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsSquareConfig.small,
                                       color: ChipsSquareColor.primary01)
     }
    

@@ -9,106 +9,106 @@ import UIKit
 
 extension DealiControl {
     // MARK: Large
-    public static func btnOutlineBgLarge01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
+    public static func btnOutlineBgLarge01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineBgColor.primary01)
     }
 
-    public static func btnOutlineBgLarge03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
+    public static func btnOutlineBgLarge03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineBgColor.secondary01)
     }
     
-    public static func btnOutlineBgLarge04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
+    public static func btnOutlineBgLarge04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineBgColor.secondary02)
     }
     
-    public static func btnOutlineBgLarge05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
+    public static func btnOutlineBgLarge05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineBgColor.secondary03)
     }
     
-    public static func btnOutlineBgLarge06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.large,
+    public static func btnOutlineBgLarge06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.large,
                                         color: ButtonOutlineBgColor.secondary04)
     }
     
     // MARK: - Medium
-    public static func btnOutlineBgMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
+    public static func btnOutlineBgMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineBgColor.primary01)
     }
 
-    public static func btnOutlineBgMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
+    public static func btnOutlineBgMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineBgColor.secondary01)
     }
     
-    public static func btnOutlineBgMedium04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
+    public static func btnOutlineBgMedium04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineBgColor.secondary02)
     }
     
-    public static func btnOutlineBgMedium05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
+    public static func btnOutlineBgMedium05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineBgColor.secondary03)
     }
     
-    public static func btnOutlineBgMedium06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.medium,
+    public static func btnOutlineBgMedium06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.medium,
                                         color: ButtonOutlineBgColor.secondary04)
     }
     
     // MARK: - Semi Medium
-    public static func btnOutlineBgSemiMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+    public static func btnOutlineBgSemiMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.semiMedium,
                                         color: ButtonOutlineBgColor.primary01)
     }
 
-    public static func btnOutlineBgSemiMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+    public static func btnOutlineBgSemiMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.semiMedium,
                                         color: ButtonOutlineBgColor.secondary01)
     }
     
-    public static func btnOutlineBgSemiMedium04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+    public static func btnOutlineBgSemiMedium04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.semiMedium,
                                         color: ButtonOutlineBgColor.secondary02)
     }
     
-    public static func btnOutlineBgSemiMedium05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+    public static func btnOutlineBgSemiMedium05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.semiMedium,
                                         color: ButtonOutlineBgColor.secondary03)
     }
     
-    public static func btnOutlineBgSemiMedium06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.semiMedium,
+    public static func btnOutlineBgSemiMedium06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.semiMedium,
                                         color: ButtonOutlineBgColor.secondary04)
     }
     
     // MARK: - Small
-    public static func btnOutlineBgSmall01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
+    public static func btnOutlineBgSmall01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.primary01)
     }
 
-    public static func btnOutlineBgSmall03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
+    public static func btnOutlineBgSmall03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.secondary01)
     }
     
-    public static func btnOutlineBgSmall04() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
+    public static func btnOutlineBgSmall04() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.secondary02)
     }
     
-    public static func btnOutlineBgSmall05() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
+    public static func btnOutlineBgSmall05() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.secondary03)
     }
     
-    public static func btnOutlineBgSmall06() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonOutlineConfig.small,
+    public static func btnOutlineBgSmall06() -> ButtonComponent {
+        return ButtonComponent(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.secondary04)
     }
 }

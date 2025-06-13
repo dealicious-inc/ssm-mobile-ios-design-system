@@ -9,66 +9,66 @@ import UIKit
 
 extension DealiControl {
     // MARK: Large
-    public static func btnFilledRoundLarge01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.large,
+    public static func btnFilledRoundLarge01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.large,
                                         color: ButtonFilledRoundColor.primary01)
     }
     
-    public static func btnFilledRoundLarge02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.large,
+    public static func btnFilledRoundLarge02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.large,
                                         color: ButtonFilledRoundColor.gradient)
     }
     
-    public static func btnFilledRoundLarge03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.large,
+    public static func btnFilledRoundLarge03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.large,
                                         color: ButtonFilledRoundColor.primary02)
     }
 
     // MARK: - Medium
-    public static func btnFilledRoundMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.medium,
+    public static func btnFilledRoundMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.medium,
                                         color: ButtonFilledRoundColor.primary01)
     }
     
-    public static func btnFilledRoundMedium02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.medium,
+    public static func btnFilledRoundMedium02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.medium,
                                         color: ButtonFilledRoundColor.gradient)
     }
     
-    public static func btnFilledRoundMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.medium,
+    public static func btnFilledRoundMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.medium,
                                         color: ButtonFilledRoundColor.primary02)
     }
     
     // MARK: - Semi Medium
-    public static func btnFilledRoundSemiMedium01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.semiMedium,
+    public static func btnFilledRoundSemiMedium01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.semiMedium,
                                         color: ButtonFilledRoundColor.primary01)
     }
     
-    public static func btnFilledRoundSemiMedium02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.semiMedium,
+    public static func btnFilledRoundSemiMedium02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.semiMedium,
                                         color: ButtonFilledRoundColor.gradient)
     }
     
-    public static func btnFilledRoundSemiMedium03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.semiMedium,
+    public static func btnFilledRoundSemiMedium03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.semiMedium,
                                         color: ButtonFilledRoundColor.primary02)
     }
     
     // MARK: - Small
-    public static func btnFilledRoundSmall01() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.small,
+    public static func btnFilledRoundSmall01() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.small,
                                         color: ButtonFilledRoundColor.primary01)
     }
     
-    public static func btnFilledRoundSmall02() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.small,
+    public static func btnFilledRoundSmall02() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.small,
                                         color: ButtonFilledRoundColor.gradient)
     }
     
-    public static func btnFilledRoundSmall03() -> ClickableComponentButton {
-        return ClickableComponentButton(config: ButtonFilledRoundConfig.small,
+    public static func btnFilledRoundSmall03() -> ButtonComponent {
+        return ButtonComponent(config: ButtonFilledRoundConfig.small,
                                         color: ButtonFilledRoundColor.primary02)
     }
 }

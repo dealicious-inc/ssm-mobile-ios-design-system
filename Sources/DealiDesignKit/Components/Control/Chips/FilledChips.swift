@@ -8,52 +8,52 @@
 import UIKit
 
 extension DealiControl {
-    public static func chipFilledLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.large,
+    public static func chipFilledLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.large,
                                       color: ChipsFilledColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipFilledLarge01")
-    public static func chipsFilledLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.large,
+    public static func chipsFilledLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.large,
                                       color: ChipsFilledColor.primary01)
     }
     
-    public static func chipFilledMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.medium,
+    public static func chipFilledMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.medium,
                                       color: ChipsFilledColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipFilledMedium01")
-    public static func chipsFilledMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.medium,
+    public static func chipsFilledMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.medium,
                                       color: ChipsFilledColor.primary01)
     }
     
-    public static func chipFilledSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.small,
+    public static func chipFilledSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipFilledSmall01")
-    public static func chipsFilledSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.small,
+    public static func chipsFilledSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.primary01)
     }
     
-    public static func chipFilledSmall02() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.small,
+    public static func chipFilledSmall02() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.secondary01)
     }
     
     @available(*, deprecated, renamed: "chipFilledSmall02")
-    public static func chipsFilledSmall02() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.small,
+    public static func chipsFilledSmall02() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.secondary01)
     }
     
-    public static func chipFilledSmall03() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsFilledConfig.small,
+    public static func chipFilledSmall03() -> ChipComponent {
+        return ChipComponent(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.primary02)
     }
 }

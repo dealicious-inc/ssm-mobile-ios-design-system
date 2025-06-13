@@ -7,19 +7,21 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "ButtonComponent", message: "ButtonComponent로 변경해주세요.")
 final public class ClickableComponentButton: ButtonComponent {
-    public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
-        super.init(style: .button, config: config, color: color.attribute)
+
+}
+
+public extension ButtonComponent {
+    convenience init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
+        self.init(style: .button, config: config, color: color.attribute)
+        
 #if DEBUG
         let bundleID = Bundle.main.bundleIdentifier ?? ""
         if bundleID == "net.deali.DealiDesignSystemSampleApp" {
             self.title = functionName
         }
 #endif
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

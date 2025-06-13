@@ -210,7 +210,7 @@ open class DealiTextInput: UIView, DealiTextField {
     }
     
     /// TextInput ActionButton 세팅
-    public var actionButton: ClickableComponentButton? {
+    public var actionButton: ButtonComponent? {
         didSet {
             guard let actionButton = self.actionButton else { return }
             self.textFieldButtonStackView.addArrangedSubview(actionButton)

@@ -252,7 +252,7 @@ class ButtonViewController: UIViewController {
 
     }
     
-    @objc func btnTextMediumPrimary02Pressed(_ sender: ClickableComponentButton) {
+    @objc func btnTextMediumPrimary02Pressed(_ sender: ButtonComponent) {
      
     }
 
@@ -264,7 +264,7 @@ class ButtonViewController: UIViewController {
     
     @objc func switchValueChanged(_ swc: UISwitch) {
         self.stackView.subviews.forEach { view in
-            if let b = view as? ClickableComponentButton {
+            if let b = view as? ButtonComponent {
 //                b.isEnabled = !swc.isOn
                 if swc.isOn {
                     b.startIndicator()

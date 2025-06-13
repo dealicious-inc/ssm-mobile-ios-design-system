@@ -9,7 +9,7 @@ import UIKit
 
 public struct DealiTabBarItemChipStyleCellUIModel {
     
-    var itemChip: ClickableComponentChip?
+    var itemChip: ChipComponent?
     
     static func make(chipStyle: DealiTabBarPreset.DealiTabBarSliderChipStyle, tabbarItem: DealiTabBarItemProtocol) -> DealiTabBarItemChipStyleCellUIModel {
         var uiModel = DealiTabBarItemChipStyleCellUIModel()

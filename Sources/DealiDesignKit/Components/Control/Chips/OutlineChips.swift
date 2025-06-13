@@ -8,47 +8,47 @@
 import UIKit
 
 extension DealiControl {
-    public static func chipOutlineLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.large,
+    public static func chipOutlineLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.large,
                                       color: ChipsOutlineColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineLarge01")
-    public static func chipsOutlineLarge01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.large,
+    public static func chipsOutlineLarge01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.large,
                                       color: ChipsOutlineColor.primary01)
     }
     
-    public static func chipOutlineMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.medium,
+    public static func chipOutlineMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.medium,
                                       color: ChipsOutlineColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineMedium01")
-    public static func chipsOutlineMedium01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.medium,
+    public static func chipsOutlineMedium01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.medium,
                                       color: ChipsOutlineColor.primary01)
     }
     
-    public static func chipOutlineMedium02() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.medium,
+    public static func chipOutlineMedium02() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.medium,
                                       color: ChipsOutlineColor.primary02)
     }
     
     @available(*, deprecated, renamed: "chipOutlineMedium02")
-    public static func chipsOutlineMedium02() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.medium,
+    public static func chipsOutlineMedium02() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.medium,
                                       color: ChipsOutlineColor.primary02)
     }
     
-    public static func chipOutlineSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.small,
+    public static func chipOutlineSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.small,
                                       color: ChipsOutlineColor.primary01)
     }
     
     @available(*, deprecated, renamed: "chipOutlineSmall01")
-    public static func chipsOutlineSmall01() -> ClickableComponentChip {
-        return ClickableComponentChip(config: ChipsOutlineConfig.small,
+    public static func chipsOutlineSmall01() -> ChipComponent {
+        return ChipComponent(config: ChipsOutlineConfig.small,
                                       color: ChipsOutlineColor.primary01)
     }
 }

@@ -156,7 +156,7 @@ final class ChipContentView: UIView {
     private let titleLabel = UILabel()
     private let stackView = UIStackView()
     
-    init(name: String, chipArray: [ClickableComponentChip]) {
+    init(name: String, chipArray: [ChipComponent]) {
         super.init(frame: CGRect.zero)
         
         self.backgroundColor = UIColor.white

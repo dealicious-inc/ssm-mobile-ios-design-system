@@ -209,7 +209,7 @@ public enum ButtonTextConfig: ClickableConfig {
         }
     }
     
-    public var height: ClickableComponent.Configuration.Height {
+    public var height: ButtonComponent.Configuration.Height {
         switch self {
         case .large:
             return .large
@@ -222,7 +222,7 @@ public enum ButtonTextConfig: ClickableConfig {
         }
     }
     
-    public var cornerRadius: ClickableComponent.Configuration.Corner {
+    public var cornerRadius: ButtonComponent.Configuration.Corner {
         switch self {
         case .large:
             return .fixed(6.0)
@@ -235,7 +235,7 @@ public enum ButtonTextConfig: ClickableConfig {
         }
     }
     
-    public var padding: ClickableComponent.Configuration.Padding {
+    public var padding: ButtonComponent.Configuration.Padding {
         return .text
     }
 }

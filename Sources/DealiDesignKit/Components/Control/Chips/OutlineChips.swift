@@ -88,7 +88,7 @@ public enum ChipsOutlineConfig: ClickableConfig {
         }
     }
     
-    public var height: ClickableComponent.Configuration.Height {
+    public var height: ButtonComponent.Configuration.Height {
         switch self {
         case .large:
             return .large
@@ -99,11 +99,11 @@ public enum ChipsOutlineConfig: ClickableConfig {
         }
     }
     
-    public var cornerRadius: ClickableComponent.Configuration.Corner {
+    public var cornerRadius: ButtonComponent.Configuration.Corner {
         return .capsule
     }
     
-    public var padding: ClickableComponent.Configuration.Padding {
+    public var padding: ButtonComponent.Configuration.Padding {
         return .round
     }
 }

@@ -232,7 +232,7 @@ class ButtonViewController: UIViewController {
         
         
         buttonArray.forEach { button in
-           if let new = button as? ClickableComponent {
+           if let new = button as? ButtonComponent {
 //               new.rightImage = ClickableImage(named: "ic_arrow_right")
 //               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
                

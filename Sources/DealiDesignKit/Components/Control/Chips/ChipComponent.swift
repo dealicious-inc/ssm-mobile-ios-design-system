@@ -1,20 +1,36 @@
 //
-//  ButtonComponent.swift
-//  
+//  ChipComponent.swift
+//  DealiDesignKit
 //
-//  Created by JohyeonYoon on 6/25/24.
+//  Created by JohyeonYoon on 6/13/25.
 //
 
 import UIKit
 
-public class ClickableComponent: SystemButton {
+final public class ClickableComponentChip: ChipComponent {
+    init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
+        super.init(style: .chip, config: config, color: color.attribute)
+#if DEBUG
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
+            self.title = functionName
+        }
+#endif
+    }
     
-    private var config: ClickableComponent.Configuration?
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class ChipComponent: DealiChip {
+    
+    private var config: ButtonComponent.Configuration?
     private var gradientBackgroundLayer: CAGradientLayer?
     private let highlightView = UIView()
     private let contentStackView = UIStackView()
-    private let dealiTitleLabel = UILabel()
-    private let leftImageView = UIImageView()
+    private let titleLabel = UILabel()
+    public let leftImageView = UIImageView()
     private let rightImageView = UIImageView()
     
     private lazy var singleImageView: UIImageView = {
@@ -35,7 +51,7 @@ public class ClickableComponent: SystemButton {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.dealiTitleLabel.textAlignment = titleAlignment
+            self.titleLabel.textAlignment = titleAlignment
         }
     }
     
@@ -44,8 +60,8 @@ public class ClickableComponent: SystemButton {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.dealiTitleLabel.text = title
-            self.dealiTitleLabel.isHidden = (title?.isEmpty ?? true)
+            self.titleLabel.text = title
+            self.titleLabel.isHidden = (title?.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -55,8 +71,8 @@ public class ClickableComponent: SystemButton {
             if self.singleImage != nil {
                 fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
             }
-            self.dealiTitleLabel.attributedText = attributedTitle
-            self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
+            self.titleLabel.attributedText = attributedTitle
+            self.titleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
             self.updateContent()
         }
     }
@@ -107,11 +123,7 @@ public class ClickableComponent: SystemButton {
     
     /// size
     public var fixedSize: CGSize {
-        if self.config?.style == .button {
-            return CGSize(width: self.fixedWidth, height: self.config?.height?.button ?? 0)
-        } else {
-            return CGSize(width: self.fixedWidth, height: self.config?.height?.chip ?? 0)
-        }
+        return CGSize(width: self.fixedWidth, height: self.config?.height?.chip ?? 0)
     }
     
     /// size가 content 에 맞게 고정
@@ -140,7 +152,7 @@ public class ClickableComponent: SystemButton {
                 width += configuration.padding?.left.normal ?? 0.0
             }
             
-            width += ceil(self.dealiTitleLabel.intrinsicContentSize.width)
+            width += ceil(self.titleLabel.intrinsicContentSize.width)
             if let rightImage = self.rightImage {
                 width += configuration.padding?.right.withImage ?? 0.0
                 width += rightImage.uiImage?.size.width ?? 0.0
@@ -179,18 +191,13 @@ public class ClickableComponent: SystemButton {
         set {
             super.isSelected = newValue
             
-            if self.config?.style == .chip { // 칩만 selected 가능.
-                if self.isEnabled == true {
-                    if newValue == true {
-                        self.updateColor(color: self.config?.color?.selected)
-                        self.dealiTitleLabel.font = self.config?.font?.selected
-                    } else {
-                        self.updateColor(color: self.config?.color?.normal)
-                        self.dealiTitleLabel.font = self.config?.font?.normal
-                    }
-                }
+            guard self.isEnabled else { return }
+            if newValue == true {
+                self.updateColor(color: self.config?.color?.selected)
+                self.titleLabel.font = self.config?.font?.selected
             } else {
-                // 버튼은 selected 상태의 디자인이 없습니다. selected 를 사용해야 한다면 chip을 사용하세요.
+                self.updateColor(color: self.config?.color?.normal)
+                self.titleLabel.font = self.config?.font?.normal
             }
             
         }
@@ -206,14 +213,14 @@ public class ClickableComponent: SystemButton {
             if newValue == true {
                 if self.isSelected {
                     self.updateColor(color: self.config?.color?.selected)
-                    self.dealiTitleLabel.font = self.config?.font?.selected
+                    self.titleLabel.font = self.config?.font?.selected
                 } else {
                     self.updateColor(color: self.config?.color?.normal)
-                    self.dealiTitleLabel.font = self.config?.font?.normal
+                    self.titleLabel.font = self.config?.font?.normal
                 }
             } else {
                 self.updateColor(color: self.config?.color?.disabled)
-                self.dealiTitleLabel.font = self.config?.font?.disabled
+                self.titleLabel.font = self.config?.font?.disabled
             }
         }
     }
@@ -225,9 +232,9 @@ public class ClickableComponent: SystemButton {
         }
     }
     
-    init(style: ClickableComponent.Configuration.Style, config: ClickableConfig, color: ClickableColor) {
+    init(style: ButtonComponent.Configuration.Style, config: ClickableConfig, color: ClickableColor) {
         super.init(frame: .zero)
-        var configuration = ClickableComponent.Configuration()
+        var configuration = ButtonComponent.Configuration()
         configuration.style = style
         configuration.height = config.height
         configuration.padding = config.padding.value(with: config.height, style: style)
@@ -244,11 +251,7 @@ public class ClickableComponent: SystemButton {
         }
         
         var height: CGFloat = 0.0
-        if configuration.style == .button {
-            height = configuration.height?.button ?? 0.0
-        } else {
-            height = configuration.height?.chip ?? 0.0
-        }
+        height = configuration.height?.chip ?? 0.0
         
         switch config.cornerRadius {
         case .fixed(let radius):
@@ -288,17 +291,14 @@ public class ClickableComponent: SystemButton {
         }
         self.contentStackView.setCustomSpacing(configuration.padding?.left.internalSpacing ?? 0.0, after: self.leftImageView)
         
-        self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
-        self.dealiTitleLabel.do {
+        self.contentStackView.addArrangedSubview(self.titleLabel)
+        self.titleLabel.do {
             $0.font = config.font.normal
             $0.isHidden = true
-            if configuration.style == .button {
-                $0.textAlignment = .center
-            } else {
-                $0.textAlignment = .left
-            }
+            $0.textAlignment = .left
+            
         }
-        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.dealiTitleLabel)
+        self.contentStackView.setCustomSpacing(configuration.padding?.right.internalSpacing ?? 0.0, after: self.titleLabel)
         
         self.contentStackView.addArrangedSubview(self.rightImageView)
         self.rightImageView.then {
@@ -351,9 +351,7 @@ public class ClickableComponent: SystemButton {
         self.currentColor = color
         
         self.backgroundColor = color.background
-        if self.config?.style == .button {
-            self.indicator.color = color.text
-        }
+       
         if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
             if singleImage.needOriginColor == false {
                 self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
@@ -368,11 +366,8 @@ public class ClickableComponent: SystemButton {
             } else {
                 self.gradientBackgroundLayer?.isHidden = true
             }
-            /// UILabel에 attributedText를 적용후 textColor을 변경하면 attributedText에 적용된 color값이 textColor로 적용되기 때문에 attributedText가 없을경우에만 textColor를 설정하도록 수정
-            if self.attributedTitle == nil {
-                self.dealiTitleLabel.textColor = color.text
-            }
             
+            self.titleLabel.textColor = color.text
             if let leftImage = self.leftImage, leftImage.needOriginColor == false {
                 self.leftImageView.image = leftImage.uiImage?.withTintColor(color.text)
             }
@@ -404,22 +399,10 @@ public class ClickableComponent: SystemButton {
             self.contentStackView.snp.remakeConstraints { [weak self] in
                 guard let self else { return }
                 $0.top.bottom.equalToSuperview()
-                if configuration.style == .button {
-                    $0.height.equalTo(configuration.height?.button ?? 0.0)
-                    if self.isFixedSize == true {
-                        $0.left.equalToSuperview().offset(leftPadding)
-                        $0.right.equalToSuperview().offset(-rightPadding)
-                    } else {
-                        let horizontalOffset = self.horizontalOffset
-                        $0.centerX.equalToSuperview().offset(horizontalOffset)
-                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(horizontalOffset))
-                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(horizontalOffset))
-                    }
-                } else {
-                    $0.height.equalTo(configuration.height?.chip ?? 0.0)
-                    $0.left.equalToSuperview().offset(leftPadding)
-                    $0.right.equalToSuperview().offset(-rightPadding)
-                }
+                
+                $0.height.equalTo(configuration.height?.chip ?? 0.0)
+                $0.left.equalToSuperview().offset(leftPadding)
+                $0.right.equalToSuperview().offset(-rightPadding)
             }
             
         }
@@ -450,7 +433,7 @@ public class ClickableComponent: SystemButton {
             gradientBackgroundLayer.removeFromSuperlayer()
             self.gradientBackgroundLayer = nil
         }
-
+        
         let gradientLayer = self.setSystemGradient(gradient)
         self.gradientBackgroundLayer = gradientLayer
     }
@@ -471,26 +454,26 @@ public class ClickableComponent: SystemButton {
         self.contentStackView.alpha = 1.0
         self.indicator.stopAnimating()
     }
-//
-//    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
-//    override func setImage(_ image: UIImage?, for state: UIControl.State) {
-//
-//    }
-//
-//    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
-//    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
-//
-//    }
-//
-//    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
-//    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
-//
-//    }
-//
-//    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
-//    func setTitle(_ title: String?, for state: UIControl.State) {
-//
-//    }
+    
+    @available(*, unavailable, message: "singleImage or leftImage or rightImage를 사용하세요. ex) $0.leftImage = ClickableImage(named: \"이미지명\")")
+    func setImage(_ image: UIImage?, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드 색상을 변경할 수 없습니다.")
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        
+    }
+    
+    @available(*, unavailable, message: "디자인 시스템은 백그라운드를 변경할 수 없습니다.")
+    func setBackgroundImage(_ image: UIImage?, for state: UIControl.State) {
+
+    }
+    
+    @available(*, unavailable, message: "title 사용하세요. ex) $0.title = \"\"")
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        
+    }
     
     @available(*, unavailable, message: "디자인 시스템은 타이틀 색상을 변경할 수 없습니다.")
     func setTitleColor(_ color: UIColor, for state: UIControl.State) {
@@ -499,7 +482,7 @@ public class ClickableComponent: SystemButton {
     
 }
 
-extension ClickableComponent {
+extension ChipComponent {
     
     public struct Configuration {
         
@@ -508,8 +491,6 @@ extension ClickableComponent {
             case .large:
                 return 16.0
             case .medium:
-                return 12.0
-            case .semiMedium:
                 return 12.0
             case .small:
                 return 8.0
@@ -540,7 +521,6 @@ extension ClickableComponent {
         public enum Height {
             case small
             case medium
-            case semiMedium
             case large
             
             var button: CGFloat {
@@ -549,8 +529,6 @@ extension ClickableComponent {
                     return 50.0
                 case .medium:
                     return 46.0
-                case .semiMedium:
-                    return 40.0
                 default:
                     return 32.0
                 }
@@ -570,67 +548,27 @@ extension ClickableComponent {
         
         public enum Padding {
             case square
-            case round
+            case raund
             case text
             
-            public func value(with height: ClickableComponent.Configuration.Height, style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+            public func value(with height: ButtonComponent.Configuration.Height, style: ButtonComponent.Configuration.Style) -> ClickablePadding {
                 switch height {
                 case .large:
                     return self.largePadding(with: style)
-                case .medium:
+                case .medium, .semiMedium:
                     return self.mediumPadding(with: style)
-                case .semiMedium:
-                    return self.semiMediumPadding(with: style)
                 case .small:
                     return self.smallPadding(with: style)
                 }
             }
             
-            private func largePadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+            private func largePadding(with style: ButtonComponent.Configuration.Style) -> ClickablePadding {
                 switch self {
                 case .square:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    }
-                case .round:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                case .text:
-                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
-                }
-            }
-            
-            private func mediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
-                switch self {
-                case .square:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    }
-                case .round:
-                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                case .text:
-                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
-                }
-            }
-            
-            private func semiMediumPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
-                switch self {
-                case .square:
-                    return ClickablePadding(left: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                            right: ClickablePaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
                     
-                case .round:
+                case .raund:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
                 case .text:
@@ -639,19 +577,30 @@ extension ClickableComponent {
                 }
             }
             
-            private func smallPadding(with style: ClickableComponent.Configuration.Style) -> ClickablePadding {
+            private func mediumPadding(with style: ButtonComponent.Configuration.Style) -> ClickablePadding {
+                switch self {
+                case .square:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                    
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                case .text:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                }
+            }
+            
+            private func smallPadding(with style: ButtonComponent.Configuration.Style) -> ClickablePadding {
                 switch self {
                 case .square:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
-                case .round:
-                    if style == .button {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
-                    } else {
-                        return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
-                    }
+                case .raund:
+                    return ClickablePadding(left: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
+                                            right: ClickablePaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
+                    
                 case .text:
                     return ClickablePadding(left: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
                                             right: ClickablePaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
@@ -660,94 +609,13 @@ extension ClickableComponent {
             
         }
 
-        public var style: Style = .button
+        public var style: Style = .chip
         
         public var font: ClickableFont?
         
         public var height: Height?
         public var color: ClickableColor?
         public var padding: ClickablePadding?
-        public var cornerRadius: ClickableComponent.Configuration.Corner = .none
-    }
-}
-
-// MARK: - Font
-public struct ClickableFont {
-    var normal: UIFont
-    var selected: UIFont?
-    var disabled: UIFont
-    
-    static func button(font: UIFont) -> ClickableFont {
-        // 버튼은 selected 상태가 없음.
-        return ClickableFont(normal: font, selected: nil, disabled: font)
-    }
-    
-    static func chip(font: UIFont) -> ClickableFont {
-        return ClickableFont(normal: font, selected: font, disabled: font)
-    }
-}
-
-// MARK: - Color
-public protocol ClickableColorConfig {
-    var attribute: ClickableColor { get }
-}
-
-public struct ClickableColorSet {
-    var gradient: GradientConfigurable?
-    var background: UIColor
-    var text: UIColor
-    var border: UIColor?
-}
-
-public struct ClickableColor {
-    var normal: ClickableColorSet
-    var selected: ClickableColorSet? // chip만 사용. button은 seleted 상태 없음.
-    var disabled: ClickableColorSet
-}
-
-// MARK: - Config
-public protocol ClickableConfig {
-    var font: ClickableFont { get }
-    var height: ClickableComponent.Configuration.Height { get }
-    var cornerRadius: ClickableComponent.Configuration.Corner { get }
-    var padding: ClickableComponent.Configuration.Padding { get }
-}
-
-// MARK: - Padding
-public struct ClickablePaddingSet {
-    /// 이미지가 없는 경우 Padding
-    var normal: CGFloat
-    /// 이미지가 있는 경우 Padding
-    var withImage: CGFloat
-    /// 이미지와 타이틀 사이 spacing
-    var internalSpacing: CGFloat
-}
-
-public struct ClickablePadding {
-    var left: ClickablePaddingSet
-    var right: ClickablePaddingSet
-}
-
-// MARK: - Image
-public struct ClickableImage {
-    /// 이미지명
-    var named: String
-    /// 이미지 색상 유지?
-    var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
-    var uiImage: UIImage?
-    public init(named name: String, needOriginColor: Bool = false) {
-        self.named = name
-        self.needOriginColor = needOriginColor
-        self.uiImage = UIImage(named: name)
-    }
-    public init(dealiIconName: String, needOriginColor: Bool = false) {
-        self.named = dealiIconName
-        self.needOriginColor = needOriginColor
-        self.uiImage = UIImage.dealiIcon(named: dealiIconName)?.resize(CGSize(width: 16.0, height: 16.0))
-    }
-    public init(_ image: UIImage?, needOriginColor: Bool = false) {
-        self.named = ""
-        self.uiImage = image
-        self.needOriginColor = needOriginColor
+        public var cornerRadius: ButtonComponent.Configuration.Corner = .none
     }
 }

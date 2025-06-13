@@ -9,11 +9,18 @@ import SwiftUI
 
 public final class TabBarItemViewModel: ObservableObject {
     @Published public var title: String?
-    @Published public var isHidden: Bool = false
-    @Published public var showBadge: Bool = false
+    @Published public var isHidden: Bool
+    @Published public var showBadge: Bool
+    @Published public var icon: DealiTabBarIcon?
     
-    public init(title: String?) {
+    public init(title: String?,
+                isHidden: Bool = false,
+                showBadge: Bool = false,
+                icon: DealiTabBarIcon? = nil) {
         self.title = title
+        self.isHidden = isHidden
+        self.showBadge = showBadge
+        self.icon = icon
     }
 }
 
@@ -25,8 +32,8 @@ public final class TabBarViewModel: ObservableObject {
     var isScrollable: Bool = false
     
     public init(type: DealiTabBarPreset,
-                selectedIndex: Int = 0,
-                items: [TabBarItemViewModel] = []) {
+                items: [TabBarItemViewModel] = [],
+                selectedIndex: Int = 0) {
         self.type = type
         self.selectedIndex = selectedIndex
         self.items = items
@@ -35,17 +42,18 @@ public final class TabBarViewModel: ObservableObject {
 }
 
 public struct TabBarView: View {
-    var viewModel: TabBarViewModel
+    @ObservedObject var viewModel: TabBarViewModel
     
     public init(viewModel: TabBarViewModel) {
         self.viewModel = viewModel
     }
     
     public init(type: DealiTabBarPreset,
-                items: [TabBarItemViewModel] = []) {
+                items: [TabBarItemViewModel] = [],
+                selectedIndex: Int = 0) {
         let viewModel = TabBarViewModel(type: type,
-                                        selectedIndex: 0,
-                                        items: items)
+                                        items: items,
+                                        selectedIndex: selectedIndex)
         self.init(viewModel: viewModel)
     }
     
@@ -54,11 +62,21 @@ public struct TabBarView: View {
             divider
             Group {
                 if viewModel.isScrollable {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(spacing: viewModel.type.itemHorizontalPadding) {
-                            tabButtons
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(spacing: viewModel.type.itemHorizontalPadding) {
+                                tabButtons
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onAppear {
+                            proxy.scrollTo(viewModel.selectedIndex, anchor: .center)
+                        }
+                        .onChange(of: viewModel.selectedIndex) { index in
+                            withAnimation {
+                                proxy.scrollTo(index, anchor: .center)
+                            }
+                        }
                     }
                 } else {
                     HStack(spacing: viewModel.type.itemHorizontalPadding) {
@@ -67,8 +85,8 @@ public struct TabBarView: View {
                 }
             }
             .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
-        }.frame(height: viewModel.type.tabBarContentHeight)
-        
+        }
+        .frame(height: viewModel.type.tabBarContentHeight)
     }
 
     private var tabButtons: some View {
@@ -80,15 +98,27 @@ public struct TabBarView: View {
                 let type = viewModel.type
                 
                 VStack(spacing: 0) {
-                    Text(viewModel.items[index].title ?? "")
-                        .font(isSelected ? Font(type.selectedFont) : Font(type.font))
-                        .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
-                        .frame(maxWidth: .infinity , maxHeight: .infinity)
+                    ZStack(alignment: .topTrailing) {
+                        HStack(spacing: 0) {
+                            if let icon = viewModel.items[index].icon {
+                                ImageHelper.kfImage(url: icon.url, size: icon.size)
+                            }
+                            
+                            Text(viewModel.items[index].title ?? "")
+                                .font(isSelected ? Font(type.selectedFont) : Font(type.font))
+                                .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
+                                .frame(maxWidth: .infinity , maxHeight: .infinity)
+                        }
+                        
+                        if viewModel.items[index].showBadge {
+                            badge
+                        }
+                    }
+                    .fixedSize()
+                    .frame(height: viewModel.type.tabBarContentHeight - 2)
                     
                     if type.style == .segment || type.style == .slider {
-                        Rectangle()
-                            .fill(isSelected ? Color(type.selectedTextColor) : .clear)
-                            .frame(maxWidth: .infinity, maxHeight: 2)
+                        IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
                     }
                 }
                 .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
@@ -102,16 +132,46 @@ public struct TabBarView: View {
             .fill(Color(viewModel.type.bottomDividerColor))
             .frame(maxWidth: .infinity, maxHeight: 1)
     }
+    
+    private var badge: some View {
+        Circle()
+            .fill(Color(.primary01))
+            .frame(width: 4, height: 4)
+            .offset(x: 4, y: -4)
+    }
+    
+    private struct IndicatorView: View {
+        let isSelected: Bool
+        let color: Color
+
+        var body: some View {
+            Rectangle()
+                .fill(isSelected ? color : .clear)
+                .frame(maxWidth: .infinity, maxHeight: 2)
+        }
+    }
+    
 }
 
 #Preview {
-    let tabBarItems = [TabBarItemViewModel(title: "1번 Tab"),
+    let icon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+    let tabBarItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
                        TabBarItemViewModel(title: "2번 Tab"),
-                       TabBarItemViewModel(title: "3번 Tab")
-    ]
-                       
+                       TabBarItemViewModel(title: "3번 Tab", icon: icon)]
+    
+    let tabBarLongItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
+                           TabBarItemViewModel(title: "2번 Tab", showBadge: true),
+                           TabBarItemViewModel(title: "3번 Tab", icon: icon),
+                           TabBarItemViewModel(title: "4번 Tab"),
+                           TabBarItemViewModel(title: "5번 Tab"),
+                           TabBarItemViewModel(title: "6번 Tab"),
+                           TabBarItemViewModel(title: "7번 Tab"),
+                           TabBarItemViewModel(title: "8번 Tab"),
+                           TabBarItemViewModel(title: "9번 Tab")]
+    
     TabBarView(type: .tabBarSegment01, items: tabBarItems)
     
     //margin 찾는중..
     TabBarView(type: .tabBarSlider01, items: tabBarItems)
+    TabBarView(type: .tabBarSlider02, items: tabBarLongItems, selectedIndex: 2)
 }

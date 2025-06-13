@@ -648,9 +648,24 @@ final class ImageChipCustomView: DealiCustomView {
 // MARK: - SwiftUI
 extension TabBarViewController {
     func setTabBarSwiftUI() {
-        setTitleLabel("tabBarSegment01")
-        segment01()
+        let icon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+        let tabBarItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
+                           TabBarItemViewModel(title: "2번 Tab"),
+                           TabBarItemViewModel(title: "3번 Tab", icon: icon)]
         
+        let tabBarLongItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
+                               TabBarItemViewModel(title: "2번 Tab", showBadge: true),
+                               TabBarItemViewModel(title: "3번 Tab", icon: icon),
+                               TabBarItemViewModel(title: "4번 Tab"),
+                               TabBarItemViewModel(title: "5번 Tab"),
+                               TabBarItemViewModel(title: "6번 Tab"),
+                               TabBarItemViewModel(title: "7번 Tab"),
+                               TabBarItemViewModel(title: "8번 Tab"),
+                               TabBarItemViewModel(title: "9번 Tab")]
+        
+        segment01(tabBarItems)
+        slider01(tabBarLongItems)
+        slider02(tabBarLongItems)
     }
     
     func setTitleLabel(_ title: String) {
@@ -662,13 +677,33 @@ extension TabBarViewController {
         }
     }
     
-    func segment01() {
-        let tabBarItems = [TabBarItemViewModel(title: "전체"),
-                           TabBarItemViewModel(title: "여성의류")]
-        
-        let segment01 = TabBarView(type: .tabBarSegment01, items: tabBarItems).UIKit()
-        contentStackView.addArrangedSubview(segment01)
-        segment01.snp.makeConstraints {
+    func segment01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSegment01")
+        let tabbar = TabBarView(type: .tabBarSegment01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func slider01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider01")
+        let tabbar = TabBarView(type: .tabBarSlider01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func slider02(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider02")
+        let tabbar = TabBarView(type: .tabBarSlider02,
+                                items: items,
+                                selectedIndex: 8).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
     }

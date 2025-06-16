@@ -158,16 +158,12 @@
 		042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				4DB9FA7F2E003F0B008430C4 /* Sub */,
+				4DB9FA7D2E003DDA008430C4 /* Main */,
 				4DA7ED852DA7AA2E0029165D /* Utils */,
-				04AD450F2A15EEF900093BEB /* ViewControllers */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
 				FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */,
-				4DA7ED772DA668310029165D /* 0. Main */,
-				4DA7ED782DA668560029165D /* 1. Token */,
-				4DA7ED7B2DA6694A0029165D /* 2. Atom */,
-				4DA7ED792DA668660029165D /* 3. Molecule */,
 				04AD45112A15EF1000093BEB /* Others */,
-				4DB9FA772E0038B4008430C4 /* MainViewController.swift */,
 			);
 			path = DealiDesignSystemSampleApp;
 			sourceTree = "<group>";
@@ -177,18 +173,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */,
-				3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */,
-				4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */,
-				4D1FA9272AFC740000AA510F /* Sub */,
-				3B92CD032D62CE57006A2057 /* SwiftUISubViews */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		04AD45112A15EF1000093BEB /* Others */ = {
@@ -220,20 +204,13 @@
 			path = DealiTabBarViewController;
 			sourceTree = "<group>";
 		};
-		3B92CD032D62CE57006A2057 /* SwiftUISubViews */ = {
+		3B92CD032D62CE57006A2057 /* SwiftUIBase */ = {
 			isa = PBXGroup;
 			children = (
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 			);
-			path = SwiftUISubViews;
-			sourceTree = "<group>";
-		};
-		4D1FA9272AFC740000AA510F /* Sub */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sub;
+			path = SwiftUIBase;
 			sourceTree = "<group>";
 		};
 		4D584A1C2D1A82A1007BB775 /* Notice */ = {
@@ -344,6 +321,53 @@
 				4DA7ED862DA7AA390029165D /* ActionManager.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		4DB9FA7C2E003DC7008430C4 /* SwiftUIBase */ = {
+			isa = PBXGroup;
+			children = (
+				3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */,
+			);
+			path = SwiftUIBase;
+			sourceTree = "<group>";
+		};
+		4DB9FA7D2E003DDA008430C4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4DB9FA7E2E003E13008430C4 /* UIKitBase */,
+				4DB9FA7C2E003DC7008430C4 /* SwiftUIBase */,
+				4DB9FA772E0038B4008430C4 /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4DB9FA7E2E003E13008430C4 /* UIKitBase */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */,
+				E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */,
+			);
+			path = UIKitBase;
+			sourceTree = "<group>";
+		};
+		4DB9FA7F2E003F0B008430C4 /* Sub */ = {
+			isa = PBXGroup;
+			children = (
+				4DB9FA802E003F5C008430C4 /* UIKitBase */,
+				3B92CD032D62CE57006A2057 /* SwiftUIBase */,
+			);
+			path = Sub;
+			sourceTree = "<group>";
+		};
+		4DB9FA802E003F5C008430C4 /* UIKitBase */ = {
+			isa = PBXGroup;
+			children = (
+				4DA7ED772DA668310029165D /* 0. Main */,
+				4DA7ED782DA668560029165D /* 1. Token */,
+				4DA7ED7B2DA6694A0029165D /* 2. Atom */,
+				4DA7ED792DA668660029165D /* 3. Molecule */,
+			);
+			path = UIKitBase;
 			sourceTree = "<group>";
 		};
 		4DE3261E2CDB611400E67FEC /* ImageChip */ = {

@@ -52,7 +52,6 @@
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */; };
-		E5E0642B2D5F111B00925FAF /* UIKitBaseViewControllerw.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642A2D5F111B00925FAF /* UIKitBaseViewControllerw.swift */; };
 		E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */; };
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
@@ -110,7 +109,6 @@
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTestView.swift; sourceTree = "<group>"; };
-		E5E0642A2D5F111B00925FAF /* UIKitBaseViewControllerw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBaseViewControllerw.swift; sourceTree = "<group>"; };
 		E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSwiftUIBaseView.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +158,6 @@
 		042EA8A72A14C7D500370706 /* DealiDesignSystemSampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				4DB9FA752E002A6D008430C4 /* UIKit */,
 				4DA7ED852DA7AA2E0029165D /* Utils */,
 				04AD450F2A15EEF900093BEB /* ViewControllers */,
 				042EA8B62A14C7D700370706 /* Info.plist */,
@@ -188,7 +185,6 @@
 				E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */,
 				3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */,
 				4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */,
-				E5E0642A2D5F111B00925FAF /* UIKitBaseViewControllerw.swift */,
 				4D1FA9272AFC740000AA510F /* Sub */,
 				3B92CD032D62CE57006A2057 /* SwiftUISubViews */,
 			);
@@ -350,13 +346,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		4DB9FA752E002A6D008430C4 /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
 		4DE3261E2CDB611400E67FEC /* ImageChip */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,7 +493,6 @@
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
-				E5E0642B2D5F111B00925FAF /* UIKitBaseViewControllerw.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */,

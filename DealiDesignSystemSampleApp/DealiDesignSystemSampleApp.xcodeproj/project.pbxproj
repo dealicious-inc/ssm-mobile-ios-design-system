@@ -18,7 +18,6 @@
 		042EA8B52A14C7D700370706 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B32A14C7D700370706 /* LaunchScreen.storyboard */; };
 		047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D08462D23C156003EA0C0 /* ToolTipViewController.swift */; };
 		04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45122A15EF4400093BEB /* TypographyViewController.swift */; };
-		04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AD45142A15EF5900093BEB /* TypographyView.swift */; };
 		390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390D485A2C88456B00C30C0E /* FontComponentViewController.swift */; };
 		392C389E2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */; };
 		392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */; };
@@ -71,7 +70,6 @@
 		042EA8B62A14C7D700370706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047D08462D23C156003EA0C0 /* ToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipViewController.swift; sourceTree = "<group>"; };
 		04AD45122A15EF4400093BEB /* TypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyViewController.swift; sourceTree = "<group>"; };
-		04AD45142A15EF5900093BEB /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		390D485A2C88456B00C30C0E /* FontComponentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontComponentViewController.swift; sourceTree = "<group>"; };
 		392C389D2C4655E30088D176 /* ScrollViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		392C389F2C465AC70088D176 /* ViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 		04AD450F2A15EEF900093BEB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				04AD45102A15EF0400093BEB /* Views */,
 				392C389A2C4654870088D176 /* BottomSheetTest */,
 				042EA8AC2A14C7D500370706 /* MainViewController.swift */,
 				E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */,
@@ -177,14 +174,6 @@
 				3B92CD032D62CE57006A2057 /* SwiftUISubViews */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		04AD45102A15EF0400093BEB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				04AD45142A15EF5900093BEB /* TypographyView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		04AD45112A15EF1000093BEB /* Others */ = {
@@ -418,7 +407,6 @@
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */,
 				042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */,
-				04AD45152A15EF5900093BEB /* TypographyView.swift in Sources */,
 				4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */,
 				4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */,
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,

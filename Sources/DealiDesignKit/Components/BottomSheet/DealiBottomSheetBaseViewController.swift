@@ -10,7 +10,7 @@ import UIKit
 open class DealiBottomSheetBaseViewController: UIViewController {
     
     private var cornerLayer: CAShapeLayer?
-    private let contentView = UIView()
+    public let contentView = UIView()
     public let contentStackView = UIStackView()
     public let containerView = UIView()
     
@@ -24,6 +24,10 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     public var closeBottomSheetOnOutsideTouch: Bool = false
     /// close버튼 클릭시 호출되는 ActionHandler
     public var closeActionHandler: (() -> Void)?
+    
+    public var shouldCalulateHeightBasedOnScrollView: Bool = true
+    
+    private var isBottomSheetShown: Bool = false
     
     /// 타이들 영역 노출 타입
     public var titleType: EBottomSheetTitleType = .hidden {
@@ -81,12 +85,6 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.showBottomSheet()
-    }
-    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -104,6 +102,10 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
         self.updateContainerViewHeight()
         
+        if !self.isBottomSheetShown {
+            self.showBottomSheet()
+            self.isBottomSheetShown = true
+        }
     }
     
     open override func loadView() {
@@ -129,7 +131,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.spacing = 4.0
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
-            $0.left.right.equalToSuperview().inset(16.0)
+            $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         
@@ -204,6 +206,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.alignment = .center
             $0.distribution = .fill
             $0.spacing = 16.0
+            $0.layoutMargins = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+            $0.isLayoutMarginsRelativeArrangement = true
         }.snp.makeConstraints {
             $0.top.left.right.bottom.equalToSuperview()
         }
@@ -243,6 +247,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     /// containerView 에 ScrollView 타입에 View 가 addSubView 되었을때 기본적으로 높이 계산 함수
     /// 추후에 ScrollView 이외에 다른 View가 addSubView 되었을경우에는 해당 함수를 override해서 높이 계산을 재정의
     open func updateContainerViewHeight() {
+        guard self.shouldCalulateHeightBasedOnScrollView else { return }
+        
         for addView in self.containerView.subviews {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()

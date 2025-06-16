@@ -96,13 +96,13 @@ final class DealiPlaygroundViewController: UIViewController {
 final class TextInputValidationView: UIView {
     
     private let disposeBag = DisposeBag()
-    private let restrictedTextInput = DealiTextInput_v2()
+    private let restrictedTextInput = DealiTextInput()
     
 
     private var restrictionOption: DealiCharacterOptions = []
     
     // MARK: - ErrorMsg
-    private let allowedTextInput = DealiTextInput_v2()
+    private let allowedTextInput = DealiTextInput()
     private var allowingOption: DealiCharacterOptions = []
     
     override init(frame: CGRect) {
@@ -110,11 +110,9 @@ final class TextInputValidationView: UIView {
         
         self.setupUI()
         
-        self.restrictedTextInput.rx.textEditingControlProperty
-            .orEmpty
-            .changed
-            .scan(self.restrictedTextInput.text ?? "") { _, current -> String in
-                
+        self.restrictedTextInput.rx.textEditingChanged
+            .scan(self.restrictedTextInput.text ?? "") { _, current -> String? in
+                guard let current else { return current }
                 self.restrictionOption.setErrorMessage(for: .alphabet, errorMessage: "알파벳 금지")
                 self.restrictionOption.setErrorMessage(for: .numeric, errorMessage: "숫자 금지")
                 self.restrictionOption.setErrorMessage(for: .korean, errorMessage:"한글 금지")
@@ -126,37 +124,18 @@ final class TextInputValidationView: UIView {
                     return current
                 }
                 invalidOption.setErrorMessage(for: current)
-                self.restrictedTextInput.inputStatus = .error(invalidOption.errorMessage)
+                self.restrictedTextInput.errorStatus = .error(invalidOption.errorMessage)
 
                 return invalidOptionArray.reduce(current) { text, option -> String in
                     text.filteredText(for: option)
                 }
 
             }
-            .bind(with: self) { owner, text in
-                owner.restrictedTextInput.text = text
+            .map { text -> TextUpdateEvent in
+                return (text, false)
             }
+            .bind(to: self.restrictedTextInput.rx.textWithEditingChanged)
             .disposed(by: self.disposeBag)
-        
-//        self.allowedTextInput.rx.textEditingControlProperty
-//            .orEmpty
-//            .changed
-//            .scan(self.allowedTextInput.text ?? "") { _, current -> String in
-//                
-//                let invalidOptionArray = [TextValidator(condition:.allow(self.allowingOption))].filter { !current.isValid(for: $0) }
-//                guard invalidOptionArray.first != nil else { return current }
-//                
-//                let filteredText: String = invalidOptionArray.reduce(current) { text, option -> String in
-//                    text.filteredText(for: option)
-//                }
-//                
-//                return filteredText
-//                
-//            }
-//            .bind(with: self) { owner, text in
-//                owner.allowedTextInput.text = text
-//            }
-//            .disposed(by: self.disposeBag)
     }
     
     required init?(coder: NSCoder) {

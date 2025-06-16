@@ -11,9 +11,13 @@ public enum ETextInputStatus: Equatable {
     case normal
     case focusIn
     case focusOut
-    case error(_ errorMessage: String?)
     case disabled
     case readOnly
+}
+
+public enum ETextInputErrorStatus: Equatable {
+    case none
+    case error(String?)
 }
 
 public enum ETextInputRightViewType: Equatable {
@@ -48,8 +52,6 @@ extension ETextInputStatus {
         switch self {
         case .focusIn:
             UIColor.g100.cgColor
-        case .error:
-            UIColor.error.cgColor
         case .readOnly:
             self.backgroundColor.cgColor
         default:
@@ -65,6 +67,25 @@ extension ETextInputStatus {
             return .g80
         default:
             return .g100
+        }
+    }
+}
+
+extension ETextInputErrorStatus {
+    var textColor: UIColor {
+        return .g100
+    }
+    
+    var backgroundColor: UIColor {
+        return .primary04
+    }
+    
+    var borderColor: CGColor {
+        switch self {
+        case .error:
+            UIColor.error.cgColor
+        default:
+            UIColor.g20.cgColor
         }
     }
 }

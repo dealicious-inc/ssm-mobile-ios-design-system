@@ -15,6 +15,7 @@ import RxCocoa
  설명: UI Elements - SearchInput
  */
 
+@MainActor
 public protocol DealiSearchInputDelegate: AnyObject {
     func search(keyword: String?)
     func clear()
@@ -83,7 +84,7 @@ public final class DealiSearchInput: UIView {
             self.updateKeyword(keyword)
         }
     }
-    private weak var delegate: DealiSearchInputDelegate?
+    public weak var delegate: DealiSearchInputDelegate?
     private let disposeBag = DisposeBag()
     
     /// keyword 세팅

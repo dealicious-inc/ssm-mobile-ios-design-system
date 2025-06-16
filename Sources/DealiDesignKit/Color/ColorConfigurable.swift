@@ -30,6 +30,8 @@ enum PrimaryColor: Int, ColorConfigurable, SystemColorConfig {
     case primary03 = 0xFEECEF
     case primary04 = 0xFFFFFF
     case primary05 = 0x000000
+    case primary06 = 0xFFDCE2
+    case primary07 = 0xC62558
 }
 
 enum SecondaryColor: Int, ColorConfigurable, SystemColorConfig {

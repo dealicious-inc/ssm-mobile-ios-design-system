@@ -24,6 +24,11 @@ public class DealiToolTip: UIView {
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
     
+    public enum EToolTipColor {
+        case blue
+        case white
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -84,9 +89,24 @@ public class DealiToolTip: UIView {
         self.titleLabel.then {
             $0.font = .b3sb13
             $0.textColor = .primary04
-            $0.textAlignment = .center
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(16.0)
+        }
+    }
+    
+    private func setColor(_ color: EToolTipColor) {
+        switch color {
+        case .blue:
+            self.titleLabel.textColor = .primary04
+            self.containerView.backgroundColor = .secondary01
+            self.arrowImageView.image = .dealiIcon(named: "img_tailanchor")?.withTintColor(.secondary01)
+        case .white:
+            self.titleLabel.textColor = .g100
+            self.containerView.backgroundColor = .primary04
+            self.arrowImageView.image = .dealiIcon(named: "img_tailanchor")?.withTintColor(.primary04)
+
         }
     }
     
@@ -94,6 +114,7 @@ public class DealiToolTip: UIView {
     ///
     ///  - Parameters:
     ///   - arrowPosition: 화살표 위치
+    ///   - color: backgrond 컬러. default: blue
     ///   - text: 툴팁에 표시할 텍스트
     ///   - superView: 툴팁을 추가할 뷰
     ///   - outsideView: 툴팁 제외한 영역을 클릭했을 때 툴팁을 닫을 뷰
@@ -104,6 +125,7 @@ public class DealiToolTip: UIView {
     @discardableResult
     public static func show(
         arrowPosition: DealiToopTipArrowPosition,
+        color: EToolTipColor = .blue,
         text: String,
         superView: UIView,
         outsideView: UIView,
@@ -115,7 +137,8 @@ public class DealiToolTip: UIView {
         
         let toolTip = DealiToolTip()
         toolTip.setToolTipLayout(arrowPosition: arrowPosition)
-        toolTip.titleLabel.text = text
+        toolTip.titleLabel.attributedText = NSMutableAttributedString(string: text).font(.b3sb13).setLineHeight()
+        toolTip.setColor(color)
         superView.addSubview(toolTip)
         toolTip.snp.makeConstraints {
             toolTipLayout($0)
@@ -131,7 +154,7 @@ public class DealiToolTip: UIView {
         
         superView.bringSubviewToFront(toolTip)
         
-        dismissView.rx.tapGesture()
+        dismissView.rx.touchDownGesture()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
                 toolTip?.dismissToolTip {

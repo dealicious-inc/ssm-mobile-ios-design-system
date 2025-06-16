@@ -2,212 +2,284 @@
 //  UIKitBaseViewController.swift
 //  DealiDesignSystemSampleApp
 //
-//  Created by 조서현 on 2/14/25.
+//  Created by 윤조현 on 4/10/25.
 //  Copyright © 2025 Dealicious Inc. All rights reserved.
 //
 
 import UIKit
-import RxSwift
-
+import SwiftUI
 import DealiDesignKit
 
 final class UIKitBaseViewController: UIViewController {
-    private let contentStackView = UIStackView()
-    private var componentButtonArray: [ClickableComponentButton] = []
+    
+    private enum Section: Int, CaseIterable {
+        case searchBar
+        case token
+        case atom
+        case molcule
+    }
+    
+    lazy var componentSectionData: [Int: ComponentSectionData] = [
+        Section.token.rawValue : tokenSectionData,
+        Section.atom.rawValue: atomSectionData,
+        Section.molcule.rawValue: molculeSectionData
+    ]
+    
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.compositionalLayout)
+    
+    private lazy var compositionalLayout: UICollectionViewLayout = {
+        UICollectionViewCompositionalLayout { sectionIndex, env in
+            switch Section(rawValue: sectionIndex) {
+            case .token, .atom, .molcule:
+                return self.componentLayout()
+            default:
+                return self.singleItemLayout()
+            }
+        }
+    }()
+        
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ItemData>! = nil
     
     override func loadView() {
         self.view = .init()
         
-        self.view.backgroundColor = .primary04
-        
-        self.title = "UIKit Base Components"
-        
-        let scrollView = UIScrollView()
-        self.view.addSubview(scrollView)
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        let contentView = UIView()
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
-        }
-        
-        contentView.addSubview(self.contentStackView)
-        self.contentStackView.then {
-            $0.axis = .vertical
-            $0.spacing = 20.0
+        self.view.backgroundColor = .systemBackground
+      
+        self.view.addSubview(self.collectionView)
+        self.collectionView.then {
+            $0.delegate = self
+            $0.register(SearchBarCell.self, forCellWithReuseIdentifier: SearchBarCell.identifier)
+            $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
+            $0.register(ComponentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ComponentHeaderView.identifier)
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30.0)
-            $0.left.right.equalToSuperview().inset(20.0)
-            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
-        let playgroundButton = DealiControl.btnFilledTonalLarge03()
-        contentStackView.addArrangedSubview(playgroundButton)
-        playgroundButton.do {
-            $0.title = "Playground"
-            $0.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
-        }
+        self.configureDataSource()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "DesignSystem Sample App"
+    }
+    
+    var tokenSectionData =
+    ComponentSectionData(
+        title: "Token",
+        items: [
+            ItemData(title: "Color", type: .color),
+            ItemData(title: "Typography", type: .typography),
+            ItemData(title: "Font", type: .font),
+        ]
+    )
+    
+    var atomSectionData =
+    ComponentSectionData(
+        title: "Atom",
+        items: [
+            ItemData(title: "Accordion", type: .accordion),
+            ItemData(title: "Badge", type: .badge),
+            ItemData(title: "Button", type: .button),
+            ItemData(title: "Checkbox", type: .checkbox),
+            ItemData(title: "Chip", type: .chip),
+            ItemData(title: "Dropdown", type: .dropdown),
+            ItemData(title: "ImageChip", type: .imageChip),
+            ItemData(title: "Indicator", type: .indicator),
+            ItemData(title: "LabeledText", type: .labeledText),
+            ItemData(title: "Placeholder", type: .placeholder),
+            ItemData(title: "RadioButton", type: .radioButton),
+            ItemData(title: "SearchInput", type: .searchInput),
+            ItemData(title: "SliderBar", type: .sliderBar),
+            ItemData(title: "DealiSwitch", type: .dealiSwitch),
+            ItemData(title: "Tag", type: .tag),
+            ItemData(title: "TextArea", type: .textArea),
+            ItemData(title: "TextInput", type: .textInput),
+            ItemData(title: "TextLink", type: .textLink),
+            ItemData(title: "ToolTip", type: .toolTip),
+        ]
+    )
+    
+    var molculeSectionData =
+    ComponentSectionData(
+        title: "Molecule",
+        items: [
+            ItemData(title: "Alert", type: .alert),
+            ItemData(title: "BottomSheet", type: .bottomSheet),
+            ItemData(title: "Empty", type: .empty),
+            ItemData(title: "Notice", type: .notice),
+            ItemData(title: "TabBar", type: .tabBar),
+            
+        ]
+    )
+}
+
+private extension UIKitBaseViewController {
+    
+    func singleItemLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        self.addComponentsButtons()
-        self.setComponentBtnsStorerdByTitle()
-    }
-    
-    private func setComponentBtnsStorerdByTitle() {
-        let sortedButtons = self.componentButtonArray.sorted { (button1, button2) -> Bool in
-            let title1 = button1.title ?? ""
-            let title2 = button2.title ?? ""
-            return title1 < title2
-        }
+        let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension:  .estimated(50.0))
         
-        sortedButtons.forEach { self.contentStackView.addArrangedSubview($0) }
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        return section
     }
     
-    private func addComponents(title: String, actionSelector: Selector) {
-        let accordionComponents = DealiControl.btnOutlineLarge03()
-        self.componentButtonArray.append(accordionComponents)
-        accordionComponents.do {
-            $0.title = title
-            $0.addTarget(self, action: actionSelector, for: .touchUpInside)
+    func componentLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2), heightDimension: .absolute(60.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 10)
+        
+        let groupWidth: NSCollectionLayoutDimension = .fractionalWidth(1.0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth, heightDimension: .estimated(100.0))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.boundarySupplementaryItems = [
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40.0)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        ]
+        return section
+    }
+    
+}
+
+// ActionHandler
+extension UIKitBaseViewController {
+    func handleAction(with item: ItemData) {
+        ActionManager.shared.performAction(for: item) {
+            self.pushViewController(item.nextVC)
         }
-    }
-    
-    private func addComponentsButtons() {
-        self.addComponents(title: "ToolTip Components", actionSelector: #selector(toolTipButtonPressed))
-        self.addComponents(title: "TabBar Controller", actionSelector: #selector(tabBarViewControllerPressed))
-        self.addComponents(title: "Typography", actionSelector: #selector(typoButtonPressed))
-        self.addComponents(title: "Font", actionSelector: #selector(fontComponentButtonPressed))
-        self.addComponents(title: "Color", actionSelector: #selector(colorButtonPressed))
-        self.addComponents(title: "BottomSheetPopup", actionSelector: #selector(bottomSheetPopupButtonPressed))
-        self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
-        self.addComponents(title: "RadioButton", actionSelector: #selector(radioButtonPressed))
-        self.addComponents(title: "Button Components", actionSelector: #selector(buttonComponentButtonPressed))
-        self.addComponents(title: "TextLink Components", actionSelector: #selector(textLinkComponentButtonPressed))
-        self.addComponents(title: "Chip Components", actionSelector: #selector(chipButtonPressed))
-        self.addComponents(title: "Image Chip Components", actionSelector: #selector(imageChipButtonPressed))
-        self.addComponents(title: "Toggle/Switch", actionSelector: #selector(toggleButtonPressed))
-        self.addComponents(title: "SliderBar", actionSelector: #selector(sliderBarButtonPressed))
-        self.addComponents(title: "TextInput Components", actionSelector: #selector(textInputButtonPressed))
-        self.addComponents(title: "TextArea Components", actionSelector: #selector(textAreaButtonPressed))
-        self.addComponents(title: "SearchInput Components", actionSelector: #selector(searchInputButtonPressed))
-        self.addComponents(title: "Tag Components", actionSelector: #selector(tagButtonPressed))
-        self.addComponents(title: "Check Components", actionSelector: #selector(checkComponentsPressed))
-        self.addComponents(title: "Indicator Components", actionSelector: #selector(indicatorComponentsPressed))
-        self.addComponents(title: "Empty Components", actionSelector: #selector(emptyComponentsPressed))
-        self.addComponents(title: "Labeled Text Components", actionSelector: #selector(labeledTextComponentsPressed))
-        self.addComponents(title: "Accordion Components", actionSelector: #selector(accordionComponentsPressed))
-        self.addComponents(title: "PlaceholderImageView Components", actionSelector: #selector(placeholderImageViewComponentsPressed))
-        self.addComponents(title: "Notice Components", actionSelector: #selector(noticeComponentsPressed))
     }
 }
 
-// MARK: - Button Actions
+extension UIKitBaseViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let sectionIdentifier = dataSource.sectionIdentifier(for: indexPath.section)
+        switch sectionIdentifier {
+        case .token, .atom, .molcule:
+            guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+            self.handleAction(with: item)
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - Diffable Datasource
 extension UIKitBaseViewController {
-    
-    @objc func tabBarViewControllerPressed() {
-        self.pushViewController(TabBarViewController())
+    func configureDataSource() {
+        self.dataSource = UICollectionViewDiffableDataSource<Section, ItemData>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            switch Section(rawValue: indexPath.section) {
+            case .searchBar:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCell.identifier, for: indexPath) as! SearchBarCell
+                cell.searchInput.delegate = self
+                return cell
+            case .token, .atom, .molcule:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+                cell.configure(itemIdentifier)
+                
+                
+                return cell
+                
+            default:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
+                return cell
+            }
+        }
+        
+        self.dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
+
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+
+            switch section {
+            case .token, .atom, .molcule:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ComponentHeaderView.identifier, for: indexPath) as! ComponentHeaderView
+
+                if let sectionData = self.componentSectionData[section.rawValue] {
+                    header.title = sectionData.title
+                }
+                return header
+
+            default:
+                return nil
+            }
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+            
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items ?? [])
+            }
+        }
+        
+        self.dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    @objc func buttonComponentButtonPressed() {
-        self.pushViewController(ButtonViewController())
+    func performQuery(with filter: String?) {
+        guard let filter, filter.isEmpty == false else {
+            self.resetResult()
+            return
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+            
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items.filter { $0.title?.localizedCaseInsensitiveContains(filter) ?? false } ?? [])
+            }
+        }
+        
+        self.dataSource.apply(snapshot, animatingDifferences: true)
+        
     }
     
-    @objc func textLinkComponentButtonPressed() {
-        self.pushViewController(TextLinkViewController())
+    func resetResult() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemData>()
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+            
+            if $0 == .searchBar {
+                snapshot.appendItems([ItemData()])
+            } else {
+                snapshot.appendItems(componentSectionData[$0.rawValue]?.items ?? [])
+            }
+        }
+        self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension UIKitBaseViewController: DealiSearchInputDelegate {
+    func search(keyword: String?) {
+        
     }
     
-    @objc func colorButtonPressed() {
-        self.pushViewController(ColorViewController())
+    func clear() {
+        self.resetResult()
     }
     
-    @objc func playButtonPressed() {
-        self.pushViewController(DealiPlaygroundViewController())
+    func beginEditing() {
+        
     }
     
-    @objc func typoButtonPressed() {
-        self.pushViewController(TypographyViewController())
+    func endEditing() {
+
     }
     
-    @objc func fontComponentButtonPressed() {
-        self.pushViewController(FontComponentViewController())
-    }
-    
-    @objc func bottomSheetPopupButtonPressed() {
-        self.pushViewController(BottomSheetPopupTestViewController())
-    }
-    
-    @objc func alertButtonPressed() {
-        self.pushViewController(AlertTestViewController())
-    }
-    
-    @objc func radioButtonPressed() {
-        self.pushViewController(RadioButtonViewController())
-    }
-    
-    @objc func chipButtonPressed() {
-        self.pushViewController(ChipViewController())
-    }
-    
-    @objc func imageChipButtonPressed() {
-        self.pushViewController(ImageChipViewController())
-    }
-    
-    @objc func textInputButtonPressed() {
-        self.pushViewController(TextInputViewController())
-    }
-    
-    @objc func textAreaButtonPressed() {
-        self.pushViewController(TextAreaViewController())
-    }
-    
-    @objc func searchInputButtonPressed() {
-        self.pushViewController(SearchInputViewController())
-    }
-    
-    @objc func toggleButtonPressed() {
-        self.pushViewController(SwitchViewController())
-    }
-    
-    @objc func sliderBarButtonPressed() {
-        self.pushViewController(SliderBarViewController())
-    }
-    
-    @objc func tagButtonPressed() {
-        self.pushViewController(TagViewController())
-    }
-    
-    @objc func checkComponentsPressed() {
-        self.pushViewController(CheckComponentViewController())
-    }
-    
-    @objc func indicatorComponentsPressed() {
-        self.pushViewController(IndicatorViewController())
-    }
-    
-    @objc func emptyComponentsPressed() {
-        self.pushViewController(EmptyComponentViewController())
-    }
-    
-    @objc func labeledTextComponentsPressed() {
-        self.pushViewController(LabeledTextComponentViewController())
-    }
-    
-    @objc func accordionComponentsPressed() {
-        self.pushViewController(AccordionComponentViewController())
-    }
-  
-    @objc func placeholderImageViewComponentsPressed() {
-        self.pushViewController(PlaceholderImageViewController())
-    }
-    
-    @objc func noticeComponentsPressed() {
-        self.pushViewController(NoticeViewController())
-    }
-    
-    @objc func toolTipButtonPressed() {
-        self.pushViewController(ToolTipViewController())
+    func editingChanged(keyword: String?) {
+        self.performQuery(with: keyword)
     }
 }

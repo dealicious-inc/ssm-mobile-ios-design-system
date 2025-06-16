@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "loading.pdf",
+      "filename" : "ic_new_l.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

@@ -44,6 +44,14 @@ public final class TabBarViewModel: ObservableObject {
 public struct TabBarView: View {
     @ObservedObject var viewModel: TabBarViewModel
     
+    public var selectedIndex: Int {
+        get {
+            return self.viewModel.selectedIndex
+        } set {
+            self.viewModel.selectedIndex = newValue
+        }
+    }
+    
     public init(viewModel: TabBarViewModel) {
         self.viewModel = viewModel
     }

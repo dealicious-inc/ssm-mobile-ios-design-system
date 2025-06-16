@@ -50,6 +50,7 @@
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */; };
+		E5A6544C2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */; };
 		E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */; };
 		E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */; };
 		E648FA9A2BB2C81E009F11F6 /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
@@ -108,6 +109,7 @@
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTestView.swift; sourceTree = "<group>"; };
+		E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITabBarViewController.swift; sourceTree = "<group>"; };
 		E5E0642A2D5F111B00925FAF /* UIKitBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBaseViewController.swift; sourceTree = "<group>"; };
 		E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSwiftUIBaseView.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			children = (
 				39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */,
 				39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */,
+				E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */,
 			);
 			path = DealiTabBarViewController;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
 				E5E0642B2D5F111B00925FAF /* UIKitBaseViewController.swift in Sources */,
+				E5A6544C2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */,

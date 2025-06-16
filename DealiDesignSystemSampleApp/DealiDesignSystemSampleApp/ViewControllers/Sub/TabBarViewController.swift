@@ -666,6 +666,7 @@ extension TabBarViewController {
         segment01(tabBarItems)
         slider01(tabBarLongItems)
         slider02(tabBarLongItems)
+        segment01ContentView(tabBarItems)
     }
     
     func setTitleLabel(_ title: String) {
@@ -706,5 +707,28 @@ extension TabBarViewController {
         tabbar.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+    }
+    
+    func segment01ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSegment01ContentView")
+        let tabbar = TabBarView(type: .tabBarSegment01,
+                                items: items)
+        
+        
+        contentStackView.addArrangedSubview(self.tabBarSegment01ContentView)
+        self.tabBarSegment01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let childVC1 = DealiTabBarChildViewController()
+        childVC1.view.backgroundColor = .systemBlue
+        let childVC2 = DealiTabBarChildViewController()
+        childVC2.view.backgroundColor = .systemRed
+        let childVC3 = DealiTabBarChildViewController()
+        childVC3.view.backgroundColor = .systemYellow
+        
+        let vc = SwiftUITabBarViewController(tabBarView: tabbar, childVC: [childVC1, childVC2, childVC3])
+        self.insertChildController(vc, intoParentView: tabBarSegment01ContentView)
     }
 }

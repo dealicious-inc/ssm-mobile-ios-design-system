@@ -169,9 +169,11 @@ public struct TabBarView: View {
                            TabBarItemViewModel(title: "8번 Tab"),
                            TabBarItemViewModel(title: "9번 Tab")]
     
+    Text("Segment01")
     TabBarView(type: .tabBarSegment01, items: tabBarItems)
     
-    //margin 찾는중..
+    Text("Slider01")
     TabBarView(type: .tabBarSlider01, items: tabBarItems)
+    Text("Slider02")
     TabBarView(type: .tabBarSlider02, items: tabBarLongItems, selectedIndex: 2)
 }

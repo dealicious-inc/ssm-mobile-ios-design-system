@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import SwiftUI
 
 public extension UIImage {
     static func dealiIcon(named: String) -> UIImage? {

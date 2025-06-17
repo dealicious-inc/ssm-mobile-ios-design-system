@@ -14,7 +14,9 @@ import DealiDesignKit
 
 final class SwiftUITabBarViewController: UIViewController {
     
-    var tabBarView: TabBarView
+    var tabBarViewModel: TabBarViewModel
+    
+    var tabBarView: TabBarView?
     var contentScrollView = UIScrollView()
     private var contentStackView = UIStackView()
     
@@ -22,14 +24,16 @@ final class SwiftUITabBarViewController: UIViewController {
     private var childVC: [UIViewController] = []
     var selectedIndex: Int = -1
     
-    init(tabBarView: TabBarView, isScrollEnabled: Bool = true, childVC: [UIViewController]) {
-        self.tabBarView = tabBarView
+    init(viewModel: TabBarViewModel,
+         childVC: [UIViewController],
+         isScrollEnabled: Bool = true) {
+        self.tabBarViewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
         
         self.isScrollEnabled = isScrollEnabled
         self.childVC = childVC
-        self.selectedIndex = tabBarView.selectedIndex
+        self.selectedIndex = viewModel.selectedIndex
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +49,11 @@ final class SwiftUITabBarViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        
+        self.tabBarViewModel.action = {
+            self.didSelectTabBar(selectedIndex: self.tabBarView?.selectedIndex ?? 0, showScrollAnimation: true)
+        }
+        self.tabBarView = TabBarView(viewModel: self.tabBarViewModel)
         
         let tabBarUIKit = self.tabBarView.UIKit()
         self.view.addSubview(tabBarUIKit)
@@ -111,12 +120,25 @@ final class SwiftUITabBarViewController: UIViewController {
     
 }
 
+extension SwiftUITabBarViewController {
+    func didSelectTabBar(selectedIndex index: Int, showScrollAnimation animation: Bool) {
+//        self.isTabBarTriggered = true
+        UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
+                guard let self else { return }
+            self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
+        } completion: { finished in
+//            self.isTabBarTriggered = false
+        }
+
+    }
+}
+
 extension SwiftUITabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if self.selectedIndex != scrollView.currentPage {
             self.selectedIndex = scrollView.currentPage
-            self.tabBarView.selectedIndex = self.selectedIndex
+            self.tabBarView?.selectedIndex = self.selectedIndex
         }
         
 //        if self.isTabBarTriggered == false {

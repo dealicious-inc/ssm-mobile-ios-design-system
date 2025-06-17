@@ -663,10 +663,14 @@ extension TabBarViewController {
                                TabBarItemViewModel(title: "8번 Tab"),
                                TabBarItemViewModel(title: "9번 Tab")]
         
+        
+        
         segment01(tabBarItems)
         slider01(tabBarLongItems)
         slider02(tabBarLongItems)
         segment01ContentView(tabBarItems)
+        slider01ContentView(tabBarItems)
+        slider02ContentView(tabBarLongItems)
     }
     
     func setTitleLabel(_ title: String) {
@@ -676,6 +680,20 @@ extension TabBarViewController {
             $0.text = title
             $0.font = .b1sb15
         }
+    }
+    
+    func makeTabBarChildVCArr(_ items: [TabBarItemViewModel]) -> [DealiTabBarChildViewController] {
+        let childVCArr: [DealiTabBarChildViewController] = items.map { _ in
+            let vc = DealiTabBarChildViewController()
+            vc.view.backgroundColor = UIColor(
+                red: CGFloat.random(in: 0.5...1),
+                green: CGFloat.random(in: 0.5...1),
+                blue: CGFloat.random(in: 0.5...1),
+                alpha: 1.0
+            )
+            return vc
+        }
+        return childVCArr
     }
     
     func segment01(_ items: [TabBarItemViewModel]) {
@@ -710,25 +728,44 @@ extension TabBarViewController {
     }
     
     func segment01ContentView(_ items: [TabBarItemViewModel]) {
-        setTitleLabel("tabBarSegment01ContentView")
-        let tabbar = TabBarView(type: .tabBarSegment01,
-                                items: items)
-        
-        
+        setTitleLabel("tabBarSegment01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
         contentStackView.addArrangedSubview(self.tabBarSegment01ContentView)
         self.tabBarSegment01ContentView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(300.0)
         }
         
-        let childVC1 = DealiTabBarChildViewController()
-        childVC1.view.backgroundColor = .systemBlue
-        let childVC2 = DealiTabBarChildViewController()
-        childVC2.view.backgroundColor = .systemRed
-        let childVC3 = DealiTabBarChildViewController()
-        childVC3.view.backgroundColor = .systemYellow
-        
-        let vc = SwiftUITabBarViewController(tabBarView: tabbar, childVC: [childVC1, childVC2, childVC3])
+        let viewModel = TabBarViewModel(type: .tabBarSegment01, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
         self.insertChildController(vc, intoParentView: tabBarSegment01ContentView)
+    }
+    
+    func slider01ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarSlider01ContentView)
+        self.tabBarSlider01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarSlider01, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarSlider01ContentView)
+    }
+    
+    func slider02ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider02 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarSlider02ContentView)
+        self.tabBarSlider02ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarSlider02, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarSlider02ContentView)
     }
 }

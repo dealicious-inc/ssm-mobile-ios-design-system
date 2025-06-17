@@ -28,16 +28,19 @@ public final class TabBarViewModel: ObservableObject {
     public var type: DealiTabBarPreset
     @Published public var selectedIndex: Int = 0
     @Published public var items: [TabBarItemViewModel] = []
+    public var action: () -> Void
     
     var isScrollable: Bool = false
     
     public init(type: DealiTabBarPreset,
                 items: [TabBarItemViewModel] = [],
-                selectedIndex: Int = 0) {
+                selectedIndex: Int = 0,
+                action: @escaping () -> Void = {}) {
         self.type = type
         self.selectedIndex = selectedIndex
         self.items = items
         self.isScrollable = type.style == .slider
+        self.action = action
     }
 }
 
@@ -101,6 +104,7 @@ public struct TabBarView: View {
         ForEach(viewModel.items.indices, id: \.self) { index in
             Button(action: {
                 viewModel.selectedIndex = index
+                viewModel.action()
             }) {
                 let isSelected = viewModel.selectedIndex == index
                 let type = viewModel.type

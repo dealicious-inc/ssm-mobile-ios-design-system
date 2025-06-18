@@ -89,3 +89,36 @@ public class DealiChip: UIControl {
     }
 
 }
+
+public enum ChipsConfig: ClickableConfig {
+    
+    case large
+    case medium
+    case small
+    
+    public var font: ClickableFont {
+        switch self {
+        case .large:
+            return ClickableFont.chip(font: .b2sb14)
+        case .medium:
+            return ClickableFont.chip(font: .b2sb14)
+        case .small:
+            return ClickableFont(normal: .b2r14, selected: .b2sb14, disabled: .b2r14)
+        }
+    }
+    
+    public var height: ClickableComponent.Configuration.Height {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .small:
+            return .small
+        }
+    }
+    
+    // 미사용
+    public var cornerRadius: ClickableComponent.Configuration.Corner {.capsule}
+    public var padding: ClickableComponent.Configuration.Padding {.round}
+}

@@ -27,7 +27,7 @@ class ChipViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .white
         
         let scrollView = UIScrollView()
         
@@ -52,8 +52,14 @@ class ChipViewController: UIViewController {
         }
 
         if isSwiftUI {
-            let chip = ChipView(viewModel: ChipViewModel(text: "Chip")).UIKit()
-            self.stackView.addArrangedSubview(chip)
+//            let chip = ChipView(viewModel: .init(type: .chipOutlineLarge01,
+//                                                 text: "Chip",
+//                                                 status: .normal,
+//                                                 leftImage: UIImage(named: "ic_refresh"),
+//                                                 rightImage: UIImage(named: "ic_refresh")
+//                                                )).UIKit()
+            let contentView = SwiftUIChipContentView(name: "chipOutlineLarge01", type: .chipOutlineLarge01)
+            self.stackView.addArrangedSubview(contentView)
         } else {
             let chipsOutlineLargePrimary01 = ChipContentView(name: "chipOutlineLarge01", chipArray: (0..<4).map { _ in
                 DealiControl.chipOutlineLarge01()
@@ -223,5 +229,62 @@ final class ChipContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+final class SwiftUIChipContentView: UIView {
+    private let titleLabel = UILabel()
+    private let stackView = UIStackView()
+    
+    init(name: String, type: ChipViewType) {
+        super.init(frame: CGRect.zero)
+        
+        self.backgroundColor = UIColor.white
+        
+        self.addSubview(self.titleLabel)
+        self.titleLabel.then {
+            $0.text = name
+            $0.font = .b1sb15
+            $0.textColor = .g100
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+            $0.top.equalToSuperview()
+            $0.height.equalTo(60.0)
+        }
+        
+        self.addSubview(self.stackView)
+        self.stackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 20.0
+        }.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.left.equalTo(titleLabel)
+            $0.bottom.equalToSuperview().offset(-20.0)
+        }
+        
+        for i in 0..<4 {
+            let chipViewModel = ChipViewModel(type: type)
+            let chip = ChipView(viewModel: chipViewModel)
+            self.stackView.addArrangedSubview(chip.UIKit())
+            if i == 0 {
+                chipViewModel.text = "Default"
+                chipViewModel.status = .normal
+                chipViewModel.leftImage = UIImage(named: "ic_refresh")
+            } else if i == 1 {
+                chipViewModel.text = "Selected"
+                chipViewModel.status = .selected
+                chipViewModel.rightImage = UIImage(named: "ic_refresh")
+            } else if i == 2 {
+                chipViewModel.text = "Disabled"
+                chipViewModel.status = .disabled
+            } else {
+                chipViewModel.text = nil
+                chipViewModel.singleImage = UIImage(named: "ic_refresh")
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 

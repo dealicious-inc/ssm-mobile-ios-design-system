@@ -8,8 +8,17 @@
 import SwiftUI
 
 public final class ChipViewModel: ObservableObject {
+    @Published var type: ChipViewType = .chipOutlineLarge01
     @Published public var text: String?
     @Published public var status: DealiChipStatus = .normal
+    @Published public var singleImage: UIImage? {
+        didSet {
+            self.leftImage = nil
+            self.rightImage = nil
+        }
+    }
+    @Published public var leftImage: UIImage?
+    @Published public var rightImage: UIImage?
     
     public var isSelected: Bool {
         get {
@@ -21,11 +30,29 @@ public final class ChipViewModel: ObservableObject {
     }
     
     public init(
-        text: String?,
-        status: DealiChipStatus = .normal
+        type: ChipViewType,
+        text: String? = nil,
+        status: DealiChipStatus = .normal,
+        singleImage: UIImage? = nil
     ) {
+        self.type = type
         self.text = text
         self.status = status
+        self.singleImage = singleImage
+    }
+    
+    public init(
+        type: ChipViewType,
+        text: String? = nil,
+        status: DealiChipStatus = .normal,
+        leftImage: UIImage? = nil,
+        rightImage: UIImage? = nil
+    ) {
+        self.type = type
+        self.text = text
+        self.status = status
+        self.leftImage = leftImage
+        self.rightImage = rightImage
     }
     
     func toggle() {
@@ -35,42 +62,53 @@ public final class ChipViewModel: ObservableObject {
 }
 
 public struct ChipView: View {
-    @ObservedObject var viewModel: ChipViewModel
+    @ObservedObject public var viewModel: ChipViewModel
     var action: (() -> Void)?
-//    var preset: ImageChipPreset = .imgChipLarge01
-//
-//    private var config: DLImageChipConfig {
-//        return preset.config
-//    }
     
     public init(viewModel: ChipViewModel) {
         self.viewModel = viewModel
     }
     
     public var body: some View {
+        let colorAttribute = viewModel.type.color.attribute
+        let chipColor = (viewModel.status == .disabled)
+        ? colorAttribute.disabled
+        : (viewModel.isSelected ? colorAttribute.selected ?? colorAttribute.normal : colorAttribute.normal)
         
+        let config = viewModel.type.config.font
+        let font = (viewModel.status == .disabled)
+        ? config.disabled
+        : (viewModel.isSelected ? config.selected ?? config.normal : config.normal)
+        
+
         Button {
             
         } label: {
             HStack(spacing: 4.0) {
-                
-                Image(uiImage: UIImage(named: "ic_refresh")!).frame(width: 16.0, height: 16.0)
-                    
+                if let leftImageName = viewModel.leftImage {
+                    Image(uiImage: leftImageName).frame(width: 16.0, height: 16.0)
+                } else if let singleImage = viewModel.singleImage {
+                    Image(uiImage: singleImage).frame(width: 16.0, height: 16.0)
+                }
                 
                 Text(viewModel.text ?? "")
-                    .foregroundStyle(Color(.g100))
-                    .font(Font(UIFont.b2sb14))
+                    .foregroundStyle(Color(chipColor.text))
+                    .font(Font(font))
                 
-                Image(uiImage: UIImage(named: "ic_refresh")!).frame(width: 16.0, height: 16.0)
+                if let rightImage = viewModel.rightImage, viewModel.singleImage == nil {
+                    Image(uiImage: rightImage).frame(width: 16.0, height: 16.0)
+                }
             }
             .padding(.vertical, 13.0)
             .padding(.horizontal, 12.0)
-            .background(Color(.primary04))
+            .background(Color(chipColor.background))
+            
             .clipShape(Capsule())
             .overlay(
-                Capsule()
-                    .stroke(Color(.g100))
+                Capsule().stroke(Color(chipColor.border ?? .clear))
             )
+             // 작업중~
+            
 //            .clipShape(RoundedRectangle(cornerRadius: 6.0))
 //            .overlay(
 //                RoundedRectangle(cornerRadius: 6.0)
@@ -84,7 +122,7 @@ public struct ChipView: View {
     }
 }
 
-public enum ChipViewStyle: CaseIterable {
+public enum ChipViewType: CaseIterable {
     case chipOutlineLarge01
     case chipOutlineMedium01
     case chipOutlineMedium02
@@ -119,11 +157,49 @@ public enum ChipViewStyle: CaseIterable {
             return ChipsFilledColor.primary01
         case .chipFilledSmall02, .chipFilledSmall03:
             return ChipsFilledColor.secondary01
-            // 작업중 ~~
+        
+        case .chipFilledSquareLarge01, .chipFilledSquareMedium01, .chipFilledSquareSmall01:
+            return ChipsFilledSquareColor.primary01
+        case .chipFilledSquareLarge02:
+            return ChipsFilledSquareColor.primary02
+        case .chipFilledSquareLarge03, .chipFilledSquareMedium02, .chipFilledSquareSmall02:
+            return ChipsFilledSquareColor.scondary01
+            
+        case .chipOutlineSquareLarge01, .chipOutlineSquareMedium01, .chipOutlineSquareSmall01:
+            return ChipsSquareColor.primary01
+        }
+    }
+    
+    var config: ClickableConfig {
+        switch self {
+        case .chipOutlineLarge01, .chipFilledLarge01, .chipFilledSquareLarge01, .chipFilledSquareLarge02, .chipOutlineSquareLarge01, .chipFilledSquareLarge03:
+            return ChipsConfig.large
+        case .chipOutlineMedium01, .chipOutlineMedium02, .chipFilledMedium01, .chipFilledSquareMedium01, .chipFilledSquareMedium02, .chipOutlineSquareMedium01:
+            return ChipsConfig.medium
+        case .chipOutlineSmall01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSquareSmall01, .chipFilledSquareSmall02, .chipOutlineSquareSmall01:
+            return ChipsConfig.small
+        }
+    }
+    
+    var cornerRadius: ClickableComponent.Configuration.Corner {
+        switch self {
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+            return .capsule
+        default:
+            return .fixed(4.0)
+        }
+    }
+    
+    var padding: ClickableComponent.Configuration.Padding {
+        switch self {
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+            return .round
+        default:
+            return .square
         }
     }
 }
  
 #Preview {
-    ChipView(viewModel: ChipViewModel(text: "Chip"))
+    ChipView(viewModel: ChipViewModel(type: .chipOutlineLarge01, text: "Chip"))
 }

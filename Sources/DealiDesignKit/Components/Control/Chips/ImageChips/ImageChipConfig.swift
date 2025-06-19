@@ -22,7 +22,7 @@ class ImageChipConfig: ChipConfigurable {
             self.titleFont = self.size.titleFont.systemFont
         case .selected:
             self.titleFont = self.size.titleFont.makeBolder()
-        }
+       }
     }
     
     var status: DealiChipStatus = .normal {
@@ -83,7 +83,7 @@ struct ChipSize: ChipSizeProtoocol {
     var titleFont: FontProvider
 }
 
-struct ChipColors: ControlColorPrivider {
+struct ChipColors: ColorProvider {
     typealias Status = DealiChipStatus
     typealias Color = ChipColor
     
@@ -112,7 +112,7 @@ struct ChipColors: ControlColorPrivider {
 struct ChipStyle: ChipStyleProtocol {
     
     var radiusProvider: any RadiusProvider
-    var colorProvider: ColorProvider
+    var colorProvider: any ColorProvider
 }
 
 struct ChipColor: ChipColorProtocol {

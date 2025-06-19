@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 /// 디자인시스템 Font에 적용되는 스타일. 스타일 관리용으로 내부적으로만 사용. 실제 사용은 UIFont extension에 정의된 정적변수를 사용한다.
 ///

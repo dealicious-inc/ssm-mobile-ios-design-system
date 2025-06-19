@@ -8,23 +8,7 @@
 import UIKit
 import SwiftUI
 
-protocol ColorConfigurable: RawRepresentable where RawValue == Int {
-    var color: UIColor { get }
-    var rgb: Int { get }
-    var alpha: Double { get }
-}
-
-extension ColorConfigurable {
-    var color: UIColor {
-        return UIColor(rgb: self.rgb, alpha: self.alpha)
-    }
-    
-    var rgb: Int { return self.rawValue }
-    
-    var alpha: Double { return 1.0 }
-}
-
-enum PrimaryColor: Int, ColorConfigurable, SystemColorConfig {
+enum PrimaryColor: Int, SystemColorConfig {
     case primary01 = 0xFB4760
     case primary02 = 0xEC2843
     case primary03 = 0xFEECEF
@@ -32,7 +16,7 @@ enum PrimaryColor: Int, ColorConfigurable, SystemColorConfig {
     case primary05 = 0x000000
 }
 
-enum SecondaryColor: Int, ColorConfigurable, SystemColorConfig {
+enum SecondaryColor: Int, SystemColorConfig {
     case secondary01 = 0x4759FB
     case secondary02 = 0x2B3EE6
     case secondary03 = 0xEAEFFF
@@ -41,7 +25,7 @@ enum SecondaryColor: Int, ColorConfigurable, SystemColorConfig {
     case secondary06 = 0xFFECDB
 }
 
-enum GrayColor: Int, ColorConfigurable, SystemColorConfig {
+enum GrayColor: Int, SystemColorConfig {
     case g05 = 0xF6F6F7
     case g10 = 0xF5F6FB
     case g20 = 0xEBEEF6
@@ -54,7 +38,7 @@ enum GrayColor: Int, ColorConfigurable, SystemColorConfig {
     case g100 = 0x222222
 }
 
-enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
+enum EtcColor: Int, SystemColorConfig {
     case etc01
     case etc02
     case etc03
@@ -140,22 +124,20 @@ enum EtcColor: Int, ColorConfigurable, SystemColorConfig {
     }
 }
 
-enum ServiceColor: Int, ColorConfigurable, SystemColorConfig {
+enum ServiceColor: Int, SystemColorConfig {
     case error = 0xFA1818
     case warning = 0xFFD600
     case linkAndInfo = 0x2B66FD
     case success = 0x1BDA17
 }
 
-enum MBSColor: Int, ColorConfigurable, SystemColorConfig {
+enum MBSColor: Int, SystemColorConfig {
     case mbs01 = 0x1F5EFF
     case mbs02 = 0xE5FE1E
 }
 
-public extension Color {
-    static var primary01: Color {
-        PrimaryColor.primary01.uiColor().asColor()
-    }
-}
+//public extension Color {
+//    static var primary01: Color { PrimaryColor.primary01.color() }
+//}
 
 

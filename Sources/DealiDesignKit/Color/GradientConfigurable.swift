@@ -56,16 +56,16 @@ public enum MbsGradient: GradientConfigurable {
     case gradient01
     case gradient02
     
-    var startColor: SystemColorConfig {
+    var startColor: any SystemColorConfig {
         return MBSColor.mbs01
     }
     
-    var endColor: SystemColorConfig {
+    var endColor: any SystemColorConfig {
         return MBSColor.mbs02
     }
     
     public var colors: [UIColor] {
-        return [startColor.uiColor(), endColor.uiColor()]
+        return [startColor.color(), endColor.color()]
     }
     
     public var location: [NSNumber] {

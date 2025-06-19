@@ -668,6 +668,8 @@ extension TabBarViewController {
         segment01(tabBarItems)
         slider01(tabBarLongItems)
         slider02(tabBarLongItems)
+        chip01(tabBarLongItems)
+        chip02(tabBarLongItems)
         segment01ContentView(tabBarItems)
         slider01ContentView(tabBarItems)
         slider02ContentView(tabBarLongItems)
@@ -721,6 +723,26 @@ extension TabBarViewController {
         let tabbar = TabBarView(type: .tabBarSlider02,
                                 items: items,
                                 selectedIndex: 8).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func chip01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip01")
+        let tabbar = TabBarView(type: .tabBarChip01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func chip02(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip02")
+        let tabbar = TabBarView(type: .tabBarChip02,
+                                items: items).UIKit()
         contentStackView.addArrangedSubview(tabbar)
         tabbar.snp.makeConstraints {
             $0.left.right.equalToSuperview()

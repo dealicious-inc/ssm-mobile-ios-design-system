@@ -102,40 +102,14 @@ public struct TabBarView: View {
 
     private var tabButtons: some View {
         ForEach(viewModel.items.indices, id: \.self) { index in
-            Button(action: {
-                viewModel.selectedIndex = index
-                viewModel.action()
-            }) {
-                let isSelected = viewModel.selectedIndex == index
-                let type = viewModel.type
-                
-                VStack(spacing: 0) {
-                    ZStack(alignment: .topTrailing) {
-                        HStack(spacing: 0) {
-                            if let icon = viewModel.items[index].icon {
-                                ImageHelper.kfImage(url: icon.url, size: icon.size)
-                            }
-                            
-                            Text(viewModel.items[index].title ?? "")
-                                .font(isSelected ? Font(type.selectedFont) : Font(type.font))
-                                .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
-                                .frame(maxWidth: .infinity , maxHeight: .infinity)
-                        }
-                        
-                        if viewModel.items[index].showBadge {
-                            badge
-                        }
-                    }
-                    .fixedSize()
-                    .frame(height: viewModel.type.tabBarContentHeight - 2)
-                    
-                    if type.style == .segment || type.style == .slider {
-                        IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
-                    }
-                }
-                .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
+            switch viewModel.type.style {
+            case .segment, .slider:
+                buttonTabItemView(viewModel.items[index], index: index)
+            case .sliderChip(let style):
+                chipTabItemView(viewModel.items[index], index: index, style: style)
+            case .sliderImageChip(let style):
+                break
             }
-            .buttonStyle(.plain)
         }
     }
     
@@ -161,6 +135,53 @@ public struct TabBarView: View {
                 .fill(isSelected ? color : .clear)
                 .frame(maxWidth: .infinity, maxHeight: 2)
         }
+    }
+    
+    @ViewBuilder
+    private func buttonTabItemView(_ item: TabBarItemViewModel, index: Int) -> some View {
+        Button(action: {
+            viewModel.selectedIndex = index
+            viewModel.action()
+        }) {
+            let isSelected = viewModel.selectedIndex == index
+            let type = viewModel.type
+            
+            VStack(spacing: 0) {
+                ZStack(alignment: .topTrailing) {
+                    HStack(spacing: 0) {
+                        if let icon = viewModel.items[index].icon {
+                            ImageHelper.kfImage(url: icon.url, size: icon.size)
+                        }
+                        
+                        Text(viewModel.items[index].title ?? "")
+                            .font(isSelected ? Font(type.selectedFont) : Font(type.font))
+                            .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
+                            .frame(maxWidth: .infinity , maxHeight: .infinity)
+                    }
+                    
+                    if viewModel.items[index].showBadge {
+                        badge
+                    }
+                }
+                .fixedSize()
+                .frame(height: viewModel.type.tabBarContentHeight - 2)
+                
+                if type.style == .segment || type.style == .slider {
+                    IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
+                }
+            }
+            .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
+        }
+    }
+    
+    @ViewBuilder
+    private func chipTabItemView(_ item: TabBarItemViewModel, index: Int, style: DealiTabBarPreset.DealiTabBarSliderChipStyle) -> some View {
+        //test
+        let chipViewModel = ChipViewModel(
+            type: .chipFilledSmall02,
+            text: item.title ?? ""
+        )
+        ChipView(viewModel: chipViewModel)
     }
     
 }

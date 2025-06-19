@@ -118,6 +118,19 @@ public enum ChipsConfig: ClickableConfig {
         }
     }
     
+    public var singleImagePadding: CGFloat {
+        switch self.height {
+        case .large:
+            return 15.0
+        case .medium:
+            return 12.0
+        case .semiMedium:
+            return 12.0
+        case .small:
+            return 8.0
+        }
+    }
+    
     // 미사용
     public var cornerRadius: ClickableComponent.Configuration.Corner {.capsule}
     public var padding: ClickableComponent.Configuration.Padding {.round}

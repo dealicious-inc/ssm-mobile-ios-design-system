@@ -52,117 +52,10 @@ class ChipViewController: UIViewController {
         }
 
         if isSwiftUI {
-//            let chip = ChipView(viewModel: .init(type: .chipOutlineLarge01,
-//                                                 text: "Chip",
-//                                                 status: .normal,
-//                                                 leftImage: UIImage(named: "ic_refresh"),
-//                                                 rightImage: UIImage(named: "ic_refresh")
-//                                                )).UIKit()
-            let contentView = SwiftUIChipContentView(name: "chipOutlineLarge01", type: .chipOutlineLarge01)
-            self.stackView.addArrangedSubview(contentView)
+            self.setAsSwiftUI()
         } else {
-            let chipsOutlineLargePrimary01 = ChipContentView(name: "chipOutlineLarge01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineLarge01()
-            })
-            self.stackView.addArrangedSubview(chipsOutlineLargePrimary01)
-            
-            let chipsOutlineMediumPrimary01 = ChipContentView(name: "chipOutlineMedium01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineMedium01()
-            })
-            self.stackView.addArrangedSubview(chipsOutlineMediumPrimary01)
-            
-            let chipsOutlineMedium02 = ChipContentView(name: "chipOutlineMedium02", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineMedium02()
-            })
-            self.stackView.addArrangedSubview(chipsOutlineMedium02)
-            
-            
-            let chipsOutlineSmallPrimary01 = ChipContentView(name: "chipOutlineSmall01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineSmall01()
-            })
-            self.stackView.addArrangedSubview(chipsOutlineSmallPrimary01)
-            
-            
-            
-            let chipsFilledLargePrimary01 = ChipContentView(name: "chipFilledLarge01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledLarge01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledLargePrimary01)
-            
-            let chipsFilledMediumPrimary01 = ChipContentView(name: "chipFilledMedium01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledMedium01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledMediumPrimary01)
-            
-            let chipsFilledSmallPrimary01 = ChipContentView(name: "chipFilledSmall01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSmall01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSmallPrimary01)
-            
-            let chipsFilledSmallScondary01 = ChipContentView(name: "chipFilledSmall02", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSmall02()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSmallScondary01)
-            
-            let chipsFilledSmallPrimary02 = ChipContentView(name: "chipFilledSmall03", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSmall03()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSmallPrimary02)
-            
-            
-            let chipsSquareLargePrimary01 = ChipContentView(name: "chipOutlineSquareLarge01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineSquareLarge01()
-            })
-            self.stackView.addArrangedSubview(chipsSquareLargePrimary01)
-            
-            let chipsSquareMediumPrimary01 = ChipContentView(name: "chipOutlineSquareMedium01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineSquareMedium01()
-            })
-            self.stackView.addArrangedSubview(chipsSquareMediumPrimary01)
-            
-            let chipsSquareSmallPrimary01 = ChipContentView(name: "chipOutlineSquareSmall01", chipArray: (0..<4).map { _ in
-                DealiControl.chipOutlineSquareSmall01()
-            })
-            self.stackView.addArrangedSubview(chipsSquareSmallPrimary01)
-            
-            
-            
-            let chipsFilledSquareLargePrimary01 = ChipContentView(name: "chipFilledSquareLarge01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareLarge01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareLargePrimary01)
-            
-            let chipsFilledSquareLargePrimary02 = ChipContentView(name: "chipFilledSquareLarge02", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareLarge02()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareLargePrimary02)
-            
-            let chipsFilledSquareLargeScondary01 = ChipContentView(name: "chipFilledSquareLarge03", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareLarge03()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareLargeScondary01)
-            
-            let chipsFilledSquareMediumPrimary01 = ChipContentView(name: "chipFilledSquareMedium01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareMedium01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareMediumPrimary01)
-            
-            let chipsFilledSquareMediumScondary01 = ChipContentView(name: "chipFilledSquareMedium02", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareMedium02()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareMediumScondary01)
-            
-            let chipsFilledSquareSmallPrimary01 = ChipContentView(name: "chipFilledSquareSmall01", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareSmall01()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareSmallPrimary01)
-            
-            let chipsFilledSquareSmallScondary01 = ChipContentView(name: "chipFilledSquareSmall02", chipArray: (0..<4).map { _ in
-                DealiControl.chipFilledSquareSmall02()
-            })
-            self.stackView.addArrangedSubview(chipsFilledSquareSmallScondary01)
+            self.setAsUIKit()
         }
-        
     }
 
     override func viewDidLoad() {
@@ -171,6 +64,167 @@ class ChipViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    func setAsUIKit() {
+        let chipsOutlineLargePrimary01 = ChipContentView(name: "chipOutlineLarge01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineLarge01()
+        })
+        self.stackView.addArrangedSubview(chipsOutlineLargePrimary01)
+        
+        let chipsOutlineMediumPrimary01 = ChipContentView(name: "chipOutlineMedium01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineMedium01()
+        })
+        self.stackView.addArrangedSubview(chipsOutlineMediumPrimary01)
+        
+        let chipsOutlineMedium02 = ChipContentView(name: "chipOutlineMedium02", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineMedium02()
+        })
+        self.stackView.addArrangedSubview(chipsOutlineMedium02)
+        
+        
+        let chipsOutlineSmallPrimary01 = ChipContentView(name: "chipOutlineSmall01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineSmall01()
+        })
+        self.stackView.addArrangedSubview(chipsOutlineSmallPrimary01)
+        
+        
+        
+        let chipsFilledLargePrimary01 = ChipContentView(name: "chipFilledLarge01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledLarge01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledLargePrimary01)
+        
+        let chipsFilledMediumPrimary01 = ChipContentView(name: "chipFilledMedium01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledMedium01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledMediumPrimary01)
+        
+        let chipsFilledSmallPrimary01 = ChipContentView(name: "chipFilledSmall01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallPrimary01)
+        
+        let chipsFilledSmallScondary01 = ChipContentView(name: "chipFilledSmall02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallScondary01)
+        
+        let chipsFilledSmallPrimary02 = ChipContentView(name: "chipFilledSmall03", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall03()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallPrimary02)
+        
+        
+        let chipsSquareLargePrimary01 = ChipContentView(name: "chipOutlineSquareLarge01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineSquareLarge01()
+        })
+        self.stackView.addArrangedSubview(chipsSquareLargePrimary01)
+        
+        let chipsSquareMediumPrimary01 = ChipContentView(name: "chipOutlineSquareMedium01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineSquareMedium01()
+        })
+        self.stackView.addArrangedSubview(chipsSquareMediumPrimary01)
+        
+        let chipsSquareSmallPrimary01 = ChipContentView(name: "chipOutlineSquareSmall01", chipArray: (0..<4).map { _ in
+            DealiControl.chipOutlineSquareSmall01()
+        })
+        self.stackView.addArrangedSubview(chipsSquareSmallPrimary01)
+        
+        
+        
+        let chipsFilledSquareLargePrimary01 = ChipContentView(name: "chipFilledSquareLarge01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareLarge01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareLargePrimary01)
+        
+        let chipsFilledSquareLargePrimary02 = ChipContentView(name: "chipFilledSquareLarge02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareLarge02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareLargePrimary02)
+        
+        let chipsFilledSquareLargeScondary01 = ChipContentView(name: "chipFilledSquareLarge03", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareLarge03()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareLargeScondary01)
+        
+        let chipsFilledSquareMediumPrimary01 = ChipContentView(name: "chipFilledSquareMedium01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareMedium01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareMediumPrimary01)
+        
+        let chipsFilledSquareMediumScondary01 = ChipContentView(name: "chipFilledSquareMedium02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareMedium02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareMediumScondary01)
+        
+        let chipsFilledSquareSmallPrimary01 = ChipContentView(name: "chipFilledSquareSmall01", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareSmall01()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareSmallPrimary01)
+        
+        let chipsFilledSquareSmallScondary01 = ChipContentView(name: "chipFilledSquareSmall02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSquareSmall02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSquareSmallScondary01)
+    }
+    
+    func setAsSwiftUI() {
+        let chipOutlineLarge01 = SwiftUIChipContentView(name: "chipOutlineLarge01", type: .chipOutlineLarge01)
+        self.stackView.addArrangedSubview(chipOutlineLarge01)
+        
+        let chipOutlineMedium01 = SwiftUIChipContentView(name: "chipOutlineMedium01", type: .chipOutlineMedium01)
+        self.stackView.addArrangedSubview(chipOutlineMedium01)
+        
+        let chipOutlineMedium02 = SwiftUIChipContentView(name: "chipOutlineMedium02", type: .chipOutlineMedium02)
+        self.stackView.addArrangedSubview(chipOutlineMedium02)
+        
+        let chipOutlineSmall01 = SwiftUIChipContentView(name: "chipOutlineSmall01", type: .chipOutlineSmall01)
+        self.stackView.addArrangedSubview(chipOutlineSmall01)
+        
+        let chipFilledLarge01 = SwiftUIChipContentView(name: "chipFilledLarge01", type: .chipFilledLarge01)
+        self.stackView.addArrangedSubview(chipFilledLarge01)
+        
+        let chipFilledMedium01 = SwiftUIChipContentView(name: "chipFilledMedium01", type: .chipFilledMedium01)
+        self.stackView.addArrangedSubview(chipFilledMedium01)
+        
+        let chipFilledSmall01 = SwiftUIChipContentView(name: "chipFilledSmall01", type: .chipFilledSmall01)
+        self.stackView.addArrangedSubview(chipFilledSmall01)
+        
+        let chipFilledSmall02 = SwiftUIChipContentView(name: "chipFilledSmall02", type: .chipFilledSmall02)
+        self.stackView.addArrangedSubview(chipFilledSmall02)
+        
+        let chipFilledSmall03 = SwiftUIChipContentView(name: "chipFilledSmall03", type: .chipFilledSmall03)
+        self.stackView.addArrangedSubview(chipFilledSmall03)
+        
+        let chipOutlineSquareLarge01 = SwiftUIChipContentView(name: "chipOutlineSquareLarge01", type: .chipOutlineSquareLarge01)
+        self.stackView.addArrangedSubview(chipOutlineSquareLarge01)
+        
+        let chipOutlineSquareMedium01 = SwiftUIChipContentView(name: "chipOutlineSquareMedium01", type: .chipOutlineSquareMedium01)
+        self.stackView.addArrangedSubview(chipOutlineSquareMedium01)
+        
+        let chipOutlineSquareSmall01 = SwiftUIChipContentView(name: "chipOutlineSquareSmall01", type: .chipOutlineSquareSmall01)
+        self.stackView.addArrangedSubview(chipOutlineSquareSmall01)
+        
+        let chipFilledSquareLarge01 = SwiftUIChipContentView(name: "chipFilledSquareLarge01", type: .chipFilledSquareLarge01)
+        self.stackView.addArrangedSubview(chipFilledSquareLarge01)
+        
+        let chipFilledSquareLarge02 = SwiftUIChipContentView(name: "chipFilledSquareLarge02", type: .chipFilledSquareLarge02)
+        self.stackView.addArrangedSubview(chipFilledSquareLarge02)
+        
+        let chipFilledSquareLarge03 = SwiftUIChipContentView(name: "chipFilledSquareLarge03", type: .chipFilledSquareLarge03)
+        self.stackView.addArrangedSubview(chipFilledSquareLarge03)
+        
+        let chipFilledSquareMedium01 = SwiftUIChipContentView(name: "chipFilledSquareMedium01", type: .chipFilledSquareMedium01)
+        self.stackView.addArrangedSubview(chipFilledSquareMedium01)
+        
+        let chipFilledSquareMedium02 = SwiftUIChipContentView(name: "chipFilledSquareMedium02", type: .chipFilledSquareMedium02)
+        self.stackView.addArrangedSubview(chipFilledSquareMedium02)
+        
+        let chipFilledSquareSmall01 = SwiftUIChipContentView(name: "chipFilledSquareSmall01", type: .chipFilledSquareSmall01)
+        self.stackView.addArrangedSubview(chipFilledSquareSmall01)
+        
+        let chipFilledSquareSmall02 = SwiftUIChipContentView(name: "chipFilledSquareSmall02", type: .chipFilledSquareSmall02)
+        self.stackView.addArrangedSubview(chipFilledSquareSmall02)
+    }
 }
 
 
@@ -254,10 +308,10 @@ final class SwiftUIChipContentView: UIView {
         self.addSubview(self.stackView)
         self.stackView.then {
             $0.axis = .horizontal
-            $0.spacing = 20.0
+            $0.distribution = .equalSpacing
         }.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom)
-            $0.left.equalTo(titleLabel)
+            $0.left.right.equalTo(titleLabel)
             $0.bottom.equalToSuperview().offset(-20.0)
         }
         
@@ -268,11 +322,9 @@ final class SwiftUIChipContentView: UIView {
             if i == 0 {
                 chipViewModel.text = "Default"
                 chipViewModel.status = .normal
-                chipViewModel.leftImage = UIImage(named: "ic_refresh")
             } else if i == 1 {
                 chipViewModel.text = "Selected"
                 chipViewModel.status = .selected
-                chipViewModel.rightImage = UIImage(named: "ic_refresh")
             } else if i == 2 {
                 chipViewModel.text = "Disabled"
                 chipViewModel.status = .disabled

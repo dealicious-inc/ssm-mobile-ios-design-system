@@ -13,6 +13,7 @@ public final class ChipViewModel: ObservableObject {
     @Published public var status: DealiChipStatus = .normal
     @Published public var singleImage: UIImage? {
         didSet {
+            self.text = nil
             self.leftImage = nil
             self.rightImage = nil
         }
@@ -73,14 +74,24 @@ public struct ChipView: View {
         let colorAttribute = viewModel.type.color.attribute
         let chipColor = (viewModel.status == .disabled)
         ? colorAttribute.disabled
-        : (viewModel.isSelected ? colorAttribute.selected ?? colorAttribute.normal : colorAttribute.normal)
+        : (viewModel.isSelected ? (colorAttribute.selected ?? colorAttribute.normal) : colorAttribute.normal)
         
         let config = viewModel.type.config.font
         let font = (viewModel.status == .disabled)
         ? config.disabled
         : (viewModel.isSelected ? config.selected ?? config.normal : config.normal)
         
-
+        let paddingSet = viewModel.type.padding.value(with: viewModel.type.config.height, style: .chip)
+        let singleImagePadding = viewModel.type.config.singleImagePadding
+        
+        let leftPadding = viewModel.singleImage != nil
+        ? singleImagePadding
+        : viewModel.leftImage != nil ? paddingSet.left.withImage : paddingSet.left.normal
+        
+        let rightPadding = viewModel.singleImage != nil
+        ? singleImagePadding
+        : viewModel.rightImage != nil ? paddingSet.right.withImage : paddingSet.right.normal
+        
         Button {
             
         } label: {
@@ -91,34 +102,29 @@ public struct ChipView: View {
                     Image(uiImage: singleImage).frame(width: 16.0, height: 16.0)
                 }
                 
-                Text(viewModel.text ?? "")
-                    .foregroundStyle(Color(chipColor.text))
-                    .font(Font(font))
+                if let text = viewModel.text, !text.isEmpty {
+                    Text(text)
+                        .foregroundStyle(Color(chipColor.text))
+                        .font(Font(font))
+                }
                 
                 if let rightImage = viewModel.rightImage, viewModel.singleImage == nil {
                     Image(uiImage: rightImage).frame(width: 16.0, height: 16.0)
                 }
             }
-            .padding(.vertical, 13.0)
-            .padding(.horizontal, 12.0)
+            .padding(.leading, leftPadding)
+            .padding(.trailing, rightPadding)
+            .frame(height: viewModel.type.config.height.chip)
             .background(Color(chipColor.background))
-            
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: viewModel.type.cornerRadius))
             .overlay(
-                Capsule().stroke(Color(chipColor.border ?? .clear))
+                RoundedRectangle(cornerRadius: viewModel.type.cornerRadius)
+                    .stroke(Color(chipColor.border ?? .clear))
+                    .frame(height: viewModel.type.config.height.chip)
             )
-             // 작업중~
-            
-//            .clipShape(RoundedRectangle(cornerRadius: 6.0))
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 6.0)
-//                    .stroke(Color(.g100))
-//            )
-            
-            
         }
         .disabled(viewModel.status == .disabled)
-        .frame(height: 46.0)
+        .frame(height: viewModel.type.config.height.chip)
     }
 }
 
@@ -155,8 +161,10 @@ public enum ChipViewType: CaseIterable {
             
         case .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01:
             return ChipsFilledColor.primary01
-        case .chipFilledSmall02, .chipFilledSmall03:
+        case .chipFilledSmall02:
             return ChipsFilledColor.secondary01
+        case .chipFilledSmall03:
+            return ChipsFilledColor.primary02
         
         case .chipFilledSquareLarge01, .chipFilledSquareMedium01, .chipFilledSquareSmall01:
             return ChipsFilledSquareColor.primary01
@@ -170,7 +178,7 @@ public enum ChipViewType: CaseIterable {
         }
     }
     
-    var config: ClickableConfig {
+    var config: ChipsConfig {
         switch self {
         case .chipOutlineLarge01, .chipFilledLarge01, .chipFilledSquareLarge01, .chipFilledSquareLarge02, .chipOutlineSquareLarge01, .chipFilledSquareLarge03:
             return ChipsConfig.large
@@ -181,12 +189,12 @@ public enum ChipViewType: CaseIterable {
         }
     }
     
-    var cornerRadius: ClickableComponent.Configuration.Corner {
+    var cornerRadius: CGFloat {
         switch self {
         case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
-            return .capsule
+            return config.height.chip / 2
         default:
-            return .fixed(4.0)
+            return 4.0
         }
     }
     

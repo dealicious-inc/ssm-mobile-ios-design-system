@@ -102,6 +102,11 @@ final class SwiftUITabBarViewController: UIViewController {
                 $0.size.equalTo(contentScrollView)
             }
         }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.didSelectTabBar(selectedIndex: self.selectedIndex, showScrollAnimation: false)
+        }
     }
     
     private func clear() {

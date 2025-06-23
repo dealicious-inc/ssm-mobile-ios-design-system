@@ -28,18 +28,28 @@ public final class TabBarViewModel: ObservableObject {
     public var type: DealiTabBarPreset
     @Published public var selectedIndex: Int = 0
     @Published public var items: [TabBarItemViewModel] = []
+    @Published public var imageChipItems: [DealiImageChipTabBarItem] = []
     public var action: () -> Void
     
     var isScrollable: Bool = false
     
     public init(type: DealiTabBarPreset,
                 items: [TabBarItemViewModel] = [],
+                imageChipItems: [DealiImageChipTabBarItem] = [],
                 selectedIndex: Int = 0,
                 action: @escaping () -> Void = {}) {
         self.type = type
         self.selectedIndex = selectedIndex
         self.items = items
-        self.isScrollable = type.style == .slider
+        self.imageChipItems = imageChipItems
+        self.isScrollable = {
+            switch type.style {
+            case .slider, .sliderChip, .sliderImageChip:
+                return true
+            default:
+                return false
+            }
+        }()
         self.action = action
     }
 }
@@ -68,6 +78,15 @@ public struct TabBarView: View {
         self.init(viewModel: viewModel)
     }
     
+    public init(type: DealiTabBarPreset,
+                imageChipItems: [DealiImageChipTabBarItem] = [],
+                selectedIndex: Int = 0) {
+        let viewModel = TabBarViewModel(type: type,
+                                        imageChipItems: imageChipItems,
+                                        selectedIndex: selectedIndex)
+        self.init(viewModel: viewModel)
+    }
+    
     public var body: some View {
         ZStack(alignment: .bottom) {
             divider
@@ -75,7 +94,7 @@ public struct TabBarView: View {
                 if viewModel.isScrollable {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: viewModel.type.itemHorizontalPadding) {
+                            LazyHStack(spacing: viewModel.type.itemSpacing) {
                                 tabButtons
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -101,14 +120,23 @@ public struct TabBarView: View {
     }
 
     private var tabButtons: some View {
-        ForEach(viewModel.items.indices, id: \.self) { index in
+        Group {
             switch viewModel.type.style {
-            case .segment, .slider:
-                buttonTabItemView(viewModel.items[index], index: index)
-            case .sliderChip(let style):
-                chipTabItemView(viewModel.items[index], index: index, style: style)
             case .sliderImageChip(let style):
-                break
+                ForEach(viewModel.imageChipItems.indices, id: \.self) { index in
+                    imageChipTabItemView(viewModel.imageChipItems[index], index: index, style: style)
+                }
+            default:
+                ForEach(viewModel.items.indices, id: \.self) { index in
+                    switch viewModel.type.style {
+                    case .segment, .slider:
+                        buttonTabItemView(viewModel.items[index], index: index)
+                    case .sliderChip(let style):
+                        chipTabItemView(viewModel.items[index], index: index, style: style)
+                    case .sliderImageChip:
+                        EmptyView()
+                    }
+                }
             }
         }
     }
@@ -140,8 +168,7 @@ public struct TabBarView: View {
     @ViewBuilder
     private func buttonTabItemView(_ item: TabBarItemViewModel, index: Int) -> some View {
         Button(action: {
-            viewModel.selectedIndex = index
-            viewModel.action()
+            selectTabItem(index)
         }) {
             let isSelected = viewModel.selectedIndex == index
             let type = viewModel.type
@@ -170,20 +197,69 @@ public struct TabBarView: View {
                     IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
                 }
             }
+            .padding(.horizontal, type.itemHorizontalPadding)
             .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
         }
     }
     
     @ViewBuilder
-    private func chipTabItemView(_ item: TabBarItemViewModel, index: Int, style: DealiTabBarPreset.DealiTabBarSliderChipStyle) -> some View {
-        //test
+    private func chipTabItemView(_ item: TabBarItemViewModel,
+                                 index: Int,
+                                 style: DealiTabBarPreset.DealiTabBarSliderChipStyle) -> some View {
+        let chipType: ChipViewType = {
+            switch style {
+            case .chipFilledSmall02: return .chipFilledSmall02
+            case .chipFilledSmall03: return .chipFilledSmall03
+            }
+        }()
         let chipViewModel = ChipViewModel(
-            type: .chipFilledSmall02,
-            text: item.title ?? ""
+            type: chipType,
+            text: item.title ?? "",
+            status: index == viewModel.selectedIndex ? .selected : .normal
         )
-        ChipView(viewModel: chipViewModel)
+        
+        ChipView(
+            viewModel: chipViewModel,
+            action: {
+                selectTabItem(index)
+            }
+        )
+        .padding(.horizontal, viewModel.type.itemHorizontalPadding)
+        .frame(height: viewModel.type.tabBarContentHeight - 2)
+        .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
     }
     
+    @ViewBuilder
+    private func imageChipTabItemView(_ item: DealiImageChipTabBarItem,
+                                      index: Int,
+                                      style: DealiTabBarPreset.DealiTabBarSliderImageChipStyle) -> some View {
+        let presentType: ImageChipPreset = {
+            switch style {
+            case .imgChipSmall01: return .imgChipSmall01
+            }
+        }()
+        let imgChipViewModel = DealiImageChipViewModel(urlString: item.viewModel.urlString,
+                                                       text: item.viewModel.text,
+                                                       status: index == viewModel.selectedIndex ? .selected : .normal,
+                                                       iconName: item.viewModel.iconName)
+        DealiImageChip(
+            viewModel: imgChipViewModel,
+            action: {
+                selectTabItem(index)
+            },
+            content: {
+                item.content()
+            }, preset: presentType
+        )
+        .padding(.horizontal, viewModel.type.itemHorizontalPadding)
+        .frame(height: viewModel.type.tabBarContentHeight - 2)
+        .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
+    }
+    
+    private func selectTabItem(_ index: Int) {
+        viewModel.selectedIndex = index
+        viewModel.action()
+    }
 }
 
 #Preview {

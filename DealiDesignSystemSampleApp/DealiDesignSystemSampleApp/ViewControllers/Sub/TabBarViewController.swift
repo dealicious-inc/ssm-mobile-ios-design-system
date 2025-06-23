@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 import DealiDesignKit
 
 class TabBarViewController: UIViewController {
@@ -670,6 +671,7 @@ extension TabBarViewController {
         slider02(tabBarLongItems)
         chip01(tabBarLongItems)
         chip02(tabBarLongItems)
+        imageChip01(tabBarLongItems)
         segment01ContentView(tabBarItems)
         slider01ContentView(tabBarItems)
         slider02ContentView(tabBarLongItems)
@@ -743,6 +745,66 @@ extension TabBarViewController {
         setTitleLabel("tabBarChip02")
         let tabbar = TabBarView(type: .tabBarChip02,
                                 items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func imageChip01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarImgChip01")
+        
+        let item1 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100",
+            text: "끈원피스"),
+            content: {
+                AnyView(
+                    HStack(spacing: 2.0) {
+                        Image.dealiIcon(named: "ic_speechbubble_filled")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color(.primary01))
+                            .frame(width: 16, height: 16)
+                        
+                        Text("5")
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color(.primary01))
+                    }
+                )
+            }
+        )
+        let item2 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34732842/157846177265350900_1178323558.jpg&rs=raw&w=100&h=100",
+            text: "데님스커트")
+        )
+        let item3 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736763/157846804199136400_1319981992.png&rs=raw&w=100&h=100",
+            text: "크롭셔츠")
+        )
+        let item4 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736748/157846801645270200_1206718909.png&rs=raw&w=100&h=100",
+            text: "스웨이드자켓")
+        )
+        let item5 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34741496/157847665220578500_296545705.jpg&rs=raw&w=100&h=100",
+            text: "어깨패드")
+        )
+        let item6 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34733634/157846308337719900_69033734.png&rs=raw&w=100&h=100",
+            text: "가디건")
+        )
+        let item7 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/35127962/157926910019452700_735798694.jpg&rs=raw&w=100&h=100",
+            text: "오버롤")
+        )
+        let item8 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34889263/157883634290091900_680130812.jpg&rs=raw&w=100&h=100",
+            text: "힙색")
+        )
+        let imageChipItems = [item1, item2, item3, item4, item5, item6, item7, item8]
+        
+        let tabbar = TabBarView(type: .tabBarImgChip01,
+                                imageChipItems: imageChipItems).UIKit()
         contentStackView.addArrangedSubview(tabbar)
         tabbar.snp.makeConstraints {
             $0.left.right.equalToSuperview()

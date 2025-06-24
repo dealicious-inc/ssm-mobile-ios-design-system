@@ -1,0 +1,18 @@
+output_dir: ../Sources/DealiDesignKit/Resources/SwiftGenGenerated/
+xcassets:
+  - inputs: ../Sources/DealiDesignKit/Resources/IconAssets.xcassets
+    outputs:
+      - templatePath: designsystem-icon-template.stencil
+        params:
+            enumName: DealiIcon
+        output: DealiIcon+Generated.swift
+
+  - inputs: ../Sources/DealiDesignKit/Resources/ImageAssets.xcassets
+    outputs:
+      - templatePath: public-icon-template.stencil
+        output: DealiIcon+Generated+Public.swift
+        
+  - inputs: ../DealiDesignSystemSampleApp/DealiDesignSystemSampleApp/Others/Assets.xcassets
+    outputs:
+      - templatePath: internal-icon-template.stencil
+        output: DealiIcon+Generated+Internal.swift

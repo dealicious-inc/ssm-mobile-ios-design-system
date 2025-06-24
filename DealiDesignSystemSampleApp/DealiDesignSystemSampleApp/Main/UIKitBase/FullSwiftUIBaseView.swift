@@ -13,8 +13,11 @@ import RxSwift
 import DealiDesignKit
 
 struct FullSwiftUIBaseView: View {
-    let components: [Component] = [Component(title: "Alert", linkView: AlertTestView()),
-                                   Component(title: "Button", linkView: ButtonTestView())]
+    let components: [Component] = [
+        Component(title: "Alert", linkView: AlertTestView()),
+        Component(title: "Button", linkView: ButtonTestView()),
+        Component(title: "SearchInput", linkView: SearchInputTestView())
+    ]
     
     
     var body: some View {

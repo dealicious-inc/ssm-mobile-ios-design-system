@@ -15,6 +15,5 @@ internal extension DealiIcon {
   static let img_4640 = DesignSystemImage(name: "IMG_4640")
   static let ic_refresh = DesignSystemImage(name: "ic_refresh")
   static let img_mbs_filled_16_ver01 = DesignSystemImage(name: "img_mbs_filled_16_ver01")
-  static let loading = DesignSystemImage(name: "loading")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

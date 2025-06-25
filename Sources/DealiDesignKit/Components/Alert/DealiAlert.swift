@@ -296,6 +296,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
         
         self.view.layoutIfNeeded()
         
+        let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - ((self.shouldExposeTitle == true ? 24.0 : 28.0) + 20.0)
         let titleContentHeight = (self.shouldExposeTitle == false ? 0.0 :( self.titleContentHeight + 14.0))
         let buttonContentHeight = (self.buttonStackView.bounds.size.height + 24.0)
         
@@ -310,7 +311,6 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()
                 var containerHeight: CGFloat = 0.0
-                let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - (24.0 + 20.0)
                 
                 if self.fixedHeight > 0.0 {
                     containerHeight = (self.fixedHeight - totalFixedContentHeight)

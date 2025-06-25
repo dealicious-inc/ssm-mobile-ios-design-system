@@ -11,7 +11,6 @@ open class DealiAlertBaseViewController: UIViewController {
 
     public let contentView = UIView()
     public let contentStackView = UIStackView()
-//    public let containerView = UIView()
     
     /// alert 최대 높이 값이 동적으로 정해질때의 최대 높이값을 정하는 비율값
     public var heightRatio: CGFloat = 0.7
@@ -95,11 +94,12 @@ open class DealiAlertBaseViewController: UIViewController {
     open func updateContainerViewHeight() {
         guard self.shouldCalulateHeightBasedOnScrollView else { return }
         
-        for addView in self.contentStackView.subviews {
+        let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - (24.0 + 20.0)
+        
+        for addView in self.contentStackView.arrangedSubviews {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()
                 var containerHeight: CGFloat = 0.0
-                let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - (24.0 + 20.0)
                 
                 if self.fixedHeight > 0.0 {
                     containerHeight = self.fixedHeight
@@ -111,9 +111,8 @@ open class DealiAlertBaseViewController: UIViewController {
                     }
                 }
                 
-                self.contentStackView.snp.remakeConstraints {
-                    $0.top.equalToSuperview().offset(24.0)
-                    $0.left.right.bottom.equalToSuperview().inset(20.0)
+                addView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
                     $0.height.equalTo(containerHeight)
                 }
                 

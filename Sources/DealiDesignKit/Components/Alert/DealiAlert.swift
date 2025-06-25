@@ -18,25 +18,24 @@ import UIKit
 
 public class DealiAlert: NSObject {
     
-    /// 외부에서 alert을 닫을때 사용되는 botification name
-    static public let closeNotificationName = Notification.Name("DealiAlertClose")
-    
     // 1버튼 확인 버튼
-    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) {
+    @discardableResult
+    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
-        self.show(title: title,
-                  message: message,
-                  cancelButtonTitle: nil,
-                  confirmButtonTitle: confirmButtonTitle,
-                  closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                  cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
-                  alertPresentingViewController: alertPresentingViewController,
-                  cancelAction: nil,
-                  confirmAction: confirmAction)
+        return self.show(title: title,
+                         message: message,
+                         cancelButtonTitle: nil,
+                         confirmButtonTitle: confirmButtonTitle,
+                         closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                         cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                         alertPresentingViewController: alertPresentingViewController,
+                         cancelAction: nil,
+                         confirmAction: confirmAction)
     }
     
-    // 1버튼 확인 버튼
-    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) {
+    // 체크박스가 포함된 alert case
+    @discardableResult
+    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) -> DealiAlertViewController {
         
         let checkBoxContainerView = UIView()
         
@@ -47,67 +46,90 @@ public class DealiAlert: NSObject {
             $0.font = .b2r14
             $0.status = .init()
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10.0)
-            $0.left.right.bottom.equalToSuperview()
+            $0.top.left.right.bottom.equalToSuperview()
         }
         
-        self.show(title: title,
-                  message: message,
-                  insertCustomView: checkBoxContainerView,
-                  cancelButtonTitle: cancelButtonTitle,
-                  confirmButtonTitle: confirmButtonTitle,
-                  closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                  cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
-                  alertPresentingViewController: alertPresentingViewController,
-                  cancelAction: cancelAction) {
+        return self.show(title: title,
+                         message: message,
+                         insertCustomView: checkBoxContainerView,
+                         cancelButtonTitle: cancelButtonTitle,
+                         confirmButtonTitle: confirmButtonTitle,
+                         closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                         cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                         alertPresentingViewController: alertPresentingViewController,
+                         cancelAction: cancelAction) {
             guard let action = confirmAction else { return }
             action(checkBoxView.isSelected)
             
         }
     }
     
-    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    // textLinkButton이 포함된 alert case
+    @discardableResult
+    public class func showTextLink(title: String? = nil, message: String, textLinkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?, textLinkAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
-        let messageStyle = NSMutableParagraphStyle()
-        messageStyle.alignment = .left
-        messageStyle.lineHeightMultiple = 1.16
-        let font = UIFont.sh3r16
-        var baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 4
-        if #available(iOS 16.4, *) {
-            baselineOffset = ((font.lineHeight * messageStyle.lineHeightMultiple) - font.lineHeight) / 2
+        let textLinkContainerView = UIView()
+        
+        let textLinkButton = DealiControl.textLinkLineSmall03()
+        textLinkContainerView.addSubview(textLinkButton)
+        textLinkButton.then {
+            $0.title = textLinkButtonTitle
+        }.snp.makeConstraints {
+            $0.top.left.right.bottom.equalToSuperview()
         }
         
-        self.showAttributedMessage(title: title,
-                                   message: NSMutableAttributedString(string: message, attributes: [.font: font, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle, .baselineOffset: baselineOffset]),
-                                   insertCustomView: insertCustomView,
-                                   cancelButtonTitle: cancelButtonTitle,
-                                   confirmButtonTitle: confirmButtonTitle,
-                                   closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                                   cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
-                                   audoDismissDuration: audoDismissDuration,
-                                   alertPresentingViewController: alertPresentingViewController,
-                                   cancelAction: cancelAction,
-                                   confirmAction: confirmAction)
+        let alertViewController = self.show(title: title,
+                                            message: message,
+                                            insertCustomView: textLinkContainerView,
+                                            cancelButtonTitle: cancelButtonTitle,
+                                            confirmButtonTitle: confirmButtonTitle,
+                                            closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                                            cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                                            alertPresentingViewController: alertPresentingViewController,
+                                            cancelAction: cancelAction,
+                                            confirmAction: confirmAction)
+        
+        textLinkButton.addAction(UIAction { _ in
+            guard let action = textLinkAction else { return }
+            alertViewController.hideAlert(hideHandler: {
+                action()
+            })
+        }, for: .touchUpInside)
+        
+        return alertViewController
         
     }
     
-    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) {
+    @discardableResult
+    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+        
+        return self.showAttributedMessage(title: title,
+                                          message: NSMutableAttributedString(string: message).font(.b1r15).color(.g70).alignment(.left).setLineHeight(),
+                                          insertCustomView: insertCustomView,
+                                          cancelButtonTitle: cancelButtonTitle,
+                                          confirmButtonTitle: confirmButtonTitle,
+                                          closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+                                          cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                                          audoDismissDuration: audoDismissDuration,
+                                          alertPresentingViewController: alertPresentingViewController,
+                                          cancelAction: cancelAction,
+                                          confirmAction: confirmAction)
+        
+    }
+    
+    @discardableResult
+    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         let alertViewController = DealiAlertViewController()
         if let title = title {
-            let titleStyle = NSMutableParagraphStyle()
-            titleStyle.alignment = .left
-            titleStyle.lineHeightMultiple = 1.21
-            let font = UIFont.sh2sb18
-            var baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 4
-            if #available(iOS 16.4, *) {
-                baselineOffset = ((font.lineHeight * titleStyle.lineHeightMultiple) - font.lineHeight) / 2
-            }
-            
-            alertViewController.alertTitle = NSMutableAttributedString(string: title, attributes: [.font: font, .foregroundColor: UIColor.g100, .paragraphStyle: titleStyle, .baselineOffset: baselineOffset])
+            alertViewController.alertTitle = NSMutableAttributedString(string: title)
+                .font(.sh2sb18)
+                .color(.g100)
+                .alignment(.left)
+                .setLineHeight()
         }
         
-        alertViewController.alertMessage = message
+        alertViewController.message = message
         alertViewController.insertCustomView = insertCustomView
         alertViewController.cancelButtonTitle = cancelButtonTitle
         alertViewController.confirmButtonTitle = confirmButtonTitle
@@ -120,161 +142,109 @@ public class DealiAlert: NSObject {
         
         if let audoDismissDuration, audoDismissDuration > 0.0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + audoDismissDuration) { [weak alertViewController] in
-                alertViewController?.dismiss(animated: true)
+                alertViewController?.hideAlert()
             }
         }
+        
+        return alertViewController
     }
     
 }
 
-final class DealiAlertViewController: UIViewController {
+open class DealiAlertViewController: DealiAlertBaseViewController {
     
-    private let contentView = UIView()
-    private let contentStackView = UIStackView()
-    
-    private let messageContentScrollView = UIScrollView()
-    private let messageContentStackView = UIStackView()
-    private let messageLabel = UILabel()
+    var alertTitle: NSMutableAttributedString?
+    var message: NSMutableAttributedString?
+    var insertCustomView: UIView?
+    var cancelButtonTitle: String?
+    var confirmButtonTitle: String?
     
     var cancelAction: (() -> Swift.Void)?
     var confirmAction: (() -> Swift.Void)?
     
-    var alertTitle: NSMutableAttributedString?
-    var alertMessage: NSMutableAttributedString?
-    var insertCustomView: UIView?
-    var cancelButtonTitle: String?
-    var confirmButtonTitle: String?
-    /// content이외 영영 터치로 alert을 닫을지 유무
-    var closeAlertOnOutsideTouch: Bool = false
-    /// content이외 영영 터치로 alert을 닫을때 cancel action을 호출할지 유무
-    var cancelActionOnOutsideTouch: Bool = false
+    private let messageScrollView = UIScrollView()
+    private let messageLabel = UILabel()
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        
-        self.providesPresentationContextTransitionStyle = true
-        self.definesPresentationContext = true
-        self.modalPresentationStyle = .overFullScreen
-        self.modalTransitionStyle = .crossDissolve
-    }
+    private let buttonStackView = UIStackView()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    /// 타이틀 영역 노출여부
+    public var shouldExposeTitle: Bool = false
+    /// 타이틀영역 높이
+    public var titleContentHeight: CGFloat = 26.0
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = .b40
-        /// 외부에서 DealiAlert을 닫아야 하는 경우 호출
-        NotificationCenter.default.addObserver(self, selector: #selector(closeAction(_:)), name: DealiAlert.closeNotificationName, object: nil)
+        
     }
     
-    override func loadView() {
+    open override func loadView() {
         super.loadView()
         
-        let isAlerttitleContentExposure: Bool = (self.alertTitle != nil)
+        self.shouldExposeTitle = (self.alertTitle != nil)
         
-        self.view.addSubview(self.contentView)
-        self.contentView.then {
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 10.0
-            $0.backgroundColor = .primary04
-        }.snp.makeConstraints {
-            $0.center.equalToSuperview()
-//            $0.width.equalTo(280.0)
-            $0.left.right.equalToSuperview().inset(40.0)
+        /// 타이틀이 있을때와 없을때 top padding값이 서로 다름
+        self.contentStackView.snp.updateConstraints {
+            $0.top.equalToSuperview().offset((self.shouldExposeTitle == true ? 24.0 : 28.0))
         }
         
-        self.contentView.addSubview(self.contentStackView)
-        self.contentStackView.then {
-            $0.axis = .vertical
-            $0.spacing = 14.0
-            $0.alignment = .fill
-            $0.distribution = .fill
-        }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset((isAlerttitleContentExposure ? 24.0 : 28.0))
-            $0.bottom.left.right.equalToSuperview().inset(20.0)
-        }
-        
-        if isAlerttitleContentExposure {
-            let titleContainerStackView = UIStackView()
-            contentStackView.addArrangedSubview(titleContainerStackView)
-            titleContainerStackView.then {
-                $0.axis = .horizontal
-                $0.alignment = .center
-                $0.distribution = .fill
-                $0.spacing = 16.0
-            }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
-            }
-            
+        if self.shouldExposeTitle {
             let titleLabel = UILabel()
-            titleContainerStackView.addArrangedSubview(titleLabel)
+            self.contentStackView.addArrangedSubview(titleLabel)
             titleLabel.then {
                 $0.numberOfLines = 0
                 $0.attributedText = alertTitle
             }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
+                $0.left.right.equalToSuperview()
             }
+            
+            self.contentStackView.setCustomSpacing(14.0, after: titleLabel)
         }
         
-        self.contentStackView.addArrangedSubview(self.messageContentScrollView)
-        self.messageContentScrollView.then {
+        self.contentStackView.addArrangedSubview(self.messageScrollView)
+        self.messageScrollView.then {
             $0.bounces = false
             $0.showsVerticalScrollIndicator = false
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(0.0)
+            
         }
         
-        self.messageContentScrollView.addSubview(self.messageContentStackView)
-        self.messageContentStackView.then {
-            $0.axis = .vertical
-            $0.alignment = .fill
-            $0.distribution = .fill
-            $0.spacing = 8.0
+        self.messageScrollView.addSubview(self.messageLabel)
+        self.messageLabel.then {
+            $0.numberOfLines = 0
+            $0.attributedText = self.message
         }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.top.left.right.bottom.equalToSuperview()
             $0.width.equalToSuperview()
         }
         
-        self.messageContentStackView.addArrangedSubview(self.messageLabel)
-        self.messageLabel.then {
-            $0.numberOfLines = 0
-            $0.attributedText = alertMessage
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
         if let insertCustomView = self.insertCustomView {
-            self.messageContentStackView.addArrangedSubview(insertCustomView)
+            self.contentStackView.setCustomSpacing(16.0, after: self.messageScrollView)
+            
+            self.contentStackView.addArrangedSubview(insertCustomView)
             insertCustomView.snp.makeConstraints {
                 $0.left.right.equalToSuperview()
             }
+            
+            self.contentStackView.setCustomSpacing(24.0, after: insertCustomView)
+            
+        } else {
+            self.contentStackView.setCustomSpacing(24.0, after: self.messageScrollView)
         }
         
-        let buttonContainerView = UIView()
-        self.contentStackView.addArrangedSubview(buttonContainerView)
-        buttonContainerView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        let buttonStackView = UIStackView()
-        buttonContainerView.addSubview(buttonStackView)
-        buttonStackView.then {
+        self.contentStackView.addArrangedSubview(self.buttonStackView)
+        self.buttonStackView.then {
             $0.axis = .horizontal
             $0.alignment = .fill
             $0.distribution = .fillEqually
             $0.spacing = 8.0
         }.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10.0)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
         }
         
         if let cancelButtonTitle = self.cancelButtonTitle {
             let cancelButton = DealiControl.btnOutlineMedium01()
-            buttonStackView.addArrangedSubview(cancelButton)
+            self.buttonStackView.addArrangedSubview(cancelButton)
             cancelButton.then {
                 $0.title = cancelButtonTitle
                 $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
@@ -285,7 +255,7 @@ final class DealiAlertViewController: UIViewController {
         
         if let confirmButtonTitle = self.confirmButtonTitle {
             let confirmButton = DealiControl.btnFilledMedium01()
-            buttonStackView.addArrangedSubview(confirmButton)
+            self.buttonStackView.addArrangedSubview(confirmButton)
             confirmButton.then {
                 $0.title = confirmButtonTitle
                 $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
@@ -295,67 +265,70 @@ final class DealiAlertViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // 스크롤뷰 사이즈 조정
-        if self.messageContentStackView.subviews.count > 0 {
-            self.messageContentScrollView.layoutIfNeeded()
-            var contentHeight: CGFloat = self.messageContentScrollView.contentSize.height
-            /// 화면의 70% 높이를 alert max height로 설정
-            let alertMaxHeight = (UIScreen.main.bounds.size.height * 0.7)
-            if contentHeight > alertMaxHeight {
-                contentHeight = alertMaxHeight
-            }
-            self.messageContentScrollView.snp.updateConstraints {
-                $0.height.equalTo(contentHeight)
-            }
-        }
-        
-    }
-    
     @objc func cancelButtonAction() {
-        self.dismiss(animated: true) { [weak self] in
-            if let self = self, let action = self.cancelAction {
+        self.hideAlert {
+            if let action = self.cancelAction {
                 action()
             }
         }
     }
     
     @objc func confirmButtonAction() {
-        self.dismiss(animated: true) { [weak self] in
-            if let self = self, let action = self.confirmAction {
+        self.hideAlert {
+            if let action = self.confirmAction {
                 action()
             }
         }
     }
     
-    /// 외부에서 DealiAlert을 닫을때 호출되는 함수
-    @objc func closeAction(_ notification: NSNotification) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true  else { return }
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true else { return }
+        
         if self.cancelActionOnOutsideTouch == true {
             self.cancelButtonAction()
         } else {
-            self.dismiss(animated: true, completion: nil)
+            self.hideAlert()
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: DealiAlert.closeNotificationName, object: nil)
+    open override func updateContainerViewHeight() {
+        guard self.shouldCalulateHeightBasedOnScrollView else { return }
+        
+        self.view.layoutIfNeeded()
+        
+        let titleContentHeight = (self.shouldExposeTitle == false ? 0.0 :( self.titleContentHeight + 14.0))
+        let buttonContentHeight = (self.buttonStackView.bounds.size.height + 24.0)
+        
+        var customViewheight = 0.0
+        if let insertCustomView = self.insertCustomView {
+            customViewheight = (insertCustomView.bounds.height + 16.0)
+        }
+        
+        let totalFixedContentHeight = (titleContentHeight + buttonContentHeight + customViewheight)
+        
+        for addView in self.contentStackView.arrangedSubviews {
+            if addView is UIScrollView {
+                addView.layoutIfNeeded()
+                var containerHeight: CGFloat = 0.0
+                let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - (24.0 + 20.0)
+                
+                if self.fixedHeight > 0.0 {
+                    containerHeight = (self.fixedHeight - totalFixedContentHeight)
+                } else {
+                    containerHeight = (addView as! UIScrollView).contentSize.height
+                    
+                    if (containerHeight + totalFixedContentHeight) > alertMaxHeight {
+                        containerHeight = (alertMaxHeight - totalFixedContentHeight)
+                    }
+                }
+                
+                addView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.height.equalTo(containerHeight)
+                }
+                
+                break
+            }
+        }
     }
 }
-
-//#if canImport(SwiftUI) && DEBUG
-//import SwiftUI
-//
-//struct AlertPreview: PreviewProvider {
-//    static var previews: some View {
-//        DealiAlertViewController().showPreview()
-//    }
-//}
-//#endif

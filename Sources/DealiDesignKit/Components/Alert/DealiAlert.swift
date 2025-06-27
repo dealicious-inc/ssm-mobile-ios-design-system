@@ -101,10 +101,19 @@ public class DealiAlert: NSObject {
     }
     
     @discardableResult
-    public class func show(title: String? = nil, message: String, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func show(title: String? = nil, message: String? = nil, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+        
+        var messageAttString: NSMutableAttributedString?
+        if let message = message, message.trimming().isEmpty == false {
+            messageAttString = NSMutableAttributedString(string: message)
+                .font(.b1r15)
+                .color(.g70)
+                .alignment(.left)
+                .setLineHeight()
+        }
         
         return self.showAttributedMessage(title: title,
-                                          message: NSMutableAttributedString(string: message).font(.b1r15).color(.g70).alignment(.left).setLineHeight(),
+                                          message: messageAttString,
                                           insertCustomView: insertCustomView,
                                           cancelButtonTitle: cancelButtonTitle,
                                           confirmButtonTitle: confirmButtonTitle,
@@ -169,6 +178,13 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
     
     /// 타이틀 영역 노출여부
     public var shouldExposeTitle: Bool = false
+    /// 메세지 영역 노출여부
+    public var shouldExposeMessage: Bool = false
+    /// 확인버튼 노출여부
+    public var shouldExposeConfirmButton: Bool = false
+    /// 취소버튼 노출여부
+    public var shouldExposeCancelButton: Bool = false
+    
     /// 타이틀영역 높이
     public var titleContentHeight: CGFloat = 26.0
     
@@ -181,6 +197,10 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
         super.loadView()
         
         self.shouldExposeTitle = (self.alertTitle != nil)
+        self.shouldExposeMessage = (self.message != nil)
+        
+        self.shouldExposeConfirmButton = (self.confirmButtonTitle != nil && (self.confirmButtonTitle ?? "").trimming().isEmpty == false)
+        self.shouldExposeCancelButton = (self.cancelButtonTitle != nil && (self.cancelButtonTitle ?? "").trimming().isEmpty == false)
         
         /// 타이틀이 있을때와 없을때 top padding값이 서로 다름
         self.contentStackView.snp.updateConstraints {
@@ -200,26 +220,30 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             self.contentStackView.setCustomSpacing(14.0, after: titleLabel)
         }
         
-        self.contentStackView.addArrangedSubview(self.messageScrollView)
-        self.messageScrollView.then {
-            $0.bounces = false
-            $0.showsVerticalScrollIndicator = false
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+        if self.shouldExposeMessage {
+            self.contentStackView.addArrangedSubview(self.messageScrollView)
+            self.messageScrollView.then {
+                $0.bounces = false
+                $0.showsVerticalScrollIndicator = false
+            }.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+                
+            }
             
-        }
-        
-        self.messageScrollView.addSubview(self.messageLabel)
-        self.messageLabel.then {
-            $0.numberOfLines = 0
-            $0.attributedText = self.message
-        }.snp.makeConstraints {
-            $0.top.left.right.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
+            self.messageScrollView.addSubview(self.messageLabel)
+            self.messageLabel.then {
+                $0.numberOfLines = 0
+                $0.attributedText = self.message
+            }.snp.makeConstraints {
+                $0.top.left.right.bottom.equalToSuperview()
+                $0.width.equalToSuperview()
+            }
         }
         
         if let insertCustomView = self.insertCustomView {
-            self.contentStackView.setCustomSpacing(16.0, after: self.messageScrollView)
+            if self.shouldExposeMessage {
+                self.contentStackView.setCustomSpacing(16.0, after: self.messageScrollView)
+            }
             
             self.contentStackView.addArrangedSubview(insertCustomView)
             insertCustomView.snp.makeConstraints {
@@ -232,35 +256,37 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             self.contentStackView.setCustomSpacing(24.0, after: self.messageScrollView)
         }
         
-        self.contentStackView.addArrangedSubview(self.buttonStackView)
-        self.buttonStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .fill
-            $0.distribution = .fillEqually
-            $0.spacing = 8.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        if let cancelButtonTitle = self.cancelButtonTitle {
-            let cancelButton = DealiControl.btnOutlineMedium01()
-            self.buttonStackView.addArrangedSubview(cancelButton)
-            cancelButton.then {
-                $0.title = cancelButtonTitle
-                $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+        if self.shouldExposeConfirmButton || self.shouldExposeCancelButton {
+            self.contentStackView.addArrangedSubview(self.buttonStackView)
+            self.buttonStackView.then {
+                $0.axis = .horizontal
+                $0.alignment = .fill
+                $0.distribution = .fillEqually
+                $0.spacing = 8.0
             }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
+                $0.left.right.equalToSuperview()
             }
-        }
-        
-        if let confirmButtonTitle = self.confirmButtonTitle {
-            let confirmButton = DealiControl.btnFilledMedium01()
-            self.buttonStackView.addArrangedSubview(confirmButton)
-            confirmButton.then {
-                $0.title = confirmButtonTitle
-                $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
-            }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
+            
+            if self.shouldExposeCancelButton {
+                let cancelButton = DealiControl.btnOutlineMedium01()
+                self.buttonStackView.addArrangedSubview(cancelButton)
+                cancelButton.then {
+                    $0.title = self.cancelButtonTitle
+                    $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+                }.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
+            }
+            
+            if self.shouldExposeConfirmButton {
+                let confirmButton = DealiControl.btnFilledMedium01()
+                self.buttonStackView.addArrangedSubview(confirmButton)
+                confirmButton.then {
+                    $0.title = self.confirmButtonTitle
+                    $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
+                }.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
             }
         }
     }
@@ -298,11 +324,11 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
         
         let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - ((self.shouldExposeTitle == true ? 24.0 : 28.0) + 20.0)
         let titleContentHeight = (self.shouldExposeTitle == false ? 0.0 :( self.titleContentHeight + 14.0))
-        let buttonContentHeight = (self.buttonStackView.bounds.size.height + 24.0)
+        let buttonContentHeight = ((self.shouldExposeCancelButton == true || self.shouldExposeConfirmButton == true) ? (self.buttonStackView.bounds.size.height + 24.0) : 0.0)
         
         var customViewheight = 0.0
         if let insertCustomView = self.insertCustomView {
-            customViewheight = (insertCustomView.bounds.height + 16.0)
+            customViewheight = (insertCustomView.bounds.height + (self.shouldExposeMessage == true ? 16.0 : 0.0))
         }
         
         let totalFixedContentHeight = (titleContentHeight + buttonContentHeight + customViewheight)

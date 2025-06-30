@@ -16,6 +16,8 @@ open class DealiAlertBaseViewController: UIViewController {
     public var heightRatio: CGFloat = 0.7
     /// alert 최대 높이값이 정적으로 지정되야 할경우 세팅되는 높이값
     public var fixedHeight: CGFloat = 0.0
+    /// alert에서 최대 높이값을 계산해서 처리해야 할때 고정되어 사용해야하는 객체들의 높이의 합
+    public var totalFixedContentHeight: CGFloat = 0.0
     
     /// content이외 영영 터치로 alert을 닫을지 유무
     public var closeAlertOnOutsideTouch: Bool = false
@@ -102,12 +104,12 @@ open class DealiAlertBaseViewController: UIViewController {
                 var containerHeight: CGFloat = 0.0
                 
                 if self.fixedHeight > 0.0 {
-                    containerHeight = self.fixedHeight
+                    containerHeight = (self.fixedHeight - self.totalFixedContentHeight)
                 } else {
                     containerHeight = (addView as! UIScrollView).contentSize.height
                     
-                    if containerHeight > alertMaxHeight {
-                        containerHeight = alertMaxHeight
+                    if (containerHeight + self.totalFixedContentHeight) > alertMaxHeight {
+                        containerHeight = (alertMaxHeight - self.totalFixedContentHeight)
                     }
                 }
                 

@@ -318,11 +318,9 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
     }
     
     open override func updateContainerViewHeight() {
-        guard self.shouldCalulateHeightBasedOnScrollView else { return }
         
         self.view.layoutIfNeeded()
         
-        let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - ((self.shouldExposeTitle == true ? 24.0 : 28.0) + 20.0)
         let titleContentHeight = (self.shouldExposeTitle == false ? 0.0 :( self.titleContentHeight + 14.0))
         let buttonContentHeight = ((self.shouldExposeCancelButton == true || self.shouldExposeConfirmButton == true) ? (self.buttonStackView.bounds.size.height + 24.0) : 0.0)
         
@@ -331,30 +329,34 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             customViewheight = (insertCustomView.bounds.height + (self.shouldExposeMessage == true ? 16.0 : 0.0))
         }
         
-        let totalFixedContentHeight = (titleContentHeight + buttonContentHeight + customViewheight)
+        self.totalFixedContentHeight = (titleContentHeight + buttonContentHeight + customViewheight)
         
-        for addView in self.contentStackView.arrangedSubviews {
-            if addView is UIScrollView {
-                addView.layoutIfNeeded()
-                var containerHeight: CGFloat = 0.0
-                
-                if self.fixedHeight > 0.0 {
-                    containerHeight = (self.fixedHeight - totalFixedContentHeight)
-                } else {
-                    containerHeight = (addView as! UIScrollView).contentSize.height
-                    
-                    if (containerHeight + totalFixedContentHeight) > alertMaxHeight {
-                        containerHeight = (alertMaxHeight - totalFixedContentHeight)
-                    }
-                }
-                
-                addView.snp.remakeConstraints {
-                    $0.left.right.equalToSuperview()
-                    $0.height.equalTo(containerHeight)
-                }
-                
-                break
-            }
-        }
+        super.updateContainerViewHeight()
+        
+//        guard self.shouldCalulateHeightBasedOnScrollView else { return }
+//        
+//        for addView in self.contentStackView.arrangedSubviews {
+//            if addView is UIScrollView {
+//                addView.layoutIfNeeded()
+//                var containerHeight: CGFloat = 0.0
+//                
+//                if self.fixedHeight > 0.0 {
+//                    containerHeight = (self.fixedHeight - totalFixedContentHeight)
+//                } else {
+//                    containerHeight = (addView as! UIScrollView).contentSize.height
+//                    
+//                    if (containerHeight + totalFixedContentHeight) > alertMaxHeight {
+//                        containerHeight = (alertMaxHeight - totalFixedContentHeight)
+//                    }
+//                }
+//                
+//                addView.snp.remakeConstraints {
+//                    $0.left.right.equalToSuperview()
+//                    $0.height.equalTo(containerHeight)
+//                }
+//                
+//                break
+//            }
+//        }
     }
 }

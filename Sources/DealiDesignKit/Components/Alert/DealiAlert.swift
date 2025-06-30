@@ -332,31 +332,5 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
         self.totalFixedContentHeight = (titleContentHeight + buttonContentHeight + customViewheight)
         
         super.updateContainerViewHeight()
-        
-//        guard self.shouldCalulateHeightBasedOnScrollView else { return }
-//        
-//        for addView in self.contentStackView.arrangedSubviews {
-//            if addView is UIScrollView {
-//                addView.layoutIfNeeded()
-//                var containerHeight: CGFloat = 0.0
-//                
-//                if self.fixedHeight > 0.0 {
-//                    containerHeight = (self.fixedHeight - totalFixedContentHeight)
-//                } else {
-//                    containerHeight = (addView as! UIScrollView).contentSize.height
-//                    
-//                    if (containerHeight + totalFixedContentHeight) > alertMaxHeight {
-//                        containerHeight = (alertMaxHeight - totalFixedContentHeight)
-//                    }
-//                }
-//                
-//                addView.snp.remakeConstraints {
-//                    $0.left.right.equalToSuperview()
-//                    $0.height.equalTo(containerHeight)
-//                }
-//                
-//                break
-//            }
-//        }
     }
 }

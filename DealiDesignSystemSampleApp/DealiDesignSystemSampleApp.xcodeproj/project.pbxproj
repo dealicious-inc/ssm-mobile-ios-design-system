@@ -31,6 +31,7 @@
 		39AE99782CF47D8B007CF381 /* DealiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */; };
 		39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AE99792CF47D9E007CF381 /* TabBarViewController.swift */; };
 		39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */; };
+		3B0A390E2E13B83D00A2AD2C /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A390D2E13B83D00A2AD2C /* EmptyViewController.swift */; };
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
 		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
@@ -46,6 +47,7 @@
 		4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED832DA79F850029165D /* ComponentSectionData.swift */; };
 		4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED862DA7AA390029165D /* ActionManager.swift */; };
 		4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */; };
+		4DB4F3D32D7968A200C49ABF /* CheckboxTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */; };
 		4DB9FA782E0038B4008430C4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB9FA772E0038B4008430C4 /* MainViewController.swift */; };
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */; };
@@ -57,6 +59,7 @@
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
 		E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */; };
+		FC0680632D81A8980076CC09 /* EmptyViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680622D81A8980076CC09 /* EmptyViewTest.swift */; };
 		FC0680722D9FB0AC0076CC09 /* BadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0680712D9FB0AC0076CC09 /* BadgeViewController.swift */; };
 		FC0838872D06C0DB0028AE27 /* TextLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */; };
 		FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */; };
@@ -89,6 +92,7 @@
 		39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealiTabBarViewController.swift; sourceTree = "<group>"; };
 		39AE99792CF47D9E007CF381 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImageViewController.swift; sourceTree = "<group>"; };
+		3B0A390D2E13B83D00A2AD2C /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
 		3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 		4DA7ED862DA7AA390029165D /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
 		4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentCollectionViewCell.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxTestView.swift; sourceTree = "<group>"; };
 		4DB9FA772E0038B4008430C4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
 		4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorItemView.swift; sourceTree = "<group>"; };
@@ -115,6 +120,8 @@
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
+		FC0680602D81938F0076CC09 /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
+		FC0680622D81A8980076CC09 /* EmptyViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTest.swift; sourceTree = "<group>"; };
 		FC0680712D9FB0AC0076CC09 /* BadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewController.swift; sourceTree = "<group>"; };
 		FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkViewController.swift; sourceTree = "<group>"; };
 		FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonViewController.swift; sourceTree = "<group>"; };
@@ -206,12 +213,22 @@
 			path = DealiTabBarViewController;
 			sourceTree = "<group>";
 		};
+		3B0A390C2E13B82800A2AD2C /* Empty */ = {
+			isa = PBXGroup;
+			children = (
+				3B0A390D2E13B83D00A2AD2C /* EmptyViewController.swift */,
+			);
+			path = Empty;
+			sourceTree = "<group>";
+		};
 		3B92CD032D62CE57006A2057 /* SwiftUIBase */ = {
 			isa = PBXGroup;
 			children = (
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				4D3216CA2E0AB70B0026A4C7 /* SearchInputTestView.swift */,
+				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
+				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
 			);
 			path = SwiftUIBase;
 			sourceTree = "<group>";
@@ -237,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				4DA7ED7A2DA669180029165D /* Typography */,
+				FC06805F2D81936C0076CC09 /* Empty */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
 			);
 			path = "1. Token";
@@ -288,6 +306,7 @@
 				4DA7ED7C2DA669AF0029165D /* Badge */,
 				4DE3261E2CDB611400E67FEC /* ImageChip */,
 				FC0838852D06C0B70028AE27 /* TextLink */,
+				3B0A390C2E13B82800A2AD2C /* Empty */,
 			);
 			path = "2. Atom";
 			sourceTree = "<group>";
@@ -400,6 +419,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		FC06805F2D81936C0076CC09 /* Empty */ = {
+			isa = PBXGroup;
+			children = (
+				FC0680602D81938F0076CC09 /* EmptyViewController.swift */,
+			);
+			path = Empty;
+			sourceTree = "<group>";
+		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,6 +532,7 @@
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
 				4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,
+				4DB4F3D32D7968A200C49ABF /* CheckboxTestView.swift in Sources */,
 				390D485B2C88456B00C30C0E /* FontComponentViewController.swift in Sources */,
 				4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */,
 				3990E48D2CC61E90007C2D9E /* LabeledTextComponentViewController.swift in Sources */,
@@ -513,12 +541,14 @@
 				4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */,
 				047D08472D23C156003EA0C0 /* ToolTipViewController.swift in Sources */,
 				E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */,
+				FC0680632D81A8980076CC09 /* EmptyViewTest.swift in Sources */,
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */,
 				4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */,
 				3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */,
+				3B0A390E2E13B83D00A2AD2C /* EmptyViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,

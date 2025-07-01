@@ -73,6 +73,8 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Alert", actionSelector: #selector(alertButtonPressed))
         self.addComponents(title: "Button", actionSelector: #selector(ButtonsButtonPressed))
         self.addComponents(title: "SearchInput", actionSelector: #selector(searchInputButtonPressed))
+        self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
+        self.addComponents(title: "ErrorView", actionSelector: #selector(errorViewButtonPressed))
 
     }
 }
@@ -89,6 +91,14 @@ extension SwiftUIBaseViewController {
     
     @objc func searchInputButtonPressed() {
         self.pushViewController(SearchInputViewController(isSwiftUI: true))
+    }
+    
+    @objc func checkboxButtonPressed() {
+        self.pushViewController(CheckComponentViewController(isSwiftUI: true))
+    }
+    
+    @objc func errorViewButtonPressed() {
+        self.pushViewController(EmptyViewController(isSwiftUI: true))
     }
 }
 

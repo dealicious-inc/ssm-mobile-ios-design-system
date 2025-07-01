@@ -11,7 +11,7 @@ import Combine
 public final class DLSearchInputViewModel: ObservableObject {
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
-
+    
     public init(text: String = "", isFocused: Bool = false) {
         self.text = text
         self.isFocused = isFocused
@@ -76,7 +76,7 @@ public struct DLSearchInput: View {
             }
         }
     }
-        
+
     private var buttonContainerView: some View {
         HStack(spacing: 12.0) {
             if !viewModel.text.isEmpty {

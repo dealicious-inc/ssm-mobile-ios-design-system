@@ -39,11 +39,14 @@
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
 		4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */; };
+		4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
+        4DA438C72DD2F3CF006F94EC /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */; };
 		4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */; };
+        4DB2D6F42AFB281100DFF053 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */; };
 		4DA7ED762DA61A3E0029165D /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
 		4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */; };
 		4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED832DA79F850029165D /* ComponentSectionData.swift */; };
@@ -103,6 +106,7 @@
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
 		4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
+		4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTestView.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 		4DA7ED832DA79F850029165D /* ComponentSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSectionData.swift; sourceTree = "<group>"; };
 		4DA7ED862DA7AA390029165D /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
 		4DA7ED882DA7AECE0029165D /* ComponentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentCollectionViewCell.swift; sourceTree = "<group>"; };
+		4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
 		4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxTestView.swift; sourceTree = "<group>"; };
 		4DB9FA772E0038B4008430C4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +242,7 @@
 				398370942D91533A005C5CCD /* AccordionTestView.swift */,
 				5FEF63692D966F2400248F3E /* TextLinkTestView.swift */,
 				4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */,
+				4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */,
 			);
 			path = SwiftUIBase;
 			sourceTree = "<group>";
@@ -270,6 +276,8 @@
 		4DA7ED792DA668660029165D /* 3. Molecule */ = {
 			isa = PBXGroup;
 			children = (
+                FC810BB62BDF9AC300220CB2 /* DealiPlaygroundViewController.swift */,
+                4D584A1C2D1A82A1007BB775 /* Notice */,
 				E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */,
 				E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */,
 				4DB2D6F32AFB281100DFF053 /* BottomSheetViewController.swift */,
@@ -314,6 +322,7 @@
 				FC0838852D06C0B70028AE27 /* TextLink */,
 				3B0A390C2E13B82800A2AD2C /* Empty */,
 				FC0138542DCDCB3600900585 /* SearchInput */,
+                4DA438C32DD2F3A1006F94EC /* Toast */,
 			);
 			path = "2. Atom";
 			sourceTree = "<group>";
@@ -399,6 +408,14 @@
 			path = UIKitBase;
 			sourceTree = "<group>";
 		};
+		4DA438C32DD2F3A1006F94EC /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				4DA438C62DD2F3CF006F94EC /* ToastViewController.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		4DE3261E2CDB611400E67FEC /* ImageChip */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +444,7 @@
 			sourceTree = "<group>";
 		};
 		FC0138542DCDCB3600900585 /* SearchInput */ = {
+
 			isa = PBXGroup;
 			children = (
 				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
@@ -537,6 +555,7 @@
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
+				4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */,
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
 				4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,
@@ -573,6 +592,8 @@
 				4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */,
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
+				FC0680612D81938F0076CC09 /* EmptyViewController.swift in Sources */,
+				4DA438C72DD2F3CF006F94EC /* ToastViewController.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,
 				3990E48F2CC639C3007C2D9E /* AccordionComponentViewController.swift in Sources */,

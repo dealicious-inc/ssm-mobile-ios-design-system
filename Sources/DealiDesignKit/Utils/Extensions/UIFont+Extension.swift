@@ -44,22 +44,45 @@ public extension UIFont {
     var dealiLineHeight: CGFloat {
         guard self.fontName.contains("Pretendard") else { return self.lineHeight }
         switch self.pointSize {
-        case 32.0: return 40.0
-        case 24.0: return 32.0
-        case 28.0: return 36.0
-        case 20.0: return 28.0
-        case 18.0: return 26.0
-        case 16.0: return 22.0
-        case 15.0: return 20.0
-        case 14.0: return 20.0
-        case 13.0: return 18.0
-        case 12.0: return 16.0
-        case 10.0: return 14.0
-        default: return self.lineHeight
+        case 32.0:
+            return 40.0
+        case 24.0:
+            return 32.0
+        case 28.0:
+            return 36.0
+        case 20.0:
+            return 28.0
+        case 18.0:
+            return 26.0
+        case 16.0:
+            return 22.0
+        case 15.0:
+            return 20.0
+        case 14.0:
+            return 20.0
+        case 13.0:
+            return 18.0
+        case 12.0:
+            return 16.0
+        case 10.0:
+            return 14.0
+        default:
+            return self.lineHeight
         }
     }
     
     static func getPretendard(weight: UIFont.Weight, size: CGFloat) -> UIFont {
+        if isRunningInPreview == true {
+            print("Preview로 확인중에는 custom Font 세팅")
+            registerDealiSystemFonts()
+//            for family in UIFont.familyNames {
+//                print("Font Family: \(family)")
+//                for name in UIFont.fontNames(forFamilyName: family) {
+//                    print(" - Font Name: \(name)")
+//                }
+//            }
+        }
+        
         var font: UIFont? {
             if weight == .bold {
                 return UIFont(name: "PretendardJP-Bold", size: size)
@@ -72,7 +95,7 @@ public extension UIFont {
             }
             
         }
-
+        
         return font ?? UIFont.systemFont(ofSize: size, weight: weight)
     }
 }

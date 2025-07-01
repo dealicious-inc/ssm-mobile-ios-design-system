@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 extension UIView {
     
@@ -21,6 +22,10 @@ extension UIView {
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = false
         self.clipsToBounds = true
+    }
+    
+    func toSwiftUIView() -> some View {
+        return UIViewWrapper(uiView: self)
     }
 }
 
@@ -41,5 +46,17 @@ public extension UIView {
         gradientLayer.frame = self.bounds
         
         return gradientLayer
+    }
+}
+
+struct UIViewWrapper: UIViewRepresentable {
+    let uiView: UIView
+
+    func makeUIView(context: Context) -> UIView {
+        return uiView
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // 필요하면 업데이트 로직 추가
     }
 }

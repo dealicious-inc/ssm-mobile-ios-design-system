@@ -75,7 +75,6 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "SearchInput", actionSelector: #selector(searchInputButtonPressed))
         self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
         self.addComponents(title: "ErrorView", actionSelector: #selector(errorViewButtonPressed))
-
     }
 }
 

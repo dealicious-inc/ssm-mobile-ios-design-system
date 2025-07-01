@@ -37,13 +37,13 @@
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
 		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
-		4D3216CB2E0AB70B0026A4C7 /* SearchInputTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3216CA2E0AB70B0026A4C7 /* SearchInputTestView.swift */; };
 		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
 		4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
 		4D58315E2B033EC4009F7B48 /* SliderBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */; };
 		4D584A1E2D1A82BF007BB775 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */; };
 		4D584A202D22758B007BB775 /* GradientColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */; };
+		4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */; };
 		4DA7ED762DA61A3E0029165D /* DealiDesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2214A2AAEE733000A6411 /* DealiDesignKit */; };
 		4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */; };
 		4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA7ED832DA79F850029165D /* ComponentSectionData.swift */; };
@@ -101,13 +101,13 @@
 		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
 		3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
-		4D3216CA2E0AB70B0026A4C7 /* SearchInputTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputTestView.swift; sourceTree = "<group>"; };
 		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
 		4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
 		4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarViewController.swift; sourceTree = "<group>"; };
 		4D584A1D2D1A82BF007BB775 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		4D584A1F2D22758B007BB775 /* GradientColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorItemView.swift; sourceTree = "<group>"; };
+		4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputTestView.swift; sourceTree = "<group>"; };
 		4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBaseViewController.swift; sourceTree = "<group>"; };
 		4DA7ED832DA79F850029165D /* ComponentSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSectionData.swift; sourceTree = "<group>"; };
 		4DA7ED862DA7AA390029165D /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
@@ -126,7 +126,6 @@
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
 		E6EA11A32A8A24DC00ACCF3B /* AlertTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestViewController.swift; sourceTree = "<group>"; };
-		FC0680602D81938F0076CC09 /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		FC0680622D81A8980076CC09 /* EmptyViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTest.swift; sourceTree = "<group>"; };
 		FC0680712D9FB0AC0076CC09 /* BadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewController.swift; sourceTree = "<group>"; };
 		FC0838862D06C0DB0028AE27 /* TextLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkViewController.swift; sourceTree = "<group>"; };
@@ -232,12 +231,12 @@
 			children = (
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
-				4D3216CA2E0AB70B0026A4C7 /* SearchInputTestView.swift */,
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
 				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
 				398927722D76C41200B20CC3 /* LabeledTestView.swift */,
 				398370942D91533A005C5CCD /* AccordionTestView.swift */,
 				5FEF63692D966F2400248F3E /* TextLinkTestView.swift */,
+				4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */,
 			);
 			path = SwiftUIBase;
 			sourceTree = "<group>";
@@ -263,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				4DA7ED7A2DA669180029165D /* Typography */,
-				FC06805F2D81936C0076CC09 /* Empty */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
 			);
 			path = "1. Token";
@@ -305,7 +303,6 @@
 				3990E48C2CC61E90007C2D9E /* LabeledTextComponentViewController.swift */,
 				39F6D2432D197568008B35A9 /* PlaceholderImageViewController.swift */,
 				FC52E5FE2AA0315B00CADB39 /* RadioButtonViewController.swift */,
-				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
 				4D58315D2B033EC4009F7B48 /* SliderBarViewController.swift */,
 				4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */,
 				5A090EA52B21962A009EEE0B /* TagViewController.swift */,
@@ -316,6 +313,7 @@
 				4DE3261E2CDB611400E67FEC /* ImageChip */,
 				FC0838852D06C0B70028AE27 /* TextLink */,
 				3B0A390C2E13B82800A2AD2C /* Empty */,
+				FC0138542DCDCB3600900585 /* SearchInput */,
 			);
 			path = "2. Atom";
 			sourceTree = "<group>";
@@ -428,12 +426,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		FC06805F2D81936C0076CC09 /* Empty */ = {
+		FC0138542DCDCB3600900585 /* SearchInput */ = {
 			isa = PBXGroup;
 			children = (
-				FC0680602D81938F0076CC09 /* EmptyViewController.swift */,
+				396EF4C12BDA04EE006CEF43 /* SearchInputViewController.swift */,
 			);
-			path = Empty;
+			path = SearchInput;
 			sourceTree = "<group>";
 		};
 		FC0838852D06C0B70028AE27 /* TextLink */ = {
@@ -535,6 +533,7 @@
 			files = (
 				392C38A02C465AC70088D176 /* ViewBottomSheetViewController.swift in Sources */,
 				04AD45132A15EF4400093BEB /* TypographyViewController.swift in Sources */,
+				4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
@@ -582,7 +581,6 @@
 				39AE997A2CF47D9E007CF381 /* TabBarViewController.swift in Sources */,
 				5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */,
 				4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */,
-				4D3216CB2E0AB70B0026A4C7 /* SearchInputTestView.swift in Sources */,
 				39AE99782CF47D8B007CF381 /* DealiTabBarViewController.swift in Sources */,
 				393D25822BEB615F00A2CC3F /* EmptyComponentViewController.swift in Sources */,
 				39AE99772CF47D8B007CF381 /* DealiTabBarChildViewController.swift in Sources */,

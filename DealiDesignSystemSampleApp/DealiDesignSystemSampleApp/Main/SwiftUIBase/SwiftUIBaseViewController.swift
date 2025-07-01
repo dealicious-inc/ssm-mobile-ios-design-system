@@ -76,6 +76,7 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
         self.addComponents(title: "ErrorView", actionSelector: #selector(errorViewButtonPressed))
         self.addComponents(title: "Toast", actionSelector: #selector(toastButtonPressed))
+        self.addComponents(title: "ToolTip", actionSelector: #selector(TollTipButtonPressed))
     }
 }
 
@@ -103,6 +104,10 @@ extension SwiftUIBaseViewController {
     
     @objc func toastButtonPressed() {
         self.pushViewController(ToastViewController())
+    }
+    
+    @objc func TollTipButtonPressed() {
+        self.pushViewController(ToolTipViewController(isSwiftUI: true))
     }
 }
 

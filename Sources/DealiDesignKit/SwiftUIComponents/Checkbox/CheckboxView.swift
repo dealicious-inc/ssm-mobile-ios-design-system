@@ -32,7 +32,9 @@ public struct CheckboxView: View {
                         .foregroundStyle(Color(self.viewModel.textColor))
                 }
             }
+            .contentShape(Rectangle())
         }
+        .buttonStyle(NoHighlightButtonStyle())
         .disabled(!self.viewModel.isEnabled)
     }
 }
@@ -69,6 +71,12 @@ public final class CheckboxViewModel: ObservableObject {
         case false:
             return .g50
         }
+    }
+}
+
+public struct NoHighlightButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
     }
 }
 

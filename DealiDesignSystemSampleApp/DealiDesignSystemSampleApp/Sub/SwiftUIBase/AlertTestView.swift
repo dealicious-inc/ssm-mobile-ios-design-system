@@ -22,19 +22,19 @@ struct AlertTestView: View {
         NavigationView {
             ZStack {
                 VStack(spacing: 20) {
-                    ButtonView()
-                        .setStyle(.btnOutlineBgLarge01)
-                        .setTitle("1버튼 Alert")
-                        .addAction {
+                    ButtonView(
+                        viewModel: .init(type: .btnOutlineBgLarge01, title: "1버튼 Alert"),
+                        action: {
                             showAlert(type: .oneButton)
                         }
+                    )
                     
-                    ButtonView()
-                        .setStyle(.btnOutlineBgLarge01)
-                        .setTitle("2버튼 Alert")
-                        .addAction {
+                    ButtonView(
+                        viewModel: .init(type: .btnOutlineBgLarge01, title: "2버튼 Alert"),
+                        action: {
                             showAlert(type: .twoButton)
                         }
+                    )
                     
                     Spacer()
                 }

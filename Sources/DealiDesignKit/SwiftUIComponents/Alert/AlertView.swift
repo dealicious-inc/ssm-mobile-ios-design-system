@@ -149,23 +149,19 @@ public struct AlertView: View {
         Spacer().frame(height: 24.0)
         HStack(spacing: 10.0) {
             if let cancel = viewModel.cancel {
-                ButtonView()
-                    .setStyle(.btnOutlineMedium01)
-                    .setTitle(cancel.title)
-                    .addAction {
-                        cancel.action()
-                        dismissAlert()
-                    }
+                ButtonView(type: .btnOutlineMedium01,
+                           title: cancel.title) {
+                    cancel.action()
+                    dismissAlert()
+                }
             }
             
             if let confirm = viewModel.confirm {
-                ButtonView()
-                    .setStyle(.btnFilledLarge01)
-                    .setTitle(confirm.title)
-                    .addAction {
-                        confirm.action()
-                        dismissAlert()
-                    }
+                ButtonView(type: .btnFilledLarge01,
+                           title: confirm.title) {
+                    confirm.action()
+                    dismissAlert()
+                }
             }
         }
     }

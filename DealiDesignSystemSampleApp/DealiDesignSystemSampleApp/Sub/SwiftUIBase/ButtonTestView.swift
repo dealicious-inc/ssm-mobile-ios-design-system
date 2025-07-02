@@ -22,10 +22,10 @@ struct ButtonTestView: View {
                     Text("-- Buttons List --")
                         .fontWeight(.bold)
                     
-                    largeButtonsContainer
-                    mediumButtonsContainer
-                    semiMediumButtonsContainer
-                    smallButtonsContainer
+                    largeButtonsContainer.fixedSize(horizontal: true, vertical: false)
+                    mediumButtonsContainer.fixedSize(horizontal: true, vertical: false)
+                    semiMediumButtonsContainer.fixedSize(horizontal: true, vertical: false)
+                    smallButtonsContainer.fixedSize(horizontal: true, vertical: false)
                     
                     Spacer()
                 }
@@ -39,54 +39,46 @@ struct ButtonTestView: View {
     @ViewBuilder
     private var loadingContainer: some View {
         HStack(spacing: 10) {
-            let loadingButton = ButtonView()
-            loadingButton
-                .setStyle(.btnFilledLarge01)
-                .setTitle("setLoading")
-                .setLoading(false)
-                .addAction {
-                    loadingButton.toggleLoading()
-                }
+            let loadingButtonViewModel = ButtonViewModel(type: .btnFilledLarge01,
+                                                         title: "setLoading",
+                                                         isLoading: false)
+            ButtonView(viewModel: loadingButtonViewModel)
             
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("On")
-                .addAction {
-                    loadingButton.setLoading(true)
-                }
+            let loadingOn = ButtonViewModel(type: .btnOutlineBgLarge01,
+                                            title: "On")
+            ButtonView(viewModel: loadingOn) {
+                loadingButtonViewModel.isLoading = true
+            }
             
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("Off")
-                .addAction {
-                    loadingButton.setLoading(false)
-                }
+            let loadingOff = ButtonViewModel(type: .btnOutlineBgLarge01,
+                                             title: "Off")
+            ButtonView(viewModel: loadingOff) {
+                loadingButtonViewModel.isLoading = false
+            }
         }
     }
     
     @ViewBuilder
     private var enabledContainer: some View {
         HStack(spacing: 10) {
-            let enabledButton = ButtonView()
-            enabledButton
-                .setStyle(.btnFilledLarge01)
-                .setTitle("isEnabled True")
+            let enabledViewModel = ButtonViewModel(type: .btnFilledLarge01,
+                                                   title: "isEnabled True",
+                                                   isEnabled: true)
+            ButtonView(viewModel: enabledViewModel)
             
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("Enabled")
-                .addAction {
-                    enabledButton.setEnabled(true)
-                    enabledButton.setTitle("isEnabled True")
-                }
+            let enabled = ButtonViewModel(type: .btnOutlineBgLarge01,
+                                                            title: "Enabled")
+            ButtonView(viewModel: enabled) {
+                enabledViewModel.isEnabled = true
+                enabledViewModel.title = "isEnabled True"
+            }
             
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("Disabled")
-                .addAction {
-                    enabledButton.setEnabled(false)
-                    enabledButton.setTitle("isEnabled False")
-                }
+            let disabled = ButtonViewModel(type: .btnOutlineBgLarge01,
+                                                            title: "Disabled")
+            ButtonView(viewModel: disabled) {
+                enabledViewModel.isEnabled = false
+                enabledViewModel.title = "isEnabled False"
+            }
         }
     }
     
@@ -95,194 +87,194 @@ struct ButtonTestView: View {
         let image = UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0))
         
         HStack(spacing: 10) {
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Left Image")
-                .setTitleAlignment(.leading)
-                .setLeftImage(image)
+            ButtonView(type: .btnFilledLarge01,
+                       title: "Left Image",
+                       leftImage: image)
             
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Right Image")
-                .setTitleAlignment(.trailing)
-                .setRightImage(image)
+            ButtonView(type: .btnFilledLarge01,
+                       title: "Right Image",
+                       rightImage: image)
             
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Both Image")
-                .setTitleAlignment(.center)
-                .setLeftImage(image)
-                .setRightImage(image)
+            
+            ButtonView(type: .btnFilledLarge01,
+                       title: "Both Image",
+                       leftImage: image,
+                       rightImage: image)
         }
     }
     
     @ViewBuilder
     private var largeButtonsContainer: some View {
-        ButtonView().setStyle(.btnFilledLarge01).setTitle("btnFilledLarge01")
-        ButtonView().setStyle(.btnFilledLarge02).setTitle("btnFilledLarge02")
-        ButtonView().setStyle(.btnFilledLarge03).setTitle("btnFilledLarge03")
-        ButtonView().setStyle(.btnFilledLarge04).setTitle("btnFilledLarge04")
-        ButtonView().setStyle(.btnFilledLarge05).setTitle("btnFilledLarge05")
-        ButtonView().setStyle(.btnFilledLarge06).setTitle("btnFilledLarge06")
-        
-        ButtonView().setStyle(.btnFilledRoundLarge01).setTitle("btnFilledRoundLarge01")
-        ButtonView().setStyle(.btnFilledRoundLarge02).setTitle("btnFilledRoundLarge02")
-        ButtonView().setStyle(.btnFilledRoundLarge03).setTitle("btnFilledRoundLarge03")
-        ButtonView().setStyle(.btnFilledRoundLarge01).setTitle("btnFilledRoundLarge01")
-        
-        ButtonView().setStyle(.btnFilledTonalLarge01).setTitle("btnFilledTonalLarge01")
-        ButtonView().setStyle(.btnFilledTonalLarge02).setTitle("btnFilledTonalLarge02")
-        ButtonView().setStyle(.btnFilledTonalLarge03).setTitle("btnFilledTonalLarge03")
-        ButtonView().setStyle(.btnFilledTonalLarge04).setTitle("btnFilledTonalLarge04")
-        ButtonView().setStyle(.btnFilledTonalLarge05).setTitle("btnFilledTonalLarge05")
-        ButtonView().setStyle(.btnFilledTonalLarge06).setTitle("btnFilledTonalLarge06")
-        
-        ButtonView().setStyle(.btnOutlineLarge01).setTitle("btnOutlineLarge01")
-        ButtonView().setStyle(.btnOutlineLarge02).setTitle("btnOutlineLarge02")
-        ButtonView().setStyle(.btnOutlineLarge03).setTitle("btnOutlineLarge03")
-        ButtonView().setStyle(.btnOutlineLarge04).setTitle("btnOutlineLarge04")
-        ButtonView().setStyle(.btnOutlineLarge05).setTitle("btnOutlineLarge05")
-        ButtonView().setStyle(.btnOutlineLarge06).setTitle("btnOutlineLarge06")
-        
-        ButtonView().setStyle(.btnOutlineBgLarge01).setTitle("btnOutlineBgLarge01")
-        ButtonView().setStyle(.btnOutlineBgLarge03).setTitle("btnOutlineBgLarge03")
-        ButtonView().setStyle(.btnOutlineBgLarge04).setTitle("btnOutlineBgLarge04")
-        ButtonView().setStyle(.btnOutlineBgLarge05).setTitle("btnOutlineBgLarge05")
-        ButtonView().setStyle(.btnOutlineBgLarge06).setTitle("btnOutlineBgLarge06")
-    
-        ButtonView().setStyle(.btnTextLarge01).setTitle("btnTextLarge01")
-        ButtonView().setStyle(.btnTextLarge02).setTitle("btnTextLarge02")
-        ButtonView().setStyle(.btnTextLarge03).setTitle("btnTextLarge03")
-        ButtonView().setStyle(.btnTextLarge04).setTitle("btnTextLarge04")
-        ButtonView().setStyle(.btnTextLarge05).setTitle("btnTextLarge05")
-        ButtonView().setStyle(.btnTextLarge06).setTitle("btnTextLarge06")
-        ButtonView().setStyle(.btnTextLarge07).setTitle("btnTextLarge07")
+        VStack(spacing: 8) {
+            ButtonView(type: .btnFilledLarge01, title: "btnFilledLarge01")
+            ButtonView(type: .btnFilledLarge02, title: "btnFilledLarge02")
+            ButtonView(type: .btnFilledLarge03, title: "btnFilledLarge03")
+            ButtonView(type: .btnFilledLarge04, title: "btnFilledLarge04")
+            ButtonView(type: .btnFilledLarge05, title: "btnFilledLarge05")
+            ButtonView(type: .btnFilledLarge06, title: "btnFilledLarge06")
+
+            ButtonView(type: .btnFilledRoundLarge01, title: "btnFilledRoundLarge01")
+            ButtonView(type: .btnFilledRoundLarge02, title: "btnFilledRoundLarge02")
+            ButtonView(type: .btnFilledRoundLarge03, title: "btnFilledRoundLarge03")
+
+            ButtonView(type: .btnFilledTonalLarge01, title: "btnFilledTonalLarge01")
+            ButtonView(type: .btnFilledTonalLarge02, title: "btnFilledTonalLarge02")
+            ButtonView(type: .btnFilledTonalLarge03, title: "btnFilledTonalLarge03")
+            ButtonView(type: .btnFilledTonalLarge04, title: "btnFilledTonalLarge04")
+            ButtonView(type: .btnFilledTonalLarge05, title: "btnFilledTonalLarge05")
+            ButtonView(type: .btnFilledTonalLarge06, title: "btnFilledTonalLarge06")
+
+            ButtonView(type: .btnOutlineLarge01, title: "btnOutlineLarge01")
+            ButtonView(type: .btnOutlineLarge02, title: "btnOutlineLarge02")
+            ButtonView(type: .btnOutlineLarge03, title: "btnOutlineLarge03")
+            ButtonView(type: .btnOutlineLarge04, title: "btnOutlineLarge04")
+            ButtonView(type: .btnOutlineLarge05, title: "btnOutlineLarge05")
+            ButtonView(type: .btnOutlineLarge06, title: "btnOutlineLarge06")
+
+            ButtonView(type: .btnOutlineBgLarge01, title: "btnOutlineBgLarge01")
+            ButtonView(type: .btnOutlineBgLarge03, title: "btnOutlineBgLarge03")
+            ButtonView(type: .btnOutlineBgLarge04, title: "btnOutlineBgLarge04")
+            ButtonView(type: .btnOutlineBgLarge05, title: "btnOutlineBgLarge05")
+            ButtonView(type: .btnOutlineBgLarge06, title: "btnOutlineBgLarge06")
+
+            ButtonView(type: .btnTextLarge01, title: "btnTextLarge01")
+            ButtonView(type: .btnTextLarge02, title: "btnTextLarge02")
+            ButtonView(type: .btnTextLarge03, title: "btnTextLarge03")
+            ButtonView(type: .btnTextLarge04, title: "btnTextLarge04")
+            ButtonView(type: .btnTextLarge05, title: "btnTextLarge05")
+            ButtonView(type: .btnTextLarge06, title: "btnTextLarge06")
+            ButtonView(type: .btnTextLarge07, title: "btnTextLarge07")
+        }
     }
     
     @ViewBuilder
     private var mediumButtonsContainer: some View {
-        ButtonView().setStyle(.btnFilledMedium01).setTitle("btnFilledMedium01")
-        ButtonView().setStyle(.btnFilledMedium02).setTitle("btnFilledMedium02")
-        ButtonView().setStyle(.btnFilledMedium03).setTitle("btnFilledMedium03")
-        ButtonView().setStyle(.btnFilledMedium04).setTitle("btnFilledMedium04")
-        ButtonView().setStyle(.btnFilledMedium05).setTitle("btnFilledMedium05")
-        ButtonView().setStyle(.btnFilledMedium06).setTitle("btnFilledMedium06")
-        
-        ButtonView().setStyle(.btnFilledRoundMedium01).setTitle("btnFilledRoundMedium01")
-        ButtonView().setStyle(.btnFilledRoundMedium02).setTitle("btnFilledRoundMedium02")
-        ButtonView().setStyle(.btnFilledRoundMedium03).setTitle("btnFilledRoundMedium03")
-        
-        ButtonView().setStyle(.btnFilledTonalMedium01).setTitle("btnFilledTonalMedium01")
-        ButtonView().setStyle(.btnFilledTonalMedium02).setTitle("btnFilledTonalMedium02")
-        ButtonView().setStyle(.btnFilledTonalMedium03).setTitle("btnFilledTonalMedium03")
-        ButtonView().setStyle(.btnFilledTonalMedium04).setTitle("btnFilledTonalMedium04")
-        ButtonView().setStyle(.btnFilledTonalMedium05).setTitle("btnFilledTonalMedium05")
-        ButtonView().setStyle(.btnFilledTonalMedium06).setTitle("btnFilledTonalMedium06")
-        
-        ButtonView().setStyle(.btnOutlineMedium01).setTitle("btnOutlineMedium01")
-        ButtonView().setStyle(.btnOutlineMedium02).setTitle("btnOutlineMedium02")
-        ButtonView().setStyle(.btnOutlineMedium03).setTitle("btnOutlineMedium03")
-        ButtonView().setStyle(.btnOutlineMedium04).setTitle("btnOutlineMedium04")
-        ButtonView().setStyle(.btnOutlineMedium05).setTitle("btnOutlineMedium05")
-        ButtonView().setStyle(.btnOutlineMedium06).setTitle("btnOutlineMedium06")
-        
-        ButtonView().setStyle(.btnOutlineBgMedium01).setTitle("btnOutlineBgMedium01")
-        ButtonView().setStyle(.btnOutlineBgMedium03).setTitle("btnOutlineBgMedium03")
-        ButtonView().setStyle(.btnOutlineBgMedium04).setTitle("btnOutlineBgMedium04")
-        ButtonView().setStyle(.btnOutlineBgMedium05).setTitle("btnOutlineBgMedium05")
-        ButtonView().setStyle(.btnOutlineBgMedium06).setTitle("btnOutlineBgMedium06")
-        
-        ButtonView().setStyle(.btnTextMedium01).setTitle("btnTextMedium01")
-        ButtonView().setStyle(.btnTextMedium02).setTitle("btnTextMedium02")
-        ButtonView().setStyle(.btnTextMedium03).setTitle("btnTextMedium03")
-        ButtonView().setStyle(.btnTextMedium04).setTitle("btnTextMedium04")
-        ButtonView().setStyle(.btnTextMedium05).setTitle("btnTextMedium05")
-        ButtonView().setStyle(.btnTextMedium06).setTitle("btnTextMedium06")
-        ButtonView().setStyle(.btnTextMedium07).setTitle("btnTextMedium07")
+        VStack(spacing: 8) {
+            ButtonView(type: .btnFilledMedium01, title: "btnFilledMedium01")
+            ButtonView(type: .btnFilledMedium02, title: "btnFilledMedium02")
+            ButtonView(type: .btnFilledMedium03, title: "btnFilledMedium03")
+            ButtonView(type: .btnFilledMedium04, title: "btnFilledMedium04")
+            ButtonView(type: .btnFilledMedium05, title: "btnFilledMedium05")
+            ButtonView(type: .btnFilledMedium06, title: "btnFilledMedium06")
+
+            ButtonView(type: .btnFilledRoundMedium01, title: "btnFilledRoundMedium01")
+            ButtonView(type: .btnFilledRoundMedium02, title: "btnFilledRoundMedium02")
+            ButtonView(type: .btnFilledRoundMedium03, title: "btnFilledRoundMedium03")
+            
+            ButtonView(type: .btnFilledTonalMedium01, title: "btnFilledTonalMedium01")
+            ButtonView(type: .btnFilledTonalMedium02, title: "btnFilledTonalMedium02")
+            ButtonView(type: .btnFilledTonalMedium03, title: "btnFilledTonalMedium03")
+            ButtonView(type: .btnFilledTonalMedium04, title: "btnFilledTonalMedium04")
+            ButtonView(type: .btnFilledTonalMedium05, title: "btnFilledTonalMedium05")
+            ButtonView(type: .btnFilledTonalMedium06, title: "btnFilledTonalMedium06")
+
+            ButtonView(type: .btnOutlineMedium01, title: "btnOutlineMedium01")
+            ButtonView(type: .btnOutlineMedium02, title: "btnOutlineMedium02")
+            ButtonView(type: .btnOutlineMedium03, title: "btnOutlineMedium03")
+            ButtonView(type: .btnOutlineMedium04, title: "btnOutlineMedium04")
+            ButtonView(type: .btnOutlineMedium05, title: "btnOutlineMedium05")
+            ButtonView(type: .btnOutlineMedium06, title: "btnOutlineMedium06")
+
+            ButtonView(type: .btnOutlineBgMedium01, title: "btnOutlineBgMedium01")
+            ButtonView(type: .btnOutlineBgMedium03, title: "btnOutlineBgMedium03")
+            ButtonView(type: .btnOutlineBgMedium04, title: "btnOutlineBgMedium04")
+            ButtonView(type: .btnOutlineBgMedium05, title: "btnOutlineBgMedium05")
+            ButtonView(type: .btnOutlineBgMedium06, title: "btnOutlineBgMedium06")
+
+            ButtonView(type: .btnTextMedium01, title: "btnTextMedium01")
+            ButtonView(type: .btnTextMedium02, title: "btnTextMedium02")
+            ButtonView(type: .btnTextMedium03, title: "btnTextMedium03")
+            ButtonView(type: .btnTextMedium04, title: "btnTextMedium04")
+            ButtonView(type: .btnTextMedium05, title: "btnTextMedium05")
+            ButtonView(type: .btnTextMedium06, title: "btnTextMedium06")
+            ButtonView(type: .btnTextMedium07, title: "btnTextMedium07")
+        }
     }
     
     @ViewBuilder
     private var semiMediumButtonsContainer: some View {
-        ButtonView().setStyle(.btnFilledSemiMedium01).setTitle("btnFilledSemiMedium01")
-        ButtonView().setStyle(.btnFilledSemiMedium02).setTitle("btnFilledSemiMedium02")
-        ButtonView().setStyle(.btnFilledSemiMedium03).setTitle("btnFilledSemiMedium03")
-        ButtonView().setStyle(.btnFilledSemiMedium04).setTitle("btnFilledSemiMedium04")
-        ButtonView().setStyle(.btnFilledSemiMedium05).setTitle("btnFilledSemiMedium05")
-        ButtonView().setStyle(.btnFilledSemiMedium06).setTitle("btnFilledSemiMedium06")
+        VStack(spacing: 8) {
+            ButtonView(type: .btnFilledSemiMedium01, title: "btnFilledSemiMedium01")
+            ButtonView(type: .btnFilledSemiMedium02, title: "btnFilledSemiMedium02")
+            ButtonView(type: .btnFilledSemiMedium03, title: "btnFilledSemiMedium03")
+            ButtonView(type: .btnFilledSemiMedium04, title: "btnFilledSemiMedium04")
+            ButtonView(type: .btnFilledSemiMedium05, title: "btnFilledSemiMedium05")
+            ButtonView(type: .btnFilledSemiMedium06, title: "btnFilledSemiMedium06")
             
-        ButtonView().setStyle(.btnFilledRoundSemiMedium01).setTitle("btnFilledRoundSemiMedium01")
-        ButtonView().setStyle(.btnFilledRoundSemiMedium02).setTitle("btnFilledRoundSemiMedium02")
-        ButtonView().setStyle(.btnFilledRoundSemiMedium03).setTitle("btnFilledRoundSemiMedium03")
+            ButtonView(type: .btnFilledRoundSemiMedium01, title: "btnFilledRoundSemiMedium01")
+            ButtonView(type: .btnFilledRoundSemiMedium02, title: "btnFilledRoundSemiMedium02")
+            ButtonView(type: .btnFilledRoundSemiMedium03, title: "btnFilledRoundSemiMedium03")
+            ButtonView(type: .btnFilledTonalSemiMedium01, title: "btnFilledTonalSemiMedium01")
+            ButtonView(type: .btnFilledTonalSemiMedium02, title: "btnFilledTonalSemiMedium02")
+            ButtonView(type: .btnFilledTonalSemiMedium03, title: "btnFilledTonalSemiMedium03")
+            ButtonView(type: .btnFilledTonalSemiMedium04, title: "btnFilledTonalSemiMedium04")
+            ButtonView(type: .btnFilledTonalSemiMedium05, title: "btnFilledTonalSemiMedium05")
+            ButtonView(type: .btnFilledTonalSemiMedium06, title: "btnFilledTonalSemiMedium06")
             
-        ButtonView().setStyle(.btnFilledTonalSemiMedium01).setTitle("btnFilledTonalSemiMedium01")
-        ButtonView().setStyle(.btnFilledTonalSemiMedium02).setTitle("btnFilledTonalSemiMedium02")
-        ButtonView().setStyle(.btnFilledTonalSemiMedium03).setTitle("btnFilledTonalSemiMedium03")
-        ButtonView().setStyle(.btnFilledTonalSemiMedium04).setTitle("btnFilledTonalSemiMedium04")
-        ButtonView().setStyle(.btnFilledTonalSemiMedium05).setTitle("btnFilledTonalSemiMedium05")
-        ButtonView().setStyle(.btnFilledTonalSemiMedium06).setTitle("btnFilledTonalSemiMedium06")
+            ButtonView(type: .btnOutlineSemiMedium01, title: "btnOutlineSemiMedium01")
+            ButtonView(type: .btnOutlineSemiMedium02, title: "btnOutlineSemiMedium02")
+            ButtonView(type: .btnOutlineSemiMedium03, title: "btnOutlineSemiMedium03")
+            ButtonView(type: .btnOutlineSemiMedium04, title: "btnOutlineSemiMedium04")
+            ButtonView(type: .btnOutlineSemiMedium05, title: "btnOutlineSemiMedium05")
+            ButtonView(type: .btnOutlineSemiMedium06, title: "btnOutlineSemiMedium06")
             
-        ButtonView().setStyle(.btnOutlineSemiMedium01).setTitle("btnOutlineSemiMedium01")
-        ButtonView().setStyle(.btnOutlineSemiMedium02).setTitle("btnOutlineSemiMedium02")
-        ButtonView().setStyle(.btnOutlineSemiMedium03).setTitle("btnOutlineSemiMedium03")
-        ButtonView().setStyle(.btnOutlineSemiMedium04).setTitle("btnOutlineSemiMedium04")
-        ButtonView().setStyle(.btnOutlineSemiMedium05).setTitle("btnOutlineSemiMedium05")
-        ButtonView().setStyle(.btnOutlineSemiMedium06).setTitle("btnOutlineSemiMedium06")
+            ButtonView(type: .btnOutlineBgSemiMedium01, title: "btnOutlineBgSemiMedium01")
+            ButtonView(type: .btnOutlineBgSemiMedium03, title: "btnOutlineBgSemiMedium03")
+            ButtonView(type: .btnOutlineBgSemiMedium04, title: "btnOutlineBgSemiMedium04")
+            ButtonView(type: .btnOutlineBgSemiMedium05, title: "btnOutlineBgSemiMedium05")
+            ButtonView(type: .btnOutlineBgSemiMedium06, title: "btnOutlineBgSemiMedium06")
             
-        ButtonView().setStyle(.btnOutlineBgSemiMedium01).setTitle("btnOutlineBgSemiMedium01")
-        ButtonView().setStyle(.btnOutlineBgSemiMedium03).setTitle("btnOutlineBgSemiMedium03")
-        ButtonView().setStyle(.btnOutlineBgSemiMedium04).setTitle("btnOutlineBgSemiMedium04")
-        ButtonView().setStyle(.btnOutlineBgSemiMedium05).setTitle("btnOutlineBgSemiMedium05")
-        ButtonView().setStyle(.btnOutlineBgSemiMedium06).setTitle("btnOutlineBgSemiMedium06")
-            
-        ButtonView().setStyle(.btnTextSemiMedium01).setTitle("btnTextSemiMedium01")
-        ButtonView().setStyle(.btnTextSemiMedium02).setTitle("btnTextSemiMedium02")
-        ButtonView().setStyle(.btnTextSemiMedium03).setTitle("btnTextSemiMedium03")
-        ButtonView().setStyle(.btnTextSemiMedium04).setTitle("btnTextSemiMedium04")
-        ButtonView().setStyle(.btnTextSemiMedium05).setTitle("btnTextSemiMedium05")
-        ButtonView().setStyle(.btnTextSemiMedium06).setTitle("btnTextSemiMedium06")
-        ButtonView().setStyle(.btnTextSemiMedium07).setTitle("btnTextSemiMedium07")
+            ButtonView(type: .btnTextSemiMedium01, title: "btnTextSemiMedium01")
+            ButtonView(type: .btnTextSemiMedium02, title: "btnTextSemiMedium02")
+            ButtonView(type: .btnTextSemiMedium03, title: "btnTextSemiMedium03")
+            ButtonView(type: .btnTextSemiMedium04, title: "btnTextSemiMedium04")
+            ButtonView(type: .btnTextSemiMedium05, title: "btnTextSemiMedium05")
+            ButtonView(type: .btnTextSemiMedium06, title: "btnTextSemiMedium06")
+            ButtonView(type: .btnTextSemiMedium07, title: "btnTextSemiMedium07")
+        }
     }
     
     @ViewBuilder
     private var smallButtonsContainer: some View {
-        ButtonView().setStyle(.btnFilledSmall01).setTitle("btnFilledSmall01")
-        ButtonView().setStyle(.btnFilledSmall02).setTitle("btnFilledSmall02")
-        ButtonView().setStyle(.btnFilledSmall03).setTitle("btnFilledSmall03")
-        ButtonView().setStyle(.btnFilledSmall04).setTitle("btnFilledSmall04")
-        ButtonView().setStyle(.btnFilledSmall05).setTitle("btnFilledSmall05")
-        ButtonView().setStyle(.btnFilledSmall06).setTitle("btnFilledSmall06")
+        VStack(spacing: 8) {
+            ButtonView(type: .btnFilledSmall01, title: "btnFilledSmall01")
+            ButtonView(type: .btnFilledSmall02, title: "btnFilledSmall02")
+            ButtonView(type: .btnFilledSmall03, title: "btnFilledSmall03")
+            ButtonView(type: .btnFilledSmall04, title: "btnFilledSmall04")
+            ButtonView(type: .btnFilledSmall05, title: "btnFilledSmall05")
+            ButtonView(type: .btnFilledSmall06, title: "btnFilledSmall06")
             
-        ButtonView().setStyle(.btnFilledRoundSmall01).setTitle("btnFilledRoundSmall01")
-        ButtonView().setStyle(.btnFilledRoundSmall02).setTitle("btnFilledRoundSmall02")
-        ButtonView().setStyle(.btnFilledRoundSmall03).setTitle("btnFilledRoundSmall03")
+            ButtonView(type: .btnFilledRoundSmall01, title: "btnFilledRoundSmall01")
+            ButtonView(type: .btnFilledRoundSmall02, title: "btnFilledRoundSmall02")
+            ButtonView(type: .btnFilledRoundSmall03, title: "btnFilledRoundSmall03")
+            ButtonView(type: .btnFilledTonalSmall01, title: "btnFilledTonalSmall01")
+            ButtonView(type: .btnFilledTonalSmall02, title: "btnFilledTonalSmall02")
+            ButtonView(type: .btnFilledTonalSmall03, title: "btnFilledTonalSmall03")
+            ButtonView(type: .btnFilledTonalSmall04, title: "btnFilledTonalSmall04")
+            ButtonView(type: .btnFilledTonalSmall05, title: "btnFilledTonalSmall05")
+            ButtonView(type: .btnFilledTonalSmall06, title: "btnFilledTonalSmall06")
             
-        ButtonView().setStyle(.btnFilledTonalSmall01).setTitle("btnFilledTonalSmall01")
-        ButtonView().setStyle(.btnFilledTonalSmall02).setTitle("btnFilledTonalSmall02")
-        ButtonView().setStyle(.btnFilledTonalSmall03).setTitle("btnFilledTonalSmall03")
-        ButtonView().setStyle(.btnFilledTonalSmall04).setTitle("btnFilledTonalSmall04")
-        ButtonView().setStyle(.btnFilledTonalSmall05).setTitle("btnFilledTonalSmall05")
-        ButtonView().setStyle(.btnFilledTonalSmall06).setTitle("btnFilledTonalSmall06")
+            ButtonView(type: .btnOutlineSmall01, title: "btnOutlineSmall01")
+            ButtonView(type: .btnOutlineSmall02, title: "btnOutlineSmall02")
+            ButtonView(type: .btnOutlineSmall03, title: "btnOutlineSmall03")
+            ButtonView(type: .btnOutlineSmall04, title: "btnOutlineSmall04")
+            ButtonView(type: .btnOutlineSmall05, title: "btnOutlineSmall05")
+            ButtonView(type: .btnOutlineSmall06, title: "btnOutlineSmall06")
             
-        ButtonView().setStyle(.btnOutlineSmall01).setTitle("btnOutlineSmall01")
-        ButtonView().setStyle(.btnOutlineSmall02).setTitle("btnOutlineSmall02")
-        ButtonView().setStyle(.btnOutlineSmall03).setTitle("btnOutlineSmall03")
-        ButtonView().setStyle(.btnOutlineSmall04).setTitle("btnOutlineSmall04")
-        ButtonView().setStyle(.btnOutlineSmall05).setTitle("btnOutlineSmall05")
-        ButtonView().setStyle(.btnOutlineSmall06).setTitle("btnOutlineSmall06")
+            ButtonView(type: .btnOutlineBgSmall01, title: "btnOutlineBgSmall01")
+            ButtonView(type: .btnOutlineBgSmall03, title: "btnOutlineBgSmall03")
+            ButtonView(type: .btnOutlineBgSmall04, title: "btnOutlineBgSmall04")
+            ButtonView(type: .btnOutlineBgSmall05, title: "btnOutlineBgSmall05")
+            ButtonView(type: .btnOutlineBgSmall06, title: "btnOutlineBgSmall06")
             
-        ButtonView().setStyle(.btnOutlineBgSmall01).setTitle("btnOutlineBgSmall01")
-        ButtonView().setStyle(.btnOutlineBgSmall03).setTitle("btnOutlineBgSmall03")
-        ButtonView().setStyle(.btnOutlineBgSmall04).setTitle("btnOutlineBgSmall04")
-        ButtonView().setStyle(.btnOutlineBgSmall05).setTitle("btnOutlineBgSmall05")
-        ButtonView().setStyle(.btnOutlineBgSmall06).setTitle("btnOutlineBgSmall06")
-            
-        ButtonView().setStyle(.btnTextSmall01).setTitle("btnTextSmall01")
-        ButtonView().setStyle(.btnTextSmall02).setTitle("btnTextSmall02")
-        ButtonView().setStyle(.btnTextSmall03).setTitle("btnTextSmall03")
-        ButtonView().setStyle(.btnTextSmall04).setTitle("btnTextSmall04")
-        ButtonView().setStyle(.btnTextSmall05).setTitle("btnTextSmall05")
-        ButtonView().setStyle(.btnTextSmall06).setTitle("btnTextSmall06")
-        ButtonView().setStyle(.btnTextSmall07).setTitle("btnTextSmall07")
+            ButtonView(type: .btnTextSmall01, title: "btnTextSmall01")
+            ButtonView(type: .btnTextSmall02, title: "btnTextSmall02")
+            ButtonView(type: .btnTextSmall03, title: "btnTextSmall03")
+            ButtonView(type: .btnTextSmall04, title: "btnTextSmall04")
+            ButtonView(type: .btnTextSmall05, title: "btnTextSmall05")
+            ButtonView(type: .btnTextSmall06, title: "btnTextSmall06")
+            ButtonView(type: .btnTextSmall07, title: "btnTextSmall07")
+        }
     }
 }
 

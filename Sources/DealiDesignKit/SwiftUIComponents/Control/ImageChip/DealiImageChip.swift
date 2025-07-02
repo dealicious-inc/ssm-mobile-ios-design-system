@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Kingfisher
-
 public final class DealiImageChipViewModel: ObservableObject {
     @Published var urlString: String?
     @Published var text: String?
@@ -124,6 +123,19 @@ public struct DealiImageChip<Content: View>: View {
                 Circle()
                     .stroke(Color(.b5), lineWidth: 1)
             )
+    }
+}
+
+public struct DealiImageChipTabBarItem {
+    let viewModel: DealiImageChipViewModel
+    let content: () -> AnyView
+    
+    public init(
+        viewModel: DealiImageChipViewModel,
+        content: @escaping () -> AnyView = { AnyView(EmptyView()) }
+    ) {
+        self.viewModel = viewModel
+        self.content = content
     }
 }
 

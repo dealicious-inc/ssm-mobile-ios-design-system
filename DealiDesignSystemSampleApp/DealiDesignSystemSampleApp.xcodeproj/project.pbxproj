@@ -62,6 +62,7 @@
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		5FEF636A2D966F2400248F3E /* TextLinkTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEF63692D966F2400248F3E /* TextLinkTestView.swift */; };
 		E54DEC782D6DC6D700288A7F /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */; };
+		E5A6544C2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */; };
 		E5E0642D2D5F12C700925FAF /* FullSwiftUIBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */; };
 		E655A8902B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */; };
 		E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C115E42BE4855A00032960 /* IndicatorViewController.swift */; };
@@ -129,6 +130,7 @@
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		5FEF63692D966F2400248F3E /* TextLinkTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkTestView.swift; sourceTree = "<group>"; };
 		E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTestView.swift; sourceTree = "<group>"; };
+		E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITabBarViewController.swift; sourceTree = "<group>"; };
 		E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSwiftUIBaseView.swift; sourceTree = "<group>"; };
 		E655A88F2B0CA53D00AD5E93 /* BottomSheetPopupTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPopupTestViewController.swift; sourceTree = "<group>"; };
 		E6C115E42BE4855A00032960 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			children = (
 				39AE99742CF47D8B007CF381 /* DealiTabBarChildViewController.swift */,
 				39AE99752CF47D8B007CF381 /* DealiTabBarViewController.swift */,
+				E5A6544B2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift */,
 			);
 			path = DealiTabBarViewController;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */,
 				3B0A390E2E13B83D00A2AD2C /* EmptyViewController.swift in Sources */,
 				396EF4C22BDA04EE006CEF43 /* SearchInputViewController.swift in Sources */,
+				E5A6544C2DFFBE2B006E3378 /* SwiftUITabBarViewController.swift in Sources */,
 				042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */,
 				5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */,
 				4DA7ED872DA7AA390029165D /* ActionManager.swift in Sources */,

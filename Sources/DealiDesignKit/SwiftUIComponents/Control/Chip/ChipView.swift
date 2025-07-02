@@ -13,9 +13,11 @@ public final class ChipViewModel: ObservableObject {
     @Published public var status: DealiChipStatus = .normal
     @Published public var singleImage: UIImage? {
         didSet {
-            self.text = nil
-            self.leftImage = nil
-            self.rightImage = nil
+            if singleImage != nil {
+                self.leftImage = nil
+                self.rightImage = nil
+                self.text = nil
+            }
         }
     }
     @Published public var leftImage: UIImage?
@@ -66,8 +68,10 @@ public struct ChipView: View {
     @ObservedObject public var viewModel: ChipViewModel
     var action: (() -> Void)?
     
-    public init(viewModel: ChipViewModel) {
+    public init(viewModel: ChipViewModel,
+                action: (() -> Void)? = nil) {
         self.viewModel = viewModel
+        self.action = action
     }
     
     public var body: some View {
@@ -92,9 +96,9 @@ public struct ChipView: View {
         ? singleImagePadding
         : viewModel.rightImage != nil ? paddingSet.right.withImage : paddingSet.right.normal
         
-        Button {
-            
-        } label: {
+        Button(action: {
+            action?()
+        }) {
             HStack(spacing: 4.0) {
                 if let leftImageName = viewModel.leftImage {
                     Image(uiImage: leftImageName).frame(width: 16.0, height: 16.0)

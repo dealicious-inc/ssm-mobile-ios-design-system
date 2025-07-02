@@ -78,6 +78,7 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Toast", actionSelector: #selector(toastButtonPressed))
         self.addComponents(title: "ToolTip", actionSelector: #selector(TollTipButtonPressed))
         self.addComponents(title: "ImageChip", actionSelector: #selector(imageChipButtonPressed))
+        self.addComponents(title: "Chip", actionSelector: #selector(chipButtonPressed))
     }
 }
 
@@ -113,6 +114,10 @@ extension SwiftUIBaseViewController {
     
     @objc func imageChipButtonPressed() {
         self.pushViewController(ImageChipViewController(isSwiftUI: true))
+    }
+    
+    @objc func chipButtonPressed() {
+        self.pushViewController(ChipViewController(isSwiftUI: true))
     }
 }
 

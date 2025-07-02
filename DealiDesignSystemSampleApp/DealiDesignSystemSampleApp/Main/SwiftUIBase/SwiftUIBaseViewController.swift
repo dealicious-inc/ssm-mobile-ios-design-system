@@ -76,10 +76,11 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Checkbox", actionSelector: #selector(checkboxButtonPressed))
         self.addComponents(title: "ErrorView", actionSelector: #selector(errorViewButtonPressed))
         self.addComponents(title: "Toast", actionSelector: #selector(toastButtonPressed))
-        self.addComponents(title: "ToolTip", actionSelector: #selector(TollTipButtonPressed))
+        self.addComponents(title: "ToolTip", actionSelector: #selector(ToolTipButtonPressed))
         self.addComponents(title: "ImageChip", actionSelector: #selector(imageChipButtonPressed))
         self.addComponents(title: "Chip", actionSelector: #selector(chipButtonPressed))
         self.addComponents(title: "TabBar", actionSelector: #selector(tabBarButtonPressed))
+        self.addComponents(title: "Tag", actionSelector: #selector(tagButtonPressed))
     }
 }
 
@@ -109,7 +110,7 @@ extension SwiftUIBaseViewController {
         self.pushViewController(ToastViewController())
     }
     
-    @objc func TollTipButtonPressed() {
+    @objc func ToolTipButtonPressed() {
         self.pushViewController(ToolTipViewController(isSwiftUI: true))
     }
     
@@ -123,6 +124,10 @@ extension SwiftUIBaseViewController {
     
     @objc func chipButtonPressed() {
         self.pushViewController(ChipViewController(isSwiftUI: true))
+    }
+    
+    @objc func tagButtonPressed() {
+        self.pushViewController(TagViewController(isSwiftUI: true))
     }
 }
 

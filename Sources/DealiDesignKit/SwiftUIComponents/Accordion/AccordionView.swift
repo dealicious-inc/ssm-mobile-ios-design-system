@@ -10,7 +10,7 @@ import UIKit
 
 public struct AccordionView: View {
     @ObservedObject private var viewModel = ViewModel()
-
+    public var onSizeChange: (() -> Void)? = nil
     final class ViewModel: ObservableObject {
         @Published var title: String?
         @Published var backgroundColor: Color = Color(uiColor: .g10)
@@ -28,6 +28,7 @@ public struct AccordionView: View {
                 withAnimation {
                     viewModel.shouldExposeContent.toggle()
                 }
+                onSizeChange?()
             }) {
                 HStack(spacing: 8.0) {
                     if let icon = UIImage.dealiIcon(named: "ic_notice") {
@@ -52,18 +53,26 @@ public struct AccordionView: View {
                         
                     }
                 }.padding(16.0)
-            }.background(Color.clear).buttonStyle(PressButton())
+            }
+            .frame(height: 52.0)
+            .background(Color.clear).buttonStyle(PressButton())
                 
             
-            if viewModel.shouldExposeContent {
+//            if viewModel.shouldExposeContent {
+//                contentView
+//                    .transition(.move(edge: .top).combined(with: .opacity))
+//                    .animation(.easeInOut, value: viewModel.shouldExposeContent)
+//            }
+            
+            VStack {
                 contentView
             }
-            
+            .frame(maxHeight: viewModel.shouldExposeContent ? .infinity : 0)
+            .clipped()
+            .animation(.easeInOut(duration: 0.25), value: viewModel.shouldExposeContent)
         }
         .background(viewModel.backgroundColor)
         .cornerRadius(10.0)
-        
-        
     }
     
     @ViewBuilder

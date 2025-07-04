@@ -81,6 +81,7 @@ final class SwiftUIBaseViewController: UIViewController {
         self.addComponents(title: "Chip", actionSelector: #selector(chipButtonPressed))
         self.addComponents(title: "TabBar", actionSelector: #selector(tabBarButtonPressed))
         self.addComponents(title: "Tag", actionSelector: #selector(tagButtonPressed))
+        self.addComponents(title: "Accordion", actionSelector: #selector(accordionButtonPressed))
     }
 }
 
@@ -128,6 +129,10 @@ extension SwiftUIBaseViewController {
     
     @objc func tagButtonPressed() {
         self.pushViewController(TagViewController(isSwiftUI: true))
+    }
+    
+    @objc func accordionButtonPressed() {
+        self.pushViewController(AccordionComponentViewController(isSwiftUI: true))
     }
 }
 

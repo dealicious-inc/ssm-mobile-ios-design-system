@@ -16,12 +16,14 @@ final class MainViewController: UIViewController {
         case token
         case atom
         case molcule
+        case etc
     }
     
     lazy var componentSectionData: [Int: ComponentSectionData] = [
         Section.token.rawValue : tokenSectionData,
         Section.atom.rawValue: atomSectionData,
-        Section.molcule.rawValue: molculeSectionData
+        Section.molcule.rawValue: molculeSectionData,
+        Section.etc.rawValue: etcSectionData
     ]
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.compositionalLayout)
@@ -29,7 +31,7 @@ final class MainViewController: UIViewController {
     private lazy var compositionalLayout: UICollectionViewLayout = {
         UICollectionViewCompositionalLayout { sectionIndex, env in
             switch Section(rawValue: sectionIndex) {
-            case .token, .atom, .molcule:
+            case .token, .atom, .molcule, .etc:
                 return self.componentLayout()
             default:
                 return self.singleItemLayout()
@@ -110,6 +112,14 @@ final class MainViewController: UIViewController {
             
         ]
     )
+    
+    var etcSectionData =
+    ComponentSectionData(
+        title: "Etc",
+        items: [
+            ItemData(title: "LinkLabel", type: .linkLabel),
+        ]
+    )
 }
 
 private extension MainViewController {
@@ -161,7 +171,7 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sectionIdentifier = dataSource.sectionIdentifier(for: indexPath.section)
         switch sectionIdentifier {
-        case .token, .atom, .molcule:
+        case .token, .atom, .molcule, .etc:
             guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
             self.handleAction(with: item)
         default:
@@ -179,7 +189,7 @@ extension MainViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchBarCell.identifier, for: indexPath) as! SearchBarCell
                 cell.searchInput.delegate = self
                 return cell
-            case .token, .atom, .molcule:
+            case .token, .atom, .molcule, .etc:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComponentCollectionViewCell.identifier, for: indexPath) as! ComponentCollectionViewCell
                 cell.configure(itemIdentifier)
                 
@@ -198,7 +208,7 @@ extension MainViewController {
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
 
             switch section {
-            case .token, .atom, .molcule:
+            case .token, .atom, .molcule, .etc:
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ComponentHeaderView.identifier, for: indexPath) as! ComponentHeaderView
 
                 if let sectionData = self.componentSectionData[section.rawValue] {

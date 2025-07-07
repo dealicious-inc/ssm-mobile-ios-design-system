@@ -97,6 +97,7 @@ final class MainViewController: UIViewController {
             ItemData(title: "TextInput", type: .textInput),
             ItemData(title: "TextLink", type: .textLink),
             ItemData(title: "ToolTip", type: .toolTip),
+            ItemData(title: "CountStepper", type: .countStepper),
         ]
     )
     

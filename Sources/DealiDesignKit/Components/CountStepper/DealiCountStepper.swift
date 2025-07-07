@@ -49,7 +49,7 @@ public class DealiCountStepper: UIView {
         }
     }
     
-    public var changeCountActionHandler: ((Int) -> Void)?
+    public var changeCountAction: PublishRelay<Int> = .init()
     
     public init () {
         super.init(frame: .zero)
@@ -131,9 +131,7 @@ public class DealiCountStepper: UIView {
     private func changeOptionCount(count: Int) {
         self._currentCount = count
         
-        if let handler = self.changeCountActionHandler {
-            handler(count)
-        }
+        self.changeCountAction.accept(count)
     }
     
     private func setBorder(isEditing: Bool) {

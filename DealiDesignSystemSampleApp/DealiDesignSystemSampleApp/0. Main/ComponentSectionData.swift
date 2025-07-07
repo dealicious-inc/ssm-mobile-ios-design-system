@@ -59,6 +59,8 @@ enum ActionType: Hashable {
     case notice
     case tabBar
     
+    // MARK: - etc
+    case linkLabel
 }
 
 extension ItemData {
@@ -121,6 +123,9 @@ extension ItemData {
             NoticeViewController()
         case .tabBar:
             TabBarViewController()
+            
+        case .linkLabel:
+            LinkLabelViewController()
         }
     }
 }

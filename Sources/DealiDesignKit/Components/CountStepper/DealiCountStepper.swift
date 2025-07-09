@@ -28,24 +28,13 @@ public class DealiCountStepper: UIView {
         }
     }
     
-    public var currentCount: Int {
-        get {
-            return self._currentCount
-        }
-        
-        set(value) {
-            guard self._currentCount != value else { return }
-            self._currentCount = value
-        }
-    }
-    
-    private var _currentCount: Int = 0 {
+    public var currentCount: Int = 0 {
         didSet {
-            self.countTextField.text = "\(self._currentCount)"
-            self.countTextField.textColor = (self._currentCount > 0 ? UIColor.g100 : UIColor.g60)
+            self.countTextField.text = "\(self.currentCount)"
+            self.countTextField.textColor = (self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
             
-            self.minusButton.isEnabled = (self._currentCount > self.minQuantity)
-            self.plusButton.isEnabled = (self._currentCount < self.maxQuantity)
+            self.minusButton.isEnabled = (self.currentCount > self.minQuantity)
+            self.plusButton.isEnabled = (self.currentCount < self.maxQuantity)
         }
     }
     
@@ -75,7 +64,7 @@ public class DealiCountStepper: UIView {
             $0.backgroundColor = .primary04
             $0.setImage(DealiIcon.ic_minus.image.resize(CGSize(width: 24.0, height: 24.0)).withTintColor(.g100), for: .normal)
             $0.setImage(DealiIcon.ic_minus.image.resize(CGSize(width: 24.0, height: 24.0)).withTintColor(.g40), for: .disabled)
-            $0.isEnabled = (self._currentCount > self.minQuantity)
+            $0.isEnabled = (self.currentCount > self.minQuantity)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.size.equalTo(CGSize(width: 30.0, height: 30.0))
@@ -115,7 +104,7 @@ public class DealiCountStepper: UIView {
             $0.backgroundColor = .primary04
             $0.setImage(DealiIcon.ic_plus.image.resize(CGSize(width: 24.0, height: 24.0)).withTintColor(.g100), for: .normal)
             $0.setImage(DealiIcon.ic_plus.image.resize(CGSize(width: 24.0, height: 24.0)).withTintColor(.g40), for: .disabled)
-            $0.isEnabled = (self._currentCount < self.maxQuantity)
+            $0.isEnabled = (self.currentCount < self.maxQuantity)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.size.equalTo(CGSize(width: 30.0, height: 30.0))
@@ -129,7 +118,7 @@ public class DealiCountStepper: UIView {
     }
     
     private func changeOptionCount(count: Int) {
-        self._currentCount = count
+        self.currentCount = count
         
         self.changeCountAction.accept(count)
     }

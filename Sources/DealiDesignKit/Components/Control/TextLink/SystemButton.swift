@@ -13,7 +13,7 @@ public enum DealiButtonStatus {
     case disabled
 }
 
-public class SystemButton: UIButton {
+open class SystemButton: UIButton {
     
     public var status: DealiButtonStatus {
         get {
@@ -69,7 +69,7 @@ public class SystemButton: UIButton {
     private let highlightView = UIView()
 
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

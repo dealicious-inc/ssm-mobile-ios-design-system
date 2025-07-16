@@ -74,6 +74,15 @@ class AlertTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
+        let alertButton04 = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(alertButton04)
+        alertButton04.then {
+            $0.title = "Text link 팝업"
+            $0.addTarget(self, action: #selector(alertButton04Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -86,13 +95,14 @@ extension AlertTestViewController {
                         confirmButtonTitle: "확인",
                         alertPresentingViewController: self,
                         cancelAction: nil, confirmAction: nil)
+        
     }
     
     @objc func alertButton02Pressed() {
         debugPrint("alertButton02Pressed")
 
         DealiAlert.showConfirm(title: "1버튼 Alert",
-                               message: "확인버튼만 있는 팝업입니다.",
+                               message: "확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.",
                                confirmButtonTitle: "확인",
                                alertPresentingViewController: self) {
             
@@ -112,5 +122,23 @@ extension AlertTestViewController {
             guard let _ = self else { return }
             debugPrint("체크박스 상태 : \(isCheckSelected)")
         }
+    }
+    
+    @objc func alertButton04Pressed() {
+        debugPrint("alertButton04Pressed")
+        
+        DealiAlert.showTextLink(title: "Title입니다.",
+                                message: "텍스트 링크 테스트중",
+                                textLinkButtonTitle: "자세히 보기",
+                                cancelButtonTitle: "취소",
+                                confirmButtonTitle: "전송",
+                                alertPresentingViewController: self,
+                                cancelAction: nil) {
+            print("전송버튼 클릭")
+        } textLinkAction: {
+            print("링크버튼 클릭")
+            self.alertButton01Pressed()
+        }
+
     }
 }

@@ -51,6 +51,7 @@ enum ActionType: Hashable {
     case textInput
     case textLink
     case toolTip
+    case countStepper
     
     // MARK: - Molecule
     case alert
@@ -112,6 +113,8 @@ extension ItemData {
             TextLinkViewController()
         case .toolTip:
             ToolTipViewController()
+        case .countStepper:
+            CountStepperViewController()
             
         case .alert:
             AlertTestViewController()

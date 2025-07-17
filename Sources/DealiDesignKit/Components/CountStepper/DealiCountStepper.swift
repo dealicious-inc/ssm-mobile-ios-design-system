@@ -31,14 +31,23 @@ public class DealiCountStepper: UIView {
     public var currentCount: Int = 0 {
         didSet {
             self.countTextField.text = "\(self.currentCount)"
-            self.countTextField.textColor = (self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
             
-            self.minusButton.isEnabled = (self.currentCount > self.minQuantity)
-            self.plusButton.isEnabled = (self.currentCount < self.maxQuantity)
+            self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
+            self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
         }
     }
     
     public var changeCountAction: PublishRelay<Int> = .init()
+    
+    public var isEnabled: Bool = true {
+        didSet {
+            self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
+            self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0) ? UIColor.g100 : UIColor.g60
+            self.isUserInteractionEnabled = self.isEnabled
+        }
+    }
     
     public init () {
         super.init(frame: .zero)

@@ -14,6 +14,7 @@ import RxCocoa
 final class CountStepperViewController: UIViewController {
 
     private let countStepper = DealiCountStepper()
+    private let disabledCountStepper = DealiCountStepper()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -30,10 +31,18 @@ final class CountStepperViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        
         self.view.addSubview(self.countStepper)
         self.countStepper.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        self.view.addSubview(self.disabledCountStepper)
+        self.disabledCountStepper.then {
+            $0.isEnabled = false
+            $0.currentCount = 5
+        }.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(self.countStepper.snp.bottom).offset(20)
         }
     }
 

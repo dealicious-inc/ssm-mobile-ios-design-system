@@ -49,6 +49,8 @@ public class DealiCountStepper: UIView {
         }
     }
     
+    public var acceptCountWhenEditingDidEnd: Bool = false
+        
     public init () {
         super.init(frame: .zero)
         
@@ -156,7 +158,9 @@ public class DealiCountStepper: UIView {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
-                self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                if !self.acceptCountWhenEditingDidEnd {
+                    self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                }
             }).disposed(by: self.disposeBag)
         
         self.countTextField.rx.controlEvent(.editingDidBegin)
@@ -166,12 +170,19 @@ public class DealiCountStepper: UIView {
                 self.setBorder(isEditing: true)
             }).disposed(by: self.disposeBag)
         
-        self.countTextField.rx.controlEvent(.editingDidEnd)
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                
-                self.setBorder(isEditing: false)
-            }).disposed(by: self.disposeBag)
+        
+        Observable.merge(
+            self.countTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
+            self.countTextField.rx.controlEvent(.editingDidEnd).asObservable()
+        )
+        .subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            self.setBorder(isEditing: false)
+            if self.acceptCountWhenEditingDidEnd {
+                self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+            }
+        }).disposed(by: self.disposeBag)
         
         self.closeButton.rx.tap.asSignal().emit(with: self) { owner, _ in
             owner.endEditing(true)

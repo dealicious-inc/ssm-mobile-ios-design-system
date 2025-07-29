@@ -47,13 +47,23 @@ public final class DealiCheckboxWithText: UIView {
     
     public var text: String? {
         get {
-            self.titleLabel.text
+            self.titleLabel.attributedText?.string
         } set {
-            self.titleLabel.text = newValue
+            guard let text = newValue else { return }
+            self.titleLabel.attributedText = NSMutableAttributedString(string: text)
+                .font(self.font ?? .b2r14)
+                .color(.g100)
+                .setLineHeight()
+            
             self.invalidateIntrinsicContentSize()
         }
     }
     
+    public var attributedText: NSMutableAttributedString? {
+        didSet {
+            self.titleLabel.attributedText = attributedText
+        }
+    }
     
     @available(*, deprecated, renamed: "text")
     public var title: String? {
@@ -77,14 +87,6 @@ public final class DealiCheckboxWithText: UIView {
     private let titleLabel = UILabel()
     private let checkbox = DealiCheckbox()
     
-    public override var intrinsicContentSize: CGSize {
-        self.titleLabel.sizeToFit()
-        
-        let width = self.titleLabel.frame.width + 24.0 + 8.0
-        let height = self.titleLabel.frame.height
-        return CGSize(width: width, height: max(24.0, height))
-    }
-    
     public convenience init(text: String, status: CheckboxStatus = .init()) {
         self.init(frame: .zero)
         
@@ -98,7 +100,7 @@ public final class DealiCheckboxWithText: UIView {
         self.addSubview(self.checkbox)
         self.checkbox.isUserInteractionEnabled = false
         self.checkbox.snp.makeConstraints {
-            $0.top.bottom.left.centerY.equalToSuperview()
+            $0.left.centerY.equalToSuperview()
         }
         
         self.addSubview(self.titleLabel)
@@ -106,9 +108,12 @@ public final class DealiCheckboxWithText: UIView {
             $0.textAlignment = .left
             $0.font = .b2r14
             $0.text = self.text
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)
-            $0.centerY.equalToSuperview()
+            $0.centerY.right.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24.0)
         }
         
         self.setAppearance(for: self.status)
@@ -140,7 +145,7 @@ public final class DealiCheckboxWithText: UIView {
 import SwiftUI
 
 struct CheckboxWithTextPreview: PreviewProvider {
-    static var testString = "김수한무거북이와 두루미"
+    static var testString = "김수한무거북이와 두루미 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다."
 
     static var previews: some View {
         VStack(alignment: .leading) {

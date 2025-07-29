@@ -19,10 +19,20 @@ public final class DealiCheckcircleWithText: UIView {
     
     public var text: String {
         get {
-            self.titleLabel.text ?? ""
+            self.titleLabel.attributedText?.string ?? ""
         } set {
-            self.titleLabel.text = newValue
+            self.titleLabel.attributedText = NSMutableAttributedString(string: newValue)
+                .font(.b2r14)
+                .color(.g100)
+                .setLineHeight()
+            
             self.invalidateIntrinsicContentSize()
+        }
+    }
+    
+    public var attributedText: NSMutableAttributedString? {
+        didSet {
+            self.titleLabel.attributedText = attributedText
         }
     }
     
@@ -51,21 +61,13 @@ public final class DealiCheckcircleWithText: UIView {
         }
     }
     
-    public override var intrinsicContentSize: CGSize {
-        self.titleLabel.sizeToFit()
-        
-        let width = self.titleLabel.frame.width + 24.0 + 8.0
-        let height = self.titleLabel.frame.height
-        return CGSize(width: width, height: max(24.0, height))
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.addSubview(self.checkcircle)
         self.checkcircle.isUserInteractionEnabled = false
         self.checkcircle.snp.makeConstraints {
-            $0.top.bottom.left.centerY.equalToSuperview()
+            $0.left.centerY.equalToSuperview()
         }
         
         self.addSubview(self.titleLabel)
@@ -74,9 +76,12 @@ public final class DealiCheckcircleWithText: UIView {
             $0.text = self.text
             $0.textColor = .g100
             $0.font = UIFont.b2r14
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
             $0.centerY.right.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24.0)
         }
         
         self.setAppearacne()
@@ -110,7 +115,7 @@ struct DealiCheckcircleWithTextPreview: PreviewProvider {
         VStack {
             UIViewPreview {
                 let checkCircle = DealiCheckcircleWithText()
-                checkCircle.text = "Text"
+                checkCircle.text = "Text "
                 return checkCircle
             }
             

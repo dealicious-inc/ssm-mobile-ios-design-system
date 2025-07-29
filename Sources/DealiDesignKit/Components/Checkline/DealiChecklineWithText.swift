@@ -22,10 +22,18 @@ public final class DealiChecklineWithText: UIView {
     
     public var text: String {
         get {
-            self.titleLabel.text ?? ""
+            self.titleLabel.attributedText?.string ?? ""
         } set {
-            self.titleLabel.text = newValue
-            self.invalidateIntrinsicContentSize()
+            self.titleLabel.attributedText = NSMutableAttributedString(string: newValue)
+                .font(.b2r14)
+                .color(self.isEnabled ? .g100 : .g50)
+                .setLineHeight()
+        }
+    }
+    
+    public var attributedText: NSMutableAttributedString? {
+        didSet {
+            self.titleLabel.attributedText = attributedText
         }
     }
     
@@ -42,7 +50,6 @@ public final class DealiChecklineWithText: UIView {
             self.checkcircle.isEnabled
         } set {
             self.checkcircle.isEnabled = newValue
-            self.setAppearacne()
         }
     }
     
@@ -52,14 +59,6 @@ public final class DealiChecklineWithText: UIView {
         } set {
             self.checkcircle.isAd = newValue
         }
-    }
-    
-    public override var intrinsicContentSize: CGSize {
-        self.titleLabel.sizeToFit()
-        
-        let width = self.titleLabel.frame.width + 24.0 + 8.0
-        let height = self.titleLabel.frame.height
-        return CGSize(width: width, height: max(24.0, height))
     }
     
     override init(frame: CGRect) {
@@ -74,15 +73,14 @@ public final class DealiChecklineWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.text = self.text
             $0.textColor = .g100
             $0.font = UIFont.b2r14
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
-            $0.centerY.right.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24.0)
+            $0.centerY.top.bottom.right.equalToSuperview()
         }
-        
-        self.setAppearacne()
         
         self.rx.tapGestureOnTop()
             .when(.recognized)
@@ -97,11 +95,6 @@ public final class DealiChecklineWithText: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setAppearacne() {
-        self.titleLabel.textColor = self.isEnabled ? .g100 : .g50
-    }
-
 }
 
 #if canImport(SwiftUI) && DEBUG

@@ -144,7 +144,7 @@ class CheckComponentViewController: UIViewController {
             let checkBoxWithText = DealiCheckboxWithText()
             checkBoxWithTextStackView.addArrangedSubview(checkBoxWithText)
             checkBoxWithText.do {
-                $0.text = "Text"
+                $0.text = "Text 233444kk"
                 switch i {
                 case 1:
                     $0.isSelected = true

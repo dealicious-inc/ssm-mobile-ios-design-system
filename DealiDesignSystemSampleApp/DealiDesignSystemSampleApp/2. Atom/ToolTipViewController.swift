@@ -85,35 +85,40 @@ final class ToolTipViewController: UIViewController {
     }
     
     @objc func topLeftButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .topLeft,
-            color: .white,
-            text: "Top Left",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
-                $0.centerX.equalToSuperview()
-            },
-            toolTipAction: {
-                print("Top Left ToolTip Action")
-            }
+        DealiToolTip.show(arrowPosition: .topLeft,
+                          color: .white,
+                          text: "Top Left Auto Dismiss",
+                          superView: self.view,
+                          outsideView: self.view,
+                          dismissToolTipOnToolTipViewTouch: false,
+                          autoDismissAfter: 3.0,
+                          toolTipCondition: { return true },
+                          toolTipLayout: {
+            $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
+            $0.centerX.equalToSuperview()
+        },
+                          toolTipAction: {
+            print("Top Left ToolTip Action")
+        }
         )
     }
     
     @objc func topCenterButtonPressed(_ sender: UIButton) {
-        DealiToolTip.show(
-            arrowPosition: .topCenter,
-            text: "Top Center",
-            superView: self.view,
-            outsideView: self.view,
-            toolTipCondition: { return true },
-            toolTipLayout: {
-                $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
-                $0.centerX.equalToSuperview()
-            }
-        )
+        DealiToolTip.show(arrowPosition: .topCenter,
+                          text: "Top Center Auto Dismiss",
+                          superView: self.view,
+                          outsideView: self.view,
+                          dismissToolTipOnOutsideViewTouch: false,
+                          dismissToolTipOnToolTipViewTouch: false,
+                          autoDismissAfter: 2.0) {
+            return true
+        } toolTipLayout: {
+            $0.top.equalTo(self.toolTipSuperView.snp.bottom).offset(2.0)
+            $0.centerX.equalToSuperview()
+        } toolTipAction: {
+            print("Top Center ToolTip Action")
+        }
+
     }
     
     @objc func topRightButtonPressed(_ sender: UIButton) {

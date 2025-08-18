@@ -111,7 +111,7 @@ public extension NSMutableAttributedString {
     /// 폰트사이즈에 정의되어 있는 LineHeight값으로 text max LineHeight 값 설정 및 baselineOffset 정의
     /// 반드시 모든 AttString을 합친뒤 가장 마지막에만 적용합니다.
     func setLineHeight() -> NSMutableAttributedString {
-        if #unavailable(iOS 16.0) {
+        if #available(iOS 16.0, *) {
             return self.setLineHeightWithLineHeightMultiple()
         } else {
             return self.setLineHeightWithBaselineOffset()
@@ -135,7 +135,13 @@ public extension NSMutableAttributedString {
         guard let font = firstFont else { return self }
 
         let range = (source as NSString).range(of: source)
-        let style = NSMutableParagraphStyle()
+        // 기존 paragraphStyle을 먼저 가져오기
+        let style: NSMutableParagraphStyle
+        if let existingStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
+            style = existingStyle.mutableCopy() as! NSMutableParagraphStyle
+        } else {
+            style = NSMutableParagraphStyle()
+        }
         let multiple = maxLineHeight / font.lineHeight
         style.lineHeightMultiple = multiple
 

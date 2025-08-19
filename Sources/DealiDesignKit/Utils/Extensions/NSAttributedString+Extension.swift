@@ -260,6 +260,22 @@ public extension NSMutableAttributedString {
         return self.underLine(style: .single, color: color)
     }
     
+    func strikethrough(style: NSUnderlineStyle = .single, color: UIColor? = nil) -> NSMutableAttributedString {
+        let source = self.string
+        guard !source.isEmpty else { return self }
+
+        let range = (source as NSString).range(of: source)
+        self.addAttribute(.strikethroughStyle, value: style.rawValue, range: range)
+
+        if let color = color {
+            self.addAttribute(.strikethroughColor, value: color, range: range)
+        } else if let existingColor = self.attribute(.foregroundColor, at: range.location, effectiveRange: nil) as? UIColor {
+            self.addAttribute(.strikethroughColor, value: existingColor, range: range)
+        }
+
+        return self
+    }
+    
     func headIndent(_ headIndent: CGFloat) -> NSMutableAttributedString {
         let source = self.string
         

@@ -31,15 +31,26 @@ public class DealiCountStepper: UIView {
     public var currentCount: Int = 0 {
         didSet {
             self.countTextField.text = "\(self.currentCount)"
-            self.countTextField.textColor = (self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
             
-            self.minusButton.isEnabled = (self.currentCount > self.minQuantity)
-            self.plusButton.isEnabled = (self.currentCount < self.maxQuantity)
+            self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
+            self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
         }
     }
     
     public var changeCountAction: PublishRelay<Int> = .init()
     
+    public var isEnabled: Bool = true {
+        didSet {
+            self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
+            self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0) ? UIColor.g100 : UIColor.g60
+            self.isUserInteractionEnabled = self.isEnabled
+        }
+    }
+    
+    public var acceptCountWhenEditingDidEnd: Bool = false
+        
     public init () {
         super.init(frame: .zero)
         
@@ -147,7 +158,9 @@ public class DealiCountStepper: UIView {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
-                self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                if !self.acceptCountWhenEditingDidEnd {
+                    self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                }
             }).disposed(by: self.disposeBag)
         
         self.countTextField.rx.controlEvent(.editingDidBegin)
@@ -157,12 +170,19 @@ public class DealiCountStepper: UIView {
                 self.setBorder(isEditing: true)
             }).disposed(by: self.disposeBag)
         
-        self.countTextField.rx.controlEvent(.editingDidEnd)
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                
-                self.setBorder(isEditing: false)
-            }).disposed(by: self.disposeBag)
+        
+        Observable.merge(
+            self.countTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
+            self.countTextField.rx.controlEvent(.editingDidEnd).asObservable()
+        )
+        .subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            self.setBorder(isEditing: false)
+            if self.acceptCountWhenEditingDidEnd {
+                self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+            }
+        }).disposed(by: self.disposeBag)
         
         self.closeButton.rx.tap.asSignal().emit(with: self) { owner, _ in
             owner.endEditing(true)

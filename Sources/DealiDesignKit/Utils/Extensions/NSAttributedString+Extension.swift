@@ -111,11 +111,7 @@ public extension NSMutableAttributedString {
     /// 폰트사이즈에 정의되어 있는 LineHeight값으로 text max LineHeight 값 설정 및 baselineOffset 정의
     /// 반드시 모든 AttString을 합친뒤 가장 마지막에만 적용합니다.
     func setLineHeight() -> NSMutableAttributedString {
-        if #unavailable(iOS 16.0) {
-            return self.setLineHeightWithLineHeightMultiple()
-        } else {
-            return self.setLineHeightWithBaselineOffset()
-        }
+        return self.setLineHeightWithBaselineOffset()
     }
     
     private func setLineHeightWithBaselineOffset() -> NSMutableAttributedString {
@@ -135,7 +131,13 @@ public extension NSMutableAttributedString {
         guard let font = firstFont else { return self }
 
         let range = (source as NSString).range(of: source)
-        let style = NSMutableParagraphStyle()
+        // 기존 paragraphStyle을 먼저 가져오기
+        let style: NSMutableParagraphStyle
+        if let existingStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
+            style = existingStyle.mutableCopy() as! NSMutableParagraphStyle
+        } else {
+            style = NSMutableParagraphStyle()
+        }
         let multiple = maxLineHeight / font.lineHeight
         style.lineHeightMultiple = multiple
 
@@ -148,44 +150,6 @@ public extension NSMutableAttributedString {
 
         return self
     }
-    
-    private func setLineHeightWithLineHeightMultiple() -> NSMutableAttributedString {
-            let source = self.string
-            guard source.isEmpty == false else { return self }
-            
-            var maxLineHeight: CGFloat = 0.0
-            var firstFont: UIFont?
-            
-            self.enumerateAttribute(.font, in: NSRange(location: 0, length: self.length), options: []) { value, _, _ in
-                if let font = value as? UIFont {
-                    // 적용된 폰트들을 비교해 maxLineHeight 저장
-                    maxLineHeight = max(maxLineHeight, font.dealiLineHeight)
-                    // baseLineOffset을 위해 첫번째 font 확인
-                    if firstFont == nil { firstFont = font }
-                }
-            }
-            
-            guard let font = firstFont else { return self }
-            
-            let range = (source as NSString).range(of: source)
-            var style: NSMutableParagraphStyle?
-            if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
-                style = paragraphStyle
-            } else {
-                style = NSMutableParagraphStyle()
-            }
-            
-            style?.minimumLineHeight = maxLineHeight
-            style?.maximumLineHeight = maxLineHeight
-            
-            let baselineOffset = ((maxLineHeight - font.lineHeight) / 4) + 1.0
-            
-            if let style = style {
-                self.addAttributes([.paragraphStyle: style, .baselineOffset: baselineOffset], range: range)
-            }
-            
-            return self
-        }
     
     func updateAttributes(for textStyle: TextStyleAttributes) -> NSMutableAttributedString {
         let source = self.string

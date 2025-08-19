@@ -24,6 +24,8 @@ public class DealiToolTip: UIView {
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
     
+    private var autoDismissWorkItem: DispatchWorkItem?
+    
     public enum EToolTipColor {
         case blue
         case white
@@ -110,6 +112,23 @@ public class DealiToolTip: UIView {
         }
     }
     
+    func cancelAutoDismiss() {
+        self.autoDismissWorkItem?.cancel()
+        self.autoDismissWorkItem = nil
+    }
+    
+    func scheduleAutoDismiss(after seconds: TimeInterval, cleanup: @escaping () -> Void) {
+        self.cancelAutoDismiss()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.dismissToolTip {
+                cleanup()
+            }
+        }
+        self.autoDismissWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
+    }
+    
     /// 툴팁 노출
     ///
     ///  - Parameters:
@@ -118,6 +137,9 @@ public class DealiToolTip: UIView {
     ///   - text: 툴팁에 표시할 텍스트
     ///   - superView: 툴팁을 추가할 뷰
     ///   - outsideView: 툴팁 제외한 영역을 클릭했을 때 툴팁을 닫을 뷰
+    ///   - dismissToolTipOnOutsideViewTouch : outsideView를 터치했을때 ToolTip Dismiss액션 유무
+    ///   - dismissToolTipOnToolTipViewTouch : ToolTip를 터치했을때 ToolTip Dismiss액션 유무
+    ///   - autoDismissAfter : 일정시간 후에 tooltip Dismiss액션 실행이 필요한경우
     ///   - toolTipCondition: 툴팁을 노출할 조건
     ///   - toolTipLayout: 툴팁 레이아웃
     ///   - toolTipAction: 툴팁 클릭 액션 (optional) - 툴팁이 사라지면서 실행
@@ -129,6 +151,9 @@ public class DealiToolTip: UIView {
         text: String,
         superView: UIView,
         outsideView: UIView,
+        dismissToolTipOnOutsideViewTouch: Bool = true,
+        dismissToolTipOnToolTipViewTouch: Bool = true,
+        autoDismissAfter: TimeInterval? = nil,
         toolTipCondition: () -> Bool,
         toolTipLayout: (ConstraintMaker) -> Void,
         toolTipAction: (() -> Void)? = nil
@@ -157,6 +182,8 @@ public class DealiToolTip: UIView {
         dismissView.rx.touchDownGesture()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
+                guard dismissToolTipOnOutsideViewTouch == true else { return }
+                toolTip?.cancelAutoDismiss()
                 toolTip?.dismissToolTip {
                     toolTip?.removeFromSuperview()
                 }
@@ -167,6 +194,8 @@ public class DealiToolTip: UIView {
         toolTip.rx.tapGestureOnTop()
             .when(.recognized)
             .bind { [weak toolTip, weak dismissView] _ in
+                guard dismissToolTipOnToolTipViewTouch == true else { return }
+                toolTip?.cancelAutoDismiss()
                 toolTip?.dismissToolTip {
                     toolTip?.removeFromSuperview()
                 }
@@ -174,6 +203,16 @@ public class DealiToolTip: UIView {
                 dismissView?.removeFromSuperview()
             }
             .disposed(by: toolTip.disposeBag)
+        
+        if let delay = autoDismissAfter {
+            toolTip.scheduleAutoDismiss(after: delay) { [weak toolTip, weak dismissView] in
+                toolTip?.dismissToolTip {
+                    toolTip?.removeFromSuperview()
+                }
+                
+                dismissView?.removeFromSuperview()
+            }
+        }
         
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,

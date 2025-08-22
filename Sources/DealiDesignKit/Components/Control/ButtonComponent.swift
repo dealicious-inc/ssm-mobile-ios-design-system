@@ -7,6 +7,22 @@
 
 import UIKit
 
+final public class ClickableComponentButton: ClickableComponent {
+    public init(config: ClickableConfig, color: ClickableColorConfig, functionName: String = #function) {
+        super.init(style: .button, config: config, color: color.attribute)
+#if DEBUG
+        let bundleID = Bundle.main.bundleIdentifier ?? ""
+        if bundleID == "net.deali.DealiDesignSystemSampleApp" {
+            self.title = functionName
+        }
+#endif
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 public class ClickableComponent: SystemButton {
     
     private var config: ClickableComponent.Configuration?
@@ -274,7 +290,7 @@ public class ClickableComponent: SystemButton {
         self.contentStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
-            $0.distribution = .equalCentering
+            $0.distribution = (configuration.style == .button ? .fill : .equalCentering)
             $0.spacing = 4.0
             $0.isUserInteractionEnabled = false
         }
@@ -294,6 +310,12 @@ public class ClickableComponent: SystemButton {
             $0.isHidden = true
             if configuration.style == .button {
                 $0.textAlignment = .center
+                $0.numberOfLines = 0                              // ✅ 멀티라인
+                $0.lineBreakMode = .byWordWrapping
+//                $0.setContentCompressionResistancePriority(.required, for: .vertical)
+//                $0.setContentHuggingPriority(.required, for: .vertical)
+//                $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//                $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
             } else {
                 $0.textAlignment = .left
             }
@@ -325,6 +347,24 @@ public class ClickableComponent: SystemButton {
             CATransaction.setDisableActions(true)
             gradientBackgroundLayer.frame = self.bounds
             CATransaction.commit()
+        }
+        
+        // ✅ 캡슐은 실높이 기준 라운드
+        if case .capsule = self.config?.cornerRadius {
+            self.layer.cornerRadius = self.bounds.height / 2.0
+        }
+        
+        // ✅ 버튼일 때만 멀티라인 정확도 보정(availableWidth 기준)
+        guard self.config?.style == .button, self.bounds.width > 0.0 else { return }
+        let leftPad: CGFloat  = ((self.leftImage != nil)  ? self.config?.padding?.left.withImage  : self.config?.padding?.left.normal)  ?? 0.0
+        let rightPad: CGFloat = ((self.rightImage != nil) ? self.config?.padding?.right.withImage : self.config?.padding?.right.normal) ?? 0.0
+        var minus: CGFloat = leftPad + rightPad
+        if self.leftImageView.isHidden == false  { minus += 16.0 + (self.config?.padding?.left.internalSpacing ?? 0.0) }
+        if self.rightImageView.isHidden == false { minus += (self.config?.padding?.right.internalSpacing ?? 0.0) + 16.0 }
+        let availableWidth = max(0.0, self.bounds.width - minus)
+        if availableWidth > 0.0, abs(self.dealiTitleLabel.preferredMaxLayoutWidth - availableWidth) > 0.5 {
+            self.dealiTitleLabel.preferredMaxLayoutWidth = availableWidth
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -390,7 +430,12 @@ public class ClickableComponent: SystemButton {
             
             self.singleImageView.snp.remakeConstraints {
                 $0.centerX.equalToSuperview()
-                $0.top.bottom.equalToSuperview()
+                if configuration.style == .button {
+                    $0.top.bottom.equalToSuperview().inset(configuration.height?.padding ?? 10.0)
+                    } else {
+                        $0.top.bottom.equalToSuperview()
+                        $0.height.equalTo(configuration.height?.chip ?? 0.0)                  // (chip 유지)
+                    }
                 $0.left.greaterThanOrEqualToSuperview().offset(configuration.singleImagePadding)
                 $0.right.lessThanOrEqualToSuperview().offset(-configuration.singleImagePadding)
             }
@@ -403,20 +448,21 @@ public class ClickableComponent: SystemButton {
             
             self.contentStackView.snp.remakeConstraints { [weak self] in
                 guard let self else { return }
-                $0.top.bottom.equalToSuperview()
                 if configuration.style == .button {
-                    $0.height.equalTo(configuration.height?.button ?? 0.0)
-                    if self.isFixedSize == true {
+                    $0.top.bottom.equalToSuperview().inset(configuration.height?.padding ?? 10.0)
+                    // ⬇️ 좌우/센터 로직은 기존 유지
+                    if self.isFixedSize {
                         $0.left.equalToSuperview().offset(leftPadding)
                         $0.right.equalToSuperview().offset(-rightPadding)
                     } else {
                         let horizontalOffset = self.horizontalOffset
                         $0.centerX.equalToSuperview().offset(horizontalOffset)
-                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding+(horizontalOffset))
-                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding+(horizontalOffset))
+                        $0.left.greaterThanOrEqualToSuperview().offset(leftPadding + horizontalOffset)
+                        $0.right.lessThanOrEqualToSuperview().offset(-rightPadding + horizontalOffset)
                     }
                 } else {
-                    $0.height.equalTo(configuration.height?.chip ?? 0.0)
+                    $0.top.bottom.equalToSuperview()
+                    $0.height.equalTo(configuration.height?.chip ?? 0.0)                   // (chip 유지)
                     $0.left.equalToSuperview().offset(leftPadding)
                     $0.right.equalToSuperview().offset(-rightPadding)
                 }
@@ -564,6 +610,19 @@ extension ClickableComponent {
                     return 40.0
                 default:
                     return 32.0
+                }
+            }
+            
+            var padding: CGFloat {
+                switch self {
+                case .large:
+                    return 15.0
+                case .medium:
+                    return 13.0
+                case .semiMedium:
+                    return 10.0
+                case .small:
+                    return 7.0
                 }
             }
         }
@@ -728,26 +787,4 @@ public struct ClickablePadding {
     var right: ClickablePaddingSet
 }
 
-// MARK: - Image
-public struct ClickableImage {
-    /// 이미지명
-    var named: String
-    /// 이미지 색상 유지?
-    var needOriginColor: Bool = false // true = 이미지 색상 유지 / false = 상태마다 타이틀 생상과 동일
-    var uiImage: UIImage?
-    public init(named name: String, needOriginColor: Bool = false) {
-        self.named = name
-        self.needOriginColor = needOriginColor
-        self.uiImage = UIImage(named: name)
-    }
-    public init(dealiIconName: String, needOriginColor: Bool = false) {
-        self.named = dealiIconName
-        self.needOriginColor = needOriginColor
-        self.uiImage = UIImage.dealiIcon(named: dealiIconName)?.resize(CGSize(width: 16.0, height: 16.0))
-    }
-    public init(_ image: UIImage?, needOriginColor: Bool = false) {
-        self.named = ""
-        self.uiImage = image
-        self.needOriginColor = needOriginColor
-    }
-}
+

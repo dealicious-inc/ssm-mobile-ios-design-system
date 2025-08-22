@@ -73,9 +73,15 @@ class ButtonViewController: UIViewController {
             $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
         }
         
+        let testButton01 = DealiControl.btnFilledLarge01()
+        testButton01.do {
+            $0.title = "PDF 다운로드aa\n두줄째\n세줄째"
+            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0)))
+        }
+        
         var buttonArray: [UIView] = []
 
-        let largeButtonArray: [UIView] = [DealiControl.btnFilledLarge01(),
+        let largeButtonArray: [UIView] = [testButton01,
                                           DealiControl.btnFilledLarge02(),
                                           DealiControl.btnFilledLarge03(),
                                           DealiControl.btnFilledLarge04(),

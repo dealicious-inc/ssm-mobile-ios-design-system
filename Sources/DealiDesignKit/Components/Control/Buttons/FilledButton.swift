@@ -131,6 +131,11 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonFilledConfig.small,
                                         color: ButtonFilledColor.primary05)
     }
+    
+    public static func btnFilledLargeTest01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonFilledConfigTest.large,
+                                            color: ButtonFilledColorTest.primary01.attribute)
+    }
 }
 
 // MARK: - ButtonFilledColor
@@ -217,4 +222,85 @@ public enum ButtonFilledConfig: ClickableConfig {
     public var padding: ClickableComponent.Configuration.Padding {
         return .square
     }
+}
+
+// MARK: -  테스트 ButtonFilledRoundColor
+public enum ButtonFilledColorTest {
+    case primary01
+    case primary02
+    case primary05
+    case mbs01
+    case primaryGradient
+    case mbsGradient
+    
+    public var attribute: ClickableUnitButtonColor {
+        switch self {
+        case .primary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary01, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+        case .primary02:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .b40, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .b20, text: .w50))
+        case .primary05:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary05, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+            
+        case .mbs01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .mbs01, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+        case .primaryGradient:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(gradient: PrimaryGradient.gradient, background: .clear, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+        case .mbsGradient:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(gradient: MbsGradient.gradient01, background: .clear, text: .primary04),
+                                            disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+            
+        }
+    }
+}
+
+// MARK: - ButtonFilledRoundConfig
+public enum ButtonFilledConfigTest: ClickableUnitButtonConfig {
+    case large
+    case medium
+    case semiMedium
+    case small
+    
+    public var font: ClickableUnitButtonFont {
+        switch self {
+        case .large:
+            return ClickableUnitButtonFont.set(font: .b1sb15)
+        case .medium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .semiMedium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .small:
+            return ClickableUnitButtonFont.set(font: .b3sb13)
+        }
+    }
+    
+    public var buttonType: ClickableUnitButton.ButtonPreset.ButtonType {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .semiMedium:
+            return .semiMedium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var buttonPadding: ClickableUnitButton.ButtonPreset.ButtonPadding {
+        return .normal
+    }
+    
+//    public var cornerRadius: ClickableComponent.Configuration.Corner {
+//        return .capsule
+//    }
+//
+//    public var padding: ClickableComponent.Configuration.Padding {
+//        return .square
+//    }
 }

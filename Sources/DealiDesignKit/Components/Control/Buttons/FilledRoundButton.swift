@@ -71,6 +71,13 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonFilledRoundConfig.small,
                                         color: ButtonFilledRoundColor.primary02)
     }
+    
+    
+    
+    public static func btnFilledRoundLargeTest01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonFilledRoundConfigTest.large,
+                                            color: ButtonFilledRoundColorTest.primary01.attribute)
+    }
 }
 
 // MARK: - ButtonFilledRoundColor
@@ -134,4 +141,74 @@ public enum ButtonFilledRoundConfig: ClickableConfig {
     public var padding: ClickableComponent.Configuration.Padding {
         return .square
     }
+}
+
+// MARK: -  테스트 ButtonFilledRoundColor
+public enum ButtonFilledRoundColorTest {
+    case primary01
+    case primary02
+    case gradient
+    
+    public var attribute: ClickableUnitButtonColor {
+        switch self {
+        case .primary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary01, text: .primary04),
+                                  disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+        case .primary02:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .b40, text: .primary04),
+                                  disabled: ClickableUnitButtonColorSet(background: .b20, text: .w50))
+        case .gradient:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(gradient: PrimaryGradient.gradient, background: .clear, text: .primary04),
+                                  disabled: ClickableUnitButtonColorSet(background: .g40, text: .primary04))
+        }
+    }
+}
+
+// MARK: - ButtonFilledRoundConfig
+public enum ButtonFilledRoundConfigTest: ClickableUnitButtonConfig {
+    
+    
+    
+    case large
+    case medium
+    case semiMedium
+    case small
+    
+    public var font: ClickableUnitButtonFont {
+        switch self {
+        case .large:
+            return ClickableUnitButtonFont.set(font: .b1sb15)
+        case .medium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .semiMedium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .small:
+            return ClickableUnitButtonFont.set(font: .b3sb13)
+        }
+    }
+    
+    public var buttonType: ClickableUnitButton.ButtonPreset.ButtonType {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .semiMedium:
+            return .semiMedium
+        case .small:
+            return .small
+        }
+    }
+    
+    public var buttonPadding: ClickableUnitButton.ButtonPreset.ButtonPadding {
+        return .normal
+    }
+    
+//    public var cornerRadius: ClickableComponent.Configuration.Corner {
+//        return .capsule
+//    }
+//    
+//    public var padding: ClickableComponent.Configuration.Padding {
+//        return .square
+//    }
 }

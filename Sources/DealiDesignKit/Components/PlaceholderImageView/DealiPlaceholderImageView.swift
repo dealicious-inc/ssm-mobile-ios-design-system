@@ -90,7 +90,7 @@ open class DealiPlaceholderImageView: UIImageView {
         }
     }
     
-    public var backgroundStyle: DealiPlaceholderBackgroundColor = .dark {
+    public var backgroundStyle: DealiPlaceholderBackgroundColor = .light {
         didSet {
             self.updateUI()
         }

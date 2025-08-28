@@ -13,6 +13,8 @@ final class NewButtonViewController: UIViewController {
 
     private let stackView = UIStackView()
     
+    private let btnFilledLargeTest01 = DealiControl.btnFilledLargeTest01()
+    
     override func loadView() {
         super.loadView()
         
@@ -41,30 +43,39 @@ final class NewButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        let btnFilledLargeTest01 = DealiControl.btnFilledLargeTest01()
-        self.stackView.addArrangedSubview(btnFilledLargeTest01)
-        btnFilledLargeTest01.then {
+        
+        self.stackView.addArrangedSubview(self.btnFilledLargeTest01)
+        self.btnFilledLargeTest01.then {
             $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.title = "btnFilledLargeTest01\nbtnFilledLargeTest02\nbtnFilledLargeTest03"
+            $0.title = "btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01\nbtnFilledLargeTest02\nbtnFilledLargeTest03"
             $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
         }
         
         let btnFilledRoundLargeTest01 = DealiControl.btnFilledRoundLargeTest01()
         self.stackView.addArrangedSubview(btnFilledRoundLargeTest01)
         btnFilledRoundLargeTest01.then {
-            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.title = "btnFilledRoundLargeTest01"
+//            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
+            $0.title = "btnFilledLargeTest01"
             $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
         }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+//            $0.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
+        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func btnFilledRoundLargeTest01Press(_ sender: SystemButton) {
+        print("btnFilledRoundLargeTest01Press")
+        self.btnFilledLargeTest01.isEnabled.toggle()
     }
 }

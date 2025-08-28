@@ -204,11 +204,7 @@ public enum ButtonFilledRoundConfigTest: ClickableUnitButtonConfig {
         return .normal
     }
     
-//    public var cornerRadius: ClickableComponent.Configuration.Corner {
-//        return .capsule
-//    }
-//    
-//    public var padding: ClickableComponent.Configuration.Padding {
-//        return .square
-//    }
+    public var cornerRadius: ClickableUnitButton.ButtonPreset.Corner {
+        return .round
+    }
 }

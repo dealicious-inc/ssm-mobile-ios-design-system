@@ -22,6 +22,7 @@ public class ClickableUnitButton: SystemButton {
 
     private var preset: ClickableUnitButton.ButtonPreset
     private var gradientBackgroundLayer: CAGradientLayer?
+    private let contentContainerView = UIView()
     private let contentStackView = UIStackView()
     private let dealiTitleLabel = UILabel()
     private let leftImageView = UIImageView()
@@ -45,9 +46,16 @@ public class ClickableUnitButton: SystemButton {
 //            if self.singleImage != nil {
 //                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
 //            }
-            self.dealiTitleLabel.text = title
-            self.dealiTitleLabel.isHidden = (title?.isEmpty ?? true)
-//            self.updateContent()
+            guard let title = self.title else {
+                self.attributedTitle = nil
+                return
+            }
+            let titleFont: UIFont = (self.isEnabled == true ? (self.preset.font?.normal ?? .b3sb13) : (self.preset.font?.disabled ?? .b3sb13))
+            
+            self.attributedTitle = NSMutableAttributedString(string: title)
+                .font(titleFont)
+                .alignment(.center)
+                .setLineHeight()
         }
     }
 
@@ -58,7 +66,7 @@ public class ClickableUnitButton: SystemButton {
 //            }
             self.dealiTitleLabel.attributedText = attributedTitle
             self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
-//            self.updateContent()
+            self.updateContent()
         }
     }
     
@@ -70,7 +78,7 @@ public class ClickableUnitButton: SystemButton {
 //            }
             self.leftImageView.image = leftImage?.uiImage
             self.leftImageView.isHidden = (leftImage == nil)
-//            self.updateContent()
+            self.updateContent()
         }
     }
     
@@ -82,7 +90,7 @@ public class ClickableUnitButton: SystemButton {
 //            }
             self.rightImageView.image = rightImage?.uiImage
             self.rightImageView.isHidden = (rightImage == nil)
-//            self.updateContent()
+            self.updateContent()
         }
     }
     
@@ -92,7 +100,7 @@ public class ClickableUnitButton: SystemButton {
         }
         set {
             super.isEnabled = newValue
-            
+        print("isEnabled")
             if newValue == true {
                 self.updateColor(color: self.preset.color?.normal)
                 self.dealiTitleLabel.font = self.preset.font?.normal
@@ -110,19 +118,35 @@ public class ClickableUnitButton: SystemButton {
         preset.widthPadding = config.buttonPadding.widthPadding(with: config.buttonType)
         preset.font = config.font
         preset.color = color
+        preset.cornerRadius = config.cornerRadius
         self.preset = preset
         
         super.init(frame: .zero)
         
-        self.addSubview(self.contentStackView)
+        
+        self.addSubview(self.contentContainerView)
+        self.contentContainerView.then {
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(preset.heightPadding ?? 0.0)
+            $0.left.equalToSuperview().offset(preset.widthPadding?.normal ?? 0.0)
+            $0.right.equalToSuperview().offset(-(preset.widthPadding?.normal ?? 0.0))
+        }
+        
+        self.contentContainerView.addSubview(self.contentStackView)
         self.contentStackView.then {
             $0.axis = .horizontal
             $0.distribution = .fill
             $0.alignment = .center
-            $0.spacing = self.preset.widthPadding?.left.internalSpacing ?? 4.0
+            $0.spacing = preset.widthPadding?.internalSpacing ?? 4.0
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+            $0.isUserInteractionEnabled = false
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.bottom.equalToSuperview().inset(self.preset.heightPadding ?? 0.0)
+            $0.top.bottom.equalToSuperview()
+            $0.left.greaterThanOrEqualToSuperview()
+            $0.right.lessThanOrEqualToSuperview()
         }
         
         self.contentStackView.addArrangedSubview(self.leftImageView)
@@ -130,7 +154,7 @@ public class ClickableUnitButton: SystemButton {
             $0.isHidden = true
             $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
-            $0.size.equalTo(self.preset.buttonType.imageSize)
+            $0.size.equalTo(preset.buttonType.imageSize)
             $0.centerY.equalToSuperview()
         }
         
@@ -148,7 +172,7 @@ public class ClickableUnitButton: SystemButton {
             $0.isHidden = true
             $0.contentMode = .scaleAspectFill
         }.snp.makeConstraints {
-            $0.size.equalTo(self.preset.buttonType.imageSize)
+            $0.size.equalTo(preset.buttonType.imageSize)
             $0.centerY.equalToSuperview()
         }
         
@@ -171,6 +195,17 @@ public class ClickableUnitButton: SystemButton {
 
         let gradientLayer = self.setSystemGradient(gradient)
         self.gradientBackgroundLayer = gradientLayer
+    }
+    
+    /// content 상태 업데이트
+    private func updateContent(with color: ClickableUnitButtonColorSet? = nil) {
+        if let color {
+            self.updateColor(color: color)
+        } else {
+            self.updateColor(color: self.currentColor)
+        }
+        
+        self.updateContentConstraints()
     }
     
     /// 상태에 따른 content 색상 변경
@@ -196,9 +231,9 @@ public class ClickableUnitButton: SystemButton {
         } else {
             self.gradientBackgroundLayer?.isHidden = true
         }
-        /// UILabel에 attributedText를 적용후 textColor을 변경하면 attributedText에 적용된 color값이 textColor로 적용되기 때문에 attributedText가 없을경우에만 textColor를 설정하도록 수정
-        if self.attributedTitle == nil {
-            self.dealiTitleLabel.textColor = color.text
+        
+        if let attributedText = self.dealiTitleLabel.attributedText {
+            self.dealiTitleLabel.attributedText = NSMutableAttributedString(attributedString: attributedText).color(color.text)
         }
         
         if let leftImage = self.leftImage, leftImage.needOriginColor == false {
@@ -207,6 +242,27 @@ public class ClickableUnitButton: SystemButton {
         if let rightImage = self.rightImage, rightImage.needOriginColor == false {
             self.rightImageView.image = rightImage.uiImage?.withTintColor(color.text)
         }
+    }
+    
+    private func updateContentConstraints() {
+        let leftPadding: CGFloat = (self.leftImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
+        let rightPadding: CGFloat = (self.rightImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
+        
+        self.contentContainerView.snp.updateConstraints {
+            $0.left.equalToSuperview().offset(leftPadding)
+            $0.right.equalToSuperview().offset(-rightPadding)
+        }
+        
+        self.layoutIfNeeded()
+        
+        if self.preset.cornerRadius == .normal {
+            print("self.hieght = \(self.bounds.height)")
+            self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
+        } else {
+            print("self.hieght = \(self.bounds.height)")
+            self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
+        }
+        
     }
 
 }
@@ -252,21 +308,36 @@ extension ClickableUnitButton {
                 case .normal:
                     switch buttonType {
                     case .large, .medium:
-                        return ClickableUnitButtonWidthPadding(left: ClickableUnitButtonWidthPaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0),
-                                                               right: ClickableUnitButtonWidthPaddingSet(normal: 20.0, withImage: 16.0, internalSpacing: 4.0))
+                        return ClickableUnitButtonWidthPadding(normal: 20.0, withImage: 16.0, internalSpacing: 4.0)
                     case .semiMedium:
-                        return ClickableUnitButtonWidthPadding(left: ClickableUnitButtonWidthPaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0),
-                                                               right: ClickableUnitButtonWidthPaddingSet(normal: 16.0, withImage: 12.0, internalSpacing: 4.0))
+                        return ClickableUnitButtonWidthPadding(normal: 16.0, withImage: 12.0, internalSpacing: 4.0)
                     case .small:
-                        return ClickableUnitButtonWidthPadding(left: ClickableUnitButtonWidthPaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0),
-                                                               right: ClickableUnitButtonWidthPaddingSet(normal: 12.0, withImage: 8.0, internalSpacing: 4.0))
+                        return ClickableUnitButtonWidthPadding(normal: 12.0, withImage: 8.0, internalSpacing: 4.0)
                     }
                 case .text:
-                    return ClickableUnitButtonWidthPadding(left: ClickableUnitButtonWidthPaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0),
-                                                           right: ClickableUnitButtonWidthPaddingSet(normal: 16.0, withImage: 16.0, internalSpacing: 4.0))
+                    return ClickableUnitButtonWidthPadding(normal: 16.0, withImage: 16.0, internalSpacing: 4.0)
                 }
             }
             
+        }
+        
+        public enum Corner {
+            case normal
+            case round
+            
+            public func radius(with buttonType: ClickableUnitButton.ButtonPreset.ButtonType) -> CGFloat {
+                switch self {
+                case .normal:
+                    switch buttonType {
+                    case .large, .medium, .semiMedium:
+                        return 6.0
+                    case .small:
+                        return 4.0
+                    }
+                case .round:
+                    return 0.0
+                }
+            }
         }
         
         public var buttonType: ButtonType = .large
@@ -274,6 +345,7 @@ extension ClickableUnitButton {
         public var widthPadding: ClickableUnitButtonWidthPadding?
         public var font: ClickableUnitButtonFont?
         public var color: ClickableUnitButtonColor?
+        public var cornerRadius: ClickableUnitButton.ButtonPreset.Corner = .normal
     }
 }
 
@@ -300,7 +372,7 @@ public struct ClickableUnitButtonColor {
 }
 
 // MARK: - Padding
-public struct ClickableUnitButtonWidthPaddingSet {
+public struct ClickableUnitButtonWidthPadding {
     /// 이미지가 없는 경우 Padding
     var normal: CGFloat
     /// 이미지가 있는 경우 Padding
@@ -309,15 +381,11 @@ public struct ClickableUnitButtonWidthPaddingSet {
     var internalSpacing: CGFloat
 }
 
-public struct ClickableUnitButtonWidthPadding {
-    var left: ClickableUnitButtonWidthPaddingSet
-    var right: ClickableUnitButtonWidthPaddingSet
-}
-
 public protocol ClickableUnitButtonConfig {
     var font: ClickableUnitButtonFont { get }
     var buttonType: ClickableUnitButton.ButtonPreset.ButtonType { get }
     var buttonPadding: ClickableUnitButton.ButtonPreset.ButtonPadding { get }
+    var cornerRadius: ClickableUnitButton.ButtonPreset.Corner { get }
 }
 
 // MARK: - Image

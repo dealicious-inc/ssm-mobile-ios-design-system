@@ -162,6 +162,12 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary04)
     }
+    
+    
+    public static func btnOutlineLargeTest01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfigTest.large,
+                                            color: ButtonOutlineColorTest.primary01.attribute)
+    }
 }
 
 // MARK: - ClickableColorConfig
@@ -263,5 +269,87 @@ public enum ButtonOutlineConfig: ClickableConfig {
         case .roundSmall:
             return .round
         }
+    }
+}
+
+public enum ButtonOutlineColorTest {
+    case primary01
+    case primary02
+    case secondary01
+    case secondary02
+    case secondary03
+    case secondary04
+    
+    public var attribute: ClickableUnitButtonColor {
+        switch self {
+        case .primary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .primary01, border: .primary01),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .g50, border: .g30))
+        case .primary02:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .primary04, border: .primary04),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .w50, border: .w50))
+        case .secondary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .secondary01, border: .secondary01),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .g50, border: .g30))
+        case .secondary02:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .g100, border: .g100),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .g50, border: .g30))
+        case .secondary03:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .g100, border: .g30),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .g50, border: .g20))
+        case .secondary04:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .clear, text: .g80, border: .g30),
+                                  disabled: ClickableUnitButtonColorSet(background: .clear, text: .g50, border: .g20))
+        }
+    }
+}
+
+public enum ButtonOutlineConfigTest: ClickableUnitButtonConfig {
+    case large
+    case medium
+    case semiMedium
+    case small
+    case roundSmall
+    
+    public var font: ClickableUnitButtonFont {
+        switch self {
+        case .large:
+            return ClickableUnitButtonFont.set(font: .b1sb15)
+        case .medium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .semiMedium:
+            return ClickableUnitButtonFont.set(font: .b2sb14)
+        case .small, .roundSmall:
+            return ClickableUnitButtonFont.set(font: .b3sb13)
+        }
+    }
+    
+    public var buttonType: ClickableUnitButton.ButtonPreset.ButtonType {
+        switch self {
+        case .large:
+            return .large
+        case .medium:
+            return .medium
+        case .semiMedium:
+            return .semiMedium
+        case .small:
+            return .small
+        case .roundSmall:
+            return .small
+        }
+    }
+    
+    public var buttonPadding: ClickableUnitButton.ButtonPreset.ButtonPadding {
+        return .normal
+    }
+    
+    public var cornerRadius: ClickableUnitButton.ButtonPreset.Corner {
+        switch self {
+        case .roundSmall:
+            return .round
+        default:
+            return .normal
+        }
+        
     }
 }

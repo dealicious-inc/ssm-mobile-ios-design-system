@@ -15,6 +15,11 @@ final class NewButtonViewController: UIViewController {
     
     private let btnFilledLargeTest01 = DealiControl.btnFilledLargeTest01()
     
+    private let btnOutlineLargeTest01 = DealiControl.btnOutlineLargeTest01()
+    
+    private let btnOutlineBgLargeTest01 = DealiControl.btnOutlineBgLargeTest01()
+    private let btnOutlineBgRoundSmallTest01 = DealiControl.btnOutlineBgRoundSmallTest01()
+    
     override func loadView() {
         super.loadView()
         
@@ -66,6 +71,38 @@ final class NewButtonViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
         
+        
+        self.stackView.addArrangedSubview(self.btnOutlineLargeTest01)
+        self.btnOutlineLargeTest01.then {
+            $0.title = "btnOutlineLargeTest01"
+            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+            $0.addTarget(self, action: #selector(btnOutlineLargeTest01Press(_:)), for: .touchUpInside)
+        }.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
+        
+        self.stackView.addArrangedSubview(self.btnOutlineBgLargeTest01)
+        self.btnOutlineBgLargeTest01.then {
+            $0.title = "btnOutlineBgLargeTest01"
+            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+        }.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
+        self.stackView.addArrangedSubview(self.btnOutlineBgRoundSmallTest01)
+        self.btnOutlineBgRoundSmallTest01.then {
+            $0.title = "btnOutlineBgRoundSmallTest01"
+            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+        }.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
     }
 
     override func viewDidLoad() {
@@ -77,5 +114,18 @@ final class NewButtonViewController: UIViewController {
     @objc func btnFilledRoundLargeTest01Press(_ sender: SystemButton) {
         print("btnFilledRoundLargeTest01Press")
         self.btnFilledLargeTest01.isEnabled.toggle()
+    }
+    
+    @objc func btnOutlineLargeTest01Press(_ sender: SystemButton) {
+        print("btnOutlineLargeTest01Press")
+        self.btnOutlineLargeTest01.isSelected.toggle()
+        
+        if self.btnOutlineLargeTest01.isSelected == true {
+            self.btnOutlineBgLargeTest01.startIndicator()
+            self.btnOutlineBgRoundSmallTest01.startIndicator()
+        } else {
+            self.btnOutlineBgLargeTest01.stopIndicator()
+            self.btnOutlineBgRoundSmallTest01.stopIndicator()
+        }
     }
 }

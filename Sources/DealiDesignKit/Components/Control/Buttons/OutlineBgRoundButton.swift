@@ -28,5 +28,9 @@ public extension DealiControl {
     static func btnOutlineBgRoundSmall06() -> ClickableComponentButton {
         return ClickableComponentButton(config: ButtonOutlineConfig.roundSmall, color: ButtonOutlineBgColor.secondary04)
     }
+    
+    static func btnOutlineBgRoundSmallTest01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfigTest.roundSmall, color: ButtonOutlineBgColorTest.primary01.attribute)
+    }
 }
 

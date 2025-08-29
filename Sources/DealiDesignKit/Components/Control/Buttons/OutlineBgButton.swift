@@ -111,6 +111,11 @@ extension DealiControl {
         return ClickableComponentButton(config: ButtonOutlineConfig.small,
                                         color: ButtonOutlineBgColor.secondary04)
     }
+    
+    public static func btnOutlineBgLargeTest01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfigTest.large,
+                                            color: ButtonOutlineBgColorTest.primary01.attribute)
+    }
 }
 // MARK: - ClickableColorConfig
 public enum ButtonOutlineBgColor: ClickableColorConfig {
@@ -137,6 +142,34 @@ public enum ButtonOutlineBgColor: ClickableColorConfig {
         case .secondary04:
             return ClickableColor(normal: ClickableColorSet(background: .primary04, text: .g80, border: .g30),
                                   disabled: ClickableColorSet(background: .primary04, text: .g50, border: .g20))
+        }
+    }
+}
+
+public enum ButtonOutlineBgColorTest {
+    case primary01
+    case secondary01
+    case secondary02
+    case secondary03
+    case secondary04
+    
+    public var attribute: ClickableUnitButtonColor {
+        switch self {
+        case .primary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary04, text: .primary01, border: .primary01),
+                                  disabled: ClickableUnitButtonColorSet(background: .primary04, text: .g50, border: .g30))
+        case .secondary01:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary04, text: .secondary01, border: .secondary01),
+                                  disabled: ClickableUnitButtonColorSet(background: .primary04, text: .g50, border: .g30))
+        case .secondary02:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary04, text: .g100, border: .g100),
+                                  disabled: ClickableUnitButtonColorSet(background: .primary04, text: .g50, border: .g30))
+        case .secondary03:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary04, text: .g100, border: .g30),
+                                  disabled: ClickableUnitButtonColorSet(background: .primary04, text: .g50, border: .g20))
+        case .secondary04:
+            return ClickableUnitButtonColor(normal: ClickableUnitButtonColorSet(background: .primary04, text: .g80, border: .g30),
+                                  disabled: ClickableUnitButtonColorSet(background: .primary04, text: .g50, border: .g20))
         }
     }
 }

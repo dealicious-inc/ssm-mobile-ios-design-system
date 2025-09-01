@@ -272,17 +272,17 @@ public class ClickableUnitButton: SystemButton {
         let leftPadding: CGFloat = (self.leftImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         let rightPadding: CGFloat = (self.rightImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         
-//        self.contentStackView.snp.remakeConstraints {
-//            $0.centerX.equalToSuperview()
-//            $0.top.bottom.equalToSuperview()
-//            if self.isFixedSize == true {
-//                $0.left.equalToSuperview()
-//                $0.right.equalToSuperview()
-//            } else {
-//                $0.left.greaterThanOrEqualToSuperview()
-//                $0.right.lessThanOrEqualToSuperview()
-//            }
-//        }
+        self.contentStackView.snp.remakeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            if self.isFixedSize == true {
+                $0.left.equalToSuperview()
+                $0.right.equalToSuperview()
+            } else {
+                $0.left.greaterThanOrEqualToSuperview()
+                $0.right.lessThanOrEqualToSuperview()
+            }
+        }
         
         self.contentContainerView.snp.updateConstraints {
             $0.left.equalToSuperview().offset(leftPadding)

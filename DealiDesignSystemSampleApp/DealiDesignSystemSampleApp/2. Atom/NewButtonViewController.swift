@@ -69,10 +69,11 @@ final class NewButtonViewController: UIViewController {
             $0.title = "btnFilledLargeTest01"
             $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
             $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+            $0.fixedWidth = 150.0
         }.snp.makeConstraints {
 //            $0.left.right.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(150)
+//            $0.width.equalTo(150)
         }
         
         
@@ -92,6 +93,8 @@ final class NewButtonViewController: UIViewController {
             $0.title = "btnOutlineBgLargeTest01"
             $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
 //            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+            $0.isFixedSize = true
+            
         }.snp.makeConstraints {
 //            $0.left.right.equalToSuperview()
             $0.centerX.equalToSuperview()
@@ -111,10 +114,44 @@ final class NewButtonViewController: UIViewController {
         self.btnOutlineBgSmallTest03.then {
             $0.title = "btnOutlineBgSmallTest03"
             $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+            $0.isFixedSize = true
 //            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
         }.snp.makeConstraints {
 //            $0.left.right.equalToSuperview()
             $0.centerX.equalToSuperview()
+        }
+        
+        let stvStoreInfo = UIStackView()
+        self.stackView.addArrangedSubview(stvStoreInfo)
+        stvStoreInfo.then {
+            $0.axis = .horizontal
+            $0.spacing = 8.0
+            $0.distribution = .equalSpacing
+            $0.alignment = .center
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let testLabel = UILabel()
+        stvStoreInfo.addArrangedSubview(testLabel)
+        testLabel.then {
+            $0.textColor = .red
+            $0.font = .b1sb15
+            $0.contentMode = .left
+            $0.numberOfLines = 2
+            $0.text = "test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명"
+            }.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+        }
+        
+        let btnStockInquiry = DealiControl.btnOutlineBgSmallTest03()
+        stvStoreInfo.addArrangedSubview(btnStockInquiry)
+        btnStockInquiry.then {
+            $0.leftImage = ClickableImage(DealiIcon.ic_alarm_request_filled.image)
+            $0.title = "재고문의"
+            $0.isFixedSize = true
+        }.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
         }
         
     }

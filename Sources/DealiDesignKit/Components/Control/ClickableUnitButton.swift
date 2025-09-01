@@ -43,9 +43,6 @@ public class ClickableUnitButton: SystemButton {
     
     public var title: String? {
         didSet {
-//            if self.singleImage != nil {
-//                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
-//            }
             guard let title = self.title else {
                 self.attributedTitle = nil
                 return
@@ -61,9 +58,6 @@ public class ClickableUnitButton: SystemButton {
 
     public var attributedTitle: NSAttributedString? {
         didSet {
-//            if self.singleImage != nil {
-//                fatalError("singleImage가 있는 경우 title, attributedTitle, leftImage, rightImage 사용 불가!")
-//            }
             self.dealiTitleLabel.attributedText = attributedTitle
             self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
             self.updateContent()
@@ -73,9 +67,6 @@ public class ClickableUnitButton: SystemButton {
     /// 왼쪽 이미지(텍스트 포함 / rightImage와 함께 사용 가능)
     public var leftImage: ClickableImage? {
         didSet {
-//            if self.singleImage != nil {
-//                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가!")
-//            }
             self.leftImageView.image = leftImage?.uiImage
             self.leftImageView.isHidden = (leftImage == nil)
             self.updateContent()
@@ -85,9 +76,6 @@ public class ClickableUnitButton: SystemButton {
     /// 오른쪽 이미지(텍스트 포함 / leftImage와 함께 사용 가능)
     public var rightImage: ClickableImage? {
         didSet {
-//            if self.singleImage != nil {
-//                fatalError("singleImage가 있는 경우 title, leftImage, rightImage 사용 불가")
-//            }
             self.rightImageView.image = rightImage?.uiImage
             self.rightImageView.isHidden = (rightImage == nil)
             self.updateContent()
@@ -96,9 +84,39 @@ public class ClickableUnitButton: SystemButton {
     
     public var isFixedSize: Bool = false {
         didSet{
-//            guard self.singleImage == nil else { return }
             self.updateContentConstraints()
         }
+    }
+    /// 고정된 width수치를 사용해야 할때 값을 세팅
+    public var fixedWidth: CGFloat = 0.0 {
+        didSet{
+            self.updateContentConstraints()
+        }
+    }
+    
+    /// isFixedSize 값이 true일때 들어간 content별로 사이즈를 구해서 button width 값을 계산해서 사용
+    private var flexibleWidth: CGFloat {
+        
+        var width: CGFloat = 0.0
+        
+        if let leftImage = self.leftImage {
+            width += preset.widthPadding?.withImage ?? 0.0
+            width += leftImage.uiImage?.size.width ?? 0.0
+            width += preset.widthPadding?.internalSpacing ?? 0.0
+        } else {
+            width += preset.widthPadding?.normal ?? 0.0
+        }
+        
+        width += ceil(self.dealiTitleLabel.intrinsicContentSize.width)
+        
+        if let rightImage = self.rightImage {
+            width += preset.widthPadding?.withImage ?? 0.0
+            width += rightImage.uiImage?.size.width ?? 0.0
+            width += preset.widthPadding?.internalSpacing ?? 0.0
+        } else {
+            width += preset.widthPadding?.normal ?? 0.0
+        }
+        return width
     }
     
     public override var isEnabled: Bool {
@@ -117,7 +135,7 @@ public class ClickableUnitButton: SystemButton {
             }
         }
     }
-    
+    /// layoutSubviews 함수가 호출될 경우 중복 호출을 막기위해 값이 변할 경우에만 새로 그릴수 있도록 하기위해 사용하는 플레그값
     private var contentSize: CGSize = .zero
     
     public override func layoutSubviews() {
@@ -125,12 +143,9 @@ public class ClickableUnitButton: SystemButton {
         
         guard (self.contentSize == .zero || self.contentSize != self.bounds.size) else { return }
         self.contentSize = self.bounds.size
-        print("layoutSubviews 0 = \(self.bounds.size.height)")
         if self.preset.cornerRadius == .normal {
-            print("self.hieght normal = \(self.bounds.height)")
             self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
         } else {
-            print("self.hieght round = \(self.bounds.height)")
             self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
         }
     }
@@ -272,32 +287,21 @@ public class ClickableUnitButton: SystemButton {
         let leftPadding: CGFloat = (self.leftImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         let rightPadding: CGFloat = (self.rightImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         
-        self.contentStackView.snp.remakeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.bottom.equalToSuperview()
-            if self.isFixedSize == true {
-                $0.left.equalToSuperview()
-                $0.right.equalToSuperview()
-            } else {
-                $0.left.greaterThanOrEqualToSuperview()
-                $0.right.lessThanOrEqualToSuperview()
-            }
-        }
-        
         self.contentContainerView.snp.updateConstraints {
             $0.left.equalToSuperview().offset(leftPadding)
             $0.right.equalToSuperview().offset(-rightPadding)
         }
         
-//        self.layoutIfNeeded()
-//        
-//        if self.preset.cornerRadius == .normal {
-//            print("self.hieght = \(self.bounds.height)")
-//            self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
-//        } else {
-//            print("self.hieght = \(self.bounds.height)")
-//            self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
-//        }
+        // 전체 constraints에서 width constraint만 filter
+        let widthconstraints = self.constraints.filter({ $0.firstAttribute.rawValue == 7 })
+        // width constraints 제거
+        self.removeConstraints(widthconstraints)
+        // width constraint 다시 추가
+        if self.isFixedSize == true || self.fixedWidth > 0.0 {
+            self.widthAnchor.constraint(equalToConstant: (self.fixedWidth == 0.0 ? self.flexibleWidth : self.fixedWidth)).isActive = true
+        } else {
+            self.widthAnchor.constraint(greaterThanOrEqualToConstant: self.fixedWidth).isActive = true
+        }
         
     }
     

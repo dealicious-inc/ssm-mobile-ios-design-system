@@ -116,6 +116,11 @@ extension DealiControl {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfigTest.large,
                                             color: ButtonOutlineBgColorTest.primary01.attribute)
     }
+    
+    public static func btnOutlineBgSmallTest03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfigTest.small,
+                                            color: ButtonOutlineBgColorTest.secondary01.attribute)
+    }
 }
 // MARK: - ClickableColorConfig
 public enum ButtonOutlineBgColor: ClickableColorConfig {

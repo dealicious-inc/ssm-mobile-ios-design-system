@@ -94,6 +94,13 @@ public class ClickableUnitButton: SystemButton {
         }
     }
     
+    public var isFixedSize: Bool = false {
+        didSet{
+//            guard self.singleImage == nil else { return }
+            self.updateContentConstraints()
+        }
+    }
+    
     public override var isEnabled: Bool {
         get {
             return super.isEnabled
@@ -108,6 +115,23 @@ public class ClickableUnitButton: SystemButton {
                 self.updateColor(color: self.preset.color?.disabled)
                 self.dealiTitleLabel.font = self.preset.font?.disabled
             }
+        }
+    }
+    
+    private var contentSize: CGSize = .zero
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard (self.contentSize == .zero || self.contentSize != self.bounds.size) else { return }
+        self.contentSize = self.bounds.size
+        print("layoutSubviews 0 = \(self.bounds.size.height)")
+        if self.preset.cornerRadius == .normal {
+            print("self.hieght normal = \(self.bounds.height)")
+            self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
+        } else {
+            print("self.hieght round = \(self.bounds.height)")
+            self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
         }
     }
 
@@ -248,20 +272,32 @@ public class ClickableUnitButton: SystemButton {
         let leftPadding: CGFloat = (self.leftImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         let rightPadding: CGFloat = (self.rightImage != nil ? self.preset.widthPadding?.withImage : self.preset.widthPadding?.normal) ?? 0.0
         
+//        self.contentStackView.snp.remakeConstraints {
+//            $0.centerX.equalToSuperview()
+//            $0.top.bottom.equalToSuperview()
+//            if self.isFixedSize == true {
+//                $0.left.equalToSuperview()
+//                $0.right.equalToSuperview()
+//            } else {
+//                $0.left.greaterThanOrEqualToSuperview()
+//                $0.right.lessThanOrEqualToSuperview()
+//            }
+//        }
+        
         self.contentContainerView.snp.updateConstraints {
             $0.left.equalToSuperview().offset(leftPadding)
             $0.right.equalToSuperview().offset(-rightPadding)
         }
         
-        self.layoutIfNeeded()
-        
-        if self.preset.cornerRadius == .normal {
-            print("self.hieght = \(self.bounds.height)")
-            self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
-        } else {
-            print("self.hieght = \(self.bounds.height)")
-            self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
-        }
+//        self.layoutIfNeeded()
+//        
+//        if self.preset.cornerRadius == .normal {
+//            print("self.hieght = \(self.bounds.height)")
+//            self.setCornerRadius(self.preset.cornerRadius.radius(with: self.preset.buttonType), borderWidth: 1.0, borderColor: self.currentColor?.border)
+//        } else {
+//            print("self.hieght = \(self.bounds.height)")
+//            self.setCornerRadius((self.bounds.height / 2.0), borderWidth: 1.0, borderColor: self.currentColor?.border)
+//        }
         
     }
     

@@ -61,7 +61,7 @@ struct TextLinkSize: ControlSizeProtocol {
     
 }
 
-struct TextLinkColors: ControlColorPrivider {
+struct TextLinkColors: ColorProvider {
     
     var normal: TextLinkColor
     var disabled: TextLinkColor

@@ -476,7 +476,7 @@ extension DealiTextInput: DealiTextFieldConfig {
             
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(top: 4.0, leading: 4.0, bottom: 4.0, trailing: 4.0)
-            configuration.image = DealiIcon. ic_x_circle_filled.image.withTintColor(.g50).resize(CGSize(width: 16.0, height: 16.0))
+            configuration.image = DealiIcon.ic_x_circle_filled.image.withTintColor(.g50).resize(CGSize(width: 16.0, height: 16.0))
             $0.configuration = configuration
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))

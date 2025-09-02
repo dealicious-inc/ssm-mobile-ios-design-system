@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 public protocol GradientConfigurable {
     var startPoint: CGPoint { get }
@@ -56,16 +57,16 @@ public enum MbsGradient: GradientConfigurable {
     case gradient01
     case gradient02
     
-    var startColor: SystemColorConfig {
+    var startColor: any SystemColorConfig {
         return MBSColor.mbs01
     }
     
-    var endColor: SystemColorConfig {
+    var endColor: any SystemColorConfig {
         return MBSColor.mbs02
     }
     
     public var colors: [UIColor] {
-        return [startColor.uiColor(), endColor.uiColor()]
+        return [startColor.color(), endColor.color()]
     }
     
     public var location: [NSNumber] {
@@ -94,5 +95,13 @@ public enum MbsGradient: GradientConfigurable {
         case .gradient02:
             return CGPoint(x: 1, y: 1.3)
         }
+    }
+    
+    public var swiftUIGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: colors.map { Color($0) }), // ✅ UIColor → Color 변환
+            startPoint: UnitPoint(x: startPoint.x, y: startPoint.y),
+            endPoint: UnitPoint(x: endPoint.x, y: endPoint.y)
+        )
     }
 }

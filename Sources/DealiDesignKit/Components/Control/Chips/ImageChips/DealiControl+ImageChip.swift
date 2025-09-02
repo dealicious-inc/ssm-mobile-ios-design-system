@@ -41,7 +41,7 @@ enum ImageChipSizeType {
     case medium
     case small
     
-    var size: ChipSizeProtoocol {
+    var size: ChipSize {
         switch self {
         case .large:
             return ChipSize(

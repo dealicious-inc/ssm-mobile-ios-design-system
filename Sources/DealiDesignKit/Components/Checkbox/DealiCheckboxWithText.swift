@@ -100,7 +100,8 @@ public final class DealiCheckboxWithText: UIView {
         self.addSubview(self.checkbox)
         self.checkbox.isUserInteractionEnabled = false
         self.checkbox.snp.makeConstraints {
-            $0.left.centerY.equalToSuperview()
+            $0.top.left.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
         self.addSubview(self.titleLabel)
@@ -111,8 +112,7 @@ public final class DealiCheckboxWithText: UIView {
             $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkbox.snp.right).offset(8.0)
-            $0.centerY.right.equalToSuperview()
-            $0.top.bottom.equalToSuperview()
+            $0.top.bottom.right.equalToSuperview()
             $0.height.greaterThanOrEqualTo(24.0)
         }
         
@@ -139,52 +139,3 @@ public final class DealiCheckboxWithText: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct CheckboxWithTextPreview: PreviewProvider {
-    static var testString = "김수한무거북이와 두루미 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다. 여러줄 테스트 문자열입니다."
-
-    static var previews: some View {
-        VStack(alignment: .leading) {
-            Text("체크박스 + 텍스트")
-            UIViewPreview {
-                let checkboxWithText = DealiCheckboxWithText(text: testString, status: .init())
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-            
-            UIViewPreview {
-                let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.text = testString
-                checkboxWithText.isSelected = true
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-            
-            UIViewPreview {
-                let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.text = testString
-                checkboxWithText.isEnabled = false
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-            
-            UIViewPreview {
-                let checkboxWithText = DealiCheckboxWithText()
-                checkboxWithText.text = testString
-                checkboxWithText.isEnabled = false
-                checkboxWithText.isSelected = true
-
-                return checkboxWithText
-            }
-            .padding(.bottom, 10.0)
-
-        }
-        .padding(10.0)
-        .previewLayout(.sizeThatFits)
-    }
-}
-#endif

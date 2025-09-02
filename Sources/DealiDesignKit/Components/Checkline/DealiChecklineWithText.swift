@@ -67,7 +67,7 @@ public final class DealiChecklineWithText: UIView {
         self.addSubview(self.checkcircle)
         self.checkcircle.isUserInteractionEnabled = false
         self.checkcircle.snp.makeConstraints {
-            $0.top.bottom.left.centerY.equalToSuperview()
+            $0.top.left.equalToSuperview()
         }
         
         self.addSubview(self.titleLabel)
@@ -79,7 +79,7 @@ public final class DealiChecklineWithText: UIView {
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
             $0.height.greaterThanOrEqualTo(24.0)
-            $0.centerY.top.bottom.right.equalToSuperview()
+            $0.top.bottom.right.equalToSuperview()
         }
         
         self.rx.tapGestureOnTop()
@@ -96,52 +96,3 @@ public final class DealiChecklineWithText: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct DealiChecklineWithTextPreview: PreviewProvider {
-    static var previews: some View {
-    
-        VStack {
-            UIViewPreview {
-                let checkLine = DealiChecklineWithText()
-                checkLine.text = "Text"
-                return checkLine
-            }
-            
-            UIViewPreview {
-                let checkLine = DealiChecklineWithText()
-                checkLine.isSelected = true
-                checkLine.isAd = false
-                
-                checkLine.text = "Text"
-
-                return checkLine
-            }
-            
-            UIViewPreview {
-                let checkLine = DealiChecklineWithText()
-                checkLine.isAd = true
-                checkLine.isSelected = true
-                checkLine.text = "Text"
-
-                return checkLine
-            }
-            
-            // 프리뷰에는 반영이 안된다
-            UIViewPreview {
-                let checkLine = DealiChecklineWithText()
-                checkLine.isEnabled = false
-                checkLine.text = "Text"
-
-                return checkLine
-            }
-            
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
-        .previewDisplayName("DealiChecklineWithText")
-    }
-}
-#endif

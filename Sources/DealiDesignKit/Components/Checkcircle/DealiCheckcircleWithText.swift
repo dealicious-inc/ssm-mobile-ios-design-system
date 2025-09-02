@@ -67,7 +67,7 @@ public final class DealiCheckcircleWithText: UIView {
         self.addSubview(self.checkcircle)
         self.checkcircle.isUserInteractionEnabled = false
         self.checkcircle.snp.makeConstraints {
-            $0.left.centerY.equalToSuperview()
+            $0.top.left.equalToSuperview()
         }
         
         self.addSubview(self.titleLabel)
@@ -79,8 +79,7 @@ public final class DealiCheckcircleWithText: UIView {
             $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
-            $0.centerY.right.equalToSuperview()
-            $0.top.bottom.equalToSuperview()
+            $0.top.bottom.right.equalToSuperview()
             $0.height.greaterThanOrEqualTo(24.0)
         }
         
@@ -105,54 +104,3 @@ public final class DealiCheckcircleWithText: UIView {
     }
     
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct DealiCheckcircleWithTextPreview: PreviewProvider {
-    static var previews: some View {
-    
-        VStack {
-            UIViewPreview {
-                let checkCircle = DealiCheckcircleWithText()
-                checkCircle.text = "Text "
-                return checkCircle
-            }
-            
-            UIViewPreview {
-                let checkCircle = DealiCheckcircleWithText()
-                checkCircle.isSelected = true
-                checkCircle.isAd = false
-                
-                checkCircle.text = "Text"
-
-                return checkCircle
-            }
-            
-            UIViewPreview {
-                let checkCircle = DealiCheckcircleWithText()
-                checkCircle.isAd = true
-                checkCircle.isSelected = true
-                checkCircle.text = "Text"
-
-                return checkCircle
-            }
-            
-            // 프리뷰에는 반영이 안된다
-            UIViewPreview {
-                let checkCircle = DealiCheckcircleWithText()
-                checkCircle.isEnabled = false
-                checkCircle.text = "Text"
-
-                return checkCircle
-            }
-            
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
-        .previewDisplayName("DealiCheckcircleWithText")
-    }
-}
-#endif
-
-

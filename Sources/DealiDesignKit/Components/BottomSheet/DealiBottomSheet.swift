@@ -280,9 +280,9 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         }
     }()
      
-    private lazy var cancelButton: ClickableComponentButton = DealiControl.btnOutlineLarge01()
+    private lazy var cancelButton: ClickableUnitButtonComponent = DealiControl.btnOutlineLarge01()
     
-    private lazy var confirmButton: ClickableComponentButton = {
+    private lazy var confirmButton: ClickableUnitButtonComponent = {
         return DealiControl.btnFilledLarge01().then {
             $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
         }

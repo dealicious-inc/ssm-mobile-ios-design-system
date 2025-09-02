@@ -8,8 +8,8 @@
 import UIKit
 
 final public class ClickableUnitButtonComponent: ClickableUnitButton {
-    public init(config: ClickableUnitButtonConfig, color: ClickableUnitButtonColor, functionName: String = #function) {
-        super.init(config: config, color: color)
+    public init(config: ClickableUnitButtonConfig, color: ClickableUnitButtonColorConfig, functionName: String = #function) {
+        super.init(config: config, color: color.attribute)
 
     }
     
@@ -125,7 +125,6 @@ public class ClickableUnitButton: SystemButton {
         }
         set {
             super.isEnabled = newValue
-        print("isEnabled")
             if newValue == true {
                 self.updateColor(color: self.preset.color?.normal)
                 self.dealiTitleLabel.font = self.preset.font?.normal
@@ -140,6 +139,13 @@ public class ClickableUnitButton: SystemButton {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        
+        if let gradientBackgroundLayer = self.gradientBackgroundLayer {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            gradientBackgroundLayer.frame = self.bounds
+            CATransaction.commit()
+        }
         
         guard (self.contentSize == .zero || self.contentSize != self.bounds.size) else { return }
         self.contentSize = self.bounds.size
@@ -226,7 +232,6 @@ public class ClickableUnitButton: SystemButton {
     /// Gradient Background
     private func setBackgroundGradient(color: ClickableUnitButtonColorSet?) {
         guard let gradient = color?.gradient else { return }
-        
         if let gradientBackgroundLayer = self.gradientBackgroundLayer {
             gradientBackgroundLayer.removeFromSuperlayer()
             self.gradientBackgroundLayer = nil
@@ -256,11 +261,6 @@ public class ClickableUnitButton: SystemButton {
         self.backgroundColor = color.background
         self.indicator.color = color.text
         
-        //        if let singleImage = self.singleImage { // 싱글이미지인 경우 이미지 색상만 변경
-        //            if singleImage.needOriginColor == false {
-        //                self.singleImageView.image = singleImage.uiImage?.withTintColor(color.text)
-        //            }
-        //        } else {
         if let borderColor = color.border {
             self.layer.borderColor = borderColor.cgColor
             self.layer.borderWidth = 1.0
@@ -413,6 +413,11 @@ public struct ClickableUnitButtonFont {
     static func set(font: UIFont) -> ClickableUnitButtonFont {
         return ClickableUnitButtonFont(normal: font, disabled: font)
     }
+}
+
+// MARK: - Color
+public protocol ClickableUnitButtonColorConfig {
+    var attribute: ClickableUnitButtonColor { get }
 }
 
 public struct ClickableUnitButtonColorSet {

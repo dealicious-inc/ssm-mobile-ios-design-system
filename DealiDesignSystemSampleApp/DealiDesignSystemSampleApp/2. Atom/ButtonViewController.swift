@@ -16,7 +16,7 @@ class ButtonViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.view.backgroundColor = .systemGray2
+        self.view.backgroundColor = .yellow
         
         let switchView = UISwitch()
         let switchItem = UIBarButtonItem(customView: switchView)
@@ -82,6 +82,7 @@ class ButtonViewController: UIViewController {
         var buttonArray: [UIView] = []
 
         let largeButtonArray: [UIView] = [testButton01,
+                                          DealiControl.btnFilledLarge01(),
                                           DealiControl.btnFilledLarge02(),
                                           DealiControl.btnFilledLarge03(),
                                           DealiControl.btnFilledLarge04(),
@@ -238,19 +239,28 @@ class ButtonViewController: UIViewController {
         
         
         buttonArray.forEach { button in
-           if let new = button as? ClickableComponent {
-//               new.rightImage = ClickableImage(named: "ic_arrow_right")
-//               new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01")
+           if let new = button as? ClickableUnitButtonComponent {
                
-//                switch Int.random(in: 0...2) {
-//                case 0:
-//                    new.leftImage = ClickableImage(UIImage(named: "img_mbs_filled_16_ver01"))
-//                case 1:
-//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-//                default:
-//                    new.leftImage = ClickableImage(named: "img_mbs_filled_16_ver01", needOriginColor: true)
-//                    new.rightImage = ClickableImage(named: "ic_arrow_right")
-//                }
+               switch Int.random(in: 0...2) {
+               case 0:
+                   new.title = "한줄버튼한줄버튼"
+               case 1:
+                   new.title = "두줄버튼두줄버튼\n두줄버튼두줄버튼"
+               default:
+                   new.title = "세줄버튼세줄버튼\n세줄버튼세줄버튼\n세줄버튼세줄버튼"
+               }
+               
+                switch Int.random(in: 0...3) {
+                case 0:
+                    new.leftImage = ClickableImage(DealiIcon.ic_store_3_filled.image)
+                case 1:
+                    new.rightImage = ClickableImage(DealiIcon.ic_alarm_request_filled.image)
+                case 2:
+                    new.leftImage = ClickableImage(DealiIcon.ic_store_3_filled.image, needOriginColor: true)
+                    new.rightImage = ClickableImage(DealiIcon.ic_alarm_request_filled.image, needOriginColor: true)
+                default:
+                    break
+                }
             }
             
             self.stackView.addArrangedSubview(button)
@@ -258,7 +268,7 @@ class ButtonViewController: UIViewController {
 
     }
     
-    @objc func btnTextMediumPrimary02Pressed(_ sender: ClickableComponentButton) {
+    @objc func btnTextMediumPrimary02Pressed(_ sender: ClickableUnitButtonComponent) {
      
     }
 
@@ -270,7 +280,7 @@ class ButtonViewController: UIViewController {
     
     @objc func switchValueChanged(_ swc: UISwitch) {
         self.stackView.subviews.forEach { view in
-            if let b = view as? ClickableComponentButton {
+            if let b = view as? ClickableUnitButtonComponent {
 //                b.isEnabled = !swc.isOn
                 if swc.isOn {
                     b.startIndicator()

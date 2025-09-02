@@ -80,7 +80,7 @@ extension ItemData {
         case .badge:
             BadgeViewController()
         case .button:
-            NewButtonViewController()
+            ButtonViewController()
         case .checkbox:
             CheckComponentViewController()
         case .chip:

@@ -13,15 +13,16 @@ final class NewButtonViewController: UIViewController {
 
     private let stackView = UIStackView()
     
-    private let btnFilledLargeTest01 = DealiControl.btnFilledLargeTest01()
-    
-    private let btnFilledRoundLargeTest01 = DealiControl.btnFilledRoundLargeTest01()
-    
-    private let btnOutlineLargeTest01 = DealiControl.btnOutlineLargeTest01()
-    
-    private let btnOutlineBgLargeTest01 = DealiControl.btnOutlineBgLargeTest01()
-    private let btnOutlineBgRoundSmallTest01 = DealiControl.btnOutlineBgRoundSmallTest01()
-    private let btnOutlineBgSmallTest03 = DealiControl.btnOutlineBgSmallTest03()
+//    private let btnFilledLarge05 = DealiControl.btnFilledLarge05()
+//    private let btnFilledLargeTest05 = DealiControl.btnFilledLargeTest05()
+//    
+//    private let btnFilledRoundLargeTest01 = DealiControl.btnFilledRoundLargeTest01()
+//    
+//    private let btnOutlineLargeTest01 = DealiControl.btnOutlineLargeTest01()
+//    
+//    private let btnOutlineBgLargeTest01 = DealiControl.btnOutlineBgLargeTest01()
+//    private let btnOutlineBgRoundSmallTest01 = DealiControl.btnOutlineBgRoundSmallTest01()
+//    private let btnOutlineBgSmallTest03 = DealiControl.btnOutlineBgSmallTest03()
     
     override func loadView() {
         super.loadView()
@@ -51,108 +52,116 @@ final class NewButtonViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        
-        self.stackView.addArrangedSubview(self.btnFilledLargeTest01)
-        self.btnFilledLargeTest01.then {
-            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.title = "btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01\nbtnFilledLargeTest02\nbtnFilledLargeTest03"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.isFixedSize = true
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-//            $0.centerX.equalToSuperview()
-        }
-        
-        self.stackView.addArrangedSubview(self.btnFilledRoundLargeTest01)
-        self.btnFilledRoundLargeTest01.then {
+//        self.stackView.addArrangedSubview(self.btnFilledLarge05)
+//        self.btnFilledLarge05.then {
 //            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.title = "btnFilledLargeTest01"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
-            $0.fixedWidth = 150.0
-        }.snp.makeConstraints {
+//            $0.title = "btnFilledLarge05"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+//        }.snp.makeConstraints {
+//            $0.centerX.equalToSuperview()
+//        }
+        
+//        self.stackView.addArrangedSubview(self.btnFilledLargeTest05)
+//        self.btnFilledLargeTest05.then {
+//            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.title = "btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01btnFilledLargeTest01\nbtnFilledLargeTest02\nbtnFilledLargeTest03"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+////            $0.isFixedSize = true
+//        }.snp.makeConstraints {
 //            $0.left.right.equalToSuperview()
-            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(150)
-        }
-        
-        
-        self.stackView.addArrangedSubview(self.btnOutlineLargeTest01)
-        self.btnOutlineLargeTest01.then {
-            $0.title = "btnOutlineLargeTest01"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.addTarget(self, action: #selector(btnOutlineLargeTest01Press(_:)), for: .touchUpInside)
-        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-            $0.centerX.equalToSuperview()
-        }
-        
-        
-        self.stackView.addArrangedSubview(self.btnOutlineBgLargeTest01)
-        self.btnOutlineBgLargeTest01.then {
-            $0.title = "btnOutlineBgLargeTest01"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+////            $0.centerX.equalToSuperview()
+//        }
+//        
+//        self.stackView.addArrangedSubview(self.btnFilledRoundLargeTest01)
+//        self.btnFilledRoundLargeTest01.then {
+////            $0.leftImage = ClickableImage(UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.title = "btnFilledLargeTest01"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
 //            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
-            $0.isFixedSize = true
-            
-        }.snp.makeConstraints {
+//            $0.fixedWidth = 150.0
+//        }.snp.makeConstraints {
+////            $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
+////            $0.width.equalTo(150)
+//        }
+//        
+//        
+//        self.stackView.addArrangedSubview(self.btnOutlineLargeTest01)
+//        self.btnOutlineLargeTest01.then {
+//            $0.title = "btnOutlineLargeTest01"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.addTarget(self, action: #selector(btnOutlineLargeTest01Press(_:)), for: .touchUpInside)
+//        }.snp.makeConstraints {
+////            $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
+//        }
+//        
+//        
+//        self.stackView.addArrangedSubview(self.btnOutlineBgLargeTest01)
+//        self.btnOutlineBgLargeTest01.then {
+//            $0.title = "btnOutlineBgLargeTest01"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+////            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+//            $0.isFixedSize = true
+//            
+//        }.snp.makeConstraints {
+////            $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
+//        }
+//        
+//        self.stackView.addArrangedSubview(self.btnOutlineBgRoundSmallTest01)
+//        self.btnOutlineBgRoundSmallTest01.then {
+//            $0.title = "btnOutlineBgRoundSmallTest01"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+////            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+//        }.snp.makeConstraints {
+////            $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
+//        }
+//        
+//        self.stackView.addArrangedSubview(self.btnOutlineBgSmallTest03)
+//        self.btnOutlineBgSmallTest03.then {
+//            $0.title = "btnOutlineBgSmallTest03"
+//            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
+//            $0.isFixedSize = true
+////            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
+//        }.snp.makeConstraints {
+////            $0.left.right.equalToSuperview()
+//            $0.centerX.equalToSuperview()
+//        }
+//        
+//        let stvStoreInfo = UIStackView()
+//        self.stackView.addArrangedSubview(stvStoreInfo)
+//        stvStoreInfo.then {
+//            $0.axis = .horizontal
+//            $0.spacing = 8.0
+//            $0.distribution = .equalSpacing
+//            $0.alignment = .center
+//        }.snp.makeConstraints {
 //            $0.left.right.equalToSuperview()
-            $0.centerX.equalToSuperview()
-        }
-        
-        self.stackView.addArrangedSubview(self.btnOutlineBgRoundSmallTest01)
-        self.btnOutlineBgRoundSmallTest01.then {
-            $0.title = "btnOutlineBgRoundSmallTest01"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
-//            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
-        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-            $0.centerX.equalToSuperview()
-        }
-        
-        self.stackView.addArrangedSubview(self.btnOutlineBgSmallTest03)
-        self.btnOutlineBgSmallTest03.then {
-            $0.title = "btnOutlineBgSmallTest03"
-            $0.rightImage = ClickableImage(UIImage.dealiIcon(named: "ic_file_copy")?.resize(CGSize(width: 20.0, height: 20.0)))
-            $0.isFixedSize = true
-//            $0.addTarget(self, action: #selector(btnFilledRoundLargeTest01Press(_:)), for: .touchUpInside)
-        }.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-            $0.centerX.equalToSuperview()
-        }
-        
-        let stvStoreInfo = UIStackView()
-        self.stackView.addArrangedSubview(stvStoreInfo)
-        stvStoreInfo.then {
-            $0.axis = .horizontal
-            $0.spacing = 8.0
-            $0.distribution = .equalSpacing
-            $0.alignment = .center
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-        }
-        
-        let testLabel = UILabel()
-        stvStoreInfo.addArrangedSubview(testLabel)
-        testLabel.then {
-            $0.textColor = .red
-            $0.font = .b1sb15
-            $0.contentMode = .left
-            $0.numberOfLines = 2
-            $0.text = "test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명"
-            }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-        }
-        
-        let btnStockInquiry = DealiControl.btnOutlineBgSmallTest03()
-        stvStoreInfo.addArrangedSubview(btnStockInquiry)
-        btnStockInquiry.then {
-            $0.leftImage = ClickableImage(DealiIcon.ic_alarm_request_filled.image)
-            $0.title = "재고문의"
-            $0.isFixedSize = true
-        }.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-        }
+//        }
+//        
+//        let testLabel = UILabel()
+//        stvStoreInfo.addArrangedSubview(testLabel)
+//        testLabel.then {
+//            $0.textColor = .red
+//            $0.font = .b1sb15
+//            $0.contentMode = .left
+//            $0.numberOfLines = 2
+//            $0.text = "test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명test매장명"
+//            }.snp.makeConstraints {
+//                $0.top.bottom.equalToSuperview()
+//        }
+//        
+//        let btnStockInquiry = DealiControl.btnOutlineBgSmallTest03()
+//        stvStoreInfo.addArrangedSubview(btnStockInquiry)
+//        btnStockInquiry.then {
+//            $0.leftImage = ClickableImage(DealiIcon.ic_alarm_request_filled.image)
+//            $0.title = "재고문의"
+//            $0.isFixedSize = true
+//        }.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//        }
         
     }
 
@@ -162,28 +171,29 @@ final class NewButtonViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @objc func btnFilledRoundLargeTest01Press(_ sender: SystemButton) {
-        print("btnFilledRoundLargeTest01Press")
-        self.btnFilledLargeTest01.isEnabled.toggle()
-        
-        if self.btnFilledLargeTest01.isEnabled == false {
-            self.btnFilledRoundLargeTest01.title = "LargeTest01"
-        } else {
-            self.btnFilledRoundLargeTest01.title = "btnFilledLargeTest01"
-        }
-        
-    }
-    
-    @objc func btnOutlineLargeTest01Press(_ sender: SystemButton) {
-        print("btnOutlineLargeTest01Press")
-        self.btnOutlineLargeTest01.isSelected.toggle()
-        
-        if self.btnOutlineLargeTest01.isSelected == true {
-            self.btnOutlineBgLargeTest01.startIndicator()
-            self.btnOutlineBgRoundSmallTest01.startIndicator()
-        } else {
-            self.btnOutlineBgLargeTest01.stopIndicator()
-            self.btnOutlineBgRoundSmallTest01.stopIndicator()
-        }
-    }
+//    @objc func btnFilledRoundLargeTest01Press(_ sender: SystemButton) {
+//        print("btnFilledRoundLargeTest01Press")
+//        self.btnFilledLarge05.isEnabled.toggle()
+//        self.btnFilledLargeTest05.isEnabled.toggle()
+//        
+//        if self.btnFilledLargeTest05.isEnabled == false {
+//            self.btnFilledRoundLargeTest01.title = "LargeTest01"
+//        } else {
+//            self.btnFilledRoundLargeTest01.title = "btnFilledLargeTest01"
+//        }
+//        
+//    }
+//    
+//    @objc func btnOutlineLargeTest01Press(_ sender: SystemButton) {
+//        print("btnOutlineLargeTest01Press")
+//        self.btnOutlineLargeTest01.isSelected.toggle()
+//        
+//        if self.btnOutlineLargeTest01.isSelected == true {
+//            self.btnOutlineBgLargeTest01.startIndicator()
+//            self.btnOutlineBgRoundSmallTest01.startIndicator()
+//        } else {
+//            self.btnOutlineBgLargeTest01.stopIndicator()
+//            self.btnOutlineBgRoundSmallTest01.stopIndicator()
+//        }
+//    }
 }

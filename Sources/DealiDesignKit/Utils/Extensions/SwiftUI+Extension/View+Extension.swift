@@ -54,4 +54,17 @@ public extension View {
         
         return HostingViewResult(view: view, controller: hostingController)
     }
+    
+    func font(_ font: UIFont) -> some View {
+        
+        let lineHeight = font.dealiLineHeight
+        let offset = ((lineHeight - font.lineHeight) / 2.0)
+        
+        return self
+            .font(Font(font))
+            .lineSpacing(lineHeight - font.lineHeight)
+//            .background(Color.clear)
+            .padding(.vertical, offset)
+//            .background(Color(uiColor: .red))
+    }
 }

@@ -11,7 +11,7 @@ import Combine
 public final class DLSearchInputViewModel: ObservableObject {
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
-
+    
     public init(text: String = "", isFocused: Bool = false) {
         self.text = text
         self.isFocused = isFocused
@@ -21,10 +21,10 @@ public final class DLSearchInputViewModel: ObservableObject {
 public struct DLSearchInput: View {
     @ObservedObject public var viewModel: DLSearchInputViewModel
     @FocusState private var internalFocus: Bool
-
+    
     public var placeholder: String = "상품을 검색해주세요."
     public var onSearch: () -> Void = { }
-
+    
     public init(
         viewModel: DLSearchInputViewModel,
         placeholder: String = "상품을 검색해주세요.",
@@ -48,7 +48,7 @@ public struct DLSearchInput: View {
                 .font(Font(UIFont.b2r14))
                 .foregroundStyle(Color(uiColor: .g100))
                 .disableAutocorrection(true)
-
+                
                 buttonContainerView
             }
             .frame(height: 24.0)
@@ -75,7 +75,6 @@ public struct DLSearchInput: View {
                 internalFocus = viewModel.isFocused
             }
         }
-
     }
 
     private var buttonContainerView: some View {
@@ -116,7 +115,6 @@ public struct DLSearchInput: View {
 
 
 struct DLSearchInput_Previews: PreviewProvider {
-
     static var previews: some View {
         Group {
             DLSearchInput(

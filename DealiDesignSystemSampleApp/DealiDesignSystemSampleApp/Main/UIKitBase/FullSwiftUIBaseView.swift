@@ -16,9 +16,15 @@ struct FullSwiftUIBaseView: View {
     let components: [Component] = [
         Component(title: "Alert", linkView: AlertTestView()),
         Component(title: "Button", linkView: ButtonTestView()),
-        Component(title: "SearchInput", linkView: SearchInputTestView())
+        Component(title: "Checkbox", linkView: CheckboxTestView()),
+        Component(title: "EmptyView", linkView: EmptyViewTest()),
+        Component(title: "SearchInput", linkView: SearchInputTestView()),
+        Component(title: "LabeledText", linkView: LabeledTestView()),
+        Component(title: "Accordion", linkView: AccordionTestView()),
+        Component(title: "TextLink", linkView: TextLinkTestView()),
+        Component(title: "Toast", linkView: ToastTestView()),
+        Component(title: "ImageChip", linkView: ImageChipTestView())
     ]
-    
     
     var body: some View {
         if #available(iOS 16.0, *) {

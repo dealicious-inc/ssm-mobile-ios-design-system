@@ -31,6 +31,6 @@ struct ColorData: Identifiable {
 }
 
 #Preview {
-    ColorItemView(colorData: ColorData( name: "primary01", color: .primary01, isDarkShade: true))
+    ColorItemView(colorData: ColorData( name: "primary01", color: Color(.primary01), isDarkShade: true))
 }
 

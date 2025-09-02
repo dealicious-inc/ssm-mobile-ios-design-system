@@ -7,9 +7,22 @@
 //
 
 import UIKit
+import SwiftUI
 import DealiDesignKit
 
 class TabBarViewController: UIViewController {
+    
+    var isSwiftUI: Bool = false
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "전체"),
                                   DealiTabBarItem.make(title: "여성의류")]
@@ -73,43 +86,48 @@ class TabBarViewController: UIViewController {
     private let moveTabBatItemButton = DealiControl.btnOutlineLarge01()
     private let hiddenTabBatItemButton = DealiControl.btnOutlineLarge01()
     private let changeTitleTabBatItemButton = DealiControl.btnOutlineLarge01()
+    
+    let contentStackView = UIStackView()
+    let buttonContainerStackView = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "TabBar_V2"
         self.view.backgroundColor = .white
-        
-        self.setTabBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.tabBarChip02.setSelectedIndex(index: 0)
+        if !self.isSwiftUI {
+            self.tabBarChip02.setSelectedIndex(index: 0)
+        }
     }
     
     override func loadView() {
         super.loadView()
         
         let buttonContainerView = UIView()
-        self.view.addSubview(buttonContainerView)
-        buttonContainerView.then {
-            $0.backgroundColor = .white
-        }.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-        }
-        
-        let buttonContainerStackView = UIStackView()
-        buttonContainerView.addSubview(buttonContainerStackView)
-        buttonContainerStackView.then {
-            $0.axis = .vertical
-            $0.spacing =  10.0
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-        }.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.left.right.equalToSuperview()
+        if !self.isSwiftUI {
+            self.view.addSubview(buttonContainerView)
+            buttonContainerView.then {
+                $0.backgroundColor = .white
+            }.snp.makeConstraints {
+                $0.left.right.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(20.0)
+            }
+            
+            buttonContainerView.addSubview(buttonContainerStackView)
+            buttonContainerStackView.then {
+                $0.axis = .vertical
+                $0.spacing =  10.0
+                $0.alignment = .center
+                $0.distribution = .equalSpacing
+            }.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.bottom.left.right.equalToSuperview()
+            }
         }
         
         let contentScrollView = UIScrollView()
@@ -117,8 +135,13 @@ class TabBarViewController: UIViewController {
         contentScrollView.then {
             $0.bounces = false
         }.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
-            $0.bottom.equalTo(buttonContainerView.snp.top)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.left.right.equalToSuperview()
+            if self.isSwiftUI {
+                $0.bottom.equalToSuperview()
+            } else {
+                $0.bottom.equalTo(buttonContainerView.snp.top)
+            }
         }
         
         let contentView = UIView()
@@ -130,7 +153,6 @@ class TabBarViewController: UIViewController {
             $0.width.equalToSuperview()
         }
         
-        let contentStackView = UIStackView()
         contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.axis = .vertical
@@ -142,6 +164,55 @@ class TabBarViewController: UIViewController {
             $0.bottom.left.right.equalToSuperview()
         }
         
+        
+        if self.isSwiftUI {
+            self.setTabBarSwiftUI()
+        } else {
+            self.setTabBar()
+            self.setTabBarViewController()
+        }
+        
+        self.setButtonContainer()
+    }
+    
+    private func setButtonContainer() {
+        buttonContainerStackView.addArrangedSubview(self.badgeOnOffButton)
+        self.badgeOnOffButton.then {
+            $0.title = "뱃지 Off"
+            $0.isSelected = false
+            $0.addTarget(self, action: #selector(badgeOnOffButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
+        buttonContainerStackView.addArrangedSubview(self.moveTabBatItemButton)
+        self.moveTabBatItemButton.then {
+            $0.title = "특정 탭으로 이동"
+            $0.addTarget(self, action: #selector(moveTabBarItemButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
+        buttonContainerStackView.addArrangedSubview(self.hiddenTabBatItemButton)
+        self.hiddenTabBatItemButton.then {
+            $0.title = "특정 탭 숨김"
+            $0.isSelected = false
+            $0.addTarget(self, action: #selector(hiddenTabBarItemButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+        
+        buttonContainerStackView.addArrangedSubview(self.changeTitleTabBatItemButton)
+        self.changeTitleTabBatItemButton.then {
+            $0.title = "특정 탭 Title 변경"
+            $0.isSelected = false
+            $0.addTarget(self, action: #selector(changeTitleTabBarItemButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+        }
+    }
+
+    private func setTabBar() {
         let tabBarSegment01TitleLabel = UILabel()
         contentStackView.addArrangedSubview(tabBarSegment01TitleLabel)
         tabBarSegment01TitleLabel.do {
@@ -309,44 +380,9 @@ class TabBarViewController: UIViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(300.0)
         }
-        
-        buttonContainerStackView.addArrangedSubview(self.badgeOnOffButton)
-        self.badgeOnOffButton.then {
-            $0.title = "뱃지 Off"
-            $0.isSelected = false
-            $0.addTarget(self, action: #selector(badgeOnOffButtonPressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-        }
-        
-        buttonContainerStackView.addArrangedSubview(self.moveTabBatItemButton)
-        self.moveTabBatItemButton.then {
-            $0.title = "특정 탭으로 이동"
-            $0.addTarget(self, action: #selector(moveTabBarItemButtonPressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-        }
-        
-        buttonContainerStackView.addArrangedSubview(self.hiddenTabBatItemButton)
-        self.hiddenTabBatItemButton.then {
-            $0.title = "특정 탭 숨김"
-            $0.isSelected = false
-            $0.addTarget(self, action: #selector(hiddenTabBarItemButtonPressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-        }
-        
-        buttonContainerStackView.addArrangedSubview(self.changeTitleTabBatItemButton)
-        self.changeTitleTabBatItemButton.then {
-            $0.title = "특정 탭 Title 변경"
-            $0.isSelected = false
-            $0.addTarget(self, action: #selector(changeTitleTabBarItemButtonPressed), for: .touchUpInside)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20.0)
-        }
     }
-
-    private func setTabBar() {
+    
+    func setTabBarViewController() {
         for i in 0..<2 {
             let viewController = DealiTabBarChildViewController()
             viewController.view.backgroundColor = self.randomColor()
@@ -613,5 +649,256 @@ final class ImageChipCustomView: DealiCustomView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - SwiftUI
+extension TabBarViewController {
+    func setTabBarSwiftUI() {
+        let icon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+        let tabBarItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
+                           TabBarItemViewModel(title: "2번 Tab"),
+                           TabBarItemViewModel(title: "3번 Tab", icon: icon)]
+        
+        let tabBarLongItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
+                               TabBarItemViewModel(title: "2번 Tab", showBadge: true),
+                               TabBarItemViewModel(title: "3번 Tab", icon: icon),
+                               TabBarItemViewModel(title: "4번 Tab"),
+                               TabBarItemViewModel(title: "5번 Tab"),
+                               TabBarItemViewModel(title: "6번 Tab"),
+                               TabBarItemViewModel(title: "7번 Tab"),
+                               TabBarItemViewModel(title: "8번 Tab"),
+                               TabBarItemViewModel(title: "9번 Tab")]
+        
+        let item1 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100",
+            text: "끈원피스"),
+            content: {
+                AnyView(
+                    HStack(spacing: 2.0) {
+                        Image.dealiIcon(named: "ic_speechbubble_filled")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color(.primary01))
+                            .frame(width: 16, height: 16)
+                        
+                        Text("5")
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color(.primary01))
+                    }
+                )
+            }
+        )
+        let item2 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34732842/157846177265350900_1178323558.jpg&rs=raw&w=100&h=100",
+            text: "데님스커트")
+        )
+        let item3 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736763/157846804199136400_1319981992.png&rs=raw&w=100&h=100",
+            text: "크롭셔츠")
+        )
+        let item4 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34736748/157846801645270200_1206718909.png&rs=raw&w=100&h=100",
+            text: "스웨이드자켓")
+        )
+        let item5 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34741496/157847665220578500_296545705.jpg&rs=raw&w=100&h=100",
+            text: "어깨패드")
+        )
+        let item6 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34733634/157846308337719900_69033734.png&rs=raw&w=100&h=100",
+            text: "가디건")
+        )
+        let item7 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/35127962/157926910019452700_735798694.jpg&rs=raw&w=100&h=100",
+            text: "오버롤")
+        )
+        let item8 = DealiImageChipTabBarItem(
+            viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34889263/157883634290091900_680130812.jpg&rs=raw&w=100&h=100",
+            text: "힙색")
+        )
+        let imageChipItems = [item1, item2, item3, item4, item5, item6, item7, item8]
+        
+        segment01(tabBarItems)
+        slider01(tabBarLongItems)
+        slider02(tabBarLongItems)
+        chip01(tabBarLongItems)
+        chip02(tabBarLongItems)
+        imageChip01(imageChipItems)
+        
+        segment01ContentView(tabBarItems)
+        slider01ContentView(tabBarItems)
+        slider02ContentView(tabBarLongItems)
+        chip01ContentView(tabBarLongItems)
+        chip02ContentView(tabBarLongItems)
+        imageChip01ContentView(imageChipItems)
+    }
+    
+    func setTitleLabel(_ title: String) {
+        let label = UILabel()
+        contentStackView.addArrangedSubview(label)
+        label.do {
+            $0.text = title
+            $0.font = .b1sb15
+        }
+    }
+    
+    func makeTabBarChildVCArr(_ items: [Any]) -> [DealiTabBarChildViewController] {
+        let childVCArr: [DealiTabBarChildViewController] = items.map { _ in
+            let vc = DealiTabBarChildViewController()
+            vc.view.backgroundColor = UIColor(
+                red: CGFloat.random(in: 0.5...1),
+                green: CGFloat.random(in: 0.5...1),
+                blue: CGFloat.random(in: 0.5...1),
+                alpha: 1.0
+            )
+            return vc
+        }
+        return childVCArr
+    }
+    
+    func segment01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSegment01")
+        let tabbar = TabBarView(type: .tabBarSegment01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func slider01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider01")
+        let tabbar = TabBarView(type: .tabBarSlider01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func slider02(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider02")
+        let tabbar = TabBarView(type: .tabBarSlider02,
+                                items: items,
+                                selectedIndex: 8).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func chip01(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip01")
+        let tabbar = TabBarView(type: .tabBarChip01,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func chip02(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip02")
+        let tabbar = TabBarView(type: .tabBarChip02,
+                                items: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func imageChip01(_ items: [DealiImageChipTabBarItem]) {
+        setTitleLabel("tabBarImgChip01")
+        let tabbar = TabBarView(type: .tabBarImgChip01,
+                                imageChipItems: items).UIKit()
+        contentStackView.addArrangedSubview(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func segment01ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSegment01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarSegment01ContentView)
+        self.tabBarSegment01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarSegment01, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarSegment01ContentView)
+    }
+    
+    func slider01ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarSlider01ContentView)
+        self.tabBarSlider01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarSlider01, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarSlider01ContentView)
+    }
+    
+    func slider02ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarSlider02 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarSlider02ContentView)
+        self.tabBarSlider02ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarSlider02, items: items)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarSlider02ContentView)
+    }
+    
+    func chip01ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarChip01ContentView)
+        self.tabBarChip01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarChip01, items: items, selectedIndex: 5)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarChip01ContentView)
+    }
+    
+    func chip02ContentView(_ items: [TabBarItemViewModel]) {
+        setTitleLabel("tabBarChip02 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarChip02ContentView)
+        self.tabBarChip02ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarChip02, items: items, selectedIndex: 5)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarChip02ContentView)
+    }
+    
+    func imageChip01ContentView(_ items: [DealiImageChipTabBarItem]) {
+        setTitleLabel("tabBarImageChip01 VC")
+        let childVCArr = makeTabBarChildVCArr(items)
+        contentStackView.addArrangedSubview(self.tabBarImgChip01ContentView)
+        self.tabBarImgChip01ContentView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(300.0)
+        }
+        
+        let viewModel = TabBarViewModel(type: .tabBarImgChip01, imageChipItems: items, selectedIndex: 5)
+        let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
+        self.insertChildController(vc, intoParentView: tabBarImgChip01ContentView)
     }
 }

@@ -9,7 +9,19 @@ import UIKit
 import DealiDesignKit
 
 class TagViewController: UIViewController {
-
+    
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let stackView = UIStackView()
     
     override func loadView() {
@@ -37,7 +49,7 @@ class TagViewController: UIViewController {
             $0.spacing = 20.0
             $0.alignment = .center
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(0.0)
+            $0.edges.equalToSuperview().inset(20.0)
         }
         
         for size in ["Large", "Medium", "Small"] {
@@ -45,12 +57,19 @@ class TagViewController: UIViewController {
                 for number in 1...4 {
                     let name = "tag\(style)\(size)0\(number)"
                     if let e = DealiTag.EType(rawValue: name) {
-                        let tag = DealiTag()
-                        self.stackView.addArrangedSubview(tag)
-                        tag.do {
-                            $0.type = e
-                            $0.text = name
+                        
+                        if isSwiftUI {
+                            let tag = TagView(text: name, type: e)
+                            self.stackView.addArrangedSubview(tag.UIKit())
+                        } else {
+                            let tag = DealiTag()
+                            self.stackView.addArrangedSubview(tag)
+                            tag.do {
+                                $0.type = e
+                                $0.text = name
+                            }
                         }
+                        
                     }
                 }
             }

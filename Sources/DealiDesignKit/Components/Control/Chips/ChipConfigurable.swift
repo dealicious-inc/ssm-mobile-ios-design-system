@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwiftUI
 
-protocol ChipConfigurable: ControlConfigurable where Style == any ChipStyleProtocol,
+protocol ChipConfigurable: ControlConfigurable where Variant == any ChipStyleProtocol,
                                                      Size == any ChipSizeProtoocol { }
 
 protocol ChipStyleProtocol: ControlStyleProtocol {
@@ -21,7 +22,7 @@ protocol ChipSizeProtoocol: ControlSizeProtocol {
     var titleFont: FontProvider { get }
 }
 
-protocol ChipColorProtocol: ControlColorProtocol {
+protocol ChipColorProtocol {
     var textColor: UIColor { get }
     var backgroundColor: UIColor { get }
     var borderColor: UIColor? { get }

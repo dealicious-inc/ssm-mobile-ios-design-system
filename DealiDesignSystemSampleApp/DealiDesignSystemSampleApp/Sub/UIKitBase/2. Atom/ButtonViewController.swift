@@ -307,37 +307,26 @@ extension ButtonViewController {
             $0.axis = .horizontal
         }
         
-        let loadingButton = ButtonView()
-        loadingButton
-            .setStyle(.btnFilledLarge01)
-            .setTitle("setLoading")
-            .setLoading(false)
-            .addAction {
-                loadingButton.toggleLoading()
-            }
-        loadingStackview.addArrangedSubview(
-            loadingButton.UIKit()
-        )
+        let loadingViewModel = ButtonViewModel(type: .btnFilledLarge01, title: "setLoading")
+        let loadingButton = ButtonView(viewModel: loadingViewModel) {
+            loadingViewModel.isLoading.toggle()
+        }.UIKit()
+        loadingStackview.addArrangedSubview(loadingButton)
         
-        let buttonOn = ButtonView()
-            .setStyle(.btnOutlineBgLarge01)
-            .setTitle("On")
-            .addAction {
-                loadingButton.setLoading(true)
-            }
-            .UIKit()
+        let onViewModel = ButtonViewModel(type: .btnOutlineBgLarge01, title: "On")
+        let buttonOn = ButtonView(viewModel: onViewModel) {
+            loadingViewModel.isLoading = true
+        }.UIKit()
         loadingStackview.addArrangedSubview(buttonOn)
         
-        let buttonOff = ButtonView()
-            .setStyle(.btnOutlineBgLarge01)
-            .setTitle("Off")
-            .addAction {
-                loadingButton.setLoading(false)
-            }
-            .UIKit()
+        let offViewModel = ButtonViewModel(type: .btnOutlineBgLarge01, title: "Off")
+        let buttonOff = ButtonView(viewModel: offViewModel) {
+            loadingViewModel.isLoading = false
+        }.UIKit()
         loadingStackview.addArrangedSubview(buttonOff)
         
         self.stackView.addArrangedSubview(loadingStackview)
+        
         
         // Enabled
         let enabledButtonStackview = UIStackView()
@@ -346,37 +335,24 @@ extension ButtonViewController {
             $0.axis = .horizontal
         }
         
-        let enabledButton = ButtonView()
-            .setStyle(.btnFilledLarge01)
-            .setTitle("isEnabled True")
+        let enabledViewModel = ButtonViewModel(type: .btnFilledLarge01, title: "isEnabled True")
+        let enabledButton = ButtonView(viewModel: enabledViewModel).UIKit()
+        enabledButtonStackview.addArrangedSubview(enabledButton)
         
-        enabledButtonStackview.addArrangedSubview(
-            enabledButton.UIKit()
-        )
+        let enableToggleViewModel = ButtonViewModel(type: .btnOutlineBgLarge01, title: "Enabled")
+        let enableToggle = ButtonView(viewModel: enableToggleViewModel) {
+            enabledViewModel.isEnabled = true
+        }.UIKit()
+        enabledButtonStackview.addArrangedSubview(enableToggle)
         
-        enabledButtonStackview.addArrangedSubview(
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("Enabled")
-                .addAction {
-                    enabledButton.setEnabled(true)
-                    enabledButton.setTitle("isEnabled True")
-                }
-                .UIKit()
-        )
-        
-        enabledButtonStackview.addArrangedSubview(
-            ButtonView()
-                .setStyle(.btnOutlineBgLarge01)
-                .setTitle("Disabled")
-                .addAction {
-                    enabledButton.setEnabled(false)
-                    enabledButton.setTitle("isEnabled False")
-                }
-                .UIKit()
-        )
+        let disableToggleViewModel = ButtonViewModel(type: .btnOutlineBgLarge01, title: "Disabled")
+        let disableToggle = ButtonView(viewModel: disableToggleViewModel) {
+            enabledViewModel.isEnabled = false
+        }.UIKit()
+        enabledButtonStackview.addArrangedSubview(disableToggle)
         
         self.stackView.addArrangedSubview(enabledButtonStackview)
+        
         
         // Image
         let imageButtonStackview = UIStackView()
@@ -384,35 +360,35 @@ extension ButtonViewController {
             $0.spacing = 10
             $0.axis = .horizontal
         }
+        
         let image = UIImage.dealiIcon(named: "ic_download_2")?.resize(CGSize(width: 16.0, height: 16.0))
         
-        imageButtonStackview.addArrangedSubview(
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Left Image")
-                .setTitleAlignment(.leading)
-                .setLeftImage(image)
-                .UIKit()
+        let leftImageViewModel = ButtonViewModel(
+            type: .btnFilledSemiMedium01,
+            title: "Left Image",
+            leftImage: image
         )
+        let leftImageButton = ButtonView(viewModel: leftImageViewModel).UIKit()
+        imageButtonStackview.addArrangedSubview(leftImageButton)
         
-        imageButtonStackview.addArrangedSubview(
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Right Image")
-                .setTitleAlignment(.trailing)
-                .setRightImage(image)
-                .UIKit()
+        let rightImageViewModel = ButtonViewModel(
+            type: .btnFilledSemiMedium01,
+            title: "Right Image",
+            rightImage: image,
+            titleAlignment: .trailing
         )
+        let rightImageButton = ButtonView(viewModel: rightImageViewModel).UIKit()
+        imageButtonStackview.addArrangedSubview(rightImageButton)
         
-        imageButtonStackview.addArrangedSubview(
-            ButtonView()
-                .setStyle(.btnFilledSemiMedium01)
-                .setTitle("Both Image")
-                .setTitleAlignment(.center)
-                .setLeftImage(image)
-                .setRightImage(image)
-                .UIKit()
+        let bothImageViewModel = ButtonViewModel(
+            type: .btnFilledSemiMedium01,
+            title: "Both Image",
+            leftImage: image,
+            rightImage: image,
+            titleAlignment: .center
         )
+        let bothImageButton = ButtonView(viewModel: bothImageViewModel).UIKit()
+        imageButtonStackview.addArrangedSubview(bothImageButton)
         
         self.stackView.addArrangedSubview(imageButtonStackview)
     }
@@ -423,168 +399,167 @@ extension ButtonViewController {
         var buttonArray: [UIView] = []
         
         let largeButtonArray: [UIView] = [
-            ButtonView().setStyle(.btnFilledLarge01).setTitle("btnFilledLarge01").UIKit(),
-            ButtonView().setStyle(.btnFilledLarge02).setTitle("btnFilledLarge02").UIKit(),
-            ButtonView().setStyle(.btnFilledLarge03).setTitle("btnFilledLarge03").UIKit(),
-            ButtonView().setStyle(.btnFilledLarge04).setTitle("btnFilledLarge04").UIKit(),
-            ButtonView().setStyle(.btnFilledLarge05).setTitle("btnFilledLarge05").UIKit(),
-            ButtonView().setStyle(.btnFilledLarge06).setTitle("btnFilledLarge06").UIKit(),
+            ButtonView(type: .btnFilledLarge01, title: "btnFilledLarge01").UIKit(),
+            ButtonView(type: .btnFilledLarge02, title: "btnFilledLarge02").UIKit(),
+            ButtonView(type: .btnFilledLarge03, title: "btnFilledLarge03").UIKit(),
+            ButtonView(type: .btnFilledLarge04, title: "btnFilledLarge04").UIKit(),
+            ButtonView(type: .btnFilledLarge05, title: "btnFilledLarge05").UIKit(),
+            ButtonView(type: .btnFilledLarge06, title: "btnFilledLarge06").UIKit(),
             
-            ButtonView().setStyle(.btnFilledRoundLarge01).setTitle("btnFilledRoundLarge01").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundLarge02).setTitle("btnFilledRoundLarge02").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundLarge03).setTitle("btnFilledRoundLarge03").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundLarge01).setTitle("btnFilledRoundLarge01").UIKit(),
+            ButtonView(type: .btnFilledRoundLarge01, title: "btnFilledRoundLarge01").UIKit(),
+            ButtonView(type: .btnFilledRoundLarge02, title: "btnFilledRoundLarge02").UIKit(),
+            ButtonView(type: .btnFilledRoundLarge03, title: "btnFilledRoundLarge03").UIKit(),
             
-            ButtonView().setStyle(.btnFilledTonalLarge01).setTitle("btnFilledTonalLarge01").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalLarge02).setTitle("btnFilledTonalLarge02").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalLarge03).setTitle("btnFilledTonalLarge03").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalLarge04).setTitle("btnFilledTonalLarge04").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalLarge05).setTitle("btnFilledTonalLarge05").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalLarge06).setTitle("btnFilledTonalLarge06").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge01, title: "btnFilledTonalLarge01").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge02, title: "btnFilledTonalLarge02").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge03, title: "btnFilledTonalLarge03").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge04, title: "btnFilledTonalLarge04").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge05, title: "btnFilledTonalLarge05").UIKit(),
+            ButtonView(type: .btnFilledTonalLarge06, title: "btnFilledTonalLarge06").UIKit(),
+        
+            ButtonView(type: .btnOutlineLarge01, title: "btnOutlineLarge01").UIKit(),
+            ButtonView(type: .btnOutlineLarge02, title: "btnOutlineLarge02").UIKit(),
+            ButtonView(type: .btnOutlineLarge03, title: "btnOutlineLarge03").UIKit(),
+            ButtonView(type: .btnOutlineLarge04, title: "btnOutlineLarge04").UIKit(),
+            ButtonView(type: .btnOutlineLarge05, title: "btnOutlineLarge05").UIKit(),
+            ButtonView(type: .btnOutlineLarge06, title: "btnOutlineLarge06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineLarge01).setTitle("btnOutlineLarge01").UIKit(),
-            ButtonView().setStyle(.btnOutlineLarge02).setTitle("btnOutlineLarge02").UIKit(),
-            ButtonView().setStyle(.btnOutlineLarge03).setTitle("btnOutlineLarge03").UIKit(),
-            ButtonView().setStyle(.btnOutlineLarge04).setTitle("btnOutlineLarge04").UIKit(),
-            ButtonView().setStyle(.btnOutlineLarge05).setTitle("btnOutlineLarge05").UIKit(),
-            ButtonView().setStyle(.btnOutlineLarge06).setTitle("btnOutlineLarge06").UIKit(),
+            ButtonView(type: .btnOutlineBgLarge01, title: "btnOutlineBgLarge01").UIKit(),
+            ButtonView(type: .btnOutlineBgLarge03, title: "btnOutlineBgLarge03").UIKit(),
+            ButtonView(type: .btnOutlineBgLarge04, title: "btnOutlineBgLarge04").UIKit(),
+            ButtonView(type: .btnOutlineBgLarge05, title: "btnOutlineBgLarge05").UIKit(),
+            ButtonView(type: .btnOutlineBgLarge06, title: "btnOutlineBgLarge06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineBgLarge01).setTitle("btnOutlineBgLarge01").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgLarge03).setTitle("btnOutlineBgLarge03").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgLarge04).setTitle("btnOutlineBgLarge04").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgLarge05).setTitle("btnOutlineBgLarge05").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgLarge06).setTitle("btnOutlineBgLarge06").UIKit(),
-            
-            ButtonView().setStyle(.btnTextLarge01).setTitle("btnTextLarge01").UIKit(),
-            ButtonView().setStyle(.btnTextLarge02).setTitle("btnTextLarge02").UIKit(),
-            ButtonView().setStyle(.btnTextLarge03).setTitle("btnTextLarge03").UIKit(),
-            ButtonView().setStyle(.btnTextLarge04).setTitle("btnTextLarge04").UIKit(),
-            ButtonView().setStyle(.btnTextLarge05).setTitle("btnTextLarge05").UIKit(),
-            ButtonView().setStyle(.btnTextLarge06).setTitle("btnTextLarge06").UIKit(),
-            ButtonView().setStyle(.btnTextLarge07).setTitle("btnTextLarge07").UIKit()
+            ButtonView(type: .btnTextLarge01, title: "btnTextLarge01").UIKit(),
+            ButtonView(type: .btnTextLarge02, title: "btnTextLarge02").UIKit(),
+            ButtonView(type: .btnTextLarge03, title: "btnTextLarge03").UIKit(),
+            ButtonView(type: .btnTextLarge04, title: "btnTextLarge04").UIKit(),
+            ButtonView(type: .btnTextLarge05, title: "btnTextLarge05").UIKit(),
+            ButtonView(type: .btnTextLarge06, title: "btnTextLarge06").UIKit(),
+            ButtonView(type: .btnTextLarge07, title: "btnTextLarge07").UIKit()
         ]
         
         let mediumButtonArray: [UIView] = [
-            ButtonView().setStyle(.btnFilledMedium01).setTitle("btnFilledMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledMedium02).setTitle("btnFilledMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledMedium03).setTitle("btnFilledMedium03").UIKit(),
-            ButtonView().setStyle(.btnFilledMedium04).setTitle("btnFilledMedium04").UIKit(),
-            ButtonView().setStyle(.btnFilledMedium05).setTitle("btnFilledMedium05").UIKit(),
-            ButtonView().setStyle(.btnFilledMedium06).setTitle("btnFilledMedium06").UIKit(),
+            ButtonView(type: .btnFilledMedium01, title: "btnFilledMedium01").UIKit(),
+            ButtonView(type: .btnFilledMedium02, title: "btnFilledMedium02").UIKit(),
+            ButtonView(type: .btnFilledMedium03, title: "btnFilledMedium03").UIKit(),
+            ButtonView(type: .btnFilledMedium04, title: "btnFilledMedium04").UIKit(),
+            ButtonView(type: .btnFilledMedium05, title: "btnFilledMedium05").UIKit(),
+            ButtonView(type: .btnFilledMedium06, title: "btnFilledMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnFilledRoundMedium01).setTitle("btnFilledRoundMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundMedium02).setTitle("btnFilledRoundMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundMedium03).setTitle("btnFilledRoundMedium03").UIKit(),
+            ButtonView(type: .btnFilledRoundMedium01, title: "btnFilledRoundMedium01").UIKit(),
+            ButtonView(type: .btnFilledRoundMedium02, title: "btnFilledRoundMedium02").UIKit(),
+            ButtonView(type: .btnFilledRoundMedium03, title: "btnFilledRoundMedium03").UIKit(),
             
-            ButtonView().setStyle(.btnFilledTonalMedium01).setTitle("btnFilledTonalMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalMedium02).setTitle("btnFilledTonalMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalMedium03).setTitle("btnFilledTonalMedium03").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalMedium04).setTitle("btnFilledTonalMedium04").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalMedium05).setTitle("btnFilledTonalMedium05").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalMedium06).setTitle("btnFilledTonalMedium06").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium01, title: "btnFilledTonalMedium01").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium02, title: "btnFilledTonalMedium02").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium03, title: "btnFilledTonalMedium03").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium04, title: "btnFilledTonalMedium04").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium05, title: "btnFilledTonalMedium05").UIKit(),
+            ButtonView(type: .btnFilledTonalMedium06, title: "btnFilledTonalMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineMedium01).setTitle("btnOutlineMedium01").UIKit(),
-            ButtonView().setStyle(.btnOutlineMedium02).setTitle("btnOutlineMedium02").UIKit(),
-            ButtonView().setStyle(.btnOutlineMedium03).setTitle("btnOutlineMedium03").UIKit(),
-            ButtonView().setStyle(.btnOutlineMedium04).setTitle("btnOutlineMedium04").UIKit(),
-            ButtonView().setStyle(.btnOutlineMedium05).setTitle("btnOutlineMedium05").UIKit(),
-            ButtonView().setStyle(.btnOutlineMedium06).setTitle("btnOutlineMedium06").UIKit(),
+            ButtonView(type: .btnOutlineMedium01, title: "btnOutlineMedium01").UIKit(),
+            ButtonView(type: .btnOutlineMedium02, title: "btnOutlineMedium02").UIKit(),
+            ButtonView(type: .btnOutlineMedium03, title: "btnOutlineMedium03").UIKit(),
+            ButtonView(type: .btnOutlineMedium04, title: "btnOutlineMedium04").UIKit(),
+            ButtonView(type: .btnOutlineMedium05, title: "btnOutlineMedium05").UIKit(),
+            ButtonView(type: .btnOutlineMedium06, title: "btnOutlineMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineBgMedium01).setTitle("btnOutlineBgMedium01").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgMedium03).setTitle("btnOutlineBgMedium03").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgMedium04).setTitle("btnOutlineBgMedium04").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgMedium05).setTitle("btnOutlineBgMedium05").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgMedium06).setTitle("btnOutlineBgMedium06").UIKit(),
+            ButtonView(type: .btnOutlineBgMedium01, title: "btnOutlineBgMedium01").UIKit(),
+            ButtonView(type: .btnOutlineBgMedium03, title: "btnOutlineBgMedium03").UIKit(),
+            ButtonView(type: .btnOutlineBgMedium04, title: "btnOutlineBgMedium04").UIKit(),
+            ButtonView(type: .btnOutlineBgMedium05, title: "btnOutlineBgMedium05").UIKit(),
+            ButtonView(type: .btnOutlineBgMedium06, title: "btnOutlineBgMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnTextMedium01).setTitle("btnTextMedium01").UIKit(),
-            ButtonView().setStyle(.btnTextMedium02).setTitle("btnTextMedium02").UIKit(),
-            ButtonView().setStyle(.btnTextMedium03).setTitle("btnTextMedium03").UIKit(),
-            ButtonView().setStyle(.btnTextMedium04).setTitle("btnTextMedium04").UIKit(),
-            ButtonView().setStyle(.btnTextMedium05).setTitle("btnTextMedium05").UIKit(),
-            ButtonView().setStyle(.btnTextMedium06).setTitle("btnTextMedium06").UIKit(),
-            ButtonView().setStyle(.btnTextMedium07).setTitle("btnTextMedium07").UIKit()
+            ButtonView(type: .btnTextMedium01, title: "btnTextMedium01").UIKit(),
+            ButtonView(type: .btnTextMedium02, title: "btnTextMedium02").UIKit(),
+            ButtonView(type: .btnTextMedium03, title: "btnTextMedium03").UIKit(),
+            ButtonView(type: .btnTextMedium04, title: "btnTextMedium04").UIKit(),
+            ButtonView(type: .btnTextMedium05, title: "btnTextMedium05").UIKit(),
+            ButtonView(type: .btnTextMedium06, title: "btnTextMedium06").UIKit(),
+            ButtonView(type: .btnTextMedium07, title: "btnTextMedium07").UIKit()
         ]
         
         let semiMediumButtonArray: [UIView] = [
-            ButtonView().setStyle(.btnFilledSemiMedium01).setTitle("btnFilledSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledSemiMedium02).setTitle("btnFilledSemiMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledSemiMedium03).setTitle("btnFilledSemiMedium03").UIKit(),
-            ButtonView().setStyle(.btnFilledSemiMedium04).setTitle("btnFilledSemiMedium04").UIKit(),
-            ButtonView().setStyle(.btnFilledSemiMedium05).setTitle("btnFilledSemiMedium05").UIKit(),
-            ButtonView().setStyle(.btnFilledSemiMedium06).setTitle("btnFilledSemiMedium06").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium01, title: "btnFilledSemiMedium01").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium02, title: "btnFilledSemiMedium02").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium03, title: "btnFilledSemiMedium03").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium04, title: "btnFilledSemiMedium04").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium05, title: "btnFilledSemiMedium05").UIKit(),
+            ButtonView(type: .btnFilledSemiMedium06, title: "btnFilledSemiMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnFilledRoundSemiMedium01).setTitle("btnFilledRoundSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundSemiMedium02).setTitle("btnFilledRoundSemiMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundSemiMedium03).setTitle("btnFilledRoundSemiMedium03").UIKit(),
+            ButtonView(type: .btnFilledRoundSemiMedium01, title: "btnFilledRoundSemiMedium01").UIKit(),
+            ButtonView(type: .btnFilledRoundSemiMedium02, title: "btnFilledRoundSemiMedium02").UIKit(),
+            ButtonView(type: .btnFilledRoundSemiMedium03, title: "btnFilledRoundSemiMedium03").UIKit(),
             
-            ButtonView().setStyle(.btnFilledTonalSemiMedium01).setTitle("btnFilledTonalSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSemiMedium02).setTitle("btnFilledTonalSemiMedium02").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSemiMedium03).setTitle("btnFilledTonalSemiMedium03").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSemiMedium04).setTitle("btnFilledTonalSemiMedium04").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSemiMedium05).setTitle("btnFilledTonalSemiMedium05").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSemiMedium06).setTitle("btnFilledTonalSemiMedium06").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium01, title: "btnFilledTonalSemiMedium01").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium02, title: "btnFilledTonalSemiMedium02").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium03, title: "btnFilledTonalSemiMedium03").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium04, title: "btnFilledTonalSemiMedium04").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium05, title: "btnFilledTonalSemiMedium05").UIKit(),
+            ButtonView(type: .btnFilledTonalSemiMedium06, title: "btnFilledTonalSemiMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineSemiMedium01).setTitle("btnOutlineSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnOutlineSemiMedium02).setTitle("btnOutlineSemiMedium02").UIKit(),
-            ButtonView().setStyle(.btnOutlineSemiMedium03).setTitle("btnOutlineSemiMedium03").UIKit(),
-            ButtonView().setStyle(.btnOutlineSemiMedium04).setTitle("btnOutlineSemiMedium04").UIKit(),
-            ButtonView().setStyle(.btnOutlineSemiMedium05).setTitle("btnOutlineSemiMedium05").UIKit(),
-            ButtonView().setStyle(.btnOutlineSemiMedium06).setTitle("btnOutlineSemiMedium06").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium01, title: "btnOutlineSemiMedium01").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium02, title: "btnOutlineSemiMedium02").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium03, title: "btnOutlineSemiMedium03").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium04, title: "btnOutlineSemiMedium04").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium05, title: "btnOutlineSemiMedium05").UIKit(),
+            ButtonView(type: .btnOutlineSemiMedium06, title: "btnOutlineSemiMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineBgSemiMedium01).setTitle("btnOutlineBgSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSemiMedium03).setTitle("btnOutlineBgSemiMedium03").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSemiMedium04).setTitle("btnOutlineBgSemiMedium04").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSemiMedium05).setTitle("btnOutlineBgSemiMedium05").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSemiMedium06).setTitle("btnOutlineBgSemiMedium06").UIKit(),
+            ButtonView(type: .btnOutlineBgSemiMedium01, title: "btnOutlineBgSemiMedium01").UIKit(),
+            ButtonView(type: .btnOutlineBgSemiMedium03, title: "btnOutlineBgSemiMedium03").UIKit(),
+            ButtonView(type: .btnOutlineBgSemiMedium04, title: "btnOutlineBgSemiMedium04").UIKit(),
+            ButtonView(type: .btnOutlineBgSemiMedium05, title: "btnOutlineBgSemiMedium05").UIKit(),
+            ButtonView(type: .btnOutlineBgSemiMedium06, title: "btnOutlineBgSemiMedium06").UIKit(),
             
-            ButtonView().setStyle(.btnTextSemiMedium01).setTitle("btnTextSemiMedium01").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium02).setTitle("btnTextSemiMedium02").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium03).setTitle("btnTextSemiMedium03").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium04).setTitle("btnTextSemiMedium04").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium05).setTitle("btnTextSemiMedium05").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium06).setTitle("btnTextSemiMedium06").UIKit(),
-            ButtonView().setStyle(.btnTextSemiMedium07).setTitle("btnTextSemiMedium07").UIKit()
+            ButtonView(type: .btnTextSemiMedium01, title: "btnTextSemiMedium01").UIKit(),
+            ButtonView(type: .btnTextSemiMedium02, title: "btnTextSemiMedium02").UIKit(),
+            ButtonView(type: .btnTextSemiMedium03, title: "btnTextSemiMedium03").UIKit(),
+            ButtonView(type: .btnTextSemiMedium04, title: "btnTextSemiMedium04").UIKit(),
+            ButtonView(type: .btnTextSemiMedium05, title: "btnTextSemiMedium05").UIKit(),
+            ButtonView(type: .btnTextSemiMedium06, title: "btnTextSemiMedium06").UIKit(),
+            ButtonView(type: .btnTextSemiMedium07, title: "btnTextSemiMedium07").UIKit()
         ]
         
         let smallButtonArray: [UIView] = [
-            ButtonView().setStyle(.btnFilledSmall01).setTitle("btnFilledSmall01").UIKit(),
-            ButtonView().setStyle(.btnFilledSmall02).setTitle("btnFilledSmall02").UIKit(),
-            ButtonView().setStyle(.btnFilledSmall03).setTitle("btnFilledSmall03").UIKit(),
-            ButtonView().setStyle(.btnFilledSmall04).setTitle("btnFilledSmall04").UIKit(),
-            ButtonView().setStyle(.btnFilledSmall05).setTitle("btnFilledSmall05").UIKit(),
-            ButtonView().setStyle(.btnFilledSmall06).setTitle("btnFilledSmall06").UIKit(),
+            ButtonView(type: .btnFilledSmall01, title: "btnFilledSmall01").UIKit(),
+            ButtonView(type: .btnFilledSmall02, title: "btnFilledSmall02").UIKit(),
+            ButtonView(type: .btnFilledSmall03, title: "btnFilledSmall03").UIKit(),
+            ButtonView(type: .btnFilledSmall04, title: "btnFilledSmall04").UIKit(),
+            ButtonView(type: .btnFilledSmall05, title: "btnFilledSmall05").UIKit(),
+            ButtonView(type: .btnFilledSmall06, title: "btnFilledSmall06").UIKit(),
             
-            ButtonView().setStyle(.btnFilledRoundSmall01).setTitle("btnFilledRoundSmall01").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundSmall02).setTitle("btnFilledRoundSmall02").UIKit(),
-            ButtonView().setStyle(.btnFilledRoundSmall03).setTitle("btnFilledRoundSmall03").UIKit(),
+            ButtonView(type: .btnFilledRoundSmall01, title: "btnFilledRoundSmall01").UIKit(),
+            ButtonView(type: .btnFilledRoundSmall02, title: "btnFilledRoundSmall02").UIKit(),
+            ButtonView(type: .btnFilledRoundSmall03, title: "btnFilledRoundSmall03").UIKit(),
             
-            ButtonView().setStyle(.btnFilledTonalSmall01).setTitle("btnFilledTonalSmall01").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSmall02).setTitle("btnFilledTonalSmall02").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSmall03).setTitle("btnFilledTonalSmall03").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSmall04).setTitle("btnFilledTonalSmall04").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSmall05).setTitle("btnFilledTonalSmall05").UIKit(),
-            ButtonView().setStyle(.btnFilledTonalSmall06).setTitle("btnFilledTonalSmall06").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall01, title: "btnFilledTonalSmall01").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall02, title: "btnFilledTonalSmall02").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall03, title: "btnFilledTonalSmall03").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall04, title: "btnFilledTonalSmall04").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall05, title: "btnFilledTonalSmall05").UIKit(),
+            ButtonView(type: .btnFilledTonalSmall06, title: "btnFilledTonalSmall06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineSmall01).setTitle("btnOutlineSmall01").UIKit(),
-            ButtonView().setStyle(.btnOutlineSmall02).setTitle("btnOutlineSmall02").UIKit(),
-            ButtonView().setStyle(.btnOutlineSmall03).setTitle("btnOutlineSmall03").UIKit(),
-            ButtonView().setStyle(.btnOutlineSmall04).setTitle("btnOutlineSmall04").UIKit(),
-            ButtonView().setStyle(.btnOutlineSmall05).setTitle("btnOutlineSmall05").UIKit(),
-            ButtonView().setStyle(.btnOutlineSmall06).setTitle("btnOutlineSmall06").UIKit(),
+            ButtonView(type: .btnOutlineSmall01, title: "btnOutlineSmall01").UIKit(),
+            ButtonView(type: .btnOutlineSmall02, title: "btnOutlineSmall02").UIKit(),
+            ButtonView(type: .btnOutlineSmall03, title: "btnOutlineSmall03").UIKit(),
+            ButtonView(type: .btnOutlineSmall04, title: "btnOutlineSmall04").UIKit(),
+            ButtonView(type: .btnOutlineSmall05, title: "btnOutlineSmall05").UIKit(),
+            ButtonView(type: .btnOutlineSmall06, title: "btnOutlineSmall06").UIKit(),
             
-            ButtonView().setStyle(.btnOutlineBgSmall01).setTitle("btnOutlineBgSmall01").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSmall03).setTitle("btnOutlineBgSmall03").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSmall04).setTitle("btnOutlineBgSmall04").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSmall05).setTitle("btnOutlineBgSmall05").UIKit(),
-            ButtonView().setStyle(.btnOutlineBgSmall06).setTitle("btnOutlineBgSmall06").UIKit(),
+            ButtonView(type: .btnOutlineBgSmall01, title: "btnOutlineBgSmall01").UIKit(),
+            ButtonView(type: .btnOutlineBgSmall03, title: "btnOutlineBgSmall03").UIKit(),
+            ButtonView(type: .btnOutlineBgSmall04, title: "btnOutlineBgSmall04").UIKit(),
+            ButtonView(type: .btnOutlineBgSmall05, title: "btnOutlineBgSmall05").UIKit(),
+            ButtonView(type: .btnOutlineBgSmall06, title: "btnOutlineBgSmall06").UIKit(),
             
-            ButtonView().setStyle(.btnTextSmall01).setTitle("btnTextSmall01").UIKit(),
-            ButtonView().setStyle(.btnTextSmall02).setTitle("btnTextSmall02").UIKit(),
-            ButtonView().setStyle(.btnTextSmall03).setTitle("btnTextSmall03").UIKit(),
-            ButtonView().setStyle(.btnTextSmall04).setTitle("btnTextSmall04").UIKit(),
-            ButtonView().setStyle(.btnTextSmall05).setTitle("btnTextSmall05").UIKit(),
-            ButtonView().setStyle(.btnTextSmall06).setTitle("btnTextSmall06").UIKit(),
-            ButtonView().setStyle(.btnTextSmall07).setTitle("btnTextSmall07").UIKit()
+            ButtonView(type: .btnTextSmall01, title: "btnTextSmall01").UIKit(),
+            ButtonView(type: .btnTextSmall02, title: "btnTextSmall02").UIKit(),
+            ButtonView(type: .btnTextSmall03, title: "btnTextSmall03").UIKit(),
+            ButtonView(type: .btnTextSmall04, title: "btnTextSmall04").UIKit(),
+            ButtonView(type: .btnTextSmall05, title: "btnTextSmall05").UIKit(),
+            ButtonView(type: .btnTextSmall06, title: "btnTextSmall06").UIKit(),
+            ButtonView(type: .btnTextSmall07, title: "btnTextSmall07").UIKit()
         ]
         
         buttonArray += largeButtonArray

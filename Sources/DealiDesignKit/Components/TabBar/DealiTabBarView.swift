@@ -159,13 +159,17 @@ final public class DealiTabBarView: UIView {
         }
     }
     
-    public func setSelectedIndex(index: Int, animated: Bool = true) {
+    public func setSelectedIndex(index: Int,
+                                 animated: Bool = true,
+                                 withDidSelect: Bool = true) {
         guard index >= 0 else { return }
         self.selectedIndex = index
         self.setSelectedIndexWithScroll(index: index)
         
-        /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
-        self.delegate?.didSelectTabBar(self, selectedIndex: index, showScrollAnimation: animated)
+        if withDidSelect {
+            /// tabbar Item button 클릭으로 이벤트 발생시 선택된 Button의 index값을 didSelectTabBarIndex를 통해 전달
+            self.delegate?.didSelectTabBar(self, selectedIndex: index, showScrollAnimation: animated)
+        }
     }
     
     /// TabBar를 구성할 정보를 받아 TabBar Item Button 생성 및 정보 저장

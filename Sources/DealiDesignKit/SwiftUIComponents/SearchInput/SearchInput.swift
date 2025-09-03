@@ -1,5 +1,5 @@
 //
-//  DLSearchInput.swift
+//  SearchInput.swift
 //  DealiDesignKit
 //
 //  Created by JohyeonYoon on 3/31/25.
@@ -8,25 +8,27 @@
 import SwiftUI
 import Combine
 
-public final class DLSearchInputViewModel: ObservableObject {
+public final class SearchInputViewModel: ObservableObject {
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
+    @Published public var keyword: String?
     
-    public init(text: String = "", isFocused: Bool = false) {
+    public init(text: String = "", isFocused: Bool = false, keyword: String? = nil) {
         self.text = text
         self.isFocused = isFocused
+        self.keyword = keyword
     }
 }
 
-public struct DLSearchInput: View {
-    @ObservedObject public var viewModel: DLSearchInputViewModel
+public struct SearchInput: View {
+    @ObservedObject public var viewModel: SearchInputViewModel
     @FocusState private var internalFocus: Bool
     
     public var placeholder: String = "상품을 검색해주세요."
     public var onSearch: () -> Void = { }
     
     public init(
-        viewModel: DLSearchInputViewModel,
+        viewModel: SearchInputViewModel,
         placeholder: String = "상품을 검색해주세요.",
         onSearch: (() -> Void)? = nil
     ) {
@@ -34,10 +36,27 @@ public struct DLSearchInput: View {
         self.placeholder = placeholder
         self.onSearch = onSearch ?? { }
     }
+    
+    enum Constants {
+        static let maxKeywordWidth: CGFloat = 92.0
+        
+        static let height: CGFloat = 24.0
+        static let leadingPadding: CGFloat = 16.0
+        static let trailingPadding: CGFloat = 12.0
+
+        static let verticalPadding: CGFloat = 8.0
+        static let cornerRadius: CGFloat = 6.0
+    }
 
     public var body: some View {
         ZStack {
-            HStack(spacing: 16.0) {
+            HStack(spacing: 8.0) {
+                if let keyword = viewModel.keyword {
+                    TagView(text: keyword, type: .tagOutlineLarge04)
+                        .frame(maxWidth: Constants.maxKeywordWidth, alignment: .leading)
+                        .fixedSize(horizontal: true, vertical: false)
+                }
+                
                 TextField(
                     "",
                     text: $viewModel.text,
@@ -45,21 +64,20 @@ public struct DLSearchInput: View {
                         .foregroundColor(Color(uiColor: .g60))
                         .font((Font(UIFont.b2r14)))
                 )
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .font(Font(UIFont.b2r14))
                 .foregroundStyle(Color(uiColor: .g100))
                 .disableAutocorrection(true)
                 
                 buttonContainerView
             }
-            .frame(height: 24.0)
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, 16.0)
-            .padding(.vertical, 8.0)
+            .frame(height: Constants.height)
+            .padding(.vertical, Constants.verticalPadding)
+            .padding(.trailing, Constants.trailingPadding)
+            .padding(.leading, viewModel.keyword == nil ? Constants.leadingPadding : 8.0)
             .background(Color(uiColor: .g10))
-            .clipShape(RoundedRectangle(cornerRadius: 6.0))
+            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
         }
-        .padding(.vertical, 4.0)
-        .padding(.horizontal, 16.0)
         .focused($internalFocus)
         .onSubmit {
             viewModel.isFocused = false
@@ -78,7 +96,7 @@ public struct DLSearchInput: View {
     }
 
     private var buttonContainerView: some View {
-        HStack(spacing: 12.0) {
+        HStack(spacing: 8.0) {
             if !viewModel.text.isEmpty {
                 clearButton
             }
@@ -100,6 +118,7 @@ public struct DLSearchInput: View {
                 .renderingMode(.template)
                 .frame(width: 16.0, height: 16.0)
                 .foregroundStyle(Color(.g50))
+                .padding(4.0)
         }
     }
 
@@ -114,26 +133,37 @@ public struct DLSearchInput: View {
 }
 
 
-struct DLSearchInput_Previews: PreviewProvider {
+struct SearchInput_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DLSearchInput(
-                viewModel: .init(),
-                placeholder: "상품을 검색해주세요"
-            )
+            VStack {
+                SearchInput(
+                    viewModel: .init(),
+                    placeholder: "상품을 검색해주세요"
+                )
+                
+                SearchInput(
+                    viewModel: .init(text: "텍스트 입력 중", isFocused: true),
+                    placeholder: "상품을 검색해주세요"
+                )
+                
+                SearchInput(
+                    viewModel: .init(text: "텍스트 입력 완료"),
+                    placeholder: "상품을 검색해주세요"
+                )
+                
+                SearchInput(
+                    viewModel: .init(text: "키워드 있을 때", keyword: "아우터"),
+                    placeholder: "상품을 검색해주세요"
+                )
+                
+                SearchInput(
+                    viewModel: .init(text: "키워드 길 때", keyword: "ChangeKeyword"),
+                    placeholder: "상품을 검색해주세요"
+                )
+            }
+            .padding()
             .previewDisplayName("기본")
-
-            DLSearchInput(
-                viewModel: .init(text: "텍스트 입력", isFocused: true),
-                placeholder: "상품을 검색해주세요"
-            )
-            .previewDisplayName("입력 중")
-
-            DLSearchInput(
-                viewModel: .init(text: "텍스트 입력"),
-                placeholder: "상품을 검색해주세요"
-            )
-            .previewDisplayName("입력 후")
         }
         .previewLayout(.sizeThatFits)
     }

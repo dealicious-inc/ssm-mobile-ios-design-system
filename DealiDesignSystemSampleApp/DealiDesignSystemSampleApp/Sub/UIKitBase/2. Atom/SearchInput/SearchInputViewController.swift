@@ -14,7 +14,7 @@ final class SearchInputViewController: UIViewController {
     var isSwiftUI: Bool = false
     var detachBag: AnyDetachBag = .init()
     
-    var swiftUIViewModel: DLSearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
+    var swiftUIViewModel: SearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
     init(isSwiftUI: Bool = false) {
         self.isSwiftUI = isSwiftUI
@@ -199,7 +199,7 @@ extension SearchInputViewController {
             $0.distribution = .equalSpacing
         }
        
-        let result =  DLSearchInput(
+        let result =  SearchInput(
             viewModel: self.swiftUIViewModel,
             placeholder: "상품을 검색해주세요",
             onSearch: {

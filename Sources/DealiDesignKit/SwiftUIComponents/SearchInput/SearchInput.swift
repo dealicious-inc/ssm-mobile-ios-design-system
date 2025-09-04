@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+@MainActor
 public final class SearchInputViewModel: ObservableObject {
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
@@ -25,16 +26,19 @@ public struct SearchInput: View {
     @FocusState private var internalFocus: Bool
     
     public var placeholder: String = "상품을 검색해주세요."
-    public var onSearch: () -> Void = { }
-    
+    public var onClear: () -> Void
+    public var onSearch: (String) -> Void
+        
     public init(
         viewModel: SearchInputViewModel,
         placeholder: String = "상품을 검색해주세요.",
-        onSearch: (() -> Void)? = nil
+        onClear: @escaping (() -> Void) = { },
+        onSearch: @escaping ((String) -> Void) = { _ in },
     ) {
         self.viewModel = viewModel
         self.placeholder = placeholder
-        self.onSearch = onSearch ?? { }
+        self.onClear = onClear
+        self.onSearch = onSearch
     }
     
     enum Constants {
@@ -57,18 +61,7 @@ public struct SearchInput: View {
                         .fixedSize(horizontal: true, vertical: false)
                 }
                 
-                TextField(
-                    "",
-                    text: $viewModel.text,
-                    prompt: Text(placeholder)
-                        .foregroundColor(Color(uiColor: .g60))
-                        .font((Font(UIFont.b2r14)))
-                )
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(Font(UIFont.b2r14))
-                .foregroundStyle(Color(uiColor: .g100))
-                .disableAutocorrection(true)
-                
+                textField
                 buttonContainerView
             }
             .frame(height: Constants.height)
@@ -81,7 +74,7 @@ public struct SearchInput: View {
         .focused($internalFocus)
         .onSubmit {
             viewModel.isFocused = false
-            onSearch()
+            onSearch(viewModel.text)
         }
         .onChange(of: internalFocus) { newValue in
             if viewModel.isFocused != internalFocus {
@@ -93,6 +86,22 @@ public struct SearchInput: View {
                 internalFocus = viewModel.isFocused
             }
         }
+    }
+    
+    private var textField: some View {
+        TextField(
+            "",
+            text: $viewModel.text,
+            prompt: Text(placeholder)
+                .foregroundColor(Color(uiColor: .g60))
+                .font((Font(UIFont.b2r14)))
+        )
+        .submitLabel(.search)
+        .textInputAutocapitalization(.never)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(Font(UIFont.b2r14))
+        .foregroundStyle(Color(uiColor: .g100))
+        .disableAutocorrection(true)
     }
 
     private var buttonContainerView: some View {
@@ -112,6 +121,7 @@ public struct SearchInput: View {
             withAnimation(.easeInOut(duration: 0.1)) {
                 viewModel.text = ""
             }
+            onClear()
         } label: {
             Image.dealiIcon(named: "ic_x_circle_filled")
                 .resizable()
@@ -125,7 +135,7 @@ public struct SearchInput: View {
     private var searchButton: some View {
         Button(action: {
             viewModel.isFocused = false
-            onSearch()
+            onSearch(viewModel.text)
         }, label: {
             Image.dealiIcon(named: "ic_search")
         })

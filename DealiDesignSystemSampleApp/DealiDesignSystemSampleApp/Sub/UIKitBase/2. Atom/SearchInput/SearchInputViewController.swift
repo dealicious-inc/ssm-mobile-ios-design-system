@@ -8,11 +8,14 @@
 
 import UIKit
 import DealiDesignKit
+import Combine
 
 final class SearchInputViewController: UIViewController {
     
     var isSwiftUI: Bool = false
     var detachBag: AnyDetachBag = .init()
+    
+    var cancellables = Set<AnyCancellable>()
     
     var swiftUIViewModel: SearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
@@ -202,14 +205,37 @@ extension SearchInputViewController {
         let result =  SearchInput(
             viewModel: self.swiftUIViewModel,
             placeholder: "상품을 검색해주세요",
-            onSearch: {
-                debugPrint("검색 클릭. 검색어: \(self.swiftUIViewModel.text)")
-            }
+            onClear: {
+                debugPrint("클리어 클릭")
+            },
+            onSearch: { text in
+                debugPrint("검색 클릭. 검색어: \(text)")
+            },
+            keyboardCloseButtonTitle: "닫기"
         ).toUIView(embeddedIn: self)
         
         self.detachBag.add(result)
         
         let view = result.view
+        
+        self.swiftUIViewModel.$isFocused
+            .removeDuplicates()
+            .sink { isFocused in
+                if isFocused {
+                    debugPrint("포커스 인")
+                } else {
+                    debugPrint("포커스 아웃")
+                }
+            }
+            .store(in: &self.cancellables)
+        
+        self.swiftUIViewModel.$text
+            .removeDuplicates()
+            .sink { text in
+                debugPrint("문구: \(text)")
+            }
+            .store(in: &self.cancellables)
+        
         contentStackView.addArrangedSubview(view)
         
         view.snp.makeConstraints {

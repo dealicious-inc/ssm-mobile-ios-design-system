@@ -89,17 +89,17 @@ struct ButtonTestView: View {
         HStack(spacing: 10) {
             ButtonView(type: .btnFilledLarge01,
                        title: "Left Image",
-                       leftImage: image)
+                       leftImage: ClickableImage(image))
             
             ButtonView(type: .btnFilledLarge01,
                        title: "Right Image",
-                       rightImage: image)
+                       rightImage: ClickableImage(image))
             
             
             ButtonView(type: .btnFilledLarge01,
                        title: "Both Image",
-                       leftImage: image,
-                       rightImage: image)
+                       leftImage: ClickableImage(image),
+                       rightImage: ClickableImage(image))
         }
     }
     

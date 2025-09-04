@@ -30,7 +30,7 @@ final class ClickableIndicatorView: UIView {
     private let indicatorImageView = UIImageView()
 
     private var indicatorImage: UIImage? {
-        return UIImage.dealiIcon(named: "ic_loading_filled")
+        return DealiIcon.ic_loading_filled.image
     }
     
     var color: UIColor = .white {

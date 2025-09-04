@@ -337,7 +337,7 @@ extension ClickableUnitButton {
                 case .large, .medium, .semiMedium:
                     return CGSize(width: 20.0, height: 20.0)
                 case .small:
-                    return CGSize(width: 20.0, height: 20.0)
+                    return CGSize(width: 16.0, height: 16.0)
                 }
             }
             

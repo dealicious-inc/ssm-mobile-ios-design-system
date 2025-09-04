@@ -346,6 +346,7 @@ extension ButtonViewController {
         }
         
         let enabledViewModel = ButtonViewModel(type: .btnFilledLarge01, title: "isEnabled True")
+        enabledViewModel.leftImage = ClickableImage(DealiIcon.ic_info.image)
         let enabledButton = ButtonView(viewModel: enabledViewModel).UIKit()
         enabledButtonStackview.addArrangedSubview(enabledButton)
         
@@ -375,7 +376,7 @@ extension ButtonViewController {
         let leftImageViewModel = ButtonViewModel(
             type: .btnFilledSemiMedium01,
             title: "Left Image",
-            leftImage: image
+            leftImage: ClickableImage(image)
         )
         let leftImageButton = ButtonView(viewModel: leftImageViewModel).UIKit()
         imageButtonStackview.addArrangedSubview(leftImageButton)
@@ -383,7 +384,7 @@ extension ButtonViewController {
         let rightImageViewModel = ButtonViewModel(
             type: .btnFilledSemiMedium01,
             title: "Right Image",
-            rightImage: image,
+            rightImage: ClickableImage(image),
             titleAlignment: .trailing
         )
         let rightImageButton = ButtonView(viewModel: rightImageViewModel).UIKit()
@@ -392,8 +393,8 @@ extension ButtonViewController {
         let bothImageViewModel = ButtonViewModel(
             type: .btnFilledSemiMedium01,
             title: "Both Image",
-            leftImage: image,
-            rightImage: image,
+            leftImage: ClickableImage(image),
+            rightImage: ClickableImage(image),
             titleAlignment: .center
         )
         let bothImageButton = ButtonView(viewModel: bothImageViewModel).UIKit()
@@ -405,178 +406,205 @@ extension ButtonViewController {
     func addSwiftUIButtons() {
         addSwiftUIStyleButtons()
         
-        var buttonArray: [UIView] = []
+        var buttonStyleArray: [ButtonView.ButtonConfigStyle] = []
         
-        let largeButtonArray: [UIView] = [
-            ButtonView(type: .btnFilledLarge01, title: "btnFilledLarge01").UIKit(),
-            ButtonView(type: .btnFilledLarge02, title: "btnFilledLarge02").UIKit(),
-            ButtonView(type: .btnFilledLarge03, title: "btnFilledLarge03").UIKit(),
-            ButtonView(type: .btnFilledLarge04, title: "btnFilledLarge04").UIKit(),
-            ButtonView(type: .btnFilledLarge05, title: "btnFilledLarge05").UIKit(),
-            ButtonView(type: .btnFilledLarge06, title: "btnFilledLarge06").UIKit(),
+        let largeButtonStyleArray: [ButtonView.ButtonConfigStyle] = [
+            .btnFilledLarge01,
+            .btnFilledLarge02,
+            .btnFilledLarge03,
+            .btnFilledLarge04,
+            .btnFilledLarge05,
+            .btnFilledLarge06,
             
-            ButtonView(type: .btnFilledRoundLarge01, title: "btnFilledRoundLarge01").UIKit(),
-            ButtonView(type: .btnFilledRoundLarge02, title: "btnFilledRoundLarge02").UIKit(),
-            ButtonView(type: .btnFilledRoundLarge03, title: "btnFilledRoundLarge03").UIKit(),
+            .btnFilledRoundLarge01,
+            .btnFilledRoundLarge02,
+            .btnFilledRoundLarge03,
             
-            ButtonView(type: .btnFilledTonalLarge01, title: "btnFilledTonalLarge01").UIKit(),
-            ButtonView(type: .btnFilledTonalLarge02, title: "btnFilledTonalLarge02").UIKit(),
-            ButtonView(type: .btnFilledTonalLarge03, title: "btnFilledTonalLarge03").UIKit(),
-            ButtonView(type: .btnFilledTonalLarge04, title: "btnFilledTonalLarge04").UIKit(),
-            ButtonView(type: .btnFilledTonalLarge05, title: "btnFilledTonalLarge05").UIKit(),
-            ButtonView(type: .btnFilledTonalLarge06, title: "btnFilledTonalLarge06").UIKit(),
-        
-            ButtonView(type: .btnOutlineLarge01, title: "btnOutlineLarge01").UIKit(),
-            ButtonView(type: .btnOutlineLarge02, title: "btnOutlineLarge02").UIKit(),
-            ButtonView(type: .btnOutlineLarge03, title: "btnOutlineLarge03").UIKit(),
-            ButtonView(type: .btnOutlineLarge04, title: "btnOutlineLarge04").UIKit(),
-            ButtonView(type: .btnOutlineLarge05, title: "btnOutlineLarge05").UIKit(),
-            ButtonView(type: .btnOutlineLarge06, title: "btnOutlineLarge06").UIKit(),
+            .btnFilledTonalLarge01,
+            .btnFilledTonalLarge02,
+            .btnFilledTonalLarge03,
+            .btnFilledTonalLarge04,
+            .btnFilledTonalLarge05,
+            .btnFilledTonalLarge06,
             
-            ButtonView(type: .btnOutlineBgLarge01, title: "btnOutlineBgLarge01").UIKit(),
-            ButtonView(type: .btnOutlineBgLarge03, title: "btnOutlineBgLarge03").UIKit(),
-            ButtonView(type: .btnOutlineBgLarge04, title: "btnOutlineBgLarge04").UIKit(),
-            ButtonView(type: .btnOutlineBgLarge05, title: "btnOutlineBgLarge05").UIKit(),
-            ButtonView(type: .btnOutlineBgLarge06, title: "btnOutlineBgLarge06").UIKit(),
+            .btnOutlineLarge01,
+            .btnOutlineLarge02,
+            .btnOutlineLarge03,
+            .btnOutlineLarge04,
+            .btnOutlineLarge05,
+            .btnOutlineLarge06,
             
-            ButtonView(type: .btnTextLarge01, title: "btnTextLarge01").UIKit(),
-            ButtonView(type: .btnTextLarge02, title: "btnTextLarge02").UIKit(),
-            ButtonView(type: .btnTextLarge03, title: "btnTextLarge03").UIKit(),
-            ButtonView(type: .btnTextLarge04, title: "btnTextLarge04").UIKit(),
-            ButtonView(type: .btnTextLarge05, title: "btnTextLarge05").UIKit(),
-            ButtonView(type: .btnTextLarge06, title: "btnTextLarge06").UIKit(),
-            ButtonView(type: .btnTextLarge07, title: "btnTextLarge07").UIKit()
+            .btnOutlineBgLarge01,
+            .btnOutlineBgLarge03,
+            .btnOutlineBgLarge04,
+            .btnOutlineBgLarge05,
+            .btnOutlineBgLarge06,
+            
+            .btnTextLarge01,
+            .btnTextLarge02,
+            .btnTextLarge03,
+            .btnTextLarge04,
+            .btnTextLarge05,
+            .btnTextLarge06,
+            .btnTextLarge07
         ]
         
-        let mediumButtonArray: [UIView] = [
-            ButtonView(type: .btnFilledMedium01, title: "btnFilledMedium01").UIKit(),
-            ButtonView(type: .btnFilledMedium02, title: "btnFilledMedium02").UIKit(),
-            ButtonView(type: .btnFilledMedium03, title: "btnFilledMedium03").UIKit(),
-            ButtonView(type: .btnFilledMedium04, title: "btnFilledMedium04").UIKit(),
-            ButtonView(type: .btnFilledMedium05, title: "btnFilledMedium05").UIKit(),
-            ButtonView(type: .btnFilledMedium06, title: "btnFilledMedium06").UIKit(),
+        let mediumButtonStyleArray: [ButtonView.ButtonConfigStyle] = [
+            .btnFilledMedium01,
+            .btnFilledMedium02,
+            .btnFilledMedium03,
+            .btnFilledMedium04,
+            .btnFilledMedium05,
+            .btnFilledMedium06,
             
-            ButtonView(type: .btnFilledRoundMedium01, title: "btnFilledRoundMedium01").UIKit(),
-            ButtonView(type: .btnFilledRoundMedium02, title: "btnFilledRoundMedium02").UIKit(),
-            ButtonView(type: .btnFilledRoundMedium03, title: "btnFilledRoundMedium03").UIKit(),
+            .btnFilledRoundMedium01,
+            .btnFilledRoundMedium02,
+            .btnFilledRoundMedium03,
             
-            ButtonView(type: .btnFilledTonalMedium01, title: "btnFilledTonalMedium01").UIKit(),
-            ButtonView(type: .btnFilledTonalMedium02, title: "btnFilledTonalMedium02").UIKit(),
-            ButtonView(type: .btnFilledTonalMedium03, title: "btnFilledTonalMedium03").UIKit(),
-            ButtonView(type: .btnFilledTonalMedium04, title: "btnFilledTonalMedium04").UIKit(),
-            ButtonView(type: .btnFilledTonalMedium05, title: "btnFilledTonalMedium05").UIKit(),
-            ButtonView(type: .btnFilledTonalMedium06, title: "btnFilledTonalMedium06").UIKit(),
+            .btnFilledTonalMedium01,
+            .btnFilledTonalMedium02,
+            .btnFilledTonalMedium03,
+            .btnFilledTonalMedium04,
+            .btnFilledTonalMedium05,
+            .btnFilledTonalMedium06,
             
-            ButtonView(type: .btnOutlineMedium01, title: "btnOutlineMedium01").UIKit(),
-            ButtonView(type: .btnOutlineMedium02, title: "btnOutlineMedium02").UIKit(),
-            ButtonView(type: .btnOutlineMedium03, title: "btnOutlineMedium03").UIKit(),
-            ButtonView(type: .btnOutlineMedium04, title: "btnOutlineMedium04").UIKit(),
-            ButtonView(type: .btnOutlineMedium05, title: "btnOutlineMedium05").UIKit(),
-            ButtonView(type: .btnOutlineMedium06, title: "btnOutlineMedium06").UIKit(),
+            .btnOutlineMedium01,
+            .btnOutlineMedium02,
+            .btnOutlineMedium03,
+            .btnOutlineMedium04,
+            .btnOutlineMedium05,
+            .btnOutlineMedium06,
             
-            ButtonView(type: .btnOutlineBgMedium01, title: "btnOutlineBgMedium01").UIKit(),
-            ButtonView(type: .btnOutlineBgMedium03, title: "btnOutlineBgMedium03").UIKit(),
-            ButtonView(type: .btnOutlineBgMedium04, title: "btnOutlineBgMedium04").UIKit(),
-            ButtonView(type: .btnOutlineBgMedium05, title: "btnOutlineBgMedium05").UIKit(),
-            ButtonView(type: .btnOutlineBgMedium06, title: "btnOutlineBgMedium06").UIKit(),
+            .btnOutlineBgMedium01,
+            .btnOutlineBgMedium03,
+            .btnOutlineBgMedium04,
+            .btnOutlineBgMedium05,
+            .btnOutlineBgMedium06,
             
-            ButtonView(type: .btnTextMedium01, title: "btnTextMedium01").UIKit(),
-            ButtonView(type: .btnTextMedium02, title: "btnTextMedium02").UIKit(),
-            ButtonView(type: .btnTextMedium03, title: "btnTextMedium03").UIKit(),
-            ButtonView(type: .btnTextMedium04, title: "btnTextMedium04").UIKit(),
-            ButtonView(type: .btnTextMedium05, title: "btnTextMedium05").UIKit(),
-            ButtonView(type: .btnTextMedium06, title: "btnTextMedium06").UIKit(),
-            ButtonView(type: .btnTextMedium07, title: "btnTextMedium07").UIKit()
+            .btnTextMedium01,
+            .btnTextMedium02,
+            .btnTextMedium03,
+            .btnTextMedium04,
+            .btnTextMedium05,
+            .btnTextMedium06,
+            .btnTextMedium07
         ]
         
-        let semiMediumButtonArray: [UIView] = [
-            ButtonView(type: .btnFilledSemiMedium01, title: "btnFilledSemiMedium01").UIKit(),
-            ButtonView(type: .btnFilledSemiMedium02, title: "btnFilledSemiMedium02").UIKit(),
-            ButtonView(type: .btnFilledSemiMedium03, title: "btnFilledSemiMedium03").UIKit(),
-            ButtonView(type: .btnFilledSemiMedium04, title: "btnFilledSemiMedium04").UIKit(),
-            ButtonView(type: .btnFilledSemiMedium05, title: "btnFilledSemiMedium05").UIKit(),
-            ButtonView(type: .btnFilledSemiMedium06, title: "btnFilledSemiMedium06").UIKit(),
+        let semiMediumButtonStyleArray: [ButtonView.ButtonConfigStyle] = [
+            .btnFilledSemiMedium01,
+            .btnFilledSemiMedium02,
+            .btnFilledSemiMedium03,
+            .btnFilledSemiMedium04,
+            .btnFilledSemiMedium05,
+            .btnFilledSemiMedium06,
             
-            ButtonView(type: .btnFilledRoundSemiMedium01, title: "btnFilledRoundSemiMedium01").UIKit(),
-            ButtonView(type: .btnFilledRoundSemiMedium02, title: "btnFilledRoundSemiMedium02").UIKit(),
-            ButtonView(type: .btnFilledRoundSemiMedium03, title: "btnFilledRoundSemiMedium03").UIKit(),
+            .btnFilledRoundSemiMedium01,
+            .btnFilledRoundSemiMedium02,
+            .btnFilledRoundSemiMedium03,
             
-            ButtonView(type: .btnFilledTonalSemiMedium01, title: "btnFilledTonalSemiMedium01").UIKit(),
-            ButtonView(type: .btnFilledTonalSemiMedium02, title: "btnFilledTonalSemiMedium02").UIKit(),
-            ButtonView(type: .btnFilledTonalSemiMedium03, title: "btnFilledTonalSemiMedium03").UIKit(),
-            ButtonView(type: .btnFilledTonalSemiMedium04, title: "btnFilledTonalSemiMedium04").UIKit(),
-            ButtonView(type: .btnFilledTonalSemiMedium05, title: "btnFilledTonalSemiMedium05").UIKit(),
-            ButtonView(type: .btnFilledTonalSemiMedium06, title: "btnFilledTonalSemiMedium06").UIKit(),
+            .btnFilledTonalSemiMedium01,
+            .btnFilledTonalSemiMedium02,
+            .btnFilledTonalSemiMedium03,
+            .btnFilledTonalSemiMedium04,
+            .btnFilledTonalSemiMedium05,
+            .btnFilledTonalSemiMedium06,
             
-            ButtonView(type: .btnOutlineSemiMedium01, title: "btnOutlineSemiMedium01").UIKit(),
-            ButtonView(type: .btnOutlineSemiMedium02, title: "btnOutlineSemiMedium02").UIKit(),
-            ButtonView(type: .btnOutlineSemiMedium03, title: "btnOutlineSemiMedium03").UIKit(),
-            ButtonView(type: .btnOutlineSemiMedium04, title: "btnOutlineSemiMedium04").UIKit(),
-            ButtonView(type: .btnOutlineSemiMedium05, title: "btnOutlineSemiMedium05").UIKit(),
-            ButtonView(type: .btnOutlineSemiMedium06, title: "btnOutlineSemiMedium06").UIKit(),
+            .btnOutlineSemiMedium01,
+            .btnOutlineSemiMedium02,
+            .btnOutlineSemiMedium03,
+            .btnOutlineSemiMedium04,
+            .btnOutlineSemiMedium05,
+            .btnOutlineSemiMedium06,
             
-            ButtonView(type: .btnOutlineBgSemiMedium01, title: "btnOutlineBgSemiMedium01").UIKit(),
-            ButtonView(type: .btnOutlineBgSemiMedium03, title: "btnOutlineBgSemiMedium03").UIKit(),
-            ButtonView(type: .btnOutlineBgSemiMedium04, title: "btnOutlineBgSemiMedium04").UIKit(),
-            ButtonView(type: .btnOutlineBgSemiMedium05, title: "btnOutlineBgSemiMedium05").UIKit(),
-            ButtonView(type: .btnOutlineBgSemiMedium06, title: "btnOutlineBgSemiMedium06").UIKit(),
+            .btnOutlineBgSemiMedium01,
+            .btnOutlineBgSemiMedium03,
+            .btnOutlineBgSemiMedium04,
+            .btnOutlineBgSemiMedium05,
+            .btnOutlineBgSemiMedium06,
             
-            ButtonView(type: .btnTextSemiMedium01, title: "btnTextSemiMedium01").UIKit(),
-            ButtonView(type: .btnTextSemiMedium02, title: "btnTextSemiMedium02").UIKit(),
-            ButtonView(type: .btnTextSemiMedium03, title: "btnTextSemiMedium03").UIKit(),
-            ButtonView(type: .btnTextSemiMedium04, title: "btnTextSemiMedium04").UIKit(),
-            ButtonView(type: .btnTextSemiMedium05, title: "btnTextSemiMedium05").UIKit(),
-            ButtonView(type: .btnTextSemiMedium06, title: "btnTextSemiMedium06").UIKit(),
-            ButtonView(type: .btnTextSemiMedium07, title: "btnTextSemiMedium07").UIKit()
+            .btnTextSemiMedium01,
+            .btnTextSemiMedium02,
+            .btnTextSemiMedium03,
+            .btnTextSemiMedium04,
+            .btnTextSemiMedium05,
+            .btnTextSemiMedium06,
+            .btnTextSemiMedium07
         ]
         
-        let smallButtonArray: [UIView] = [
-            ButtonView(type: .btnFilledSmall01, title: "btnFilledSmall01").UIKit(),
-            ButtonView(type: .btnFilledSmall02, title: "btnFilledSmall02").UIKit(),
-            ButtonView(type: .btnFilledSmall03, title: "btnFilledSmall03").UIKit(),
-            ButtonView(type: .btnFilledSmall04, title: "btnFilledSmall04").UIKit(),
-            ButtonView(type: .btnFilledSmall05, title: "btnFilledSmall05").UIKit(),
-            ButtonView(type: .btnFilledSmall06, title: "btnFilledSmall06").UIKit(),
+        let smallButtonStyleArray: [ButtonView.ButtonConfigStyle] = [
+            .btnFilledSmall01,
+            .btnFilledSmall02,
+            .btnFilledSmall03,
+            .btnFilledSmall04,
+            .btnFilledSmall05,
+            .btnFilledSmall06,
             
-            ButtonView(type: .btnFilledRoundSmall01, title: "btnFilledRoundSmall01").UIKit(),
-            ButtonView(type: .btnFilledRoundSmall02, title: "btnFilledRoundSmall02").UIKit(),
-            ButtonView(type: .btnFilledRoundSmall03, title: "btnFilledRoundSmall03").UIKit(),
+            .btnFilledRoundSmall01,
+            .btnFilledRoundSmall02,
+            .btnFilledRoundSmall03,
             
-            ButtonView(type: .btnFilledTonalSmall01, title: "btnFilledTonalSmall01").UIKit(),
-            ButtonView(type: .btnFilledTonalSmall02, title: "btnFilledTonalSmall02").UIKit(),
-            ButtonView(type: .btnFilledTonalSmall03, title: "btnFilledTonalSmall03").UIKit(),
-            ButtonView(type: .btnFilledTonalSmall04, title: "btnFilledTonalSmall04").UIKit(),
-            ButtonView(type: .btnFilledTonalSmall05, title: "btnFilledTonalSmall05").UIKit(),
-            ButtonView(type: .btnFilledTonalSmall06, title: "btnFilledTonalSmall06").UIKit(),
+            .btnFilledTonalSmall01,
+            .btnFilledTonalSmall02,
+            .btnFilledTonalSmall03,
+            .btnFilledTonalSmall04,
+            .btnFilledTonalSmall05,
+            .btnFilledTonalSmall06,
             
-            ButtonView(type: .btnOutlineSmall01, title: "btnOutlineSmall01").UIKit(),
-            ButtonView(type: .btnOutlineSmall02, title: "btnOutlineSmall02").UIKit(),
-            ButtonView(type: .btnOutlineSmall03, title: "btnOutlineSmall03").UIKit(),
-            ButtonView(type: .btnOutlineSmall04, title: "btnOutlineSmall04").UIKit(),
-            ButtonView(type: .btnOutlineSmall05, title: "btnOutlineSmall05").UIKit(),
-            ButtonView(type: .btnOutlineSmall06, title: "btnOutlineSmall06").UIKit(),
+            .btnOutlineSmall01,
+            .btnOutlineSmall02,
+            .btnOutlineSmall03,
+            .btnOutlineSmall04,
+            .btnOutlineSmall05,
+            .btnOutlineSmall06,
             
-            ButtonView(type: .btnOutlineBgSmall01, title: "btnOutlineBgSmall01").UIKit(),
-            ButtonView(type: .btnOutlineBgSmall03, title: "btnOutlineBgSmall03").UIKit(),
-            ButtonView(type: .btnOutlineBgSmall04, title: "btnOutlineBgSmall04").UIKit(),
-            ButtonView(type: .btnOutlineBgSmall05, title: "btnOutlineBgSmall05").UIKit(),
-            ButtonView(type: .btnOutlineBgSmall06, title: "btnOutlineBgSmall06").UIKit(),
+            .btnOutlineBgSmall01,
+            .btnOutlineBgSmall03,
+            .btnOutlineBgSmall04,
+            .btnOutlineBgSmall05,
+            .btnOutlineBgSmall06,
             
-            ButtonView(type: .btnTextSmall01, title: "btnTextSmall01").UIKit(),
-            ButtonView(type: .btnTextSmall02, title: "btnTextSmall02").UIKit(),
-            ButtonView(type: .btnTextSmall03, title: "btnTextSmall03").UIKit(),
-            ButtonView(type: .btnTextSmall04, title: "btnTextSmall04").UIKit(),
-            ButtonView(type: .btnTextSmall05, title: "btnTextSmall05").UIKit(),
-            ButtonView(type: .btnTextSmall06, title: "btnTextSmall06").UIKit(),
-            ButtonView(type: .btnTextSmall07, title: "btnTextSmall07").UIKit()
+            .btnTextSmall01,
+            .btnTextSmall02,
+            .btnTextSmall03,
+            .btnTextSmall04,
+            .btnTextSmall05,
+            .btnTextSmall06,
+            .btnTextSmall07,
         ]
         
-        buttonArray += largeButtonArray
-        buttonArray += mediumButtonArray
-        buttonArray += semiMediumButtonArray
-        buttonArray += smallButtonArray
+        buttonStyleArray += largeButtonStyleArray
+        buttonStyleArray += mediumButtonStyleArray
+        buttonStyleArray += semiMediumButtonStyleArray
+        buttonStyleArray += smallButtonStyleArray
         
-        buttonArray.forEach { button in
+        buttonStyleArray.forEach { buttonStyle in
+            
+            var title = "\(buttonStyle)"
+            switch Int.random(in: 0...2) {
+            case 0:
+                title += "\n세줄 텍스트 버튼입니다.\n세줄 텍스트 버튼입니다."
+            case 1:
+                title += "\n두줄 텍스트 버튼입니다."
+            default:
+                break
+            }
+            
+            let buttonViewModel = ButtonViewModel(type: buttonStyle, title: title)
+            
+            
+            switch Int.random(in: 0...3) {
+            case 0:
+                buttonViewModel.leftImage = ClickableImage(DealiIcon.ic_info.image)
+            case 1:
+                buttonViewModel.rightImage = ClickableImage(DealiIcon.ic_arrow_right.image)
+            case 2:
+                buttonViewModel.leftImage = ClickableImage(DealiIcon.ic_info.image, needOriginColor: true)
+                buttonViewModel.rightImage = ClickableImage(DealiIcon.ic_arrow_right.image, needOriginColor: true)
+            default:
+                break
+            }
+            let button = ButtonView(viewModel: buttonViewModel).UIKit()
+            
             self.stackView.addArrangedSubview(button)
         }
     }

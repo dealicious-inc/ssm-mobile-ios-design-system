@@ -15,8 +15,8 @@ public final class ButtonViewModel: ObservableObject {
     @Published public var isEnabled: Bool = true
     @Published public var isLoading: Bool = false
     
-    var leftImage: UIImage?
-    var rightImage: UIImage?
+    @Published public var leftImage: ClickableImage?
+    @Published public var rightImage: ClickableImage?
     var titleAlignment: TextAlignment = .leading
     
     @Published var style = ConfigStyle()
@@ -25,8 +25,8 @@ public final class ButtonViewModel: ObservableObject {
                 title: String,
                 isEnabled: Bool = true,
                 isLoading: Bool = false,
-                leftImage: UIImage? = nil,
-                rightImage: UIImage? = nil,
+                leftImage: ClickableImage? = nil,
+                rightImage: ClickableImage? = nil,
                 titleAlignment: TextAlignment = .leading) {
         self.type = type
         self.title = title
@@ -48,10 +48,9 @@ public final class ButtonViewModel: ObservableObject {
         var borderColor: Color = .clear
         
         var font: Font?
-        var height: CGFloat = 0.0
-        var leftPaddingSet: ClickableUnitButtonWidthPadding?
-        var rightPaddingSet: ClickableUnitButtonWidthPadding?
-        var cornerRadius: CGFloat = 0.0
+        var heightPadding: CGFloat = 0.0
+        var widthPadding: ClickableUnitButtonWidthPadding?
+        var cornerRadius: ClickableUnitButton.ButtonPreset.Corner = .normal
     }
 }
 
@@ -76,8 +75,8 @@ public struct ButtonView: View {
              title: String,
              isEnabled: Bool = true,
              isLoading: Bool = false,
-             leftImage: UIImage? = nil,
-             rightImage: UIImage? = nil,
+             leftImage: ClickableImage? = nil,
+             rightImage: ClickableImage? = nil,
              titleAlignment: TextAlignment = .leading,
              action: (() -> Void)? = nil) {
             let viewModel = ButtonViewModel(type: type,
@@ -92,8 +91,8 @@ public struct ButtonView: View {
     
     public var body: some View {
         ZStack {
-//            buttonContainerView
-//                .frame(height: viewModel.style.config.height.button)
+            buttonContainerView
+                .padding(.vertical, viewModel.style.heightPadding)
             
             if viewModel.isLoading {
                 IndicatorImageView
@@ -113,29 +112,54 @@ public struct ButtonView: View {
             EmptyView()
         }
         .background(
-            Group {
-                if let gradientBackground = viewModel.style.gradientBackground {
-                    LinearGradient(
-                        gradient: Gradient(colors: gradientBackground.colors),
-                        startPoint: gradientBackground.startPoint,
-                        endPoint: gradientBackground.endPoint
-                    )
-                } else {
-                    viewModel.style.backgroundColor
+            GeometryReader { geo in
+                // 높이에 따라 cornerRadius 계산
+                let radius: CGFloat = {
+                    switch viewModel.style.cornerRadius {
+                    case .normal:
+                        return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
+                    case .round:
+                        return geo.size.height / 2.0
+                    }
+                }()
+                
+                Group {
+                    if let gradientBackground = viewModel.style.gradientBackground {
+                        LinearGradient(
+                            gradient: Gradient(colors: gradientBackground.colors),
+                            startPoint: gradientBackground.startPoint,
+                            endPoint: gradientBackground.endPoint
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: radius))
+                    } else {
+                        viewModel.style.backgroundColor
+                            .clipShape(RoundedRectangle(cornerRadius: radius))
+                    }
                 }
-            })
-        .cornerRadius(viewModel.style.cornerRadius)
+            }
+        )
         .disabled(!viewModel.isEnabled)
         .overlay(
-            RoundedRectangle(cornerRadius: 6.0)
-                .stroke(viewModel.style.borderColor)
+            GeometryReader { geo in
+                let radius: CGFloat = {
+                    switch viewModel.style.cornerRadius {
+                    case .normal:
+                        return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
+                    case .round:
+                        return geo.size.height / 2.0
+                    }
+                }()
+                
+                RoundedRectangle(cornerRadius: radius)
+                    .stroke(viewModel.style.borderColor)
+            }
         )
         .buttonStyle(ButtonViewStyle(viewModel: viewModel))
     }
     
     @ViewBuilder
     private var IndicatorImageView: some View {
-        Image(uiImage: UIImage(named: "loading")!)
+        Image(uiImage: DealiIcon.ic_loading_filled.image)
             .rotationEffect(.degrees(isRotating ? 360.0 : 0.0))
             .animation(.linear(duration: 1.5).repeatForever(autoreverses: false), value: isRotating)
             .opacity(viewModel.isLoading ? 1.0 : 0.0)
@@ -154,20 +178,10 @@ public extension ButtonView {
         viewModel.style.config = config
         viewModel.style.color = color
         viewModel.style.font = Font(config.font.normal)
-//        viewModel.style.height = config.height.button
+        viewModel.style.heightPadding = config.buttonType.heightPadding
+        viewModel.style.widthPadding = config.buttonPadding.widthPadding(with: config.buttonType)
+        viewModel.style.cornerRadius = config.cornerRadius
         
-        switch config.cornerRadius {
-        case .normal:
-            viewModel.style.cornerRadius = config.cornerRadius.radius(with: config.buttonType)
-        case .round:
-            viewModel.style.cornerRadius = viewModel.style.height / 2.0
-        default:
-            break
-        }
-        
-        let padding = config.buttonPadding.widthPadding(with: config.buttonType)
-        viewModel.style.leftPaddingSet = padding
-        viewModel.style.rightPaddingSet = padding
         self.setColorConfigStyle(isEnabled: true)
     }
     
@@ -189,6 +203,8 @@ public extension ButtonView {
             viewModel.style.borderColor = Color(attribute.disabled.border ?? .clear)
         }
     }
+    
+    
 }
 
 // MARK: - HighlightButtonStyle
@@ -203,9 +219,9 @@ struct ButtonViewStyle: ButtonStyle {
                 }
             }
             
-            HStack(spacing: 4.0) {
-                if let leftImage = viewModel.leftImage, !viewModel.isLoading {
-                    Image(uiImage: leftImage)
+            HStack(spacing: viewModel.style.widthPadding?.internalSpacing) {
+                if let leftImage = self.processedUIImage(imageSet: viewModel.leftImage) {
+                    Image(uiImage: leftImage).renderingMode(.original)
                 } else {
                     EmptyView()
                 }
@@ -216,18 +232,25 @@ struct ButtonViewStyle: ButtonStyle {
                     .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                if let rightImage = viewModel.rightImage, !viewModel.isLoading {
-                    Image(uiImage: rightImage)
+                if let rightImage = self.processedUIImage(imageSet: viewModel.rightImage) {
+                    Image(uiImage: rightImage).renderingMode(.original)
                 } else {
                     EmptyView()
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.leading, viewModel.style.leftPaddingSet?.normal)
-            .padding(.trailing, viewModel.style.rightPaddingSet?.normal)
+            .padding(.leading,
+                     viewModel.leftImage != nil && !viewModel.isLoading
+                     ? (viewModel.style.widthPadding?.withImage ?? 0.0)
+                     : (viewModel.style.widthPadding?.normal ?? 0.0)
+            )
+            .padding(.trailing,
+                     viewModel.rightImage != nil && !viewModel.isLoading
+                     ? (viewModel.style.widthPadding?.withImage ?? 0.0)
+                     : (viewModel.style.widthPadding?.normal ?? 0.0)
+            )
         }
-//        .frame(height: viewModel.style.config.height.button)
-        .padding(EdgeInsets(top: viewModel.style.config.buttonType.heightPadding, leading: 0.0, bottom: viewModel.style.config.buttonType.heightPadding, trailing: 0.0))
+        .padding(.vertical, viewModel.style.heightPadding)
         .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
     }
     
@@ -236,6 +259,27 @@ struct ButtonViewStyle: ButtonStyle {
         RoundedRectangle(cornerRadius: 6.0)
             .fill(Color(.b2))
             .allowsHitTesting(false)
+    }
+    
+    private func processedUIImage(imageSet: ClickableImage?) -> UIImage? {
+        guard let imageSet = imageSet,
+                  let leftImage = imageSet.uiImage,
+                  self.viewModel.isLoading == false else {
+                return nil
+            }
+        
+        let targetSize = self.viewModel.style.config.buttonType.imageSize
+        let resized = leftImage.resize(targetSize)
+        
+        if imageSet.needOriginColor == true {
+            // 원본 색 유지
+            return resized
+        } else {
+            let textColor = (self.viewModel.isEnabled
+                             ? self.viewModel.style.color.attribute.normal.text
+                             : self.viewModel.style.color.attribute.disabled.text)
+            return resized.withTintColor(textColor, renderingMode: .alwaysOriginal)
+        }
     }
 }
 

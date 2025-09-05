@@ -202,7 +202,7 @@ extension SearchInputViewController {
             $0.distribution = .equalSpacing
         }
        
-        let result =  SearchInput(
+        let searchInput =  SearchInput(
             viewModel: self.swiftUIViewModel,
             onClear: {
                 debugPrint("클리어 클릭")
@@ -210,12 +210,10 @@ extension SearchInputViewController {
             onSearch: { text in
                 debugPrint("검색 클릭. 검색어: \(text)")
             }
-        ).toUIView(embeddedIn: self)
+        )
         
-        self.detachBag.add(result)
-        
-        let view = result.view
-        
+        let searchInputView = DealiSwiftUIWrapperView(rootView: searchInput)
+        contentStackView.addArrangedSubview(searchInputView)
         self.swiftUIViewModel.placeholder = "검색어를 입력하세요."
         
         self.swiftUIViewModel.$isFocused
@@ -236,9 +234,7 @@ extension SearchInputViewController {
             }
             .store(in: &self.cancellables)
         
-        contentStackView.addArrangedSubview(view)
-        
-        view.snp.makeConstraints {
+        searchInputView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
         }
             

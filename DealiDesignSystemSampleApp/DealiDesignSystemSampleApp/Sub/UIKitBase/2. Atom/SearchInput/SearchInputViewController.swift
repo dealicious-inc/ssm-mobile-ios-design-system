@@ -204,19 +204,19 @@ extension SearchInputViewController {
        
         let result =  SearchInput(
             viewModel: self.swiftUIViewModel,
-            placeholder: "상품을 검색해주세요",
             onClear: {
                 debugPrint("클리어 클릭")
             },
             onSearch: { text in
                 debugPrint("검색 클릭. 검색어: \(text)")
-            },
-            keyboardCloseButtonTitle: "닫기"
+            }
         ).toUIView(embeddedIn: self)
         
         self.detachBag.add(result)
         
         let view = result.view
+        
+        self.swiftUIViewModel.placeholder = "검색어를 입력하세요."
         
         self.swiftUIViewModel.$isFocused
             .removeDuplicates()

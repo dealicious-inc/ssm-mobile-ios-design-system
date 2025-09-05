@@ -15,8 +15,7 @@ struct SearchInputTestView: View {
 
     var body: some View {
         SearchInput(
-            viewModel: .init(text: text, isFocused: isFocused),
-            placeholder: "상품을 검색해주세요"
+            viewModel: .init(text: text, isFocused: isFocused)
         )
         .previewDisplayName("입력 중")
     }

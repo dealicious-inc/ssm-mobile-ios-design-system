@@ -10,11 +10,13 @@ import Combine
 
 @MainActor
 public final class SearchInputViewModel: ObservableObject {
+    @Published public var placeholder: String
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
     @Published public var keyword: String?
     
-    public init(text: String = "", isFocused: Bool = false, keyword: String? = nil) {
+    public init(placeholder: String = "상품을 검색해주세요.", text: String = "", isFocused: Bool = false, keyword: String? = nil) {
+        self.placeholder = placeholder
         self.text = text
         self.isFocused = isFocused
         self.keyword = keyword
@@ -25,18 +27,15 @@ public struct SearchInput: View {
     @ObservedObject public var viewModel: SearchInputViewModel
     @FocusState private var internalFocus: Bool
     
-    public var placeholder: String = "상품을 검색해주세요."
     public var onClear: () -> Void
     public var onSearch: (String) -> Void
         
     public init(
         viewModel: SearchInputViewModel,
-        placeholder: String = "상품을 검색해주세요.",
         onClear: @escaping (() -> Void) = { },
         onSearch: @escaping ((String) -> Void) = { _ in },
     ) {
         self.viewModel = viewModel
-        self.placeholder = placeholder
         self.onClear = onClear
         self.onSearch = onSearch
     }
@@ -92,7 +91,7 @@ public struct SearchInput: View {
         TextField(
             "",
             text: $viewModel.text,
-            prompt: Text(placeholder)
+            prompt: Text(viewModel.placeholder)
                 .foregroundColor(Color(uiColor: .g60))
                 .font((Font(UIFont.b2r14)))
         )
@@ -148,28 +147,23 @@ struct SearchInput_Previews: PreviewProvider {
         Group {
             VStack {
                 SearchInput(
-                    viewModel: .init(),
-                    placeholder: "상품을 검색해주세요"
+                    viewModel: .init()
                 )
                 
                 SearchInput(
-                    viewModel: .init(text: "텍스트 입력 중", isFocused: true),
-                    placeholder: "상품을 검색해주세요"
+                    viewModel: .init(text: "텍스트 입력 중", isFocused: true)
                 )
                 
                 SearchInput(
-                    viewModel: .init(text: "텍스트 입력 완료"),
-                    placeholder: "상품을 검색해주세요"
+                    viewModel: .init(text: "텍스트 입력 완료")
                 )
                 
                 SearchInput(
-                    viewModel: .init(text: "키워드 있을 때", keyword: "아우터"),
-                    placeholder: "상품을 검색해주세요"
+                    viewModel: .init(text: "키워드 있을 때", keyword: "아우터")
                 )
                 
                 SearchInput(
-                    viewModel: .init(text: "키워드 길 때", keyword: "ChangeKeyword"),
-                    placeholder: "상품을 검색해주세요"
+                    viewModel: .init(text: "키워드 길 때", keyword: "ChangeKeyword")
                 )
             }
             .padding()

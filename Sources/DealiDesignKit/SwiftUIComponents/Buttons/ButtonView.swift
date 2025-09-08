@@ -212,6 +212,10 @@ struct ButtonViewStyle: ButtonStyle {
     @ObservedObject var viewModel: ButtonViewModel
     
     func makeBody(configuration: Configuration) -> some View {
+        let textColor = self.viewModel.isEnabled
+                ? self.viewModel.style.color.attribute.normal.text
+                : self.viewModel.style.color.attribute.disabled.text
+        
         ZStack {
             if !viewModel.isLoading {
                 if configuration.isPressed && viewModel.isEnabled {
@@ -220,8 +224,12 @@ struct ButtonViewStyle: ButtonStyle {
             }
             
             HStack(spacing: viewModel.style.widthPadding?.internalSpacing) {
-                if let leftImage = self.processedUIImage(imageSet: viewModel.leftImage) {
-                    Image(uiImage: leftImage).renderingMode(.original)
+                if let leftImageSet = viewModel.leftImage, let leftImage = self.processedUIImage(imageSet: leftImageSet) {
+                    if leftImageSet.needOriginColor == true {
+                        Image(uiImage: leftImage).renderingMode(.original)
+                    } else {
+                        Image(uiImage: leftImage).renderingMode(.template).foregroundColor(Color(uiColor: textColor))
+                    }
                 } else {
                     EmptyView()
                 }
@@ -232,8 +240,12 @@ struct ButtonViewStyle: ButtonStyle {
                     .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                if let rightImage = self.processedUIImage(imageSet: viewModel.rightImage) {
-                    Image(uiImage: rightImage).renderingMode(.original)
+                if let rightImageSet = viewModel.rightImage, let rightImage = self.processedUIImage(imageSet: rightImageSet) {
+                    if rightImageSet.needOriginColor == true {
+                        Image(uiImage: rightImage).renderingMode(.original)
+                    } else {
+                        Image(uiImage: rightImage).renderingMode(.template).foregroundColor(Color(uiColor: textColor))
+                    }
                 } else {
                     EmptyView()
                 }
@@ -261,25 +273,16 @@ struct ButtonViewStyle: ButtonStyle {
             .allowsHitTesting(false)
     }
     
-    private func processedUIImage(imageSet: ClickableImage?) -> UIImage? {
-        guard let imageSet = imageSet,
-                  let leftImage = imageSet.uiImage,
-                  self.viewModel.isLoading == false else {
-                return nil
-            }
+    private func processedUIImage(imageSet: ClickableImage) -> UIImage? {
+        guard let leftImage = imageSet.uiImage,
+              self.viewModel.isLoading == false else {
+            return nil
+        }
         
         let targetSize = self.viewModel.style.config.buttonType.imageSize
         let resized = leftImage.resize(targetSize)
         
-        if imageSet.needOriginColor == true {
-            // 원본 색 유지
-            return resized
-        } else {
-            let textColor = (self.viewModel.isEnabled
-                             ? self.viewModel.style.color.attribute.normal.text
-                             : self.viewModel.style.color.attribute.disabled.text)
-            return resized.withTintColor(textColor, renderingMode: .alwaysOriginal)
-        }
+        return resized.withRenderingMode(.alwaysOriginal)
     }
 }
 

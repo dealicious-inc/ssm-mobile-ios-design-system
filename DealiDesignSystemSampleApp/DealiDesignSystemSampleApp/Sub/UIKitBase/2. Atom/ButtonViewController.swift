@@ -591,7 +591,6 @@ extension ButtonViewController {
             
             let buttonViewModel = ButtonViewModel(type: buttonStyle, title: title)
             
-            
             switch Int.random(in: 0...3) {
             case 0:
                 buttonViewModel.leftImage = ClickableImage(DealiIcon.ic_info.image)

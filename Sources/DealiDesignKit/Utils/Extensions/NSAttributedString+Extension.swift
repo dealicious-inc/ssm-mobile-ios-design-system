@@ -138,8 +138,14 @@ public extension NSMutableAttributedString {
         } else {
             style = NSMutableParagraphStyle()
         }
-        let multiple = maxLineHeight / font.lineHeight
-        style.lineHeightMultiple = multiple
+        
+        if #available(iOS 16.0, *) {
+            style.maximumLineHeight = maxLineHeight
+            style.minimumLineHeight = maxLineHeight
+        } else {
+            let multiple = maxLineHeight / font.lineHeight
+            style.lineHeightMultiple = multiple
+        }
 
         let baselineOffset = (maxLineHeight - font.lineHeight) / 2
 

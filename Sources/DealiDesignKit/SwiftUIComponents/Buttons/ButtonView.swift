@@ -261,8 +261,8 @@ struct ButtonViewStyle: ButtonStyle {
                      ? (viewModel.style.widthPadding?.withImage ?? 0.0)
                      : (viewModel.style.widthPadding?.normal ?? 0.0)
             )
+            .padding(.vertical, viewModel.style.heightPadding)
         }
-        .padding(.vertical, viewModel.style.heightPadding)
         .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
     }
     

@@ -57,7 +57,6 @@ public enum DealiIcon {
   public static let ic_alarm_request_filled = DesignSystemImage(name: "ic_alarm_request_filled")
   public static let ic_arrow_close_1_filled = DesignSystemImage(name: "ic_arrow_close_1_filled")
   public static let ic_arrow_open_1_filled = DesignSystemImage(name: "ic_arrow_open_1_filled")
-  public static let ic_arrow_rightcircle = DesignSystemImage(name: "ic_arrow_rightcircle")
   public static let ic_bookmark_1_filled = DesignSystemImage(name: "ic_bookmark_1_filled")
   public static let ic_calendar_filled = DesignSystemImage(name: "ic_calendar_filled")
   public static let ic_camera_filled = DesignSystemImage(name: "ic_camera_filled")

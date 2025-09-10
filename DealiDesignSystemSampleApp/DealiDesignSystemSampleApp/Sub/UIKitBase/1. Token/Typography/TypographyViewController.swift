@@ -137,6 +137,7 @@ final class TypoView: UIView {
     }
     
     private let titleLabel = UILabel()
+    private let lineHeightLabel = UILabel()
     private let textLabel = UILabel()
     
     init(fontName: String?,
@@ -149,14 +150,42 @@ final class TypoView: UIView {
         
         super.init(frame: .zero)
         
+        let verticalLine = UIView()
+        let horizontalLine = UIView()
+        
         self.addSubview(titleLabel)
         titleLabel.then {
             $0.font = self.font
             $0.textColor = .g100
-            $0.attributedText = NSMutableAttributedString(string: self.fontName ?? "").color($0.textColor).font($0.font).setLineHeight()
+            $0.attributedText = NSMutableAttributedString(string: "\(self.fontName ?? "") 333333").color($0.textColor).font($0.font).setLineHeight()
             $0.backgroundColor = .secondary03
         }.snp.makeConstraints {
             $0.top.left.right.equalToSuperview().inset(20.0)
+        }
+        
+        self.addSubview(horizontalLine)
+        horizontalLine.then {
+            $0.backgroundColor = .red
+        }.snp.makeConstraints {
+            $0.centerY.left.right.equalTo(titleLabel)
+            $0.height.equalTo(0.5)
+        }
+        
+        self.addSubview(verticalLine)
+        verticalLine.then {
+            $0.backgroundColor = .red
+        }.snp.makeConstraints {
+            $0.centerX.top.bottom.equalTo(titleLabel)
+            $0.width.equalTo(0.5)
+        }
+        
+        self.addSubview(self.lineHeightLabel)
+        self.lineHeightLabel.then {
+            $0.numberOfLines = 0
+            $0.backgroundColor = .secondary04
+        }.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4.0)
+            $0.left.right.equalToSuperview().inset(20.0)
         }
         
         self.addSubview(textLabel)
@@ -166,9 +195,16 @@ final class TypoView: UIView {
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: self.text).color($0.textColor).font($0.font).setLineHeight()
         }.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10.0)
+            $0.top.equalTo(lineHeightLabel.snp.bottom).offset(10.0)
             $0.bottom.left.right.equalToSuperview().inset(20.0)
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.lineHeightLabel.attributedText = NSMutableAttributedString(string: "dealiLineHeight: \(self.font.dealiLineHeight) / labelHeight: \(self.titleLabel.frame.height)")
+            .color(.g100).font(.b2sb14).setLineHeight()
     }
     
     required init?(coder: NSCoder) {

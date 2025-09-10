@@ -14,12 +14,17 @@ public final class SearchInputViewModel: ObservableObject {
     @Published public var text: String = ""
     @Published public var isFocused: Bool = false
     @Published public var keyword: String?
+    @Published public var resetTextWhenClearTapped: Bool = true
     
-    public init(placeholder: String = "상품을 검색해주세요.", text: String = "", isFocused: Bool = false, keyword: String? = nil) {
+    public init(placeholder: String = "상품을 검색해주세요.",
+                text: String = "", isFocused: Bool = false,
+                keyword: String? = nil,
+                resetTextWhenClearTapped: Bool = true) {
         self.placeholder = placeholder
         self.text = text
         self.isFocused = isFocused
         self.keyword = keyword
+        self.resetTextWhenClearTapped = resetTextWhenClearTapped
     }
 }
 
@@ -117,8 +122,10 @@ public struct SearchInput: View {
 
     private var clearButton: some View {
         Button {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                viewModel.text = ""
+            if viewModel.resetTextWhenClearTapped {
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    viewModel.text = ""
+                }
             }
             onClear()
         } label: {

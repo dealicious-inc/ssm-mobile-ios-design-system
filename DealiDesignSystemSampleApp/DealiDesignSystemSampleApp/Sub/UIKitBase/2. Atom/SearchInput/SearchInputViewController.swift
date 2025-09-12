@@ -8,13 +8,16 @@
 
 import UIKit
 import DealiDesignKit
+import Combine
 
 final class SearchInputViewController: UIViewController {
     
     var isSwiftUI: Bool = false
     var detachBag: AnyDetachBag = .init()
     
-    var swiftUIViewModel: DLSearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
+    var cancellables = Set<AnyCancellable>()
+    
+    var swiftUIViewModel: SearchInputViewModel = .init(text: "텍스트 입력 중", isFocused: false)
     
     init(isSwiftUI: Bool = false) {
         self.isSwiftUI = isSwiftUI
@@ -199,20 +202,39 @@ extension SearchInputViewController {
             $0.distribution = .equalSpacing
         }
        
-        let result =  DLSearchInput(
+        let searchInput =  SearchInput(
             viewModel: self.swiftUIViewModel,
-            placeholder: "상품을 검색해주세요",
-            onSearch: {
-                debugPrint("검색 클릭. 검색어: \(self.swiftUIViewModel.text)")
+            onClear: {
+                debugPrint("클리어 클릭")
+            },
+            onSearch: { text in
+                debugPrint("검색 클릭. 검색어: \(text)")
             }
-        ).toUIView(embeddedIn: self)
+        )
         
-        self.detachBag.add(result)
+        let searchInputView = DealiSwiftUIWrapperView(rootView: searchInput)
+        contentStackView.addArrangedSubview(searchInputView)
+        self.swiftUIViewModel.placeholder = "검색어를 입력하세요."
         
-        let view = result.view
-        contentStackView.addArrangedSubview(view)
+        self.swiftUIViewModel.$isFocused
+            .removeDuplicates()
+            .sink { isFocused in
+                if isFocused {
+                    debugPrint("포커스 인")
+                } else {
+                    debugPrint("포커스 아웃")
+                }
+            }
+            .store(in: &self.cancellables)
         
-        view.snp.makeConstraints {
+        self.swiftUIViewModel.$text
+            .removeDuplicates()
+            .sink { text in
+                debugPrint("문구: \(text)")
+            }
+            .store(in: &self.cancellables)
+        
+        searchInputView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
         }
             

@@ -14,9 +14,8 @@ struct SearchInputTestView: View {
     @State private var isFocused: Bool = false
 
     var body: some View {
-        DLSearchInput(
-            viewModel: .init(text: text, isFocused: isFocused),
-            placeholder: "상품을 검색해주세요"
+        SearchInput(
+            viewModel: .init(text: text, isFocused: isFocused)
         )
         .previewDisplayName("입력 중")
     }

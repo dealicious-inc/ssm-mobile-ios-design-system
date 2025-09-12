@@ -129,7 +129,7 @@ public struct SearchInput: View {
             }
             onClear()
         } label: {
-            Image.dealiIcon(named: "ic_x_circle_filled")
+            DealiIcon.ic_x_circle_filled.swiftUIImage
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 16.0, height: 16.0)
@@ -143,7 +143,7 @@ public struct SearchInput: View {
             viewModel.isFocused = false
             onSearch(viewModel.text)
         }, label: {
-            Image.dealiIcon(named: "ic_search")
+            DealiIcon.ic_search.swiftUIImage
         })
     }
 }

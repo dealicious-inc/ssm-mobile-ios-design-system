@@ -38,7 +38,7 @@ public struct SearchInput: View {
     public init(
         viewModel: SearchInputViewModel,
         onClear: @escaping (() -> Void) = { },
-        onSearch: @escaping ((String) -> Void) = { _ in },
+        onSearch: @escaping ((String) -> Void) = { _ in }
     ) {
         self.viewModel = viewModel
         self.onClear = onClear

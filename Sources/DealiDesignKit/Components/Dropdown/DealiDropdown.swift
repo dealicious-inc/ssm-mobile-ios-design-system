@@ -40,9 +40,9 @@ public class DealiDropdown: UIView {
         didSet {
             switch self.arrowType {
             case .open:
-                self.arrowIconImageView.image = UIImage.dealiIcon(named: "ic_arrow_open")
+                self.arrowIconImageView.image = DealiIcon.ic_arrow_open.image
             case .right:
-                self.arrowIconImageView.image = UIImage.dealiIcon(named: "ic_arrow_right")
+                self.arrowIconImageView.image = DealiIcon.ic_arrow_right.image
             }
         }
     }
@@ -189,10 +189,7 @@ public class DealiDropdown: UIView {
             $0.axis = .horizontal
             $0.spacing = 16.0
             $0.alignment = .center
-            $0.layer.borderColor = UIColor.g20.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 6.0
-            $0.layer.masksToBounds = true
+            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: .g20)
             $0.isLayoutMarginsRelativeArrangement = true
             $0.layoutMargins = .init(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         }.snp.makeConstraints {

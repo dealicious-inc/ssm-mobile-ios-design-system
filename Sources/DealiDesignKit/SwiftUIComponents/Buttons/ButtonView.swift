@@ -113,16 +113,6 @@ public struct ButtonView: View {
         }
         .background(
             GeometryReader { geo in
-                // 높이에 따라 cornerRadius 계산
-                let radius: CGFloat = {
-                    switch viewModel.style.cornerRadius {
-                    case .normal:
-                        return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
-                    case .round:
-                        return geo.size.height / 2.0
-                    }
-                }()
-                
                 Group {
                     if let gradientBackground = viewModel.style.gradientBackground {
                         LinearGradient(
@@ -130,10 +120,10 @@ public struct ButtonView: View {
                             startPoint: gradientBackground.startPoint,
                             endPoint: gradientBackground.endPoint
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: radius))
+                        .clipShape(RoundedRectangle(cornerRadius: self.getRadius(geo: geo)))
                     } else {
                         viewModel.style.backgroundColor
-                            .clipShape(RoundedRectangle(cornerRadius: radius))
+                            .clipShape(RoundedRectangle(cornerRadius: self.getRadius(geo: geo)))
                     }
                 }
             }
@@ -141,16 +131,7 @@ public struct ButtonView: View {
         .disabled(!viewModel.isEnabled)
         .overlay(
             GeometryReader { geo in
-                let radius: CGFloat = {
-                    switch viewModel.style.cornerRadius {
-                    case .normal:
-                        return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
-                    case .round:
-                        return geo.size.height / 2.0
-                    }
-                }()
-                
-                RoundedRectangle(cornerRadius: radius)
+                RoundedRectangle(cornerRadius: self.getRadius(geo: geo))
                     .stroke(viewModel.style.borderColor)
             }
         )
@@ -169,6 +150,16 @@ public struct ButtonView: View {
             .onDisappear {
                 isRotating = false
             }
+    }
+    
+    /// 높이에 따라 cornerRadius 계산
+    private func getRadius(geo: GeometryProxy) -> CGFloat {
+        switch viewModel.style.cornerRadius {
+        case .normal:
+            return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
+        case .round:
+            return geo.size.height / 2.0
+        }
     }
 }
 
@@ -268,9 +259,11 @@ struct ButtonViewStyle: ButtonStyle {
     
     @ViewBuilder
     private var rippleView: some View {
-        RoundedRectangle(cornerRadius: 6.0)
-            .fill(Color(.b2))
-            .allowsHitTesting(false)
+        GeometryReader { geo in
+            RoundedRectangle(cornerRadius: self.getRadius(geo: geo))
+                .fill(Color(.b2))
+                .allowsHitTesting(false)
+        }
     }
     
     private func processedUIImage(imageSet: ClickableImage) -> UIImage? {
@@ -283,6 +276,16 @@ struct ButtonViewStyle: ButtonStyle {
         let resized = leftImage.resize(targetSize)
         
         return resized.withRenderingMode(.alwaysOriginal)
+    }
+    
+    /// 높이에 따라 cornerRadius 계산
+    private func getRadius(geo: GeometryProxy) -> CGFloat {
+        switch viewModel.style.cornerRadius {
+        case .normal:
+            return viewModel.style.cornerRadius.radius(with: viewModel.style.config.buttonType)
+        case .round:
+            return geo.size.height / 2.0
+        }
     }
 }
 

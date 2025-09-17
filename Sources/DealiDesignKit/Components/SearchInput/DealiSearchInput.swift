@@ -24,6 +24,7 @@ public protocol DealiSearchInputDelegate: AnyObject {
     func editingChanged(keyword: String?)
 }
 
+@available(*, deprecated)
 public final class DealiSearchInput: UIView {
     
     // MARK: Enum Types

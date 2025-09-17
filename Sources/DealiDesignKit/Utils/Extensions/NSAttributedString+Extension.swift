@@ -115,39 +115,38 @@ public extension NSMutableAttributedString {
     }
     
     private func setLineHeightWithBaselineOffset() -> NSMutableAttributedString {
-        let source = self.string
-        guard source.isEmpty == false else { return self }
+        guard self.length > 0 else { return self }
 
-        var maxLineHeight: CGFloat = 0.0
-        var firstFont: UIFont?
+        // 1) max line height 수집 (dealiLineHeight는 프로젝트 정의)
+        var maxLineHeight: CGFloat = 0
+        self.enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { attribute, _, _ in
+            if let font = attribute as? UIFont { maxLineHeight = max(maxLineHeight, font.dealiLineHeight) }
+        }
+        guard maxLineHeight > 0 else { return self }
 
-        self.enumerateAttribute(.font, in: NSRange(location: 0, length: self.length), options: []) { value, _, _ in
-            if let font = value as? UIFont {
-                maxLineHeight = max(maxLineHeight, font.dealiLineHeight)
-                if firstFont == nil { firstFont = font }
+        // 2) paragraphStyle: 모든 iOS에서 min/max 고정
+        let all = NSRange(location: 0, length: self.length)
+        let style: NSMutableParagraphStyle = (self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle)?
+            .mutableCopy() as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
+        // 라인 고정은 그대로
+        style.minimumLineHeight = maxLineHeight
+        style.maximumLineHeight = maxLineHeight
+        self.addAttribute(.paragraphStyle, value: style, range: all)
+
+        // run별 baseline 보정(심플 버전)
+        let k: CGFloat = 0.9   // 보정 강도 (0.0~1.0), 작을수록 약하게
+        let bias: CGFloat = -0.5 // 전체적으로 "아래로" 내리는 바이어스(필요 없으면 0)
+
+        self.enumerateAttributes(in: all, options: []) { attrs, range, _ in
+            guard let f = attrs[.font] as? UIFont else { return }
+            var local = ((maxLineHeight - f.lineHeight) * 0.5) * k + bias
+            // 픽셀 스냅(선택)
+            let scale = UIScreen.main.scale
+            local = (local * scale).rounded() / scale
+            if abs(local) > 0.01 {
+                self.addAttribute(.baselineOffset, value: local, range: range)
             }
         }
-
-        guard let font = firstFont else { return self }
-
-        let range = (source as NSString).range(of: source)
-        // 기존 paragraphStyle을 먼저 가져오기
-        let style: NSMutableParagraphStyle
-        if let existingStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
-            style = existingStyle.mutableCopy() as! NSMutableParagraphStyle
-        } else {
-            style = NSMutableParagraphStyle()
-        }
-        let multiple = maxLineHeight / font.lineHeight
-        style.lineHeightMultiple = multiple
-
-        let baselineOffset = (maxLineHeight - font.lineHeight) / 2
-
-        self.addAttributes([
-            .paragraphStyle: style,
-            .baselineOffset: baselineOffset
-        ], range: range)
-
         return self
     }
     

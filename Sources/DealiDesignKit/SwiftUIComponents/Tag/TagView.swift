@@ -35,5 +35,9 @@ public struct TagView: View {
 }
 
 #Preview {
-    TagView(text: "Test", type: .tagOutlineLarge01)
+    VStack {
+        TagView(text: "Test", type: .tagOutlineLarge01)
+        TagView(text: "Test", type: .tagOutlineLarge04)
+
+    }
 }

@@ -55,6 +55,7 @@ public extension UIColor {
 // MARK: - ETC
 public extension UIColor {
     static var b70: UIColor { EtcColor.b70.color() }
+    static var b60: UIColor { EtcColor.b60.color() }
     static var b50: UIColor { EtcColor.b50.color() }
     static var b40: UIColor { EtcColor.b40.color() }
     static var b30: UIColor { EtcColor.b30.color() }

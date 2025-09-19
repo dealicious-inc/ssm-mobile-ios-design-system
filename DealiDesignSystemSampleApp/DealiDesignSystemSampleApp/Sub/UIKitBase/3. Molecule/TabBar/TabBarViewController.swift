@@ -383,17 +383,35 @@ class TabBarViewController: UIViewController {
     }
     
     func setTabBarViewController() {
-        for i in 0..<2 {
-            let viewController = DealiTabBarChildViewController()
-            viewController.view.backgroundColor = self.randomColor()
-            self.segmentTabBarItemArray[i].viewController = viewController
-            if i == 1 {
+        for i in 0..<3 {
+            if i == 0 {
+                let viewController = DealiTabInTabBarChildViewController()
+                let buttonViewModel = ButtonViewModel(type: .btnFilledLarge01, title: "button")
+                let button = ButtonView(viewModel: buttonViewModel) {
+                    DealiAlert.show(message: "테스트테스트",
+                                    cancelButtonTitle: nil,
+                                    confirmButtonTitle: "확인",
+                                    alertPresentingViewController: self,
+                                    cancelAction: nil, confirmAction: nil)
+                }.UIKit()
+                viewController.view.addSubview(button)
+                button.snp.makeConstraints {
+                    $0.centerX.centerY.equalToSuperview()
+                }
                 
-                let tabBarItem = DealiTabBarItem.make(viewController, title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0)))
+                let tabBarItem = DealiTabBarItem.make(viewController, title: "테스트테스트")
                 self.segmentTabBarItems.append(tabBarItem)
             } else {
-                let tabBarItem = DealiTabBarItem.make(viewController, title: "\(i)번 Tab")
-                self.segmentTabBarItems.append(tabBarItem)
+                let viewController = DealiTabBarChildViewController()
+                viewController.view.backgroundColor = self.randomColor()
+                self.segmentTabBarItemArray[i - 1].viewController = viewController
+                if i == 2 {
+                    let tabBarItem = DealiTabBarItem.make(viewController, title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0)))
+                    self.segmentTabBarItems.append(tabBarItem)
+                } else {
+                    let tabBarItem = DealiTabBarItem.make(viewController, title: "\(i)번 Tab")
+                    self.segmentTabBarItems.append(tabBarItem)
+                }
             }
         }
         
@@ -820,12 +838,14 @@ extension TabBarViewController {
     
     func segment01ContentView(_ items: [TabBarItemViewModel]) {
         setTitleLabel("tabBarSegment01 VC")
-        let childVCArr = makeTabBarChildVCArr(items)
+        var childVCArr = makeTabBarChildVCArr(items)
         contentStackView.addArrangedSubview(self.tabBarSegment01ContentView)
         self.tabBarSegment01ContentView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(300.0)
         }
+        
+        childVCArr.insert(DealiTabInTabBarChildViewController(), at: 0)
         
         let viewModel = TabBarViewModel(type: .tabBarSegment01, items: items)
         let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)

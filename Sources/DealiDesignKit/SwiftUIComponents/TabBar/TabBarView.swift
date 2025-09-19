@@ -98,6 +98,7 @@ public struct TabBarView: View {
                                 tabButtons
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
                         }
                         .onAppear {
                             proxy.scrollTo(viewModel.selectedIndex, anchor: .center)
@@ -114,7 +115,6 @@ public struct TabBarView: View {
                     }
                 }
             }
-            .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
         }
         .frame(height: viewModel.type.tabBarContentHeight)
     }
@@ -200,6 +200,7 @@ public struct TabBarView: View {
             .padding(.horizontal, type.itemHorizontalPadding)
             .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
         }
+        .buttonStyle(.plain)
     }
     
     @ViewBuilder

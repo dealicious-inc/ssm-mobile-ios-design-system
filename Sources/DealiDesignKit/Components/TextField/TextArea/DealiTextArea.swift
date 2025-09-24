@@ -128,7 +128,9 @@ public final class DealiTextArea: UIView, DealiTextField {
         self.textField.rx.didChange
             .filter { self.showTextCounter }
             .bind(with: self) { owner, _ in
-                owner.textCounterLabel.text = "\(owner.text?.count ?? 0)/100"
+                if let maxLength = self.maxLength {
+                    owner.textCounterLabel.text = "\(owner.text?.count ?? 0)/\(maxLength)"
+                }
             }
             .disposed(by: self.disposeBag)
     }
@@ -176,12 +178,20 @@ public final class DealiTextArea: UIView, DealiTextField {
         } set {
             if self.textField.text != newValue {
                 self.textField.text = newValue
-                self.textCounterLabel.text = "\(newValue?.count ?? 0)/100"
+                if let maxLength = self.maxLength {
+                    self.textCounterLabel.text = "\(newValue?.count ?? 0)/\(maxLength)"
+                }
             }
         }
     }
     
-    public var maxLength: Int?
+    public var maxLength: Int? {
+        didSet {
+            if let maxLength = self.maxLength {
+                self.textCounterLabel.text = "\(self.text?.count ?? 0)/\(maxLength)"
+            }
+        }
+    }
     
     public var contentType: ContentType = .flexible(min: 46.0, max: 106.0) {
         didSet {

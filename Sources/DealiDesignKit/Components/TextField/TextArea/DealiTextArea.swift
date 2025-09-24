@@ -345,6 +345,7 @@ private extension DealiTextArea {
             $0.textColor = .g70
             $0.textAlignment = .left
             $0.text = self.placeholder
+            $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.top.left.right.equalToSuperview().inset(12.0)
         }

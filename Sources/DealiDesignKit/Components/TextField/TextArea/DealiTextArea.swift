@@ -344,7 +344,7 @@ private extension DealiTextArea {
             $0.text = self.placeholder
             $0.numberOfLines = 0
         }.snp.makeConstraints {
-            $0.top.bottom.equalTo(textField).inset(13.0)
+            $0.top.equalTo(textField).inset(13.0)
             $0.left.right.equalTo(textField).inset(16.0)
         }
         

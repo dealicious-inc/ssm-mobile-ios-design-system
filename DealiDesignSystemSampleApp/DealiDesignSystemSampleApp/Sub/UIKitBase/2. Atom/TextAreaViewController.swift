@@ -124,7 +124,7 @@ final class TextAreaViewController: UIViewController {
         self.textAreaWithButton.then {
             $0.isMandatory = true
             $0.contentType = .fixed(106.0)
-            $0.placeholder = "내용을 입력해 주세요\n빨리 입력해주세요\n현기증 난단 말이예요ㅁㄴㅇㅁㅇㅁㅇㅁㅇㅁㅇㅁㅇㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㅇㄴ"
+            $0.placeholder = "내용을 입력해 주세요\n빨리 입력해주세요\n현기증 난단 말이예요"
             $0.rightButton = UIButton().then {
                 $0.setImage(UIImage.dealiIcon(named: "ic_download_1_filled"), for: .normal)
             }

@@ -326,10 +326,7 @@ private extension DealiTextArea {
             $0.spellCheckingType = .no
             $0.textColor = .g100
             $0.tintColor = .g100
-            $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = 6.0
-            $0.layer.borderWidth = 1.0
-            $0.layer.borderColor = UIColor.g20.cgColor
+            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: .g20)
             $0.backgroundColor = .primary04
             $0.textContainerInset = .init(top: 13.0, left: 9.0, bottom: 12.0, right: 12.0)
         }.snp.makeConstraints {
@@ -338,7 +335,7 @@ private extension DealiTextArea {
         
         self.setContentType(self.contentType)
         
-        self.textField.addSubview(self.placeholderLabel)
+        self.addSubview(self.placeholderLabel)
         self.placeholderLabel.then {
             $0.font = .b2r14
             $0.isUserInteractionEnabled = false
@@ -347,7 +344,8 @@ private extension DealiTextArea {
             $0.text = self.placeholder
             $0.numberOfLines = 0
         }.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview().inset(12.0)
+            $0.top.bottom.equalTo(textField).inset(13.0)
+            $0.left.right.equalTo(textField).inset(16.0)
         }
         
         let bottomInfoStackView = UIStackView().then {

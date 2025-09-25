@@ -113,6 +113,7 @@ public struct TabBarView: View {
                     HStack(spacing: viewModel.type.itemHorizontalPadding) {
                         tabButtons
                     }
+                    .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
                 }
             }
         }

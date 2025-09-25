@@ -211,12 +211,14 @@ public struct TabBarView: View {
             switch style {
             case .chipFilledSmall02: return .chipFilledSmall02
             case .chipFilledSmall03: return .chipFilledSmall03
+            case .chipNotification: return .chipNotification
             }
         }()
         let chipViewModel = ChipViewModel(
             type: chipType,
             text: item.title ?? "",
-            status: index == viewModel.selectedIndex ? .selected : .normal
+            status: index == viewModel.selectedIndex ? .selected : .normal,
+            showBadge: viewModel.items[index].showBadge
         )
         
         ChipView(

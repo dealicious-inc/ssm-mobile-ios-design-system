@@ -77,7 +77,7 @@ class DealiTabInTabBarChildViewController: DealiTabBarChildViewController {
     override func loadView() {
         super.loadView()
         
-        let tabbar = TabBarView(type: .tabBarChip01,
+        let tabbar = TabBarView(type: .tabBarChipNotification,
                                 items: self.items)//.UIKit()
         
         let viewModel = TabBarViewModel(type: .tabBarChip01, items: self.items)

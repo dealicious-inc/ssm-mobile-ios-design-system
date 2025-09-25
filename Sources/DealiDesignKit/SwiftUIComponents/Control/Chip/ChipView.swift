@@ -23,6 +23,9 @@ public final class ChipViewModel: ObservableObject {
     @Published public var leftImage: UIImage?
     @Published public var rightImage: UIImage?
     
+    #warning("알림 탭바 기존 디자인 유지 위해 임시 추가. 원래 칩에는 뱃지가 없음.. ")
+    @Published public var showBadge: Bool = false
+    
     public var isSelected: Bool {
         get {
             return self.status == .selected
@@ -36,12 +39,14 @@ public final class ChipViewModel: ObservableObject {
         type: ChipViewType,
         text: String? = nil,
         status: DealiChipStatus = .normal,
-        singleImage: UIImage? = nil
+        singleImage: UIImage? = nil,
+        showBadge: Bool = false
     ) {
         self.type = type
         self.text = text
         self.status = status
         self.singleImage = singleImage
+        self.showBadge = showBadge
     }
     
     public init(
@@ -49,13 +54,15 @@ public final class ChipViewModel: ObservableObject {
         text: String? = nil,
         status: DealiChipStatus = .normal,
         leftImage: UIImage? = nil,
-        rightImage: UIImage? = nil
+        rightImage: UIImage? = nil,
+        showBadge: Bool = false
     ) {
         self.type = type
         self.text = text
         self.status = status
         self.leftImage = leftImage
         self.rightImage = rightImage
+        self.showBadge = showBadge
     }
     
     func toggle() {
@@ -76,9 +83,18 @@ public struct ChipView: View {
     
     public var body: some View {
         let colorAttribute = viewModel.type.color.attribute
-        let chipColor = (viewModel.status == .disabled)
-        ? colorAttribute.disabled
-        : (viewModel.isSelected ? (colorAttribute.selected ?? colorAttribute.normal) : colorAttribute.normal)
+        
+        let baseChipColor =
+            (viewModel.status == .disabled)
+            ? colorAttribute.disabled
+            : (viewModel.isSelected ? (colorAttribute.selected ?? colorAttribute.normal)
+                                    :  colorAttribute.normal)
+        let chipColor =
+            (viewModel.type == .chipNotification &&
+             viewModel.status != .disabled &&
+             viewModel.isSelected)
+            ? (ChipViewType.chipFilledSmall02.color.attribute.selected ?? colorAttribute.normal)
+            : baseChipColor
         
         let config = viewModel.type.config.font
         let font = (viewModel.status == .disabled)
@@ -110,6 +126,14 @@ public struct ChipView: View {
                     Text(text)
                         .foregroundStyle(Color(chipColor.text))
                         .font(Font(font))
+                        .overlay(alignment: .topTrailing) {
+                            if viewModel.showBadge {
+                                Circle()
+                                    .fill(Color(.primary01))
+                                    .frame(width: 4, height: 4)
+                                    .offset(x: 2, y: -2)
+                            }
+                        }
                 }
                 
                 if let rightImage = viewModel.rightImage, viewModel.singleImage == nil {
@@ -156,6 +180,9 @@ public enum ChipViewType: CaseIterable {
     case chipOutlineSquareMedium01
     case chipOutlineSquareSmall01
     
+    #warning("알림 탭바 기존 디자인 유지 위해 임시 추가 타입. 추후 제거 필요")
+    case chipNotification // chipFilledSmall03에서 컬러 수정
+    
     var color: ClickableColorConfig {
         switch self {
         case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineSmall01:
@@ -167,7 +194,7 @@ public enum ChipViewType: CaseIterable {
             return ChipsFilledColor.primary01
         case .chipFilledSmall02:
             return ChipsFilledColor.secondary01
-        case .chipFilledSmall03:
+        case .chipFilledSmall03, .chipNotification:
             return ChipsFilledColor.primary02
         
         case .chipFilledSquareLarge01, .chipFilledSquareMedium01, .chipFilledSquareSmall01:
@@ -188,14 +215,14 @@ public enum ChipViewType: CaseIterable {
             return ChipsConfig.large
         case .chipOutlineMedium01, .chipOutlineMedium02, .chipFilledMedium01, .chipFilledSquareMedium01, .chipFilledSquareMedium02, .chipOutlineSquareMedium01:
             return ChipsConfig.medium
-        case .chipOutlineSmall01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSquareSmall01, .chipFilledSquareSmall02, .chipOutlineSquareSmall01:
+        case .chipOutlineSmall01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSquareSmall01, .chipFilledSquareSmall02, .chipOutlineSquareSmall01, .chipNotification:
             return ChipsConfig.small
         }
     }
     
     var cornerRadius: CGFloat {
         switch self {
-        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipNotification:
             return config.height.chip / 2
         default:
             return 4.0
@@ -204,7 +231,7 @@ public enum ChipViewType: CaseIterable {
     
     var padding: ClickableComponent.Configuration.Padding {
         switch self {
-        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipNotification:
             return .round
         default:
             return .square

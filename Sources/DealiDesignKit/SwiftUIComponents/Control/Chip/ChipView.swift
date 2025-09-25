@@ -131,7 +131,7 @@ public struct ChipView: View {
                                 Circle()
                                     .fill(Color(.primary01))
                                     .frame(width: 4, height: 4)
-                                    .offset(x: 2, y: -2)
+                                    .offset(x: 4, y: -2)
                             }
                         }
                 }

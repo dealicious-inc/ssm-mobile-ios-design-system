@@ -94,6 +94,10 @@ public class ClickableUnitButton: SystemButton {
         }
     }
     
+    public var fixedSize: CGSize {
+        return CGSize(width: self.flexibleWidth, height: self.bounds.size.height)
+    }
+    
     /// isFixedSize 값이 true일때 들어간 content별로 사이즈를 구해서 button width 값을 계산해서 사용
     private var flexibleWidth: CGFloat {
         

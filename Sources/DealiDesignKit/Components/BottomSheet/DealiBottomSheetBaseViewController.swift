@@ -85,7 +85,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         if let cornerLayer = self.cornerLayer {

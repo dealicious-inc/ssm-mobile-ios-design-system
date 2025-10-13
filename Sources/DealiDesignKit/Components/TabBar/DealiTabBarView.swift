@@ -42,6 +42,7 @@ public class DealiTabBar {
 }
 
 final public class DealiTabBarView: UIView {
+    private var lastKnownWidth: CGFloat = 0
     
     public weak var delegate: DealiTabBarViewDelegate?
     
@@ -56,9 +57,6 @@ final public class DealiTabBarView: UIView {
     /// Image Chip Slot 영역이 선택 상태일 때만 노출되는지 여부
     /// true일 경우 선택 상태에서만 노출, false일 경우 항상 노출
     public var showImageChipSlotWhenSelected: Bool = true
-    
-    /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
-    private var isLayoutInitialized = false
     
     private var selectedIndex: Int = -1 {
         didSet {
@@ -150,12 +148,16 @@ final public class DealiTabBarView: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        if self.collectionView.frame.width > 0.0 && self.collectionView.contentSize.width > 0.0 && self.isLayoutInitialized == false && self.tabBarItemInfoArray.count > 0 {
-            
-            self.isLayoutInitialized = true
-            if self.selectedIndex >= 0 {
-                self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
-            }
+        let currentWidth = self.collectionView.frame.width
+        guard currentWidth > 0, currentWidth != lastKnownWidth else { return }
+        lastKnownWidth = currentWidth
+        
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.collectionView.layoutIfNeeded()
+        self.updateTabBarItemPositions()
+        
+        if self.selectedIndex >= 0 {
+            self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
         }
     }
     

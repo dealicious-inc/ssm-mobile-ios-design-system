@@ -109,7 +109,7 @@ open class DealiPlaceholderImageView: UIImageView {
         }
     }
     
-    /// 상품 품철, 삭제, 비활성 도매 상품일경우 썸네일에 공통 딤드처리를 위해 추가
+    /// 상품 품절, 삭제, 비활성 도매 상품일경우 썸네일에 공통 딤드처리를 위해 추가
     public var isDimmedVisible: Bool = false {
         didSet {
             self.dimmedView.isHidden = !self.isDimmedVisible

@@ -23,7 +23,8 @@ struct FullSwiftUIBaseView: View {
         Component(title: "Accordion", linkView: AccordionTestView()),
         Component(title: "TextLink", linkView: TextLinkTestView()),
         Component(title: "Toast", linkView: ToastTestView()),
-        Component(title: "ImageChip", linkView: ImageChipTestView())
+        Component(title: "ImageChip", linkView: ImageChipTestView()),
+        Component(title: "Count Stepper", linkView: CountStepperTestView())
     ]
     
     var body: some View {

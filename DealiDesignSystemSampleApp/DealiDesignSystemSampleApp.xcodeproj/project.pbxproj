@@ -59,6 +59,7 @@
 		4DE326202CDB61CF00E67FEC /* ImageChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */; };
 		4DF5ABEB2CC25E1300BFB7D6 /* ColorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */; };
 		4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */; };
+		547F09872EA88009000786DF /* CountStepperTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547F09862EA88009000786DF /* CountStepperTestView.swift */; };
 		5A090EA62B21962A009EEE0B /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A090EA52B21962A009EEE0B /* TagViewController.swift */; };
 		5A1E6B7D2AE68B270048D751 /* ChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */; };
 		5FEF636A2D966F2400248F3E /* TextLinkTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEF63692D966F2400248F3E /* TextLinkTestView.swift */; };
@@ -129,6 +130,7 @@
 		4DE3261F2CDB61CF00E67FEC /* ImageChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChipViewController.swift; sourceTree = "<group>"; };
 		4DF5ABEA2CC25E1300BFB7D6 /* ColorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorItemView.swift; sourceTree = "<group>"; };
 		4DFE8C602BE4AF140063A15E /* TextAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaViewController.swift; sourceTree = "<group>"; };
+		547F09862EA88009000786DF /* CountStepperTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStepperTestView.swift; sourceTree = "<group>"; };
 		5A090EA52B21962A009EEE0B /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		5A1E6B7C2AE68B270048D751 /* ChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipViewController.swift; sourceTree = "<group>"; };
 		5FEF63692D966F2400248F3E /* TextLinkTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLinkTestView.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				3B92CD042D62CE96006A2057 /* AlertTestView.swift */,
 				E54DEC772D6DC6D700288A7F /* ButtonTestView.swift */,
 				4DB4F3D22D7968A200C49ABF /* CheckboxTestView.swift */,
+				547F09862EA88009000786DF /* CountStepperTestView.swift */,
 				FC0680622D81A8980076CC09 /* EmptyViewTest.swift */,
 				398927722D76C41200B20CC3 /* LabeledTestView.swift */,
 				398370942D91533A005C5CCD /* AccordionTestView.swift */,
@@ -634,6 +637,7 @@
 				FCE527BC2CC6504C000FB3F7 /* ColorView.swift in Sources */,
 				FC810BB72BDF9AC300220CB2 /* DealiPlaygroundViewController.swift in Sources */,
 				4DA438C72DD2F3CF006F94EC /* ToastViewController.swift in Sources */,
+				547F09872EA88009000786DF /* CountStepperTestView.swift in Sources */,
 				4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */,
 				39CB88632E1BAAD20014DAED /* CountStepperViewController.swift in Sources */,
 				4DFE8C612BE4AF140063A15E /* TextAreaViewController.swift in Sources */,

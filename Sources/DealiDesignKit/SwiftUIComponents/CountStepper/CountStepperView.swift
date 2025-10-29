@@ -88,15 +88,6 @@ public struct CountStepperView: View {
                     .stroke(self.isTextFieldFocused ? Color(uiColor: .g100) : Color(uiColor: .g30))
                     .frame(height: 30.0)
             )
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    
-                    Button("Done") {
-                        self.isTextFieldFocused = false
-                    }
-                }
-            }
             
             Button(action: self.increment) {
                 Image.dealiIcon(named: "ic_plus")

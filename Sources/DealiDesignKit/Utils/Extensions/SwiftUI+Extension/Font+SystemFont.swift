@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Font {
+public extension Font {
     static let h1sb32: Font = Font(UIFont.h1sb32)
     static let h2sb24: Font = Font(UIFont.h2sb24)
     static let h3sb28: Font = Font(UIFont.h3sb28)

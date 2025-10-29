@@ -70,7 +70,7 @@ final class CountStepperViewController: UIViewController {
     }
     
     func swiftUIView() -> UIView {
-        return CountStepperPreview()
+        return PublishTestView()
         .toUIView(embeddedIn: self)
         .view
     }
@@ -87,4 +87,43 @@ struct CountStepperPreview: View {
             Text("\(vm.value)")   // ✅ 같은 vm을 관찰하므로 값 변경 시 자동 갱신
         }
     }
+}
+
+final class PublishTestViewModel: ObservableObject {
+    @Published var value: Int {
+        didSet {
+            print(self.value)
+            self.checkBoxViewModel.isSelected = self.value > 5
+        }
+    }
+    var checkBoxViewModel: CheckboxViewModel
+    
+    init(value: Int) {
+        self.value = value
+        self.checkBoxViewModel = CheckboxViewModel(isSelected: false)
+    }
+}
+
+struct PublishTestView: View {
+    @ObservedObject var vm = PublishTestViewModel(value: 0)
+    
+    var body: some View {
+        VStack {
+            CountStepperView(viewModel: CountStepperViewModel(
+                value: vm.value,
+                isEnabled: true,
+                minValue: 0,
+                maxValue: 10,
+                acceptCountWhenEditingDidEnd: false
+            )) {
+                vm.value = $0
+            }
+            Text("\(vm.value)")
+            CheckboxView(label: "5 이상 선택됨", viewModel: vm.checkBoxViewModel)
+        }
+    }
+}
+
+#Preview {
+    PublishTestView()
 }

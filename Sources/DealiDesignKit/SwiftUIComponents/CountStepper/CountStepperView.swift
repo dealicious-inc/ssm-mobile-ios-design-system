@@ -73,6 +73,7 @@ public struct CountStepperView: View {
                 "",
                 text: self.bindingText
             )
+            .foregroundStyle(self.viewModel.isEnabled ? Color(UIColor.g100) : Color(UIColor.g50))
             .focused(self.$isTextFieldFocused)
             .frame(width: 40.0, height: 30.0)
             .multilineTextAlignment(.center)
@@ -96,16 +97,16 @@ public struct CountStepperView: View {
             .frame(width: 30.0, height: 30.0)
             .disabled(!self.canIncrement)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 6.0))
         .overlay(
             RoundedRectangle(cornerRadius: 6.0)
-                .stroke(self.isTextFieldFocused ? Color(uiColor: .g100) : Color(uiColor: .g30))
+                .stroke(self.borderColor)
                 .frame(height: 30.0)
         )
         .disabled(!self.viewModel.isEnabled)
         .onAppear {
             self.tempText = String(self.viewModel.value)
         }
+        .background(Color(UIColor.primary04))
     }
     
     public init(viewModel: CountStepperViewModel = CountStepperViewModel(), valueChanged: ((Int) -> Void)? = nil) {
@@ -172,10 +173,21 @@ public struct CountStepperView: View {
         self.tempText = String(self.viewModel.value)
         self.valueChanged?(self.viewModel.value)
     }
+    
+    private var borderColor: Color {
+        if !self.viewModel.isEnabled {
+            return Color(uiColor: .g20)
+        }
+        return self.isTextFieldFocused ? Color(uiColor: .g100) : Color(uiColor: .g30)
+    }
 }
 
 #Preview {
-    CountStepperPreview()
+    HStack {
+        CountStepperPreview()
+    }
+        
+    
 }
 
 struct CountStepperPreview: View {
@@ -188,5 +200,6 @@ struct CountStepperPreview: View {
             CountStepperView(viewModel: vm)
             Text("\(vm.value)")
         }
+        .background(Color.red)
     }
 }

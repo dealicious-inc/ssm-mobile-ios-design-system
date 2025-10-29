@@ -72,6 +72,7 @@ struct ColorView: View {
             name: "Etc",
             varients: [
                 ColorData(name: "b70", color: UIColor.b70.asColor()),
+                ColorData(name: "b60", color: UIColor.b60.asColor()),
                 ColorData(name: "b50", color: UIColor.b50.asColor()),
                 ColorData(name: "b40", color: UIColor.b40.asColor()),
                 ColorData(name: "b30", color: UIColor.b30.asColor()),

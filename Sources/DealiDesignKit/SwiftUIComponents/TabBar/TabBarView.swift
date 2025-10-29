@@ -132,7 +132,6 @@ public struct TabBarView: View {
                     let item = viewModel.items[index]
                     switch viewModel.type.style {
                     case .segment, .slider:
-//                        buttonTabItemView(viewModel.items[index], index: index)
                         ButtonTabItemView(
                                         item: item,
                                         index: index,
@@ -142,7 +141,6 @@ public struct TabBarView: View {
                                         select: selectTabItem
                                     )
                     case .sliderChip(let style):
-//                        chipTabItemView(viewModel.items[index], index: index, style: style)
                         ChipTabItemView(
                                         item: item,
                                         index: index,
@@ -257,73 +255,6 @@ public struct TabBarView: View {
             .fixedSize(horizontal: isScrollable, vertical: false)
         }
     }
-    
-//    @ViewBuilder
-//    private func buttonTabItemView(_ item: TabBarItemViewModel, index: Int) -> some View {
-//        Button(action: {
-//            selectTabItem(index)
-//        }) {
-//            let isSelected = viewModel.selectedIndex == index
-//            let type = viewModel.type
-//            
-//            VStack(spacing: 0) {
-//                ZStack(alignment: .topTrailing) {
-//                    HStack(spacing: 0) {
-//                        if let icon = viewModel.items[index].icon {
-//                            ImageHelper.kfImage(url: icon.url, size: icon.size)
-//                        }
-//                        
-//                        Text(viewModel.items[index].title ?? "")
-//                            .font(isSelected ? Font(type.selectedFont) : Font(type.font))
-//                            .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
-//                            .frame(maxWidth: .infinity , maxHeight: .infinity)
-//                    }
-//                    
-//                    if viewModel.items[index].showBadge {
-//                        badge
-//                    }
-//                }
-//                .fixedSize()
-//                .frame(height: viewModel.type.tabBarContentHeight - 2)
-//                
-//                if type.style == .segment || type.style == .slider {
-//                    IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
-//                }
-//            }
-//            .padding(.horizontal, type.itemHorizontalPadding)
-//            .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
-//        }
-//        .buttonStyle(.plain)
-//    }
-//    
-//    @ViewBuilder
-//    private func chipTabItemView(_ item: TabBarItemViewModel,
-//                                 index: Int,
-//                                 style: DealiTabBarPreset.DealiTabBarSliderChipStyle) -> some View {
-//        let chipType: ChipViewType = {
-//            switch style {
-//            case .chipFilledSmall02: return .chipFilledSmall02
-//            case .chipFilledSmall03: return .chipFilledSmall03
-//            case .chipNotification: return .chipNotification
-//            }
-//        }()
-//        let chipViewModel = ChipViewModel(
-//            type: chipType,
-//            text: item.title ?? "",
-//            status: index == viewModel.selectedIndex ? .selected : .normal,
-//            showBadge: viewModel.items[index].showBadge
-//        )
-//        
-//        ChipView(
-//            viewModel: chipViewModel,
-//            action: {
-//                selectTabItem(index)
-//            }
-//        )
-//        .padding(.horizontal, viewModel.type.itemHorizontalPadding)
-//        .frame(height: viewModel.type.tabBarContentHeight - 2)
-//        .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
-//    }
     
     @ViewBuilder
     private func imageChipTabItemView(_ item: DealiImageChipTabBarItem,

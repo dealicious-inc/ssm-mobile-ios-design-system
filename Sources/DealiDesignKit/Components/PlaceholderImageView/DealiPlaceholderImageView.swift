@@ -83,6 +83,7 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
 open class DealiPlaceholderImageView: UIImageView {
 
     private let placeholderImageView = UIImageView()
+    private let dimmedView = UIView()
     
     public var imageStyle: DealiPlaceholderImageStyle = .goods {
         didSet {
@@ -108,6 +109,13 @@ open class DealiPlaceholderImageView: UIImageView {
         }
     }
     
+    /// 상품 품절, 삭제, 비활성 도매 상품일경우 썸네일에 공통 딤드처리를 위해 추가
+    public var isDimmedVisible: Bool = false {
+        didSet {
+            self.dimmedView.isHidden = !self.isDimmedVisible
+        }
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -125,6 +133,13 @@ open class DealiPlaceholderImageView: UIImageView {
             $0.size.equalTo(CGSize.zero)
         }
         
+        self.addSubview(self.dimmedView)
+        self.dimmedView.then {
+            $0.backgroundColor = .b40
+            $0.isHidden = true
+        }.snp.makeConstraints {
+            $0.top.left.bottom.right.equalToSuperview()
+        }
         self.updateUI()
     }
     

@@ -63,6 +63,7 @@ final class PlaceholderImageViewController: UIViewController {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
             $0.viewShape = .rectangle([])
+            $0.isDimmedVisible = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 50.0, height: 50.0))
         }
@@ -89,6 +90,7 @@ final class PlaceholderImageViewController: UIViewController {
             $0.imageStyle = .goods
             $0.backgroundStyle = .dark
             $0.viewShape = .circle
+            $0.isDimmedVisible = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 100.0, height: 100.0))
         }
@@ -131,6 +133,7 @@ final class PlaceholderImageViewController: UIViewController {
         hRatioImageStackView.addArrangedSubview(self.rectanglePlaceholderImageView03)
         self.rectanglePlaceholderImageView03.then {
             $0.backgroundStyle = .dark
+            $0.isDimmedVisible = true
         }.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 126.0, height: 168.0))
         }

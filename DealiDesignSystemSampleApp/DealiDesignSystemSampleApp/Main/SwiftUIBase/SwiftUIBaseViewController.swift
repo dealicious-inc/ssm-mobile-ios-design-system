@@ -14,7 +14,7 @@ import DealiDesignKit
 
 final class SwiftUIBaseViewController: UIViewController {
     private let contentStackView = UIStackView()
-    private var componentButtonArray: [ClickableComponentButton] = []
+    private var componentButtonArray: [ClickableUnitButtonComponent] = []
     
     override func loadView() {
         self.view = .init()

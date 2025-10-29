@@ -8,11 +8,16 @@ import SwiftUI
 public final class DealiSwiftUIWrapperView<Content: View>: UIView {
 
     private var hostingController: UIHostingController<Content>?
-    private let rootView: Content
+    public private(set) var rootView: Content
 
     public init(rootView: Content) {
         self.rootView = rootView
         super.init(frame: .zero)
+    }
+    
+    public func update(rootView: Content) {
+        self.rootView = rootView
+        self.hostingController?.rootView = rootView
     }
 
     public required init?(coder: NSCoder) {

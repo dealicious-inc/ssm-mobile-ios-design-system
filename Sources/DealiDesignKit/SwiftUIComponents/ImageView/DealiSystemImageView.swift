@@ -13,7 +13,7 @@ public struct DealiSystemImageView: View {
     let urlString: String?
     let systemStyle: DealiImageSystemStyle
     var resizer: (((String?, CGSize)) -> URL?)?
-    `
+    
     public init(
         urlString: String? = nil,
         systemStyle: DealiImageSystemStyle,
@@ -21,7 +21,7 @@ public struct DealiSystemImageView: View {
             self.urlString = urlString
             self.systemStyle = systemStyle
             self.resizer = resizer
-        }`
+        }
 
     // systemStyle을 기반으로 placeholder를 내부에서 구성
     var placeholder: some View {

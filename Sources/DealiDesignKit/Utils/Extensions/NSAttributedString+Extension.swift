@@ -187,22 +187,35 @@ public extension NSMutableAttributedString {
 
     func bullet(_ bullet: String) -> NSMutableAttributedString {
         let source = self.string
+        guard source.isEmpty == false, bullet.isEmpty == false else { return self }
         
-        guard source.isEmpty == false else { return self }
-        
-        let range = (source as NSString).range(of: source)
-        var style: NSMutableParagraphStyle?
-        if let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
-            style = paragraphStyle
-            style?.headIndent = (bullet as NSString).size().width
-        } else {
-            style = NSMutableParagraphStyle()
-            style?.headIndent = (bullet as NSString).size().width
+        // 불릿 중복 검사
+        if source.hasPrefix(bullet) == false {
+            // 불릿에 폰트와 동일한 스타일 적용
+            let attrs: [NSAttributedString.Key: Any]
+            if self.length > 0 {
+                attrs = self.attributes(at: 0, effectiveRange: nil)
+            } else {
+                attrs = [:]
+            }
+            let bulletAttr = NSAttributedString(string: bullet, attributes: attrs)
+            self.insert(bulletAttr, at: 0)
         }
         
-        if let style = style {
-            self.addAttribute(.paragraphStyle, value: style, range: range)
-        }
+        let fullRange = NSRange(location: 0, length: self.length)
+        let font = (self.attribute(.font, at: 0, effectiveRange: nil) as? UIFont) ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
+        let bulletWidth = (bullet as NSString).size(withAttributes: [.font: font]).width
+        
+        let style: NSMutableParagraphStyle = (
+            (self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle)?
+                .mutableCopy() as? NSMutableParagraphStyle
+        ) ?? NSMutableParagraphStyle()
+        
+        style.firstLineHeadIndent = 0
+        style.headIndent = bulletWidth
+        
+        self.addAttribute(.paragraphStyle, value: style, range: fullRange)
+        
         return self
     }
     

@@ -92,7 +92,6 @@ public struct ButtonView: View {
     public var body: some View {
         ZStack {
             buttonContainerView
-                .padding(.vertical, viewModel.style.heightPadding)
             
             if viewModel.isLoading {
                 IndicatorImageView
@@ -208,12 +207,6 @@ struct ButtonViewStyle: ButtonStyle {
                 : self.viewModel.style.color.attribute.disabled.text
         
         ZStack {
-            if !viewModel.isLoading {
-                if configuration.isPressed && viewModel.isEnabled {
-                    rippleView
-                }
-            }
-            
             HStack(spacing: viewModel.style.widthPadding?.internalSpacing) {
                 if let leftImageSet = viewModel.leftImage, let leftImage = self.processedUIImage(imageSet: leftImageSet) {
                     if leftImageSet.needOriginColor == true {
@@ -229,7 +222,7 @@ struct ButtonViewStyle: ButtonStyle {
                     .multilineTextAlignment(viewModel.titleAlignment)
                     .font(viewModel.style.font)
                     .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(maxWidth: .infinity)
                 
                 if let rightImageSet = viewModel.rightImage, let rightImage = self.processedUIImage(imageSet: rightImageSet) {
                     if rightImageSet.needOriginColor == true {
@@ -253,6 +246,17 @@ struct ButtonViewStyle: ButtonStyle {
                      : (viewModel.style.widthPadding?.normal ?? 0.0)
             )
             .padding(.vertical, viewModel.style.heightPadding)
+            .background(
+                Group {
+                    if configuration.isPressed,
+                       viewModel.isEnabled,
+                       !viewModel.isLoading {
+                        rippleView
+                    } else {
+                        Color.clear
+                    }
+                }
+            )
         }
         .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
     }

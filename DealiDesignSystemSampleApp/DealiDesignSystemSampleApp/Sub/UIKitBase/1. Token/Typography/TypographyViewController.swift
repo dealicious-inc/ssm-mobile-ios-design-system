@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import DealiDesignKit
+import SwiftUI
 
 /**
  설명: 폰트 관련
@@ -22,6 +23,18 @@ final class TypographyViewController: UIViewController {
         didSet {
             
         }
+    }
+    
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private var typoViewList = [
@@ -91,6 +104,15 @@ final class TypographyViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.equalTo(self.textInput.snp.bottom).offset(20.0)
             $0.left.right.bottom.equalToSuperview()
+        }
+        
+        if isSwiftUI {
+            let attStr = AttributedString("…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping)
+                .setFont(.h1sb32)
+                .setColor(.g100)
+            
+            let typoTextView = TypoTextView(attributedString: attStr).UIKit()
+            stackView.addArrangedSubview(typoTextView)
         }
         
         self.typoViewList.forEach { typoView in

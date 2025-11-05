@@ -90,7 +90,8 @@ enum ActionType: Hashable, CaseIterable {
     
     var hasSwiftUISample: Bool {
         switch self {
-        case  .button, .searchInput, .checkbox,.imageChip, .chip,  .tag,
+        case  .typography,
+                .button, .searchInput, .checkbox,.imageChip, .chip,  .tag,
                 .alert, .empty, .tabBar, .toast:
             return true
         default:
@@ -143,7 +144,7 @@ extension ItemData {
         case .color:
             ColorViewController()
         case .typography:
-            TypographyViewController()
+            TypographyViewController(isSwiftUI: type.hasSwiftUISample)
         case .font:
             FontComponentViewController()
             

@@ -42,6 +42,18 @@ final class UIKitBaseViewController: UIViewController {
         
     private var dataSource: UICollectionViewDiffableDataSource<Section, ItemData>! = nil
     
+    private var isSwiftUI: Bool
+    
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         self.view = .init()
         
@@ -62,65 +74,44 @@ final class UIKitBaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "DesignSystem Sample App"
+        self.title = self.isSwiftUI ? "UIKit Compoments" :"SwiftUI Compoments"
     }
     
-    var tokenSectionData =
+    lazy var tokenSectionData =
     ComponentSectionData(
         title: "Token",
-        items: [
-            ItemData(title: "Color", type: .color),
-            ItemData(title: "Typography", type: .typography),
-            ItemData(title: "Font", type: .font),
-        ]
+        items:
+            ActionType.allCases
+            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter { $0.group == .token }
+            .map({ ItemData(title: $0.title, type: $0.self)})
     )
     
-    var atomSectionData =
+    lazy var atomSectionData =
     ComponentSectionData(
         title: "Atom",
-        items: [
-            ItemData(title: "Accordion", type: .accordion),
-            ItemData(title: "Badge", type: .badge),
-            ItemData(title: "Button", type: .button),
-            ItemData(title: "Checkbox", type: .checkbox),
-            ItemData(title: "Chip", type: .chip),
-            ItemData(title: "Dropdown", type: .dropdown),
-            ItemData(title: "ImageChip", type: .imageChip),
-            ItemData(title: "Indicator", type: .indicator),
-            ItemData(title: "LabeledText", type: .labeledText),
-            ItemData(title: "Placeholder", type: .placeholder),
-            ItemData(title: "RadioButton", type: .radioButton),
-            ItemData(title: "SearchInput", type: .searchInput),
-            ItemData(title: "SliderBar", type: .sliderBar),
-            ItemData(title: "DealiSwitch", type: .dealiSwitch),
-            ItemData(title: "Tag", type: .tag),
-            ItemData(title: "TextArea", type: .textArea),
-            ItemData(title: "TextInput", type: .textInput),
-            ItemData(title: "TextLink", type: .textLink),
-            ItemData(title: "ToolTip", type: .toolTip),
-            ItemData(title: "CountStepper", type: .countStepper),
-        ]
+        items: ActionType.allCases
+            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter { $0.group == .atom }
+            .map({ ItemData(title: $0.title, type: $0.self)})
     )
     
-    var molculeSectionData =
+    lazy var molculeSectionData =
     ComponentSectionData(
         title: "Molecule",
-        items: [
-            ItemData(title: "Alert", type: .alert),
-            ItemData(title: "BottomSheet", type: .bottomSheet),
-            ItemData(title: "Empty", type: .empty),
-            ItemData(title: "Notice", type: .notice),
-            ItemData(title: "TabBar", type: .tabBar),
-            
-        ]
+        items: ActionType.allCases
+            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter { $0.group == .molecule }
+            .map({ ItemData(title: $0.title, type: $0.self)})
     )
     
-    var etcSectionData =
+    lazy var etcSectionData =
     ComponentSectionData(
         title: "Etc",
-        items: [
-            ItemData(title: "LinkLabel", type: .linkLabel),
-        ]
+        items: ActionType.allCases
+            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter { $0.group == .etc }
+            .map({ ItemData(title: $0.title, type: $0.self)})
     )
 }
 

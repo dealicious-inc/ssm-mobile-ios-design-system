@@ -9,15 +9,19 @@ import SwiftUI
 
 public struct AttributedText: View {
     let attributedString: AttributedString
+    var alignment: TextAlignment = .leading
     
-    public init(_ attributedString: AttributedString) {
+    public init(_ attributedString: AttributedString,
+                alignment: TextAlignment = .leading) {
         self.attributedString = attributedString
+        self.alignment = alignment
     }
     
     public var body: some View {
         Text(attributedString)
             .setLineHeight(attributedString: attributedString)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(alignment)
+            .frame(maxWidth: .infinity, alignment: frameAlignment(for: alignment))
         // 디버그모드 라인 높이 확인용 overlay
 //            .overlay(
 //                GeometryReader { geo in
@@ -29,6 +33,14 @@ public struct AttributedText: View {
 //                #endif
 //                }
 //            )
+    }
+    
+    private func frameAlignment(for alignment: TextAlignment) -> Alignment {
+        switch alignment {
+        case .leading:  return .leading
+        case .center:   return .center
+        case .trailing: return .trailing
+        }
     }
 }
 

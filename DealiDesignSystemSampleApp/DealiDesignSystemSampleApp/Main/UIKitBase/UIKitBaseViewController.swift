@@ -74,7 +74,7 @@ final class UIKitBaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = self.isSwiftUI ? "UIKit Compoments" :"SwiftUI Compoments"
+        self.title = self.isSwiftUI ? "SwiftUI Compoments" :"UIKit Compoments"
     }
     
     lazy var tokenSectionData =

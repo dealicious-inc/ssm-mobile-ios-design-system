@@ -17,7 +17,7 @@ public final class ButtonViewModel: ObservableObject {
     
     @Published public var leftImage: ClickableImage?
     @Published public var rightImage: ClickableImage?
-    var titleAlignment: TextAlignment = .leading
+    var titleAlignment: TextAlignment = .center
     
     @Published var style = ConfigStyle()
     
@@ -27,7 +27,7 @@ public final class ButtonViewModel: ObservableObject {
                 isLoading: Bool = false,
                 leftImage: ClickableImage? = nil,
                 rightImage: ClickableImage? = nil,
-                titleAlignment: TextAlignment = .leading) {
+                titleAlignment: TextAlignment = .center) {
         self.type = type
         self.title = title
         self.isEnabled = isEnabled
@@ -77,7 +77,7 @@ public struct ButtonView: View {
              isLoading: Bool = false,
              leftImage: ClickableImage? = nil,
              rightImage: ClickableImage? = nil,
-             titleAlignment: TextAlignment = .leading,
+             titleAlignment: TextAlignment = .center,
              action: (() -> Void)? = nil) {
             let viewModel = ButtonViewModel(type: type,
                                             title: title,
@@ -218,11 +218,13 @@ struct ButtonViewStyle: ButtonStyle {
                     EmptyView()
                 }
                 
-                Text(viewModel.title ?? "")
-                    .multilineTextAlignment(viewModel.titleAlignment)
-                    .font(viewModel.style.font)
-                    .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
-                    .frame(maxWidth: .infinity)
+                AttributedText(
+                    AttributedString(viewModel.title ?? "")
+                        .setFont(viewModel.style.font)
+                        .setColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor),
+                    alignment: viewModel.titleAlignment
+                )
+                .frame(maxWidth: .infinity)
                 
                 if let rightImageSet = viewModel.rightImage, let rightImage = self.processedUIImage(imageSet: rightImageSet) {
                     if rightImageSet.needOriginColor == true {

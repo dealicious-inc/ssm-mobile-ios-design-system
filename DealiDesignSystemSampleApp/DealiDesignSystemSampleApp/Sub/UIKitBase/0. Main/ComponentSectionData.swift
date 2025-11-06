@@ -22,7 +22,7 @@ struct ComponentSectionData: Hashable {
 struct ItemData: Hashable {
     var title: String?
     var type: ActionType = .color
-    
+    var isSwiftUI: Bool = false
 }
 
 enum ActionType: Hashable, CaseIterable {
@@ -102,7 +102,7 @@ enum ActionType: Hashable, CaseIterable {
     var title: String {
         switch self {
         case .typography: return "Typography"
-        case .color: return "Colorr"
+        case .color: return "Color"
         case .font: return "Font"
           
         case .accordion: return "Accordion"
@@ -144,7 +144,7 @@ extension ItemData {
         case .color:
             ColorViewController()
         case .typography:
-            TypographyViewController(isSwiftUI: type.hasSwiftUISample)
+            TypographyViewController(isSwiftUI: isSwiftUI)
         case .font:
             FontComponentViewController()
             
@@ -153,15 +153,15 @@ extension ItemData {
         case .badge:
             BadgeViewController()
         case .button:
-            ButtonViewController(isSwiftUI: type.hasSwiftUISample)
+            ButtonViewController(isSwiftUI: isSwiftUI)
         case .checkbox:
-            CheckComponentViewController(isSwiftUI: type.hasSwiftUISample)
+            CheckComponentViewController(isSwiftUI: isSwiftUI)
         case .chip:
-            ChipViewController(isSwiftUI: type.hasSwiftUISample)
+            ChipViewController(isSwiftUI: isSwiftUI)
         case .dropdown:
             DropdownViewController()
         case .imageChip:
-            ImageChipViewController(isSwiftUI: type.hasSwiftUISample)
+            ImageChipViewController(isSwiftUI: isSwiftUI)
         case .indicator:
             IndicatorViewController()
         case .labeledText:
@@ -171,13 +171,13 @@ extension ItemData {
         case .radioButton:
             RadioButtonViewController()
         case .searchInput:
-            SearchInputViewController(isSwiftUI: type.hasSwiftUISample)
+            SearchInputViewController(isSwiftUI: isSwiftUI)
         case .sliderBar:
             SliderBarViewController()
         case .dealiSwitch:
             SwitchViewController()
         case .tag:
-            TagViewController(isSwiftUI: type.hasSwiftUISample)
+            TagViewController(isSwiftUI: isSwiftUI)
         case .textArea:
             TextAreaViewController()
         case .textInput:
@@ -185,14 +185,14 @@ extension ItemData {
         case .textLink:
             TextLinkViewController()
         case .toolTip:
-            ToolTipViewController(isSwiftUI: type.hasSwiftUISample)
+            ToolTipViewController(isSwiftUI: isSwiftUI)
         case .countStepper:
             CountStepperViewController()
         case .toast:
             ToastViewController() //Only SwiftUI
             
         case .alert:
-            AlertTestViewController(isSwiftUI: type.hasSwiftUISample)
+            AlertTestViewController(isSwiftUI: isSwiftUI)
         case .bottomSheet:
             BottomSheetPopupTestViewController()
         case .empty:
@@ -204,7 +204,7 @@ extension ItemData {
         case .notice:
             NoticeViewController()
         case .tabBar:
-            TabBarViewController(isSwiftUI: type.hasSwiftUISample)
+            TabBarViewController(isSwiftUI: isSwiftUI)
             
         case .linkLabel:
             LinkLabelViewController()

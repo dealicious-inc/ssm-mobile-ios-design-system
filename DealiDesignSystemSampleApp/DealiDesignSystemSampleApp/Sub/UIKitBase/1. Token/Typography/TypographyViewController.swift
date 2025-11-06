@@ -18,6 +18,7 @@ final class TypographyViewController: UIViewController {
     
     private var disposeBag = DisposeBag()
     private let textInput = DealiTextInput()
+    private let stackView = UIStackView()
     
     var text: String? {
         didSet {
@@ -90,13 +91,13 @@ final class TypographyViewController: UIViewController {
         
         contentView.addSubview(self.textInput)
         self.textInput.then {
+            $0.isHidden = isSwiftUI
             $0.placeholder = "테스트할 문자열 입력"
             $0.keyboardCloseButtonString = "닫기"
         }.snp.makeConstraints {
             $0.top.left.right.equalToSuperview().inset(20.0)
         }
         
-        let stackView = UIStackView()
         contentView.addSubview(stackView)
         stackView.then {
             $0.axis = .vertical
@@ -107,16 +108,9 @@ final class TypographyViewController: UIViewController {
         }
         
         if isSwiftUI {
-            let attStr = AttributedString("…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping)
-                .setFont(.h1sb32)
-                .setColor(.g100)
-            
-            let typoTextView = TypoTextView(attributedString: attStr).UIKit()
-            stackView.addArrangedSubview(typoTextView)
-        }
-        
-        self.typoViewList.forEach { typoView in
-            stackView.addArrangedSubview(typoView)
+            setSwiftUI()
+        } else {
+            setUIKit()
         }
     }
     
@@ -142,8 +136,65 @@ final class TypographyViewController: UIViewController {
                 }
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    func setSwiftUI() {
+        self.typoViewList.forEach { typoView in
+            let font = typoView.font.swiftUIFont
+            let attStr = AttributedString("…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping)
+                .setFont(font)
+                .setColor(.g100)
             
-
+            let titleLabel = AttributedText(
+                AttributedString("\(typoView.fontName ?? "") 333333")
+                    .setFont(font)
+                    .setColor(.g100))
+                .background(Color.secondary03)
+                .padding(.horizontal, 20)
+                .UIKit()
+            stackView.addArrangedSubview(titleLabel)
+            stackView.setCustomSpacing(4, after: titleLabel)
+            
+            let verticalLine = UIView()
+            let horizontalLine = UIView()
+            titleLabel.addSubview(horizontalLine)
+            horizontalLine.then {
+                $0.backgroundColor = .red
+            }.snp.makeConstraints {
+                $0.centerY.left.right.equalTo(titleLabel)
+                $0.height.equalTo(0.5)
+            }
+            
+            titleLabel.addSubview(verticalLine)
+            verticalLine.then {
+                $0.backgroundColor = .red
+            }.snp.makeConstraints {
+                $0.centerX.top.bottom.equalTo(titleLabel)
+                $0.width.equalTo(0.5)
+            }
+            
+            let lineheightLabel = AttributedText(
+                AttributedString("dealiLineHeight: \(font.lineHeight)".byCharWrapping)
+                    .setFont(.b2sb14)
+                    .setColor(.g100))
+                .background(Color.secondary04)
+                .padding(.horizontal, 20)
+                .UIKit()
+            stackView.addArrangedSubview(lineheightLabel)
+            stackView.setCustomSpacing(4, after: lineheightLabel)
+            
+            let textView = AttributedText(attStr)
+                .padding(.horizontal, 20)
+                .UIKit()
+            stackView.addArrangedSubview(textView)
+            stackView.setCustomSpacing(20, after: textView)
+        }
+    }
+    
+    func setUIKit() {
+        self.typoViewList.forEach { typoView in
+            stackView.addArrangedSubview(typoView)
+        }
     }
 
 }

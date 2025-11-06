@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 public extension UIFont {
     static let h1sb32: UIFont = DealiFont.h1SemiBold.systemFont
@@ -37,6 +38,31 @@ public extension UIFont {
 
     static let c1sb10: UIFont = DealiFont.c1SemiBold.systemFont
     static let c1r10: UIFont = DealiFont.c1Regular.systemFont
+    
+    var swiftUIFont: Font {
+        switch self {
+        case .h1sb32: return .h1sb32
+        case .h2sb24: return .h2sb24
+        case .h3sb28: return .h3sb28
+        case .sh1sb20: return .sh1sb20
+        case .sh1r20: return .sh1r20
+        case .sh2sb18: return .sh2sb18
+        case .sh2r18: return .sh2r18
+        case .sh3sb16: return .sh3sb16
+        case .sh3r16: return .sh3r16
+        case .b1sb15: return .b1sb15
+        case .b1r15: return .b1r15
+        case .b2sb14: return .b2sb14
+        case .b2r14: return .b2r14
+        case .b3sb13: return .b3sb13
+        case .b3r13: return .b3r13
+        case .b4sb12: return .b4sb12
+        case .b4r12: return .b4r12
+        case .c1sb10: return .c1sb10
+        case .c1r10: return .c1r10
+        default: return Font.system(size: UIFont.labelFontSize)
+        }
+    }
 }
 
 public extension UIFont {

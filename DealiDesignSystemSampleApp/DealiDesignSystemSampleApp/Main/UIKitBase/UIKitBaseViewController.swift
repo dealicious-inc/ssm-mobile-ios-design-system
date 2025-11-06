@@ -82,36 +82,36 @@ final class UIKitBaseViewController: UIViewController {
         title: "Token",
         items:
             ActionType.allCases
-            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter { self.isSwiftUI ? $0.hasSwiftUISample : true }
             .filter { $0.group == .token }
-            .map({ ItemData(title: $0.title, type: $0.self)})
+            .map({ ItemData(title: $0.title, type: $0.self, isSwiftUI: self.isSwiftUI)})
     )
     
     lazy var atomSectionData =
     ComponentSectionData(
         title: "Atom",
         items: ActionType.allCases
-            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter({ self.isSwiftUI ? $0.hasSwiftUISample : true })
             .filter { $0.group == .atom }
-            .map({ ItemData(title: $0.title, type: $0.self)})
+            .map({ ItemData(title: $0.title, type: $0.self, isSwiftUI: self.isSwiftUI)})
     )
     
     lazy var molculeSectionData =
     ComponentSectionData(
         title: "Molecule",
         items: ActionType.allCases
-            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter({ self.isSwiftUI ? $0.hasSwiftUISample : true })
             .filter { $0.group == .molecule }
-            .map({ ItemData(title: $0.title, type: $0.self)})
+            .map({ ItemData(title: $0.title, type: $0.self, isSwiftUI: self.isSwiftUI)})
     )
     
     lazy var etcSectionData =
     ComponentSectionData(
         title: "Etc",
         items: ActionType.allCases
-            .filter({ self.isSwiftUI == $0.hasSwiftUISample })
+            .filter({ self.isSwiftUI ? $0.hasSwiftUISample : true })
             .filter { $0.group == .etc }
-            .map({ ItemData(title: $0.title, type: $0.self)})
+            .map({ ItemData(title: $0.title, type: $0.self, isSwiftUI: self.isSwiftUI)})
     )
 }
 

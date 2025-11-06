@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  AttributedString+Extension.swift
 //  DealiDesignKit
 //
 //  Created by 이창호 on 3/13/25.
@@ -20,5 +20,42 @@ public extension AttributedString {
             }
         }
         return newString
+    }
+    
+    /// 폰트 설정 (명칭 우선순위 때문에 setFont)
+    func setFont(_ font: Font) -> AttributedString {
+        var copy = self
+        copy.font = font
+        return copy
+    }
+    
+    /// 컬러 설정
+    func setColor(_ color: Color) -> AttributedString {
+        var copy = self
+        copy.foregroundColor = color
+        return copy
+    }
+}
+
+extension AttributedString {
+    /// Text의 setLineHeight에 사용하기 위한 목적
+    func getLineSpacing() -> CGFloat {
+        let uiFonts = self.runs.compactMap { $0.font?.uiFont }
+        guard uiFonts.isEmpty == false else { return 0 }
+        let lineSpacing = uiFonts.map { $0.dealiLineHeight - $0.lineHeight }.max()
+        return lineSpacing ?? 0
+    }
+}
+
+public extension Text {
+    /// 텍스트의 lineHeight 설정
+    /// - lineSpacing / 2 만큼 상하 padding 추가, 줄 사이 lineSpacing 설정
+    func setLineHeight(attributedString: AttributedString) -> some View {
+        let lineSpacing = attributedString.getLineSpacing()
+        return self
+//            .background(.pink) // 적용 전 높이
+            .padding(.vertical, lineSpacing / 2)
+            .lineSpacing(lineSpacing)
+//            .background(.blue) // 적용 후 높이
     }
 }

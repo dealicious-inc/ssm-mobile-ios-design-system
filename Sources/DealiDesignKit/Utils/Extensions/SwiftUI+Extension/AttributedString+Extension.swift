@@ -24,20 +24,20 @@ public extension AttributedString {
     
     /// 폰트 설정 (명칭 우선순위 때문에 setFont)
     func setFont(_ font: Font?) -> AttributedString {
-        var copy = self
+        var newString = self
         if let font = font {
-            copy.font = font
+            newString.font = font
         }
-        return copy
+        return newString
     }
     
     /// 컬러 설정
     func setColor(_ color: Color?) -> AttributedString {
-        var copy = self
+        var newString = self
         if let color = color {
-            copy.foregroundColor = color
+            newString.foregroundColor = color
         }
-        return copy
+        return newString
     }
 }
 

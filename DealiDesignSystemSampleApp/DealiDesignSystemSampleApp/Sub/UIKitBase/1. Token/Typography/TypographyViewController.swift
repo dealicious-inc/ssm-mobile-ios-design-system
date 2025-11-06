@@ -141,9 +141,12 @@ final class TypographyViewController: UIViewController {
     func setSwiftUI() {
         self.typoViewList.forEach { typoView in
             let font = typoView.font.swiftUIFont
-            let attStr = AttributedString("…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping)
+            let sampleString = "…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping
+            let highlightedString = "…‘Beauty is in the eye of the beholder.’".byCharWrapping
+            let attStr = AttributedString(sampleString)
                 .setFont(font)
                 .setColor(.g100)
+//                .highlighted([TextStyleAttributes(text: highlightedString, color: .blue)])
             
             let titleLabel = AttributedText(
                 AttributedString("\(typoView.fontName ?? "") 333333")

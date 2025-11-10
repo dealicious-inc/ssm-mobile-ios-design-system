@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import DealiDesignKit
 import SwiftUI
+import SafariServices
 
 /**
  설명: 폰트 관련
@@ -138,15 +139,22 @@ final class TypographyViewController: UIViewController {
             .disposed(by: self.disposeBag)
     }
     
+    func setUIKit() {
+        self.typoViewList.forEach { typoView in
+            stackView.addArrangedSubview(typoView)
+        }
+    }
+    
     func setSwiftUI() {
+        self.highlightedText()
+        self.swiftuiText()
+        
         self.typoViewList.forEach { typoView in
             let font = typoView.font.swiftUIFont
             let sampleString = "…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)".byCharWrapping
-            let highlightedString = "…‘Beauty is in the eye of the beholder.’".byCharWrapping
             let attStr = AttributedString(sampleString)
                 .setFont(font)
                 .setColor(.g100)
-//                .highlighted([TextStyleAttributes(text: highlightedString, color: .blue)])
             
             let titleLabel = AttributedText(
                 AttributedString("\(typoView.fontName ?? "") 333333")
@@ -186,7 +194,15 @@ final class TypographyViewController: UIViewController {
             stackView.addArrangedSubview(lineheightLabel)
             stackView.setCustomSpacing(4, after: lineheightLabel)
             
-            let textView = AttributedText(attStr)
+//           AttributedText 사용방법
+//            let textView = AttributedText(attStr)
+//                .padding(.horizontal, 20)
+//                .UIKit()
+//           Text 사용방법
+            let textView = Text(attStr)
+                .setLineHeight(attributedString: attStr)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, 20)
                 .UIKit()
             stackView.addArrangedSubview(textView)
@@ -194,12 +210,92 @@ final class TypographyViewController: UIViewController {
         }
     }
     
-    func setUIKit() {
-        self.typoViewList.forEach { typoView in
-            stackView.addArrangedSubview(typoView)
-        }
+    func highlightedText() {
+        let sampleString = "…‘Beauty is in the eye of the beholder.’ 사랑하는 사람은 뭐든지 다 예뻐 보인다는 말인데, 마케팅에서 성공한 디자인은 다 예뻐 보이는 법이지요. —폴 랜드(Paul Rand)"
+        
+        let attStr = AttributedString(sampleString.byCharWrapping)
+            .setFont(.sh1sb20)
+            .setColor(.g100)
+        
+        let highlightTitle = AttributedText(
+            AttributedString("Apply Style Attributes")
+                .setFont(.sh1sb20)
+                .setColor(.g100)
+        )
+            .background(Color.primary03)
+            .padding(.horizontal, 20)
+            .UIKit()
+        stackView.addArrangedSubview(highlightTitle)
+        
+        let highlightText = AttributedText(
+            attStr.applyMultipleStyle([
+                TextStyleAttributes(text: "…‘Beauty is in the eye of the beholder.’".byCharWrapping,
+                                                    font: .b2r14,
+                                                    color: .blue),
+                TextStyleAttributes(text: "‘Beauty".byCharWrapping,
+                                   underline: true),
+                TextStyleAttributes(text: "eye of the".byCharWrapping,
+                                                    strikeThrough: true),
+                TextStyleAttributes(text: "마케팅에서 성공한 디자인은".byCharWrapping,
+                                                    underline: true),
+                TextStyleAttributes(text: "—폴 랜드(Paul Rand)".byCharWrapping,
+                                                    font: .b4sb12,
+                                                    color: .systemPink),
+            ])
+        ).padding(.horizontal, 20)
+            .UIKit()
+        stackView.addArrangedSubview(highlightText)
     }
-
+    
+    func swiftuiText() {
+        // truncation
+        let truncationTitle = AttributedText(
+            AttributedString("Text lineLimit + truncationMode")
+                .setFont(.sh1sb20)
+                .setColor(.g100)
+        ).background(Color.primary03)
+            .padding(.horizontal, 20)
+            .UIKit()
+        stackView.addArrangedSubview(truncationTitle)
+        
+        let truncation = Text("두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요. 두줄 말줄임이 되고 싶어요.")
+            .font(.sh1sb20)
+            .foregroundColor(.g100)
+            .padding(.horizontal, 20)
+            .lineLimit(2)
+            .truncationMode(.tail)
+        stackView.addArrangedSubview(truncation.UIKit())
+        
+        
+        let linkTitle = AttributedText(
+            AttributedString("Text link")
+                .setFont(.sh1sb20)
+                .setColor(.g100)
+        ).background(Color.primary03)
+            .padding(.horizontal, 20)
+            .UIKit()
+        stackView.addArrangedSubview(linkTitle)
+        
+        // Link
+        let linkAttr = AttributedString("여기 링크 를 클릭하세요")
+            .setFont(.sh1sb20)
+            .setColor(.g100)
+            .setLink(link: "https://www.naver.com",
+                     linkStyle: TextStyleAttributes(text: "링크",
+                                                    color: .blue,
+                                                    underline: true))
+        
+        let linkView = AttributedText(linkAttr)
+            .handleOpenURL { url in
+                self.handleLinkTap(url)
+            }
+        stackView.addArrangedSubview(linkView.UIKit())
+    }
+    private func handleLinkTap(_ url: URL) {
+        let safari = SFSafariViewController(url: url)
+        self.present(safari, animated: true)
+    }
+    
 }
 
 final class TypoView: UIView {

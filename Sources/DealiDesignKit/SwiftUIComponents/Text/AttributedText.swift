@@ -21,7 +21,7 @@ public struct AttributedText: View {
         Text(attributedString)
             .setLineHeight(attributedString: attributedString)
             .multilineTextAlignment(alignment)
-            .frame(maxWidth: .infinity, alignment: frameAlignment(for: alignment))
+            .frame(maxWidth: .infinity, alignment: .center)
         // 디버그모드 라인 높이 확인용 overlay
 //            .overlay(
 //                GeometryReader { geo in
@@ -33,14 +33,6 @@ public struct AttributedText: View {
 //                #endif
 //                }
 //            )
-    }
-    
-    private func frameAlignment(for alignment: TextAlignment) -> Alignment {
-        switch alignment {
-        case .leading:  return .leading
-        case .center:   return .center
-        case .trailing: return .trailing
-        }
     }
 }
 

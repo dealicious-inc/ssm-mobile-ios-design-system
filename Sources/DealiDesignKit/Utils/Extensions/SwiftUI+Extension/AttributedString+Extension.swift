@@ -9,36 +9,72 @@ import Foundation
 import SwiftUI
 
 public extension AttributedString {
-    /// 특정 단어에 대해 스타일(폰트, 색상) 변경
-    func highlighted(_ styles: [TextStyleAttributes]?) -> AttributedString {
+    /// 여러 스타일을 순차적으로 적용
+    func applyMultipleStyle(_ styles: [TextStyleAttributes]?) -> AttributedString {
         guard let styles = styles else { return self }
-        var newString = self
+        var new = self
         for style in styles {
-            if let range = newString.range(of: style.text) {
-                newString[range].foregroundColor = style.color
-                newString[range].font = style.font
-            }
+            new = new.applyStyle(style)
         }
-        return newString
+        return new
     }
     
-    /// 폰트 설정 (명칭 우선순위 때문에 setFont)
-    func setFont(_ font: Font?) -> AttributedString {
-        var newString = self
-        if let font = font {
-            newString.font = font
+    /// 단일 스타일을 적용한 새로운 AttributedString 반환
+    @discardableResult
+    func applyStyle(_ style: TextStyleAttributes) -> AttributedString {
+        guard let range = self.range(of: style.text) else { return self }
+        var new = self
+        new.edit(in: range) { slice in
+            if let color = style.color {
+                slice.foregroundColor = color.asColor()
+            }
+            if let font = style.font {
+                slice.font = font.swiftUIFont
+            }
+            if style.underline {
+                slice.underlineStyle = .single
+                slice.underlineColor = slice.foregroundColor
+            }
+            if style.strikeThrough {
+                slice.strikethroughStyle = .single
+                slice.strikethroughColor = slice.foregroundColor
+            }
         }
-        return newString
+        return new
+    }
+    
+    /// 폰트 설정
+    func setFont(_ font: Font?) -> AttributedString {
+        var new = self
+        guard new.characters.isEmpty == false else { return self }
+        if let font = font {
+            new.font = font
+        }
+        return new
     }
     
     /// 컬러 설정
     func setColor(_ color: Color?) -> AttributedString {
-        var newString = self
+        var new = self
+        guard new.characters.isEmpty == false else { return self }
         if let color = color {
-            newString.foregroundColor = color
+            new.foregroundColor = color
         }
-        return newString
+        return new
     }
+    
+    func setLink( link: String, linkStyle: TextStyleAttributes) -> AttributedString {
+        var new = self
+        new = new.applyStyle(linkStyle)
+        
+        guard let range = new.range(of: linkStyle.text) else { return self }
+        new.edit(in: range) { slice in
+            slice.link = URL(string: link)!
+        }
+        
+        return new
+    }
+    
 }
 
 extension AttributedString {
@@ -48,6 +84,14 @@ extension AttributedString {
         guard uiFonts.isEmpty == false else { return 0 }
         let lineSpacing = uiFonts.map { $0.dealiLineHeight - $0.lineHeight }.max()
         return lineSpacing ?? 0
+    }
+    
+    mutating func edit(in range: Range<AttributedString.Index>,
+        _ body: (inout AttributedString) -> Void
+    ) {
+        var slice = AttributedString(self[range])
+        body(&slice)
+        self.replaceSubrange(range, with: slice)
     }
 }
 

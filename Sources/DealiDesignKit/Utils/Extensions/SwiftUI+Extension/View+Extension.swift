@@ -67,4 +67,11 @@ public extension View {
             .padding(.vertical, offset)
 //            .background(Color(uiColor: .red))
     }
+    
+    func handleOpenURL(_ handler: @escaping (URL) -> Void) -> some View {
+        self.environment(\.openURL, OpenURLAction { url in
+            handler(url)
+            return .handled
+        })
+    }
 }

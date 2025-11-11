@@ -54,6 +54,9 @@ public class DealiCountStepper: UIView {
     public var delay: Int = 0
     private var pendingChangeRelayWorkItem: DispatchWorkItem?
     
+    /// textField empty 상태일 때 default 값 설정
+    public var defaultCountWhenEmpty: Int = 0
+    
     private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
         currentCount = count
         
@@ -175,7 +178,11 @@ public class DealiCountStepper: UIView {
                 guard let self = self else { return }
                 
                 if !self.acceptCountWhenEditingDidEnd {
-                    self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                    if let text = self.countTextField.text, !text.isEmpty {
+                        self.changeOptionCount(count: Int((self.countTextField.text ?? "0")) ?? 0)
+                    } else {
+                        self.changeOptionCount(count: self.defaultCountWhenEmpty)
+                    }
                 }
             }).disposed(by: self.disposeBag)
         
@@ -196,7 +203,11 @@ public class DealiCountStepper: UIView {
             
             self.setBorder(isEditing: false)
             if self.acceptCountWhenEditingDidEnd {
-                self.changeOptionCount(count: Int((self.countTextField.text) ?? "0") ?? 0)
+                if let text = self.countTextField.text, !text.isEmpty {
+                    self.changeOptionCount(count: Int((self.countTextField.text ?? "0")) ?? 0)
+                } else {
+                    self.changeOptionCount(count: self.defaultCountWhenEmpty)
+                }
             }
         }).disposed(by: self.disposeBag)
         

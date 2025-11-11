@@ -50,7 +50,29 @@ public class DealiCountStepper: UIView {
     }
     
     public var acceptCountWhenEditingDidEnd: Bool = false
+    
+    public var delay: Int = 0
+    private var pendingChangeRelayWorkItem: DispatchWorkItem?
+    
+    private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
+        currentCount = count
         
+        guard shouldDelay, delay > 0 else {
+            changeCountAction.accept(count)
+            return
+        }
+        
+        pendingChangeRelayWorkItem?.cancel()
+        
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.changeCountAction.accept(self.currentCount)
+        }
+        
+        pendingChangeRelayWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay), execute: workItem)
+    }
+    
     public init () {
         super.init(frame: .zero)
         
@@ -128,12 +150,6 @@ public class DealiCountStepper: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func changeOptionCount(count: Int) {
-        self.currentCount = count
-        
-        self.changeCountAction.accept(count)
-    }
-    
     private func setBorder(isEditing: Bool) {
         self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: isEditing ? .g100 : .g40)
     }
@@ -143,13 +159,13 @@ public class DealiCountStepper: UIView {
         
         self.minusButton.rx.tap.asSignal().emit(with: self) { owner, _ in
             if owner.currentCount > owner.minQuantity {
-                owner.changeOptionCount(count: (owner.currentCount - 1))
+                owner.changeOptionCount(count: (owner.currentCount - 1), shouldDelay: true)
             }
         }.disposed(by: self.disposeBag)
         
         self.plusButton.rx.tap.asSignal().emit(with: self) { owner, _ in
             if owner.currentCount < owner.maxQuantity {
-                owner.changeOptionCount(count: (owner.currentCount + 1))
+                owner.changeOptionCount(count: (owner.currentCount + 1), shouldDelay: true)
             }
             
         }.disposed(by: self.disposeBag)

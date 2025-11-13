@@ -91,7 +91,7 @@ enum ActionType: Hashable, CaseIterable {
     var hasSwiftUISample: Bool {
         switch self {
         case  .typography,
-                .button, .searchInput, .checkbox,.imageChip, .chip,  .tag,
+                .button, .searchInput, .checkbox,.imageChip, .chip, .tag, .dropdown,
                 .alert, .empty, .tabBar, .toast:
             return true
         default:
@@ -159,7 +159,7 @@ extension ItemData {
         case .chip:
             ChipViewController(isSwiftUI: isSwiftUI)
         case .dropdown:
-            DropdownViewController()
+            DropdownViewController(isSwiftUI: isSwiftUI)
         case .imageChip:
             ImageChipViewController(isSwiftUI: isSwiftUI)
         case .indicator:

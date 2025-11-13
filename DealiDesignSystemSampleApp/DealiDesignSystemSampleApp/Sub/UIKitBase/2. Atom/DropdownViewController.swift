@@ -30,12 +30,6 @@ final class DropdownViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // arrowOpenDropdown related logic moved to setUIKit()
-    }
-    
     override func loadView() {
         super.loadView()
         
@@ -120,7 +114,6 @@ private extension DropdownViewController {
         contentStackView.addArrangedSubview(arrowRightDropdown)
         contentStackView.addArrangedSubview(disalbedArrowOpenDropdown)
         contentStackView.addArrangedSubview(disabledArrowRightDropdown)
-        
     }
     
     func setSwiftUI() {
@@ -142,7 +135,6 @@ private extension DropdownViewController {
             arrowType: .right
         )
         
-        //여러줄일때 높이 확인할것
         let multipleLineViewModel = DropdownViewModel(
             title: "여러줄 dropdown content 노출",
             contentText: "옵션별 단가 선택 Lorem Ipsum is simply dummy text of the printing and typesetting industry옵션별 단가 선택 Lorem Ipsum is simply dummy text of the printing and typesetting industry".byCharWrapping,

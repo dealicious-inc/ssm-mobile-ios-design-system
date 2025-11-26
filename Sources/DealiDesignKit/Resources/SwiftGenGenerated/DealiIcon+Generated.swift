@@ -181,6 +181,7 @@ public enum DealiIcon {
   public static let ic_listview = DesignSystemImage(name: "ic_listview")
   public static let ic_loading = DesignSystemImage(name: "ic_loading")
   public static let ic_location = DesignSystemImage(name: "ic_location")
+  public static let ic_lock = DesignSystemImage(name: "ic_lock")
   public static let ic_manage = DesignSystemImage(name: "ic_manage")
   public static let ic_membership = DesignSystemImage(name: "ic_membership")
   public static let ic_memo = DesignSystemImage(name: "ic_memo")

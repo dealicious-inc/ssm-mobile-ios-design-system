@@ -74,6 +74,21 @@ open class DealiTextInput: UIView, DealiTextField {
         }
     }
     
+    public var rightContentView: UIView? {
+        didSet {
+            guard let rightContentView else { return }
+            self.rightContentViewContainer.isHidden = false
+            self.rightContentViewContainer.addSubview(rightContentView)
+            rightContentView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            
+        }
+    }
+    
+    private let rightContentViewContainer = UIView()
+    
     /// TextInput text 세팅
     public var text: String? {
         get {
@@ -483,6 +498,11 @@ extension DealiTextInput: DealiTextFieldConfig {
         }
         
         self.textFieldContentStackView.setCustomSpacing(8.0, after: self.clearButton)
+        
+        self.textFieldContentStackView.addArrangedSubview(self.rightContentViewContainer)
+        self.rightContentViewContainer.do {
+            $0.isHidden = true
+        }
         
         self.textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
         self.textInputRightTimeLabel.then {

@@ -128,7 +128,6 @@ public final class DealiCheckboxWithText: UIView {
                 guard let self else { return }
                 self.status.changeStatus()
                 self.valueChanged.accept(self.isSelected)
-                print("self.isSelected: \(self.isSelected)")
             })
             .disposed(by: self.disposeBag)
     }

@@ -121,18 +121,16 @@ public final class DealiCheckboxWithText: UIView {
     }
     
     private func subscribeRx() {
-        Observable.merge(
-            self.checkbox.valueChanged.map { _ in return }.asObservable(),
-            self.rx.tapGestureOnTop()
-                .when(.recognized)
-                .map { _ in return }
-                .asObservable())
-        .subscribe(onNext: { [weak self] _ in
-            guard let self else { return }
-            self.status.changeStatus()
-            self.valueChanged.accept(self.isSelected)
-        })
-        .disposed(by: self.disposeBag)
+        
+        self.rx.tapGestureOnTop()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.status.changeStatus()
+                self.valueChanged.accept(self.isSelected)
+                print("self.isSelected: \(self.isSelected)")
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func setAppearance(for status: CheckboxStatus) {

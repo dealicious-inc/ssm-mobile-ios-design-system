@@ -98,8 +98,12 @@ public final class DealiCheckboxWithText: UIView {
         super.init(frame: frame)
 
         self.addSubview(self.checkbox)
-        self.checkbox.isUserInteractionEnabled = false
-        self.checkbox.snp.makeConstraints {
+        self.checkbox.then {
+            $0.isUserInteractionEnabled = false
+            $0.isAccessibilityElement = false
+            $0.isOpaque = false
+            $0.isExclusiveTouch = false
+        }.snp.makeConstraints {
             $0.top.left.equalToSuperview()
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
@@ -118,6 +122,11 @@ public final class DealiCheckboxWithText: UIView {
         
         self.setAppearance(for: self.status)
         self.subscribeRx()
+    }
+    
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let result = super.hitTest(point, with: event)
+        return result === self.checkbox ? self : result
     }
     
     private func subscribeRx() {

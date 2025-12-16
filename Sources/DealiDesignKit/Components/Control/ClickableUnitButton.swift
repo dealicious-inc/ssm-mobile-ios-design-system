@@ -64,7 +64,12 @@ public class ClickableUnitButton: SystemButton {
         }
     }
     
-    public var numberOfLines: Int = 1
+    public var numberOfLines: Int = 1 {
+        didSet {
+            self.dealiTitleLabel.numberOfLines = self.numberOfLines
+            self.updateContent()
+        }
+    }
     
     /// 왼쪽 이미지(텍스트 포함 / rightImage와 함께 사용 가능)
     public var leftImage: ClickableImage? {

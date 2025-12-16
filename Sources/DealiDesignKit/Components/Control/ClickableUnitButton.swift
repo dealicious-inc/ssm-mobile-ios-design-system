@@ -212,6 +212,7 @@ public class ClickableUnitButton: SystemButton {
         self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
         self.dealiTitleLabel.then {
             $0.numberOfLines = self.numberOfLines
+            $0.lineBreakMode = .byTruncatingTail
             $0.textAlignment = .center
             $0.lineBreakMode = .byWordWrapping
         }.snp.makeConstraints {

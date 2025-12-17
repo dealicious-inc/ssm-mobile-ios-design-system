@@ -162,7 +162,10 @@ extension AlertTestViewController {
                                 cancelButtonTitle: "취소",
                                 confirmButtonTitle: "확인",
                                 alertPresentingViewController: self,
-                                cancelAction: nil) { [weak self] isCheckSelected in
+                                cancelAction: { [weak self] isCheckSelected in
+            guard let _ = self else { return }
+            debugPrint("체크박스 상태 : \(isCheckSelected)")
+        }) { [weak self] isCheckSelected in
             guard let _ = self else { return }
             debugPrint("체크박스 상태 : \(isCheckSelected)")
         }

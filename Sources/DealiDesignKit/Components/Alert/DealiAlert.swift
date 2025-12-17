@@ -35,7 +35,7 @@ public class DealiAlert: NSObject {
     
     // 체크박스가 포함된 alert case
     @discardableResult
-    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: ((Bool) -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) -> DealiAlertViewController {
         
         let checkBoxContainerView = UIView()
         
@@ -49,19 +49,24 @@ public class DealiAlert: NSObject {
             $0.top.left.right.bottom.equalToSuperview()
         }
         
-        return self.show(title: title,
-                         message: message,
-                         insertCustomView: checkBoxContainerView,
-                         cancelButtonTitle: cancelButtonTitle,
-                         confirmButtonTitle: confirmButtonTitle,
-                         closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
-                         cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
-                         alertPresentingViewController: alertPresentingViewController,
-                         cancelAction: cancelAction) {
-            guard let action = confirmAction else { return }
-            action(checkBoxView.isSelected)
-            
-        }
+        return self.show(
+            title: title,
+            message: message,
+            insertCustomView: checkBoxContainerView,
+            cancelButtonTitle: cancelButtonTitle,
+            confirmButtonTitle: confirmButtonTitle,
+            closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
+            cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+            alertPresentingViewController: alertPresentingViewController,
+            cancelAction: {
+                guard let action = cancelAction else { return }
+                action(checkBoxView.isSelected)
+            },
+            confirmAction: {
+                guard let action = confirmAction else { return }
+                action(checkBoxView.isSelected)
+            }
+        )
     }
     
     // textLinkButton이 포함된 alert case

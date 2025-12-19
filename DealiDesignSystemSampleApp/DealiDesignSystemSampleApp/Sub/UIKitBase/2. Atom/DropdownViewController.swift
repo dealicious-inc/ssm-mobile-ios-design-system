@@ -157,10 +157,10 @@ private extension DropdownViewController {
         )
         
         let numericRightViewModel = DropdownViewModel(
-            title: "숫자",
+            title: "Dropdown_32",
             contentText: "33",
             arrowType: .open,
-            sizeType: .numeric
+            sizeType: .dropdown32
         )
         
         let arrowOpenDropdown = DropdownView(viewModel: arrowOpenViewModel)

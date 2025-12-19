@@ -19,8 +19,23 @@ public final class DropdownViewModel: ObservableObject {
 
     /// 크기 타입
     public enum SizeType {
-        case standard  // 일반 (좌16/우12, 아이콘-텍스트 4, 텍스트-화살표 16, 상하 13)
-        case numeric   // 숫자 (좌16/우12, 아이콘-텍스트 0, 텍스트-화살표 8, 상하 5, 아이콘 숨김)
+        /* dropdown46
+        ┌───────────────────────────────────────────────────┐
+        │                     ↑13                           │
+        │ ←16→ [아이콘] ←4→ [텍스트] ←16→ [화살표 (size20)] ←12→ │
+        │                     ↓13                           │
+        └───────────────────────────────────────────────────┘
+        */
+        case dropdown46  // 일반 (좌16/우12, 아이콘-텍스트 4, 텍스트-화살표 16, 상하 13, 화살표사이즈20)
+        
+        /* dropdown32
+        ┌──────────────────────────────────────────────────┐
+        │                     ↑7                           │
+        │ ←12→ [아이콘] ←4→ [텍스트] ←12→ [화살표 (size18)] ←8→ │
+        │                     ↓7                           │
+        └──────────────────────────────────────────────────┘
+        */
+        case dropdown32   // 숫자 (좌16/우12, 아이콘-텍스트 0, 텍스트-화살표 12, 상하 5, 좌측 아이콘 숨김, 화살표사이즈18)
     }
     
     // MARK: - Published Properties (For View Rendering)
@@ -71,7 +86,7 @@ public final class DropdownViewModel: ObservableObject {
         helperText: String? = nil,
         icon: Image? = nil,
         arrowType: ArrowType = .right,
-        sizeType: SizeType = .standard,
+        sizeType: SizeType = .dropdown46,
         onTapped: @escaping () -> Void = {}
     ) {
         self.status = status
@@ -124,6 +139,15 @@ extension DropdownViewModel {
             return Color.g50
         }
     }
+    
+    var contentTextFont: Font {
+        switch self.sizeType {
+        case .dropdown46:
+            return .b2r14
+        case .dropdown32:
+            return .b3r13
+        }
+    }
 
     /// 화살표 색상
     var arrowIconColor: Color {
@@ -144,13 +168,22 @@ extension DropdownViewModel {
             return DealiIcon.ic_arrow_right.swiftUIImage
         }
     }
+    
+    var arrowIconSize: CGFloat {
+        switch self.sizeType {
+        case .dropdown46:
+            return 20.0
+        case .dropdown32:
+            return 18.0
+        }
+    }
 
     /// 아이콘-텍스트 간격
     var iconTextSpacing: CGFloat {
         switch self.sizeType {
-        case .standard:
+        case .dropdown46:
             return 4.0
-        case .numeric:
+        case .dropdown32:
             return 0.0
         }
     }
@@ -158,9 +191,28 @@ extension DropdownViewModel {
     /// 텍스트-화살표 간격
     var textArrowSpacing: CGFloat {
         switch self.sizeType {
-        case .standard:
+        case .dropdown46:
             return 16.0
-        case .numeric:
+        case .dropdown32:
+            return 12.0
+        }
+    }
+    
+    /// 텍스트-화살표 간격
+    var leftPadding: CGFloat {
+        switch self.sizeType {
+        case .dropdown46:
+            return 16.0
+        case .dropdown32:
+            return 12.0
+        }
+    }
+    
+    var rightPadding: CGFloat {
+        switch self.sizeType {
+        case .dropdown46:
+            return 12.0
+        case .dropdown32:
             return 8.0
         }
     }
@@ -168,16 +220,16 @@ extension DropdownViewModel {
     /// 수직 패딩
     var contentVerticalPadding: CGFloat {
         switch self.sizeType {
-        case .standard:
+        case .dropdown46:
             return 13.0
-        case .numeric:
-            return 5.0
+        case .dropdown32:
+            return 7.0
         }
     }
 
     /// 아이콘 표시 여부
     var shouldShowIcon: Bool {
-        return self.sizeType == .standard && self.icon != nil
+        return self.sizeType == .dropdown46 && self.icon != nil
     }
 }
 
@@ -196,7 +248,7 @@ public struct DropdownView: View {
     private var titleText: some View {
         if let title = viewModel.title, !title.isEmpty {
             let attStr = AttributedString(title)
-                .setFont(.b2r14)
+                .setFont(viewModel.contentTextFont)
                 .setColor(.g100)
             
             HStack(spacing: 4.0) {
@@ -240,13 +292,13 @@ public struct DropdownView: View {
 
                 viewModel.arrowIcon
                     .resizable()
-                    .frame(width: 16.0, height: 16.0)
+                    .frame(width: viewModel.arrowIconSize, height: viewModel.arrowIconSize)
                     .foregroundColor(viewModel.arrowIconColor)
                     .rotationEffect(rotationAngle)
                     .padding(.top, 2.0)
             }
-            .padding(.leading, 16.0)
-            .padding(.trailing, 12.0)
+            .padding(.leading, viewModel.leftPadding)
+            .padding(.trailing, viewModel.rightPadding)
             .padding(.vertical, viewModel.contentVerticalPadding)
             .background(viewModel.backgroundColor)
             .cornerRadius(6.0)
@@ -352,7 +404,7 @@ struct DropdownView_Previews: PreviewProvider {
             // Numeric 타입 (숫자 드롭다운)
             DropdownView(viewModel: DropdownViewModel(
                 contentText: "33",
-                sizeType: .numeric,
+                sizeType: .dropdown32,
                 onTapped: { print("숫자 드롭다운 탭됨") }
             ))
             .frame(width: 82.0)

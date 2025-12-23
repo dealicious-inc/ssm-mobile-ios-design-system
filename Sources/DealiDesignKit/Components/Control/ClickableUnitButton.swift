@@ -220,6 +220,7 @@ public class ClickableUnitButton: SystemButton {
             $0.lineBreakMode = .byTruncatingTail
             $0.textAlignment = .center
             $0.lineBreakMode = .byWordWrapping
+            $0.setContentCompressionResistancePriority(.required, for: .vertical)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
         }

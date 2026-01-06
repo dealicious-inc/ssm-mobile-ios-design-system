@@ -12,16 +12,20 @@ import SwiftUI
 public struct DealiSystemImageView: View {
     let urlString: String?
     let systemStyle: DealiImageSystemStyle
-    var resizer: (((String?, CGSize)) -> URL?)?
     
-    public init(
-        urlString: String? = nil,
-        systemStyle: DealiImageSystemStyle,
-        resizer: (((String?, CGSize)) -> URL?)?) {
-            self.urlString = urlString
-            self.systemStyle = systemStyle
-            self.resizer = resizer
-        }
+    let isDimmed: Bool
+    var resizer: (((String?, CGSize)) -> URL?)?
+
+    public init(urlString: String? = nil,
+                systemStyle: DealiImageSystemStyle,
+                isDimmed: Bool = false,
+                resizer: (((String?, CGSize)) -> URL?)?
+    ) {
+        self.urlString = urlString
+        self.systemStyle = systemStyle
+        self.isDimmed = isDimmed
+        self.resizer = resizer
+    }
 
     // systemStyle을 기반으로 placeholder를 내부에서 구성
     var placeholder: some View {
@@ -33,17 +37,23 @@ public struct DealiSystemImageView: View {
     }
     
     public var body: some View {
+        let shape = self.systemStyle.shape.shape()
+        
         DealiResizableRemoteImageView(
             urlString: self.urlString,
             resizer: self.resizer
         ) {
             self.placeholder
         }
-        .clipShape(self.systemStyle.shape.shape())
-        .overlay(
-            self.systemStyle.shape.shape()
-                .stroke(self.systemStyle.strokeColor, lineWidth: 1)
-        )
+        .clipShape(shape)
+        .overlay {
+            shape.stroke(self.systemStyle.strokeColor, lineWidth: 1)
+        }
+        .overlay {
+            if isDimmed {
+                shape.fill(Color.b40)
+            }
+        }
     }
 }
 

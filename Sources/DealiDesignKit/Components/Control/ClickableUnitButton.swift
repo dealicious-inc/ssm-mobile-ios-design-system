@@ -64,6 +64,13 @@ public class ClickableUnitButton: SystemButton {
         }
     }
     
+    public var numberOfLines: Int = 1 {
+        didSet {
+            self.dealiTitleLabel.numberOfLines = self.numberOfLines
+            self.updateContent()
+        }
+    }
+    
     /// 왼쪽 이미지(텍스트 포함 / rightImage와 함께 사용 가능)
     public var leftImage: ClickableImage? {
         didSet {
@@ -209,9 +216,11 @@ public class ClickableUnitButton: SystemButton {
         
         self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
         self.dealiTitleLabel.then {
-            $0.numberOfLines = 0
+            $0.numberOfLines = self.numberOfLines
+            $0.lineBreakMode = .byTruncatingTail
             $0.textAlignment = .center
             $0.lineBreakMode = .byWordWrapping
+            $0.setContentCompressionResistancePriority(.required, for: .vertical)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
         }

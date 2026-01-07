@@ -260,7 +260,11 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     }
     
     var shouldDismissWhenSelect: Bool = false
-    var cancelAction: (() -> Void)?
+    var cancelAction: (() -> Void)? {
+        didSet {
+            self.closeActionHandler = self.cancelAction
+        }
+    }
     var confirmAction: (() -> Void)?
     var selectAction: (([Int]) -> Void)?
     

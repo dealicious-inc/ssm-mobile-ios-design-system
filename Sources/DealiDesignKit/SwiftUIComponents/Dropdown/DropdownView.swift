@@ -291,6 +291,7 @@ public struct DropdownView: View {
                     .padding(.trailing, viewModel.textArrowSpacing)
 
                 viewModel.arrowIcon
+                    .renderingMode(.template)
                     .resizable()
                     .frame(width: viewModel.arrowIconSize, height: viewModel.arrowIconSize)
                     .foregroundColor(viewModel.arrowIconColor)

@@ -17,7 +17,7 @@ public final class ButtonViewModel: ObservableObject {
     
     @Published public var leftImage: ClickableImage?
     @Published public var rightImage: ClickableImage?
-    var titleAlignment: TextAlignment = .leading
+    var titleAlignment: TextAlignment = .center
     
     @Published var style = ConfigStyle()
     
@@ -27,7 +27,7 @@ public final class ButtonViewModel: ObservableObject {
                 isLoading: Bool = false,
                 leftImage: ClickableImage? = nil,
                 rightImage: ClickableImage? = nil,
-                titleAlignment: TextAlignment = .leading) {
+                titleAlignment: TextAlignment = .center) {
         self.type = type
         self.title = title
         self.isEnabled = isEnabled
@@ -77,7 +77,7 @@ public struct ButtonView: View {
              isLoading: Bool = false,
              leftImage: ClickableImage? = nil,
              rightImage: ClickableImage? = nil,
-             titleAlignment: TextAlignment = .leading,
+             titleAlignment: TextAlignment = .center,
              action: (() -> Void)? = nil) {
             let viewModel = ButtonViewModel(type: type,
                                             title: title,
@@ -92,7 +92,6 @@ public struct ButtonView: View {
     public var body: some View {
         ZStack {
             buttonContainerView
-                .padding(.vertical, viewModel.style.heightPadding)
             
             if viewModel.isLoading {
                 IndicatorImageView
@@ -208,12 +207,6 @@ struct ButtonViewStyle: ButtonStyle {
                 : self.viewModel.style.color.attribute.disabled.text
         
         ZStack {
-            if !viewModel.isLoading {
-                if configuration.isPressed && viewModel.isEnabled {
-                    rippleView
-                }
-            }
-            
             HStack(spacing: viewModel.style.widthPadding?.internalSpacing) {
                 if let leftImageSet = viewModel.leftImage, let leftImage = self.processedUIImage(imageSet: leftImageSet) {
                     if leftImageSet.needOriginColor == true {
@@ -225,11 +218,13 @@ struct ButtonViewStyle: ButtonStyle {
                     EmptyView()
                 }
                 
-                Text(viewModel.title ?? "")
-                    .multilineTextAlignment(viewModel.titleAlignment)
-                    .font(viewModel.style.font)
-                    .foregroundColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                AttributedText(
+                    AttributedString(viewModel.title ?? "")
+                        .setFont(viewModel.style.font)
+                        .setColor(viewModel.isLoading ? .clear : viewModel.style.foregroundColor),
+                    alignment: viewModel.titleAlignment
+                )
+                .frame(maxWidth: .infinity)
                 
                 if let rightImageSet = viewModel.rightImage, let rightImage = self.processedUIImage(imageSet: rightImageSet) {
                     if rightImageSet.needOriginColor == true {
@@ -253,6 +248,17 @@ struct ButtonViewStyle: ButtonStyle {
                      : (viewModel.style.widthPadding?.normal ?? 0.0)
             )
             .padding(.vertical, viewModel.style.heightPadding)
+            .background(
+                Group {
+                    if configuration.isPressed,
+                       viewModel.isEnabled,
+                       !viewModel.isLoading {
+                        rippleView
+                    } else {
+                        Color.clear
+                    }
+                }
+            )
         }
         .contentShape(Rectangle()) // 클릭영역을 버튼 전체로 세팅
     }

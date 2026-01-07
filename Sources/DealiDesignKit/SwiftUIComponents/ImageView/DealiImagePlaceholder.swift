@@ -26,7 +26,7 @@ public struct DealiImagePlaceholder: View {
 
     public init(
         imageStyle: DealiPlaceholderImageStyle = .goods,
-        backgroundStyle: DealiPlaceholderBackgroundColor = .dark,
+        backgroundStyle: DealiPlaceholderBackgroundColor = .light,
         shape: DealiPlaceholderViewShape = .rectangle(.allCorners)
     ) {
         self.imageStyle = imageStyle

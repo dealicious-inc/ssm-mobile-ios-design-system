@@ -49,6 +49,7 @@ public enum DealiIcon {
   public static let ic_ssmall = DesignSystemImage(name: "ic_ssmall")
   public static let ic_staralpha = DesignSystemImage(name: "ic_staralpha")
   public static let ic_wechat = DesignSystemImage(name: "ic_wechat")
+  public static let ic_x_circle_solid = DesignSystemImage(name: "ic_x_circle_solid")
   public static let ic_alarm_ad_filled = DesignSystemImage(name: "ic_alarm_ad_filled")
   public static let ic_alarm_announce_filled = DesignSystemImage(name: "ic_alarm_announce_filled")
   public static let ic_alarm_etc_filled = DesignSystemImage(name: "ic_alarm_etc_filled")

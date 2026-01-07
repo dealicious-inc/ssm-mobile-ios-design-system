@@ -52,6 +52,7 @@ public class ClickableUnitButton: SystemButton {
             self.attributedTitle = NSMutableAttributedString(string: title)
                 .font(titleFont)
                 .alignment(.center)
+                .lineBreakMode(.byTruncatingTail)
                 .setLineHeight()
         }
     }

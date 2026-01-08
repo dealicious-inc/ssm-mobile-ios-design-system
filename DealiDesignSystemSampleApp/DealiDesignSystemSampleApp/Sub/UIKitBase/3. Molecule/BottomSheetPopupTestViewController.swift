@@ -284,7 +284,7 @@ extension BottomSheetPopupTestViewController {
             $0.size.equalTo(CGSize(width: 100.0, height: 100.0))
         }
         
-        DealiBottomSheet.showBottomSheet(optionContentView: customView, popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
+        DealiBottomSheet.showBottomSheet(optionContentView: customView, buttonType: .oneButton(buttonTitle: "확인"), popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
     }
     
     @objc func bottomSheetButton_01Pressed() {

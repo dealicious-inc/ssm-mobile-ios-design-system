@@ -15,40 +15,6 @@ public extension Image {
     }
 }
 
-public struct KFImageView: View {
-    let url: URL?
-    let size: CGSize?
-    let contentMode: SwiftUI.ContentMode
-    let completion: ((UIImage?) -> Void)?
-
-    public init(url: URL?,
-                size: CGSize? = nil,
-                contentMode: SwiftUI.ContentMode = .fit,
-                completion: ((UIImage?) -> Void)? = nil) {
-        self.url = url
-        self.size = size
-        self.contentMode = contentMode
-        self.completion = completion
-    }
-
-    public var body: some View {
-        KFImage(url)
-            .placeholder {
-                Color.gray.opacity(0.1)
-            }
-            .setProcessor()
-            .onSuccess { result in
-                completion?(result.image)
-            }
-            .onFailure { _ in
-                completion?(nil)
-            }
-            .resizable()
-            .aspectRatio(contentMode: contentMode)
-            .frame(width: size?.width, height: size?.height)
-    }
-}
-
 private extension KFImage {
     func setProcessor(_ size: CGSize? = nil) -> KFImage {
         guard let size else { return self }

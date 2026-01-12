@@ -20,6 +20,11 @@ public final class DealiSheetState: ObservableObject {
     }
     
     public var onDismiss: (() -> Void)?
+    
+    public init(isPresented: Bool = false, onDismiss: (() -> Void)? = nil) {
+        self.isPresented = isPresented
+        self.onDismiss = onDismiss
+    }
 }
 
 /**

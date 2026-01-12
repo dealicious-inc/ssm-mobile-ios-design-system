@@ -82,8 +82,6 @@ open class DealiTextInput: UIView, DealiTextField {
             rightContentView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
-            
-            
         }
     }
     

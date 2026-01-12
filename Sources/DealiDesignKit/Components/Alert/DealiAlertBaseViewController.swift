@@ -50,7 +50,45 @@ open class DealiAlertBaseViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .b40
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardShowNotification(_ notification: NSNotification) {
+
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        let keyboardVisibleHeight = keyboardFrame.cgRectValue.height
+        
+        self.contentView.snp.remakeConstraints {
+            $0.left.right.equalToSuperview().inset(40.0)
+            $0.centerY.equalToSuperview().offset(-keyboardVisibleHeight / 2)
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    @objc func keyboardHideNotification(_ notification: NSNotification) {
+
+        guard let _ = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        self.contentView.snp.remakeConstraints {
+            $0.left.right.equalToSuperview().inset(40.0)
+            $0.centerY.equalToSuperview()
+        }
+        self.view.layoutIfNeeded()
     }
     
     open override func loadView() {

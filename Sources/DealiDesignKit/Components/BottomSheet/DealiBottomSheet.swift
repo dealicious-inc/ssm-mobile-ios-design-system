@@ -373,6 +373,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview().inset(16.0)
+                $0.bottom.equalToSuperview()
             }
         }
     }

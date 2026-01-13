@@ -96,6 +96,15 @@ class AlertTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
+        let alertButton05 = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(alertButton05)
+        alertButton05.then {
+            $0.title = "Text Input 있는 Alert"
+            $0.addTarget(self, action: #selector(alertButton05Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -187,5 +196,19 @@ extension AlertTestViewController {
             self.alertButton01Pressed()
         }
 
+    }
+    
+    @objc func alertButton05Pressed() {
+        debugPrint("alertButton05Pressed")
+        let customView = UIView()
+        let textInput = DealiTextInput()
+        customView.addSubview(textInput)
+        textInput.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview().inset(16.0)
+        }
+        
+        
+        DealiAlert.show(insertCustomView: textInput,
+            cancelButtonTitle: "취소", confirmButtonTitle: "확인", alertPresentingViewController: self, cancelAction: nil, confirmAction: nil)
     }
 }

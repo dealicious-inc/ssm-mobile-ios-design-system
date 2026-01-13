@@ -112,7 +112,7 @@ public class DealiAlert: NSObject {
         if let message = message, message.trimming().isEmpty == false {
             messageAttString = NSMutableAttributedString(string: message)
                 .font(.b1r15)
-                .color(title == nil ? .g80 : .g70)
+                .color(.g80)
                 .alignment(.left)
                 .setLineHeight()
         }

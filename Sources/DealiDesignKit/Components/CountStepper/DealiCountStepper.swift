@@ -57,6 +57,9 @@ public class DealiCountStepper: UIView {
     /// textField empty 상태일 때 default 값 설정
     public var defaultCountWhenEmpty: Int = 0
     
+    /// 범위가 벗어났을 때 변경하지 않을지 여부
+    public var shouldChangeCharactersWhenOutOfRange: Bool = true
+    
     private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
         currentCount = count
         
@@ -221,6 +224,10 @@ public class DealiCountStepper: UIView {
 
 extension DealiCountStepper: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard self.shouldChangeCharactersWhenOutOfRange else {
+            return true
+        }
         
         let text: NSString = textField.text! as NSString
         let strings = text.replacingCharacters(in: range, with: string)

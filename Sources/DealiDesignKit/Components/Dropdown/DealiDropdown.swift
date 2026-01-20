@@ -70,7 +70,11 @@ public class DealiDropdown: UIView {
     
     public var contentText: String? {
         didSet {
-            self.contentLabel.text = self.contentText
+            self.contentLabel.attributedText = NSMutableAttributedString(string: self.contentText ?? "")
+                .font(.b2r14)
+                .color(self.contentLabel.textColor)
+                .lineBreakMode(.byTruncatingTail)
+                .setLineHeight()
         }
     }
     
@@ -188,15 +192,15 @@ public class DealiDropdown: UIView {
         self.dropdown.then {
             $0.axis = .horizontal
             $0.spacing = 16.0
-            $0.alignment = .center
+            $0.alignment = .top
             $0.layer.borderColor = UIColor.g20.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 6.0
             $0.layer.masksToBounds = true
             $0.isLayoutMarginsRelativeArrangement = true
-            $0.layoutMargins = .init(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+            $0.layoutMargins = .init(top: 13.0, left: 16.0, bottom: 13.0, right: 16.0)
         }.snp.makeConstraints {
-            $0.height.equalTo(46.0)
+            $0.height.greaterThanOrEqualTo(46.0)
         }
         
         self.dropdown.addArrangedSubview(self.iconImageView)
@@ -210,6 +214,7 @@ public class DealiDropdown: UIView {
         self.contentLabel.do {
             $0.textColor = .g100
             $0.font = .b2r14
+            $0.numberOfLines = 2
         }
         
         self.dropdown.addArrangedSubview(self.arrowIconImageView)

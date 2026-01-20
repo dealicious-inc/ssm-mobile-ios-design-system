@@ -56,7 +56,6 @@ public final class DealiSearchInput: UIView {
         /// StackView 관련 상수 모음
         static let radius: CGFloat = 6
         static let height: CGFloat = 40
-        static let backgroundColor: UIColor = .g10
         static let spacing: CGFloat = 16
         static let layoutHMargin: CGFloat = 16
         static let layoutVMargin: CGFloat = 6
@@ -64,12 +63,9 @@ public final class DealiSearchInput: UIView {
     
     private enum SubKeywordViewConsants {
         /// Sub Keyword View 관련 상수 모음
-        static let backgroundColor: UIColor = .primary04
         static let radius: CGFloat = 6
-        static let borderColor: UIColor = .g20
         static let borderWidth: CGFloat = 1
         static let maxWidth: CGFloat = 92
-        static let textColor: UIColor = .g80
         static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }
     
@@ -87,6 +83,17 @@ public final class DealiSearchInput: UIView {
     }
     public weak var delegate: DealiSearchInputDelegate?
     private let disposeBag = DisposeBag()
+    
+    /// SearchInput preset 스타일
+    public var preset: DealiSearchInputPreset = .searchInput02 {
+        didSet {
+            updatePresetStyle()
+            // subKeyword가 있는 경우 스타일도 업데이트
+            if subKeywordLabel != nil {
+                updateSubKeywordStyle()
+            }
+        }
+    }
     
     /// keyword 세팅
     public var keyword: String? {
@@ -152,8 +159,14 @@ public final class DealiSearchInput: UIView {
     }
     
     // MARK: - Initializer
-    public init(keyword: String = "", placeholder: String = "", delegate: DealiSearchInputDelegate?) {
+    public init(
+        keyword: String = "",
+        placeholder: String = "",
+        preset: DealiSearchInputPreset = .searchInput02,
+        delegate: DealiSearchInputDelegate?
+    ) {
         super.init(frame: .zero)
+        self.preset = preset
         setContainerStackView()
         setTextField()
         setSearchStatusImage()
@@ -190,8 +203,6 @@ extension DealiSearchInput {
     private func setContainerStackView() {
         addSubview(stackView)
         stackView.then {
-            $0.backgroundColor = StackViewConstants.backgroundColor
-            $0.setCornerRadius(StackViewConstants.radius)
             $0.spacing = StackViewConstants.spacing
             $0.alignment = .fill
             $0.distribution = .fill
@@ -206,6 +217,20 @@ extension DealiSearchInput {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalTo(StackViewConstants.height)
+        }
+        updatePresetStyle()
+    }
+    
+    private func updatePresetStyle() {
+        stackView.backgroundColor = preset.backgroundColor
+        if preset.hasBorder {
+            stackView.setCornerRadius(
+                StackViewConstants.radius,
+                borderWidth: preset.borderWidth,
+                borderColor: preset.borderColor
+            )
+        } else {
+            stackView.setCornerRadius(StackViewConstants.radius)
         }
     }
     
@@ -284,16 +309,12 @@ extension DealiSearchInput {
     private func setSubKeywordView(with keyword: String) {
         if let subKeywordLabel {
             subKeywordLabel.text = keyword
+            // preset이 변경되었을 경우 스타일 업데이트
+            updateSubKeywordStyle()
         } else {
             let keywordView = UIView()
             stackView.insertArrangedSubview(keywordView, at: 0)
             keywordView.then {
-                $0.backgroundColor = SubKeywordViewConsants.backgroundColor
-                $0.setCornerRadius(
-                    SubKeywordViewConsants.radius
-                    , borderWidth: SubKeywordViewConsants.borderWidth
-                    , borderColor: SubKeywordViewConsants.borderColor
-                )
                 $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             }.snp.makeConstraints {
                 $0.width.lessThanOrEqualTo(SubKeywordViewConsants.maxWidth)
@@ -302,7 +323,6 @@ extension DealiSearchInput {
             let keywordLabel = UILabel()
             keywordView.addSubview(keywordLabel)
             keywordLabel.then {
-                $0.textColor = SubKeywordViewConsants.textColor
                 $0.font = SubKeywordViewConsants.font
                 $0.textAlignment = .center
                 $0.lineBreakMode = .byTruncatingTail
@@ -320,7 +340,23 @@ extension DealiSearchInput {
             }
             
             subKeywordLabel = keywordLabel
+            
+            // 초기 스타일 적용
+            updateSubKeywordStyle()
         }
+    }
+    
+    private func updateSubKeywordStyle() {
+        guard let subKeywordLabel = subKeywordLabel,
+              let keywordView = subKeywordLabel.superview else { return }
+        
+        keywordView.backgroundColor = preset.subKeywordBackgroundColor
+        keywordView.setCornerRadius(
+            SubKeywordViewConsants.radius,
+            borderWidth: SubKeywordViewConsants.borderWidth,
+            borderColor: preset.subKeywordBorderColor
+        )
+        subKeywordLabel.textColor = preset.subKeywordTextColor
     }
     
     private func setSearchBarAs(status: SearchStatus) {

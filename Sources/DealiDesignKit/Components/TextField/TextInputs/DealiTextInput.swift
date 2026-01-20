@@ -457,6 +457,13 @@ extension DealiTextInput: DealiTextFieldConfig {
         }
         
         self.textFieldContentStackView.addArrangedSubview(self.textInputLeftLabel)
+        self.textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
+        self.textFieldContentStackView.addArrangedSubview(self.textField)
+        self.textFieldContentStackView.addArrangedSubview(self.clearButton)
+        self.textFieldContentStackView.setCustomSpacing(8.0, after: self.clearButton)
+        self.textFieldContentStackView.addArrangedSubview(self.rightContentViewContainer)
+        self.textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
+
         self.textInputLeftLabel.then {
             $0.font = .b2r14
             $0.textColor = .g100
@@ -467,9 +474,6 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.width.equalTo("(+880)".size(withAttributes: [.font: UIFont.b2r14]).width + 4.0)
         }
         
-        self.textFieldContentStackView.setCustomSpacing(0.0, after: self.textInputLeftLabel)
-        
-        self.textFieldContentStackView.addArrangedSubview(self.textField)
         self.textField.then {
             $0.font = .b2r14
             $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -483,10 +487,8 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.top.bottom.equalToSuperview()
         }
         
-        self.textFieldContentStackView.addArrangedSubview(self.clearButton)
         self.clearButton.then {
             $0.isHidden = true
-            
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(top: 4.0, leading: 4.0, bottom: 4.0, trailing: 4.0)
             configuration.image = DealiIcon.ic_x_circle_filled.image.withTintColor(.g50).resize(CGSize(width: 16.0, height: 16.0))
@@ -495,14 +497,10 @@ extension DealiTextInput: DealiTextFieldConfig {
             $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
         }
         
-        self.textFieldContentStackView.setCustomSpacing(8.0, after: self.clearButton)
-        
-        self.textFieldContentStackView.addArrangedSubview(self.rightContentViewContainer)
         self.rightContentViewContainer.do {
             $0.isHidden = true
         }
         
-        self.textFieldContentStackView.addArrangedSubview(self.textInputRightTimeLabel)
         self.textInputRightTimeLabel.then {
             $0.text = "00:00"
             $0.font = .b2r14

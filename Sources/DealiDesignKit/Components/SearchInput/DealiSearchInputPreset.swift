@@ -50,32 +50,4 @@ public enum DealiSearchInputPreset {
             return 0.0
         }
     }
-    
-    // MARK: - SubKeyword Style
-    var subKeywordBackgroundColor: UIColor {
-        switch self {
-        case .searchInput01:
-            return .g10
-        case .searchInput02:
-            return .primary04
-        }
-    }
-    
-    var subKeywordBorderColor: UIColor {
-        switch self {
-        case .searchInput01:
-            return .g20
-        case .searchInput02:
-            return .g20
-        }
-    }
-    
-    var subKeywordTextColor: UIColor {
-        switch self {
-        case .searchInput01:
-            return .g80
-        case .searchInput02:
-            return .g80
-        }
-    }
 }

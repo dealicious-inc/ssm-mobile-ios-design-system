@@ -63,10 +63,7 @@ public final class DealiSearchInput: UIView {
     
     private enum SubKeywordViewConsants {
         /// Sub Keyword View 관련 상수 모음
-        static let radius: CGFloat = 6
-        static let borderWidth: CGFloat = 1
         static let maxWidth: CGFloat = 92
-        static let font: UIFont = .systemFont(ofSize: 14, weight: .bold)
     }
     
     // MARK: - Variables
@@ -75,7 +72,7 @@ public final class DealiSearchInput: UIView {
     private let searchTextField = UITextField()
     private let clearImageView = UIImageView()
     private let searchImageView = UIImageView()
-    private var subKeywordLabel: UILabel?
+    private var subKeywordTag: DealiTag?
     private var inputType: SearchInputType = .default {
         didSet {
             self.updateKeyword(keyword)
@@ -89,7 +86,7 @@ public final class DealiSearchInput: UIView {
         didSet {
             updatePresetStyle()
             // subKeyword가 있는 경우 스타일도 업데이트
-            if subKeywordLabel != nil {
+            if subKeywordTag != nil {
                 updateSubKeywordStyle()
             }
         }
@@ -307,56 +304,42 @@ extension DealiSearchInput {
     }
     
     private func setSubKeywordView(with keyword: String) {
-        if let subKeywordLabel {
-            subKeywordLabel.text = keyword
-            // preset이 변경되었을 경우 스타일 업데이트
+        if let subKeywordTag {
+            subKeywordTag.text = keyword
             updateSubKeywordStyle()
         } else {
-            let keywordView = UIView()
-            stackView.insertArrangedSubview(keywordView, at: 0)
-            keywordView.then {
+            let keywordTag = DealiTag()
+            stackView.insertArrangedSubview(keywordTag, at: 0)
+            keywordTag.then {
+                $0.text = keyword
+                $0.type = currentSubKeywordTagType
                 $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             }.snp.makeConstraints {
                 $0.width.lessThanOrEqualTo(SubKeywordViewConsants.maxWidth)
             }
             
-            let keywordLabel = UILabel()
-            keywordView.addSubview(keywordLabel)
-            keywordLabel.then {
-                $0.font = SubKeywordViewConsants.font
-                $0.textAlignment = .center
-                $0.lineBreakMode = .byTruncatingTail
-                $0.text = keyword
-                $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-            }.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(4)
-                $0.left.right.equalToSuperview().inset(8)
-                $0.centerX.equalToSuperview()
-            }
-            
-            stackView.setCustomSpacing(8, after: keywordView)
+            stackView.setCustomSpacing(8, after: keywordTag)
             stackView.do {
                 $0.layoutMargins.left = StackViewConstants.layoutVMargin
             }
             
-            subKeywordLabel = keywordLabel
-            
-            // 초기 스타일 적용
+            subKeywordTag = keywordTag
             updateSubKeywordStyle()
         }
     }
     
     private func updateSubKeywordStyle() {
-        guard let subKeywordLabel = subKeywordLabel,
-              let keywordView = subKeywordLabel.superview else { return }
-        
-        keywordView.backgroundColor = preset.subKeywordBackgroundColor
-        keywordView.setCornerRadius(
-            SubKeywordViewConsants.radius,
-            borderWidth: SubKeywordViewConsants.borderWidth,
-            borderColor: preset.subKeywordBorderColor
-        )
-        subKeywordLabel.textColor = preset.subKeywordTextColor
+        guard let subKeywordTag = subKeywordTag else { return }
+        subKeywordTag.type = currentSubKeywordTagType
+    }
+
+    private var currentSubKeywordTagType: DealiTag.EType {
+        switch preset {
+        case .searchInput01:
+            return .tagFilledLarge04
+        case .searchInput02:
+            return .tagOutlineLarge04
+        }
     }
     
     private func setSearchBarAs(status: SearchStatus) {

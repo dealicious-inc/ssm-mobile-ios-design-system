@@ -31,7 +31,7 @@ public class DealiCountStepper: UIView {
     public var currentCount: Int = 0 {
         didSet {
             self.countTextField.text = "\(self.currentCount)"
-            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount >= self.minQuantity ? UIColor.g100 : UIColor.g60)
             
             self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
             self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)

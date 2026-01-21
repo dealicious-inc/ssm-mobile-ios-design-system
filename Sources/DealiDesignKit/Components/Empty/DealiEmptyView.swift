@@ -23,7 +23,7 @@ public final class DealiEmptyView: UIView {
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
     private let buttonContainerView = UIView()
-    private let actionButton = DealiControl.btnFilledLarge01()
+    private let actionButton = DealiControl.btnFilledMedium01()
     private var disposeBag = DisposeBag()
     
     /// 기본적으로 empty가 노출 되는 화면에서 상단에서 72.0 만큼 떨어진 영역에서부터 empty가 노출되도록 처리, 이후 해당 값을 조정해서 노출 위치 수정

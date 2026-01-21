@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import SnapKit
 
 public enum DealiPlaceholderImageStyle {
@@ -77,6 +78,29 @@ public enum DealiPlaceholderViewShape: RadiusProvider {
             return height / 2.0
             
         }
+    }
+    
+    func shape() -> some Shape {
+        switch self {
+        case .rectangle(let corners):
+            return AnyShape(RoundedCorner(radius: 6.0, corners: corners))
+        case .circle:
+            return AnyShape(Circle())
+        }
+    }
+}
+
+private struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
     }
 }
 

@@ -308,7 +308,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         
         self.contentView.snp.remakeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(keyboardVisibleHeight)
+            $0.bottom.equalToSuperview().inset(keyboardVisibleHeight - safeAreaBottomMargin)
         }
         self.view.layoutIfNeeded()
     }
@@ -377,6 +377,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
                 $0.left.right.equalToSuperview().inset(16.0)
+                $0.bottom.equalToSuperview()
             }
         }
     }

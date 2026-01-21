@@ -132,7 +132,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
+            $0.bottom.equalToSuperview()
         }
         
         self.contentStackView.addArrangedSubview(self.containerView)

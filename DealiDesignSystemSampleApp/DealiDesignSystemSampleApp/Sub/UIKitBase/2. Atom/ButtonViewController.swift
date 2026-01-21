@@ -61,7 +61,9 @@ class ButtonViewController: UIViewController {
             $0.spacing = 20.0
             $0.alignment = .center
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(20.0)
+            $0.top.bottom.equalToSuperview().inset(20.0)
+            $0.width.equalTo(150.0)
+            $0.centerX.equalToSuperview()
         }
         
         if isSwiftUI {
@@ -257,10 +259,14 @@ class ButtonViewController: UIViewController {
                switch Int.random(in: 0...2) {
                case 0:
                    new.title = "한줄 텍스트 버튼입니다."
+                   new.numberOfLines = 1
+
                case 1:
                    new.title = "두줄 텍스트 버튼입니다.\n두줄 텍스트 버튼입니다."
+                   new.numberOfLines = 2
                default:
                    new.title = "세줄 텍스트 버튼입니다.\n세줄 텍스트 버튼입니다.\n세줄 텍스트 버튼입니다."
+                   new.numberOfLines = 0
                }
                
                

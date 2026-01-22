@@ -63,13 +63,15 @@ public extension AttributedString {
         return new
     }
     
-    func setLink( link: String, linkStyle: TextStyleAttributes) -> AttributedString {
+    func setLink(link: String, linkStyle: TextStyleAttributes) -> AttributedString {
         var new = self
         new = new.applyStyle(linkStyle)
         
         guard let range = new.range(of: linkStyle.text) else { return self }
         new.edit(in: range) { slice in
-            slice.link = URL(string: link)!
+            if let url = URL(string: link) {
+                slice.link = url
+            }
         }
         
         return new

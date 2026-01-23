@@ -56,12 +56,18 @@ public class DealiCountStepper: UIView {
     
     /// textField empty 상태일 때 default 값 설정
     public var defaultCountWhenEmpty: Int = 0
+    /// 최대값 벗어났을 때 최대값으로 설정 여부
+    public var shouldSetToMaxWhenOutOfRange: Bool = true
     
     /// 범위가 벗어났을 때 변경하지 않을지 여부
     public var shouldChangeCharactersWhenOutOfRange: Bool = true
     
     private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
-        currentCount = count
+        if self.shouldSetToMaxWhenOutOfRange, count > self.maxQuantity {
+            currentCount = maxQuantity
+        } else {
+            currentCount = count
+        }
         
         guard shouldDelay, delay > 0 else {
             changeCountAction.accept(count)

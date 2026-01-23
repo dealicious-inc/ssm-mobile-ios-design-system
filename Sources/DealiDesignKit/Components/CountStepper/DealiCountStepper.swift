@@ -70,7 +70,7 @@ public class DealiCountStepper: UIView {
         }
         
         guard shouldDelay, delay > 0 else {
-            changeCountAction.accept(count)
+            changeCountAction.accept(currentCount)
             return
         }
         

@@ -132,7 +132,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         
         self.contentStackView.addArrangedSubview(self.containerView)
@@ -212,31 +212,25 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.top.left.right.bottom.equalToSuperview()
         }
         
+        titleContainerStackView.addArrangedSubview(self.titleLabel)
+        self.titleLabel.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+        }
+        
+        titleContainerStackView.addArrangedSubview(self.closeButton)
+        self.closeButton.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
+        }
+        
         switch self.titleType {
         case .title(let title):
-            titleContainerStackView.addArrangedSubview(self.titleLabel)
             self.titleLabel.text = title
-            self.titleLabel.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-            }
+            self.closeButton.isHidden = true
         case .closeButton:
-            titleContainerStackView.addArrangedSubview(self.closeButton)
-            self.closeButton.snp.makeConstraints {
-                $0.centerY.equalToSuperview()
-                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-            }
+            self.closeButton.isHidden = false
         case .titleCloseButton(let title):
-            titleContainerStackView.addArrangedSubview(self.titleLabel)
             self.titleLabel.text = title
-            self.titleLabel.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-            }
-            
-            titleContainerStackView.addArrangedSubview(self.closeButton)
-            self.closeButton.snp.makeConstraints {
-                $0.centerY.equalToSuperview()
-                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
-            }
+            self.closeButton.isHidden = false
         default:
             break
         }

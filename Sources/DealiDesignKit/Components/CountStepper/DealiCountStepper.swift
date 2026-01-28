@@ -231,22 +231,30 @@ public class DealiCountStepper: UIView {
 extension DealiCountStepper: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        let text: NSString = textField.text! as NSString
+        let strings = text.replacingCharacters(in: range, with: string)
+        
+        // 빈 문자열이면 허용 (삭제 중)
+        if strings.isEmpty {
+            return true
+        }
+        
+        guard let quantity = Int(strings) else {
+            return true
+        }
+        
+        // 최대값 초과는 항상 막음 (shouldChangeCharactersWhenOutOfRange 무관)
+        if quantity > self.maxQuantity {
+            self.changeOptionCount(count: self.maxQuantity)
+            return false
+        }
+        
         guard self.shouldChangeCharactersWhenOutOfRange else {
             return true
         }
         
-        let text: NSString = textField.text! as NSString
-        let strings = text.replacingCharacters(in: range, with: string)
-        
-        let quantity = Int(strings) ?? 0
-        
         if quantity < self.minQuantity {
             self.changeOptionCount(count: self.minQuantity)
-            
-            return false
-        } else if quantity > self.maxQuantity {
-            self.changeOptionCount(count: self.maxQuantity)
-            
             return false
         }
         

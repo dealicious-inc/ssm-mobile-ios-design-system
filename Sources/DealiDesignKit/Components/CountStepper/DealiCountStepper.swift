@@ -245,6 +245,7 @@ extension DealiCountStepper: UITextFieldDelegate {
         
         // 최대값 초과는 항상 막음 (shouldChangeCharactersWhenOutOfRange 무관)
         if quantity > self.maxQuantity {
+            self.currentCount = self.maxQuantity
             if !self.acceptCountWhenEditingDidEnd {
                 self.changeOptionCount(count: self.maxQuantity)
             }
@@ -256,6 +257,7 @@ extension DealiCountStepper: UITextFieldDelegate {
         }
         
         if quantity < self.minQuantity {
+            self.currentCount = self.minQuantity
             if !self.acceptCountWhenEditingDidEnd {
                 self.changeOptionCount(count: self.minQuantity)
             }

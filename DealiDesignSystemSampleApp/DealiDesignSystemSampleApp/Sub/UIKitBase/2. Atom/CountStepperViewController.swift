@@ -26,7 +26,8 @@ final class CountStepperViewController: UIViewController {
         self.countStepper.delay = 500
         self.countStepper.defaultCountWhenEmpty = 22
         self.countStepper.acceptCountWhenEditingDidEnd = true
-        self.countStepper.shouldChangeCharactersWhenOutOfRange = false
+        self.countStepper.shouldChangeCharactersWhenOutOfRange = true
+        self.countStepper.minQuantity = 10
         self.countStepper.changeCountAction.asSignal().emit(with: self, onNext: { owner, selectCount in
             print("count = \(selectCount)")
             owner.countLabel.text = "현재 선택된 수량: \(selectCount)"

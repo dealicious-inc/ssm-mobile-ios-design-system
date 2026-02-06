@@ -46,6 +46,11 @@ public class DealiCountStepper: UIView {
             self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
             self.countTextField.textColor = (self.isEnabled && self.currentCount > 0) ? UIColor.g100 : UIColor.g60
             self.isUserInteractionEnabled = self.isEnabled
+            
+            if let disabledBorderColor {
+                self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: self.isEnabled ? self.borderColor : disabledBorderColor)
+                self.backgroundColor = self.isEnabled ? self.borderColor : disabledBorderColor
+            }
         }
     }
     
@@ -61,6 +66,9 @@ public class DealiCountStepper: UIView {
     
     /// 범위가 벗어났을 때 변경하지 않을지 여부
     public var shouldChangeCharactersWhenOutOfRange: Bool = true
+    
+    public var borderColor: UIColor = .g40
+    public var disabledBorderColor: UIColor?
     
     private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
         if self.shouldSetToMaxWhenOutOfRange, count > self.maxQuantity {
@@ -89,8 +97,8 @@ public class DealiCountStepper: UIView {
         super.init(frame: .zero)
         
         self.do {
-            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: .g40)
-            $0.backgroundColor = .g40
+            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: self.borderColor)
+            $0.backgroundColor = self.borderColor
         }
         
         let contentStackView = UIStackView()
@@ -163,7 +171,8 @@ public class DealiCountStepper: UIView {
     }
     
     private func setBorder(isEditing: Bool) {
-        self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: isEditing ? .g100 : .g40)
+        self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: isEditing ? .g100 : self.borderColor)
+        self.backgroundColor = isEditing ? .g100 : self.borderColor
     }
     
     private func subscribeRx() {

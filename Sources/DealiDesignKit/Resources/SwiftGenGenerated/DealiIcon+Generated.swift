@@ -207,6 +207,7 @@ public enum DealiIcon {
   public static let ic_new_l = DesignSystemImage(name: "ic_new_l")
   public static let ic_new_m = DesignSystemImage(name: "ic_new_m")
   public static let ic_new_s = DesignSystemImage(name: "ic_new_s")
+  public static let ic_noimage = DesignSystemImage(name: "ic_noimage")
   public static let ic_notice = DesignSystemImage(name: "ic_notice")
   public static let ic_notify = DesignSystemImage(name: "ic_notify")
   public static let ic_orderdetail_ac_copy = DesignSystemImage(name: "ic_orderdetail_ac_copy")

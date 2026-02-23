@@ -52,7 +52,7 @@ enum EtcColor: Int, SystemColorConfig {
     case etc09
     
     case b70, b60, b50, b40, b30, b20, b10, b5, b2
-    case w90, w70, w50, w30, w20, w15, w10, w5
+    case w90, w70, w50, w40, w30, w20, w15, w10, w5
     
     var rgb: Int {
         switch self {
@@ -63,7 +63,7 @@ enum EtcColor: Int, SystemColorConfig {
             
         case .b2, .b5, .b10, .b20, .b30, .b40, .b50, .b60, .b70:
             return 0x000000
-        case .w90, .w70, .w50, .w30, .w20, .w15, .w10, .w5:
+        case .w90, .w70, .w50, .w40, .w30, .w20, .w15, .w10, .w5:
             return 0xFFFFFF
             
         }
@@ -114,6 +114,8 @@ enum EtcColor: Int, SystemColorConfig {
             return 0.70
         case .w50:
             return 0.50
+        case .w40:
+            return 0.40
         case .w30:
             return 0.30
         case .w20:

@@ -66,6 +66,7 @@ public extension UIColor {
     static var w90: UIColor { EtcColor.w90.color() }
     static var w70: UIColor { EtcColor.w70.color() }
     static var w50: UIColor { EtcColor.w50.color() }
+    static var w40: UIColor { EtcColor.w40.color() }
     static var w30: UIColor { EtcColor.w30.color() }
     static var w20: UIColor { EtcColor.w20.color() }
     static var w15: UIColor { EtcColor.w15.color() }

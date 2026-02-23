@@ -189,14 +189,16 @@ extension BottomSheetPopupTestViewController {
         ]
                                                         
         DealiBottomSheet.showSingleSelectionType(
-            titleType: .titleCloseButton(title: "단일선택 바텀시트"),
+            titleType: .closeButton,
             option: optionData,
             shouldDismissWhenSelect: true,
             popupPresentingViewController: self,
             selectAction: { indecies in
                 debugPrint("눌림:\(indecies)")
                 
-            }, cancelAction: nil,
+            }, cancelAction: {
+                debugPrint("cancel click")
+            },
             confirmAction: nil
         )
     }
@@ -284,7 +286,7 @@ extension BottomSheetPopupTestViewController {
             $0.size.equalTo(CGSize(width: 100.0, height: 100.0))
         }
         
-        DealiBottomSheet.showBottomSheet(optionContentView: customView, popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
+        DealiBottomSheet.showBottomSheet(optionContentView: customView, buttonType: .oneButton(buttonTitle: "확인"), popupPresentingViewController: self, cancelAction: nil, confirmAction: nil)
     }
     
     @objc func bottomSheetButton_01Pressed() {

@@ -551,6 +551,10 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/../SwiftGen/swiftgen.yml",
+				"$(SRCROOT)/../Sources/DealiDesignKit/Resources/IconAssets.xcassets",
+				"$(SRCROOT)/../Sources/DealiDesignKit/Resources/ImageAssets.xcassets",
+				"$(SRCROOT)/DealiDesignSystemSampleApp/Others/Assets.xcassets",
 			);
 			name = "SwiftGen Script";
 			outputFileListPaths = (
@@ -559,7 +563,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Debug configuration에서만 실행\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n    echo \"SwiftGen is skipped for non-Debug builds.\"\n    exit 0\nfi\n\n# Apple Silicon 대응\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n# SwiftGen 설치 여부 확인\nif ! command -v swiftgen &> /dev/null; then\n    echo \"warning: SwiftGen not installed. Install via 'brew install swiftgen'\"\n    exit 1\nfi\n\n# 변경된 Asset 파일 목록 가져오기\nchanged_files=$(git diff --name-only --diff-filter=ACMRD | grep -E \"\\.xcassets($|/)\")\n\n# 변경된 파일이 없으면 종료\nif [ -z \"$changed_files\" ]; then\n    echo \"No relevant asset files changed.\"\n    exit 0\nfi\n\n# SwiftGen 실행\necho \"Running SwiftGen...\"\nswiftgen config run --config \"${SRCROOT}/../SwiftGen/swiftgen.yml\"\n\n# SwiftGen 실행 결과 확인\nif [ $? -ne 0 ]; then\n    echo \"SwiftGen failed. Please check your configuration.\"\n    exit 1\nelse\n    echo \"SwiftGen ran successfully.\"\nfi\n";
+			shellScript = "# Debug configuration에서만 실행\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n    echo \"SwiftGen is skipped for non-Debug builds.\"\n    exit 0\nfi\n\n# Apple Silicon 대응\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n# SwiftGen 설치 여부 확인\nif ! command -v swiftgen &> /dev/null; then\n    echo \"warning: SwiftGen not installed. Install via 'brew install swiftgen'\"\n    exit 1\nfi\n\n# 변경된 Asset 파일 목록 가져오기\nchanged_files=$(\n  {\n    git diff HEAD --name-only --diff-filter=ACMRD\n    git ls-files --others --exclude-standard\n  } | grep -E \"\\.xcassets($|/)\" | sort -u\n)\n\necho \"💬 Changed files :\"\nprintf '%s\\n' \"$changed_files\"\n\n# 변경된 파일이 없으면 종료\nif [ -z \"$changed_files\" ]; then\n        echo \"☑️ No relevant asset or strings files changed.\"\n    exit 0\nfi\n\n# 루트 경로 이동 후 SwiftGen 실행\necho \"✏️ Running SwiftGen...\"\ncd \"${SRCROOT}/../SwiftGen\" && swiftgen config run --config swiftgen.yml\n\n# SwiftGen 실행 결과 확인\nif [ $? -ne 0 ]; then\n    echo \"🚨 SwiftGen failed. Please check your configuration.\"\n    exit 1\nelse\n    echo \"✅ SwiftGen ran successfully.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

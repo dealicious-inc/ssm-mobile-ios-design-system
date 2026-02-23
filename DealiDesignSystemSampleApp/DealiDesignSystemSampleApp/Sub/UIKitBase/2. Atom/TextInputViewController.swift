@@ -196,6 +196,28 @@ final class TextInputViewController: UIViewController {
             $0.left.right.equalToSuperview()
         }
         
+        let customInput = DealiTextInput()
+        contentStackView.addArrangedSubview(customInput)
+        customInput.then {
+            $0.title = "커스텀 뷰 인풋"
+            $0.keyboardCloseButtonString = "닫기"
+            $0.inputReturnKeyType = .done
+            $0.text = "DDDD"
+            
+            let label = UILabel().then {
+                $0.text = "커스텀"
+                $0.sizeToFit()
+            }
+                
+                label.snp.makeConstraints {
+                $0.width.equalTo(60)
+            }
+            
+            $0.rightContentView = label
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

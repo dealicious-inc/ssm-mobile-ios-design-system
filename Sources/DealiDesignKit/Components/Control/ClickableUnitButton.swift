@@ -52,6 +52,7 @@ public class ClickableUnitButton: SystemButton {
             self.attributedTitle = NSMutableAttributedString(string: title)
                 .font(titleFont)
                 .alignment(.center)
+                .lineBreakMode(.byTruncatingTail)
                 .setLineHeight()
         }
     }
@@ -60,6 +61,13 @@ public class ClickableUnitButton: SystemButton {
         didSet {
             self.dealiTitleLabel.attributedText = attributedTitle
             self.dealiTitleLabel.isHidden = (attributedTitle?.string.isEmpty ?? true)
+            self.updateContent()
+        }
+    }
+    
+    public var numberOfLines: Int = 1 {
+        didSet {
+            self.dealiTitleLabel.numberOfLines = self.numberOfLines
             self.updateContent()
         }
     }
@@ -209,9 +217,11 @@ public class ClickableUnitButton: SystemButton {
         
         self.contentStackView.addArrangedSubview(self.dealiTitleLabel)
         self.dealiTitleLabel.then {
-            $0.numberOfLines = 0
+            $0.numberOfLines = self.numberOfLines
+            $0.lineBreakMode = .byTruncatingTail
             $0.textAlignment = .center
             $0.lineBreakMode = .byWordWrapping
+            $0.setContentCompressionResistancePriority(.required, for: .vertical)
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
         }

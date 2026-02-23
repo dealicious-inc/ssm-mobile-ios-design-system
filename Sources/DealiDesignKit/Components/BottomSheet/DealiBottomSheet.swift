@@ -260,9 +260,13 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     }
     
     var shouldDismissWhenSelect: Bool = false
+    /// title close 버튼 클릭시 cancel Action 호출 유무
+    var cancelActionOnCloseButton: Bool = false
     var cancelAction: (() -> Void)? {
         didSet {
-            self.closeActionHandler = self.cancelAction
+            if self.cancelActionOnCloseButton {
+                self.closeActionHandler = self.cancelAction
+            }
         }
     }
     var confirmAction: (() -> Void)?

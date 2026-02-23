@@ -62,12 +62,13 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        cancelActionOnCloseButton: Bool = false,
         shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
-            
+
             let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .singleSelect
@@ -76,12 +77,13 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.cancelActionOnCloseButton = cancelActionOnCloseButton
                 $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
             }
-            
+
             popupPresentingViewController.present(viewController, animated: false)
         }
     
@@ -91,12 +93,13 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        cancelActionOnCloseButton: Bool = false,
         shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
-            
+
             let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .multiSelect
@@ -105,12 +108,13 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.cancelActionOnCloseButton = cancelActionOnCloseButton
                 $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
             }
-            
+
             popupPresentingViewController.present(viewController, animated: false)
         }
     
@@ -120,12 +124,13 @@ public class DealiBottomSheet: NSObject {
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        cancelActionOnCloseButton: Bool = false,
         shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
-            
+
             let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .iconWithText
@@ -134,12 +139,13 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.cancelActionOnCloseButton = cancelActionOnCloseButton
                 $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
             }
-            
+
             popupPresentingViewController.present(viewController, animated: false)
         }
     
@@ -150,12 +156,13 @@ public class DealiBottomSheet: NSObject {
         slotSize: ESlotSize,
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
+        cancelActionOnCloseButton: Bool = false,
         shouldDismissWhenSelect: Bool = false,
         popupPresentingViewController: UIViewController,
         selectAction: (([Int]) -> Void)?,
         cancelAction: (() -> Void)?,
         confirmAction: (() -> Void)?) {
-            
+
             let viewController = DealiBottomSheetSystemViewController().then {
                 $0.contentContainerView = UIView()
                 $0.optionType = .slotWithText(size: slotSize)
@@ -164,12 +171,13 @@ public class DealiBottomSheet: NSObject {
                 $0.buttonType = buttonType
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+                $0.cancelActionOnCloseButton = cancelActionOnCloseButton
                 $0.shouldDismissWhenSelect = shouldDismissWhenSelect
                 $0.selectAction = selectAction
                 $0.cancelAction = cancelAction
                 $0.confirmAction = confirmAction
             }
-            
+
             popupPresentingViewController.present(viewController, animated: false)
         }
     
@@ -178,26 +186,28 @@ public class DealiBottomSheet: NSObject {
                                    buttonType: EBottomSheetButtonType = .hidden,
                                    closeBottomSheetOnOutsideTouch: Bool = true,
                                    cancelActionOnOutsideTouch: Bool = false,
+                                   cancelActionOnCloseButton: Bool = false,
                                    shouldDismissWhenSelect: Bool = false,
                                    popupPresentingViewController: UIViewController,
                                    cancelAction: (() -> Void)?,
                                    confirmAction: (() -> Void)?) {
-        
+
         let messageStyle = NSMutableParagraphStyle().then {
             $0.alignment = .left
             $0.lineHeightMultiple = 1.16
         }
-        
+
         let messageLabel = UILabel().then {
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle])
         }
-        
+
         self.showBottomSheet(titleType: titleType,
                              optionContentView: messageLabel,
                              buttonType: buttonType,
                              closeBottomSheetOnOutsideTouch: closeBottomSheetOnOutsideTouch,
                              cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
+                             cancelActionOnCloseButton: cancelActionOnCloseButton,
                              shouldDismissWhenSelect: shouldDismissWhenSelect,
                              popupPresentingViewController: popupPresentingViewController,
                              cancelAction: cancelAction,
@@ -212,17 +222,19 @@ public class DealiBottomSheet: NSObject {
                                       buttonType: EBottomSheetButtonType = .hidden,
                                       closeBottomSheetOnOutsideTouch: Bool = true,
                                       cancelActionOnOutsideTouch: Bool = false,
+                                      cancelActionOnCloseButton: Bool = false,
                                       shouldDismissWhenSelect: Bool = false,
                                       popupPresentingViewController: UIViewController,
                                       cancelAction: (() -> Void)?,
                                       confirmAction: (() -> Void)?) -> HideBottomSheetHandler {
-        
+
         let viewController = DealiBottomSheetSystemViewController().then {
             $0.contentContainerView = optionContentView
             $0.titleType = titleType
             $0.buttonType = buttonType
             $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
             $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
+            $0.cancelActionOnCloseButton = cancelActionOnCloseButton
             $0.shouldDismissWhenSelect = shouldDismissWhenSelect
             $0.cancelAction = cancelAction
             $0.confirmAction = confirmAction

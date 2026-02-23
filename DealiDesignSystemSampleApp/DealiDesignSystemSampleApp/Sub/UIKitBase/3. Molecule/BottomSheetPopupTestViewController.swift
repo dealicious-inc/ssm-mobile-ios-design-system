@@ -196,7 +196,9 @@ extension BottomSheetPopupTestViewController {
             selectAction: { indecies in
                 debugPrint("눌림:\(indecies)")
                 
-            }, cancelAction: nil,
+            }, cancelAction: {
+                debugPrint("cancel click")
+            },
             confirmAction: nil
         )
     }

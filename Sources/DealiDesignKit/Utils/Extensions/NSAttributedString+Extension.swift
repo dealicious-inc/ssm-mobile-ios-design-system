@@ -12,12 +12,14 @@ public struct TextStyleAttributes {
     var font: UIFont?
     var color: UIColor?
     var underline: Bool
+    var strikeThrough: Bool
     
-    public init(text: String, font: UIFont? = nil, color: UIColor? = nil, underline: Bool = true) {
+    public init(text: String, font: UIFont? = nil, color: UIColor? = nil, underline: Bool = false, strikeThrough: Bool = false) {
         self.text = text
         self.font = font
         self.color = color
         self.underline = underline
+        self.strikeThrough = strikeThrough
     }
 }
 

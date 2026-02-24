@@ -97,7 +97,7 @@ public struct LabeledTextView: View {
         
         LabeledTextView()
             .preset(.labeledTextBullet02)
-            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하").highlighted([TextStyleAttributes(text: "가나다라", color: .primary01)])))
+            .model(LabeledTextModel(message: AttributedString("내용 가나다라마바사아자차카타파하가나다라마바사아자차카타파하").applyStyle(TextStyleAttributes(text: "가나다라", color: .primary01))))
         
         LabeledTextView()
             .preset(.labeledTextNumber01)

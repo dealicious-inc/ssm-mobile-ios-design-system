@@ -26,6 +26,8 @@ public class DealiToolTip: UIView {
     
     private var autoDismissWorkItem: DispatchWorkItem?
     
+    private var dismissAction: (() -> Void)?
+    
     public enum EToolTipColor {
         case blue
         case white
@@ -156,7 +158,8 @@ public class DealiToolTip: UIView {
         autoDismissAfter: TimeInterval? = nil,
         toolTipCondition: () -> Bool,
         toolTipLayout: (ConstraintMaker) -> Void,
-        toolTipAction: (() -> Void)? = nil
+        toolTipAction: (() -> Void)? = nil,
+        dismissAction: (() -> Void)? = nil
     ) -> DealiToolTip? {
         guard toolTipCondition() else { return nil }
         
@@ -178,6 +181,8 @@ public class DealiToolTip: UIView {
         }
         
         superView.bringSubviewToFront(toolTip)
+        
+        toolTip.dismissAction = dismissAction
         
         dismissView.rx.touchDownGesture()
             .when(.recognized)
@@ -232,7 +237,8 @@ public class DealiToolTip: UIView {
                        animations: { [weak self] in
             guard let self else {return}
             self.alpha = 0.0
-        }) { _ in
+        }) { [weak self] _ in
+            self?.dismissAction?()
             completion?()
         }
     }

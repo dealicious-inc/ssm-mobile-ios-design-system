@@ -31,7 +31,7 @@ public class DealiCountStepper: UIView {
     public var currentCount: Int = 0 {
         didSet {
             self.countTextField.text = "\(self.currentCount)"
-            self.countTextField.textColor = (self.isEnabled && self.currentCount > 0 ? UIColor.g100 : UIColor.g60)
+            self.countTextField.textColor = (self.isEnabled && self.currentCount >= self.minQuantity ? UIColor.g100 : UIColor.g60)
             
             self.minusButton.isEnabled = self.isEnabled && (self.currentCount > self.minQuantity)
             self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
@@ -46,6 +46,11 @@ public class DealiCountStepper: UIView {
             self.plusButton.isEnabled = self.isEnabled && (self.currentCount < self.maxQuantity)
             self.countTextField.textColor = (self.isEnabled && self.currentCount > 0) ? UIColor.g100 : UIColor.g60
             self.isUserInteractionEnabled = self.isEnabled
+            
+            if let disabledBorderColor {
+                self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: self.isEnabled ? self.borderColor : disabledBorderColor)
+                self.backgroundColor = self.isEnabled ? self.borderColor : disabledBorderColor
+            }
         }
     }
     
@@ -56,12 +61,24 @@ public class DealiCountStepper: UIView {
     
     /// textField empty 상태일 때 default 값 설정
     public var defaultCountWhenEmpty: Int = 0
+    /// 최대값 벗어났을 때 최대값으로 설정 여부
+    public var shouldSetToMaxWhenOutOfRange: Bool = true
+    
+    /// 범위가 벗어났을 때 변경하지 않을지 여부
+    public var shouldChangeCharactersWhenOutOfRange: Bool = true
+    
+    public var borderColor: UIColor = .g40
+    public var disabledBorderColor: UIColor?
     
     private func changeOptionCount(count: Int, shouldDelay: Bool = false) {
-        currentCount = count
+        if self.shouldSetToMaxWhenOutOfRange, count > self.maxQuantity {
+            currentCount = maxQuantity
+        } else {
+            currentCount = count
+        }
         
         guard shouldDelay, delay > 0 else {
-            changeCountAction.accept(count)
+            changeCountAction.accept(currentCount)
             return
         }
         
@@ -80,8 +97,8 @@ public class DealiCountStepper: UIView {
         super.init(frame: .zero)
         
         self.do {
-            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: .g40)
-            $0.backgroundColor = .g40
+            $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: self.borderColor)
+            $0.backgroundColor = self.borderColor
         }
         
         let contentStackView = UIStackView()
@@ -154,7 +171,8 @@ public class DealiCountStepper: UIView {
     }
     
     private func setBorder(isEditing: Bool) {
-        self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: isEditing ? .g100 : .g40)
+        self.setCornerRadius(6.0, borderWidth: 1.0, borderColor: isEditing ? .g100 : self.borderColor)
+        self.backgroundColor = isEditing ? .g100 : self.borderColor
     }
     
     private func subscribeRx() {
@@ -225,15 +243,33 @@ extension DealiCountStepper: UITextFieldDelegate {
         let text: NSString = textField.text! as NSString
         let strings = text.replacingCharacters(in: range, with: string)
         
-        let quantity = Int(strings) ?? 0
+        // 빈 문자열이면 허용 (삭제 중)
+        if strings.isEmpty {
+            return true
+        }
+        
+        guard let quantity = Int(strings) else {
+            return true
+        }
+        
+        // 최대값 초과는 항상 막음 (shouldChangeCharactersWhenOutOfRange 무관)
+        if quantity > self.maxQuantity {
+            self.currentCount = self.maxQuantity
+            if !self.acceptCountWhenEditingDidEnd {
+                self.changeOptionCount(count: self.maxQuantity)
+            }
+            return false
+        }
+        
+        guard self.shouldChangeCharactersWhenOutOfRange else {
+            return true
+        }
         
         if quantity < self.minQuantity {
-            self.changeOptionCount(count: self.minQuantity)
-            
-            return false
-        } else if quantity > self.maxQuantity {
-            self.changeOptionCount(count: self.maxQuantity)
-            
+            self.currentCount = self.minQuantity
+            if !self.acceptCountWhenEditingDidEnd {
+                self.changeOptionCount(count: self.minQuantity)
+            }
             return false
         }
         

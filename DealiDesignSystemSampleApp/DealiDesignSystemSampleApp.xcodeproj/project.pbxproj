@@ -37,7 +37,6 @@
 		39FE39C32DE6AAB1005E0CB5 /* LinkLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FE39C22DE6AAB1005E0CB5 /* LinkLabelViewController.swift */; };
 		3B0A390E2E13B83D00A2AD2C /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0A390D2E13B83D00A2AD2C /* EmptyViewController.swift */; };
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
-		3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */; };
 		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
@@ -107,7 +106,6 @@
 		39FE39C22DE6AAB1005E0CB5 /* LinkLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabelViewController.swift; sourceTree = "<group>"; };
 		3B0A390D2E13B83D00A2AD2C /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
-		3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBaseViewController.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTestView.swift; sourceTree = "<group>"; };
 		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
@@ -385,31 +383,14 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		4DB9FA7C2E003DC7008430C4 /* SwiftUIBase */ = {
-			isa = PBXGroup;
-			children = (
-				3B92CD062D6315A7006A2057 /* SwiftUIBaseViewController.swift */,
-			);
-			path = SwiftUIBase;
-			sourceTree = "<group>";
-		};
 		4DB9FA7D2E003DDA008430C4 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				4DB9FA7E2E003E13008430C4 /* UIKitBase */,
-				4DB9FA7C2E003DC7008430C4 /* SwiftUIBase */,
-				4DB9FA772E0038B4008430C4 /* MainViewController.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		4DB9FA7E2E003E13008430C4 /* UIKitBase */ = {
 			isa = PBXGroup;
 			children = (
 				4DA7ED7E2DA76EF30029165D /* UIKitBaseViewController.swift */,
 				E5E0642C2D5F12C700925FAF /* FullSwiftUIBaseView.swift */,
+				4DB9FA772E0038B4008430C4 /* MainViewController.swift */,
 			);
-			path = UIKitBase;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		4DB9FA7F2E003F0B008430C4 /* Sub */ = {
@@ -617,7 +598,6 @@
 				FC52E5FF2AA0315B00CADB39 /* RadioButtonViewController.swift in Sources */,
 				4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */,
 				4DA7ED842DA79F850029165D /* ComponentSectionData.swift in Sources */,
-				3B92CD072D6315A7006A2057 /* SwiftUIBaseViewController.swift in Sources */,
 				398370952D91533A005C5CCD /* AccordionTestView.swift in Sources */,
 				39F6D2442D197568008B35A9 /* PlaceholderImageViewController.swift in Sources */,
 				4DA7ED7F2DA76EF30029165D /* UIKitBaseViewController.swift in Sources */,

@@ -83,6 +83,7 @@ struct ColorView: View {
                 ColorData(name: "w90", color: UIColor.w90.asColor(), isDarkShade: false),
                 ColorData(name: "w70", color: UIColor.w70.asColor(), isDarkShade: false),
                 ColorData(name: "w50", color: UIColor.w50.asColor(), isDarkShade: false),
+                ColorData(name: "w40", color: UIColor.w40.asColor(), isDarkShade: false),
                 ColorData(name: "w30", color: UIColor.w30.asColor(), isDarkShade: false),
                 ColorData(name: "w20", color: UIColor.w20.asColor(), isDarkShade: false),
                 ColorData(name: "w15", color: UIColor.w15.asColor(), isDarkShade: false),

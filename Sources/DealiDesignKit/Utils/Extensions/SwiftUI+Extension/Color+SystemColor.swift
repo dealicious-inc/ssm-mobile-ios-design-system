@@ -64,6 +64,7 @@ public extension Color {
     static var w90: Color { UIColor.w90.asColor() }
     static var w70: Color { UIColor.w70.asColor() }
     static var w50: Color { UIColor.w50.asColor() }
+    static var w40: Color { UIColor.w40.asColor() }
     static var w30: Color { UIColor.w30.asColor() }
     static var w20: Color { UIColor.w20.asColor() }
     static var w15: Color { UIColor.w15.asColor() }

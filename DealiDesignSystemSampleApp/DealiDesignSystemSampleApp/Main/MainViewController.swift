@@ -72,11 +72,11 @@ final class MainViewController: UIViewController {
     
     
     @objc func handleUIKitBaseButtonPress() {
-        self.pushViewController(UIKitBaseViewController())
+        self.pushViewController(UIKitBaseViewController(isSwiftUI: false))
     }
     
     @objc func handleSwiftUIBaseButtonPress() {
-        self.pushViewController(SwiftUIBaseViewController())
+        self.pushViewController(UIKitBaseViewController(isSwiftUI: true))
     }
     
     @objc func handleFullSwiftUIBaseButtonPress() {

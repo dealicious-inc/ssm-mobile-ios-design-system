@@ -115,7 +115,7 @@ public struct AlertView: View {
     @ViewBuilder
     private var titleText: some View {
         if let title = viewModel.title, !title.isEmpty {
-            Text(title)
+            Text(title.byCharWrapping)
                 .font(Font(UIFont.sh2sb18))
                 .foregroundStyle(Color(UIColor.g100))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -128,7 +128,7 @@ public struct AlertView: View {
     private var messageText: some View {
         if let message = viewModel.message, !message.isEmpty {
             Spacer().frame(height: 4.0)
-            Text(message)
+            Text(message.byCharWrapping)
                 .font(Font(UIFont.sh3r16))
                 .foregroundStyle(Color(UIColor.g80))
                 .frame(maxWidth: .infinity, alignment: .leading)

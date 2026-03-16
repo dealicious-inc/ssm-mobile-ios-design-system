@@ -25,6 +25,14 @@ final class ImageChipViewController: UIViewController {
     private let smallSelectedImageChip = DealiControl.imgChipSmall01()
     private let smallDisabledImageChip = DealiControl.imgChipSmall01()
     
+    private let outlineSquareImageChip = DealiControl.chipOutlineSquareImageLarge01()
+    private let outlineSquareImageDisabledChip = DealiControl.chipOutlineSquareImageLarge01()
+    private let outlineSquareImageWithXChip = DealiControl.chipOutlineSquareImageLarge01()
+    private let outlineSquareImageMediumChip = DealiControl.chipOutlineSquareImageMedium01()
+    private let outlineSquareImageMediumDisabledChip = DealiControl.chipOutlineSquareImageMedium01()
+    private let outlineSquareImageTruncateChip = DealiControl.chipOutlineSquareImageLarge01()
+    private let outlineSquareImageMediumTruncateChip = DealiControl.chipOutlineSquareImageMedium01()
+    
     private let disposeBag = DisposeBag()
     private let detachBag = AnyDetachBag()
     private let isSwiftUI: Bool
@@ -70,6 +78,20 @@ final class ImageChipViewController: UIViewController {
             .bind(with: self) { owner, _ in
                 owner.smallImageChip.isSelected.toggle()
                 
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.outlineSquareImageTruncateChip.rx.tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self) { owner, _ in
+                owner.outlineSquareImageTruncateChip.isSelected.toggle()
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.outlineSquareImageMediumTruncateChip.rx.tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self) { owner, _ in
+                owner.outlineSquareImageMediumTruncateChip.isSelected.toggle()
             }
             .disposed(by: self.disposeBag)
     }
@@ -126,6 +148,63 @@ private extension ImageChipViewController {
         stackView.addArrangedSubview(smallDisabledImageChip)
         smallDisabledImageChip.status = .disabled
         
+        let outlineSquareTitleLabel = UILabel()
+        outlineSquareTitleLabel.text = "chipOutlineSquareImageLarge01"
+        outlineSquareTitleLabel.font = .b2sb14
+        outlineSquareTitleLabel.textColor = .g80
+        stackView.addArrangedSubview(outlineSquareTitleLabel)
+        
+        stackView.addArrangedSubview(outlineSquareImageChip)
+        outlineSquareImageChip.title = "Outline Square"
+        outlineSquareImageChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        
+        stackView.addArrangedSubview(outlineSquareImageDisabledChip)
+        outlineSquareImageDisabledChip.title = "Disabled"
+        outlineSquareImageDisabledChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        outlineSquareImageDisabledChip.status = .disabled
+        
+        stackView.addArrangedSubview(outlineSquareImageWithXChip)
+        outlineSquareImageWithXChip.title = "제거 가능(X 탭 시 제거)"
+        outlineSquareImageWithXChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        outlineSquareImageWithXChip.rightImage = UIImage.dealiIcon(named: "ic_x_s")
+        outlineSquareImageWithXChip.onRightIconTap = { [weak outlineSquareImageWithXChip] in
+            guard let chip = outlineSquareImageWithXChip, let stackView = chip.superview as? UIStackView else { return }
+            stackView.removeArrangedSubview(chip)
+            chip.removeFromSuperview()
+        }
+        
+        let outlineSquareMediumTitleLabel = UILabel()
+        outlineSquareMediumTitleLabel.text = "chipOutlineSquareImageMedium01"
+        outlineSquareMediumTitleLabel.font = .b2sb14
+        outlineSquareMediumTitleLabel.textColor = .g80
+        stackView.addArrangedSubview(outlineSquareMediumTitleLabel)
+        
+        stackView.addArrangedSubview(outlineSquareImageMediumChip)
+        outlineSquareImageMediumChip.title = "Outline Square Medium"
+        outlineSquareImageMediumChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        
+        stackView.addArrangedSubview(outlineSquareImageMediumDisabledChip)
+        outlineSquareImageMediumDisabledChip.title = "Disabled"
+        outlineSquareImageMediumDisabledChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        outlineSquareImageMediumDisabledChip.status = .disabled
+        
+        let truncateTitleLabel = UILabel()
+        truncateTitleLabel.text = "width 강제 지정 시 말줄임"
+        truncateTitleLabel.font = .b2sb14
+        truncateTitleLabel.textColor = .g80
+        stackView.addArrangedSubview(truncateTitleLabel)
+        
+        let longText = "이것은 아주 긴 텍스트가 들어갔을 때 말줄임 테스트입니다"
+        stackView.addArrangedSubview(outlineSquareImageTruncateChip)
+        outlineSquareImageTruncateChip.title = longText
+        outlineSquareImageTruncateChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        outlineSquareImageTruncateChip.snp.makeConstraints { $0.width.equalTo(200) }
+        
+        stackView.addArrangedSubview(outlineSquareImageMediumTruncateChip)
+        outlineSquareImageMediumTruncateChip.title = longText
+        outlineSquareImageMediumTruncateChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+        outlineSquareImageMediumTruncateChip.snp.makeConstraints { $0.width.equalTo(160) }
+        
         stackView.addArrangedSubview(UIView())
         return stackView
     }
@@ -169,6 +248,49 @@ private extension ImageChipViewController {
             .detached(by: self.detachBag)
         
         stackView.addArrangedSubview(result2.view)
+        
+        let outlineSquareViewModel = DealiImageChipViewModel(
+            urlString: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60",
+            text: "Outline Square"
+        )
+        let outlineSquareResult = DealiImageChip(
+            viewModel: outlineSquareViewModel,
+            action: { debugPrint("chipOutlineSquareImageLarge01 탭") },
+            content: { EmptyView() },
+            preset: .imgOutlineSquareLarge01
+        )
+        .toUIView(embeddedIn: self)
+        .detached(by: self.detachBag)
+        stackView.addArrangedSubview(outlineSquareResult.view)
+        
+        let outlineSquareMediumViewModel = DealiImageChipViewModel(
+            urlString: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60",
+            text: "Outline Square Medium"
+        )
+        let outlineSquareMediumResult = DealiImageChip(
+            viewModel: outlineSquareMediumViewModel,
+            action: { debugPrint("chipOutlineSquareImageMedium01 탭") },
+            content: { EmptyView() },
+            preset: .imgOutlineSquareMedium01
+        )
+        .toUIView(embeddedIn: self)
+        .detached(by: self.detachBag)
+        stackView.addArrangedSubview(outlineSquareMediumResult.view)
+        
+        let outlineSquareWithXViewModel = DealiImageChipViewModel(
+            urlString: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60",
+            text: "제거 가능",
+            iconName: "ic_x_s"
+        )
+        let outlineSquareWithXResult = DealiImageChip(
+            viewModel: outlineSquareWithXViewModel,
+            action: { debugPrint("chipOutlineSquareImageLarge01 (X 버튼) 탭") },
+            content: { EmptyView() },
+            preset: .imgOutlineSquareLarge01
+        )
+        .toUIView(embeddedIn: self)
+        .detached(by: self.detachBag)
+        stackView.addArrangedSubview(outlineSquareWithXResult.view)
         
         stackView.addArrangedSubview(UIView())
         

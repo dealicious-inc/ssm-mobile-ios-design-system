@@ -34,12 +34,36 @@ public extension DealiControl {
             )
         )
     }
+    
+    static func chipOutlineSquareImageLarge01() -> ImageChip {
+        let chip = ImageChip(
+            configuration: ImageChipConfig(
+                size: ImageChipSizeType.outlineSquareImageLarge.size,
+                style: ImageStyleType.outlineSquare01.style
+            )
+        )
+        chip.placeholderImage = nil
+        return chip
+    }
+    
+    static func chipOutlineSquareImageMedium01() -> ImageChip {
+        let chip = ImageChip(
+            configuration: ImageChipConfig(
+                size: ImageChipSizeType.outlineSquareImageMedium.size,
+                style: ImageStyleType.outlineSquare01.style
+            )
+        )
+        chip.placeholderImage = nil
+        return chip
+    }
 }
 
 enum ImageChipSizeType {
     case large
     case medium
     case small
+    case outlineSquareImageLarge
+    case outlineSquareImageMedium
     
     var size: ChipSize {
         switch self {
@@ -64,6 +88,28 @@ enum ImageChipSizeType {
                 placeholderInset: 6.0,
                 titleFont: DealiFont.b2Regular
             )
+        case .outlineSquareImageLarge:
+            return ChipSize(
+                height: 46.0,
+                imageSize: .init(width: 12.0, height: 12.0),
+                placeholderInset: 0,
+                titleFont: DealiFont.b2SemiBold,
+                leftPadding: 12.0,
+                rightPadding: 12.0,
+                verticalPadding: 10.0,
+                interItemSpacing: 4.0
+            )
+        case .outlineSquareImageMedium:
+            return ChipSize(
+                height: 40.0,
+                imageSize: .init(width: 12.0, height: 12.0),
+                placeholderInset: 0,
+                titleFont: DealiFont.b2SemiBold,
+                leftPadding: 12.0,
+                rightPadding: 12.0,
+                verticalPadding: 10.0,
+                interItemSpacing: 4.0
+            )
         }
     }
 }
@@ -71,6 +117,7 @@ enum ImageChipSizeType {
 
 enum ImageStyleType {
     case basic
+    case outlineSquare01
     
     var style: ChipStyle {
         switch self {
@@ -81,6 +128,15 @@ enum ImageStyleType {
                     normal: ChipColor(textColor: UIColor.g80, backgroundColor: UIColor.b5),
                     selected: ChipColor(textColor: UIColor.primary04, backgroundColor: UIColor.g100),
                     disabled: ChipColor(textColor: UIColor.g50, backgroundColor: UIColor.b5)
+                )
+            )
+        case .outlineSquare01:
+            return ChipStyle(
+                radiusProvider: ChipRadiusType.fixed(4.0),
+                colorProvider: ChipColors(
+                    normal: ChipColor(textColor: UIColor.g100, backgroundColor: UIColor.primary04, borderColor: UIColor.g20),
+                    selected: ChipColor(textColor: UIColor.g100, backgroundColor: UIColor.primary04, borderColor: UIColor.g20),
+                    disabled: ChipColor(textColor: UIColor.g50, backgroundColor: UIColor.primary04, borderColor: UIColor.g20)
                 )
             )
         }

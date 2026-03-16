@@ -51,10 +51,14 @@ struct DLImageChipConfig: ChipConfigurable {
             imageSize: size.imageSize,
             cornerRadius: self.style.radiusProvider.getRadius(for: size.height),
             placeholderInset: size.placeholderInset,
+            leftPadding: size.leftPadding ?? 4.0,
+            interItemSpacing: size.interItemSpacing ?? 8.0,
+            rightPadding: size.rightPadding ?? 12.0,
+            verticalPadding: size.verticalPadding ?? 4.0,
             titleFont: titleFont,
             textColor: Color(color.textColor),
             backgroundColor: Color(color.backgroundColor),
-            borderColor: Color(color.borderColor ?? UIColor.clear)
+            borderColor: color.borderColor.map { Color($0) }
         )
     }
      
@@ -78,7 +82,9 @@ public enum ImageChipPreset: CaseIterable {
     case imgChipLarge01
     case imgChipMedium01
     case imgChipSmall01
-    
+    case imgOutlineSquareLarge01
+    case imgOutlineSquareMedium01
+
     var config: DLImageChipConfig {
         switch self {
         case .imgChipLarge01:
@@ -95,6 +101,17 @@ public enum ImageChipPreset: CaseIterable {
             return DLImageChipConfig(
                 size: ImageChipSizeType.small.size,
                 style: ImageStyleType.basic.style
+            )
+        case .imgOutlineSquareLarge01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.outlineSquareImageLarge.size,
+                style: ImageStyleType.outlineSquare01.style
+            )
+            
+        case .imgOutlineSquareMedium01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.outlineSquareImageMedium.size,
+                style: ImageStyleType.outlineSquare01.style
             )
         }
     }

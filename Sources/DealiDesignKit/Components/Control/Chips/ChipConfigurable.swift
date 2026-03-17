@@ -20,6 +20,18 @@ protocol ChipSizeProtoocol: ControlSizeProtocol {
     var imageSize: CGSize { get }
     var placeholderInset: CGFloat { get }
     var titleFont: FontProvider { get }
+    /// 사이즈별 패딩 오버라이드 (nil이면 ImageChip 기본값 사용)
+    var leftPadding: CGFloat? { get }
+    var rightPadding: CGFloat? { get }
+    var verticalPadding: CGFloat? { get }
+    var interItemSpacing: CGFloat? { get }
+}
+
+extension ChipSizeProtoocol {
+    var leftPadding: CGFloat? { nil }
+    var rightPadding: CGFloat? { nil }
+    var verticalPadding: CGFloat? { nil }
+    var interItemSpacing: CGFloat? { nil }
 }
 
 protocol ChipColorProtocol {

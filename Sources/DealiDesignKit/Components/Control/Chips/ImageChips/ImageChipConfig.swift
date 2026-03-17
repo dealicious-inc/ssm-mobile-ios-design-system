@@ -35,13 +35,17 @@ class ImageChipConfig: ChipConfigurable {
         return self.style.radiusProvider.getRadius(for: self.height)
     }
      
-    init(size: any ChipSizeProtoocol,
-         style: any ChipStyleProtocol) {
+    init(size: some ChipSizeProtoocol,
+         style: some ChipStyleProtocol) {
         
         self.size = size
         self.height = size.height
         self.imageSize = size.imageSize
         self.placeholderInset = size.placeholderInset
+        self.leftPadding = size.leftPadding ?? 4.0
+        self.rightPadding = size.rightPadding ?? 12.0
+        self.verticalPadding = size.verticalPadding ?? 4.0
+        self.interItemSpacing = size.interItemSpacing ?? 8.0
         
         self.style = style
         
@@ -72,7 +76,7 @@ class ImageChipConfig: ChipConfigurable {
     func configColor(_ color: ChipColorProtocol) {
         self.backgroundColor = color.backgroundColor
         self.textColor = color.textColor
-        self.borderColor = color.backgroundColor
+        self.borderColor = color.borderColor
     }
 }
 
@@ -81,6 +85,30 @@ struct ChipSize: ChipSizeProtoocol {
     var imageSize: CGSize
     var placeholderInset: CGFloat
     var titleFont: FontProvider
+    var leftPadding: CGFloat?
+    var rightPadding: CGFloat?
+    var verticalPadding: CGFloat?
+    var interItemSpacing: CGFloat?
+    
+    init(
+        height: CGFloat,
+        imageSize: CGSize,
+        placeholderInset: CGFloat,
+        titleFont: FontProvider,
+        leftPadding: CGFloat? = nil,
+        rightPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        interItemSpacing: CGFloat? = nil
+    ) {
+        self.height = height
+        self.imageSize = imageSize
+        self.placeholderInset = placeholderInset
+        self.titleFont = titleFont
+        self.leftPadding = leftPadding
+        self.rightPadding = rightPadding
+        self.verticalPadding = verticalPadding
+        self.interItemSpacing = interItemSpacing
+    }
 }
 
 struct ChipColors: ColorProvider {

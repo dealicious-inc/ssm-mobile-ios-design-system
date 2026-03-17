@@ -16,6 +16,7 @@ enum PrimaryColor: Int, SystemColorConfig {
     case primary05 = 0x000000
     case primary06 = 0xFFDCE2
     case primary07 = 0xC62558
+    case primary08 = 0xFEF2F4
 }
 
 enum SecondaryColor: Int, SystemColorConfig {

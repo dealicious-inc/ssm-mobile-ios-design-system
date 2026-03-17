@@ -16,6 +16,7 @@ public extension Color {
     static var primary05: Color { UIColor.primary05.asColor() }
     static var primary06: Color { UIColor.primary06.asColor() }
     static var primary07: Color { UIColor.primary07.asColor() }
+    static var primary08: Color { UIColor.primary08.asColor() }
 }
 
 // MARK: - Secondary

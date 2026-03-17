@@ -98,6 +98,14 @@ public struct DealiImageChip<Content: View>: View {
             .padding(.trailing, style.rightPadding)
             .background(style.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: style.cornerRadius))
+            .overlay(
+                Group {
+                    if let borderColor = style.borderColor {
+                        RoundedRectangle(cornerRadius: style.cornerRadius)
+                            .stroke(borderColor, lineWidth: 1)
+                    }
+                }
+            )
         }
         .disabled(viewModel.status == .disabled)
     }

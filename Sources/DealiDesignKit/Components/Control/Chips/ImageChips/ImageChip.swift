@@ -51,6 +51,9 @@ public class ImageChip: DealiChip {
     public var placeholderImage: UIImage? = UIImage.dealiIcon(named: "ic_home_filled") {
         didSet {
             self.placeholderImageView.image = self.placeholderImage
+            if self.placeholderImage == nil {
+                self.placeholderImageView.isHidden = true
+            }
         }
     }
     
@@ -93,9 +96,19 @@ public class ImageChip: DealiChip {
     public var rightImage: UIImage? {
         didSet {
             self.rightIconImageView.isHidden = (rightImage == nil)
+            self.updateRightIconButtonVisibility()
             self.updateContent()
         }
     }
+    
+    /// 우측 아이콘(X 등)만 탭했을 때 호출
+    public var onRightIconTap: (() -> Void)? {
+        didSet {
+            self.updateRightIconButtonVisibility()
+        }
+    }
+    
+    private let rightIconButton = UIButton(type: .custom)
     
     public override var isHighlighted: Bool {
         didSet {
@@ -134,10 +147,10 @@ public class ImageChip: DealiChip {
             $0.layer.cornerRadius = self.configuration.imageSize.width / 2
             $0.backgroundColor = UIColor.primary04
         }.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(self.configuration.verticalPadding)
+            $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().inset(self.configuration.leftPadding)
-            $0.width.height.equalTo(self.configuration.imageSize.width)
-            $0.size.equalTo(self.configuration.imageSize)
+            $0.width.equalTo(self.configuration.imageSize.width)
+            $0.height.equalTo(self.configuration.imageSize.height)
         }
         
         self.imageView.addSubview(self.placeholderImageView)
@@ -166,7 +179,9 @@ public class ImageChip: DealiChip {
             $0.font = self.configuration.titleFont
             $0.textAlignment = .left
             $0.text = "imageChip"
-            $0.sizeToFit()
+            $0.numberOfLines = 1
+            $0.lineBreakMode = .byTruncatingTail
+            $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
         
         self.contentStackView.addArrangedSubview(self.slotContainerView)
@@ -184,7 +199,26 @@ public class ImageChip: DealiChip {
             $0.size.equalTo(self.configuration.rightIconImageSize)
         }
         
+        self.addSubview(self.rightIconButton)
+        self.rightIconButton.then {
+            $0.backgroundColor = .clear
+            $0.isHidden = true
+            $0.addTarget(self, action: #selector(self.handleRightIconTap), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.top.bottom.trailing.equalToSuperview()
+            $0.width.equalTo(44.0)
+        }
+        
         self.updateContent()
+    }
+    
+    private func updateRightIconButtonVisibility() {
+        let showButton = (self.rightImage != nil && self.onRightIconTap != nil)
+        self.rightIconButton.isHidden = !showButton
+    }
+    
+    @objc private func handleRightIconTap() {
+        self.onRightIconTap?()
     }
 
     override func updateUI(for state: DealiChipStatus) {
@@ -197,7 +231,6 @@ public class ImageChip: DealiChip {
         
         self.titleLabel.font = self.configuration.titleFont
         self.titleLabel.textColor = self.configuration.textColor
-        self.titleLabel.sizeToFit()
         self.rightIconImageView.image = self.rightImage?.withTintColor(self.configuration.textColor)
         self.invalidateIntrinsicContentSize()
         
@@ -222,6 +255,8 @@ public class ImageChip: DealiChip {
         if let borderColor = color.borderColor {
             self.layer.borderColor = borderColor.cgColor
             self.layer.borderWidth = 1.0
+        } else {
+            self.layer.borderWidth = 0.0
         }
     }
 }

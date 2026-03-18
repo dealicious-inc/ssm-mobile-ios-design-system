@@ -134,7 +134,6 @@ public enum DealiIcon {
   public static let ic_alarm_order = DesignSystemImage(name: "ic_alarm_order")
   public static let ic_alarm_request = DesignSystemImage(name: "ic_alarm_request")
   public static let ic_alarmchecked = DesignSystemImage(name: "ic_alarmchecked")
-  public static let ic_alarmchecked_filled = DesignSystemImage(name: "ic_alarmchecked_filled")
   public static let ic_arrow_close = DesignSystemImage(name: "ic_arrow_close")
   public static let ic_arrow_left = DesignSystemImage(name: "ic_arrow_left")
   public static let ic_arrow_open = DesignSystemImage(name: "ic_arrow_open")

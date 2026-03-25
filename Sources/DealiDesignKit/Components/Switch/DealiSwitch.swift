@@ -51,6 +51,13 @@ public class DealiSwitch: UIControl {
     private var thumbView = UIView()
     public var isOn = false
     
+    public override var isEnabled: Bool {
+        didSet {
+            let backgroundColor: UIColor = self.isOn ? (self.isEnabled == true ? .primary01 : .primary01.withAlphaComponent(0.5)) : (self.isEnabled == true ? .g30 : .g30.withAlphaComponent(0.5))
+            self.backgroundView.backgroundColor = backgroundColor
+        }
+    }
+    
     public convenience init(size: SizeType = .small) {
         self.init(frame: .zero)
         self.size = size
@@ -122,7 +129,7 @@ public class DealiSwitch: UIControl {
         self.isOn = on
         
         let targetX = on ? self.size.contentSize.width - self.size.thumbWidth - 2.0 : 2.0
-        let backgroundColor: UIColor = on ? .primary01 : .g30
+        let backgroundColor: UIColor = on ? (self.isEnabled == true ? .primary01 : .primary01.withAlphaComponent(0.5)) : (self.isEnabled == true ? .g30 : .g30.withAlphaComponent(0.5))
         
         if animated {
             UIView.animate(withDuration: 0.2) { [weak self] in

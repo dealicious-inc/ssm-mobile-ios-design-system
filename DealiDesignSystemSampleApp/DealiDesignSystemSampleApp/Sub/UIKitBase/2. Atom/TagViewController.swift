@@ -28,7 +28,7 @@ class TagViewController: UIViewController {
     override func loadView() {
         self.view = UIView()
         
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .systemBackground
         
         let scrollView = UIScrollView()
         
@@ -55,7 +55,7 @@ class TagViewController: UIViewController {
         
         for size in DealiTag.ESize.allCases {
             for outline in [false, true] {
-                for variant in 1...4 {
+                for variant in 1...5 {
                     guard let e = DealiTag.EType(size: size, outline: outline, variant: variant) else { continue }
                     let name = e.rawValue
                     if isSwiftUI {
@@ -68,6 +68,20 @@ class TagViewController: UIViewController {
                             $0.type = e
                             $0.text = name
                         }
+                    }
+                }
+            }
+            if let textType = DealiTag.EType(size: size, style: .text, variant: 5) {
+                let name = textType.rawValue
+                if isSwiftUI {
+                    let tag = TagView(text: name, type: textType)
+                    self.stackView.addArrangedSubview(tag.UIKit())
+                } else {
+                    let tag = DealiTag()
+                    self.stackView.addArrangedSubview(tag)
+                    tag.do {
+                        $0.type = textType
+                        $0.text = name
                     }
                 }
             }

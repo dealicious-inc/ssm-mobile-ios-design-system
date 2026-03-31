@@ -311,6 +311,8 @@ public extension DealiTag {
         case tagFilledLarge03
         /// Background:Gray/Text:Gray
         case tagFilledLarge04
+        /// Background:Dark/Text:White
+        case tagFilledLarge05
         /// Background:White/Text:Pink/Border:Pink
         case tagOutlineLarge01
         /// Background:White/Text:Blue/Border:Blue
@@ -319,6 +321,10 @@ public extension DealiTag {
         case tagOutlineLarge03
         /// Background:White/Text:Gray/Border:Gray
         case tagOutlineLarge04
+        /// Background:White/Text:Dark/Border:Gray
+        case tagOutlineLarge05
+        /// Background:Clear/Text:Dark
+        case tagTextLarge05
         /// Background:Pink/Text:Pink
         case tagFilledMedium01
         /// Background:Blue/Text:Blue
@@ -327,6 +333,8 @@ public extension DealiTag {
         case tagFilledMedium03
         /// Background:Gray/Text:Gray
         case tagFilledMedium04
+        /// Background:Dark/Text:White
+        case tagFilledMedium05
         /// Background:White/Text:Pink/Border:Pink
         case tagOutlineMedium01
         /// Background:White/Text:Blue/Border:Blue
@@ -335,6 +343,10 @@ public extension DealiTag {
         case tagOutlineMedium03
         /// Background:White/Text:Gray/Border:Gray
         case tagOutlineMedium04
+        /// Background:White/Text:Dark/Border:Gray
+        case tagOutlineMedium05
+        /// Background:Clear/Text:Dark
+        case tagTextMedium05
         /// Background:Pink/Text:Pink
         case tagFilledSemiMedium01
         /// Background:Blue/Text:Blue
@@ -343,6 +355,8 @@ public extension DealiTag {
         case tagFilledSemiMedium03
         /// Background:Gray/Text:Gray
         case tagFilledSemiMedium04
+        /// Background:Dark/Text:White
+        case tagFilledSemiMedium05
         /// Background:White/Text:Pink/Border:Pink
         case tagOutlineSemiMedium01
         /// Background:White/Text:Blue/Border:Blue
@@ -351,6 +365,10 @@ public extension DealiTag {
         case tagOutlineSemiMedium03
         /// Background:White/Text:Gray/Border:Gray
         case tagOutlineSemiMedium04
+        /// Background:White/Text:Dark/Border:Gray
+        case tagOutlineSemiMedium05
+        /// Background:Clear/Text:Dark
+        case tagTextSemiMedium05
         /// Background:Pink/Text:Pink
         case tagFilledSmall01
         /// Background:Blue/Text:Blue
@@ -359,6 +377,8 @@ public extension DealiTag {
         case tagFilledSmall03
         /// Background:Gray/Text:Gray
         case tagFilledSmall04
+        /// Background:Dark/Text:White
+        case tagFilledSmall05
         /// Background:White/Text:Pink/Border:Pink
         case tagOutlineSmall01
         /// Background:White/Text:Blue/Border:Blue
@@ -367,6 +387,10 @@ public extension DealiTag {
         case tagOutlineSmall03
         /// Background:White/Text:Gray/Border:Gray
         case tagOutlineSmall04
+        /// Background:White/Text:Dark/Border:Gray
+        case tagOutlineSmall05
+        /// Background:Clear/Text:Dark
+        case tagTextSmall05
         
         public var layoutSizeCategory: ESize {
             Self.layoutSizeCategory(forTypeName: rawValue)
@@ -380,8 +404,18 @@ public extension DealiTag {
             return .small
         }
         
+        public enum Style {
+            case filled
+            case outline
+            case text
+        }
+        
         public init?(size: ESize, outline: Bool, variant: Int) {
-            guard (1...4).contains(variant) else { return nil }
+            self.init(size: size, style: outline ? .outline : .filled, variant: variant)
+        }
+        
+        public init?(size: ESize, style: Style, variant: Int) {
+            guard (1...5).contains(variant) else { return nil }
             let sizeSegment: String
             switch size {
             case .large:
@@ -393,7 +427,15 @@ public extension DealiTag {
             case .small:
                 sizeSegment = "Small"
             }
-            let styleSegment = outline ? "Outline" : "Filled"
+            let styleSegment: String
+            switch style {
+            case .filled:
+                styleSegment = "Filled"
+            case .outline:
+                styleSegment = "Outline"
+            case .text:
+                styleSegment = "Text"
+            }
             let rawValue = "tag\(styleSegment)\(sizeSegment)0\(variant)"
             self.init(rawValue: rawValue)
         }
@@ -437,10 +479,12 @@ public extension DealiTag {
                     return DealiTagColor(backgroundColor: .secondary03, textColor: .secondary01)
                 case 3:
                     return DealiTagColor(backgroundColor: .secondary06, textColor: .secondary04)
-                default: // 4
+                case 4:
                     return DealiTagColor(backgroundColor: .g10, textColor: .g80)
+                default: // 5
+                    return DealiTagColor(backgroundColor: .g10, textColor: .g100)
                 }
-            } else {
+            } else if name.contains("Outline") == true {
                 switch number {
                 case 1:
                     return DealiTagColor(backgroundColor: .primary04, textColor: .primary01, borderColor: .primary01)
@@ -448,9 +492,13 @@ public extension DealiTag {
                     return DealiTagColor(backgroundColor: .primary04, textColor: .secondary01, borderColor: .secondary01)
                 case 3:
                     return DealiTagColor(backgroundColor: .primary04, textColor: .secondary04, borderColor: .secondary04)
-                default: // 4
+                case 4:
                     return DealiTagColor(backgroundColor: .primary04, textColor: .g80, borderColor: .g20)
+                default: // 5
+                    return DealiTagColor(backgroundColor: .primary04, textColor: .g100, borderColor: .g20)
                 }
+            } else {
+                return DealiTagColor(backgroundColor: .clear, textColor: .g80)
             }
         }
     }

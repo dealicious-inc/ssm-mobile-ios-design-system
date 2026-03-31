@@ -106,7 +106,7 @@ public class DealiAlert: NSObject {
     }
     
     @discardableResult
-    public class func show(title: String? = nil, message: String? = nil, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func show(title: String? = nil, message: String? = nil, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         var messageAttString: NSMutableAttributedString?
         if let message = message, message.trimming().isEmpty == false {
@@ -125,6 +125,7 @@ public class DealiAlert: NSObject {
                                           closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                                           cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                                           audoDismissDuration: audoDismissDuration,
+                                          heightRatio: heightRatio,
                                           alertPresentingViewController: alertPresentingViewController,
                                           cancelAction: cancelAction,
                                           confirmAction: confirmAction)
@@ -132,7 +133,7 @@ public class DealiAlert: NSObject {
     }
     
     @discardableResult
-    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         let alertViewController = DealiAlertViewController()
         if let title = title {
@@ -151,7 +152,7 @@ public class DealiAlert: NSObject {
         alertViewController.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
         alertViewController.cancelAction = cancelAction
         alertViewController.confirmAction = confirmAction
-        
+        alertViewController.heightRatio = heightRatio
         alertPresentingViewController.present(alertViewController, animated: true)
         
         if let audoDismissDuration, audoDismissDuration > 0.0 {

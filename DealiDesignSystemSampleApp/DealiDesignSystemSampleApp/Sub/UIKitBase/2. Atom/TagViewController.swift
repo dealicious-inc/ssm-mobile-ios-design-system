@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import DealiDesignKit
 
 class TagViewController: UIViewController {
@@ -52,47 +53,59 @@ class TagViewController: UIViewController {
             $0.edges.equalToSuperview().inset(20.0)
         }
         
-        for size in ["Large", "Medium", "Small"] {
-            for style in ["Filled", "Outline"] {
-                for number in 1...4 {
-                    let name = "tag\(style)\(size)0\(number)"
-                    if let e = DealiTag.EType(rawValue: name) {
-                        
-                        if isSwiftUI {
-                            let tag = TagView(text: name, type: e)
-                            self.stackView.addArrangedSubview(tag.UIKit())
-                        } else {
-                            let tag = DealiTag()
-                            self.stackView.addArrangedSubview(tag)
-                            tag.do {
-                                $0.type = e
-                                $0.text = name
-                            }
+        for size in DealiTag.ESize.allCases {
+            for outline in [false, true] {
+                for variant in 1...4 {
+                    guard let e = DealiTag.EType(size: size, outline: outline, variant: variant) else { continue }
+                    let name = e.rawValue
+                    if isSwiftUI {
+                        let tag = TagView(text: name, type: e)
+                        self.stackView.addArrangedSubview(tag.UIKit())
+                    } else {
+                        let tag = DealiTag()
+                        self.stackView.addArrangedSubview(tag)
+                        tag.do {
+                            $0.type = e
+                            $0.text = name
                         }
-                        
                     }
                 }
             }
         }
         
+        let iconTitle = UILabel()
+        iconTitle.text = "아이콘 (604:9456)"
+        iconTitle.textColor = .white
+        iconTitle.font = .b2sb14
+        self.stackView.addArrangedSubview(iconTitle)
         
-//        let sizeArray: [DealiTag.ESize] = [.large, .medium, .small]
-//        let titleArray = ["주문확인", "대금결제", "신규주문", "대금결제", "포장완료", "대금결제", "거래완료", "미송 사전 입금완료"]
-//        let colorArray: [DealiTag.EColor] = [.red, .whiteRed, .blue, .whiteBlue, .orange, .whiteOrange, .gray, .whiteGray]
-//        let zip = zip(titleArray, colorArray)
-//        
-//        for size in sizeArray {
-//            for (title, color) in zip {
-//                let tag = DealiTag()
-//                self.stackView.addArrangedSubview(tag)
-//                tag.do {
-//                    $0.text = title
-////                    $0.size = size
-////                    $0.color = color
-//                    $0.configure(size: size, color: color)
-//                }
-//            }
-//        }
+        let iconExampleTypes: [DealiTag.EType] = [
+            .tagFilledLarge01,
+            .tagFilledMedium01,
+            .tagFilledSemiMedium01,
+            .tagFilledSmall01
+        ]
+        
+        if isSwiftUI {
+            for type in iconExampleTypes {
+                let iconTag = TagView(
+                    text: "\(type.rawValue) + icon",
+                    type: type,
+                    leftIcon: Image.dealiIcon(named: "ic_arrow_close_1_filled"),
+                    rightIcon: Image.dealiIcon(named: "ic_x_s")
+                )
+                self.stackView.addArrangedSubview(iconTag.UIKit())
+            }
+        } else {
+            for type in iconExampleTypes {
+                let iconTag = DealiTag()
+                iconTag.type = type
+                iconTag.text = "\(type.rawValue) + icon"
+                iconTag.leftIcon = UIImage.dealiIcon(named: "ic_arrow_close_1_filled")
+                iconTag.rightIcon = UIImage.dealiIcon(named: "ic_x_s")
+                self.stackView.addArrangedSubview(iconTag)
+            }
+        }
         
     }
     

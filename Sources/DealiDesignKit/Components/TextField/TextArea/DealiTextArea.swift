@@ -33,8 +33,11 @@ public final class DealiTextArea: UIView, DealiTextField {
                 owner.textField.backgroundColor = .primary04
                 owner.textField.layer.borderColor = UIColor.g20.cgColor
                 owner.textField.textColor = .g100
+                owner.textField.isEditable = true
+                owner.textField.isSelectable = true
                 owner.textField.isUserInteractionEnabled = true
 
+                owner.setContentType(owner.contentType)
                 owner.setNormalHelperText(text: owner.normalHelperText)
                 owner.placeholderLabel.textColor = .g70
                 owner.textCounterLabel.textColor = .g70
@@ -50,14 +53,13 @@ public final class DealiTextArea: UIView, DealiTextField {
                     owner.textField.backgroundColor = .g05
                     owner.textField.layer.borderColor = UIColor.g05.cgColor
                     owner.textField.isEditable = false
-                    owner.textField.isUserInteractionEnabled = false
                     owner.textField.textColor = .g80
                     owner.placeholderLabel.textColor = .g80
 
                 case .disabled:
                     owner.textField.backgroundColor = .g10
                     owner.textField.isEditable = false
-                    owner.textField.isUserInteractionEnabled = false
+                    owner.textField.isSelectable = false
                     owner.textField.textColor = .g50
                     owner.placeholderLabel.textColor = .g70
 
@@ -281,7 +283,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     private let placeholderLabel = UILabel()
     private let helperTextLabel = UILabel()
     private let textCounterLabel = UILabel()
-
+    
     private let disposeBag = DisposeBag()
     
     required init?(coder: NSCoder) {
@@ -482,8 +484,6 @@ extension DealiTextArea: DealiTextFieldConfig {
         }
     }
 }
-
-
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI

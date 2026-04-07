@@ -127,6 +127,7 @@ extension AlertTestViewController {
         DealiAlert.show(message: "Alert 테스트중",
                         cancelButtonTitle: "취소",
                         confirmButtonTitle: "확인",
+                        heightRatio: 0.9,
                         alertPresentingViewController: self,
                         cancelAction: nil, confirmAction: nil)
         

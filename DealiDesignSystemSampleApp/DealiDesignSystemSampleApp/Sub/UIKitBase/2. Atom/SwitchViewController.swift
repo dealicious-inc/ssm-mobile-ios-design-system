@@ -10,28 +10,65 @@ import UIKit
 import DealiDesignKit
 
 final class SwitchViewController: UIViewController {
-    let enableSwitch = DealiSwitch()
-    
+
     override func loadView() {
         self.view = .init()
         
         self.view.backgroundColor = .systemBackground
         
-        self.view.addSubview(enableSwitch)
-        enableSwitch.then {
-            $0.addTarget(self, action: #selector(systemSwitchValueChanged), for: .valueChanged)
-            $0.setOn(true, animated: true)
+        let contentStackView = UIStackView()
+        self.view.addSubview(contentStackView)
+        contentStackView.then {
+            $0.axis = .vertical
+            $0.alignment = .center
+            $0.distribution = .equalSpacing
+            $0.spacing = 20.0
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
         
-        let disableOffSwitch = DealiSwitch()
-        self.view.addSubview(disableOffSwitch)
-        disableOffSwitch.then {
+        let enableOnLargeSwitch = DealiSwitch(size: .large)
+        contentStackView.addArrangedSubview(enableOnLargeSwitch)
+        enableOnLargeSwitch.do {
+            $0.setOn(true, animated: true)
+        }
+        
+        let denableOffLargeSwitch = DealiSwitch(size: .large)
+        contentStackView.addArrangedSubview(denableOffLargeSwitch)
+        
+        let disableOnLargeSwitch = DealiSwitch(size: .large)
+        contentStackView.addArrangedSubview(disableOnLargeSwitch)
+        disableOnLargeSwitch.do {
+            $0.setOn(true, animated: true)
             $0.isEnabled = false
-        }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(enableSwitch.snp.bottom).offset(20.0)
+        }
+        
+        let disableOffLargeSwitch = DealiSwitch(size: .large)
+        contentStackView.addArrangedSubview(disableOffLargeSwitch)
+        disableOffLargeSwitch.do {
+            $0.isEnabled = false
+        }
+        
+        let enableOnSwitch = DealiSwitch()
+        contentStackView.addArrangedSubview(enableOnSwitch)
+        enableOnSwitch.do {
+            $0.setOn(true, animated: true)
+        }
+        
+        let denableOffSwitch = DealiSwitch()
+        contentStackView.addArrangedSubview(denableOffSwitch)
+        
+        let disableOnSwitch = DealiSwitch()
+        contentStackView.addArrangedSubview(disableOnSwitch)
+        disableOnSwitch.do {
+            $0.setOn(true, animated: true)
+            $0.isEnabled = false
+        }
+        
+        let disableOffSwitch = DealiSwitch()
+        contentStackView.addArrangedSubview(disableOffSwitch)
+        disableOffSwitch.do {
+            $0.isEnabled = false
         }
 
     }
@@ -40,10 +77,6 @@ final class SwitchViewController: UIViewController {
         super.viewDidLoad()
         
         
-    }
-    
-    @objc func systemSwitchValueChanged() {
-        debugPrint(self.enableSwitch.isOn)
     }
 }
 

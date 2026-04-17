@@ -70,8 +70,11 @@ public final class DealiTextArea: UIView, DealiTextField {
             }
             .disposed(by: self.disposeBag)
 
+        let textDidChange = NotificationCenter.default.rx
+            .notification(UITextView.textDidChangeNotification, object: self.textField)
+            .map { _ in }
         
-        self.textField.rx.didChange
+        textDidChange
             .bind(with: self) { owner, _ in
                 guard case let .flexible(_, max) = owner.contentType  else { return }
                 if owner.textField.contentSize.height >= max {
@@ -82,7 +85,7 @@ public final class DealiTextArea: UIView, DealiTextField {
             }
             .disposed(by: self.disposeBag)
         
-        self.textField.rx.didChange
+        textDidChange
             .scan(self.text) { (prev, _) -> String? in
                 guard let maxLength = self.maxLength,
                         let text = self.text,
@@ -117,7 +120,7 @@ public final class DealiTextArea: UIView, DealiTextField {
             })
             .disposed(by: self.disposeBag)
         
-        self.textField.rx.didChange
+        textDidChange
             .map {
                 return self.textField.text.isEmpty
             }
@@ -127,7 +130,7 @@ public final class DealiTextArea: UIView, DealiTextField {
             })
             .disposed(by: self.disposeBag)
         
-        self.textField.rx.didChange
+        textDidChange
             .filter { self.showTextCounter }
             .bind(with: self) { owner, _ in
                 if let maxLength = self.maxLength {

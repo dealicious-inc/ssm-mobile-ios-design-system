@@ -18,22 +18,26 @@ public final class DealiChecklineWithText: UIView {
     private let titleLabel = UILabel()
     private let disposeBag = DisposeBag()
     
+    private var titleString: String = ""
+    private var baseAttributedText: NSMutableAttributedString?
+    
     public let valueChanged: PublishRelay<Bool> = .init()
     
     public var text: String {
         get {
-            self.titleLabel.attributedText?.string ?? ""
+            return self.titleString
         } set {
-            self.titleLabel.attributedText = NSMutableAttributedString(string: newValue)
-                .font(.b2r14)
-                .color(self.isEnabled ? .g100 : .g50)
-                .setLineHeight()
+            self.titleString = newValue
+            self.baseAttributedText = nil
+            self.updateTitleAppearance()
+            self.invalidateIntrinsicContentSize()
         }
     }
     
     public var attributedText: NSMutableAttributedString? {
         didSet {
-            self.titleLabel.attributedText = attributedText
+            self.baseAttributedText = attributedText
+            self.updateTitleAppearance()
         }
     }
     
@@ -50,6 +54,7 @@ public final class DealiChecklineWithText: UIView {
             self.checkcircle.isEnabled
         } set {
             self.checkcircle.isEnabled = newValue
+            self.updateTitleAppearance()
         }
     }
     
@@ -78,9 +83,11 @@ public final class DealiChecklineWithText: UIView {
             $0.numberOfLines = 0
         }.snp.makeConstraints {
             $0.left.equalTo(self.checkcircle.snp.right).offset(8.0)
-            $0.height.greaterThanOrEqualTo(24.0)
             $0.top.bottom.right.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(24.0)
         }
+        
+        self.updateTitleAppearance()
         
         self.rx.tapGestureOnTop()
             .when(.recognized)
@@ -94,5 +101,20 @@ public final class DealiChecklineWithText: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func updateTitleAppearance() {
+        let textColor: UIColor = self.isEnabled ? .g100 : .g50
+        
+        if let baseAttributedText = self.baseAttributedText?.mutableCopy() as? NSMutableAttributedString {
+            let fullRange = NSRange(location: 0, length: baseAttributedText.length)
+            baseAttributedText.addAttribute(.foregroundColor, value: textColor, range: fullRange)
+            self.titleLabel.attributedText = baseAttributedText
+        } else {
+            self.titleLabel.attributedText = NSMutableAttributedString(string: self.titleString)
+                .font(.b2r14)
+                .color(textColor)
+                .setLineHeight()
+        }
     }
 }

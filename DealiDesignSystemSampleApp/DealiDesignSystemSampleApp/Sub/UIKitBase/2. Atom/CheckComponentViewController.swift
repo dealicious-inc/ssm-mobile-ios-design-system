@@ -87,108 +87,60 @@ class CheckComponentViewController: UIViewController {
 
 private extension CheckComponentViewController {
     func uiView() -> UIStackView {
-        let contentStackView = UIStackView().then {
+        let contentStackView = UIStackView()
+        contentStackView.do {
             $0.axis = .vertical
             $0.spacing = 40.0
             $0.alignment = .center
             $0.distribution = .equalSpacing
         }
         
-        let checkBoxStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkBoxStackView)
-        checkBoxStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
+        let checkboxRowStackView = self.makeRowStackView()
+        let checkboxWithTextRowStackView = self.makeRowStackView()
+        let checkcircleRowStackView = self.makeRowStackView()
+        let checkcircleWithTextRowStackView = self.makeRowStackView()
+        let checklineRowStackView = self.makeRowStackView()
+        let checklineWithTextRowStackView = self.makeRowStackView()
         
-        let checkBoxWithTextStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkBoxWithTextStackView)
-        checkBoxWithTextStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
-        
-        let checkCircleStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkCircleStackView)
-        checkCircleStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
-        
-        let checkCircleWithTextStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkCircleWithTextStackView)
-        checkCircleWithTextStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
-        
-        let checkLineStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkLineStackView)
-        checkLineStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
-        
-        let checkLineWithTextStackView = UIStackView()
-        contentStackView.addArrangedSubview(checkLineWithTextStackView)
-        checkLineWithTextStackView.then {
-            $0.axis = .horizontal
-            $0.alignment = .center
-            $0.distribution = .equalSpacing
-            $0.spacing = 20.0
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24.0)
-        }
+        contentStackView.addArrangedSubview(checkboxRowStackView)
+        contentStackView.addArrangedSubview(checkboxWithTextRowStackView)
+        contentStackView.addArrangedSubview(checkcircleRowStackView)
+        contentStackView.addArrangedSubview(checkcircleWithTextRowStackView)
+        contentStackView.addArrangedSubview(checklineRowStackView)
+        contentStackView.addArrangedSubview(checklineWithTextRowStackView)
         
         for i in 0..<4 {
-            let checkBox = DealiCheckbox()
-            checkBoxStackView.addArrangedSubview(checkBox)
-            checkBox.then {
-                switch i {
-                case 1:
-                    $0.isSelected = true
-                case 2:
-                    $0.isSelected = false
-                    $0.isEnabled = false
-                case 3:
-                    $0.isSelected = true
-                    $0.isEnabled = false
-                default:
-                    $0.isSelected = false
-                }
-            }.snp.makeConstraints {
-                $0.size.equalTo(CGSize(width: 24, height: 24))
+            let checkboxContainerView = self.makeComponentContainerView()
+            checkboxRowStackView.addArrangedSubview(checkboxContainerView)
+            
+            let checkbox = DealiCheckbox()
+            checkboxContainerView.addSubview(checkbox)
+            checkbox.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.right.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
             }
             
-            let checkBoxWithText = DealiCheckboxWithText()
-            checkBoxWithTextStackView.addArrangedSubview(checkBoxWithText)
-            checkBoxWithText.do {
+            switch i {
+            case 1:
+                checkbox.isSelected = true
+            case 2:
+                checkbox.isEnabled = false
+            case 3:
+                checkbox.isSelected = true
+                checkbox.isEnabled = false
+            default:
+                checkbox.isSelected = false
+            }
+            
+            let checkboxWithText = DealiCheckboxWithText()
+            checkboxWithTextRowStackView.addArrangedSubview(checkboxWithText)
+            checkboxWithText.do {
                 $0.text = "Text"
                 switch i {
                 case 1:
                     $0.isSelected = true
                 case 2:
-                    $0.isSelected = false
                     $0.isEnabled = false
                 case 3:
                     $0.isSelected = true
@@ -198,27 +150,32 @@ private extension CheckComponentViewController {
                 }
             }
             
-            let checkCircle = DealiCheckcircle()
-            checkCircleStackView.addArrangedSubview(checkCircle)
-            checkCircle.then {
-                switch i {
-                case 1:
-                    $0.isSelected = true
-                case 2:
-                    $0.isSelected = true
-                    $0.isAd = true
-                case 3:
-                    $0.isEnabled = false
-                default:
-                    $0.isSelected = false
-                }
-            }.snp.makeConstraints {
-                $0.size.equalTo(CGSize(width: 24, height: 24))
+            let checkcircleContainerView = self.makeComponentContainerView()
+            checkcircleRowStackView.addArrangedSubview(checkcircleContainerView)
+            
+            let checkcircle = DealiCheckcircle()
+            checkcircleContainerView.addSubview(checkcircle)
+            checkcircle.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.right.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
             }
             
-            let checkCircleWithText = DealiCheckcircleWithText()
-            checkCircleWithTextStackView.addArrangedSubview(checkCircleWithText)
-            checkCircleWithText.do {
+            switch i {
+            case 1:
+                checkcircle.isSelected = true
+            case 2:
+                checkcircle.isSelected = true
+                checkcircle.isAd = true
+            case 3:
+                checkcircle.isEnabled = false
+            default:
+                checkcircle.isSelected = false
+            }
+            
+            let checkcircleWithText = DealiCheckcircleWithText()
+            checkcircleWithTextRowStackView.addArrangedSubview(checkcircleWithText)
+            checkcircleWithText.do {
                 $0.text = "Text"
                 switch i {
                 case 1:
@@ -227,33 +184,39 @@ private extension CheckComponentViewController {
                     $0.isSelected = true
                     $0.isAd = true
                 case 3:
+                    $0.isSelected = true
                     $0.isEnabled = false
                 default:
                     $0.isSelected = false
                 }
             }
             
-            let checkLine = DealiCheckline()
-            checkLineStackView.addArrangedSubview(checkLine)
-            checkLine.then {
-                switch i {
-                case 1:
-                    $0.isSelected = true
-                case 2:
-                    $0.isSelected = true
-                    $0.isAd = true
-                case 3:
-                    $0.isEnabled = false
-                default:
-                    $0.isSelected = false
-                }
-            }.snp.makeConstraints {
-                $0.size.equalTo(CGSize(width: 24, height: 24))
+            let checklineContainerView = self.makeComponentContainerView()
+            checklineRowStackView.addArrangedSubview(checklineContainerView)
+            
+            let checkline = DealiCheckline()
+            checklineContainerView.addSubview(checkline)
+            checkline.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.left.right.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 24.0, height: 24.0))
             }
             
-            let checkLineWithText = DealiChecklineWithText()
-            checkLineWithTextStackView.addArrangedSubview(checkLineWithText)
-            checkLineWithText.do {
+            switch i {
+            case 1:
+                checkline.isSelected = true
+            case 2:
+                checkline.isSelected = true
+                checkline.isAd = true
+            case 3:
+                checkline.isEnabled = false
+            default:
+                checkline.isSelected = false
+            }
+            
+            let checklineWithText = DealiChecklineWithText()
+            checklineWithTextRowStackView.addArrangedSubview(checklineWithText)
+            checklineWithText.do {
                 $0.text = "Text"
                 switch i {
                 case 1:
@@ -300,4 +263,26 @@ private extension CheckComponentViewController {
     }
     
     
+}
+
+private extension CheckComponentViewController {
+    
+    func makeRowStackView() -> UIStackView {
+        let rowStackView = UIStackView()
+        rowStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 12.0
+            $0.alignment = .top
+            $0.distribution = .fill
+        }
+        return rowStackView
+    }
+    
+    func makeComponentContainerView() -> UIView {
+        let containerView = UIView()
+        containerView.snp.makeConstraints {
+            $0.height.equalTo(32.0)
+        }
+        return containerView
+    }
 }

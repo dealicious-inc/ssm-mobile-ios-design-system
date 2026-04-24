@@ -1,6 +1,6 @@
 //
 //  DealiCheckcircleWithText.swift
-//  
+//
 //
 //  Created by 윤조현 on 2024/04/24.
 //
@@ -10,29 +10,31 @@ import RxSwift
 import RxCocoa
 
 public final class DealiCheckcircleWithText: UIView {
-
+    
     private let checkcircle = DealiCheckcircle()
     private let titleLabel = UILabel()
     private let disposeBag = DisposeBag()
+    
+    private var titleString: String = ""
+    private var baseAttributedText: NSMutableAttributedString?
     
     public let valueChanged: PublishRelay<Bool> = .init()
     
     public var text: String {
         get {
-            self.titleLabel.attributedText?.string ?? ""
+            return self.titleString
         } set {
-            self.titleLabel.attributedText = NSMutableAttributedString(string: newValue)
-                .font(.b2r14)
-                .color(.g100)
-                .setLineHeight()
-            
+            self.titleString = newValue
+            self.baseAttributedText = nil
+            self.updateTitleAppearance()
             self.invalidateIntrinsicContentSize()
         }
     }
     
     public var attributedText: NSMutableAttributedString? {
         didSet {
-            self.titleLabel.attributedText = attributedText
+            self.baseAttributedText = attributedText
+            self.updateTitleAppearance()
         }
     }
     
@@ -49,7 +51,7 @@ public final class DealiCheckcircleWithText: UIView {
             self.checkcircle.isEnabled
         } set {
             self.checkcircle.isEnabled = newValue
-            self.setAppearacne()
+            self.updateTitleAppearance()
         }
     }
     
@@ -73,7 +75,6 @@ public final class DealiCheckcircleWithText: UIView {
         self.addSubview(self.titleLabel)
         self.titleLabel.then {
             $0.textAlignment = .left
-            $0.text = self.text
             $0.textColor = .g100
             $0.font = UIFont.b2r14
             $0.numberOfLines = 0
@@ -83,7 +84,7 @@ public final class DealiCheckcircleWithText: UIView {
             $0.height.greaterThanOrEqualTo(24.0)
         }
         
-        self.setAppearacne()
+        self.updateTitleAppearance()
         
         self.rx.tapGestureOnTop()
             .when(.recognized)
@@ -99,8 +100,18 @@ public final class DealiCheckcircleWithText: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setAppearacne() {
-        self.titleLabel.textColor = self.isEnabled ? .g100 : .g50
+    private func updateTitleAppearance() {
+        let textColor: UIColor = self.isEnabled ? .g100 : .g50
+        
+        if let baseAttributedText = self.baseAttributedText?.mutableCopy() as? NSMutableAttributedString {
+            let fullRange = NSRange(location: 0, length: baseAttributedText.length)
+            baseAttributedText.addAttribute(.foregroundColor, value: textColor, range: fullRange)
+            self.titleLabel.attributedText = baseAttributedText
+        } else {
+            self.titleLabel.attributedText = NSMutableAttributedString(string: self.titleString)
+                .font(.b2r14)
+                .color(textColor)
+                .setLineHeight()
+        }
     }
-    
 }

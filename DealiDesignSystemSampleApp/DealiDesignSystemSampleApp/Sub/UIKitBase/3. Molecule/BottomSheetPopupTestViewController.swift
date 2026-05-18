@@ -135,7 +135,7 @@ extension BottomSheetPopupTestViewController {
         DealiBottomSheet.showTextOnly(
             titleType: .titleCloseButton(title: "2버튼 팝업"),
             message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
-            buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"),
+            buttonType: .oneButton(buttonTitle: "확인\n확인"),
             popupPresentingViewController: self,
             cancelAction: nil, confirmAction: nil
         )
@@ -147,7 +147,7 @@ extension BottomSheetPopupTestViewController {
         DealiBottomSheet.showTextOnly(
             titleType: .titleCloseButton(title: "2버튼 팝업"),
             message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
-            buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소", cancelButtonType: .btnOutlineLarge06),
+            buttonType: .twoButton(confirmTitle: "확인\n확인\n확인", cancelTitle: "취소", cancelButtonType: .btnOutlineLarge06),
             popupPresentingViewController: self,
             cancelAction: nil, confirmAction: nil
         )

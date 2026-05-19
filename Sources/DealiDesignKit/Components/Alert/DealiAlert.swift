@@ -279,6 +279,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
                 cancelButton.then {
                     $0.title = self.cancelButtonTitle
                     $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+                    $0.numberOfLines =  0
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
                 }
@@ -290,6 +291,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
                 confirmButton.then {
                     $0.title = self.confirmButtonTitle
                     $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
+                    $0.numberOfLines =  0
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
                 }

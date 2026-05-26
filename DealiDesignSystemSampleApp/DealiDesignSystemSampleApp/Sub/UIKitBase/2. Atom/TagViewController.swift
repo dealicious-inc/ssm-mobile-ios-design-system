@@ -1,6 +1,6 @@
 //
 //  TagViewController.swift
-//  
+//
 //
 //  Created by 박경우 on 12/7/23.
 //
@@ -10,40 +10,40 @@ import SwiftUI
 import DealiDesignKit
 
 class TagViewController: UIViewController {
-    
+
     private var isSwiftUI: Bool
-    
+
     init(isSwiftUI: Bool = false) {
         self.isSwiftUI = isSwiftUI
-        
+
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private let stackView = UIStackView()
-    
+
     override func loadView() {
         self.view = UIView()
-        
+
         self.view.backgroundColor = .systemBackground
-        
+
         let scrollView = UIScrollView()
-        
+
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
+
         let contentView = UIView()
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
         }
-        
+
         scrollView.addSubview(self.stackView)
         self.stackView.then {
             $0.axis = .vertical
@@ -52,7 +52,7 @@ class TagViewController: UIViewController {
         }.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20.0)
         }
-        
+
         for size in DealiTag.ESize.allCases {
             for outline in [false, true] {
                 for variant in 1...5 {
@@ -86,20 +86,20 @@ class TagViewController: UIViewController {
                 }
             }
         }
-        
+
         let iconTitle = UILabel()
         iconTitle.text = "아이콘 (604:9456)"
         iconTitle.textColor = .white
         iconTitle.font = .b2sb14
         self.stackView.addArrangedSubview(iconTitle)
-        
+
         let iconExampleTypes: [DealiTag.EType] = [
             .tagFilledLarge01,
             .tagFilledMedium01,
             .tagFilledSemiMedium01,
             .tagFilledSmall01
         ]
-        
+
         if isSwiftUI {
             for type in iconExampleTypes {
                 let iconTag = TagView(
@@ -109,6 +109,12 @@ class TagViewController: UIViewController {
                     rightIcon: Image.dealiIcon(named: "ic_x_s")
                 )
                 self.stackView.addArrangedSubview(iconTag.UIKit())
+
+                let iconOnlyTag = TagView(
+                    icon: Image.dealiIcon(named: "ic_check_s"),
+                    type: type
+                )
+                self.stackView.addArrangedSubview(iconOnlyTag.UIKit())
             }
         } else {
             for type in iconExampleTypes {
@@ -118,11 +124,16 @@ class TagViewController: UIViewController {
                 iconTag.leftIcon = UIImage.dealiIcon(named: "ic_arrow_close_1_filled")
                 iconTag.rightIcon = UIImage.dealiIcon(named: "ic_x_s")
                 self.stackView.addArrangedSubview(iconTag)
+
+                let iconOnlyTag = DealiTag()
+                iconOnlyTag.type = type
+                iconOnlyTag.icon = UIImage.dealiIcon(named: "ic_check_s")
+                self.stackView.addArrangedSubview(iconOnlyTag)
             }
         }
-        
+
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

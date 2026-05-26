@@ -31,6 +31,7 @@ class TabBarViewController: UIViewController {
                                   DealiTabBarItem.make(title: "2번 Tab"),
                                   DealiTabBarItem.make(title: "3번 Tab"),
                                          DealiTabBarItem.make(title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0))),
+                                         DealiTabBarItem.make(title: "이미지테스트", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(image: DealiIcon.ic_lock_filled.image, size: CGSize(width: 16.0, height: 16.0))),
                                  DealiTabBarItem.make(title: "5번 Tab"),
                                  DealiTabBarItem.make(title: "6번 Tab"),
                                  DealiTabBarItem.make(title: "7번 Tab"),
@@ -404,6 +405,9 @@ class TabBarViewController: UIViewController {
                 
                 let tabBarItem = DealiTabBarItem.make(viewController, title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0)))
                 self.tabBarSlider01Items.append(tabBarItem)
+            } else if i == 4 {
+                let tabBarItem = DealiTabBarItem.make(viewController, title: "이미지테스트", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(image: DealiIcon.ic_lock_filled.image, size: CGSize(width: 16.0, height: 16.0)))
+                self.tabBarSlider01Items.append(tabBarItem)
             } else {
                 let tabBarItem = DealiTabBarItem.make(viewController, title: "\(i)번 Tab")
                 self.tabBarSlider01Items.append(tabBarItem)
@@ -416,6 +420,9 @@ class TabBarViewController: UIViewController {
             if i == 3 {
                 
                 let tabBarItem = DealiTabBarItem.make(viewController, title: "DETAILS", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 48.0, height: 48.0)))
+                self.tabBarSlider02Items.append(tabBarItem)
+            } else if i == 4 {
+                let tabBarItem = DealiTabBarItem.make(viewController, title: "이미지테스트", isHidden: false, showsBadge: false, icon: DealiTabBarIcon(image: DealiIcon.ic_lock_filled.image, size: CGSize(width: 16.0, height: 16.0)))
                 self.tabBarSlider02Items.append(tabBarItem)
             } else {
                 let tabBarItem = DealiTabBarItem.make(viewController, title: "\(i)번 Tab")
@@ -655,15 +662,16 @@ final class ImageChipCustomView: DealiCustomView {
 // MARK: - SwiftUI
 extension TabBarViewController {
     func setTabBarSwiftUI() {
-        let icon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+        let remoteIcon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+        let localIcon = DealiTabBarIcon(image: UIImage.dealiIcon(named: "ic_home"), size: CGSize(width: 16.0, height: 16.0))
         let tabBarItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
                            TabBarItemViewModel(title: "2번 Tab"),
-                           TabBarItemViewModel(title: "3번 Tab", icon: icon)]
+                           TabBarItemViewModel(title: "3번 Tab", icon: localIcon)]
         
         let tabBarLongItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
                                TabBarItemViewModel(title: "2번 Tab", showBadge: true),
-                               TabBarItemViewModel(title: "3번 Tab", icon: icon),
-                               TabBarItemViewModel(title: "4번 Tab"),
+                               TabBarItemViewModel(title: "3번 Tab", icon: remoteIcon),
+                               TabBarItemViewModel(title: "4번 Tab", icon: localIcon),
                                TabBarItemViewModel(title: "5번 Tab"),
                                TabBarItemViewModel(title: "6번 Tab"),
                                TabBarItemViewModel(title: "7번 Tab"),

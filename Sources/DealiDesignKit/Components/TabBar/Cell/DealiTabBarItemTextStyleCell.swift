@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 /**
  설명 : 탭바 아이템 텍스트 스타일 셀
@@ -75,10 +76,16 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         self.titleLabel.font = uiModel.font
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
-        if let image = uiModel.iconURL, let size = uiModel.iconSize {
+        if let image = uiModel.iconImage {
+            self.iconImageView.kf.cancelDownloadTask()
+            self.iconImageView.image = image
+            self.iconImageView.isHidden = false
+        } else if let image = uiModel.iconURL, let size = uiModel.iconSize {
+            self.iconImageView.image = nil
             self.iconImageView.setImage(url: image, size: size)
             self.iconImageView.isHidden = false
         } else {
+            self.iconImageView.kf.cancelDownloadTask()
             self.iconImageView.image = nil
             self.iconImageView.isHidden = true
         }

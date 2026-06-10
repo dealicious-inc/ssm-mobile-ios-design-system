@@ -87,6 +87,21 @@ class TagViewController: UIViewController {
             }
         }
         
+        if let etcType = DealiTag.EType(rawValue: "tagEtc01") {
+            let name = etcType.rawValue
+            if isSwiftUI {
+                let tag = TagView(text: name, type: etcType)
+                self.stackView.addArrangedSubview(tag.UIKit())
+            } else {
+                let tag = DealiTag()
+                self.stackView.addArrangedSubview(tag)
+                tag.do {
+                    $0.type = etcType
+                    $0.text = name
+                }
+            }
+        }
+
         let iconTitle = UILabel()
         iconTitle.text = "아이콘 (604:9456)"
         iconTitle.textColor = .white

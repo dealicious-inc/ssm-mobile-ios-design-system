@@ -245,7 +245,6 @@ public extension DealiTag {
         case medium
         case semiMedium
         case small
-        case etc
         
         public struct LayoutMetrics {
             public var height: CGFloat
@@ -269,9 +268,6 @@ public extension DealiTag {
                 return LayoutMetrics(height: 22.0, padding: 6.0)
             case .small:
                 return LayoutMetrics(height: 16.0, padding: 4.0, cornerRadius: 3.0)
-            case .etc:
-                let height: CGFloat = 16.0
-                return LayoutMetrics(height: height, padding: 6.0, cornerRadius: height / 2.0)
             }
         }
         
@@ -281,7 +277,7 @@ public extension DealiTag {
                 return .b2sb14
             case .medium, .semiMedium:
                 return .b4sb12
-            case .small, .etc:
+            case .small:
                 return .c1sb10
             }
         }
@@ -292,7 +288,7 @@ public extension DealiTag {
                 return 20.0
             case .medium, .semiMedium:
                 return 16.0
-            case .small, .etc:
+            case .small:
                 return 12.0
             }
         }
@@ -395,8 +391,6 @@ public extension DealiTag {
         case tagOutlineSmall05
         /// Background:Clear/Text:Dark
         case tagTextSmall05
-        /// Background:Primary05/Text:Primary04
-        case tagEtc01
         
         public var layoutSizeCategory: ESize {
             Self.layoutSizeCategory(forTypeName: rawValue)
@@ -407,7 +401,6 @@ public extension DealiTag {
             if name.contains("SemiMedium") { return ESize.semiMedium }
             if name.contains("Medium") { return ESize.medium }
             if name.contains("Small") { return ESize.small }
-            if name.contains("Etc") { return ESize.etc }
             return .small
         }
         
@@ -415,7 +408,6 @@ public extension DealiTag {
             case filled
             case outline
             case text
-            case etc
         }
         
         public init?(size: ESize, outline: Bool, variant: Int) {
@@ -434,8 +426,6 @@ public extension DealiTag {
                 sizeSegment = "SemiMedium"
             case .small:
                 sizeSegment = "Small"
-            case .etc:
-                sizeSegment = "SizeEtc"
             }
             let styleSegment: String
             switch style {
@@ -445,8 +435,6 @@ public extension DealiTag {
                 styleSegment = "Outline"
             case .text:
                 styleSegment = "Text"
-            case .etc:
-                styleSegment = "Etc"
             }
             let rawValue = "tag\(styleSegment)\(sizeSegment)0\(variant)"
             self.init(rawValue: rawValue)
@@ -509,8 +497,6 @@ public extension DealiTag {
                 default: // 5
                     return DealiTagColor(backgroundColor: .primary04, textColor: .g100, borderColor: .g20)
                 }
-            } else if name.contains("Etc") == true {
-                return DealiTagColor(backgroundColor: .primary05, textColor: .primary04)
             } else {
                 return DealiTagColor(backgroundColor: .clear, textColor: .g80)
             }

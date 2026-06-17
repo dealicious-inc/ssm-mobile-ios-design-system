@@ -96,7 +96,8 @@ public class DealiToolTip: UIView {
             $0.textAlignment = .left
             $0.numberOfLines = 0
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(16.0)
+            $0.top.bottom.equalToSuperview().inset(12.0)
+            $0.left.right.equalToSuperview().inset(16.0)
         }
     }
     

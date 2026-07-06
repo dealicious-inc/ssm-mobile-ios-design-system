@@ -78,6 +78,7 @@ public enum DealiIcon {
   public static let ic_error_filled = DesignSystemImage(name: "ic_error_filled")
   public static let ic_frequentchat_filled = DesignSystemImage(name: "ic_frequentchat_filled")
   public static let ic_heart_filled = DesignSystemImage(name: "ic_heart_filled")
+  public static let ic_history_filled = DesignSystemImage(name: "ic_history_filled")
   public static let ic_home_filled = DesignSystemImage(name: "ic_home_filled")
   public static let ic_image_1_filled = DesignSystemImage(name: "ic_image_1_filled")
   public static let ic_image_2_filled = DesignSystemImage(name: "ic_image_2_filled")

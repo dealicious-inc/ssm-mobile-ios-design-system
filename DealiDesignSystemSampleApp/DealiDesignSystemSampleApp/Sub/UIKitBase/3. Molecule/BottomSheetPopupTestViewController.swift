@@ -8,12 +8,42 @@
 
 import UIKit
 import DealiDesignKit
+import SwiftUI
 import RxSwift
 import RxCocoa
 
 final class BottomSheetPopupTestViewController: UIViewController {
-    
+
     let disposeBag = DisposeBag()
+    private let isSwiftUI: Bool
+
+    /// 하단 버튼 사용처(테마) 샘플. 라이브러리에 정의된 사용처 + 호출부에서 직접 만든 조합
+    private let buttonUsageSamples: [(name: String, usage: EBottomSheetButtonUsage)] = [
+        ("Default", .default),
+        ("도매 멤버십", .wholesaleMembership),
+        ("소매 멤버십1", .retailMembership01),
+        ("소매 멤버십2", .retailMembership02),
+        ("커스텀 조합", EBottomSheetButtonUsage(confirmButtonStyle: .btnFilledLarge06, optionButtonStyle: .btnOutlineLarge04))
+    ]
+
+    /// 버튼 개수 / 용도 / 배치 조합 샘플
+    private let buttonLayoutSamples: [(name: String, makeButtonType: (EBottomSheetButtonUsage) -> EBottomSheetButtonType)] = [
+        ("1btn", { .oneButton(buttonTitle: "Button", usage: $0) }),
+        ("2btn option 좌우", { .twoButton(confirmTitle: "Option Button", cancelTitle: "Option Button", cancelButtonType: .option, usage: $0, axis: .horizontal) }),
+        ("2btn option 상하", { .twoButton(confirmTitle: "Option Button", cancelTitle: "Option Button", cancelButtonType: .option, usage: $0, axis: .vertical) }),
+        ("2btn cancel 좌우", { .twoButton(confirmTitle: "Confirm Button", cancelTitle: "Cancel Button", cancelButtonType: .cancel, usage: $0, axis: .horizontal) }),
+        ("2btn cancel 상하", { .twoButton(confirmTitle: "Confirm Button", cancelTitle: "Cancel Button", cancelButtonType: .cancel, usage: $0, axis: .vertical) })
+    ]
+
+    init(isSwiftUI: Bool = false) {
+        self.isSwiftUI = isSwiftUI
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +54,18 @@ final class BottomSheetPopupTestViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        
+
+        if self.isSwiftUI {
+            let hostingController = UIHostingController(rootView: BottomSheetTestView())
+            self.addChild(hostingController)
+            self.view.addSubview(hostingController.view)
+            hostingController.view.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            hostingController.didMove(toParent: self)
+            return
+        }
+
         let contentScrollView = UIScrollView()
         self.view.addSubview(contentScrollView)
         contentScrollView.then {
@@ -124,11 +165,41 @@ final class BottomSheetPopupTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+
+        self.buttonUsageSamples.forEach { usageSample in
+            self.buttonLayoutSamples.forEach { layoutSample in
+                let title = "\(usageSample.name) / \(layoutSample.name)"
+                let buttonType = layoutSample.makeButtonType(usageSample.usage)
+
+                let sampleButton = DealiControl.btnOutlineLarge01()
+                contentStackView.addArrangedSubview(sampleButton)
+                sampleButton.then {
+                    $0.title = title
+                    $0.numberOfLines = 0
+                }.snp.makeConstraints {
+                    $0.left.right.equalToSuperview()
+                }
+
+                sampleButton.rx.tap.asSignal().emit(with: self) { owner, _ in
+                    owner.showButtonSample(title: title, buttonType: buttonType)
+                }.disposed(by: self.disposeBag)
+            }
+        }
     }
 
 }
 
 extension BottomSheetPopupTestViewController {
+    private func showButtonSample(title: String, buttonType: EBottomSheetButtonType) {
+        DealiBottomSheet.showTextOnly(
+            titleType: .titleCloseButton(title: title),
+            message: "하단 버튼의 사용처 / 용도 / 배치 조합 확인용 바텀시트입니다.",
+            buttonType: buttonType,
+            popupPresentingViewController: self,
+            cancelAction: nil, confirmAction: nil
+        )
+    }
+
     @objc func bottomSheetPopupButton01Pressed() {
         debugPrint("bottomSheetPopupButton01Pressed")
 

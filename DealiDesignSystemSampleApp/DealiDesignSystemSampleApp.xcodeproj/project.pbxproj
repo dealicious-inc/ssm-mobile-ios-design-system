@@ -39,6 +39,7 @@
 		3B92CD052D62CE96006A2057 /* AlertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92CD042D62CE96006A2057 /* AlertTestView.swift */; };
 		4D1FA9292AFC778E00AA510F /* SwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */; };
 		4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */; };
+		BB7E51A02D0000000000A002 /* BottomSheetTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7E51A02D0000000000A001 /* BottomSheetTestView.swift */; };
 		4D50A85D2DAF4F3500A39FB0 /* ComponentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */; };
 		4D50A85F2DAF543300A39FB0 /* SearchBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */; };
 		4D5326D52AB15FFF00A9509A /* ButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */; };
@@ -108,6 +109,7 @@
 		3B92CD042D62CE96006A2057 /* AlertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTestView.swift; sourceTree = "<group>"; };
 		4D1FA9282AFC778E00AA510F /* SwitchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchViewController.swift; sourceTree = "<group>"; };
 		4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTestView.swift; sourceTree = "<group>"; };
+		BB7E51A02D0000000000A001 /* BottomSheetTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTestView.swift; sourceTree = "<group>"; };
 		4D50A85C2DAF4F3500A39FB0 /* ComponentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHeaderView.swift; sourceTree = "<group>"; };
 		4D50A85E2DAF543300A39FB0 /* SearchBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCell.swift; sourceTree = "<group>"; };
 		4D5326D42AB15FFF00A9509A /* ButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewController.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				5FEF63692D966F2400248F3E /* TextLinkTestView.swift */,
 				4DA7ED742D9BFFA80029165D /* SearchInputTestView.swift */,
 				4D4C2B4D2DD2F073000B482A /* ToastTestView.swift */,
+				BB7E51A02D0000000000A001 /* BottomSheetTestView.swift */,
 				4DD5C2662DE5A46B00EEDB02 /* ImageChipTestView.swift */,
 			);
 			path = SwiftUIBase;
@@ -579,6 +582,7 @@
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */,
+				BB7E51A02D0000000000A002 /* BottomSheetTestView.swift in Sources */,
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,
 				4DA7ED892DA7AECE0029165D /* ComponentCollectionViewCell.swift in Sources */,
 				E6C115E52BE4855A00032960 /* IndicatorViewController.swift in Sources */,

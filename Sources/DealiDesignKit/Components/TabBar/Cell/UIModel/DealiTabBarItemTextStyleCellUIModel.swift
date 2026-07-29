@@ -27,11 +27,17 @@ public struct DealiTabBarItemTextStyleCellUIModel {
     var font: UIFont = .b2r14
     /// 아이콘 URL
     var iconURL: URL?
+    /// 아이콘 이미지
+    var iconImage: UIImage?
     /// 아이콘 사이즈
     var iconSize: CGSize?
-    
+
+    var hasIcon: Bool {
+        self.iconURL != nil || self.iconImage != nil
+    }
+
     private var preset: DealiTabBarPreset?
-    
+
     static func make(preset: DealiTabBarPreset, tabbarItem: DealiTabBarItemProtocol) -> DealiTabBarItemTextStyleCellUIModel {
         var uiModel = DealiTabBarItemTextStyleCellUIModel()
         uiModel.preset = preset
@@ -39,6 +45,7 @@ public struct DealiTabBarItemTextStyleCellUIModel {
         uiModel.textColor = preset.textColor
         uiModel.font = preset.font
         uiModel.iconURL = tabbarItem.icon?.url
+        uiModel.iconImage = tabbarItem.icon?.image
         uiModel.iconSize = tabbarItem.icon?.size
         uiModel.shouldExposeNewBadge = tabbarItem.showsBadge
         return uiModel

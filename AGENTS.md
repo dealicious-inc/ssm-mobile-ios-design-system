@@ -19,8 +19,18 @@ AI는 모든 문서를 미리 읽지 않는다.
 
 1. Always: 먼저 `AGENTS.md`만 읽고 작업 종류를 판단한다.
 2. Skill Entry: 사용자가 `codeReview`를 요청하면 `docs/ai/skills/code-review/SKILL.md`를 시작점으로 읽는다.
-3. Triggered: 라우팅 테이블의 조건에 맞는 문서만 추가로 읽는다.
-4. Stop: 문서와 실제 코드가 충돌하면 임의로 진행하지 않고 사용자 확인을 요청한다.
+3. Plan Gate: `.ai-workspace/plans/`에 계획이 있고 작업이 그 계획의 적용 영역이면 해당 계획 문서를 먼저 읽는다.
+4. Triggered: 라우팅 테이블의 조건에 맞는 문서만 추가로 읽는다.
+5. Stop: 문서와 실제 코드가 충돌하면 임의로 진행하지 않고 사용자 확인을 요청한다.
+
+## 계획 규칙
+
+- 계획 설계와 계획 문서의 형식은 `docs/ai/contracts/plan-template.md`를 따른다.
+- 계획 산출물은 `.ai-workspace/plans/`에 두며 git에 추가하지 않는다.
+- 계획 설계 중 사용자가 결정해야 하는 사항이 나오면 임의로 가정하지 않고 계획 문서의 `사용자 확인 필요` 섹션에 질문으로 남긴다.
+- `확인 필요: 있음`인 계획은 사용자 확인 또는 리스크 수용 기록 없이 구현 단계로 넘어가지 않는다.
+- 해당 결정에 의존하지 않는 단계는 먼저 진행할 수 있고, 막혀 있는 단계는 상태 표에 남긴다.
+- 특정 계획의 이름이나 경로를 `AGENTS.md`나 `docs/ai/**`에 하드코딩하지 않는다.
 
 ## 응답 헤더 규칙
 
@@ -34,6 +44,8 @@ AI는 모든 문서를 미리 읽지 않는다.
 | 요청/작업 | 먼저 읽을 문서 | 필요할 때 추가로 읽을 문서 |
 | --- | --- | --- |
 | 일반 코드 질문, 파일 설명 | 현재 대상 파일 | `docs/ai/reference/swift-style.md` |
+| 계획, 설계, 작업 계획 작성 요청 | `docs/ai/contracts/plan-template.md`, `.ai-workspace/plans/` 기존 계획 | 대상 코드, `docs/ai/reference/project-workflow.md` |
+| 진행 중인 계획의 적용 영역 작업 | 해당 `.ai-workspace/plans/*.md` | `docs/ai/contracts/plan-template.md` |
 | 컴포넌트 추가/수정 | 현재 대상 파일, 기존 유사 컴포넌트 | `docs/ai/reference/swift-style.md`, `docs/ai/reference/project-workflow.md` |
 | 단순 버그 수정, 빌드/테스트 오류 수정 | 현재 대상 파일과 에러 로그 | `docs/ai/reference/swift-style.md` |
 | codeReview, PR/로컬 diff 리뷰 | `docs/ai/skills/code-review/SKILL.md`, `docs/ai/playbooks/code-review-playbook.md` | - |
@@ -54,6 +66,7 @@ AI는 모든 문서를 미리 읽지 않는다.
 - generated Swift 파일 직접 수정 금지.
 - 승인 없는 구조 개편 금지.
 - 문자열, 이미지, 아이콘 리소스 임의 추가 금지.
+- `확인 필요: 있음`인 계획을 사용자 확인 없이 구현으로 진행하는 것 금지.
 - 사용자 명시 승인 없는 `git commit`, `git push`, PR 생성, merge 금지.
 
 ## 최소 종료 규칙

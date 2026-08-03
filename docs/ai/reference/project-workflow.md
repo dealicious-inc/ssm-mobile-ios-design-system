@@ -22,11 +22,12 @@
 ## Branch
 
 - 브랜치명은 작업 성격에 맞춰 `feature/`, `enhancement/`, `fix/`, `hotfix/`를 사용한다.
-- 기본 브랜치는 `main`이다.
+- prefix 뒤에는 Jira 티켓 키를 붙인다. 예: `enhancement/MP-5488-ImageChip`.
+- 기본 브랜치는 `dev`다.
 
 ## PR
 
-- PR 비교 기준은 기본적으로 `origin/main`이다.
+- PR 비교 기준은 기본적으로 `origin/dev`다.
 - 리뷰 기준은 `docs/ai/playbooks/code-review-playbook.md`를 따른다.
 
 ## SampleApp

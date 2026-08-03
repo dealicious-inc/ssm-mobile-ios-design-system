@@ -7,3 +7,6 @@ DerivedData/
 .swiftpm/config/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+
+# AI 작업 산출물 (계획, 상태) - 커밋하지 않음
+.ai-workspace/

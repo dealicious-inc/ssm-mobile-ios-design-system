@@ -130,10 +130,8 @@ public final class DealiSearchInput: UIView {
             guard let keyboardCloseButtonString = self.keyboardCloseButtonString else { return }
             
             let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
-            keyboardAccessoryView.do {
-                $0.backgroundColor = .g20
-            }
-            
+            keyboardAccessoryView.setKeyboardAccessoryStyle()
+
             let keyboardCloseButton = DealiControl.btnTextSmall04()
             keyboardAccessoryView.addSubview(keyboardCloseButton)
             keyboardCloseButton.then {

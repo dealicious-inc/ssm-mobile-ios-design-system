@@ -12,6 +12,11 @@ open class DealiAlertBaseViewController: UIViewController {
     public let contentView = UIView()
     public let contentStackView = UIStackView()
     
+    /// alert content 영역의 최대 너비
+    public static let maxContentWidth: CGFloat = 360.0
+    /// alert content 영역의 좌우 최소 여백
+    public static let contentHorizontalPadding: CGFloat = 40.0
+    
     /// alert 최대 높이 값이 동적으로 정해질때의 최대 높이값을 정하는 비율값
     public var heightRatio: CGFloat = 0.7
     /// alert 최대 높이값이 정적으로 지정되야 할경우 세팅되는 높이값
@@ -71,10 +76,7 @@ open class DealiAlertBaseViewController: UIViewController {
         }
         let keyboardVisibleHeight = keyboardFrame.cgRectValue.height
         
-        self.contentView.snp.remakeConstraints {
-            $0.left.right.equalToSuperview().inset(40.0)
-            $0.centerY.equalToSuperview().offset(-keyboardVisibleHeight / 2)
-        }
+        self.remakeContentViewConstraints(keyboardVisibleHeight: keyboardVisibleHeight)
         self.view.layoutIfNeeded()
     }
     
@@ -84,24 +86,29 @@ open class DealiAlertBaseViewController: UIViewController {
             return
         }
         
-        self.contentView.snp.remakeConstraints {
-            $0.left.right.equalToSuperview().inset(40.0)
-            $0.centerY.equalToSuperview()
-        }
+        self.remakeContentViewConstraints()
         self.view.layoutIfNeeded()
+    }
+    
+    /// contentView는 기본적으로 좌우 여백 기준으로 너비가 늘어나고, `maxContentWidth`를 넘으면 그 값으로 고정된다
+    private func remakeContentViewConstraints(keyboardVisibleHeight: CGFloat = 0.0) {
+        self.contentView.snp.remakeConstraints {
+            $0.width.equalToSuperview().offset(-(Self.contentHorizontalPadding * 2.0)).priority(999.0)
+            $0.width.lessThanOrEqualTo(Self.maxContentWidth)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-keyboardVisibleHeight / 2.0)
+        }
     }
     
     open override func loadView() {
         super.loadView()
         
         self.view.addSubview(self.contentView)
-        self.contentView.then {
+        self.contentView.do {
             $0.backgroundColor = .primary04
             $0.setCornerRadius(10.0)
-        }.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(40.0)
-            $0.centerY.equalToSuperview()
         }
+        self.remakeContentViewConstraints()
         
         self.contentView.addSubview(self.contentStackView)
         self.contentStackView.then {
@@ -122,7 +129,7 @@ open class DealiAlertBaseViewController: UIViewController {
         }
     }
     
-    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         guard let touch = touches.first, self.contentView.bounds.contains(touch.location(in: self.contentView)) == false, self.closeAlertOnOutsideTouch == true else { return }
         

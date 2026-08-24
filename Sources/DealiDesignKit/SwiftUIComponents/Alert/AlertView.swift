@@ -92,7 +92,8 @@ public struct AlertView: View {
                 .onTapGesture { dismissAlert() }
             
             alertContent
-                .padding(.horizontal, 40)
+                .frame(maxWidth: DealiAlertBaseViewController.maxContentWidth)
+                .padding(.horizontal, DealiAlertBaseViewController.contentHorizontalPadding)
         }
         .onAppear { showAlert() }
     }

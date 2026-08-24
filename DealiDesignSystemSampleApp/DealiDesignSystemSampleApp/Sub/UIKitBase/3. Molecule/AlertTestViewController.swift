@@ -105,6 +105,15 @@ class AlertTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+        
+        let alertButton06 = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(alertButton06)
+        alertButton06.then {
+            $0.title = "버튼 스타일 변경 팝업"
+            $0.addTarget(self, action: #selector(alertButton06Pressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }
 
@@ -127,10 +136,35 @@ extension AlertTestViewController {
         DealiAlert.show(message: "Alert 테스트중",
                         cancelButtonTitle: "취소",
                         confirmButtonTitle: "확인\n확인\n확인",
+                        buttonStyle: .init(makeConfirmButton: { DealiControl.btnFilledMedium02() }),
                         heightRatio: 0.9,
                         alertPresentingViewController: self,
                         cancelAction: nil, confirmAction: nil)
         
+    }
+    
+    @objc func alertButton06Pressed() {
+        debugPrint("alertButton06Pressed")
+        
+        if isSwiftUI {
+            AlertView(title: "버튼 스타일 변경",
+                      message: "buttonStyle로 취소/확인 버튼 스타일을 바꾼 팝업입니다.",
+                      confirm: .init(title: "확인"),
+                      cancel: .init(title: "취소"),
+                      buttonStyle: .init(cancel: .btnOutlineMedium03, confirm: .btnFilledMedium06))
+            .show(self)
+            return
+        }
+        
+        DealiAlert.show(title: "버튼 스타일 변경",
+                        message: "buttonStyle로 취소/확인 버튼 스타일을 바꾼 팝업입니다.",
+                        cancelButtonTitle: "취소",
+                        confirmButtonTitle: "확인",
+                        buttonStyle: .init(makeCancelButton: { DealiControl.btnOutlineMedium03() },
+                                           makeConfirmButton: { DealiControl.btnFilledMedium06() }),
+                        alertPresentingViewController: self,
+                        cancelAction: nil,
+                        confirmAction: nil)
     }
     
     @objc func alertButton02Pressed() {

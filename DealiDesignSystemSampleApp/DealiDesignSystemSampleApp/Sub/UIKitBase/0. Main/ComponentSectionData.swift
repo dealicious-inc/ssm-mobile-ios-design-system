@@ -37,6 +37,7 @@ enum ActionType: Hashable, CaseIterable {
     case typography
     case color
     case font
+    case logo
     
     // MARK: - Atom
     case accordion
@@ -73,7 +74,7 @@ enum ActionType: Hashable, CaseIterable {
     
     var group: Group {
             switch self {
-            case .typography, .color, .font:
+            case .typography, .color, .font, .logo:
                 return .token
             case .accordion, .badge, .button, .checkbox, .chip, .dropdown,
                  .imageChip, .indicator, .labeledText, .placeholder,
@@ -104,6 +105,7 @@ enum ActionType: Hashable, CaseIterable {
         case .typography: return "Typography"
         case .color: return "Color"
         case .font: return "Font"
+        case .logo: return "Logo"
           
         case .accordion: return "Accordion"
         case .badge: return "Badge"
@@ -147,6 +149,8 @@ extension ItemData {
             TypographyViewController(isSwiftUI: isSwiftUI)
         case .font:
             FontComponentViewController()
+        case .logo:
+            LogoViewController()
             
         case .accordion:
             AccordionComponentViewController()

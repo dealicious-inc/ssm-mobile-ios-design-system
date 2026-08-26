@@ -11,6 +11,7 @@
 		041ABC062A174598001772F3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC052A174598001772F3 /* RxRelay */; };
 		041ABC082A174598001772F3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041ABC072A174598001772F3 /* RxSwift */; };
 		041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041ABC0B2A175E19001772F3 /* ColorViewController.swift */; };
+		A17122010000000000000003 /* LogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17122010000000000000002 /* LogoViewController.swift */; };
 		042EA8A92A14C7D500370706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8A82A14C7D500370706 /* AppDelegate.swift */; };
 		042EA8AB2A14C7D500370706 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EA8AA2A14C7D500370706 /* SceneDelegate.swift */; };
 		042EA8B22A14C7D700370706 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EA8B12A14C7D700370706 /* Assets.xcassets */; };
@@ -78,6 +79,7 @@
 
 /* Begin PBXFileReference section */
 		041ABC0B2A175E19001772F3 /* ColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorViewController.swift; sourceTree = "<group>"; };
+		A17122010000000000000002 /* LogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoViewController.swift; sourceTree = "<group>"; };
 		042EA8A52A14C7D500370706 /* DealiDesignSystemSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DealiDesignSystemSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		042EA8A82A14C7D500370706 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		042EA8AA2A14C7D500370706 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -292,8 +294,17 @@
 			children = (
 				4DA7ED7A2DA669180029165D /* Typography */,
 				4DF5ABE82CC25C2300BFB7D6 /* Color */,
+				A17122010000000000000001 /* Logo */,
 			);
 			path = "1. Token";
+			sourceTree = "<group>";
+		};
+		A17122010000000000000001 /* Logo */ = {
+			isa = PBXGroup;
+			children = (
+				A17122010000000000000002 /* LogoViewController.swift */,
+			);
+			path = Logo;
 			sourceTree = "<group>";
 		};
 		4DA7ED792DA668660029165D /* 3. Molecule */ = {
@@ -577,6 +588,7 @@
 				4DA7ED752D9BFFA80029165D /* SearchInputTestView.swift in Sources */,
 				396EF4C02BDA04B8006CEF43 /* TextInputViewController.swift in Sources */,
 				041ABC0C2A175E19001772F3 /* ColorViewController.swift in Sources */,
+				A17122010000000000000003 /* LogoViewController.swift in Sources */,
 				E6EA11A42A8A24DC00ACCF3B /* AlertTestViewController.swift in Sources */,
 				4D4C2B4E2DD2F073000B482A /* ToastTestView.swift in Sources */,
 				396EF4BC2BD8F129006CEF43 /* CheckComponentViewController.swift in Sources */,

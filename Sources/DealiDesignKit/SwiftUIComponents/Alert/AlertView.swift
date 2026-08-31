@@ -21,25 +21,47 @@ public struct AlertButton {
     }
 }
 
+/**
+ 설명: Alert 취소/확인 버튼의 스타일을 정하는 값
+ */
+public struct AlertButtonStyle {
+    /// 취소 버튼 스타일
+    public var cancel: ButtonView.ButtonConfigStyle
+    /// 확인 버튼 스타일
+    public var confirm: ButtonView.ButtonConfigStyle
+    
+    public init(cancel: ButtonView.ButtonConfigStyle = .btnOutlineMedium01,
+                confirm: ButtonView.ButtonConfigStyle = .btnFilledLarge01) {
+        self.cancel = cancel
+        self.confirm = confirm
+    }
+    
+    /// 디자인시스템 기본 스타일
+    public static let `default` = AlertButtonStyle()
+}
+
 public struct AlertViewModel {
     public var title: String?
     public var message: String?
     public var checkbox: CheckboxView?
     public var confirm: AlertButton?
     public var cancel: AlertButton?
+    public var buttonStyle: AlertButtonStyle
 
     public init(
         title: String? = nil,
         message: String,
         checkbox: CheckboxView? = nil,
         confirm: AlertButton? = nil,
-        cancel: AlertButton? = nil
+        cancel: AlertButton? = nil,
+        buttonStyle: AlertButtonStyle = .default
     ) {
         self.title = title
         self.message = message
         self.checkbox = checkbox
         self.confirm = confirm
         self.cancel = cancel
+        self.buttonStyle = buttonStyle
     }
 }
 
@@ -67,12 +89,14 @@ public struct AlertView: View {
                 message: String,
                 checkbox: CheckboxView? = nil,
                 confirm: AlertButton? = nil,
-                cancel: AlertButton? = nil) {
+                cancel: AlertButton? = nil,
+                buttonStyle: AlertButtonStyle = .default) {
         let viewModel = AlertViewModel(title: title,
                                        message: message,
                                        checkbox: checkbox,
                                        confirm: confirm,
-                                       cancel: cancel)
+                                       cancel: cancel,
+                                       buttonStyle: buttonStyle)
         self.init(viewModel: viewModel)
     }
     
@@ -92,7 +116,8 @@ public struct AlertView: View {
                 .onTapGesture { dismissAlert() }
             
             alertContent
-                .padding(.horizontal, 40)
+                .frame(maxWidth: DealiAlertBaseViewController.maxContentWidth)
+                .padding(.horizontal, DealiAlertBaseViewController.contentHorizontalPadding)
         }
         .onAppear { showAlert() }
     }
@@ -149,7 +174,7 @@ public struct AlertView: View {
         Spacer().frame(height: 24.0)
         HStack(spacing: 10.0) {
             if let cancel = viewModel.cancel {
-                ButtonView(type: .btnOutlineMedium01,
+                ButtonView(type: viewModel.buttonStyle.cancel,
                            title: cancel.title) {
                     cancel.action()
                     dismissAlert()
@@ -157,7 +182,7 @@ public struct AlertView: View {
             }
             
             if let confirm = viewModel.confirm {
-                ButtonView(type: .btnFilledLarge01,
+                ButtonView(type: viewModel.buttonStyle.confirm,
                            title: confirm.title) {
                     confirm.action()
                     dismissAlert()

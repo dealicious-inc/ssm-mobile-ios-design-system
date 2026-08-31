@@ -98,6 +98,7 @@ public struct TabBarView: View {
                                 tabButtons
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
                         }
                         .onAppear {
                             proxy.scrollTo(viewModel.selectedIndex, anchor: .center)
@@ -112,9 +113,9 @@ public struct TabBarView: View {
                     HStack(spacing: viewModel.type.itemHorizontalPadding) {
                         tabButtons
                     }
+                    .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
                 }
             }
-            .padding(.horizontal, viewModel.type.tabBarHorizontalMargin)
         }
         .frame(height: viewModel.type.tabBarContentHeight)
     }
@@ -128,11 +129,27 @@ public struct TabBarView: View {
                 }
             default:
                 ForEach(viewModel.items.indices, id: \.self) { index in
+                    let item = viewModel.items[index]
                     switch viewModel.type.style {
                     case .segment, .slider:
-                        buttonTabItemView(viewModel.items[index], index: index)
+                        ButtonTabItemView(
+                                        item: item,
+                                        index: index,
+                                        isSelected: viewModel.selectedIndex == index,
+                                        type: viewModel.type,
+                                        isScrollable: viewModel.isScrollable,
+                                        select: selectTabItem
+                                    )
                     case .sliderChip(let style):
-                        chipTabItemView(viewModel.items[index], index: index, style: style)
+                        ChipTabItemView(
+                                        item: item,
+                                        index: index,
+                                        style: style,
+                                        isSelected: viewModel.selectedIndex == index,
+                                        type: viewModel.type,
+                                        isScrollable: viewModel.isScrollable,
+                                        select: selectTabItem
+                                    )
                     case .sliderImageChip:
                         EmptyView()
                     }
@@ -165,68 +182,78 @@ public struct TabBarView: View {
         }
     }
     
-    @ViewBuilder
-    private func buttonTabItemView(_ item: TabBarItemViewModel, index: Int) -> some View {
-        Button(action: {
-            selectTabItem(index)
-        }) {
-            let isSelected = viewModel.selectedIndex == index
-            let type = viewModel.type
-            
-            VStack(spacing: 0) {
-                ZStack(alignment: .topTrailing) {
-                    HStack(spacing: 0) {
-                        if let icon = viewModel.items[index].icon {
-                            ImageHelper.kfImage(url: icon.url, size: icon.size)
+    private struct ButtonTabItemView: View {
+        @ObservedObject var item: TabBarItemViewModel
+        let index: Int
+        let isSelected: Bool
+        let type: DealiTabBarPreset
+        let isScrollable: Bool
+        let select: (Int) -> Void
+
+        var body: some View {
+            Button(action: { select(index) }) {
+                VStack(spacing: 0) {
+                    ZStack(alignment: .topTrailing) {
+                        HStack(spacing: 0) {
+                            if let icon = item.icon {
+                                ImageHelper.kfImage(url: icon.url, size: icon.size)
+                            }
+                            Text(item.title ?? "")
+                                .font(isSelected ? Font(type.selectedFont) : Font(type.font))
+                                .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
+                                .frame(maxWidth: .infinity , maxHeight: .infinity)
                         }
-                        
-                        Text(viewModel.items[index].title ?? "")
-                            .font(isSelected ? Font(type.selectedFont) : Font(type.font))
-                            .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
-                            .frame(maxWidth: .infinity , maxHeight: .infinity)
+                        if item.showBadge {
+                            Circle()
+                                .fill(Color(.primary01))
+                                .frame(width: 4, height: 4)
+                                .offset(x: 4, y: -4)
+                        }
                     }
-                    
-                    if viewModel.items[index].showBadge {
-                        badge
+                    .fixedSize()
+                    .frame(height: type.tabBarContentHeight - 2)
+
+                    if type.style == .segment || type.style == .slider {
+                        IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
                     }
                 }
-                .fixedSize()
-                .frame(height: viewModel.type.tabBarContentHeight - 2)
-                
-                if type.style == .segment || type.style == .slider {
-                    IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
-                }
+                .padding(.horizontal, type.itemHorizontalPadding)
+                .fixedSize(horizontal: isScrollable, vertical: false)
             }
-            .padding(.horizontal, type.itemHorizontalPadding)
-            .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
+            .buttonStyle(.plain)
         }
     }
-    
-    @ViewBuilder
-    private func chipTabItemView(_ item: TabBarItemViewModel,
-                                 index: Int,
-                                 style: DealiTabBarPreset.DealiTabBarSliderChipStyle) -> some View {
-        let chipType: ChipViewType = {
-            switch style {
-            case .chipFilledSmall02: return .chipFilledSmall02
-            case .chipFilledSmall03: return .chipFilledSmall03
+
+    private struct ChipTabItemView: View {
+        @ObservedObject var item: TabBarItemViewModel
+        let index: Int
+        let style: DealiTabBarPreset.DealiTabBarSliderChipStyle
+        let isSelected: Bool
+        let type: DealiTabBarPreset
+        let isScrollable: Bool
+        let select: (Int) -> Void
+
+        var body: some View {
+            let chipType: ChipViewType = {
+                switch style {
+                case .chipFilledSmall02: return .chipFilledSmall02
+                case .chipFilledSmall03: return .chipFilledSmall03
+                case .chipNotification:   return .chipNotification
+                }
+            }()
+            let chipViewModel = ChipViewModel(
+                type: chipType,
+                text: item.title ?? "",
+                status: isSelected ? .selected : .normal,
+                showBadge: item.showBadge
+            )
+            ZStack(alignment: .topTrailing) {
+                ChipView(viewModel: chipViewModel, action: { select(index) })
             }
-        }()
-        let chipViewModel = ChipViewModel(
-            type: chipType,
-            text: item.title ?? "",
-            status: index == viewModel.selectedIndex ? .selected : .normal
-        )
-        
-        ChipView(
-            viewModel: chipViewModel,
-            action: {
-                selectTabItem(index)
-            }
-        )
-        .padding(.horizontal, viewModel.type.itemHorizontalPadding)
-        .frame(height: viewModel.type.tabBarContentHeight - 2)
-        .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
+            .padding(.horizontal, type.itemHorizontalPadding)
+            .frame(height: type.tabBarContentHeight - 2)
+            .fixedSize(horizontal: isScrollable, vertical: false)
+        }
     }
     
     @ViewBuilder

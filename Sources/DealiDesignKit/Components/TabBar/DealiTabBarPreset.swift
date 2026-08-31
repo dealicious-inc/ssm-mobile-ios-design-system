@@ -21,6 +21,9 @@ public enum DealiTabBarPreset {
     /// slider 스타일 형식의 tabbar(imgChipSmall01 을 사용)
     case tabBarImgChip01
     
+    #warning("알림 탭바 기존 디자인 유지 위해 임시 추가 타입. 추후 제거 필요")
+    case tabBarChipNotification // chipFilledSmall03에서 selected 컬러 수정
+    
     /// tabber Item Style
     enum DealiTabBarStyle: Equatable {
         case segment
@@ -33,6 +36,7 @@ public enum DealiTabBarPreset {
     enum DealiTabBarSliderChipStyle: Equatable {
         case chipFilledSmall02
         case chipFilledSmall03
+        case chipNotification
     }
     
     /// tab bar ImageChip Item Style
@@ -51,6 +55,8 @@ public enum DealiTabBarPreset {
             return .sliderChip(.chipFilledSmall03)
         case .tabBarImgChip01:
             return .sliderImageChip(.imgChipSmall01)
+        case .tabBarChipNotification:
+            return .sliderChip(.chipNotification)
         default:
             return .slider
         }
@@ -83,7 +89,7 @@ public enum DealiTabBarPreset {
             return .g100
         case .tabBarSlider01:
             return .primary01
-        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
+        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01, .tabBarChipNotification:
             return .primary04
         }
     }
@@ -91,7 +97,7 @@ public enum DealiTabBarPreset {
     // MARK: bottomDividerColor - bottom Divider Color
     var bottomDividerColor: UIColor {
         switch self {
-        case .tabBarChip01, .tabBarImgChip01:
+        case .tabBarChip01, .tabBarImgChip01, .tabBarChipNotification:
             return .clear
         case .tabBarChip02:
             return .g20
@@ -103,7 +109,7 @@ public enum DealiTabBarPreset {
     // MARK: itemSpacing - item간의 거리값
     var itemSpacing: CGFloat {
         switch self {
-        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
+        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01, .tabBarChipNotification:
             return 8.0
         default:
             return 0.0
@@ -123,7 +129,7 @@ public enum DealiTabBarPreset {
     // MARK: tabBarHorizontalMargin - TabbarView content영역 양쪽 margin
     var tabBarHorizontalMargin: CGFloat {
         switch self {
-        case .tabBarSegment01, .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
+        case .tabBarSegment01, .tabBarChip01, .tabBarChip02, .tabBarImgChip01, .tabBarChipNotification:
             return 16.0
         default:
             return 4.0
@@ -133,7 +139,7 @@ public enum DealiTabBarPreset {
     // MARK: TabBarContentHeight - TabBarView의 내부 content 높이
     var tabBarContentHeight: CGFloat {
         switch self {
-        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
+        case .tabBarChip01, .tabBarChip02, .tabBarImgChip01, .tabBarChipNotification:
             return 56.0
         default:
             return 44.0
@@ -145,6 +151,8 @@ public enum DealiTabBarPreset {
         switch self {
         case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return 56.0
+        case .tabBarChipNotification:
+            return 61.0
         default:
             return 44.0
         }

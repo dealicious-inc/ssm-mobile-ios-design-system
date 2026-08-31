@@ -123,6 +123,10 @@ final class SwiftUITabBarViewController: UIViewController {
         }
     }
     
+    func setBadge(on index: Int, show: Bool) {
+        self.tabBarViewModel.items[index].showBadge = show
+    }
+    
 }
 
 extension SwiftUITabBarViewController {

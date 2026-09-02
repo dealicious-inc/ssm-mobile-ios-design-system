@@ -38,6 +38,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         
         contentStackView.addArrangedSubview(self.iconImageView)
         self.iconImageView.then {
+            $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
             $0.isHidden = true
         }.snp.makeConstraints {

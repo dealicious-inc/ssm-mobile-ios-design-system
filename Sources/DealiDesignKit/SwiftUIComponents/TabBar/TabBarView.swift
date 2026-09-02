@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import UIKit
 
 public final class TabBarItemViewModel: ObservableObject {
     @Published public var title: String?
     @Published public var isHidden: Bool
     @Published public var showBadge: Bool
     @Published public var icon: DealiTabBarIcon?
-    
+
     public init(title: String?,
                 isHidden: Bool = false,
                 showBadge: Bool = false,
@@ -30,9 +31,9 @@ public final class TabBarViewModel: ObservableObject {
     @Published public var items: [TabBarItemViewModel] = []
     @Published public var imageChipItems: [DealiImageChipTabBarItem] = []
     public var action: () -> Void
-    
+
     var isScrollable: Bool = false
-    
+
     public init(type: DealiTabBarPreset,
                 items: [TabBarItemViewModel] = [],
                 imageChipItems: [DealiImageChipTabBarItem] = [],
@@ -56,7 +57,7 @@ public final class TabBarViewModel: ObservableObject {
 
 public struct TabBarView: View {
     @ObservedObject var viewModel: TabBarViewModel
-    
+
     public var selectedIndex: Int {
         get {
             return self.viewModel.selectedIndex
@@ -64,11 +65,11 @@ public struct TabBarView: View {
             self.viewModel.selectedIndex = newValue
         }
     }
-    
+
     public init(viewModel: TabBarViewModel) {
         self.viewModel = viewModel
     }
-    
+
     public init(type: DealiTabBarPreset,
                 items: [TabBarItemViewModel] = [],
                 selectedIndex: Int = 0) {
@@ -77,7 +78,7 @@ public struct TabBarView: View {
                                         selectedIndex: selectedIndex)
         self.init(viewModel: viewModel)
     }
-    
+
     public init(type: DealiTabBarPreset,
                 imageChipItems: [DealiImageChipTabBarItem] = [],
                 selectedIndex: Int = 0) {
@@ -86,7 +87,7 @@ public struct TabBarView: View {
                                         selectedIndex: selectedIndex)
         self.init(viewModel: viewModel)
     }
-    
+
     public var body: some View {
         ZStack(alignment: .bottom) {
             divider
@@ -140,20 +141,20 @@ public struct TabBarView: View {
             }
         }
     }
-    
+
     private var divider: some View {
         Rectangle()
             .fill(Color(viewModel.type.bottomDividerColor))
             .frame(maxWidth: .infinity, maxHeight: 1)
     }
-    
+
     private var badge: some View {
         Circle()
             .fill(Color(.primary01))
             .frame(width: 4, height: 4)
             .offset(x: 4, y: -4)
     }
-    
+
     private struct IndicatorView: View {
         let isSelected: Bool
         let color: Color
@@ -164,7 +165,7 @@ public struct TabBarView: View {
                 .frame(maxWidth: .infinity, maxHeight: 2)
         }
     }
-    
+
     @ViewBuilder
     private func buttonTabItemView(_ item: TabBarItemViewModel, index: Int) -> some View {
         Button(action: {
@@ -172,27 +173,27 @@ public struct TabBarView: View {
         }) {
             let isSelected = viewModel.selectedIndex == index
             let type = viewModel.type
-            
+
             VStack(spacing: 0) {
                 ZStack(alignment: .topTrailing) {
                     HStack(spacing: 0) {
                         if let icon = viewModel.items[index].icon {
-                            ImageHelper.kfImage(url: icon.url, size: icon.size)
+                            tabIcon(icon)
                         }
-                        
+
                         Text(viewModel.items[index].title ?? "")
                             .font(isSelected ? Font(type.selectedFont) : Font(type.font))
                             .foregroundColor(isSelected ? Color(type.selectedTextColor) : Color(type.textColor))
                             .frame(maxWidth: .infinity , maxHeight: .infinity)
                     }
-                    
+
                     if viewModel.items[index].showBadge {
                         badge
                     }
                 }
                 .fixedSize()
                 .frame(height: viewModel.type.tabBarContentHeight - 2)
-                
+
                 if type.style == .segment || type.style == .slider {
                     IndicatorView(isSelected: isSelected, color: Color(type.selectedTextColor))
                 }
@@ -201,7 +202,7 @@ public struct TabBarView: View {
             .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
         }
     }
-    
+
     @ViewBuilder
     private func chipTabItemView(_ item: TabBarItemViewModel,
                                  index: Int,
@@ -217,7 +218,7 @@ public struct TabBarView: View {
             text: item.title ?? "",
             status: index == viewModel.selectedIndex ? .selected : .normal
         )
-        
+
         ChipView(
             viewModel: chipViewModel,
             action: {
@@ -228,7 +229,7 @@ public struct TabBarView: View {
         .frame(height: viewModel.type.tabBarContentHeight - 2)
         .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
     }
-    
+
     @ViewBuilder
     private func imageChipTabItemView(_ item: DealiImageChipTabBarItem,
                                       index: Int,
@@ -255,19 +256,32 @@ public struct TabBarView: View {
         .frame(height: viewModel.type.tabBarContentHeight - 2)
         .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
     }
-    
+
     private func selectTabItem(_ index: Int) {
         viewModel.selectedIndex = index
         viewModel.action()
+    }
+
+    @ViewBuilder
+    private func tabIcon(_ icon: DealiTabBarIcon) -> some View {
+        if let image = icon.image {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: icon.size.width, height: icon.size.height)
+        } else {
+            ImageHelper.kfImage(url: icon.url, size: icon.size)
+        }
     }
 }
 
 #Preview {
     let icon = DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/home_tab/img_mbs_filled_16_ver01.png&w=48&h=48"), size: CGSize(width: 16.0, height: 16.0))
+    let localIcon = DealiTabBarIcon(image: UIImage.dealiIcon(named: "ic_home"), size: CGSize(width: 16.0, height: 16.0))
     let tabBarItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
                        TabBarItemViewModel(title: "2번 Tab"),
-                       TabBarItemViewModel(title: "3번 Tab", icon: icon)]
-    
+                       TabBarItemViewModel(title: "3번 Tab", icon: localIcon)]
+
     let tabBarLongItems = [TabBarItemViewModel(title: "1번 Tab", showBadge: true),
                            TabBarItemViewModel(title: "2번 Tab", showBadge: true),
                            TabBarItemViewModel(title: "3번 Tab", icon: icon),
@@ -277,10 +291,10 @@ public struct TabBarView: View {
                            TabBarItemViewModel(title: "7번 Tab"),
                            TabBarItemViewModel(title: "8번 Tab"),
                            TabBarItemViewModel(title: "9번 Tab")]
-    
+
     Text("Segment01")
     TabBarView(type: .tabBarSegment01, items: tabBarItems)
-    
+
     Text("Slider01")
     TabBarView(type: .tabBarSlider01, items: tabBarItems)
     Text("Slider02")

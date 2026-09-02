@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 /**
  설명 : 탭바 아이템 텍스트 스타일 셀
@@ -24,7 +25,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         self.contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.isUserInteractionEnabled = false
-            $0.spacing = 0.0
+            $0.spacing = 2.0
             $0.axis = .horizontal
             $0.alignment = .center
             $0.distribution = .fill
@@ -37,6 +38,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         
         contentStackView.addArrangedSubview(self.iconImageView)
         self.iconImageView.then {
+            $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
             $0.isHidden = true
         }.snp.makeConstraints {
@@ -75,10 +77,16 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         self.titleLabel.font = uiModel.font
         
         self.badgeImageView.isHidden = !uiModel.shouldExposeNewBadge
-        if let image = uiModel.iconURL, let size = uiModel.iconSize {
+        if let image = uiModel.iconImage {
+            self.iconImageView.kf.cancelDownloadTask()
+            self.iconImageView.image = image
+            self.iconImageView.isHidden = false
+        } else if let image = uiModel.iconURL, let size = uiModel.iconSize {
+            self.iconImageView.image = nil
             self.iconImageView.setImage(url: image, size: size)
             self.iconImageView.isHidden = false
         } else {
+            self.iconImageView.kf.cancelDownloadTask()
             self.iconImageView.image = nil
             self.iconImageView.isHidden = true
         }

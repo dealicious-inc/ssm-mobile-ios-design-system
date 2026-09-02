@@ -4,7 +4,10 @@ name: Review Assign
 # 팀원 5명 전원 지정("모두의 책임 = 누구의 책임도 아님") 대신,
 # diff에 포함된 파일들의 코드 이력에서 관련도 높은 팀원 2명을 리뷰어로 지정한다.
 #
-# 관련도 기준 (2026-08 머지 PR 6건 백테스트로 검증):
+# 이 파일은 ssm-mobile-ios의 같은 워크플로와 짝이다. 로직을 한쪽만 고치지 않는다.
+# 러너 라벨만 이 레포 사정에 맞춰 다르게 둔다(아래 runs-on 주석 참고).
+#
+# 관련도 기준 (ssm-mobile-ios의 2026-08 머지 PR 6건 백테스트로 검증):
 # - 변경 파일별 최근 12개월 커밋 작성자를 집계한다 (PR 작성자 제외).
 # - 신규 파일이라 이력이 없으면 상위 디렉토리 이력으로 폴백한다.
 # - 5점 이상이고 점유율 20% 이상인 사람을 점수순으로 최대 2명 지정한다.
@@ -26,7 +29,10 @@ jobs:
   assign:
     # draft는 ready_for_review 시점에 지정한다
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest-4-cores
+    # ubuntu-latest-4-cores(larger runner)는 이 레포에 접근 권한이 없어
+    # job이 배정을 못 받고 큐에서만 대기한다(#202가 3시간 넘게 queued).
+    # checkout과 python3만 쓰므로 기본 러너로 충분하다.
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,6 +56,7 @@ jobs:
           EMAIL_TO_LOGIN = {
               'dlskawns96@gmail.com': 'dlskawns96', 'dlskawns96@deali.net': 'dlskawns96',
               'ichangho@hoji.local': 'ChangHoLee', 'hoji0305@gmail.com': 'ChangHoLee',
+              'leechangho@Leeui-MacBookPro.local': 'ChangHoLee',
               'devgster@gmail.com': 'devgster', 'devgster@deali.net': 'devgster',
               'jalynneyoon@gmail.com': 'jalynneyoon',
               'chosh@deali.net': 'chosh-deali',

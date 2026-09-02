@@ -25,7 +25,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         self.contentView.addSubview(contentStackView)
         contentStackView.then {
             $0.isUserInteractionEnabled = false
-            $0.spacing = 0.0
+            $0.spacing = 2.0
             $0.axis = .horizontal
             $0.alignment = .center
             $0.distribution = .fill
@@ -38,6 +38,7 @@ final public class DealiTabBarItemTextStyleCell: DealiTabBarItemBaseCell {
         
         contentStackView.addArrangedSubview(self.iconImageView)
         self.iconImageView.then {
+            $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
             $0.isHidden = true
         }.snp.makeConstraints {

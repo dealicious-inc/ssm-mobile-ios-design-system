@@ -5,7 +5,7 @@ name: Review Assign
 # diff에 포함된 파일들의 코드 이력에서 관련도 높은 팀원 2명을 리뷰어로 지정한다.
 #
 # 이 파일은 ssm-mobile-ios의 같은 워크플로와 짝이다. 로직을 한쪽만 고치지 않는다.
-# 러너 라벨만 이 레포 사정에 맞춰 다르게 둔다(아래 runs-on 주석 참고).
+# 러너 라벨도 같이 맞춘다(아래 runs-on 주석 참고).
 #
 # 관련도 기준 (ssm-mobile-ios의 2026-08 머지 PR 6건 백테스트로 검증):
 # - 변경 파일별 최근 12개월 커밋 작성자를 집계한다 (PR 작성자 제외).
@@ -29,10 +29,12 @@ jobs:
   assign:
     # draft는 ready_for_review 시점에 지정한다
     if: github.event.pull_request.draft == false
-    # ubuntu-latest-4-cores(larger runner)는 이 레포에 접근 권한이 없어
-    # job이 배정을 못 받고 큐에서만 대기한다(#202가 3시간 넘게 queued).
-    # checkout과 python3만 쓰므로 기본 러너로 충분하다.
-    runs-on: ubuntu-latest
+    # 라벨을 ubuntu-latest로 바꾸지 않는다. 조직 IP allow list에는 larger runner의
+    # 고정 IP만 등록돼 있어서, 기본 러너로 돌리면 job은 뜨지만 리뷰어 지정 API가
+    # 403(IP not permitted)으로 실패한다. PR #204에서 확인했다.
+    # 이 레포에서 큐 대기만 하고 있으면 조직 설정에서
+    # 'default larger runners' 그룹에 이 레포 접근 권한을 주면 된다.
+    runs-on: ubuntu-latest-4-cores
     steps:
       - uses: actions/checkout@v4
         with:

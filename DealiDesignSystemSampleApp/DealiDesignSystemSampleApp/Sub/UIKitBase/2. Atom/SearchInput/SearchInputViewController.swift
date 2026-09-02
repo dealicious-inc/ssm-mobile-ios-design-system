@@ -84,6 +84,63 @@ extension SearchInputViewController {
             $0.distribution = .equalSpacing
         }
         
+        // MARK: - searchInput01 예제
+        let searchInput01Label = UILabel().then {
+            $0.text = "searchInput01 (흰색 배경, 테두리)"
+            $0.font = .systemFont(ofSize: 14, weight: .bold)
+            $0.textColor = .g100
+        }
+
+        contentStackView.addArrangedSubview(searchInput01Label)
+        searchInput01Label.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let searchInput01View = DealiSearchInput(preset: .searchInput01, delegate: self)
+        contentStackView.addArrangedSubview(searchInput01View)
+        searchInput01View.then {
+            $0.backgroundColor = .clear
+            $0.placeholder = "상품을 검색해주세요."
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        // searchInput01 with subKeyword 예제
+        let searchInput01WithTagView = DealiSearchInput(preset: .searchInput01, delegate: self)
+        contentStackView.addArrangedSubview(searchInput01WithTagView)
+        searchInput01WithTagView.then {
+            $0.backgroundColor = .clear
+            $0.placeholder = "상품을 검색해주세요."
+            $0.subKeyword = "원피스"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+
+        let searchInput01WithLongTagView = DealiSearchInput(preset: .searchInput01, delegate: self)
+        contentStackView.addArrangedSubview(searchInput01WithLongTagView)
+        searchInput01WithLongTagView.then {
+            $0.backgroundColor = .clear
+            $0.placeholder = "상품을 검색해주세요."
+            $0.subKeyword = "T-shirts 긴키워드입니다"
+            $0.keyword = "긴 글자 keyword 검색 시"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+        
+        // MARK: - searchInput02 예제 (기존)
+        let searchInput02Label = UILabel().then {
+            $0.text = "searchInput02 (회색 배경, 테두리 없음)"
+            $0.font = .systemFont(ofSize: 14, weight: .bold)
+            $0.textColor = .g100
+        }
+        contentStackView.addArrangedSubview(searchInput02Label)
+        searchInput02Label.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
         let searchBarView1 = DealiSearchInput(delegate: self)
         contentStackView.addArrangedSubview(searchBarView1)
         searchBarView1.then {

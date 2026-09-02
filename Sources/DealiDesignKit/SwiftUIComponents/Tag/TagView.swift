@@ -13,18 +13,22 @@ public struct TagView: View {
     private let icon: Image?
     private let leftIcon: Image?
     private let rightIcon: Image?
+    /// 아이콘 이미지와 컨테이너 사이 여백. 기본값 0이면 아이콘이 컨테이너를 꽉 채운다.
+    private let iconImageInset: CGFloat
 
     public init(
         text: String,
         type: DealiTag.EType,
         leftIcon: Image? = nil,
-        rightIcon: Image? = nil
+        rightIcon: Image? = nil,
+        iconImageInset: CGFloat = 0.0
     ) {
         self.text = text
         self.type = type
         self.icon = nil
         self.leftIcon = leftIcon
         self.rightIcon = rightIcon
+        self.iconImageInset = iconImageInset
     }
 
     public init(
@@ -36,6 +40,7 @@ public struct TagView: View {
         self.icon = icon
         self.leftIcon = nil
         self.rightIcon = nil
+        self.iconImageInset = 0.0
     }
 
     private var category: DealiTag.ESize {
@@ -58,7 +63,7 @@ public struct TagView: View {
         let size = type.size
         let iconDimension = category.iconDimension
         let gap = category.iconTextSpacing
-        let inset = category.iconImageInset
+        let inset = self.iconImageInset
         let leftPadding = max(0, size.padding - (showLeftIcon ? gap : 0))
         let rightPadding = max(0, size.padding - (showRightIcon ? gap : 0))
 

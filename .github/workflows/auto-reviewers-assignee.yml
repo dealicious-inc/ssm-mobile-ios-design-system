@@ -1,0 +1,159 @@
+name: Review Assign
+
+# PR 리뷰 방식 개선(Confluence DANTE/5772181676) 4번 개선안.
+# 팀원 5명 전원 지정("모두의 책임 = 누구의 책임도 아님") 대신,
+# diff에 포함된 파일들의 코드 이력에서 관련도 높은 팀원 2명을 리뷰어로 지정한다.
+#
+# 관련도 기준 (2026-08 머지 PR 6건 백테스트로 검증):
+# - 변경 파일별 최근 12개월 커밋 작성자를 집계한다 (PR 작성자 제외).
+# - 신규 파일이라 이력이 없으면 상위 디렉토리 이력으로 폴백한다.
+# - 5점 이상이고 점유율 20% 이상인 사람을 점수순으로 최대 2명 지정한다.
+#   (백테스트 기준 6건 중 5건이 이력만으로 2명 충족)
+# - 2명이 안 채워지면 랜덤으로 채운다. PR 번호를 시드로 써서 재실행해도 같은 결과가 나온다.
+#
+# last-commit(파일별 마지막 커밋 작성자)만 보면 마지막 작성자가 PR 작성자 본인인 경우가 많아
+# 랜덤 폴백이 잦다(백테스트 6건 중 2건). 12개월 빈도 집계가 같은 취지로 더 안정적이다.
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  assign:
+    # draft는 ready_for_review 시점에 지정한다
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest-4-cores
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # 12개월 커밋 이력 집계에 전체 히스토리가 필요하다
+          fetch-depth: 0
+
+      - name: Pick reviewers by code history
+        id: pick
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          python3 - <<'PY'
+          import subprocess, collections, random, os
+
+          # 팀원 명단과 커밋 이메일 매핑. 팀원이 바뀌면 여기와 이메일을 함께 갱신한다.
+          TEAM = ['dlskawns96', 'ChangHoLee', 'devgster', 'jalynneyoon', 'chosh-deali']
+          EMAIL_TO_LOGIN = {
+              'dlskawns96@gmail.com': 'dlskawns96', 'dlskawns96@deali.net': 'dlskawns96',
+              'ichangho@hoji.local': 'ChangHoLee', 'hoji0305@gmail.com': 'ChangHoLee',
+              'devgster@gmail.com': 'devgster', 'devgster@deali.net': 'devgster',
+              'jalynneyoon@gmail.com': 'jalynneyoon',
+              'chosh@deali.net': 'chosh-deali',
+          }
+          MIN_SCORE, MIN_SHARE, REVIEWER_COUNT = 5, 0.20, 2
+
+          author = os.environ['PR_AUTHOR']
+          pr_number = int(os.environ['PR_NUMBER'])
+          base = 'origin/' + os.environ['BASE_REF']
+          head = os.environ['HEAD_SHA']
+
+          def git(*a):
+              return subprocess.run(['git'] + list(a), capture_output=True, text=True).stdout
+
+          merge_base = git('merge-base', base, head).strip()
+          files = [f for f in git('diff', '--name-only', f'{merge_base}..{head}').split('\n') if f]
+
+          score = collections.Counter()
+          for f in files:
+              emails = git('log', '--since=12.months', '--format=%ae', merge_base, '--', f).split()
+              if not emails:  # 신규 파일 → 디렉토리 이력으로 폴백
+                  d = '/'.join(f.split('/')[:-1]) or '.'
+                  emails = git('log', '--since=12.months', '--format=%ae', merge_base, '--', d).split()[:30]
+              for e in emails:
+                  login = EMAIL_TO_LOGIN.get(e)
+                  if login and login != author:
+                      score[login] += 1
+
+          candidates = [t for t in TEAM if t != author]
+          total = sum(score.values())
+
+          # 이력 기반: 기준 통과자를 점수순으로 최대 REVIEWER_COUNT 명
+          picked = []
+          reasons = []
+          for login, n in score.most_common():
+              if len(picked) >= REVIEWER_COUNT:
+                  break
+              if n >= MIN_SCORE and n / total >= MIN_SHARE:
+                  picked.append(login)
+                  reasons.append(f'{login}(이력 {n}점 {n/total:.0%})')
+
+          # 부족분은 랜덤으로 채운다 (이미 뽑힌 사람 제외, PR 번호 시드)
+          rng = random.Random(pr_number)
+          remaining = [c for c in candidates if c not in picked]
+          rng.shuffle(remaining)
+          while len(picked) < REVIEWER_COUNT and remaining:
+              login = remaining.pop(0)
+              picked.append(login)
+              reasons.append(f'{login}(랜덤)')
+
+          # 선정 방식 분류와 기계 판독 마커. 지표 스크립트가 PR 코멘트에서 이 마커를 파싱한다.
+          kinds = ['history' if '이력' in r else 'random' for r in reasons]
+          method = kinds[0] if len(set(kinds)) == 1 else 'mixed'
+          detail = []
+          for login, r in zip(picked, reasons):
+              if '이력' in r:
+                  n = score[login]
+                  detail.append(f'{login}:history:{n}:{round(100 * n / total)}')
+              else:
+                  detail.append(f'{login}:random')
+          marker = f'reviewer-assign v1 method={method} reviewers={",".join(detail)} files={len(files)}'
+
+          print(f'파일 {len(files)}개 / 점수 {dict(score.most_common())}')
+          print(f'지정: {", ".join(reasons)}')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f'reviewers={",".join(picked)}\n')
+              out.write(f'reason={", ".join(reasons)}\n')
+              out.write(f'marker={marker}\n')
+          PY
+
+      - name: Assign reviewers and author
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pull_number = context.payload.pull_request.number
+            const { owner, repo } = context.repo
+            const reviewers = '${{ steps.pick.outputs.reviewers }}'.split(',').filter(Boolean)
+
+            await github.rest.pulls.requestReviewers({
+              owner, repo, pull_number, reviewers
+            })
+            // 작성자를 assignee로 지정한다 (기존 동작 유지)
+            await github.rest.issues.addAssignees({
+              owner, repo, issue_number: pull_number,
+              assignees: [context.payload.pull_request.user.login]
+            })
+            core.notice(`리뷰어 지정: ${{ toJSON(steps.pick.outputs.reason) }}`)
+
+            // 선정 사유를 PR 코멘트로 영구 기록한다. Actions 로그는 90일이면 사라져
+            // 분기 단위 지표 측정(DANTE/5772181676 5절)에 쓸 수 없기 때문이다.
+            // HTML 주석 마커는 지표 스크립트의 기계 판독용이고, reopen 시에는 갱신해 쌓이지 않게 한다.
+            const MARKER_PREFIX = '<!-- reviewer-assign v1'
+            const body = [
+              '🎯 리뷰어 지정: ${{ steps.pick.outputs.reason }}',
+              '<!-- ${{ steps.pick.outputs.marker }} -->'
+            ].join('\n')
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner, repo, issue_number: pull_number, per_page: 100
+            })
+            const mine = comments.find(c => c.user.type === 'Bot' && c.body?.includes(MARKER_PREFIX))
+            if (mine) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: mine.id, body })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pull_number, body })
+            }

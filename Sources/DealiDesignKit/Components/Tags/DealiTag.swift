@@ -62,6 +62,13 @@ public final class DealiTag: UIView {
         }
     }
 
+    /// 아이콘 이미지와 컨테이너 사이 여백. 기본값 0이면 아이콘이 컨테이너를 꽉 채운다. 외부에서 값을 지정해 여백을 줄 수 있다.
+    public var iconImageInset: CGFloat = 0.0 {
+        didSet {
+            self.refreshIcons()
+        }
+    }
+
     private var showsLeftIconArea: Bool {
         self.icon == nil && self.leftIcon != nil
     }
@@ -133,7 +140,7 @@ public final class DealiTag: UIView {
             $0.clipsToBounds = true
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.lessThanOrEqualToSuperview()
+            $0.width.height.equalToSuperview().inset(self.iconImageInset)
         }
 
         self.rightIconContainer.addSubview(self.rightIconImageView)
@@ -142,7 +149,7 @@ public final class DealiTag: UIView {
             $0.clipsToBounds = true
         }.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.lessThanOrEqualToSuperview()
+            $0.width.height.equalToSuperview().inset(self.iconImageInset)
         }
 
         self.iconContainer.snp.makeConstraints {
@@ -240,7 +247,7 @@ public final class DealiTag: UIView {
         let color = self.type.color
         let category = self.type.layoutSizeCategory
         let iconDimension = category.iconDimension
-        let iconInset = category.iconImageInset
+        let iconInset = self.iconImageInset
 
         let showIcon = self.showsIconArea
         let showLeftIcon = self.showsLeftIconArea
@@ -285,11 +292,11 @@ public final class DealiTag: UIView {
         }
         self.leftIconImageView.snp.remakeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.lessThanOrEqualToSuperview().inset(iconInset)
+            $0.width.height.equalToSuperview().inset(iconInset)
         }
         self.rightIconImageView.snp.remakeConstraints {
             $0.center.equalToSuperview()
-            $0.width.height.lessThanOrEqualToSuperview().inset(iconInset)
+            $0.width.height.equalToSuperview().inset(iconInset)
         }
 
         self.iconContainer.snp.updateConstraints {
@@ -362,10 +369,6 @@ public extension DealiTag {
         }
 
         public var iconTextSpacing: CGFloat {
-            2.0
-        }
-
-        public var iconImageInset: CGFloat {
             2.0
         }
 

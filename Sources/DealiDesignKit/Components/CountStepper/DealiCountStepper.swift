@@ -124,10 +124,8 @@ public class DealiCountStepper: UIView {
         }
         
         let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
-        keyboardAccessoryView.do {
-            $0.backgroundColor = .g20
-        }
-        
+        keyboardAccessoryView.setKeyboardAccessoryStyle()
+
         keyboardAccessoryView.addSubview(self.closeButton)
         self.closeButton.then {
             $0.title = "닫기"

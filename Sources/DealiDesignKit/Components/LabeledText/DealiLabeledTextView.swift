@@ -144,6 +144,7 @@ final public class DealiLabeledTextView: UIView {
             guard self.messageLinkTapGesture == nil else { return }
             
             let messageLinkTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.messageLabelDidTap(_:)))
+            messageLinkTapGesture.delegate = self
             self.messageLabel.isUserInteractionEnabled = true
             self.messageLabel.addGestureRecognizer(messageLinkTapGesture)
             self.messageLinkTapGesture = messageLinkTapGesture
@@ -162,8 +163,21 @@ final public class DealiLabeledTextView: UIView {
         self.textLinkHandler?(linkText)
     }
     
+    /// 링크 지점을 탭했을때만 제스처를 인식한다. 링크가 아닌 지점은 상위 뷰(셀 선택 등)가 터치를 받아야 한다
+    func shouldRecognizeMessageLinkTap(at point: CGPoint) -> Bool {
+        return self.messageLabel.tappedLinkText(at: point) != nil
+    }
+    
     public convenience init(preset: DealiLabeledTextPreset, model: DealiLabeledTextModel) {
         self.init(preset: preset)
         self.configure(model: model)
+    }
+}
+
+extension DealiLabeledTextView: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard gestureRecognizer === self.messageLinkTapGesture else { return true }
+        
+        return self.shouldRecognizeMessageLinkTap(at: touch.location(in: self.messageLabel))
     }
 }

@@ -94,6 +94,31 @@ final class LabeledTextComponentViewController: UIViewController {
                                                                                    TextStyleAttributes(text: "카타파하내용", font: .b3sb13, color: .secondary01)])
                                                        .setLineHeight(), iconName: "ic_repeat")]
         
+        let textLinkModelArray = [DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "배송완료되었으나 상품 또는 구성품을 수령하지 못한 경우 고객센터로 문의해 주세요.")
+            .font(.b3r13)
+            .color(.g80)
+            .alignment(.left)
+            .applyLinkStyle(for: TextStyleAttributes(text: "고객센터", color: .linkAndInfo, underline: true))
+            .setLineHeight(),
+                                                       iconName: "ic_info",
+                                                       textLinkHandler: { [weak self] linkText in
+            guard let self else { return }
+            DealiAlert.showConfirm(message: "링크 탭 : \(linkText)", confirmButtonTitle: "확인", alertPresentingViewController: self, confirmAction: nil)
+        }),
+                                  DealiLabeledTextModel(attributedMessage: NSMutableAttributedString(string: "링크는 여러개도 걸 수 있습니다. 문의는 고객센터 또는 신상톡으로 연락해 주세요.")
+                                      .font(.b3r13)
+                                      .color(.g80)
+                                      .alignment(.left)
+                                      .applyMultipleLinkStyle(for: [TextStyleAttributes(text: "고객센터", color: .linkAndInfo, underline: true),
+                                                                    TextStyleAttributes(text: "신상톡", color: .linkAndInfo, underline: true)])
+                                      .setLineHeight(),
+                                                        iconName: "ic_info",
+                                                        textLinkHandler: { [weak self] linkText in
+            guard let self else { return }
+            DealiAlert.showConfirm(message: "여러 링크중 탭한 링크 : \(linkText)", confirmButtonTitle: "확인", alertPresentingViewController: self, confirmAction: nil)
+        }),
+                                  DealiLabeledTextModel(message: "textLinkHandler가 없는 항목은 탭해도 아무 동작이 없습니다.", iconName: "ic_info")]
+        
         var customLabeledText01ModelArray: [DealiLabeledTextModel] = []
         var customLabeledText02ModelArray: [DealiLabeledTextModel] = []
         for (index, model) in labeledTextModelArray.enumerated() {
@@ -248,6 +273,33 @@ final class LabeledTextComponentViewController: UIViewController {
         contentStackView.addArrangedSubview(iconLabeledTextItemView_02)
         iconLabeledTextItemView_02.then {
             $0.configure(modelArray: labeledTextModelArray)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let textLinkLabeledTextItemView_icon = DealiLabeledText.labeledTextIcon01()
+        contentStackView.addArrangedSubview(textLinkLabeledTextItemView_icon)
+        textLinkLabeledTextItemView_icon.then {
+            $0.configure(modelArray: textLinkModelArray)
+            $0.title = "textLinkHandler - labeledTextIcon01"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let textLinkLabeledTextItemView_bullet = DealiLabeledText.labeledTextBullet01()
+        contentStackView.addArrangedSubview(textLinkLabeledTextItemView_bullet)
+        textLinkLabeledTextItemView_bullet.then {
+            $0.configure(modelArray: textLinkModelArray)
+            $0.title = "textLinkHandler - labeledTextBullet01"
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let textLinkLabeledTextItemView_number = DealiLabeledText.labeledTextNumber01()
+        contentStackView.addArrangedSubview(textLinkLabeledTextItemView_number)
+        textLinkLabeledTextItemView_number.then {
+            $0.configure(modelArray: textLinkModelArray)
+            $0.title = "textLinkHandler - labeledTextNumber01"
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }

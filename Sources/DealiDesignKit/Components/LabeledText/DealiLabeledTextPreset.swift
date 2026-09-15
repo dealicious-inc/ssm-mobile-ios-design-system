@@ -95,12 +95,16 @@ public struct DealiLabeledTextModel {
     public var iconName: String?
     public var number: Int?
     public var labeledCustomView: UIView?
+    /// 문구영역에서 `applyLinkStyle(for:)`로 지정한 링크 텍스트를 탭했을때 호출된다. 탭한 링크 텍스트가 전달된다
+    /// 핸들러에서 화면을 캡쳐할 경우 순환참조가 생길 수 있으므로 `[weak self]`를 사용한다
+    public var textLinkHandler: ((String) -> Void)?
     
-    public init(message: String? = nil, attributedMessage: NSMutableAttributedString? = nil, iconName: String? = nil, number: Int = 0, labeledCustomView: UIView? = nil) {
+    public init(message: String? = nil, attributedMessage: NSMutableAttributedString? = nil, iconName: String? = nil, number: Int = 0, labeledCustomView: UIView? = nil, textLinkHandler: ((String) -> Void)? = nil) {
         self.message = message
         self.attributedMessage = attributedMessage
         self.iconName = iconName
         self.number = number
         self.labeledCustomView = labeledCustomView
+        self.textLinkHandler = textLinkHandler
     }
 }

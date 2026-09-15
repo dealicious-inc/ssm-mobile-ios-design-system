@@ -126,6 +126,20 @@ final class DealiLabeledTextViewTests: XCTestCase {
         XCTAssertNil(messageLabel.tappedLinkText(at: CGPoint(x: -10.0, y: -10.0)), "영역 밖은 nil이어야 한다")
     }
 
+    /// 링크가 아닌 지점에서는 제스처를 인식하지 않아야 상위 뷰(셀 선택 등)가 터치를 받을 수 있다
+    func testTapGestureRecognizesOnlyOnLinkPoint() throws {
+        let labeledTextView = self.makeLabeledTextView(preset: .labeledTextIcon01, textLinkHandler: { _ in })
+        let messageLabel = try XCTUnwrap(self.messageLabel(in: labeledTextView))
+
+        let linkPoint = try XCTUnwrap(self.linkPoint(in: messageLabel), "링크 영역을 찾지 못함")
+        XCTAssertTrue(labeledTextView.shouldRecognizeMessageLinkTap(at: linkPoint), "링크 지점은 인식해야 한다")
+
+        XCTAssertFalse(labeledTextView.shouldRecognizeMessageLinkTap(at: CGPoint(x: 1.0, y: 1.0)),
+                       "링크가 아닌 글자 지점은 인식하지 않아야 한다")
+        XCTAssertFalse(labeledTextView.shouldRecognizeMessageLinkTap(at: CGPoint(x: messageLabel.bounds.width - 1.0, y: messageLabel.bounds.height - 1.0)),
+                       "문구 끝 지점은 인식하지 않아야 한다")
+    }
+
     /// 링크를 여러개 걸었을때 탭한 링크가 구분되어야 한다
     func testMultipleLinksResolveIndependently() throws {
         let multiLinkMessage = "문의는 고객센터 또는 신상톡으로 연락해 주세요."

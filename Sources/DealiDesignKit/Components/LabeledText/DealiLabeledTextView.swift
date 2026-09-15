@@ -55,6 +55,10 @@ final public class DealiLabeledTextView: UIView {
         }
     }
     
+    /// 문구영역의 링크 텍스트를 탭했을때 호출되는 핸들러. 설정되어 있을때만 messageLabel에 탭 제스처가 연결된다
+    private var textLinkHandler: ((String) -> Void)?
+    private var messageLinkTapGesture: UITapGestureRecognizer?
+    
     private var labeledCustomView: UIView? {
         didSet {
             guard let labeledCustomView = self.labeledCustomView else { return }
@@ -129,6 +133,33 @@ final public class DealiLabeledTextView: UIView {
         self.iconName = model.iconName
         self.number = model.number
         self.labeledCustomView = model.labeledCustomView
+        self.textLinkHandler = model.textLinkHandler
+        
+        self.updateMessageLinkTapGesture()
+    }
+    
+    /// textLinkHandler 유무에 따라 messageLabel의 탭 제스처를 연결하거나 해제한다. configure를 다시 호출해도 제스처가 중복 등록되지 않는다
+    private func updateMessageLinkTapGesture() {
+        if self.textLinkHandler != nil {
+            guard self.messageLinkTapGesture == nil else { return }
+            
+            let messageLinkTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.messageLabelDidTap(_:)))
+            self.messageLabel.isUserInteractionEnabled = true
+            self.messageLabel.addGestureRecognizer(messageLinkTapGesture)
+            self.messageLinkTapGesture = messageLinkTapGesture
+        } else {
+            guard let messageLinkTapGesture = self.messageLinkTapGesture else { return }
+            
+            self.messageLabel.removeGestureRecognizer(messageLinkTapGesture)
+            self.messageLabel.isUserInteractionEnabled = false
+            self.messageLinkTapGesture = nil
+        }
+    }
+    
+    @objc private func messageLabelDidTap(_ gesture: UITapGestureRecognizer) {
+        guard let linkText = self.messageLabel.tappedLinkText(at: gesture.location(in: self.messageLabel)) else { return }
+        
+        self.textLinkHandler?(linkText)
     }
     
     public convenience init(preset: DealiLabeledTextPreset, model: DealiLabeledTextModel) {

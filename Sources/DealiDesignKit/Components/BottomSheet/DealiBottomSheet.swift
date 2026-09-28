@@ -43,17 +43,6 @@ public enum EBottomSheetTitleType: Equatable {
     case titleCloseButton(title: String?)
 }
 
-public enum EBottomSheetButtonType: Equatable {
-    case hidden
-    case oneButton(buttonTitle: String?)
-    case twoButton(confirmTitle: String?, cancelTitle: String?, cancelButtonType: EBottomSheetCancelButtonType? = .btnOutlineLarge01)
-}
-
-public enum EBottomSheetCancelButtonType {
-    case btnOutlineLarge01
-    case btnOutlineLarge06
-}
-
 public class DealiBottomSheet: NSObject {
     
     public class func showSingleSelectionType(
@@ -265,7 +254,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     
     var optionHeight: CGFloat {
         let titleHeight = 60.0
-        let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
+        let buttonContentHeight = self.buttonType.isHidden ? 0 : self.buttonType.contentHeight + safeAreaBottomMargin
         let maximumContentHeight = UIScreen.main.bounds.size.height * 0.9 - titleHeight - buttonContentHeight
         let contentHeight = CGFloat(self.optionData.count) * 52.0
         return min(maximumContentHeight, contentHeight)
@@ -299,20 +288,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             $0.textColor = .g100
         }
     }()
-     
-    private lazy var cancelButton: ClickableUnitButtonComponent = {
-        return DealiControl.btnOutlineLarge01().then {
-            $0.numberOfLines = 0
-        }
-    }()
-    
-    private lazy var confirmButton: ClickableUnitButtonComponent = {
-        return DealiControl.btnFilledLarge01().then {
-            $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
-            $0.numberOfLines = 0
-        }
-    }()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -369,7 +345,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             if self.optionType != nil {
                 contentContainerView.addSubview(self.collectionView)
                 let titleHeight = 60.0
-                let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
+                let buttonContentHeight = self.buttonType.isHidden ? 0 : self.buttonType.contentHeight + safeAreaBottomMargin
                 let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
                 
                 self.collectionView.then {
@@ -388,12 +364,12 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
                 }
             }
             
-            if self.buttonType != .hidden {
+            if self.buttonType.isHidden == false {
                 self.contentStackView.setCustomSpacing(12.0, after: contentContainerView)
             }
         }
-        
-        if self.buttonType != .hidden {
+
+        if self.buttonType.isHidden == false {
             let buttonContainerView = self.buttonContainerView()
             self.contentStackView.addArrangedSubview(buttonContainerView)
             buttonContainerView.snp.makeConstraints {
@@ -405,45 +381,66 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     
     private func buttonContainerView() -> UIView {
         let buttonContainerView = UIView()
-        
+
+        let isVertical: Bool
+        if case .twoButton(_, _, _, _, let axis) = self.buttonType, axis == .vertical {
+            isVertical = true
+        } else {
+            isVertical = false
+        }
+
         let buttonStackView = UIStackView()
         buttonContainerView.addSubview(buttonStackView)
         buttonStackView.then {
-            $0.axis = .horizontal
+            $0.axis = isVertical ? .vertical : .horizontal
             $0.alignment = .fill
-            $0.distribution = .fillEqually
-            $0.spacing = 8.0
+            $0.distribution = isVertical ? .fill : .fillEqually
+            $0.spacing = EBottomSheetButtonType.buttonSpacing
         }.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(12.0)
             $0.left.right.equalToSuperview()
         }
-        
+
+        let usage = self.buttonType.usage
+
         switch self.buttonType {
-        case .oneButton(let title):
-            buttonStackView.addArrangedSubview(self.confirmButton)
-            self.confirmButton.title = title
-            self.confirmButton.snp.makeConstraints {
+        case .oneButton(let title, _):
+            let confirmButton = self.makeConfirmButton(style: usage.confirmButtonStyle, title: title)
+            buttonStackView.addArrangedSubview(confirmButton)
+            confirmButton.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview()
             }
-        case .twoButton(let confirmTitle, let cancelTitle, let cancelButtonType):
-            self.cancelButton = cancelButtonType == .btnOutlineLarge01 ? DealiControl.btnOutlineLarge01() : DealiControl.btnOutlineLarge06()
-            self.cancelButton.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
-            buttonStackView.addArrangedSubview(self.cancelButton)
-            self.cancelButton.title = cancelTitle
-            self.cancelButton.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
+        case .twoButton(let confirmTitle, let cancelTitle, let cancelButtonType, _, _):
+            let confirmButton = self.makeConfirmButton(style: usage.confirmButtonStyle, title: confirmTitle)
+            let cancelButton = usage.subButtonStyle(for: cancelButtonType).makeButton().then {
+                $0.addTarget(self, action: #selector(cancelButtonAction), for: .touchUpInside)
+                $0.numberOfLines = 0
+                $0.title = cancelTitle
             }
-            
-            buttonStackView.addArrangedSubview(self.confirmButton)
-            self.confirmButton.title = confirmTitle
-            self.confirmButton.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
+
+            // 좌우 배치는 보조 → 확인, 상하 배치는 확인 → 보조 순서다
+            let orderedButtons = isVertical ? [confirmButton, cancelButton] : [cancelButton, confirmButton]
+            orderedButtons.forEach { button in
+                buttonStackView.addArrangedSubview(button)
+                // 상하 배치에서는 두 버튼이 stack 전체 높이를 채우려 해 제약이 충돌하므로 버튼의 intrinsic height에 맡긴다
+                guard isVertical == false else { return }
+                button.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview()
+                }
             }
         default:
             break
         }
-        
+
         return buttonContainerView
+    }
+
+    private func makeConfirmButton(style: EBottomSheetButtonStyle, title: String?) -> ClickableUnitButtonComponent {
+        return style.makeButton().then {
+            $0.addTarget(self, action: #selector(confirmButtonAction), for: .touchUpInside)
+            $0.numberOfLines = 0
+            $0.title = title
+        }
     }
     
     @objc func cancelButtonAction() {

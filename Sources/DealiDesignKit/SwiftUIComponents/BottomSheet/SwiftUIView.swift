@@ -37,8 +37,11 @@ public struct DealiSheetView<Content: View>: View {
     var heightRatio: CGFloat
     var fixedHeight: CGFloat
     var closeOnBackgroundTap: Bool
+    var buttonType: EBottomSheetButtonType
+    var onConfirm: (() -> Void)?
+    var onCancel: (() -> Void)?
     var content: Content
-    
+
     // MARK: - Init
     public init(
         title: String? = nil,
@@ -46,6 +49,9 @@ public struct DealiSheetView<Content: View>: View {
         heightRatio: CGFloat = 0.8,
         fixedHeight: CGFloat = 0.0,
         closeOnBackgroundTap: Bool = true,
+        buttonType: EBottomSheetButtonType = .hidden,
+        onConfirm: (() -> Void)? = nil,
+        onCancel: (() -> Void)? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.title = title
@@ -53,6 +59,9 @@ public struct DealiSheetView<Content: View>: View {
         self.heightRatio = heightRatio
         self.fixedHeight = fixedHeight
         self.closeOnBackgroundTap = closeOnBackgroundTap
+        self.buttonType = buttonType
+        self.onConfirm = onConfirm
+        self.onCancel = onCancel
         self.content = content()
     }
     
@@ -76,8 +85,12 @@ public struct DealiSheetView<Content: View>: View {
                         }
                         
                         content
-                            .padding(.bottom, geo.safeAreaInsets.bottom)
+
+                        if buttonType.isHidden == false {
+                            buttonView()
+                        }
                     }
+                    .padding(.bottom, geo.safeAreaInsets.bottom)
                     .frame(width: geo.size.width)
                     .frame(maxHeight: calculatedHeight(for: geo.size.height))
                     .fixedSize()
@@ -124,6 +137,48 @@ private extension DealiSheetView {
     func calculatedHeight(for totalHeight: CGFloat) -> CGFloat {
         fixedHeight > 0 ? fixedHeight : totalHeight * heightRatio
     }
+
+    /// 하단 버튼 영역
+    @ViewBuilder
+    func buttonView() -> some View {
+        Group {
+            switch buttonType {
+            case .hidden:
+                EmptyView()
+            case .oneButton(let title, let usage):
+                buttonItem(style: usage.confirmButtonStyle, title: title, action: confirmButtonAction)
+            case .twoButton(let confirmTitle, let cancelTitle, let cancelButtonType, let usage, let axis):
+                if axis == .vertical {
+                    VStack(spacing: EBottomSheetButtonType.buttonSpacing) {
+                        buttonItem(style: usage.confirmButtonStyle, title: confirmTitle, action: confirmButtonAction)
+                        buttonItem(style: usage.subButtonStyle(for: cancelButtonType), title: cancelTitle, action: cancelButtonAction)
+                    }
+                } else {
+                    HStack(spacing: EBottomSheetButtonType.buttonSpacing) {
+                        buttonItem(style: usage.subButtonStyle(for: cancelButtonType), title: cancelTitle, action: cancelButtonAction)
+                        buttonItem(style: usage.confirmButtonStyle, title: confirmTitle, action: confirmButtonAction)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 12.0)
+        .padding(.horizontal, 16.0)
+    }
+
+    func buttonItem(style: EBottomSheetButtonStyle, title: String?, action: @escaping () -> Void) -> some View {
+        ButtonView(type: style.buttonConfigStyle, title: title ?? "", action: action)
+            .frame(height: 50.0)
+    }
+
+    func confirmButtonAction() {
+        dismissSheet()
+        onConfirm?()
+    }
+
+    func cancelButtonAction() {
+        dismissSheet()
+        onCancel?()
+    }
 }
 
 #Preview {
@@ -148,30 +203,25 @@ private extension DealiSheetView {
                     
                     DealiSheetView(
                         title: "옵션 선택",
-                        showCloseButton: true
+                        showCloseButton: true,
+                        buttonType: .twoButton(confirmTitle: "확인",
+                                              cancelTitle: "취소",
+                                              cancelButtonType: .cancel,
+                                              usage: .retailMembership01,
+                                              axis: .vertical)
                     ) {
-                        VStack {
-                            ScrollView {
-                                VStack(spacing: 16) {
-                                    ForEach(0..<2) { i in
-                                        Text("옵션 \(i + 1)")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.vertical, 8)
-                                            .background(Color(uiColor: .systemGray6))
-                                            .cornerRadius(8)
-                                    }
+                        ScrollView {
+                            VStack(spacing: 16) {
+                                ForEach(0..<2) { i in
+                                    Text("옵션 \(i + 1)")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 8)
+                                        .background(Color(uiColor: .systemGray6))
+                                        .cornerRadius(8)
                                 }
                             }
-                            .padding()
-                            
-                            HStack(spacing: 8) {
-                                ButtonView(type: .btnOutlineLarge01, title: "취소")
-                                ButtonView(type: .btnFilledLarge01, title: "확인")
-                            }
-                            .frame(height: 50.0)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 16)
                         }
+                        .padding()
                     }
                     .environmentObject(DealiSheetState())
                 }

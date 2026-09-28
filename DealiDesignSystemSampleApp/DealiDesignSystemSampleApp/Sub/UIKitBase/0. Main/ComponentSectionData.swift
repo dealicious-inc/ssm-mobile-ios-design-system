@@ -93,7 +93,7 @@ enum ActionType: Hashable, CaseIterable {
         switch self {
         case  .typography,
                 .button, .searchInput, .checkbox,.imageChip, .chip, .tag, .dropdown,
-                .alert, .empty, .tabBar, .toast:
+                .alert, .bottomSheet, .empty, .tabBar, .toast:
             return true
         default:
             return false
@@ -198,7 +198,7 @@ extension ItemData {
         case .alert:
             AlertTestViewController(isSwiftUI: isSwiftUI)
         case .bottomSheet:
-            BottomSheetPopupTestViewController()
+            BottomSheetPopupTestViewController(isSwiftUI: isSwiftUI)
         case .empty:
             if type.hasSwiftUISample {
                 EmptyViewController(isSwiftUI: true)

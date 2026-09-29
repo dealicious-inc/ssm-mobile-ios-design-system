@@ -266,7 +266,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     var optionHeight: CGFloat {
         let titleHeight = 60.0
         let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
-        let maximumContentHeight = UIScreen.main.bounds.size.height * 0.9 - titleHeight - buttonContentHeight
+        let maximumContentHeight = dealiWindowSize(for: self.viewIfLoaded).height * 0.9 - titleHeight - buttonContentHeight
         let contentHeight = CGFloat(self.optionData.count) * 52.0
         return min(maximumContentHeight, contentHeight)
     }
@@ -370,7 +370,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
                 contentContainerView.addSubview(self.collectionView)
                 let titleHeight = 60.0
                 let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
-                let maximumContentHeight = UIScreen.main.bounds.size.height * 0.8 - titleHeight - buttonContentHeight
+                let maximumContentHeight = dealiWindowSize(for: self.view).height * 0.8 - titleHeight - buttonContentHeight
                 
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
@@ -576,13 +576,13 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch self.optionType {
         case .singleSelect:
-            return DealiBottomSheetSingleSelectCell.cellSize()
+            return DealiBottomSheetSingleSelectCell.cellSize(width: collectionView.bounds.width)
         case .multiSelect:
-            return DealiBottomSheetMultiSelectCell.cellSize()
+            return DealiBottomSheetMultiSelectCell.cellSize(width: collectionView.bounds.width)
         case .iconWithText:
-            return DealiBottomSheetIconWithTextCell.cellSize()
+            return DealiBottomSheetIconWithTextCell.cellSize(width: collectionView.bounds.width)
         case .slotWithText(_):
-            return DealiBottomSheetSlotWithTextCell.cellSize()
+            return DealiBottomSheetSlotWithTextCell.cellSize(width: collectionView.bounds.width)
         default:
             return .zero
         }

@@ -147,7 +147,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
         self.contentView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview()
+            // iPhone Duo 닫힘 상태처럼 상태바가 옆면에 있는 기기에서는 시트가 그 아래로 들어가지 않도록 좌우는 safe area 기준으로 둔다.
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -160,7 +161,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     open func hideBottomSheet(hideHandler: (() -> Void)? = nil) {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -247,7 +248,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()
                 var containerHeight: CGFloat = 0.0
-                let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio)
+                let bottomSheetMaxHeight = (dealiWindowSize(for: self.view).height * self.heightRatio)
                 let titleContentHeight = (self.titleType == .hidden ? 0.0 : self.titleContentViewHeight)
                 
                 if self.fixedHeight > 0.0 {

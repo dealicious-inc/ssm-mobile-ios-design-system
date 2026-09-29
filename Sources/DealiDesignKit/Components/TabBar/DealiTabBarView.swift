@@ -60,6 +60,15 @@ final public class DealiTabBarView: UIView {
     /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
     private var isLayoutInitialized = false
 
+    /// segment 스타일에서 아이템을 균등 분배할 기준 폭. 레이아웃 전이라 자기 폭이 없으면 윈도우 폭으로 대체한다.
+    private var segmentAvailableWidth: CGFloat {
+        let width = self.bounds.width > 0.0 ? self.bounds.width : dealiWindowSize(for: self).width
+        return width - (self.preset.tabBarHorizontalMargin * 2.0)
+    }
+
+    /// 마지막으로 segment 아이템 폭을 계산한 기준 폭. 접기·펼치기처럼 폭이 바뀌면 다시 계산한다.
+    private var lastSegmentLayoutWidth: CGFloat = 0.0
+
     private var selectedIndex: Int = -1 {
         didSet {
             for index in 0..<self.tabBarItemInfoArray.count {
@@ -157,6 +166,26 @@ final public class DealiTabBarView: UIView {
                 self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
             }
         }
+
+        self.relayoutSegmentItemsIfWidthChanged()
+    }
+
+    /// segment 스타일은 아이템 폭을 자기 폭으로 균등 분배하므로, 폭이 바뀌면(접기·펼치기, 회전) 다시 계산한다.
+    private func relayoutSegmentItemsIfWidthChanged() {
+        guard case .segment = self.preset.style,
+              self.bounds.width > 0.0,
+              self.bounds.width != self.lastSegmentLayoutWidth,
+              self.tabBarItemInfoArray.isEmpty == false else { return }
+
+        self.lastSegmentLayoutWidth = self.bounds.width
+        let itemWidth = self.segmentAvailableWidth / CGFloat(self.tabBarItemInfoArray.count)
+        for index in 0..<self.tabBarItemInfoArray.count {
+            self.tabBarItemInfoArray[index].containerWidth = itemWidth
+            self.tabBarItemInfoArray[index].contentWidth = itemWidth
+        }
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.collectionView.reloadData()
+        self.updateTabBarItemPositions()
     }
 
     public func setSelectedIndex(index: Int,
@@ -193,8 +222,9 @@ final public class DealiTabBarView: UIView {
                 itemInfo.itemTextCellUIModel = DealiTabBarItemTextStyleCellUIModel.make(preset: self.preset, tabbarItem: item)
 
                 if case .segment = self.preset.style {
-                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarHorizontalMargin * 2.0)) / CGFloat(itemArray.count))
+                    itemInfo.containerWidth = (self.segmentAvailableWidth / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
+                    self.lastSegmentLayoutWidth = self.bounds.width
                 } else {
                     itemInfo.containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                     itemInfo.contentWidth = contentWidth

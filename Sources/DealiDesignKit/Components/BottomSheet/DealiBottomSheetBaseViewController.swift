@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 open class DealiBottomSheetBaseViewController: UIViewController {
     
@@ -28,6 +29,41 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     public var shouldCalulateHeightBasedOnScrollView: Bool = true
     
     private var isBottomSheetShown: Bool = false
+
+    /// 가로 regular 폭(iPad, iPhone Duo 펼침 가로)에서 시트를 가운데 고정 폭으로 띄울 때의 최대 폭.
+    /// 시스템 시트가 같은 조건에서 가운데 카드형으로 뜨는 것과 맞춘다. 세로·접힘에서는 safe area 폭을 그대로 쓴다.
+    public static var wideLayoutMaxWidth: CGFloat = 650.0
+
+    /// 마지막 레이아웃에서 고정 폭 규칙을 적용했는지. 회전·접기·펼치기로 규칙이 바뀌면 제약을 다시 잡는다.
+    private var lastFixedWidthLayout: Bool?
+
+    /// 가로 regular 폭이면 시스템 시트처럼 가운데 고정 폭으로 띄운다.
+    var shouldUseFixedWidth: Bool {
+        return self.traitCollection.horizontalSizeClass == .regular && self.view.bounds.width > self.view.bounds.height
+    }
+
+    /// 시트 좌우 배치 규칙. 세로·접힘에서는 시스템 시트처럼 화면 폭을 다 채운다.
+    /// 상태바가 옆면에 있는 상태(iPhone Duo 닫힘)에서도 배경은 띠 밑까지 깔고, 내용은 `contentStackView`가 safe area 안에 둔다.
+    /// 가로 regular 폭에서는 `wideLayoutMaxWidth`를 넘지 않는 폭으로 화면 가운데에 두되, 좌우가 safe area 밖으로 나가지는 않게 막는다.
+    func makeContentViewHorizontalConstraints(_ make: ConstraintMaker) {
+        if self.shouldUseFixedWidth {
+            make.width.equalTo(self.view.safeAreaLayoutGuide).priority(999.0)
+            make.width.lessThanOrEqualTo(Self.wideLayoutMaxWidth)
+            make.centerX.equalToSuperview().priority(998.0)
+            make.left.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide)
+            make.right.lessThanOrEqualTo(self.view.safeAreaLayoutGuide)
+        } else {
+            make.left.right.equalToSuperview()
+        }
+    }
+
+    /// 시트가 차지할 수 있는 최대 높이. 창 높이의 `ratio`를 넘지 않되,
+    /// 상태바가 위에 있는 상태(iPhone Duo 펼침 가로)에서는 상태바 아래로 올라가지 않는다.
+    public func maximumSheetHeight(ratio: CGFloat) -> CGFloat {
+        let view = self.viewIfLoaded
+        let windowHeight = dealiWindowSize(for: view).height
+        return min(windowHeight * ratio, windowHeight - (view?.safeAreaInsets.top ?? 0.0))
+    }
     
     /// 타이들 영역 노출 타입
     public var titleType: EBottomSheetTitleType = .hidden {
@@ -103,8 +139,16 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         self.updateContainerViewHeight()
         
         if !self.isBottomSheetShown {
-            self.showBottomSheet()
+            // showBottomSheet 안에서 view를 다시 레이아웃하므로 재진입을 막기 위해 플래그를 먼저 올린다.
             self.isBottomSheetShown = true
+            self.showBottomSheet()
+        } else if self.lastFixedWidthLayout != self.shouldUseFixedWidth {
+            // 회전·접기·펼치기로 폭 규칙이 바뀌면 시트 좌우 제약을 다시 잡는다.
+            self.lastFixedWidthLayout = self.shouldUseFixedWidth
+            self.contentView.snp.remakeConstraints {
+                $0.bottom.equalToSuperview()
+                self.makeContentViewHorizontalConstraints($0)
+            }
         }
     }
     
@@ -120,7 +164,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.backgroundColor = .primary04
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.snp.bottom)
-            $0.left.right.equalToSuperview()
+            self.makeContentViewHorizontalConstraints($0)
         }
         
         self.contentView.addSubview(self.contentStackView)
@@ -131,7 +175,8 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.spacing = 4.0
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
-            $0.left.right.equalToSuperview()
+            // 배경(contentView)은 화면 폭을 채우고, 내용은 옆면 상태바 띠를 피해 safe area 안에 둔다.
+            $0.left.right.equalTo(self.contentView.safeAreaLayoutGuide)
             $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         
@@ -143,12 +188,19 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     }
     
     func showBottomSheet() {
-        self.contentView.layoutIfNeeded()
+        // loadView 시점에는 뷰 크기가 없어 폭 규칙을 정할 수 없다.
+        // 실제 크기가 잡힌 지금 좌우 제약을 먼저 확정해 두고, 올라오는 동작만 애니메이션한다.
+        // 그러지 않으면 폭과 위치가 동시에 바뀌어 시트가 대각선으로 올라온다.
+        self.lastFixedWidthLayout = self.shouldUseFixedWidth
+        self.contentView.snp.remakeConstraints {
+            $0.top.equalTo(self.view.snp.bottom)
+            self.makeContentViewHorizontalConstraints($0)
+        }
+        self.view.layoutIfNeeded()
         
         self.contentView.snp.remakeConstraints {
             $0.bottom.equalToSuperview()
-            // iPhone Duo 닫힘 상태처럼 상태바가 옆면에 있는 기기에서는 시트가 그 아래로 들어가지 않도록 좌우는 safe area 기준으로 둔다.
-            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
+            self.makeContentViewHorizontalConstraints($0)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -161,7 +213,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
     open func hideBottomSheet(hideHandler: (() -> Void)? = nil) {
         self.contentView.snp.remakeConstraints {
             $0.top.equalTo(view.snp.bottom)
-            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
+            self.makeContentViewHorizontalConstraints($0)
         }
         
         UIView.animate(withDuration: 0.2) { [weak self] in
@@ -248,7 +300,7 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             if addView is UIScrollView {
                 addView.layoutIfNeeded()
                 var containerHeight: CGFloat = 0.0
-                let bottomSheetMaxHeight = (dealiWindowSize(for: self.view).height * self.heightRatio)
+                let bottomSheetMaxHeight = self.maximumSheetHeight(ratio: self.heightRatio)
                 let titleContentHeight = (self.titleType == .hidden ? 0.0 : self.titleContentViewHeight)
                 
                 if self.fixedHeight > 0.0 {

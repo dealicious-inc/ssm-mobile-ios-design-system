@@ -124,11 +124,70 @@ final class BottomSheetPopupTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+
+        // iPhone Duo처럼 safe area가 비대칭인 기기에서 시스템 시트 배치와 비교하기 위한 버튼
+        let systemActionSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(systemActionSheetButton)
+        systemActionSheetButton.then {
+            $0.title = "OS 기본 ActionSheet (UIAlertController)"
+            $0.addTarget(self, action: #selector(systemActionSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+
+        let systemSheetButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(systemSheetButton)
+        systemSheetButton.then {
+            $0.title = "OS 기본 Sheet (UISheetPresentationController)"
+            $0.addTarget(self, action: #selector(systemSheetButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 
 }
 
 extension BottomSheetPopupTestViewController {
+    /// 시스템 UIAlertController(.actionSheet). DealiBottomSheet와 배치를 비교한다.
+    @objc func systemActionSheetButtonPressed() {
+        let sheet = UIAlertController(title: "OS 기본 ActionSheet",
+                                      message: "UIAlertController(.actionSheet) 배치 비교용입니다.",
+                                      preferredStyle: .actionSheet)
+        for index in 1...3 {
+            sheet.addAction(UIAlertAction(title: "옵션\(index)", style: .default))
+        }
+        sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
+        // regular 폭(iPad, iPhone Duo 펼침)에서는 popover로 뜨므로 앵커를 준다
+        sheet.popoverPresentationController?.sourceView = self.view
+        sheet.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY - 1.0, width: 1.0, height: 1.0)
+        self.present(sheet, animated: true)
+    }
+
+    /// 시스템 detent 시트(UISheetPresentationController). DealiBottomSheet의 높이·좌우 배치와 비교한다.
+    @objc func systemSheetButtonPressed() {
+        let contentViewController = UIViewController()
+        contentViewController.view.backgroundColor = .primary04
+
+        let label = UILabel()
+        contentViewController.view.addSubview(label)
+        label.then {
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString(string: "OS 기본 Sheet\nUISheetPresentationController(medium/large detent) 배치 비교용입니다.")
+                .font(.b1r15)
+                .color(.g100)
+                .alignment(.left)
+                .setLineHeight()
+        }.snp.makeConstraints {
+            $0.top.left.right.equalTo(contentViewController.view.safeAreaLayoutGuide).inset(20.0)
+        }
+
+        if let sheet = contentViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+        self.present(contentViewController, animated: true)
+    }
+
     @objc func bottomSheetPopupButton01Pressed() {
         debugPrint("bottomSheetPopupButton01Pressed")
 

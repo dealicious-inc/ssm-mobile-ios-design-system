@@ -114,10 +114,30 @@ class AlertTestViewController: UIViewController {
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
         }
+
+        // iPhone Duo처럼 safe area가 비대칭인 기기에서 시스템 알럿 배치와 비교하기 위한 버튼
+        let systemAlertButton = DealiControl.btnOutlineLarge01()
+        contentStackView.addArrangedSubview(systemAlertButton)
+        systemAlertButton.then {
+            $0.title = "OS 기본 Alert (UIAlertController)"
+            $0.addTarget(self, action: #selector(systemAlertButtonPressed), for: .touchUpInside)
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
     }
 }
 
 extension AlertTestViewController {
+    /// 시스템 UIAlertController(.alert). DealiAlert와 같은 화면에서 safe area 배치를 비교한다.
+    @objc func systemAlertButtonPressed() {
+        let alert = UIAlertController(title: "OS 기본 Alert",
+                                      message: "UIAlertController(.alert) 배치 비교용입니다.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true)
+    }
+
     @objc func alertButton01Pressed() {
         debugPrint("alertButton01Pressed")
         if isSwiftUI {

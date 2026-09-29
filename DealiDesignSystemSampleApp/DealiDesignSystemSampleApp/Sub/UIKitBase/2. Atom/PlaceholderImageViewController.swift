@@ -115,7 +115,7 @@ final class PlaceholderImageViewController: UIViewController {
             $0.width.equalTo(100.0)
         }
         
-        let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
+        let imageViewWidth = (dealiWindowSize(for: self.view).width - (48.0 + 24.0)) / 4.0
         
         let hRatioImageStackView = UIStackView()
         contentStackView.addArrangedSubview(hRatioImageStackView)

@@ -64,6 +64,9 @@ final class SwiftUITabBarViewController: UIViewController {
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then { [unowned self] in
             $0.bounces = false
+            // 화면 옆면 상태바(iPhone Duo)로 생기는 safe area를 스크롤뷰가 inset으로 더하면
+            // 마지막 페이지가 그만큼 더 밀려 빈 영역이 보인다. 페이지 폭은 스크롤뷰 폭 그대로 쓴다.
+            $0.contentInsetAdjustmentBehavior = .never
             $0.showsHorizontalScrollIndicator = false
             $0.showsVerticalScrollIndicator = false
             $0.isPagingEnabled = true
@@ -129,7 +132,7 @@ extension SwiftUITabBarViewController {
     func didSelectTabBar(selectedIndex index: Int, showScrollAnimation animation: Bool) {
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
                 guard let self else { return }
-            self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
+            self.contentScrollView.setContentOffset(CGPoint(x: self.contentScrollView.bounds.width * CGFloat(index), y: 0), animated: false)
         } completion: { finished in
 
         }

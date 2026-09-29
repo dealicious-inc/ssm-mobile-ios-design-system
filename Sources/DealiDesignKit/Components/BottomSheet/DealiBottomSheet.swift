@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxSwift
 
 enum EBottomSheetOptionType: Equatable {
@@ -257,19 +258,28 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
     var optionType: EBottomSheetOptionType? = nil
     var optionData: [DealiBottomSheetOptionData] = [] {
         didSet {
-            self.collectionView.snp.updateConstraints {
-                $0.height.equalTo(self.optionHeight)
-            }
+            // 뷰 로드 전에는 제약이 없다. loadView에서 optionHeight로 만들고 이후에는 같은 제약만 갱신한다.
+            self.optionHeightConstraint?.update(offset: self.optionHeight)
         }
     }
+
+    /// 옵션 목록 높이 제약. 하나만 두고 창 크기가 바뀔 때 갱신한다.
+    private var optionHeightConstraint: Constraint?
     
+    /// 옵션 목록 높이. 시트 최대 높이(창 높이의 90%, 상태바 아래)에서 타이틀·버튼·하단 safe area를 뺀 값을 넘지 않는다.
+    /// 하단 safe area는 버튼이 없어도 항상 차지하므로 버튼 유무와 상관없이 뺀다.
     var optionHeight: CGFloat {
         let titleHeight = 60.0
-        let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
-        let maximumContentHeight = dealiWindowSize(for: self.viewIfLoaded).height * 0.9 - titleHeight - buttonContentHeight
+        let buttonContentHeight = (self.buttonType == .hidden ? 0.0 : 86.0) + safeAreaBottomMargin
+        let maximumContentHeight = self.maximumSheetHeight(ratio: 0.9) - titleHeight - buttonContentHeight
         let contentHeight = CGFloat(self.optionData.count) * 52.0
         return min(maximumContentHeight, contentHeight)
     }
+
+    /// 마지막으로 컬렉션뷰에 적용한 옵션 목록 높이. 창 크기가 바뀌어 값이 달라질 때만 제약을 갱신한다.
+    private var lastAppliedOptionHeight: CGFloat = 0.0
+    /// 마지막으로 셀 크기를 계산한 컬렉션뷰 폭. 회전·접기·펼치기로 폭이 바뀌면 레이아웃을 무효화한다.
+    private var lastAppliedOptionWidth: CGFloat = 0.0
     
     var shouldDismissWhenSelect: Bool = false
     /// title close 버튼 클릭시 cancel Action 호출 유무
@@ -313,6 +323,30 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         }
     }()
     
+    /// 시트가 떠 있는 동안 창 크기가 바뀌면(회전, iPhone Duo 접기·펼치기) 옵션 목록 높이와 셀 폭을 새 크기로 다시 잡는다.
+    /// 전환 콜백 타이밍에 기대지 않고 레이아웃 시점에 safe area까지 반영된 값으로 계산한다.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard self.optionType != nil, self.optionData.isEmpty == false else { return }
+
+        let height = self.optionHeight
+        let heightChanged = height > 0.0 && abs(height - self.lastAppliedOptionHeight) > 0.5
+        if heightChanged {
+            self.lastAppliedOptionHeight = height
+            self.optionHeightConstraint?.update(offset: height)
+        }
+
+        // 이 시점에는 컬렉션뷰 bounds가 아직 이전 폭이라, 시트 안쪽을 먼저 맞춘 뒤 실제 폭으로 셀 크기를 다시 계산한다.
+        self.contentView.layoutIfNeeded()
+        let width = self.collectionView.bounds.width
+        let widthChanged = abs(width - self.lastAppliedOptionWidth) > 0.5
+        if heightChanged || widthChanged {
+            self.lastAppliedOptionWidth = width
+            self.collectionView.collectionViewLayout.invalidateLayout()
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -325,11 +359,15 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        let keyboardVisibleHeight = keyboardFrame.cgRectValue.height
+        // 하드웨어 키보드 연결이나 회전·접기·펼치기 때는 높이 0이거나 화면 밖 프레임으로 알림이 온다.
+        // 뷰와 실제로 겹치는 높이만 반영하고, 겹치지 않으면 시트 위치를 건드리지 않는다.
+        let keyboardFrameInView = self.view.convert(keyboardFrame.cgRectValue, from: nil)
+        let overlapHeight = max(0.0, self.view.bounds.maxY - keyboardFrameInView.minY)
+        guard overlapHeight > 0.0 else { return }
         
         self.contentView.snp.remakeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(keyboardVisibleHeight - safeAreaBottomMargin)
+            self.makeContentViewHorizontalConstraints($0)
+            $0.bottom.equalToSuperview().inset(max(0.0, overlapHeight - safeAreaBottomMargin))
         }
         self.view.layoutIfNeeded()
     }
@@ -341,7 +379,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         }
         
         self.contentView.snp.remakeConstraints {
-            $0.left.right.equalToSuperview()
+            self.makeContentViewHorizontalConstraints($0)
             $0.bottom.equalToSuperview().inset(0.0)
         }
         self.view.layoutIfNeeded()
@@ -368,9 +406,6 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
             
             if self.optionType != nil {
                 contentContainerView.addSubview(self.collectionView)
-                let titleHeight = 60.0
-                let buttonContentHeight = self.buttonType == .hidden ? 0 : 74.0 + safeAreaBottomMargin
-                let maximumContentHeight = dealiWindowSize(for: self.view).height * 0.8 - titleHeight - buttonContentHeight
                 
                 self.collectionView.then {
                     $0.register(DealiBottomSheetSingleSelectCell.self, forCellWithReuseIdentifier: DealiBottomSheetSingleSelectCell.id)
@@ -384,7 +419,7 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
                 }.snp.makeConstraints {
                     $0.top.bottom.equalToSuperview()
                     $0.left.right.equalToSuperview().inset(-16.0)
-                    $0.height.equalTo(maximumContentHeight)
+                    self.optionHeightConstraint = $0.height.equalTo(self.optionHeight).constraint
                 }
             }
             

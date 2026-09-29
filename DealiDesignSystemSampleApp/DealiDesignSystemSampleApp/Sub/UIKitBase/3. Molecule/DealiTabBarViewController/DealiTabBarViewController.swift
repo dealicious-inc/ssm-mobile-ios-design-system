@@ -93,6 +93,22 @@ final class DealiTabBarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// 마지막으로 페이지 오프셋을 맞춘 스크롤뷰 폭. 회전·접기·펼치기로 폭이 바뀌면 선택된 페이지로 다시 맞춘다.
+    private var lastPagingWidth: CGFloat = 0.0
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let width = self.contentScrollView.bounds.width
+        guard width > 0.0, width != self.lastPagingWidth else { return }
+        self.lastPagingWidth = width
+        guard self.selectedIndex >= 0 else { return }
+
+        self.isTabBarTriggered = true
+        self.contentScrollView.setContentOffset(CGPoint(x: width * CGFloat(self.selectedIndex), y: 0), animated: false)
+        self.isTabBarTriggered = false
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.autoVisible == true {
@@ -143,6 +159,9 @@ final class DealiTabBarViewController: UIViewController {
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then { [unowned self] in
             $0.bounces = false
+            // 화면 옆면 상태바(iPhone Duo)로 생기는 safe area를 스크롤뷰가 inset으로 더하면
+            // 마지막 페이지가 그만큼 더 밀려 빈 영역이 보인다. 페이지 폭은 스크롤뷰 폭 그대로 쓴다.
+            $0.contentInsetAdjustmentBehavior = .never
             $0.showsHorizontalScrollIndicator = false
             $0.showsVerticalScrollIndicator = false
             $0.isPagingEnabled = true
@@ -238,7 +257,7 @@ extension DealiTabBarViewController: DealiTabBarViewDelegate {
         self.isTabBarTriggered = true
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
                 guard let self else { return }
-            self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
+            self.contentScrollView.setContentOffset(CGPoint(x: self.contentScrollView.bounds.width * CGFloat(index), y: 0), animated: false)
         } completion: { finished in
             self.isTabBarTriggered = false
         }
@@ -273,9 +292,11 @@ extension DealiTabBarViewController: UIScrollViewDelegate {
 }
 
 extension UIScrollView {
+    /// 페이지 폭은 화면이 아니라 스크롤뷰 자신의 폭이다. iPhone Duo처럼 화면이 둘이면 `UIScreen.main`이 실제 창과 다를 수 있다.
     var currentPage: Int {
         get {
-            return lround(Double(self.contentOffset.x / UIScreen.main.bounds.width))
+            guard self.bounds.width > 0.0 else { return 0 }
+            return lround(Double(self.contentOffset.x / self.bounds.width))
         }
     }
 }

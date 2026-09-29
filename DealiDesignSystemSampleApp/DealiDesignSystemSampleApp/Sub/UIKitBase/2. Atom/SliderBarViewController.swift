@@ -32,8 +32,8 @@ class SliderBarViewController: UIViewController {
             $0.backgroundColor = .white
         }.snp.makeConstraints {
             $0.height.equalTo(30.0)
-            $0.left.right.equalToSuperview().inset(20.0)
-            $0.center.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide).inset(20.0)
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         contentView.addSubview(self.sliderBar)
@@ -47,7 +47,7 @@ class SliderBarViewController: UIViewController {
             $0.rangeIndicatorArray = ["1만원", "3만원", "5만원", "15만원", "25만원"]
         }.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.bottom).offset(30.0)
-            $0.left.right.equalToSuperview().inset(50.0)
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide).inset(50.0)
         }
         
         
@@ -56,7 +56,7 @@ class SliderBarViewController: UIViewController {
             $0.title = "0.5 로 옮기기"
         }.snp.makeConstraints {
             $0.top.equalTo(self.sliderBarWithIndicator.snp.bottom).offset(40.0)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.view.addSubview(test2Button)
@@ -64,7 +64,7 @@ class SliderBarViewController: UIViewController {
             $0.title = "0.0 로 옮기기"
         }.snp.makeConstraints {
             $0.top.equalTo(self.testButton.snp.bottom).offset(20.0)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         

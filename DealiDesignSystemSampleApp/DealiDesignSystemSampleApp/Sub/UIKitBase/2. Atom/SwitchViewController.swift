@@ -24,7 +24,7 @@ final class SwitchViewController: UIViewController {
             $0.distribution = .equalSpacing
             $0.spacing = 20.0
         }.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let enableOnLargeSwitch = DealiSwitch(size: .large)

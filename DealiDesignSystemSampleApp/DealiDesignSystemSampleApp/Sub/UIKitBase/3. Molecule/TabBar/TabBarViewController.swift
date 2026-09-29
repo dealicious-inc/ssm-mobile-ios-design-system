@@ -121,7 +121,7 @@ class TabBarViewController: UIViewController {
             buttonContainerView.then {
                 $0.backgroundColor = .white
             }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
+                $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
                 $0.bottom.equalToSuperview().inset(20.0)
             }
             
@@ -143,7 +143,7 @@ class TabBarViewController: UIViewController {
             $0.bounces = false
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
             if self.isSwiftUI {
                 $0.bottom.equalToSuperview()
             } else {

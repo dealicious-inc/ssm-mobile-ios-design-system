@@ -109,6 +109,8 @@ final public class DealiTabBarView: UIView {
                 }
             }
             $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
+            // 좌우 여백은 preset으로 직접 잡는다. 옆면 상태바(iPhone Duo) safe area가 inset으로 더해지면 offset 계산이 어긋난다.
+            $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
             $0.backgroundColor = .clear

@@ -95,18 +95,37 @@ final class DealiTabBarViewController: UIViewController {
     
     /// 마지막으로 페이지 오프셋을 맞춘 스크롤뷰 폭. 회전·접기·펼치기로 폭이 바뀌면 선택된 페이지로 다시 맞춘다.
     private var lastPagingWidth: CGFloat = 0.0
+    /// 마지막 레이아웃 때의 뷰 폭. 폭이 바뀌는 레이아웃 패스를 미리 알아채는 데 쓴다.
+    private var lastViewWidth: CGFloat = 0.0
+    /// 창 크기가 바뀌는 동안 true. 페이징 스크롤뷰가 offset을 페이지 경계로 다시 맞추면서 보내는
+    /// 스크롤 이벤트가 선택 탭을 0번으로 되돌리지 않도록 그동안의 이벤트는 무시한다.
+    private var isRestoringPageAfterResize = false
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        let width = self.view.bounds.width
+        if self.lastViewWidth > 0.0, width > 0.0, width != self.lastViewWidth {
+            self.isRestoringPageAfterResize = true
+        }
+        self.lastViewWidth = width
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        defer { self.isRestoringPageAfterResize = false }
 
         let width = self.contentScrollView.bounds.width
         guard width > 0.0, width != self.lastPagingWidth else { return }
         self.lastPagingWidth = width
         guard self.selectedIndex >= 0 else { return }
 
+        // 페이지 뷰 폭이 새 폭으로 잡혀 contentSize가 갱신된 뒤에 offset을 넣어야 잘리지 않는다.
+        self.contentScrollView.layoutIfNeeded()
         self.isTabBarTriggered = true
         self.contentScrollView.setContentOffset(CGPoint(x: width * CGFloat(self.selectedIndex), y: 0), animated: false)
         self.isTabBarTriggered = false
+        self.tabBarView.setSelectedIndex(index: self.selectedIndex, animated: false, withDidSelect: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +172,8 @@ final class DealiTabBarViewController: UIViewController {
             $0.isSelectedItemCentered = self.isSelectedItemCentered
             $0.delegate = self
         }.snp.makeConstraints {
-            $0.left.right.top.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.view.addSubview(self.contentScrollView)
@@ -168,7 +188,8 @@ final class DealiTabBarViewController: UIViewController {
             $0.delegate = self
             $0.isScrollEnabled = self.isScrollEnabled
         }.snp.makeConstraints { [unowned self] in
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalTo(tabBarView.snp.bottom).offset(0)
             
         }
@@ -268,6 +289,7 @@ extension DealiTabBarViewController: DealiTabBarViewDelegate {
 extension DealiTabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard self.isRestoringPageAfterResize == false else { return }
         
         if self.selectedIndex != scrollView.currentPage {
             self.selectedIndex = scrollView.currentPage

@@ -34,9 +34,9 @@ extension UIImageView {
         var option: KingfisherOptionsInfo?
         if size.width > 0 && size.height > 0 {
             let processor = DownsamplingImageProcessor(size: size)
-            option = [.processor(processor), .scaleFactor(UIScreen.main.scale), .cacheOriginalImage]
+            option = [.processor(processor), .scaleFactor(dealiDisplayScale(for: self)), .cacheOriginalImage]
         } else {
-            option = [.scaleFactor(UIScreen.main.scale), .cacheOriginalImage]
+            option = [.scaleFactor(dealiDisplayScale(for: self)), .cacheOriginalImage]
         }
         
         return self.kf.setImage(with: url,

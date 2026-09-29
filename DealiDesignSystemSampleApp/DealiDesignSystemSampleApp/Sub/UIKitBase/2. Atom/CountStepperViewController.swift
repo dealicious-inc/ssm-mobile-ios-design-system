@@ -39,7 +39,7 @@ final class CountStepperViewController: UIViewController {
         
         self.view.addSubview(self.countStepper)
         self.countStepper.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.view.addSubview(self.disabledCountStepper)
@@ -47,13 +47,13 @@ final class CountStepperViewController: UIViewController {
             $0.isEnabled = false
             $0.currentCount = 5
         }.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalTo(self.countStepper.snp.bottom).offset(20)
         }
         
         self.view.addSubview(self.countLabel)
         self.countLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalTo(self.disabledCountStepper.snp.bottom).offset(20)
         }
     }

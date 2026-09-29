@@ -40,7 +40,7 @@ private extension ToastViewController {
         self.button.then {
             $0.title = "토스트 노출"
         }.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
         }
         
     }

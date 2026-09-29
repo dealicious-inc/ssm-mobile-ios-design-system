@@ -46,6 +46,36 @@ final class SwiftUITabBarViewController: UIViewController {
         self.view.layoutSubviews()
         self.contentScrollView.layoutSubviews()
     }
+
+    /// 마지막으로 페이지 오프셋을 맞춘 스크롤뷰 폭. 회전·접기·펼치기로 폭이 바뀌면 선택된 페이지로 다시 맞춘다.
+    private var lastPagingWidth: CGFloat = 0.0
+    /// 마지막 레이아웃 때의 뷰 폭. 폭이 바뀌는 레이아웃 패스를 미리 알아채는 데 쓴다.
+    private var lastViewWidth: CGFloat = 0.0
+    /// 창 크기가 바뀌는 동안 true. 페이징 스크롤뷰가 offset을 다시 맞추며 보내는 스크롤 이벤트를 무시한다.
+    private var isRestoringPageAfterResize = false
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        let width = self.view.bounds.width
+        if self.lastViewWidth > 0.0, width > 0.0, width != self.lastViewWidth {
+            self.isRestoringPageAfterResize = true
+        }
+        self.lastViewWidth = width
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        defer { self.isRestoringPageAfterResize = false }
+
+        let width = self.contentScrollView.bounds.width
+        guard width > 0.0, width != self.lastPagingWidth else { return }
+        self.lastPagingWidth = width
+        guard self.selectedIndex >= 0 else { return }
+
+        self.contentScrollView.layoutIfNeeded()
+        self.contentScrollView.setContentOffset(CGPoint(x: width * CGFloat(self.selectedIndex), y: 0), animated: false)
+    }
     
     override func loadView() {
         super.loadView()
@@ -58,7 +88,8 @@ final class SwiftUITabBarViewController: UIViewController {
         let tabBarUIKit = self.tabBarView.UIKit()
         self.view.addSubview(tabBarUIKit)
         tabBarUIKit.snp.makeConstraints {
-            $0.left.right.top.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.view.addSubview(self.contentScrollView)
@@ -73,7 +104,8 @@ final class SwiftUITabBarViewController: UIViewController {
             $0.delegate = self
             $0.isScrollEnabled = self.isScrollEnabled
         }.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalTo(tabBarUIKit.snp.bottom).offset(0)
             
         }
@@ -143,6 +175,7 @@ extension SwiftUITabBarViewController {
 extension SwiftUITabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard self.isRestoringPageAfterResize == false else { return }
         if self.selectedIndex != scrollView.currentPage {
             self.selectedIndex = scrollView.currentPage
             self.tabBarView?.selectedIndex = self.selectedIndex

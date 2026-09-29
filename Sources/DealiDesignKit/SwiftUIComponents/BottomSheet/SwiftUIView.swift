@@ -32,6 +32,7 @@ public final class DealiSheetState: ObservableObject {
  */
 public struct DealiSheetView<Content: View>: View {
     @EnvironmentObject var sheetState: DealiSheetState
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     var title: String?
     var showCloseButton: Bool
     var heightRatio: CGFloat
@@ -59,6 +60,11 @@ public struct DealiSheetView<Content: View>: View {
     // MARK: - View
     public var body: some View {
         GeometryReader { geo in
+            // UIKit 시트와 같은 규칙: 세로·접힘은 화면 폭을 채우고 내용만 safe area 안에 두며,
+            // 가로 regular 폭은 시스템 시트처럼 가운데 고정 폭으로 띄운다.
+            let useFixedWidth = horizontalSizeClass == .regular && geo.size.width > geo.size.height
+            let fullWidth = geo.size.width + geo.safeAreaInsets.leading + geo.safeAreaInsets.trailing
+            let sheetWidth = useFixedWidth ? min(geo.size.width, DealiBottomSheetBaseViewController.wideLayoutMaxWidth) : fullWidth
             ZStack(alignment: .bottom) {
                 if sheetState.isPresented {
                     Color.b50
@@ -78,7 +84,9 @@ public struct DealiSheetView<Content: View>: View {
                         content
                             .padding(.bottom, geo.safeAreaInsets.bottom)
                     }
-                    .frame(width: geo.size.width)
+                    .padding(.leading, useFixedWidth ? 0 : geo.safeAreaInsets.leading)
+                    .padding(.trailing, useFixedWidth ? 0 : geo.safeAreaInsets.trailing)
+                    .frame(width: sheetWidth)
                     .frame(maxHeight: calculatedHeight(for: geo.size.height))
                     .fixedSize()
                     .background(Color.primary04)

@@ -42,8 +42,9 @@ final class DealiBottomSheetSlotWithTextCell: UICollectionViewCell {
     
     private var disposeBag = DisposeBag()
     
-    static func cellSize() -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width, height: 52.0)
+    /// 목록 폭에 맞춘 셀 크기. 화면 폭이 아니라 컬렉션뷰 폭을 받아야 접기·펼치기로 창 폭이 바뀌어도 맞는다.
+    static func cellSize(width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: 52.0)
     }
     
     static let id = "DealiBottomSheetSlotWithTextCell"

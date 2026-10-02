@@ -36,7 +36,13 @@ class TabBarViewController: UIViewController {
                                  DealiTabBarItem.make(title: "6번 Tab"),
                                  DealiTabBarItem.make(title: "7번 Tab"),
                                  DealiTabBarItem.make(title: "8번 Tab"),
-                                 DealiTabBarItem.make(title: "9번 Tab")]
+                                 DealiTabBarItem.make(title: "9번 Tab"),
+                                 DealiTabBarItem.make(title: "10번 Tab"),
+                                 DealiTabBarItem.make(title: "11번 Tab"),
+                                 DealiTabBarItem.make(title: "12번 Tab"),
+                                 DealiTabBarItem.make(title: "13번 Tab"),
+                                 DealiTabBarItem.make(title: "14번 Tab"),
+                                 DealiTabBarItem.make(title: "15번 Tab")]
     
     private var sliderTabBarItemImageChipArray = [DealiTabBarItem.make(title: "끈원피스",
                                                                        icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100))),
@@ -115,7 +121,7 @@ class TabBarViewController: UIViewController {
             buttonContainerView.then {
                 $0.backgroundColor = .white
             }.snp.makeConstraints {
-                $0.left.right.equalToSuperview()
+                $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
                 $0.bottom.equalToSuperview().inset(20.0)
             }
             
@@ -137,7 +143,7 @@ class TabBarViewController: UIViewController {
             $0.bounces = false
         }.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
             if self.isSwiftUI {
                 $0.bottom.equalToSuperview()
             } else {
@@ -398,7 +404,7 @@ class TabBarViewController: UIViewController {
             }
         }
         
-        for i in 0..<10 {
+        for i in 0..<15 {
             let viewController = DealiTabBarChildViewController()
             viewController.view.backgroundColor = self.randomColor()
             if i == 3 {
@@ -414,7 +420,7 @@ class TabBarViewController: UIViewController {
             }
         }
         
-        for i in 0..<10 {
+        for i in 0..<15 {
             let viewController = DealiTabBarChildViewController()
             viewController.view.backgroundColor = self.randomColor()
             if i == 3 {
@@ -431,7 +437,7 @@ class TabBarViewController: UIViewController {
             }
         }
         
-        for i in 0..<10 {
+        for i in 0..<15 {
             let chip01ViewController = DealiTabBarChildViewController()
             chip01ViewController.view.backgroundColor = self.randomColor()
             let tabBarItemChip01 = DealiTabBarItem.make(chip01ViewController, title: "\(i)번 Tab")
@@ -676,7 +682,13 @@ extension TabBarViewController {
                                TabBarItemViewModel(title: "6번 Tab"),
                                TabBarItemViewModel(title: "7번 Tab"),
                                TabBarItemViewModel(title: "8번 Tab"),
-                               TabBarItemViewModel(title: "9번 Tab")]
+                               TabBarItemViewModel(title: "9번 Tab"),
+                               TabBarItemViewModel(title: "10번 Tab"),
+                               TabBarItemViewModel(title: "11번 Tab"),
+                               TabBarItemViewModel(title: "12번 Tab"),
+                               TabBarItemViewModel(title: "13번 Tab"),
+                               TabBarItemViewModel(title: "14번 Tab"),
+                               TabBarItemViewModel(title: "15번 Tab")]
         
         let item1 = DealiImageChipTabBarItem(
             viewModel: DealiImageChipViewModel(urlString: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34731660/157845955684711900_2039113906.jpg&rs=raw&w=100&h=100",

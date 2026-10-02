@@ -23,7 +23,7 @@ private extension KFImage {
         return self
             .resizable()
             .setProcessor(processor)
-            .scaleFactor(UIScreen.main.scale)
+            .scaleFactor(dealiDisplayScale())
             .cacheOriginalImage()
     }
 }

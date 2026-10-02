@@ -43,7 +43,8 @@ private extension DropdownViewController {
         self.view.addSubview(self.scrollView)
         
         self.scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let contentView = UIView()

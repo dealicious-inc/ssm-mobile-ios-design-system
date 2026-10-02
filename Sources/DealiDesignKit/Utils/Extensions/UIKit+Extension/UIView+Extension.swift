@@ -31,6 +31,8 @@ extension UIView {
      */
     func setKeyboardAccessoryStyle() {
         self.backgroundColor = .g20
+        // inputAccessoryView 폭은 시스템이 키보드 폭에 맞춰 준다. 창 폭이 바뀌어도 따라가도록 가로 유연성을 준다.
+        self.autoresizingMask = [.flexibleWidth]
 
         // iOS 26부터 키보드 패널이 상단 모서리를 라운드로 깎아, 각진 accessory view와 만나는
         // 좌우 이음새에 앱 배경이 드러나는 쐐기가 생긴다.

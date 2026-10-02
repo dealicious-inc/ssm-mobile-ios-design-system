@@ -34,7 +34,8 @@ final class PlaceholderImageViewController: UIViewController {
         contentScrollView.then {
             $0.bounces = false
         }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let contentView = UIView()
@@ -115,7 +116,7 @@ final class PlaceholderImageViewController: UIViewController {
             $0.width.equalTo(100.0)
         }
         
-        let imageViewWidth = (UIScreen.main.bounds.size.width - (48.0 + 24.0)) / 4.0
+        let imageViewWidth = (dealiWindowSize(for: self.view).width - (48.0 + 24.0)) / 4.0
         
         let hRatioImageStackView = UIStackView()
         contentStackView.addArrangedSubview(hRatioImageStackView)

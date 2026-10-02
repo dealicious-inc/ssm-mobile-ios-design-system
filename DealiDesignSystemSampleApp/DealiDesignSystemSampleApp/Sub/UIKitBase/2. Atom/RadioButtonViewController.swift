@@ -29,7 +29,8 @@ final class RadioButtonViewController: UIViewController {
         contentView.then {
             $0.backgroundColor = .clear
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         radioButtonManager.addExclusiveControl(firstRadioButtonWithText)

@@ -90,12 +90,16 @@ open class DealiAlertBaseViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    /// contentView는 기본적으로 좌우 여백 기준으로 너비가 늘어나고, `maxContentWidth`를 넘으면 그 값으로 고정된다
+    /// contentView는 기본적으로 좌우 여백 기준으로 너비가 늘어나고, `maxContentWidth`를 넘으면 그 값으로 고정된다.
+    /// 위치는 시스템 알럿처럼 화면 가운데를 기준으로 잡고, 상태바가 옆면에 있는 상태(iPhone Duo 닫힘)처럼
+    /// safe area 밖으로 나가면 폭은 그대로 두고 안쪽으로 밀어 넣는다.
     private func remakeContentViewConstraints(keyboardVisibleHeight: CGFloat = 0.0) {
         self.contentView.snp.remakeConstraints {
-            $0.width.equalToSuperview().offset(-(Self.contentHorizontalPadding * 2.0)).priority(999.0)
+            $0.width.equalTo(self.view.safeAreaLayoutGuide).offset(-(Self.contentHorizontalPadding * 2.0)).priority(999.0)
             $0.width.lessThanOrEqualTo(Self.maxContentWidth)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview().priority(998.0)
+            $0.left.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide)
+            $0.right.lessThanOrEqualTo(self.view.safeAreaLayoutGuide)
             $0.centerY.equalToSuperview().offset(-keyboardVisibleHeight / 2.0)
         }
     }
@@ -141,7 +145,10 @@ open class DealiAlertBaseViewController: UIViewController {
     open func updateContainerViewHeight() {
         guard self.shouldCalulateHeightBasedOnScrollView else { return }
         
-        let alertMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio) - (24.0 + 20.0)
+        // 창 높이 비율을 넘지 않되, 상태바·홈 인디케이터 영역을 뺀 높이보다 커지지 않는다.
+        let windowHeight = dealiWindowSize(for: self.view).height
+        let visibleHeight = windowHeight - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom
+        let alertMaxHeight = min(windowHeight * self.heightRatio, visibleHeight) - (24.0 + 20.0)
         
         for addView in self.contentStackView.arrangedSubviews {
             if addView is UIScrollView {

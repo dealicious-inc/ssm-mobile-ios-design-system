@@ -93,10 +93,40 @@ class ChipViewController: UIViewController {
         })
         self.stackView.addArrangedSubview(chipsFilledLargePrimary01)
         
+        let chipsFilledLargeSecondary01 = ChipContentView(name: "chipFilledLarge02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledLarge02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledLargeSecondary01)
+        
+        let chipsFilledLargePrimary02 = ChipContentView(name: "chipFilledLarge03", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledLarge03()
+        })
+        self.stackView.addArrangedSubview(chipsFilledLargePrimary02)
+        
+        let chipsFilledLargeSecondary02 = ChipContentView(name: "chipFilledLarge04", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledLarge04()
+        })
+        self.stackView.addArrangedSubview(chipsFilledLargeSecondary02)
+        
         let chipsFilledMediumPrimary01 = ChipContentView(name: "chipFilledMedium01", chipArray: (0..<4).map { _ in
             DealiControl.chipFilledMedium01()
         })
         self.stackView.addArrangedSubview(chipsFilledMediumPrimary01)
+        
+        let chipsFilledMediumSecondary01 = ChipContentView(name: "chipFilledMedium02", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledMedium02()
+        })
+        self.stackView.addArrangedSubview(chipsFilledMediumSecondary01)
+        
+        let chipsFilledMediumPrimary02 = ChipContentView(name: "chipFilledMedium03", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledMedium03()
+        })
+        self.stackView.addArrangedSubview(chipsFilledMediumPrimary02)
+        
+        let chipsFilledMediumSecondary02 = ChipContentView(name: "chipFilledMedium04", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledMedium04()
+        })
+        self.stackView.addArrangedSubview(chipsFilledMediumSecondary02)
         
         let chipsFilledSmallPrimary01 = ChipContentView(name: "chipFilledSmall01", chipArray: (0..<4).map { _ in
             DealiControl.chipFilledSmall01()
@@ -112,6 +142,11 @@ class ChipViewController: UIViewController {
             DealiControl.chipFilledSmall03()
         })
         self.stackView.addArrangedSubview(chipsFilledSmallPrimary02)
+        
+        let chipsFilledSmallSecondary02 = ChipContentView(name: "chipFilledSmall04", chipArray: (0..<4).map { _ in
+            DealiControl.chipFilledSmall04()
+        })
+        self.stackView.addArrangedSubview(chipsFilledSmallSecondary02)
         
         
         let chipsSquareLargePrimary01 = ChipContentView(name: "chipOutlineSquareLarge01", chipArray: (0..<4).map { _ in
@@ -183,8 +218,26 @@ class ChipViewController: UIViewController {
         let chipFilledLarge01 = SwiftUIChipContentView(name: "chipFilledLarge01", type: .chipFilledLarge01)
         self.stackView.addArrangedSubview(chipFilledLarge01)
         
+        let chipFilledLarge02 = SwiftUIChipContentView(name: "chipFilledLarge02", type: .chipFilledLarge02)
+        self.stackView.addArrangedSubview(chipFilledLarge02)
+        
+        let chipFilledLarge03 = SwiftUIChipContentView(name: "chipFilledLarge03", type: .chipFilledLarge03)
+        self.stackView.addArrangedSubview(chipFilledLarge03)
+        
+        let chipFilledLarge04 = SwiftUIChipContentView(name: "chipFilledLarge04", type: .chipFilledLarge04)
+        self.stackView.addArrangedSubview(chipFilledLarge04)
+        
         let chipFilledMedium01 = SwiftUIChipContentView(name: "chipFilledMedium01", type: .chipFilledMedium01)
         self.stackView.addArrangedSubview(chipFilledMedium01)
+        
+        let chipFilledMedium02 = SwiftUIChipContentView(name: "chipFilledMedium02", type: .chipFilledMedium02)
+        self.stackView.addArrangedSubview(chipFilledMedium02)
+        
+        let chipFilledMedium03 = SwiftUIChipContentView(name: "chipFilledMedium03", type: .chipFilledMedium03)
+        self.stackView.addArrangedSubview(chipFilledMedium03)
+        
+        let chipFilledMedium04 = SwiftUIChipContentView(name: "chipFilledMedium04", type: .chipFilledMedium04)
+        self.stackView.addArrangedSubview(chipFilledMedium04)
         
         let chipFilledSmall01 = SwiftUIChipContentView(name: "chipFilledSmall01", type: .chipFilledSmall01)
         self.stackView.addArrangedSubview(chipFilledSmall01)
@@ -194,6 +247,9 @@ class ChipViewController: UIViewController {
         
         let chipFilledSmall03 = SwiftUIChipContentView(name: "chipFilledSmall03", type: .chipFilledSmall03)
         self.stackView.addArrangedSubview(chipFilledSmall03)
+        
+        let chipFilledSmall04 = SwiftUIChipContentView(name: "chipFilledSmall04", type: .chipFilledSmall04)
+        self.stackView.addArrangedSubview(chipFilledSmall04)
         
         let chipOutlineSquareLarge01 = SwiftUIChipContentView(name: "chipOutlineSquareLarge01", type: .chipOutlineSquareLarge01)
         self.stackView.addArrangedSubview(chipOutlineSquareLarge01)

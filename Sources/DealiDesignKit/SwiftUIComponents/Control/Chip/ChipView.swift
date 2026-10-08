@@ -139,10 +139,17 @@ public enum ChipViewType: CaseIterable {
     case chipOutlineSmall01
 
     case chipFilledLarge01
+    case chipFilledLarge02
+    case chipFilledLarge03
+    case chipFilledLarge04
     case chipFilledMedium01
+    case chipFilledMedium02
+    case chipFilledMedium03
+    case chipFilledMedium04
     case chipFilledSmall01
     case chipFilledSmall02
     case chipFilledSmall03
+    case chipFilledSmall04
     
     case chipFilledSquareLarge01
     case chipFilledSquareLarge02
@@ -165,10 +172,12 @@ public enum ChipViewType: CaseIterable {
             
         case .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01:
             return ChipsFilledColor.primary01
-        case .chipFilledSmall02:
+        case .chipFilledLarge02, .chipFilledMedium02, .chipFilledSmall02:
             return ChipsFilledColor.secondary01
-        case .chipFilledSmall03:
+        case .chipFilledLarge03, .chipFilledMedium03, .chipFilledSmall03:
             return ChipsFilledColor.primary02
+        case .chipFilledLarge04, .chipFilledMedium04, .chipFilledSmall04:
+            return ChipsFilledColor.secondary02
         
         case .chipFilledSquareLarge01, .chipFilledSquareMedium01, .chipFilledSquareSmall01:
             return ChipsFilledSquareColor.primary01
@@ -184,18 +193,18 @@ public enum ChipViewType: CaseIterable {
     
     var config: ChipsConfig {
         switch self {
-        case .chipOutlineLarge01, .chipFilledLarge01, .chipFilledSquareLarge01, .chipFilledSquareLarge02, .chipOutlineSquareLarge01, .chipFilledSquareLarge03:
+        case .chipOutlineLarge01, .chipFilledLarge01, .chipFilledLarge02, .chipFilledLarge03, .chipFilledLarge04, .chipFilledSquareLarge01, .chipFilledSquareLarge02, .chipOutlineSquareLarge01, .chipFilledSquareLarge03:
             return ChipsConfig.large
-        case .chipOutlineMedium01, .chipOutlineMedium02, .chipFilledMedium01, .chipFilledSquareMedium01, .chipFilledSquareMedium02, .chipOutlineSquareMedium01:
+        case .chipOutlineMedium01, .chipOutlineMedium02, .chipFilledMedium01, .chipFilledMedium02, .chipFilledMedium03, .chipFilledMedium04, .chipFilledSquareMedium01, .chipFilledSquareMedium02, .chipOutlineSquareMedium01:
             return ChipsConfig.medium
-        case .chipOutlineSmall01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSquareSmall01, .chipFilledSquareSmall02, .chipOutlineSquareSmall01:
+        case .chipOutlineSmall01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSmall04, .chipFilledSquareSmall01, .chipFilledSquareSmall02, .chipOutlineSquareSmall01:
             return ChipsConfig.small
         }
     }
     
     var cornerRadius: CGFloat {
         switch self {
-        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledLarge02, .chipFilledLarge03, .chipFilledLarge04, .chipFilledMedium01, .chipFilledMedium02, .chipFilledMedium03, .chipFilledMedium04, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSmall04:
             return config.height.chip / 2
         default:
             return 4.0
@@ -204,7 +213,7 @@ public enum ChipViewType: CaseIterable {
     
     var padding: ClickableComponent.Configuration.Padding {
         switch self {
-        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledMedium01, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03:
+        case .chipOutlineLarge01, .chipOutlineMedium01, .chipOutlineMedium02, .chipOutlineSmall01, .chipFilledLarge01, .chipFilledLarge02, .chipFilledLarge03, .chipFilledLarge04, .chipFilledMedium01, .chipFilledMedium02, .chipFilledMedium03, .chipFilledMedium04, .chipFilledSmall01, .chipFilledSmall02, .chipFilledSmall03, .chipFilledSmall04:
             return .round
         default:
             return .square

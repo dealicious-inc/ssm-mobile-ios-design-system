@@ -266,6 +266,7 @@ public enum DealiIcon {
   public static let ic_time = DesignSystemImage(name: "ic_time")
   public static let ic_translate = DesignSystemImage(name: "ic_translate")
   public static let ic_trash = DesignSystemImage(name: "ic_trash")
+  public static let ic_truck_filled = DesignSystemImage(name: "ic_truck_filled")
   public static let ic_up = DesignSystemImage(name: "ic_up")
   public static let ic_up_1_filled = DesignSystemImage(name: "ic_up_1_filled")
   public static let ic_users_profiles = DesignSystemImage(name: "ic_users_profiles")

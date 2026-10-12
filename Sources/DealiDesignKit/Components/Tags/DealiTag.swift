@@ -420,7 +420,7 @@ public extension DealiTag {
         case tagOutlineMedium04
         /// Background:White/Text:Dark/Border:Gray
         case tagOutlineMedium05
-        /// Background:Clear/Text:Dark
+        /// Background:White/Text:Dark
         case tagTextMedium05
         /// Background:Pink/Text:Pink
         case tagFilledSemiMedium01
@@ -442,7 +442,7 @@ public extension DealiTag {
         case tagOutlineSemiMedium04
         /// Background:White/Text:Dark/Border:Gray
         case tagOutlineSemiMedium05
-        /// Background:Clear/Text:Dark
+        /// Background:White/Text:Dark
         case tagTextSemiMedium05
         /// Background:Pink/Text:Pink
         case tagFilledSmall01
@@ -464,7 +464,7 @@ public extension DealiTag {
         case tagOutlineSmall04
         /// Background:White/Text:Dark/Border:Gray
         case tagOutlineSmall05
-        /// Background:Clear/Text:Dark
+        /// Background:White/Text:Dark
         case tagTextSmall05
 
         public var layoutSizeCategory: ESize {
@@ -573,7 +573,9 @@ public extension DealiTag {
                     return DealiTagColor(backgroundColor: .primary04, textColor: .g100, borderColor: .g20)
                 }
             } else {
-                return DealiTagColor(backgroundColor: .clear, textColor: .g80)
+                // Text 타입은 Large만 배경이 없고, 나머지 크기는 흰 배경이다
+                let backgroundColor: UIColor = self.layoutSizeCategory == .large ? .clear : .primary04
+                return DealiTagColor(backgroundColor: backgroundColor, textColor: .g100)
             }
         }
     }

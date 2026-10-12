@@ -34,7 +34,8 @@ class TagViewController: UIViewController {
 
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
 
         let contentView = UIView()

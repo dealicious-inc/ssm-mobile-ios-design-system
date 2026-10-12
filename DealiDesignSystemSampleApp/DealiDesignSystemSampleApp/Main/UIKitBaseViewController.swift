@@ -66,7 +66,8 @@ final class UIKitBaseViewController: UIViewController {
             $0.register(ComponentCollectionViewCell.self, forCellWithReuseIdentifier: ComponentCollectionViewCell.identifier)
             $0.register(ComponentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ComponentHeaderView.identifier)
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.configureDataSource()

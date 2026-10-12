@@ -107,7 +107,7 @@ private extension ImageChipViewController {
             $0.alignment = .center
             $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.bottom.lessThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(16.0)
         }
     }

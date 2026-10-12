@@ -143,7 +143,7 @@ public extension NSMutableAttributedString {
             guard let f = attrs[.font] as? UIFont else { return }
             var local = ((maxLineHeight - f.lineHeight) * 0.5) * k + bias
             // 픽셀 스냅(선택)
-            let scale = UIScreen.main.scale
+            let scale = dealiDisplayScale()
             local = (local * scale).rounded() / scale
             if abs(local) > 0.01 {
                 self.addAttribute(.baselineOffset, value: local, range: range)

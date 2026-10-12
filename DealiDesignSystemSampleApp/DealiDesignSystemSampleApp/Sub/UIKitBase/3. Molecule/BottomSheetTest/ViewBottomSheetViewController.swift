@@ -49,14 +49,14 @@ class ViewBottomSheetViewController: DealiBottomSheetBaseViewController {
     override func updateContainerViewHeight() {
         self.scrollContentStackView.layoutIfNeeded()
         var containerHeight: CGFloat = 0.0
-        let bottomSheetMaxHeight = (UIScreen.main.bounds.size.height * self.heightRatio)
+        let bottomSheetMaxHeight = self.maximumSheetHeight(ratio: self.heightRatio)
         let titleContentHeight = (self.titleType == .hidden ? 0.0 : self.titleContentViewHeight)
         
         if self.fixedHeight > 0.0 {
             containerHeight = self.fixedHeight - titleContentHeight
         } else {
             
-            let width: CGFloat = UIScreen.main.bounds.size.width - 36.0
+            let width: CGFloat = self.contentView.bounds.width - 36.0
             let height: CGFloat = 0.0
             let targetSize = CGSize(width: width, height: height)
             

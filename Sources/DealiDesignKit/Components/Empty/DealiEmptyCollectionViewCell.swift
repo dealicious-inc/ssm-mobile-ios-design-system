@@ -9,7 +9,16 @@ import UIKit
 
 public class DealiEmptyCollectionViewCell: UICollectionViewCell {
     
-    public static let cellSize = CGSize(width: UIScreen.main.bounds.size.width, height: 460.0)
+    /// 셀 높이. 폭은 목록 폭을 그대로 쓴다.
+    public static let cellHeight: CGFloat = 460.0
+
+    /// 목록 폭에 맞춘 셀 크기. 화면 폭 대신 컬렉션뷰·테이블뷰 폭을 넘긴다.
+    public static func cellSize(width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: cellHeight)
+    }
+
+    @available(*, deprecated, message: "화면 폭 고정값이라 iPhone Duo처럼 창 폭이 바뀌는 기기에서 맞지 않는다. cellSize(width:)를 사용한다.")
+    public static let cellSize = CGSize(width: dealiWindowSize().width, height: cellHeight)
     
     private let emptyView = DealiEmptyView()
     

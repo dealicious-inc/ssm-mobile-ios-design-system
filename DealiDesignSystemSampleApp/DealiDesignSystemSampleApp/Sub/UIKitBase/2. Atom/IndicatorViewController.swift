@@ -33,7 +33,8 @@ final class IndicatorViewController: UIViewController {
         contentScrollView.then {
             $0.bounces = false
         }.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let contentView = UIView()

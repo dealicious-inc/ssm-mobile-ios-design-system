@@ -200,6 +200,16 @@ class ChipViewController: UIViewController {
             DealiControl.chipFilledSquareSmall02()
         })
         self.stackView.addArrangedSubview(chipsFilledSquareSmallScondary01)
+
+        self.stackView.addArrangedSubview(DepthChipContentView(name: "chipFilledDepthLarge01", chipArray: (0..<3).map { _ in
+            DealiControl.chipFilledDepthLarge01()
+        }))
+        self.stackView.addArrangedSubview(DepthChipContentView(name: "chipFilledDepthMedium01", chipArray: (0..<3).map { _ in
+            DealiControl.chipFilledDepthMedium01()
+        }))
+        self.stackView.addArrangedSubview(DepthChipContentView(name: "chipFilledDepthSmall01", chipArray: (0..<3).map { _ in
+            DealiControl.chipFilledDepthSmall01()
+        }))
     }
     
     func setAsSwiftUI() {
@@ -339,6 +349,64 @@ final class ChipContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+/// Depth 칩 샘플. Default / Selected / Disabled 세 개를 세로로 보여준다
+final class DepthChipContentView: UIView {
+
+    private let titleLabel = UILabel()
+    private let stackView = UIStackView()
+
+    init(name: String, chipArray: [DealiDepthChip]) {
+        super.init(frame: CGRect.zero)
+
+        self.backgroundColor = UIColor.white
+
+        self.addSubview(self.titleLabel)
+        self.titleLabel.then {
+            $0.text = name
+            $0.font = .b1sb15
+            $0.textColor = .g100
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20.0)
+            $0.top.equalToSuperview()
+            $0.height.equalTo(60.0)
+        }
+
+        self.addSubview(self.stackView)
+        self.stackView.then {
+            $0.axis = .vertical
+            $0.alignment = .leading
+            $0.spacing = 12.0
+        }.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.left.equalTo(titleLabel)
+            $0.bottom.equalToSuperview().offset(-20.0)
+        }
+
+        for (index, chip) in chipArray.enumerated() {
+            self.stackView.addArrangedSubview(chip)
+            chip.items = [
+                DealiDepthChipItem(title: "여성의류"),
+                DealiDepthChipItem(title: "아우터", leftImage: index == 1 ? UIImage.dealiIcon(named: "ic_bookmark_1") : nil),
+                DealiDepthChipItem(title: index == 0 ? "Default" : (index == 1 ? "Selected" : "Disabled"))
+            ]
+            chip.onDeleteTap = { [weak chip] in
+                guard let chip, let stackView = chip.superview as? UIStackView else { return }
+                stackView.removeArrangedSubview(chip)
+                chip.removeFromSuperview()
+            }
+            if index == 1 {
+                chip.status = .selected
+            } else if index == 2 {
+                chip.status = .disabled
+            }
+        }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 final class SwiftUIChipContentView: UIView {

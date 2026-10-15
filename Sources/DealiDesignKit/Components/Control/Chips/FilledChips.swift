@@ -19,6 +19,21 @@ extension DealiControl {
                                       color: ChipsFilledColor.primary01)
     }
     
+    public static func chipFilledLarge02() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.large,
+                                      color: ChipsFilledColor.secondary01)
+    }
+    
+    public static func chipFilledLarge03() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.large,
+                                      color: ChipsFilledColor.primary02)
+    }
+    
+    public static func chipFilledLarge04() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.large,
+                                      color: ChipsFilledColor.secondary02)
+    }
+    
     public static func chipFilledMedium01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledConfig.medium,
                                       color: ChipsFilledColor.primary01)
@@ -28,6 +43,21 @@ extension DealiControl {
     public static func chipsFilledMedium01() -> ClickableComponentChip {
         return ClickableComponentChip(config: ChipsFilledConfig.medium,
                                       color: ChipsFilledColor.primary01)
+    }
+    
+    public static func chipFilledMedium02() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.medium,
+                                      color: ChipsFilledColor.secondary01)
+    }
+    
+    public static func chipFilledMedium03() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.medium,
+                                      color: ChipsFilledColor.primary02)
+    }
+    
+    public static func chipFilledMedium04() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.medium,
+                                      color: ChipsFilledColor.secondary02)
     }
     
     public static func chipFilledSmall01() -> ClickableComponentChip {
@@ -56,12 +86,19 @@ extension DealiControl {
         return ClickableComponentChip(config: ChipsFilledConfig.small,
                                       color: ChipsFilledColor.primary02)
     }
+    
+    public static func chipFilledSmall04() -> ClickableComponentChip {
+        return ClickableComponentChip(config: ChipsFilledConfig.small,
+                                      color: ChipsFilledColor.secondary02)
+    }
 }
 
 public enum ChipsFilledColor: ClickableColorConfig {
     case primary01
     case primary02
     case secondary01
+    /// 배경 b5(검정 5%) 계열. 선택 시 g100 배경에 흰 글자
+    case secondary02
     
     public var attribute: ClickableColor {
         switch self {
@@ -77,6 +114,10 @@ public enum ChipsFilledColor: ClickableColorConfig {
             return ClickableColor(normal: ClickableColorSet(background: .g10, text: .g80, border: .clear),
                                   selected: ClickableColorSet(background: .g100, text: .primary04, border: .clear),
                                   disabled: ClickableColorSet(background: .g10, text: .g50, border: .clear))
+        case .secondary02:
+            return ClickableColor(normal: ClickableColorSet(background: .b5, text: .g80, border: .clear),
+                                  selected: ClickableColorSet(background: .g100, text: .primary04, border: .clear),
+                                  disabled: ClickableColorSet(background: .b5, text: .g50, border: .clear))
         }
     }
 }

@@ -151,7 +151,151 @@ extension DealiControl {
         return ClickableUnitButtonComponent(config: ButtonTextConfig.small,
                                         color: ButtonTextColor.secondary05)
     }
-    
+
+    // MARK: - TextRound Large
+    public static func btnTextRoundLarge01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.primary01)
+    }
+
+    public static func btnTextRoundLarge02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.primary02)
+    }
+
+    public static func btnTextRoundLarge03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.secondary01)
+    }
+
+    public static func btnTextRoundLarge04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.secondary02)
+    }
+
+    public static func btnTextRoundLarge05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.secondary03)
+    }
+
+    public static func btnTextRoundLarge06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.secondary04)
+    }
+
+    public static func btnTextRoundLarge07() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundLarge,
+                                        color: ButtonTextColor.secondary05)
+    }
+
+    // MARK: - TextRound Medium
+    public static func btnTextRoundMedium01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.primary01)
+    }
+
+    public static func btnTextRoundMedium02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.primary02)
+    }
+
+    public static func btnTextRoundMedium03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.secondary01)
+    }
+
+    public static func btnTextRoundMedium04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.secondary02)
+    }
+
+    public static func btnTextRoundMedium05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.secondary03)
+    }
+
+    public static func btnTextRoundMedium06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.secondary04)
+    }
+
+    public static func btnTextRoundMedium07() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundMedium,
+                                        color: ButtonTextColor.secondary05)
+    }
+
+    // MARK: - TextRound Semi Medium
+    public static func btnTextRoundSemiMedium01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.primary01)
+    }
+
+    public static func btnTextRoundSemiMedium02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.primary02)
+    }
+
+    public static func btnTextRoundSemiMedium03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.secondary01)
+    }
+
+    public static func btnTextRoundSemiMedium04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.secondary02)
+    }
+
+    public static func btnTextRoundSemiMedium05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.secondary03)
+    }
+
+    public static func btnTextRoundSemiMedium06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.secondary04)
+    }
+
+    public static func btnTextRoundSemiMedium07() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSemiMedium,
+                                        color: ButtonTextColor.secondary05)
+    }
+
+    // MARK: - TextRound Small
+    public static func btnTextRoundSmall01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.primary01)
+    }
+
+    public static func btnTextRoundSmall02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.primary02)
+    }
+
+    public static func btnTextRoundSmall03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.secondary01)
+    }
+
+    public static func btnTextRoundSmall04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.secondary02)
+    }
+
+    public static func btnTextRoundSmall05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.secondary03)
+    }
+
+    public static func btnTextRoundSmall06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.secondary04)
+    }
+
+    public static func btnTextRoundSmall07() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonTextConfig.roundSmall,
+                                        color: ButtonTextColor.secondary05)
+    }
+
 }
 // MARK: - ClickableColorConfig
 public enum ButtonTextColor: ClickableUnitButtonColorConfig {
@@ -195,38 +339,53 @@ public enum ButtonTextConfig: ClickableUnitButtonConfig {
     case medium
     case semiMedium
     case small
-    
+    /// 캡슐 모양 텍스트 버튼. 눌림 배경이 캡슐로 보이고 좌우 여백은 크기와 무관하게 16이다 (Figma btnTextRound*)
+    case roundLarge
+    case roundMedium
+    case roundSemiMedium
+    case roundSmall
+
     public var font: ClickableUnitButtonFont {
         switch self {
-        case .large:
+        case .large, .roundLarge:
             return ClickableUnitButtonFont.set(font: .b1sb15)
-        case .medium:
+        case .medium, .roundMedium:
             return ClickableUnitButtonFont.set(font: .b2r14)
-        case .semiMedium:
+        case .semiMedium, .roundSemiMedium:
             return ClickableUnitButtonFont.set(font: .b2r14)
-        case .small:
+        case .small, .roundSmall:
             return ClickableUnitButtonFont.set(font: .b3r13)
         }
     }
-    
+
     public var buttonType: ClickableUnitButton.ButtonPreset.ButtonType {
         switch self {
-        case .large:
+        case .large, .roundLarge:
             return .large
-        case .medium:
+        case .medium, .roundMedium:
             return .medium
-        case .semiMedium:
+        case .semiMedium, .roundSemiMedium:
             return .semiMedium
-        case .small:
+        case .small, .roundSmall:
             return .small
         }
     }
-    
+
     public var buttonPadding: ClickableUnitButton.ButtonPreset.ButtonPadding {
-        return .normal
+        switch self {
+        case .roundLarge, .roundMedium, .roundSemiMedium, .roundSmall:
+            return .text
+        default:
+            return .normal
+        }
     }
-    
+
     public var cornerRadius: ClickableUnitButton.ButtonPreset.Corner {
-        return .normal
+        switch self {
+        case .roundLarge, .roundMedium, .roundSemiMedium, .roundSmall:
+            return .round
+        default:
+            return .normal
+        }
     }
 }

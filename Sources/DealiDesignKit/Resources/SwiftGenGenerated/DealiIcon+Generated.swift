@@ -122,6 +122,7 @@ public enum DealiIcon {
   public static let ic_time_filled = DesignSystemImage(name: "ic_time_filled")
   public static let ic_trash_filled = DesignSystemImage(name: "ic_trash_filled")
   public static let ic_trophy_filled = DesignSystemImage(name: "ic_trophy_filled")
+  public static let ic_truck_filled = DesignSystemImage(name: "ic_truck_filled")
   public static let ic_x_circle_filled = DesignSystemImage(name: "ic_x_circle_filled")
   public static let ic_x_circle_s_filled = DesignSystemImage(name: "ic_x_circle_s_filled")
   public static let ic_2gridview = DesignSystemImage(name: "ic_2gridview")

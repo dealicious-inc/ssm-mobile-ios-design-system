@@ -25,7 +25,6 @@ public final class DealiTextArea: UIView, DealiTextField {
         super.init(frame: frame)
         
         self.setUI()
-      
         
         self.inputStatus
             .bind(with: self) { owner, status in
@@ -158,7 +157,11 @@ public final class DealiTextArea: UIView, DealiTextField {
     /// TextArea placeholder 세팅
     public var placeholder: String? {
         didSet {
-            self.placeholderLabel.text = self.placeholder
+            self.placeholderLabel.attributedText = NSMutableAttributedString(string: self.placeholder ?? "")
+                .font(.b2r14)
+                .color(.g70)
+                .alignment(.left)
+                .setLineHeight()
         }
     }
     
@@ -179,10 +182,13 @@ public final class DealiTextArea: UIView, DealiTextField {
     /// TextInput text 세팅
     public var text: String? {
         get {
-            self.textField.text
+            self.textField.attributedText.string
         } set {
             if self.textField.text != newValue {
-                self.textField.text = newValue
+                self.textField.attributedText = NSMutableAttributedString(string: newValue ?? "")
+                    .font(.b2r14)
+                    .setLineHeight()
+                
                 if let maxLength = self.maxLength {
                     self.textCounterLabel.text = "\(newValue?.count ?? 0)/\(maxLength)"
                 }
@@ -204,12 +210,11 @@ public final class DealiTextArea: UIView, DealiTextField {
         }
     }
     
-    
     /// 좌측 버튼
     public var leftButton: UIButton? {
         didSet {
             guard let leftButton else { return }
-            self.textFieldStackView.insertArrangedSubview(leftButton, at: 0)
+            self.horizontalStackView.insertArrangedSubview(leftButton, at: 0)
 
             leftButton.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(11.0)
@@ -223,7 +228,7 @@ public final class DealiTextArea: UIView, DealiTextField {
         didSet {
             guard let rightButton else { return }
             
-            self.textFieldStackView.addArrangedSubview(rightButton)
+            self.horizontalStackView.addArrangedSubview(rightButton)
 
             rightButton.snp.makeConstraints {
                 $0.bottom.equalToSuperview().inset(11.0)
@@ -281,7 +286,7 @@ public final class DealiTextArea: UIView, DealiTextField {
     /// 필수입력사항인지 나타내는 뱃지
     private let requiredBadge = UIView()
     
-    private let textFieldStackView = UIStackView()
+    private let horizontalStackView = UIStackView()
     private let placeholderLabel = UILabel()
     private let helperTextLabel = UILabel()
     private let textCounterLabel = UILabel()
@@ -317,11 +322,18 @@ private extension DealiTextArea {
             $0.edges.equalToSuperview()
         }
         
-        contentStackView.addArrangedSubview(self.titleStackView)
-        self.setTitleStackView()
+        let bottomInfoStackView = UIStackView().then {
+            $0.axis = .horizontal
+            $0.distribution = .fill
+            $0.alignment = .center
+        }
         
-        contentStackView.addArrangedSubview(self.textFieldStackView)
-        self.textFieldStackView.then {
+        contentStackView.addArrangedSubview(self.titleStackView)
+        contentStackView.addArrangedSubview(self.horizontalStackView)
+        contentStackView.addArrangedSubview(bottomInfoStackView)
+
+        self.setTitleStackView()
+        self.horizontalStackView.then {
             $0.axis = .horizontal
             $0.spacing = 12.0
             $0.alignment = .bottom
@@ -330,7 +342,7 @@ private extension DealiTextArea {
             $0.horizontalEdges.equalToSuperview()
         }
         
-        self.textFieldStackView.addArrangedSubview(self.textField)
+        self.horizontalStackView.addArrangedSubview(self.textField)
         self.textField.then {
             $0.font = .b2r14
             $0.indicatorStyle = .default
@@ -342,33 +354,28 @@ private extension DealiTextArea {
             $0.tintColor = .g100
             $0.setCornerRadius(6.0, borderWidth: 1.0, borderColor: .g20)
             $0.backgroundColor = .primary04
-            $0.textContainerInset = .init(top: 13.0, left: 9.0, bottom: 12.0, right: 12.0)
+            $0.textContainerInset = .init(top: 13.0, left: 12.0, bottom: 13.0, right: 16.0)
         }.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
         }
         
         self.setContentType(self.contentType)
         
-        self.addSubview(self.placeholderLabel)
+        self.horizontalStackView.addSubview(self.placeholderLabel)
         self.placeholderLabel.then {
-            $0.font = .b2r14
             $0.isUserInteractionEnabled = false
-            $0.textColor = .g70
-            $0.textAlignment = .left
-            $0.text = self.placeholder
+            $0.attributedText = NSMutableAttributedString(string: self.placeholder ?? "")
+                .font(.b2r14)
+                .color(.g70)
+                .alignment(.left)
+                .setLineHeight()
             $0.numberOfLines = 0
         }.snp.makeConstraints {
-            $0.top.equalTo(textField).inset(13.0)
+            $0.top.equalToSuperview().inset(13.0)
             $0.left.right.equalTo(textField).inset(16.0)
         }
         
-        let bottomInfoStackView = UIStackView().then {
-            $0.axis = .horizontal
-            $0.distribution = .fill
-            $0.alignment = .center
-        }
-                
-        contentStackView.addArrangedSubview(bottomInfoStackView)
+   
         bottomInfoStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(4.0)
         }

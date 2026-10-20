@@ -534,6 +534,13 @@ extension ButtonViewController {
             .btnFilledTonalLarge04,
             .btnFilledTonalLarge05,
             .btnFilledTonalLarge06,
+
+            .btnFilledTonalRoundLarge01,
+            .btnFilledTonalRoundLarge02,
+            .btnFilledTonalRoundLarge03,
+            .btnFilledTonalRoundLarge04,
+            .btnFilledTonalRoundLarge05,
+            .btnFilledTonalRoundLarge06,
             
             .btnOutlineLarge01,
             .btnOutlineLarge02,
@@ -553,6 +560,12 @@ extension ButtonViewController {
             .btnOutlineBgLarge04,
             .btnOutlineBgLarge05,
             .btnOutlineBgLarge06,
+
+            .btnOutlineBgRoundLarge01,
+            .btnOutlineBgRoundLarge03,
+            .btnOutlineBgRoundLarge04,
+            .btnOutlineBgRoundLarge05,
+            .btnOutlineBgRoundLarge06,
             
             .btnTextLarge01,
             .btnTextLarge02,
@@ -591,6 +604,13 @@ extension ButtonViewController {
             .btnFilledTonalMedium04,
             .btnFilledTonalMedium05,
             .btnFilledTonalMedium06,
+
+            .btnFilledTonalRoundMedium01,
+            .btnFilledTonalRoundMedium02,
+            .btnFilledTonalRoundMedium03,
+            .btnFilledTonalRoundMedium04,
+            .btnFilledTonalRoundMedium05,
+            .btnFilledTonalRoundMedium06,
             
             .btnOutlineMedium01,
             .btnOutlineMedium02,
@@ -610,6 +630,12 @@ extension ButtonViewController {
             .btnOutlineBgMedium04,
             .btnOutlineBgMedium05,
             .btnOutlineBgMedium06,
+
+            .btnOutlineBgRoundMedium01,
+            .btnOutlineBgRoundMedium03,
+            .btnOutlineBgRoundMedium04,
+            .btnOutlineBgRoundMedium05,
+            .btnOutlineBgRoundMedium06,
             
             .btnTextMedium01,
             .btnTextMedium02,
@@ -648,6 +674,13 @@ extension ButtonViewController {
             .btnFilledTonalSemiMedium04,
             .btnFilledTonalSemiMedium05,
             .btnFilledTonalSemiMedium06,
+
+            .btnFilledTonalRoundSemiMedium01,
+            .btnFilledTonalRoundSemiMedium02,
+            .btnFilledTonalRoundSemiMedium03,
+            .btnFilledTonalRoundSemiMedium04,
+            .btnFilledTonalRoundSemiMedium05,
+            .btnFilledTonalRoundSemiMedium06,
             
             .btnOutlineSemiMedium01,
             .btnOutlineSemiMedium02,
@@ -667,6 +700,12 @@ extension ButtonViewController {
             .btnOutlineBgSemiMedium04,
             .btnOutlineBgSemiMedium05,
             .btnOutlineBgSemiMedium06,
+
+            .btnOutlineBgRoundSemiMedium01,
+            .btnOutlineBgRoundSemiMedium03,
+            .btnOutlineBgRoundSemiMedium04,
+            .btnOutlineBgRoundSemiMedium05,
+            .btnOutlineBgRoundSemiMedium06,
             
             .btnTextSemiMedium01,
             .btnTextSemiMedium02,
@@ -705,6 +744,13 @@ extension ButtonViewController {
             .btnFilledTonalSmall04,
             .btnFilledTonalSmall05,
             .btnFilledTonalSmall06,
+
+            .btnFilledTonalRoundSmall01,
+            .btnFilledTonalRoundSmall02,
+            .btnFilledTonalRoundSmall03,
+            .btnFilledTonalRoundSmall04,
+            .btnFilledTonalRoundSmall05,
+            .btnFilledTonalRoundSmall06,
             
             .btnOutlineSmall01,
             .btnOutlineSmall02,
@@ -724,6 +770,12 @@ extension ButtonViewController {
             .btnOutlineBgSmall04,
             .btnOutlineBgSmall05,
             .btnOutlineBgSmall06,
+
+            .btnOutlineBgRoundSmall01,
+            .btnOutlineBgRoundSmall03,
+            .btnOutlineBgRoundSmall04,
+            .btnOutlineBgRoundSmall05,
+            .btnOutlineBgRoundSmall06,
             
             .btnTextSmall01,
             .btnTextSmall02,

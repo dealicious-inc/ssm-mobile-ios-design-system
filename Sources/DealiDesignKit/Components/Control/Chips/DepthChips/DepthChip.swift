@@ -29,10 +29,9 @@ public struct DealiDepthChipItem {
  chip.onDeleteTap = { ... }
  ```
  */
-public class DealiDepthChip: DealiChip {
+public final class DealiDepthChip: DealiChip {
 
     public override var intrinsicContentSize: CGSize {
-        self.contentStackView.layoutIfNeeded()
         let width = self.configuration.horizontalPadding * 2.0 + self.contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width
         return CGSize(width: ceil(width), height: self.configuration.height)
     }
@@ -146,6 +145,8 @@ public class DealiDepthChip: DealiChip {
             $0.tintColor = color.textColor
         }
         self.deleteImageView.tintColor = color.textColor
+        // X 버튼은 칩 안의 별도 UIButton이라 칩의 isEnabled가 전달되지 않는다. Disabled 칩에서 삭제되지 않도록 직접 막는다
+        self.deleteButton.isEnabled = (status != .disabled)
         self.invalidateIntrinsicContentSize()
     }
 

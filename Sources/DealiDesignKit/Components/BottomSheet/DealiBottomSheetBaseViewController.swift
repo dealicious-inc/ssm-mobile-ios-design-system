@@ -121,8 +121,25 @@ open class DealiBottomSheetBaseViewController: UIViewController {
         
     }
     
+    open override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        self.updateContentSideSafeAreaMargins()
+    }
+
+    /// 배경(`contentView`)은 화면 폭을 채우고, 내용은 옆면 safe area(iPhone Duo 닫힘의 세로 상태바 띠) 안쪽에 둔다.
+    /// 좌우 제약은 하위 시트가 바꾸므로 건드리지 않고 스택의 leading·trailing margin만 맞춘다. 위·아래 margin은 0으로 둔다.
+    private func updateContentSideSafeAreaMargins() {
+        let insets = self.contentView.safeAreaInsets
+        let margins = NSDirectionalEdgeInsets(top: 0.0, leading: insets.left, bottom: 0.0, trailing: insets.right)
+        guard self.contentStackView.directionalLayoutMargins != margins else { return }
+        self.contentStackView.directionalLayoutMargins = margins
+    }
+
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        // 시트가 올라오거나 폭 규칙이 바뀌면 contentView의 safe area가 레이아웃 중에 바뀐다. 값이 같으면 아무것도 하지 않는다.
+        self.updateContentSideSafeAreaMargins()
         
         if let cornerLayer = self.cornerLayer {
             cornerLayer.removeFromSuperlayer()
@@ -173,10 +190,15 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.alignment = .fill
             $0.distribution = .fill
             $0.spacing = 4.0
+            // 옆면 상태바 띠(iPhone Duo 닫힘)는 좌우 제약이 아니라 layout margin으로 피한다. `updateContentSideSafeAreaMargins` 참고
+            $0.isLayoutMarginsRelativeArrangement = true
+            $0.insetsLayoutMarginsFromSafeArea = false
+            $0.directionalLayoutMargins = .zero
         }.snp.makeConstraints {
             $0.top.equalToSuperview().offset(self.titleType == .hidden ? 16.0 : 14.0)
-            // 배경(contentView)은 화면 폭을 채우고, 내용은 옆면 상태바 띠를 피해 safe area 안에 둔다.
-            $0.left.right.equalTo(self.contentView.safeAreaLayoutGuide)
+            // 하위 시트가 `contentStackView.snp.updateConstraints { $0.left.right.equalToSuperview() }`로 좌우 여백을 바꾸므로
+            // 좌우 기준은 superview로 둔다. safe area 기준으로 바꾸면 SnapKit이 맞는 제약을 못 찾아 크래시가 난다.
+            $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview().inset(safeAreaBottomMargin)
         }
         

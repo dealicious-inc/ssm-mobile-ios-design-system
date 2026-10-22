@@ -85,6 +85,7 @@ extension SearchInputViewController {
         }
         
         let searchBarView1 = DealiSearchInput(delegate: self)
+        searchBarView1.accessibilityIdentifier = "sample__search"
         contentStackView.addArrangedSubview(searchBarView1)
         searchBarView1.then {
             $0.backgroundColor = .clear

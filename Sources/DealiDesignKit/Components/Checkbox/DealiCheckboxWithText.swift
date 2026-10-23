@@ -143,6 +143,8 @@ public final class DealiCheckboxWithText: UIView {
     
     private func setAppearance(for status: CheckboxStatus) {
         self.titleLabel.textColor = status.textColor
+        self.setAccessibilityTrait(.selected, isOn: status.isSelected)
+        self.setAccessibilityTrait(.notEnabled, isOn: status.isEnabled == false)
     }
     
     required init(coder: NSCoder) {

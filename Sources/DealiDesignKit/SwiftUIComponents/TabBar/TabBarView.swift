@@ -134,8 +134,11 @@ public struct TabBarView: View {
                         buttonTabItemView(viewModel.items[index], index: index)
                     case .sliderChip(let style):
                         chipTabItemView(viewModel.items[index], index: index, style: style)
-                    case .sliderImageChip, .custom:
+                    case .sliderImageChip:
+                        EmptyView()
+                    case .custom:
                         // custom 아이템 뷰는 UIKit(DealiTabBarCustomItemView) 전용이라 SwiftUI 탭바에서는 지원하지 않는다.
+                        let _ = assertionFailure("tabBarCustom은 SwiftUI TabBarView에서 지원하지 않는다")
                         EmptyView()
                     }
                 }

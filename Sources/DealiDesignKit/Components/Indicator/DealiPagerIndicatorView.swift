@@ -162,6 +162,11 @@ private final class DealiPagerArrowButton: UIControl {
         
         super.init(frame: .zero)
         
+        // UIControl은 button trait가 자동으로 붙지 않아 VoiceOver가 버튼으로 읽도록 직접 준다
+        self.isAccessibilityElement = true
+        self.accessibilityTraits = .button
+        self.accessibilityLabel = (direction == .previous ? "이전 페이지" : "다음 페이지")
+        
         self.then {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 4.0

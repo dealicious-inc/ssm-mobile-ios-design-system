@@ -15,21 +15,14 @@ import UIKit
  - `isSelected`의 didSet에서 선택/비선택 색과 폰트를 바꾼다. 탭바가 탭 전환 때마다 세팅한다.
  - 터치는 탭바 셀이 받으므로 내부 컨트롤에 액션을 달지 않는다.
 
+ 샘플앱 `CountChipTabBarItemView`(TabBarViewController.swift)가 전체 구현 예다. 최소 형태는 아래 두 override다.
+
  ```swift
  final class CountChipItemView: DealiTabBarCustomItemView {
      private let chip = DealiControl.chipFilledMedium04()
 
      override var isSelected: Bool {
-         didSet {
-             self.chip.isSelected = self.isSelected
-             self.updateTitle()
-         }
-     }
-
-     init(title: String, count: Int) {
-         super.init(frame: .zero)
-         self.addSubview(self.chip)
-         self.chip.snp.makeConstraints { $0.edges.equalToSuperview() }
+         didSet { self.chip.isSelected = self.isSelected }
      }
 
      override func calculateInstrinsicSize() -> CGSize {

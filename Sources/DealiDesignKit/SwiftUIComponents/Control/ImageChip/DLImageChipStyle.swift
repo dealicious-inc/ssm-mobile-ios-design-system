@@ -84,9 +84,22 @@ public enum ImageChipPreset: CaseIterable {
     case imgChipSmall01
     case imgOutlineSquareLarge01
     case imgOutlineSquareMedium01
+    /// chipOutlineImageLarge01 / chipOutlineImageMedium01
+    case imgOutlineLarge01
+    case imgOutlineMedium01
 
     var config: DLImageChipConfig {
         switch self {
+        case .imgOutlineLarge01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.outlineImageLarge.size,
+                style: ImageStyleType.outline01.style
+            )
+        case .imgOutlineMedium01:
+            return DLImageChipConfig(
+                size: ImageChipSizeType.outlineImageMedium.size,
+                style: ImageStyleType.outline01.style
+            )
         case .imgChipLarge01:
             return DLImageChipConfig(
                 size: ImageChipSizeType.large.size,

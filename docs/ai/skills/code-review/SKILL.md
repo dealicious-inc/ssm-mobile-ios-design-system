@@ -20,7 +20,7 @@ description: Reviews PRs, local diffs, or selected files in the design system. F
 ## 규칙
 
 - 코드를 수정하지 않는다.
-- PR 리뷰 기본 비교 기준은 `origin/main`이다.
+- PR 리뷰 기본 비교 기준은 `origin/dev`다.
 - 결과는 한국어로 쓰고, findings를 먼저 쓴다.
 - 발견 이슈는 `이슈 1`, `이슈 2`처럼 번호를 붙이고 재리뷰에서도 번호를 유지한다.
 - 각 이슈에는 `권장 수정 방향`을 포함한다.

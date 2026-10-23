@@ -132,32 +132,162 @@ extension DealiControl {
                                         color: ButtonOutlineColor.secondary04)
     }
     
-    // MARK: RoundOutline
+    // MARK: OutlineRound Large
+    public static func btnOutlineRoundLarge01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.primary01)
+    }
+    
+    public static func btnOutlineRoundLarge02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.primary02)
+    }
+    
+    public static func btnOutlineRoundLarge03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineRoundLarge04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineRoundLarge05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineRoundLarge06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundLarge,
+                                        color: ButtonOutlineColor.secondary04)
+    }
+    
+    // MARK: - OutlineRound Medium
+    public static func btnOutlineRoundMedium01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.primary01)
+    }
+    
+    public static func btnOutlineRoundMedium02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.primary02)
+    }
+    
+    public static func btnOutlineRoundMedium03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineRoundMedium04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineRoundMedium05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineRoundMedium06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundMedium,
+                                        color: ButtonOutlineColor.secondary04)
+    }
+    
+    // MARK: - OutlineRound SemiMedium
+    public static func btnOutlineRoundSemiMedium01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.primary01)
+    }
+    
+    public static func btnOutlineRoundSemiMedium02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.primary02)
+    }
+    
+    public static func btnOutlineRoundSemiMedium03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineRoundSemiMedium04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineRoundSemiMedium05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineRoundSemiMedium06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSemiMedium,
+                                        color: ButtonOutlineColor.secondary04)
+    }
+    
+    // MARK: - OutlineRound Small
+    public static func btnOutlineRoundSmall01() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.primary01)
+    }
+    
+    public static func btnOutlineRoundSmall02() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.primary02)
+    }
+    
+    public static func btnOutlineRoundSmall03() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.secondary01)
+    }
+    
+    public static func btnOutlineRoundSmall04() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.secondary02)
+    }
+    
+    public static func btnOutlineRoundSmall05() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.secondary03)
+    }
+    
+    public static func btnOutlineRoundSmall06() -> ClickableUnitButtonComponent {
+        return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
+                                        color: ButtonOutlineColor.secondary04)
+    }
+    
+    // MARK: - RoundOutline (deprecated, btnOutlineRoundSmall 로 이름 통일)
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall01")
     public static func btnRoundOutlineSmall01() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary01)
     }
     
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall02")
     public static func btnRoundOutlineSmall02() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.primary02)
     }
     
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall03")
     public static func btnRoundOutlineSmall03() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary01)
     }
     
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall04")
     public static func btnRoundOutlineSmall04() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary02)
     }
     
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall05")
     public static func btnRoundOutlineSmall05() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary03)
     }
     
+    @available(*, deprecated, renamed: "btnOutlineRoundSmall06")
     public static func btnRoundOutlineSmall06() -> ClickableUnitButtonComponent {
         return ClickableUnitButtonComponent(config: ButtonOutlineConfig.roundSmall,
                                         color: ButtonOutlineColor.secondary04)
@@ -203,15 +333,19 @@ public enum ButtonOutlineConfig: ClickableUnitButtonConfig {
     case medium
     case semiMedium
     case small
+    /// 캡슐 모양. 크기 규칙은 같은 이름의 사각 버튼과 같다
+    case roundLarge
+    case roundMedium
+    case roundSemiMedium
     case roundSmall
     
     public var font: ClickableUnitButtonFont {
         switch self {
-        case .large:
+        case .large, .roundLarge:
             return ClickableUnitButtonFont.set(font: .b1sb15)
-        case .medium:
+        case .medium, .roundMedium:
             return ClickableUnitButtonFont.set(font: .b2sb14)
-        case .semiMedium:
+        case .semiMedium, .roundSemiMedium:
             return ClickableUnitButtonFont.set(font: .b2sb14)
         case .small, .roundSmall:
             return ClickableUnitButtonFont.set(font: .b3sb13)
@@ -220,15 +354,13 @@ public enum ButtonOutlineConfig: ClickableUnitButtonConfig {
     
     public var buttonType: ClickableUnitButton.ButtonPreset.ButtonType {
         switch self {
-        case .large:
+        case .large, .roundLarge:
             return .large
-        case .medium:
+        case .medium, .roundMedium:
             return .medium
-        case .semiMedium:
+        case .semiMedium, .roundSemiMedium:
             return .semiMedium
-        case .small:
-            return .small
-        case .roundSmall:
+        case .small, .roundSmall:
             return .small
         }
     }
@@ -239,11 +371,10 @@ public enum ButtonOutlineConfig: ClickableUnitButtonConfig {
     
     public var cornerRadius: ClickableUnitButton.ButtonPreset.Corner {
         switch self {
-        case .roundSmall:
+        case .roundLarge, .roundMedium, .roundSemiMedium, .roundSmall:
             return .round
         default:
             return .normal
         }
-        
     }
 }

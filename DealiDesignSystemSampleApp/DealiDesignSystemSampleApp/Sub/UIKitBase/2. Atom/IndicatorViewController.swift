@@ -17,6 +17,7 @@ final class IndicatorViewController: UIViewController {
     private let numberIndicator1 = DealiIndicator.number1()
     private let numberIndicator2 = DealiIndicator.number2()
     private let numberIndicator3 = DealiIndicator.number3()
+    private let numberIndicator4 = DealiIndicator.number4()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +93,16 @@ final class IndicatorViewController: UIViewController {
         contentStackView.addArrangedSubview(self.numberIndicator3)
         self.numberIndicator3.then {
             $0.numberOfPages = 1234
+        }.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+        }
+        
+        contentStackView.addArrangedSubview(self.numberIndicator4)
+        self.numberIndicator4.then {
+            $0.numberOfPages = 6
+            $0.pageChangedHandler = { page in
+                print("number4 page changed: \(page + 1)")
+            }
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
         }

@@ -20,6 +20,8 @@ public enum DealiTabBarPreset {
     case tabBarChip02
     /// slider 스타일 형식의 tabbar(imgChipSmall01 을 사용)
     case tabBarImgChip01
+    /// 앱이 `DealiTabBarCustomItemView`를 상속한 아이템 뷰를 직접 넣는 tabbar. 간격·여백·높이·하단 구분선은 layout 값을 따른다.
+    case tabBarCustom(DealiTabBarCustomLayout)
     
     /// tabber Item Style
     enum DealiTabBarStyle: Equatable {
@@ -27,6 +29,7 @@ public enum DealiTabBarPreset {
         case slider
         case sliderChip(_ chipStyle: DealiTabBarSliderChipStyle)
         case sliderImageChip(_ chipStyle: DealiTabBarSliderImageChipStyle)
+        case custom
     }
     
     /// tab bar chip Item Style
@@ -51,6 +54,8 @@ public enum DealiTabBarPreset {
             return .sliderChip(.chipFilledSmall03)
         case .tabBarImgChip01:
             return .sliderImageChip(.imgChipSmall01)
+        case .tabBarCustom:
+            return .custom
         default:
             return .slider
         }
@@ -85,6 +90,8 @@ public enum DealiTabBarPreset {
             return .primary01
         case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return .primary04
+        case .tabBarCustom:
+            return .g100
         }
     }
     
@@ -95,6 +102,8 @@ public enum DealiTabBarPreset {
             return .clear
         case .tabBarChip02:
             return .g20
+        case .tabBarCustom(let layout):
+            return layout.bottomDividerColor
         default:
             return .g30
         }
@@ -105,6 +114,8 @@ public enum DealiTabBarPreset {
         switch self {
         case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return 8.0
+        case .tabBarCustom(let layout):
+            return layout.itemSpacing
         default:
             return 0.0
         }
@@ -125,6 +136,8 @@ public enum DealiTabBarPreset {
         switch self {
         case .tabBarSegment01, .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return 16.0
+        case .tabBarCustom(let layout):
+            return layout.horizontalMargin
         default:
             return 4.0
         }
@@ -135,6 +148,8 @@ public enum DealiTabBarPreset {
         switch self {
         case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return 56.0
+        case .tabBarCustom(let layout):
+            return layout.contentHeight
         default:
             return 44.0
         }
@@ -145,8 +160,39 @@ public enum DealiTabBarPreset {
         switch self {
         case .tabBarChip01, .tabBarChip02, .tabBarImgChip01:
             return 56.0
+        case .tabBarCustom(let layout):
+            return layout.contentHeight
         default:
             return 44.0
         }
+    }
+}
+
+/**
+ 설명: tabBarCustom의 레이아웃 값. 아이템 뷰 모양은 앱이 정하고 탭바는 이 값으로 간격·여백·높이만 잡는다.
+
+ 기본값은 chip 탭바(`tabBarChip01`)와 같은 간격 8 / 여백 16 / 높이 56이다. 필요한 값만 바꿔서 넘긴다.
+ ```swift
+ DealiTabBarCustomLayout(itemSpacing: 4.0, contentHeight: 56.0)
+ ```
+ */
+public struct DealiTabBarCustomLayout: Equatable {
+    /// 아이템 사이 간격. 기본 8
+    public var itemSpacing: CGFloat
+    /// 탭바 양쪽 여백. 기본 16
+    public var horizontalMargin: CGFloat
+    /// 탭바 높이. 아이템 뷰는 이 높이 안에서 세로 가운데 정렬된다. 기본 56
+    public var contentHeight: CGFloat
+    /// 하단 구분선 색. 기본 clear
+    public var bottomDividerColor: UIColor
+    
+    public init(itemSpacing: CGFloat = 8.0,
+                horizontalMargin: CGFloat = 16.0,
+                contentHeight: CGFloat = 56.0,
+                bottomDividerColor: UIColor = .clear) {
+        self.itemSpacing = itemSpacing
+        self.horizontalMargin = horizontalMargin
+        self.contentHeight = contentHeight
+        self.bottomDividerColor = bottomDividerColor
     }
 }

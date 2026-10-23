@@ -13,6 +13,8 @@ public enum DealiIndicatorPreset {
     case number1
     case number2
     case number3
+    /// 좌/우 버튼으로 페이지를 넘기는 버튼형 페이저. 흰 배경 위에서 사용
+    case number4
     
     public var normalColor: UIColor {
         switch self {
@@ -20,6 +22,8 @@ public enum DealiIndicatorPreset {
             return .g30
         case .number1:
             return .primary04
+        case .number4:
+            return .g80
         default:
             return .w50
         }
@@ -29,6 +33,8 @@ public enum DealiIndicatorPreset {
         switch self {
         case .dots:
             return .primary01
+        case .number4:
+            return .g100
         default:
             return .primary04
         }
@@ -78,6 +84,8 @@ public enum DealiIndicatorPreset {
         switch self {
         case .dots, .dotsw, .number1:
             return 6.0
+        case .number4:
+            return 16.0
         default:
             return 2.0
         }
@@ -91,6 +99,8 @@ public enum DealiIndicatorPreset {
             return 26.0
         case .number3:
             return 20.0
+        case .number4:
+            return 32.0
         default:
             return 0.0
         }

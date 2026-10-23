@@ -45,7 +45,7 @@ public final class TabBarViewModel: ObservableObject {
         self.imageChipItems = imageChipItems
         self.isScrollable = {
             switch type.style {
-            case .slider, .sliderChip, .sliderImageChip:
+            case .slider, .sliderChip, .sliderImageChip, .custom:
                 return true
             default:
                 return false
@@ -135,6 +135,10 @@ public struct TabBarView: View {
                     case .sliderChip(let style):
                         chipTabItemView(viewModel.items[index], index: index, style: style)
                     case .sliderImageChip:
+                        EmptyView()
+                    case .custom:
+                        // custom 아이템 뷰는 UIKit(DealiTabBarCustomItemView) 전용이라 SwiftUI 탭바에서는 지원하지 않는다.
+                        let _ = assertionFailure("tabBarCustom은 SwiftUI TabBarView에서 지원하지 않는다")
                         EmptyView()
                     }
                 }

@@ -55,6 +55,12 @@ class TabBarViewController: UIViewController {
                                                   DealiTabBarItem.make(title: "힙색",
                                                                        icon: DealiTabBarIcon(url: URL(string: "https://v4.img.sinsang.market?f=https://image-cache.sinsang.market/images/34889263/157883634290091900_680130812.jpg&rs=raw&w=100&h=100"), size: CGSize(width: 24.0, height: 24.0)), imageChipSlotView: ImageChipCustomView(growth: Int.random(in: 0...100)))]
     
+    private var customTabBarItemArray = [DealiTabBarItem.make(title: "매장주문", customView: CountChipTabBarItemView(title: "매장주문", count: 3)),
+                                         DealiTabBarItem.make(title: "신상배송", customView: CountChipTabBarItemView(title: "신상배송", count: 12)),
+                                         DealiTabBarItem.make(title: "정산", customView: CountChipTabBarItemView(title: "정산", count: 0)),
+                                         DealiTabBarItem.make(title: "거래처요청", customView: CountChipTabBarItemView(title: "거래처요청", count: 1200)),
+                                         DealiTabBarItem.make(title: "신상톡", customView: CountChipTabBarItemView(title: "신상톡", count: 7))]
+    
     private var segmentTabBarItems: [DealiTabBarItem] = []
     private var tabBarSlider01Items: [DealiTabBarItem] = []
     private var tabBarSlider02Items: [DealiTabBarItem] = []
@@ -74,6 +80,7 @@ class TabBarViewController: UIViewController {
     private let tabBarSlider02 = DealiTabBar.tabBarSlider02()
     private let tabBarChip01 = DealiTabBar.tabBarChip01(isSelectedItemCentered: true)
     private let tabBarChip02 = DealiTabBar.tabBarChip02()
+    private let tabBarCustom = DealiTabBar.tabBarCustom(layout: DealiTabBarCustomLayout(itemSpacing: 4.0), isSelectedItemCentered: false)
     private let tabBarImgChip01 = DealiTabBar.tabBarImgChip01(showImageChipSlotWhenSelected: true)
     
     private let tabBarSegment01ContentView = UIView()
@@ -284,6 +291,21 @@ class TabBarViewController: UIViewController {
         contentStackView.addArrangedSubview(self.tabBarChip02)
         self.tabBarChip02.then {
             $0.setTabBarItems(tabBarItemArray: sliderTabBarItemArray, startIndex: -2)
+            $0.delegate = self
+        }.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+        }
+        
+        let tabBarCustomTitleLabel = UILabel()
+        contentStackView.addArrangedSubview(tabBarCustomTitleLabel)
+        tabBarCustomTitleLabel.do {
+            $0.text = "tabBarCustom (chipFilledMedium04 + count)"
+            $0.font = .b1sb15
+        }
+        
+        contentStackView.addArrangedSubview(self.tabBarCustom)
+        self.tabBarCustom.then {
+            $0.setTabBarItems(tabBarItemArray: customTabBarItemArray, startIndex: 0)
             $0.delegate = self
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -908,5 +930,54 @@ extension TabBarViewController {
         let viewModel = TabBarViewModel(type: .tabBarImgChip01, imageChipItems: items, selectedIndex: 5)
         let vc = SwiftUITabBarViewController(viewModel: viewModel, childVC: childVCArr)
         self.insertChildController(vc, intoParentView: tabBarImgChip01ContentView)
+    }
+}
+
+/// tabBarCustom 예시. chipFilledMedium04 안에 제목과 카운트를 색을 나눠 표시하는 아이템 뷰
+final class CountChipTabBarItemView: DealiTabBarCustomItemView {
+    
+    private let chip = DealiControl.chipFilledMedium04()
+    private let title: String
+    private let count: Int
+    
+    override var isSelected: Bool {
+        didSet {
+            self.chip.isSelected = self.isSelected
+            self.updateTitle()
+        }
+    }
+    
+    init(title: String, count: Int) {
+        self.title = title
+        self.count = count
+        
+        super.init(frame: .zero)
+        
+        self.addSubview(self.chip)
+        self.chip.then {
+            $0.isUserInteractionEnabled = false
+        }.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        self.updateTitle()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func calculateInstrinsicSize() -> CGSize {
+        return self.chip.fixedSize
+    }
+    
+    private func updateTitle() {
+        let titleColor: UIColor = (self.isSelected ? .primary04 : .g80)
+        let countColor: UIColor = (self.isSelected ? .primary04 : .g100)
+        let countText = (self.count > 999 ? "999+" : String(self.count))
+        
+        let attributedTitle = NSMutableAttributedString(string: "\(self.title) ", attributes: [.font: UIFont.b2sb14, .foregroundColor: titleColor])
+        attributedTitle.append(NSAttributedString(string: countText, attributes: [.font: UIFont.b2sb14, .foregroundColor: countColor]))
+        self.chip.attributedTitle = attributedTitle
     }
 }

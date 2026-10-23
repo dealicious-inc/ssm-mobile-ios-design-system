@@ -40,7 +40,8 @@ private extension NoticeViewController {
         contentScrollView.then {
             $0.bounces = false
         }.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         let contentView = UIView()

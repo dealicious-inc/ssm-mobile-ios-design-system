@@ -226,6 +226,7 @@ public enum DealiIcon {
   public static let ic_outlink = DesignSystemImage(name: "ic_outlink")
   public static let ic_pen = DesignSystemImage(name: "ic_pen")
   public static let ic_phone = DesignSystemImage(name: "ic_phone")
+  public static let ic_pin = DesignSystemImage(name: "ic_pin")
   public static let ic_plus = DesignSystemImage(name: "ic_plus")
   public static let ic_plus_ad_forward = DesignSystemImage(name: "ic_plus_ad_forward")
   public static let ic_pluscircle = DesignSystemImage(name: "ic_pluscircle")

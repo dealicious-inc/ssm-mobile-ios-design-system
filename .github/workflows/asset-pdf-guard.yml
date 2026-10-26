@@ -1,0 +1,24 @@
+# PR에서 변경된 이미지셋 PDF에 비트맵(사진)이 임베드되어 있으면 실패시킨다.
+# DealiDesignKit 리소스는 소매/도매 앱에 모두 실리므로, 사진 임베드 PDF 하나가
+# 두 앱의 용량을 수십 MB씩 키운다 (배경: ssm-mobile-ios MP-7164).
+name: Asset PDF Guard
+
+on:
+  pull_request:
+    paths:
+      - "**/*.pdf"
+
+jobs:
+  asset-pdf-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check bitmap-embedded PDFs
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          git diff --name-only --diff-filter=ACMR "$base"...HEAD -- '*.imageset/*.pdf' \
+            | tr '\n' '\0' \
+            | xargs -0 --no-run-if-empty bash scripts/asset-pdf-guard.sh

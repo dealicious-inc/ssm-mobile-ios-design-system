@@ -39,7 +39,7 @@ final class BadgeViewController: UIViewController {
             $0.spacing = 4.0
             $0.alignment = .center
         }.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
             $0.height.equalTo(40)
         }
     }

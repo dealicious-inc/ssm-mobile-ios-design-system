@@ -56,6 +56,29 @@ public extension DealiControl {
         chip.placeholderImage = nil
         return chip
     }
+
+    /// 캡슐 외곽선 + 12pt 이미지 칩. 선택하면 외곽선이 g100 으로 바뀐다 (Figma chipOutlineImageLarge01)
+    static func chipOutlineImageLarge01() -> ImageChip {
+        let chip = ImageChip(
+            configuration: ImageChipConfig(
+                size: ImageChipSizeType.outlineImageLarge.size,
+                style: ImageStyleType.outline01.style
+            )
+        )
+        chip.placeholderImage = nil
+        return chip
+    }
+
+    static func chipOutlineImageMedium01() -> ImageChip {
+        let chip = ImageChip(
+            configuration: ImageChipConfig(
+                size: ImageChipSizeType.outlineImageMedium.size,
+                style: ImageStyleType.outline01.style
+            )
+        )
+        chip.placeholderImage = nil
+        return chip
+    }
 }
 
 enum ImageChipSizeType {
@@ -64,7 +87,10 @@ enum ImageChipSizeType {
     case small
     case outlineSquareImageLarge
     case outlineSquareImageMedium
-    
+    /// 크기 규칙은 outlineSquareImage 와 같고 모양만 캡슐이다
+    case outlineImageLarge
+    case outlineImageMedium
+
     var size: ChipSize {
         switch self {
         case .large:
@@ -88,7 +114,7 @@ enum ImageChipSizeType {
                 placeholderInset: 6.0,
                 titleFont: DealiFont.b2Regular
             )
-        case .outlineSquareImageLarge:
+        case .outlineSquareImageLarge, .outlineImageLarge:
             return ChipSize(
                 height: 46.0,
                 imageSize: .init(width: 12.0, height: 12.0),
@@ -99,7 +125,7 @@ enum ImageChipSizeType {
                 verticalPadding: 10.0,
                 interItemSpacing: 4.0
             )
-        case .outlineSquareImageMedium:
+        case .outlineSquareImageMedium, .outlineImageMedium:
             return ChipSize(
                 height: 40.0,
                 imageSize: .init(width: 12.0, height: 12.0),
@@ -118,9 +144,20 @@ enum ImageChipSizeType {
 enum ImageStyleType {
     case basic
     case outlineSquare01
-    
+    /// 캡슐 외곽선. 기본 g20, 선택 g100, 비활성 g20 테두리
+    case outline01
+
     var style: ChipStyle {
         switch self {
+        case .outline01:
+            return ChipStyle(
+                radiusProvider: ChipRadiusType.capsule,
+                colorProvider: ChipColors(
+                    normal: ChipColor(textColor: UIColor.g100, backgroundColor: UIColor.primary04, borderColor: UIColor.g20),
+                    selected: ChipColor(textColor: UIColor.g100, backgroundColor: UIColor.primary04, borderColor: UIColor.g100),
+                    disabled: ChipColor(textColor: UIColor.g50, backgroundColor: UIColor.primary04, borderColor: UIColor.g20)
+                )
+            )
         case .basic:
             return ChipStyle(
                 radiusProvider: ChipRadiusType.capsule,

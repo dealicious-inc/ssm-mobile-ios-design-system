@@ -22,11 +22,13 @@
 ## Branch
 
 - 브랜치명은 작업 성격에 맞춰 `feature/`, `enhancement/`, `fix/`, `hotfix/`를 사용한다.
-- 기본 브랜치는 `main`이다.
+- 기본 브랜치는 `dev`다. 작업 브랜치는 `origin/dev`에서 분기한다.
+- `release`는 배포 브랜치다. `dev`를 `release`에 머지한 뒤 그 커밋에 버전 태그(`x.y.z`)를 발행한다. 태그는 `release`에서만 만든다.
+- 앱(`ssm-mobile-ios`)은 이 태그를 `Tuist/Package.swift`에 exact 버전으로 고정해 사용한다.
 
 ## PR
 
-- PR 비교 기준은 기본적으로 `origin/main`이다.
+- PR 비교 기준은 기본적으로 `origin/dev`다.
 - 리뷰 기준은 `docs/ai/playbooks/code-review-playbook.md`를 따른다.
 
 ## SampleApp

@@ -34,6 +34,32 @@ public class DealiTabBar {
     public static func tabBarImgChip01(isSelectedItemCentered: Bool = true, showImageChipSlotWhenSelected: Bool = true) -> DealiTabBarView {
         return DealiTabBarView(preset: .tabBarImgChip01, isSelectedItemCentered: isSelectedItemCentered, showImageChipSlotWhenSelected: showImageChipSlotWhenSelected)
     }
+
+    /**
+     설명: 앱이 아이템 뷰를 직접 만들어 넣는 탭바. 디자인 시스템에 프리셋이 없는 탭 모양(칩+카운트 등)을 쓸 때 사용한다.
+
+     세팅 순서
+     1. `DealiTabBarCustomItemView`를 상속한 아이템 뷰를 만든다. `calculateInstrinsicSize()`로 폭을 돌려주고, `isSelected`의 didSet에서 선택 색을 바꾼다.
+     2. `DealiTabBarCustomLayout`으로 아이템 간격(itemSpacing), 양쪽 여백(horizontalMargin), 탭바 높이(contentHeight), 하단 구분선(bottomDividerColor)을 정한다. 생략하면 8 / 16 / 56 / clear다.
+     3. `DealiTabBarItem.make(title:customView:)`로 아이템을 만들고 `setTabBarItems(tabBarItemArray:startIndex:)`에 넘긴다. title은 접근성·로그용으로만 쓰이고 화면에는 customView만 보인다.
+     4. 아이템 뷰 내용이 바뀌어 폭이 달라지면 `updateCustomItemWidths()`를 호출한다.
+
+     ```swift
+     let tabBar = DealiTabBar.tabBarCustom(layout: DealiTabBarCustomLayout(itemSpacing: 4.0, contentHeight: 56.0),
+                                           isSelectedItemCentered: false)
+     tabBar.setTabBarItems(tabBarItemArray: [
+         DealiTabBarItem.make(title: "매장주문", customView: CountChipItemView(title: "매장주문", count: 3)),
+         DealiTabBarItem.make(title: "신상배송", customView: CountChipItemView(title: "신상배송", count: 12))
+     ], startIndex: 0)
+     tabBar.delegate = self
+     ```
+
+     - 선택 처리는 탭바가 셀 단위로 하므로 아이템 뷰의 `isUserInteractionEnabled`는 탭바가 false로 바꾼다.
+     - SwiftUI `TabBarView`는 custom을 지원하지 않는다.
+     */
+    public static func tabBarCustom(layout: DealiTabBarCustomLayout = DealiTabBarCustomLayout(), isSelectedItemCentered: Bool = true) -> DealiTabBarView {
+        return DealiTabBarView(preset: .tabBarCustom(layout), isSelectedItemCentered: isSelectedItemCentered)
+    }
 }
 
 @MainActor
@@ -59,6 +85,15 @@ final public class DealiTabBarView: UIView {
 
     /// TabBar의 구성 및 레이아웃 처리가 정상적으로 완료되었는지에 대한 Bool값(선택된 tab이 center 정렬로 적용하기 위해서는 collectionView width값이 있어야 하는데 then에서 Tabbar item을 구성하게 되면 collectionView width 값이 아직 0.0이라서 레이아웃이 정상적으로 적용되지 않는 이슈로 인해 layoutSubviews 에서 collectionView width값이 세팅되면 그때 다시 레이아웃을 적용하기위해 추가)
     private var isLayoutInitialized = false
+
+    /// segment 스타일에서 아이템을 균등 분배할 기준 폭. 레이아웃 전이라 자기 폭이 없으면 윈도우 폭으로 대체한다.
+    private var segmentAvailableWidth: CGFloat {
+        let width = self.bounds.width > 0.0 ? self.bounds.width : dealiWindowSize(for: self).width
+        return width - (self.preset.tabBarHorizontalMargin * 2.0)
+    }
+
+    /// 마지막으로 segment 아이템 폭을 계산한 기준 폭. 접기·펼치기처럼 폭이 바뀌면 다시 계산한다.
+    private var lastSegmentLayoutWidth: CGFloat = 0.0
 
     private var selectedIndex: Int = -1 {
         didSet {
@@ -100,12 +135,15 @@ final public class DealiTabBarView: UIView {
                 }
             }
             $0.contentInset = UIEdgeInsets.init(top: 0.0, left: self.preset.tabBarHorizontalMargin, bottom: 0.0, right: self.preset.tabBarHorizontalMargin)
+            // 좌우 여백은 preset으로 직접 잡는다. 옆면 상태바(iPhone Duo) safe area가 inset으로 더해지면 offset 계산이 어긋난다.
+            $0.contentInsetAdjustmentBehavior = .never
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
             $0.backgroundColor = .clear
             $0.register(cellClass: DealiTabBarItemTextStyleCell.self)
             $0.register(cellClass: DealiTabBarItemChipStyleCell.self)
             $0.register(cellClass: DealiTabBarItemImageChipStyleCell.self)
+            $0.register(cellClass: DealiTabBarItemCustomStyleCell.self)
         }.snp.makeConstraints {
             $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview()
@@ -157,6 +195,26 @@ final public class DealiTabBarView: UIView {
                 self.setSelectedIndexWithScroll(index: self.selectedIndex, isMoveAnimation: false)
             }
         }
+
+        self.relayoutSegmentItemsIfWidthChanged()
+    }
+
+    /// segment 스타일은 아이템 폭을 자기 폭으로 균등 분배하므로, 폭이 바뀌면(접기·펼치기, 회전) 다시 계산한다.
+    private func relayoutSegmentItemsIfWidthChanged() {
+        guard case .segment = self.preset.style,
+              self.bounds.width > 0.0,
+              self.bounds.width != self.lastSegmentLayoutWidth,
+              self.tabBarItemInfoArray.isEmpty == false else { return }
+
+        self.lastSegmentLayoutWidth = self.bounds.width
+        let itemWidth = self.segmentAvailableWidth / CGFloat(self.tabBarItemInfoArray.count)
+        for index in 0..<self.tabBarItemInfoArray.count {
+            self.tabBarItemInfoArray[index].containerWidth = itemWidth
+            self.tabBarItemInfoArray[index].contentWidth = itemWidth
+        }
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.collectionView.reloadData()
+        self.updateTabBarItemPositions()
     }
 
     public func setSelectedIndex(index: Int,
@@ -193,8 +251,9 @@ final public class DealiTabBarView: UIView {
                 itemInfo.itemTextCellUIModel = DealiTabBarItemTextStyleCellUIModel.make(preset: self.preset, tabbarItem: item)
 
                 if case .segment = self.preset.style {
-                    itemInfo.containerWidth = ((UIScreen.main.bounds.size.width - (self.preset.tabBarHorizontalMargin * 2.0)) / CGFloat(itemArray.count))
+                    itemInfo.containerWidth = (self.segmentAvailableWidth / CGFloat(itemArray.count))
                     itemInfo.contentWidth = itemInfo.containerWidth
+                    self.lastSegmentLayoutWidth = self.bounds.width
                 } else {
                     itemInfo.containerWidth = contentWidth + (self.preset.itemHorizontalPadding * 2.0)
                     itemInfo.contentWidth = contentWidth
@@ -222,6 +281,18 @@ final public class DealiTabBarView: UIView {
                 if let itemImageChip = itemInfo.itemImageChipCellUIModel?.itemImageChip {
                     itemInfo.containerWidth = (itemImageChip.intrinsicContentSize.width)
                     itemInfo.contentWidth = (itemImageChip.intrinsicContentSize.width)
+                }
+
+                self.tabBarItemInfoArray.append(itemInfo)
+
+            case .custom:
+                var itemInfo = DealiTabBarItemInfo()
+                itemInfo.itemIndex = index
+                itemInfo.itemCustomCellUIModel = DealiTabBarItemCustomStyleCellUIModel.make(tabbarItem: item)
+                itemInfo.itemSelected = (index == self.selectedIndex)
+                if let itemView = itemInfo.itemCustomCellUIModel?.itemView {
+                    itemInfo.containerWidth = itemView.itemWidth
+                    itemInfo.contentWidth = itemView.itemWidth
                 }
 
                 self.tabBarItemInfoArray.append(itemInfo)
@@ -424,6 +495,22 @@ final public class DealiTabBarView: UIView {
         }
     }
 
+    /// tabBarCustom 아이템 뷰의 내용이 바뀌어 폭이 달라졌을 때 호출한다. 폭을 다시 재고 셀 레이아웃과 위치를 갱신한다.
+    public func updateCustomItemWidths() {
+        guard case .custom = self.preset.style else { return }
+
+        for index in 0..<self.tabBarItemInfoArray.count {
+            guard let itemView = self.tabBarItemInfoArray[index].itemCustomCellUIModel?.itemView else { continue }
+            itemView.invalidateIntrinsicContentSize()
+            self.tabBarItemInfoArray[index].containerWidth = itemView.itemWidth
+            self.tabBarItemInfoArray[index].contentWidth = itemView.itemWidth
+        }
+
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        self.collectionView.reloadData()
+        self.updateTabBarItemPositions(isOnlyPositionUpdate: true)
+    }
+
     // MARK - 이미지칩 사용시 선택된 항목에만 Slot View가 노출되야하는 상광일때 SeletedIndex 값이 변할때 마다 변화된 Image CHip width와 position값을 새롭게 세팅
     private func updateImageChipPosition() {
         if case .sliderImageChip(_) = self.preset.style {
@@ -452,6 +539,10 @@ extension DealiTabBarView: UICollectionViewDataSource, UICollectionViewDelegate 
         } else if case .sliderImageChip(_) = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemImageChipStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemImageChipCellUIModel)
+            return cell
+        } else if case .custom = self.preset.style {
+            let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemCustomStyleCell.self, indexPath: indexPath)
+            cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemCustomCellUIModel)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemTextStyleCell.self, indexPath: indexPath)
@@ -514,10 +605,15 @@ struct DealiTabBarItemInfo {
     var itemTextCellUIModel: DealiTabBarItemTextStyleCellUIModel?
     var itemChipCellUIModel: DealiTabBarItemChipStyleCellUIModel?
     var itemImageChipCellUIModel: DealiTabBarItemImageChipStyleCellUIModel?
+    var itemCustomCellUIModel: DealiTabBarItemCustomStyleCellUIModel?
     var itemSelected: Bool = false {
         didSet {
             if let _ = self.itemTextCellUIModel {
                 self.itemTextCellUIModel?.isSelected = self.itemSelected
+            }
+
+            if let itemCustomCellUIModel = self.itemCustomCellUIModel, let itemView = itemCustomCellUIModel.itemView {
+                itemView.isSelected = self.itemSelected
             }
 
             if let itemCellUIModel = self.itemChipCellUIModel, let itemChip = itemCellUIModel.itemChip {
@@ -539,7 +635,13 @@ public protocol DealiTabBarItemProtocol {
     var showsBadge: Bool { get set }
     var icon: DealiTabBarIcon? { get set }
     var imageChipSlotView: DealiCustomView? { get set }
+    /// tabBarCustom에서 아이템 자리에 넣을 뷰. 다른 프리셋은 무시한다.
+    var customView: DealiTabBarCustomItemView? { get }
 
+}
+
+public extension DealiTabBarItemProtocol {
+    var customView: DealiTabBarCustomItemView? { nil }
 }
 
 public struct DealiTabBarItem: DealiTabBarItemProtocol {
@@ -550,13 +652,15 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
     public var showsBadge: Bool = false
     public var icon: DealiTabBarIcon?
     public var imageChipSlotView: DealiCustomView?
+    public var customView: DealiTabBarCustomItemView?
 
     public static func make(_ viewController: UIViewController? = nil,
                             title: String,
                             isHidden: Bool = false,
                             showsBadge: Bool = false,
                             icon: DealiTabBarIcon? = nil,
-                            imageChipSlotView: DealiCustomView? = nil) -> DealiTabBarItem {
+                            imageChipSlotView: DealiCustomView? = nil,
+                            customView: DealiTabBarCustomItemView? = nil) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController
         item.title = title
@@ -564,6 +668,7 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
         item.isHidden = isHidden
         item.showsBadge = showsBadge
         item.imageChipSlotView = imageChipSlotView
+        item.customView = customView
         return item
     }
 }

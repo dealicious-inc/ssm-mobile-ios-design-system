@@ -107,7 +107,7 @@ private extension ImageChipViewController {
             $0.alignment = .center
             $0.isUserInteractionEnabled = true
         }.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.bottom.lessThanOrEqualTo(self.view.safeAreaLayoutGuide).inset(16.0)
         }
     }
@@ -204,7 +204,34 @@ private extension ImageChipViewController {
         outlineSquareImageMediumTruncateChip.title = longText
         outlineSquareImageMediumTruncateChip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
         outlineSquareImageMediumTruncateChip.snp.makeConstraints { $0.width.equalTo(160) }
-        
+
+        let outlineImageTitleLabel = UILabel()
+        outlineImageTitleLabel.text = "chipOutlineImageLarge01 / Medium01"
+        outlineImageTitleLabel.font = .b2sb14
+        outlineImageTitleLabel.textColor = .g80
+        stackView.addArrangedSubview(outlineImageTitleLabel)
+
+        let outlineImageChips: [(ImageChip, String, DealiChipStatus)] = [
+            (DealiControl.chipOutlineImageLarge01(), "Large Default", .normal),
+            (DealiControl.chipOutlineImageLarge01(), "Large Selected", .selected),
+            (DealiControl.chipOutlineImageLarge01(), "Large Disabled", .disabled),
+            (DealiControl.chipOutlineImageMedium01(), "Medium Default", .normal),
+            (DealiControl.chipOutlineImageMedium01(), "Medium Selected", .selected),
+            (DealiControl.chipOutlineImageMedium01(), "Medium Disabled", .disabled)
+        ]
+        for (chip, title, status) in outlineImageChips {
+            stackView.addArrangedSubview(chip)
+            chip.title = title
+            chip.imageURL = URL(string: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60")
+            chip.rightImage = UIImage.dealiIcon(named: "ic_x_s")
+            chip.onRightIconTap = { [weak chip] in
+                guard let chip, let stackView = chip.superview as? UIStackView else { return }
+                stackView.removeArrangedSubview(chip)
+                chip.removeFromSuperview()
+            }
+            chip.status = status
+        }
+
         stackView.addArrangedSubview(UIView())
         return stackView
     }
@@ -291,9 +318,38 @@ private extension ImageChipViewController {
         .toUIView(embeddedIn: self)
         .detached(by: self.detachBag)
         stackView.addArrangedSubview(outlineSquareWithXResult.view)
-        
+
+        let outlineImageViewModel = DealiImageChipViewModel(
+            urlString: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60",
+            text: "Outline Image",
+            iconName: "ic_x_s"
+        )
+        let outlineImageResult = DealiImageChip(
+            viewModel: outlineImageViewModel,
+            action: { debugPrint("chipOutlineImageLarge01 탭") },
+            content: { EmptyView() },
+            preset: .imgOutlineLarge01
+        )
+        .toUIView(embeddedIn: self)
+        .detached(by: self.detachBag)
+        stackView.addArrangedSubview(outlineImageResult.view)
+
+        let outlineImageMediumViewModel = DealiImageChipViewModel(
+            urlString: "https://images.unsplash.com/photo-1731021347639-8aac941f5e29?w=500&auto=format&fit=crop&q=60",
+            text: "Outline Image Medium"
+        )
+        let outlineImageMediumResult = DealiImageChip(
+            viewModel: outlineImageMediumViewModel,
+            action: { debugPrint("chipOutlineImageMedium01 탭") },
+            content: { EmptyView() },
+            preset: .imgOutlineMedium01
+        )
+        .toUIView(embeddedIn: self)
+        .detached(by: self.detachBag)
+        stackView.addArrangedSubview(outlineImageMediumResult.view)
+
         stackView.addArrangedSubview(UIView())
-        
+
         return stackView
     }
 }

@@ -27,6 +27,11 @@ public class DealiIndicator {
     public static func number3() -> DealiIndicatorView {
         return DealiNumberIndicatorView(preset: .number3)
     }
+    
+    /// 좌/우 버튼으로 페이지를 넘기는 버튼형 페이저. 페이지 변경 콜백은 `DealiPagerIndicatorView.pageChangedHandler`
+    public static func number4() -> DealiPagerIndicatorView {
+        return DealiPagerIndicatorView(preset: .number4)
+    }
 }
 
 public class DealiIndicatorView: UIView {

@@ -46,6 +46,36 @@ final class SwiftUITabBarViewController: UIViewController {
         self.view.layoutSubviews()
         self.contentScrollView.layoutSubviews()
     }
+
+    /// 마지막으로 페이지 오프셋을 맞춘 스크롤뷰 폭. 회전·접기·펼치기로 폭이 바뀌면 선택된 페이지로 다시 맞춘다.
+    private var lastPagingWidth: CGFloat = 0.0
+    /// 마지막 레이아웃 때의 뷰 폭. 폭이 바뀌는 레이아웃 패스를 미리 알아채는 데 쓴다.
+    private var lastViewWidth: CGFloat = 0.0
+    /// 창 크기가 바뀌는 동안 true. 페이징 스크롤뷰가 offset을 다시 맞추며 보내는 스크롤 이벤트를 무시한다.
+    private var isRestoringPageAfterResize = false
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        let width = self.view.bounds.width
+        if self.lastViewWidth > 0.0, width > 0.0, width != self.lastViewWidth {
+            self.isRestoringPageAfterResize = true
+        }
+        self.lastViewWidth = width
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        defer { self.isRestoringPageAfterResize = false }
+
+        let width = self.contentScrollView.bounds.width
+        guard width > 0.0, width != self.lastPagingWidth else { return }
+        self.lastPagingWidth = width
+        guard self.selectedIndex >= 0 else { return }
+
+        self.contentScrollView.layoutIfNeeded()
+        self.contentScrollView.setContentOffset(CGPoint(x: width * CGFloat(self.selectedIndex), y: 0), animated: false)
+    }
     
     override func loadView() {
         super.loadView()
@@ -58,19 +88,24 @@ final class SwiftUITabBarViewController: UIViewController {
         let tabBarUIKit = self.tabBarView.UIKit()
         self.view.addSubview(tabBarUIKit)
         tabBarUIKit.snp.makeConstraints {
-            $0.left.right.top.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.view.addSubview(self.contentScrollView)
         self.contentScrollView.then { [unowned self] in
             $0.bounces = false
+            // 화면 옆면 상태바(iPhone Duo)로 생기는 safe area를 스크롤뷰가 inset으로 더하면
+            // 마지막 페이지가 그만큼 더 밀려 빈 영역이 보인다. 페이지 폭은 스크롤뷰 폭 그대로 쓴다.
+            $0.contentInsetAdjustmentBehavior = .never
             $0.showsHorizontalScrollIndicator = false
             $0.showsVerticalScrollIndicator = false
             $0.isPagingEnabled = true
             $0.delegate = self
             $0.isScrollEnabled = self.isScrollEnabled
         }.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalTo(tabBarUIKit.snp.bottom).offset(0)
             
         }
@@ -129,7 +164,7 @@ extension SwiftUITabBarViewController {
     func didSelectTabBar(selectedIndex index: Int, showScrollAnimation animation: Bool) {
         UIView.animate(withDuration: (animation == true ? 0.20 : 0.0)) { [weak self] in
                 guard let self else { return }
-            self.contentScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.size.width * CGFloat(index), y: 0), animated: false)
+            self.contentScrollView.setContentOffset(CGPoint(x: self.contentScrollView.bounds.width * CGFloat(index), y: 0), animated: false)
         } completion: { finished in
 
         }
@@ -140,6 +175,7 @@ extension SwiftUITabBarViewController {
 extension SwiftUITabBarViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard self.isRestoringPageAfterResize == false else { return }
         if self.selectedIndex != scrollView.currentPage {
             self.selectedIndex = scrollView.currentPage
             self.tabBarView?.selectedIndex = self.selectedIndex

@@ -35,8 +35,8 @@ public struct DealiResizableRemoteImageView<Placeholder: View>: View {
             
             let finalUrl = self.resizer?((self.urlString, targetSize))
             
-            let width = targetSize.width * UIScreen.main.scale
-            let height = targetSize.height * UIScreen.main.scale
+            let width = targetSize.width * dealiDisplayScale()
+            let height = targetSize.height * dealiDisplayScale()
             let processor = DownsamplingImageProcessor(size: CGSize(width: width, height: height))
             
             KFImage(finalUrl)

@@ -123,7 +123,7 @@ public class DealiCountStepper: UIView {
             $0.size.equalTo(CGSize(width: 30.0, height: 30.0))
         }
         
-        let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44.0))
+        let keyboardAccessoryView = UIView(frame: CGRect(x: 0, y: 0, width: dealiWindowSize(for: self).width, height: 44.0))
         keyboardAccessoryView.setKeyboardAccessoryStyle()
 
         keyboardAccessoryView.addSubview(self.closeButton)

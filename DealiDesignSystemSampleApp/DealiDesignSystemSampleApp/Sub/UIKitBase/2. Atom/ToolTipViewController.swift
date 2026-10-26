@@ -42,7 +42,7 @@ final class ToolTipViewController: UIViewController {
         toolTipSuperView.then {
             $0.backgroundColor = .red
         }.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.center.equalTo(self.view.safeAreaLayoutGuide)
             $0.width.height.equalTo(150.0)
         }
         
@@ -54,7 +54,7 @@ final class ToolTipViewController: UIViewController {
             $0.distribution = .fillEqually
         }.snp.makeConstraints {
             $0.top.equalTo(toolTipSuperView.snp.bottom).offset(50.0)
-            $0.left.right.equalToSuperview().inset(50.0)
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide).inset(50.0)
             $0.height.equalTo(50.0)
         }
         
@@ -66,7 +66,7 @@ final class ToolTipViewController: UIViewController {
             $0.distribution = .fillEqually
         }.snp.makeConstraints {
             $0.top.equalTo(topButtonStackView.snp.bottom).offset(50.0)
-            $0.left.right.equalToSuperview().inset(50.0)
+            $0.left.right.equalTo(self.view.safeAreaLayoutGuide).inset(50.0)
             $0.height.equalTo(50.0)
         }
         

@@ -22,6 +22,13 @@ public class DealiEmptyCollectionViewCell: UICollectionViewCell {
     
     private let emptyView = DealiEmptyView()
     
+    /// 셀 식별자를 안쪽 빈 화면 요소에 내린다. 안쪽 emptyView 자체에는 같은 이름을 붙이지 않는다.
+    public override var accessibilityIdentifier: String? {
+        didSet {
+            self.emptyView.applyTestIdentifiers(prefix: self.accessibilityIdentifier)
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

@@ -75,7 +75,35 @@ final class IndicatorViewController: UIViewController {
         }.snp.makeConstraints {
             $0.centerX.equalToSuperview()
         }
-        
+
+        // dots 두 개를 함께 조작해 페이지 이동과 점 수 변경 뒤 선택 점 위치를 확인한다
+        let dotsControlStackView = UIStackView()
+        contentStackView.addArrangedSubview(dotsControlStackView)
+        dotsControlStackView.then {
+            $0.axis = .horizontal
+            $0.spacing = 12.0
+        }
+        [("이전", -1), ("다음", 1)].forEach { title, step in
+            let button = UIButton(type: .system)
+            dotsControlStackView.addArrangedSubview(button)
+            button.setTitle(title, for: .normal)
+            button.addAction(UIAction { [weak self] _ in
+                guard let self else { return }
+                self.dotsIndicator.currentPage += step
+                self.dotsWIndicator.currentPage += step
+            }, for: .touchUpInside)
+        }
+        [("점 3개", 3), ("점 5개", 5), ("점 0개", 0)].forEach { title, count in
+            let button = UIButton(type: .system)
+            dotsControlStackView.addArrangedSubview(button)
+            button.setTitle(title, for: .normal)
+            button.addAction(UIAction { [weak self] _ in
+                guard let self else { return }
+                self.dotsIndicator.numberOfPages = count
+                self.dotsWIndicator.numberOfPages = count
+            }, for: .touchUpInside)
+        }
+
         contentStackView.addArrangedSubview(self.numberIndicator1)
         self.numberIndicator1.then {
             $0.numberOfPages = 12345

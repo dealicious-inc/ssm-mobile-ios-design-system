@@ -23,6 +23,7 @@ final class CountStepperViewController: UIViewController {
 
         self.title = "CountStepper Component"
         self.view.backgroundColor = .primary04
+        self.countStepper.accessibilityIdentifier = "sample__quantity"
         self.countStepper.delay = 500
         self.countStepper.defaultCountWhenEmpty = 22
         self.countStepper.acceptCountWhenEditingDidEnd = true

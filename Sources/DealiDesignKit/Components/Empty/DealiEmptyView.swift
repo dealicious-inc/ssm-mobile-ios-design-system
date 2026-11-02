@@ -46,6 +46,20 @@ public final class DealiEmptyView: UIView {
     
     private var actionHandler: (() -> Void)?
     
+    /// 컨테이너 식별자를 받아 안쪽 요소까지 `<식별자>__<표준 요소 이름>`으로 붙인다. nil이면 안쪽도 nil.
+    public override var accessibilityIdentifier: String? {
+        didSet {
+            self.applyTestIdentifiers(prefix: self.accessibilityIdentifier)
+        }
+    }
+    
+    /// 안쪽 요소 식별자만 붙인다. 셀처럼 바깥 컨테이너가 식별자를 들고 있을 때 호출한다.
+    func applyTestIdentifiers(prefix: String?) {
+        self.titleLabel.accessibilityIdentifier = prefix.map { "\($0)__title_text" }
+        self.messageLabel.accessibilityIdentifier = prefix.map { "\($0)__message_text" }
+        self.actionButton.accessibilityIdentifier = prefix.map { "\($0)__action_button" }
+    }
+    
     public init() {
         super.init(frame: .zero)
         

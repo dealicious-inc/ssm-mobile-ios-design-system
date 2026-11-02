@@ -115,6 +115,7 @@ private extension CheckComponentViewController {
             checkboxRowStackView.addArrangedSubview(checkboxContainerView)
             
             let checkbox = DealiCheckbox()
+            checkbox.accessibilityIdentifier = "sample__select_checkbox"
             checkboxContainerView.addSubview(checkbox)
             checkbox.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
@@ -135,6 +136,7 @@ private extension CheckComponentViewController {
             }
             
             let checkboxWithText = DealiCheckboxWithText()
+            checkboxWithText.accessibilityIdentifier = "sample__agree_checkbox"
             checkboxWithTextRowStackView.addArrangedSubview(checkboxWithText)
             checkboxWithText.do {
                 $0.text = "Text"

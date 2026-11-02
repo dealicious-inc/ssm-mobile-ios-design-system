@@ -13,6 +13,8 @@ final class IndicatorViewController: UIViewController {
     
     private let dotsIndicator = DealiIndicator.dots()
     private let dotsWIndicator = DealiIndicator.dotsw()
+    /// 최대 5개 창(Indicator Guide). 33페이지로 끝 점이 작아지고 창이 밀리는 모습을 본다
+    private let windowedDotsIndicator = DealiIndicator.dots(maxVisibleDots: 5)
     
     private let numberIndicator1 = DealiIndicator.number1()
     private let numberIndicator2 = DealiIndicator.number2()
@@ -76,7 +78,15 @@ final class IndicatorViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
 
-        // dots 두 개를 함께 조작해 페이지 이동과 점 수 변경 뒤 선택 점 위치를 확인한다
+        contentStackView.addArrangedSubview(self.windowedDotsIndicator)
+        self.windowedDotsIndicator.then {
+            $0.numberOfPages = 33
+            $0.backgroundColor = .yellow
+        }.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+        }
+
+        // dots 세 개를 함께 조작해 페이지 이동과 점 수 변경 뒤 선택 점 위치를 확인한다
         let dotsControlStackView = UIStackView()
         contentStackView.addArrangedSubview(dotsControlStackView)
         dotsControlStackView.then {
@@ -91,9 +101,10 @@ final class IndicatorViewController: UIViewController {
                 guard let self else { return }
                 self.dotsIndicator.currentPage += step
                 self.dotsWIndicator.currentPage += step
+                self.windowedDotsIndicator.currentPage += step
             }, for: .touchUpInside)
         }
-        [("점 3개", 3), ("점 5개", 5), ("점 0개", 0)].forEach { title, count in
+        [("점 3개", 3), ("점 5개", 5), ("점 33개", 33), ("점 0개", 0)].forEach { title, count in
             let button = UIButton(type: .system)
             dotsControlStackView.addArrangedSubview(button)
             button.setTitle(title, for: .normal)
@@ -101,6 +112,7 @@ final class IndicatorViewController: UIViewController {
                 guard let self else { return }
                 self.dotsIndicator.numberOfPages = count
                 self.dotsWIndicator.numberOfPages = count
+                self.windowedDotsIndicator.numberOfPages = count
             }, for: .touchUpInside)
         }
 

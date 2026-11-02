@@ -19,6 +19,10 @@ public enum DealiToopTipArrowPosition: String, CaseIterable {
 }
 
 public class DealiToolTip: UIView {
+    /// true면 `show`가 아무것도 그리지 않고 nil을 돌려준다.
+    /// UI 테스트처럼 사람이 툴팁을 닫을 수 없는 실행에서 앱이 켠다. 기본값은 false라 일반 실행에는 영향이 없다.
+    public static var isSuppressed = false
+
     private let titleLabel = UILabel()
     private let arrowImageView = UIImageView()
     private let containerView = UIView()
@@ -162,7 +166,7 @@ public class DealiToolTip: UIView {
         toolTipAction: (() -> Void)? = nil,
         dismissAction: (() -> Void)? = nil
     ) -> DealiToolTip? {
-        guard toolTipCondition() else { return nil }
+        guard isSuppressed == false, toolTipCondition() else { return nil }
         
         let toolTip = DealiToolTip()
         toolTip.setToolTipLayout(arrowPosition: arrowPosition)

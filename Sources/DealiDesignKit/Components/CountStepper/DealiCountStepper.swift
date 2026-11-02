@@ -18,6 +18,16 @@ public class DealiCountStepper: UIView {
     
     private let closeButton = DealiControl.btnTextSmall04()
     
+    /// 받은 식별자에 `_minus_button`, `_input`, `_plus_button`을 붙인다. 단계(`__`)는 늘리지 않는다. nil이면 안쪽도 nil.
+    public override var accessibilityIdentifier: String? {
+        didSet {
+            let prefix = self.accessibilityIdentifier
+            self.minusButton.accessibilityIdentifier = prefix.map { "\($0)_minus_button" }
+            self.countTextField.accessibilityIdentifier = prefix.map { "\($0)_input" }
+            self.plusButton.accessibilityIdentifier = prefix.map { "\($0)_plus_button" }
+        }
+    }
+    
     /// 최소 값
     public var minQuantity: Int = 0
     /// 최대 값

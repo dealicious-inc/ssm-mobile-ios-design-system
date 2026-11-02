@@ -40,6 +40,7 @@ AI는 모든 문서를 미리 읽지 않는다.
 | Swift 파일 헤더, 설명 주석, 네이밍 판단 | `docs/ai/reference/swift-style.md` | 기존 유사 Swift 파일 |
 | 브랜치, PR, 빌드, 의존성 관리 판단 | `docs/ai/reference/project-workflow.md` | 실제 Package.swift |
 | 신규 skill 작성 | `docs/ai/skills/new-skill/SKILL.md` | `AGENTS.md` |
+| 테스트 식별자(`accessibilityIdentifier`)·상태 trait 추가 | `docs/ai/reference/test-identifier.md`, 현재 대상 파일 | `docs/ai/reference/swift-style.md` |
 
 ## 도구별 Skill 어댑터
 

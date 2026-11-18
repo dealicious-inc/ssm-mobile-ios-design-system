@@ -67,6 +67,16 @@ public enum DealiIndicatorPreset {
         }
     }
     
+    /// 창 밖에 페이지가 더 있음을 알리는 끝 점 크기(Indicator Guide 4pt)
+    public var compactDotsSize: CGSize {
+        switch self {
+        case .dots, .dotsw:
+            return CGSize(width: 4.0, height: 4.0)
+        default:
+            return .zero
+        }
+    }
+    
     public var cornerRadius: CGFloat {
         switch self {
         case .dots, .dotsw:

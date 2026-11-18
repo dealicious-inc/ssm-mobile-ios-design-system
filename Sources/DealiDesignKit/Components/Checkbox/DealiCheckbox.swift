@@ -122,6 +122,8 @@ public class DealiCheckbox: UIView {
     
     private func setAppearance(for status: CheckboxStatus) {
         self.imageView.image = UIImage(named: status.imageName, in: Bundle.module, compatibleWith: nil)
+        self.setAccessibilityTrait(.selected, isOn: status.isSelected)
+        self.setAccessibilityTrait(.notEnabled, isOn: status.isEnabled == false)
     }
     
     required init?(coder: NSCoder) {

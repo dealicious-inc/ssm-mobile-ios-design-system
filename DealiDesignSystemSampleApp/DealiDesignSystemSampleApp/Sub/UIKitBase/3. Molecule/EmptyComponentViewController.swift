@@ -56,6 +56,7 @@ final class EmptyComponentViewController: UIViewController {
         contentStackView.addArrangedSubview(messageEmpty)
         messageEmpty.then {
             $0.topMargin = 0.0
+            $0.accessibilityIdentifier = "sample__empty_notice"
             $0.set(message: "등록된 상품이 없어요.")
         }.snp.makeConstraints {
             $0.left.right.equalToSuperview()

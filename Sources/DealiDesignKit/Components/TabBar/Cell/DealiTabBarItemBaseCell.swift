@@ -47,5 +47,7 @@ public class DealiTabBarItemBaseCell: UICollectionViewCell {
         }
         
         self.disposedBag = DisposeBag()
+        self.accessibilityIdentifier = nil
+        self.setAccessibilityTrait(.selected, isOn: false)
     }
 }

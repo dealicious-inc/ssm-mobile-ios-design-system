@@ -24,8 +24,8 @@ class TabBarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "전체"),
-                                  DealiTabBarItem.make(title: "여성의류")]
+    private var segmentTabBarItemArray = [DealiTabBarItem.make(title: "전체", testIdentifier: "sample__all_tab"),
+                                  DealiTabBarItem.make(title: "여성의류", testIdentifier: "sample__women_tab")]
     
     private var sliderTabBarItemArray = [DealiTabBarItem.make(title: "1번 Tab"),
                                   DealiTabBarItem.make(title: "2번 Tab"),

@@ -248,6 +248,7 @@ final public class DealiTabBarView: UIView {
             case .segment, .slider:
                 var itemInfo = DealiTabBarItemInfo()
                 itemInfo.itemIndex = index
+                itemInfo.testIdentifier = item.testIdentifier
                 itemInfo.itemTextCellUIModel = DealiTabBarItemTextStyleCellUIModel.make(preset: self.preset, tabbarItem: item)
 
                 if case .segment = self.preset.style {
@@ -264,6 +265,7 @@ final public class DealiTabBarView: UIView {
             case .sliderChip(let chipStyle):
                 var itemInfo = DealiTabBarItemInfo()
                 itemInfo.itemIndex = index
+                itemInfo.testIdentifier = item.testIdentifier
                 itemInfo.itemChipCellUIModel = DealiTabBarItemChipStyleCellUIModel.make(chipStyle: chipStyle, tabbarItem: item)
                 itemInfo.itemSelected = (index == self.selectedIndex)
                 if let itemChip = itemInfo.itemChipCellUIModel?.itemChip {
@@ -276,6 +278,7 @@ final public class DealiTabBarView: UIView {
             case .sliderImageChip(let imageChipStyle):
                 var itemInfo = DealiTabBarItemInfo()
                 itemInfo.itemIndex = index
+                itemInfo.testIdentifier = item.testIdentifier
                 itemInfo.itemImageChipCellUIModel = DealiTabBarItemImageChipStyleCellUIModel.make(imageChipStyle: imageChipStyle, tabbarItem: item, showImageChipSlotWhenSelected: self.showImageChipSlotWhenSelected)
                 itemInfo.itemSelected = (index == self.selectedIndex)
                 if let itemImageChip = itemInfo.itemImageChipCellUIModel?.itemImageChip {
@@ -288,6 +291,7 @@ final public class DealiTabBarView: UIView {
             case .custom:
                 var itemInfo = DealiTabBarItemInfo()
                 itemInfo.itemIndex = index
+                itemInfo.testIdentifier = item.testIdentifier
                 itemInfo.itemCustomCellUIModel = DealiTabBarItemCustomStyleCellUIModel.make(tabbarItem: item)
                 itemInfo.itemSelected = (index == self.selectedIndex)
                 if let itemView = itemInfo.itemCustomCellUIModel?.itemView {
@@ -535,21 +539,31 @@ extension DealiTabBarView: UICollectionViewDataSource, UICollectionViewDelegate 
         if case .sliderChip(_) = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemChipStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemChipCellUIModel)
+            self.applyAccessibility(to: cell, itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         } else if case .sliderImageChip(_) = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemImageChipStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemImageChipCellUIModel)
+            self.applyAccessibility(to: cell, itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         } else if case .custom = self.preset.style {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemCustomStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemCustomCellUIModel)
+            self.applyAccessibility(to: cell, itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(cellClass: DealiTabBarItemTextStyleCell.self, indexPath: indexPath)
             cell.configure(uiModel: self.tabBarItemInfoArray[indexPath.item].itemTextCellUIModel)
+            self.applyAccessibility(to: cell, itemInfo: self.tabBarItemInfoArray[indexPath.item])
             return cell
         }
 
+    }
+
+    /// 셀에 테스트 식별자와 선택 trait를 붙인다. reloadData마다 다시 붙으므로 셀 재사용 뒤에도 유지된다.
+    private func applyAccessibility(to cell: DealiTabBarItemBaseCell, itemInfo: DealiTabBarItemInfo) {
+        cell.accessibilityIdentifier = itemInfo.testIdentifier
+        cell.setAccessibilityTrait(.selected, isOn: itemInfo.itemSelected)
     }
 
 
@@ -606,6 +620,8 @@ struct DealiTabBarItemInfo {
     var itemChipCellUIModel: DealiTabBarItemChipStyleCellUIModel?
     var itemImageChipCellUIModel: DealiTabBarItemImageChipStyleCellUIModel?
     var itemCustomCellUIModel: DealiTabBarItemCustomStyleCellUIModel?
+    /// 셀에 붙일 테스트 식별자
+    var testIdentifier: String?
     var itemSelected: Bool = false {
         didSet {
             if let _ = self.itemTextCellUIModel {
@@ -637,11 +653,14 @@ public protocol DealiTabBarItemProtocol {
     var imageChipSlotView: DealiCustomView? { get set }
     /// tabBarCustom에서 아이템 자리에 넣을 뷰. 다른 프리셋은 무시한다.
     var customView: DealiTabBarCustomItemView? { get }
+    /// E2E 테스트(Marionette) 식별자. 탭 셀의 accessibilityIdentifier로 그대로 붙는다. nil이면 붙이지 않는다.
+    var testIdentifier: String? { get }
 
 }
 
 public extension DealiTabBarItemProtocol {
     var customView: DealiTabBarCustomItemView? { nil }
+    var testIdentifier: String? { nil }
 }
 
 public struct DealiTabBarItem: DealiTabBarItemProtocol {
@@ -653,6 +672,7 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
     public var icon: DealiTabBarIcon?
     public var imageChipSlotView: DealiCustomView?
     public var customView: DealiTabBarCustomItemView?
+    public var testIdentifier: String?
 
     public static func make(_ viewController: UIViewController? = nil,
                             title: String,
@@ -660,7 +680,8 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
                             showsBadge: Bool = false,
                             icon: DealiTabBarIcon? = nil,
                             imageChipSlotView: DealiCustomView? = nil,
-                            customView: DealiTabBarCustomItemView? = nil) -> DealiTabBarItem {
+                            customView: DealiTabBarCustomItemView? = nil,
+                            testIdentifier: String? = nil) -> DealiTabBarItem {
         var item = DealiTabBarItem()
         item.viewController = viewController
         item.title = title
@@ -669,6 +690,7 @@ public struct DealiTabBarItem: DealiTabBarItemProtocol {
         item.showsBadge = showsBadge
         item.imageChipSlotView = imageChipSlotView
         item.customView = customView
+        item.testIdentifier = testIdentifier
         return item
     }
 }

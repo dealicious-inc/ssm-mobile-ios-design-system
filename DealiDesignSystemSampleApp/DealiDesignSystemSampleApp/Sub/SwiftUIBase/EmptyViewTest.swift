@@ -39,7 +39,9 @@ struct EmptyViewTest: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20.0) {
+                // 루트를 넘긴 예시. 나머지는 넘기지 않아 트리가 그대로인지 비교한다
                 DLEmptyView(viewModel: defaultViewModel)
+                    .dealiTestIdentifier("sample__empty_notice")
                 
                 DLEmptyView(viewModel: subtitleViewModel)
                     .previewDisplayName("서브타이틀")

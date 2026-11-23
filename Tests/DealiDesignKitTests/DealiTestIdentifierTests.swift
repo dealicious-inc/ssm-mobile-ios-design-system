@@ -420,4 +420,60 @@ final class DealiTestIdentifierTests: XCTestCase {
         XCTAssertNil(cell.accessibilityIdentifier)
         XCTAssertFalse(cell.accessibilityTraits.contains(.selected))
     }
+
+    // MARK: - Checkcircle · Checkline · RadioButton · Switch
+
+    private func assertSelectionTraits(_ view: UIView, setSelected: (Bool) -> Void, setEnabled: (Bool) -> Void,
+                                       file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertFalse(view.accessibilityTraits.contains(.selected), file: file, line: line)
+        XCTAssertFalse(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+
+        setSelected(true)
+        XCTAssertTrue(view.accessibilityTraits.contains(.selected), file: file, line: line)
+
+        setEnabled(false)
+        XCTAssertTrue(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+        XCTAssertTrue(view.accessibilityTraits.contains(.selected), file: file, line: line)
+
+        setSelected(false)
+        setEnabled(true)
+        XCTAssertFalse(view.accessibilityTraits.contains(.selected), file: file, line: line)
+        XCTAssertFalse(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+
+        XCTAssertNil(view.accessibilityValue, file: file, line: line)
+        XCTAssertNil(view.accessibilityLabel, file: file, line: line)
+    }
+
+    func testCheckcircleAndChecklineExposeSelectionTraits() {
+        let checkcircle = DealiCheckcircle()
+        self.assertSelectionTraits(checkcircle, setSelected: { checkcircle.isSelected = $0 }, setEnabled: { checkcircle.isEnabled = $0 })
+
+        let checkline = DealiCheckline()
+        self.assertSelectionTraits(checkline, setSelected: { checkline.isSelected = $0 }, setEnabled: { checkline.isEnabled = $0 })
+    }
+
+    func testWithTextVariantsExposeSelectionTraitsOnOuterView() {
+        let checkcircleWithText = DealiCheckcircleWithText()
+        self.assertSelectionTraits(checkcircleWithText, setSelected: { checkcircleWithText.isSelected = $0 }, setEnabled: { checkcircleWithText.isEnabled = $0 })
+
+        let checklineWithText = DealiChecklineWithText()
+        self.assertSelectionTraits(checklineWithText, setSelected: { checklineWithText.isSelected = $0 }, setEnabled: { checklineWithText.isEnabled = $0 })
+    }
+
+    func testRadioButtonsExposeSelectionTraits() {
+        let radioButton = DealiRadioButton()
+        self.assertSelectionTraits(radioButton, setSelected: { radioButton.isSelected = $0 }, setEnabled: { radioButton.isEnabled = $0 })
+
+        let radioButtonWithText = DealiRadioButtonWithText()
+        self.assertSelectionTraits(radioButtonWithText, setSelected: { radioButtonWithText.isSelected = $0 }, setEnabled: { radioButtonWithText.isEnabled = $0 })
+    }
+
+    func testSwitchExposesOnStateAsSelectedTrait() {
+        let animatedSwitch = DealiSwitch(size: .large)
+        self.assertSelectionTraits(animatedSwitch, setSelected: { animatedSwitch.setOn($0, animated: false) }, setEnabled: { animatedSwitch.isEnabled = $0 })
+
+        let plainSwitch = DealiSwitch()
+        plainSwitch.isOn = true
+        XCTAssertTrue(plainSwitch.accessibilityTraits.contains(.selected))
+    }
 }

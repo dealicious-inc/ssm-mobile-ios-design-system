@@ -40,6 +40,7 @@ final class RadioButtonViewController: UIViewController {
         contentView.addSubview(self.firstRadioButtonWithText)
         self.firstRadioButtonWithText.then {
             $0.backgroundColor = .yellow
+            $0.accessibilityIdentifier = "sample__first_radio"
             $0.addTarget(self, action: #selector(firstRadioButtonWithTextValueChanged), for: .valueChanged)
             $0.text = "그룹 내 1 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
             $0.edgeInset = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
@@ -51,6 +52,7 @@ final class RadioButtonViewController: UIViewController {
         
         contentView.addSubview(self.secondRadioButtonWithText)
         self.secondRadioButtonWithText.then {
+            $0.accessibilityIdentifier = "sample__second_radio"
             $0.addTarget(self, action: #selector(secondRadioButtonWithTextValueChanged), for: .valueChanged)
             $0.text = "그룹내 2 김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트  김수한무 거북이와 두루미 테스트 긴글자 테스트 테스트 "
         }.snp.makeConstraints {

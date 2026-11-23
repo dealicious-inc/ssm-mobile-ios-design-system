@@ -157,6 +157,7 @@ private extension CheckComponentViewController {
             checkcircleRowStackView.addArrangedSubview(checkcircleContainerView)
             
             let checkcircle = DealiCheckcircle()
+            checkcircle.accessibilityIdentifier = "sample__select_checkcircle"
             checkcircleContainerView.addSubview(checkcircle)
             checkcircle.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
@@ -177,6 +178,7 @@ private extension CheckComponentViewController {
             }
             
             let checkcircleWithText = DealiCheckcircleWithText()
+            checkcircleWithText.accessibilityIdentifier = "sample__agree_checkcircle"
             checkcircleWithTextRowStackView.addArrangedSubview(checkcircleWithText)
             checkcircleWithText.do {
                 $0.text = "Text"
@@ -198,6 +200,7 @@ private extension CheckComponentViewController {
             checklineRowStackView.addArrangedSubview(checklineContainerView)
             
             let checkline = DealiCheckline()
+            checkline.accessibilityIdentifier = "sample__select_checkline"
             checklineContainerView.addSubview(checkline)
             checkline.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
@@ -218,6 +221,7 @@ private extension CheckComponentViewController {
             }
             
             let checklineWithText = DealiChecklineWithText()
+            checklineWithText.accessibilityIdentifier = "sample__agree_checkline"
             checklineWithTextRowStackView.addArrangedSubview(checklineWithText)
             checklineWithText.do {
                 $0.text = "Text"

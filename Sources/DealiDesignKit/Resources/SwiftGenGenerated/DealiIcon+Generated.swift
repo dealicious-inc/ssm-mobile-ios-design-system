@@ -248,6 +248,7 @@ public enum DealiIcon {
   public static let ic_share_1 = DesignSystemImage(name: "ic_share_1")
   public static let ic_share_2 = DesignSystemImage(name: "ic_share_2")
   public static let ic_share_3 = DesignSystemImage(name: "ic_share_3")
+  public static let ic_sheets = DesignSystemImage(name: "ic_sheets")
   public static let ic_sinsanglens = DesignSystemImage(name: "ic_sinsanglens")
   public static let ic_smartphone = DesignSystemImage(name: "ic_smartphone")
   public static let ic_soldout = DesignSystemImage(name: "ic_soldout")

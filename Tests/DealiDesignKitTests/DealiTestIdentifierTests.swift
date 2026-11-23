@@ -476,4 +476,48 @@ final class DealiTestIdentifierTests: XCTestCase {
         plainSwitch.isOn = true
         XCTAssertTrue(plainSwitch.accessibilityTraits.contains(.selected))
     }
+
+    // MARK: - Dropdown · TextInput
+
+    func testDropdownAppliesChildIdentifiersAndDisabledTrait() {
+        let dropdown = DealiDropdown()
+        dropdown.contentText = "옵션별 단가 선택"
+
+        dropdown.accessibilityIdentifier = "goods_option__price_option"
+
+        let selectButton = self.subview(identifier: "goods_option__price_option__select_button", in: dropdown)
+        XCTAssertTrue(selectButton is UIStackView)
+        XCTAssertTrue(self.subview(identifier: "goods_option__price_option__value_text", in: dropdown) is UILabel)
+        XCTAssertFalse(selectButton?.accessibilityTraits.contains(.notEnabled) ?? true)
+
+        dropdown.status = .disabled
+        XCTAssertTrue(selectButton?.accessibilityTraits.contains(.notEnabled) ?? false)
+
+        dropdown.status = .default
+        XCTAssertFalse(selectButton?.accessibilityTraits.contains(.notEnabled) ?? true)
+
+        dropdown.accessibilityIdentifier = nil
+        XCTAssertTrue(self.identifiers(in: dropdown).isEmpty)
+    }
+
+    func testTextInputAppliesChildIdentifiersWithSingleUnderscore() {
+        let textInput = DealiTextInput()
+
+        textInput.accessibilityIdentifier = "coupon__code"
+
+        XCTAssertTrue(self.subview(identifier: "coupon__code_input", in: textInput) is UITextField)
+        XCTAssertTrue(self.subview(identifier: "coupon__code_clear_button", in: textInput) is UIButton)
+
+        textInput.accessibilityIdentifier = nil
+        XCTAssertTrue(self.identifiers(in: textInput).isEmpty)
+    }
+
+    func testTextInputKeepsIdentifierSetDirectlyOnTextField() {
+        let textInput = DealiTextInput()
+
+        textInput.textField.accessibilityIdentifier = "login__id_input"
+
+        XCTAssertEqual(textInput.textField.accessibilityIdentifier, "login__id_input")
+        XCTAssertEqual(self.identifiers(in: textInput), ["login__id_input"])
+    }
 }

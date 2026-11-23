@@ -73,6 +73,7 @@ private extension DropdownViewController {
     
     func setUIKit() {
         let arrowOpenDropdown = DealiDropdown().then {
+            $0.accessibilityIdentifier = "sample__price_option"
             $0.arrowType = .open
             $0.contentText = "옵션별 단가 선택 Lorem Ipsum is simply dummy text of the printing and typesetting industry"
             $0.title = "화살표 open"
@@ -97,6 +98,7 @@ private extension DropdownViewController {
         }
         
         let disalbedArrowOpenDropdown = DealiDropdown().then {
+            $0.accessibilityIdentifier = "sample__disabled_option"
             $0.arrowType = .open
             $0.contentText = "옵션별 단가 선택"
             $0.title = "화살표 open & disabled"

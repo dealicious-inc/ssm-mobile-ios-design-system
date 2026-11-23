@@ -35,6 +35,7 @@
 - SwiftUI 컴포넌트: 앱은 `.dealiTestIdentifier(_:)`로 루트를 넘기고, 컴포넌트는 `@Environment(\.dealiTestIdentifier)`로 읽는다. 루트에는 `dealiTestContainer(_:)`, 안쪽 요소에는 `dealiTestIdentifier(_:suffix:)`를 쓴다(둘 다 internal).
   - 루트가 `nil`이면 `.accessibilityElement(children: .contain)`도 붙이지 않는다. 넘기지 않은 화면의 트리가 그대로여야 한다.
   - 앱이 넣는 콘텐츠 자리(`DealiSheetView`의 `content`)에는 `dealiTestIdentifierBoundary()`로 루트를 끊는다. 끊지 않으면 안쪽 DS 컴포넌트가 바깥 루트로 이름을 또 붙인다.
+  - SwiftUI `Button` label 안의 요소에는 식별자를 붙이지 않는다. `Button`이 label 자식을 요소 하나로 합쳐 트리에 남지 않는다. `DropdownView`는 `__select_button`만 붙이고, 고른 값은 그 버튼의 label로 읽는다. UIKit `DealiDropdown`의 `__value_text`(`UILabel`)는 그대로다.
   - 탭처럼 항목마다 이름이 다른 경우는 환경값 대신 항목 모델의 `testIdentifier` 전체 문자열을 쓴다(`TabBarItemViewModel`, `DealiImageChipTabBarItem`).
 
 ## 붙이기 전에 볼 것

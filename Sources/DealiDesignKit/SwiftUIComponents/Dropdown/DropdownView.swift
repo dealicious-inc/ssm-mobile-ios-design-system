@@ -289,7 +289,6 @@ public struct DropdownView: View {
                     .setLineHeight(attributedString: attStr)
                     .multilineTextAlignment(.leading)
                     .lineLimit(viewModel.contentTextLineLimit ?? 1)
-                    .dealiTestIdentifier(testIdentifier, suffix: "__value_text")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.trailing, viewModel.textArrowSpacing)
 
@@ -313,6 +312,7 @@ public struct DropdownView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .disabled(viewModel.status == .disabled)
+        // Button은 label 자식을 요소 하나로 합친다. 고른 값은 `<루트>__select_button`의 label로 읽는다
         .dealiTestIdentifier(testIdentifier, suffix: "__select_button")
     }
     

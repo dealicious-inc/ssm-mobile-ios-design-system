@@ -60,6 +60,7 @@ public class DealiBottomSheet: NSObject {
     public class func showSingleSelectionType(
         titleType: EBottomSheetTitleType = .hidden,
         buttonType: EBottomSheetButtonType = .hidden,
+        testIdentifier: String? = nil,
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
@@ -76,6 +77,7 @@ public class DealiBottomSheet: NSObject {
                 $0.optionData = option
                 $0.titleType = titleType
                 $0.buttonType = buttonType
+                $0.testIdentifier = testIdentifier
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
                 $0.cancelActionOnCloseButton = cancelActionOnCloseButton
@@ -91,6 +93,7 @@ public class DealiBottomSheet: NSObject {
     public class func showMultiSelectionType(
         titleType: EBottomSheetTitleType = .hidden,
         buttonType: EBottomSheetButtonType = .hidden,
+        testIdentifier: String? = nil,
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
@@ -107,6 +110,7 @@ public class DealiBottomSheet: NSObject {
                 $0.optionData = option
                 $0.titleType = titleType
                 $0.buttonType = buttonType
+                $0.testIdentifier = testIdentifier
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
                 $0.cancelActionOnCloseButton = cancelActionOnCloseButton
@@ -122,6 +126,7 @@ public class DealiBottomSheet: NSObject {
     public class func showIconWithTextType(
         titleType: EBottomSheetTitleType = .hidden,
         buttonType: EBottomSheetButtonType = .hidden,
+        testIdentifier: String? = nil,
         option: [DealiBottomSheetOptionData],
         closeBottomSheetOnOutsideTouch: Bool = true,
         cancelActionOnOutsideTouch: Bool = false,
@@ -138,6 +143,7 @@ public class DealiBottomSheet: NSObject {
                 $0.optionData = option
                 $0.titleType = titleType
                 $0.buttonType = buttonType
+                $0.testIdentifier = testIdentifier
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
                 $0.cancelActionOnCloseButton = cancelActionOnCloseButton
@@ -153,6 +159,7 @@ public class DealiBottomSheet: NSObject {
     public class func showSlotWithTextType(
         titleType: EBottomSheetTitleType = .hidden,
         buttonType: EBottomSheetButtonType = .hidden,
+        testIdentifier: String? = nil,
         option: [DealiBottomSheetOptionData],
         slotSize: ESlotSize,
         closeBottomSheetOnOutsideTouch: Bool = true,
@@ -170,6 +177,7 @@ public class DealiBottomSheet: NSObject {
                 $0.optionData = option
                 $0.titleType = titleType
                 $0.buttonType = buttonType
+                $0.testIdentifier = testIdentifier
                 $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
                 $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
                 $0.cancelActionOnCloseButton = cancelActionOnCloseButton
@@ -185,6 +193,7 @@ public class DealiBottomSheet: NSObject {
     public class func showTextOnly(titleType: EBottomSheetTitleType = .hidden,
                                    message: String,
                                    buttonType: EBottomSheetButtonType = .hidden,
+                                   testIdentifier: String? = nil,
                                    closeBottomSheetOnOutsideTouch: Bool = true,
                                    cancelActionOnOutsideTouch: Bool = false,
                                    cancelActionOnCloseButton: Bool = false,
@@ -202,10 +211,12 @@ public class DealiBottomSheet: NSObject {
             $0.numberOfLines = 0
             $0.attributedText = NSMutableAttributedString(string: message, attributes: [.font: UIFont.b2r14, .foregroundColor: UIColor.g80, .paragraphStyle: messageStyle])
         }
+        messageLabel.accessibilityIdentifier = testIdentifier.map { "\($0)__message_text" }
 
         self.showBottomSheet(titleType: titleType,
                              optionContentView: messageLabel,
                              buttonType: buttonType,
+                             testIdentifier: testIdentifier,
                              closeBottomSheetOnOutsideTouch: closeBottomSheetOnOutsideTouch,
                              cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                              cancelActionOnCloseButton: cancelActionOnCloseButton,
@@ -221,6 +232,7 @@ public class DealiBottomSheet: NSObject {
     public class func showBottomSheet(titleType: EBottomSheetTitleType = .hidden,
                                       optionContentView: UIView,
                                       buttonType: EBottomSheetButtonType = .hidden,
+                                      testIdentifier: String? = nil,
                                       closeBottomSheetOnOutsideTouch: Bool = true,
                                       cancelActionOnOutsideTouch: Bool = false,
                                       cancelActionOnCloseButton: Bool = false,
@@ -233,6 +245,7 @@ public class DealiBottomSheet: NSObject {
             $0.contentContainerView = optionContentView
             $0.titleType = titleType
             $0.buttonType = buttonType
+            $0.testIdentifier = testIdentifier
             $0.closeBottomSheetOnOutsideTouch = closeBottomSheetOnOutsideTouch
             $0.cancelActionOnOutsideTouch = cancelActionOnOutsideTouch
             $0.cancelActionOnCloseButton = cancelActionOnCloseButton
@@ -435,6 +448,26 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
                 $0.left.right.equalToSuperview().inset(16.0)
                 $0.bottom.equalToSuperview()
             }
+        }
+        
+        // 취소 버튼은 buttonContainerView()에서 다시 만들어지므로 만든 뒤에 다시 붙인다
+        self.applyTestIdentifiers()
+    }
+    
+    /// 베이스 요소에 더해 확인·취소 버튼에 붙인다
+    override func applyTestIdentifiers() {
+        super.applyTestIdentifiers()
+        guard self.hasAppliedTestIdentifier else { return }
+        
+        let root = self.testIdentifier
+        switch self.buttonType {
+        case .oneButton:
+            self.confirmButton.accessibilityIdentifier = root.map { "\($0)__confirm_button" }
+        case .twoButton:
+            self.confirmButton.accessibilityIdentifier = root.map { "\($0)__confirm_button" }
+            self.cancelButton.accessibilityIdentifier = root.map { "\($0)__cancel_button" }
+        case .hidden:
+            break
         }
     }
     

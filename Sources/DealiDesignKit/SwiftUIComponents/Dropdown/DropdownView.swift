@@ -239,6 +239,8 @@ public struct DropdownView: View {
     
     @ObservedObject public var viewModel: DropdownViewModel
     @State private var rotationAngle: Angle = .zero
+    /// E2E 테스트 루트 식별자. `dealiTestIdentifier(_:)`로 받는다
+    @Environment(\.dealiTestIdentifier) private var testIdentifier
 
     public init(viewModel: DropdownViewModel) {
         self.viewModel = viewModel
@@ -287,6 +289,7 @@ public struct DropdownView: View {
                     .setLineHeight(attributedString: attStr)
                     .multilineTextAlignment(.leading)
                     .lineLimit(viewModel.contentTextLineLimit ?? 1)
+                    .dealiTestIdentifier(testIdentifier, suffix: "__value_text")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.trailing, viewModel.textArrowSpacing)
 
@@ -310,6 +313,7 @@ public struct DropdownView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .disabled(viewModel.status == .disabled)
+        .dealiTestIdentifier(testIdentifier, suffix: "__select_button")
     }
     
     @ViewBuilder
@@ -332,6 +336,7 @@ public struct DropdownView: View {
             self.helperText
         }
         .frame(maxWidth: .infinity)
+        .dealiTestContainer(testIdentifier)
         .onChange(of: viewModel.isSelecting) { _ in
             guard viewModel.arrowType == .open else { return }
             withAnimation(.easeInOut(duration: 0.3)) {

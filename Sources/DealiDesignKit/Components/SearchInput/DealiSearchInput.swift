@@ -88,12 +88,12 @@ public final class DealiSearchInput: UIView {
     public weak var delegate: DealiSearchInputDelegate?
     private let disposeBag = DisposeBag()
     
-    /// 받은 식별자에 `__input`, `__clear_button`을 붙인다. 검색 아이콘은 Marionette가 label(`~ic search`)로 찾으므로 붙이지 않는다. nil이면 안쪽도 nil.
+    /// 받은 식별자에 `_input`(입력 칸), `_clear_button`(지우기 버튼)을 밑줄 하나로 붙인다. 검색 아이콘은 Marionette가 label(`~ic search`)로 찾으므로 붙이지 않는다. nil이면 안쪽도 nil.
     public override var accessibilityIdentifier: String? {
         didSet {
             let prefix = self.accessibilityIdentifier
-            self.searchTextField.accessibilityIdentifier = prefix.map { "\($0)__input" }
-            self.clearImageView.accessibilityIdentifier = prefix.map { "\($0)__clear_button" }
+            self.searchTextField.accessibilityIdentifier = prefix.map { "\($0)_input" }
+            self.clearImageView.accessibilityIdentifier = prefix.map { "\($0)_clear_button" }
         }
     }
     

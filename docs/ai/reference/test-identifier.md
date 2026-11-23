@@ -8,8 +8,10 @@
 ## 원칙
 
 - DS는 식별자 하나를 받아 안쪽 요소까지 붙인다. 화면 이름을 DS 안에 박지 않는다.
-- 안쪽 요소 이름은 `<받은 식별자>__<표준 요소 이름>`이다(`__title_text`, `__message_text`, `__action_button`, `__input`, `__clear_button`).
-- 수량 스테퍼처럼 요소가 여러 개인 복합 컨트롤은 단계를 늘리지 않고 `_` 하나로 붙인다(`_minus_button`, `_input`, `_plus_button`).
+- 받은 식별자가 무엇을 가리키는지로 `__`와 `_`를 고른다.
+  - 확인 창·바텀시트·빈 화면처럼 여러 요소를 담은 구역·블록이면 `<받은 식별자>__<표준 요소 이름>`이다(`__title_text`, `__message_text`, `__action_button`, `__close_button`).
+  - 입력 칸·검색 입력·수량 스테퍼처럼 컨트롤 하나이고 안쪽이 그 컨트롤의 부품이면 단계를 늘리지 않고 `_` 하나로 붙인다(`_input`, `_clear_button`, `_minus_button`, `_plus_button`). 앱은 요소 이름에서 종류를 뺀 이름(`login__form__id`, `store_home__query`, `cart__store_order__option__quantity`)을 넘긴다.
+  - `DealiTextInput`, `DealiSearchInput`, SwiftUI `SearchInput`, `DealiCountStepper`가 `_`다. `DealiSearchInput`은 2.69.0의 `__input`·`__clear_button`을 2.70.0에서 `_`로 바꿨다.
 - 받은 식별자가 `nil`이면 안쪽 요소도 `nil`로 되돌린다. 식별자를 넘기지 않은 화면의 접근성 트리는 변경 전과 같아야 한다.
 - 식별자를 한 번도 받지 않았으면 DS는 아무것도 하지 않는다. 앱이 안쪽 요소(버튼, `contentView`)에 직접 넣은 값을 지우지 않기 위해서다.
 - 선택·체크·비활성 상태는 이름이 아니라 `accessibilityTraits`로 드러낸다(`.selected`, `.notEnabled`). `accessibilityValue`에 넣지 않는다(VoiceOver가 읽는다).

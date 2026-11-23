@@ -109,7 +109,7 @@ public struct SearchInput: View {
         .font(Font(UIFont.b2r14))
         .foregroundStyle(Color(uiColor: .g100))
         .disableAutocorrection(true)
-        .dealiTestIdentifier(testIdentifier, suffix: "__input")
+        .dealiTestIdentifier(testIdentifier, suffix: "_input")
     }
 
     private var buttonContainerView: some View {
@@ -140,7 +140,7 @@ public struct SearchInput: View {
                 .foregroundStyle(Color(.g50))
                 .padding(4.0)
         }
-        .dealiTestIdentifier(testIdentifier, suffix: "__clear_button")
+        .dealiTestIdentifier(testIdentifier, suffix: "_clear_button")
     }
 
     private var searchButton: some View {

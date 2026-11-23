@@ -216,10 +216,10 @@ final class DealiTestIdentifierTests: XCTestCase {
     func testSearchInputAppliesInputAndClearIdentifiersOnly() {
         let searchInput = DealiSearchInput(delegate: nil)
 
-        searchInput.accessibilityIdentifier = "store_search__search"
+        searchInput.accessibilityIdentifier = "store_search__query"
 
-        XCTAssertTrue(self.subview(identifier: "store_search__search__input", in: searchInput) is UITextField)
-        XCTAssertTrue(self.subview(identifier: "store_search__search__clear_button", in: searchInput) is UIImageView)
+        XCTAssertTrue(self.subview(identifier: "store_search__query_input", in: searchInput) is UITextField)
+        XCTAssertTrue(self.subview(identifier: "store_search__query_clear_button", in: searchInput) is UIImageView)
         XCTAssertEqual(self.identifiers(in: searchInput).count, 2, "검색 아이콘에는 식별자를 붙이지 않는다")
 
         searchInput.accessibilityIdentifier = nil

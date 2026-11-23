@@ -469,6 +469,22 @@ class DealiBottomSheetSystemViewController: DealiBottomSheetBaseViewController {
         case .hidden:
             break
         }
+        
+        if self.isViewLoaded, self.optionType != nil {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    /// 항목 식별자. 항목 값이 있으면 그 값, 없으면 시트 루트로 `<루트>__item`
+    func itemTestIdentifier(at index: Int) -> String? {
+        return self.optionData[index].testIdentifier ?? self.testIdentifier.map { "\($0)__item" }
+    }
+    
+    /// 단일 선택형 시트에서 고른 항목만 선택 상태로 다시 그린다. 항목을 다시 만들 때 테스트 식별자를 옮긴다
+    func selectOnlyOption(at index: Int) {
+        self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName, testIdentifier: $0.testIdentifier) }
+        self.optionData[index].isSelected = true
+        self.collectionView.reloadData()
     }
     
     private func buttonContainerView() -> UIView {
@@ -555,6 +571,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
         case .singleSelect:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSingleSelectCell.id, for: indexPath) as! DealiBottomSheetSingleSelectCell
             var uiModel = DealiBottomSheetSingleSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.testIdentifier = self.itemTestIdentifier(at: indexPath.item)
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
                 
@@ -564,9 +581,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
                     }
                 } else {
                     self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.selectOnlyOption(at: indexPath.item)
                 }
             }
             
@@ -576,6 +591,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetMultiSelectCell.id, for: indexPath) as! DealiBottomSheetMultiSelectCell
             
             var uiModel = DealiBottomSheetMultiSelectCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.testIdentifier = self.itemTestIdentifier(at: indexPath.item)
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
                 
@@ -595,6 +611,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
         case .iconWithText:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetIconWithTextCell.id, for: indexPath) as! DealiBottomSheetIconWithTextCell
             var uiModel = DealiBottomSheetIconWithTextCellUIModel.map(optionData: self.optionData[indexPath.item])
+            uiModel.testIdentifier = self.itemTestIdentifier(at: indexPath.item)
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
                 
@@ -604,9 +621,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
                     }
                 } else {
                     self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.selectOnlyOption(at: indexPath.item)
                 }
             }
             
@@ -615,6 +630,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
         case .slotWithText(let size):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DealiBottomSheetSlotWithTextCell.id, for: indexPath) as! DealiBottomSheetSlotWithTextCell
             var uiModel = DealiBottomSheetSlotWithTextCellUIModel.map(optionData: self.optionData[indexPath.item], slotSize: size.cgSize)
+            uiModel.testIdentifier = self.itemTestIdentifier(at: indexPath.item)
             
             uiModel.selectedActionHandler = { [weak self] in
                 guard let self else { return }
@@ -625,9 +641,7 @@ extension DealiBottomSheetSystemViewController: UICollectionViewDataSource {
                     }
                 } else {
                     self.selectAction?([indexPath.item])
-                    self.optionData = self.optionData.map { DealiBottomSheetOptionData(optionName: $0.optionName) }
-                    self.optionData[indexPath.item].isSelected = true
-                    self.collectionView.reloadData()
+                    self.selectOnlyOption(at: indexPath.item)
                 }
             }
             cell.configure(with: uiModel)

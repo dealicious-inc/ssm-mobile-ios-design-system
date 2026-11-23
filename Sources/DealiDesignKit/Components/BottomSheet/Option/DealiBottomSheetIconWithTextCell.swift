@@ -15,6 +15,8 @@ import RxCocoa
 struct DealiBottomSheetIconWithTextCellUIModel {
     var optionName: String?
     var isSelected: Bool = false
+    /// 셀에 붙일 테스트 식별자. 항목 값이 없으면 시트 루트로 만든 `<루트>__item`
+    var testIdentifier: String?
     var iconImageName: String?
     
     var optionFont: UIFont {
@@ -56,6 +58,8 @@ final class DealiBottomSheetIconWithTextCell: UICollectionViewCell {
     
     func configure(with uiModel: DealiBottomSheetIconWithTextCellUIModel?) {
         guard let uiModel else { return }
+        self.accessibilityIdentifier = uiModel.testIdentifier
+        self.setAccessibilityTrait(.selected, isOn: uiModel.isSelected)
         self.optionLabel.text = uiModel.optionName
         self.optionLabel.font = uiModel.optionFont
         self.optionLabel.textColor = uiModel.optionTextColor
@@ -76,6 +80,8 @@ final class DealiBottomSheetIconWithTextCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.accessibilityIdentifier = nil
+        self.setAccessibilityTrait(.selected, isOn: false)
         
         self.disposeBag = DisposeBag()
     }

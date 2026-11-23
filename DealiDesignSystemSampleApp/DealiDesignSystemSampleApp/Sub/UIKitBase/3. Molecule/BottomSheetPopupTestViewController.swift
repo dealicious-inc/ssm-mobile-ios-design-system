@@ -208,6 +208,7 @@ extension BottomSheetPopupTestViewController {
             titleType: .titleCloseButton(title: "2버튼 팝업"),
             message: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오육칠팔구십",
             buttonType: .twoButton(confirmTitle: "확인\n확인\n확인", cancelTitle: "취소", cancelButtonType: .btnOutlineLarge06),
+            testIdentifier: "sample_notice_sheet",
             popupPresentingViewController: self,
             cancelAction: nil, confirmAction: nil
         )
@@ -250,6 +251,7 @@ extension BottomSheetPopupTestViewController {
                                                         
         DealiBottomSheet.showSingleSelectionType(
             titleType: .closeButton,
+            testIdentifier: "sample_option_sheet",
             option: optionData,
             shouldDismissWhenSelect: true,
             popupPresentingViewController: self,
@@ -269,6 +271,7 @@ extension BottomSheetPopupTestViewController {
                                                         
         DealiBottomSheet.showMultiSelectionType(
             titleType: .title(title: "다중선택 바텀시트"),
+            testIdentifier: "sample_filter_sheet",
             option: optionData,
             popupPresentingViewController: self,
             selectAction: { indecies in

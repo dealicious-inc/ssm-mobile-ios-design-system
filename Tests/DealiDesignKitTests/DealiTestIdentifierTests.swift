@@ -299,4 +299,125 @@ final class DealiTestIdentifierTests: XCTestCase {
         XCTAssertTrue(self.identifiers(in: checkAlert.view).isEmpty)
         XCTAssertTrue(self.identifiers(in: linkAlert.view).isEmpty)
     }
+
+    // MARK: - BottomSheet
+
+    /// 정적 show 함수는 VC를 돌려주지 않아서 window에 띄운 뒤 presentedViewController로 꺼낸다
+    private func presentSystemSheet(_ show: (UIViewController) -> Void) throws -> DealiBottomSheetSystemViewController {
+        let presenter = UIViewController()
+        let window = UIWindow(frame: CGRect(x: 0.0, y: 0.0, width: 390.0, height: 844.0))
+        window.rootViewController = presenter
+        window.makeKeyAndVisible()
+        self.addTeardownBlock { window.isHidden = true }
+
+        show(presenter)
+
+        let sheet = try XCTUnwrap(presenter.presentedViewController as? DealiBottomSheetSystemViewController)
+        sheet.loadViewIfNeeded()
+        sheet.view.layoutIfNeeded()
+        return sheet
+    }
+
+    private func optionCell(in sheet: DealiBottomSheetSystemViewController, item: Int) throws -> UICollectionViewCell {
+        let collectionView = try XCTUnwrap(self.allSubviews(of: sheet.contentView).compactMap { $0 as? UICollectionView }.first)
+        return try self.cell(in: collectionView, item: item)
+    }
+
+    func testBottomSheetBaseAppliesRootTitleAndCloseIdentifiers() {
+        let sheet = DealiBottomSheetBaseViewController()
+        sheet.titleType = .titleCloseButton(title: "제목")
+        sheet.loadViewIfNeeded()
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: sheet.contentView).isEmpty)
+
+        sheet.testIdentifier = "goods_option"
+
+        XCTAssertEqual(sheet.contentView.accessibilityIdentifier, "goods_option")
+        XCTAssertTrue(self.subview(identifier: "goods_option__title_text", in: sheet.contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "goods_option__close_button", in: sheet.contentView) is UIButton)
+
+        sheet.testIdentifier = nil
+
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: sheet.contentView).isEmpty)
+    }
+
+    func testBottomSheetBaseWithoutRootKeepsAppContentViewIdentifier() {
+        let sheet = DealiBottomSheetBaseViewController()
+        sheet.contentView.accessibilityIdentifier = "app_sheet"
+        sheet.loadViewIfNeeded()
+
+        XCTAssertEqual(sheet.contentView.accessibilityIdentifier, "app_sheet")
+    }
+
+    func testSystemSheetButtonIdentifiers() throws {
+        let oneButtonSheet = try self.presentSystemSheet {
+            DealiBottomSheet.showSingleSelectionType(buttonType: .oneButton(buttonTitle: "확인"), testIdentifier: "sort",
+                                                     option: [DealiBottomSheetOptionData(optionName: "최신순")],
+                                                     popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+        XCTAssertEqual(oneButtonSheet.contentView.accessibilityIdentifier, "sort")
+        XCTAssertNotNil(self.subview(identifier: "sort__confirm_button", in: oneButtonSheet.contentView))
+        XCTAssertNil(self.subview(identifier: "sort__cancel_button", in: oneButtonSheet.contentView))
+
+        let twoButtonSheet = try self.presentSystemSheet {
+            DealiBottomSheet.showTextOnly(titleType: .title(title: "안내"), message: "문구",
+                                          buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"), testIdentifier: "notice",
+                                          popupPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+        let contentView = twoButtonSheet.contentView
+        XCTAssertTrue(self.subview(identifier: "notice__title_text", in: contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "notice__message_text", in: contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "notice__confirm_button", in: contentView) is ClickableUnitButtonComponent)
+        XCTAssertTrue(self.subview(identifier: "notice__cancel_button", in: contentView) is ClickableUnitButtonComponent)
+    }
+
+    func testSystemSheetItemIdentifiersSurviveReselect() throws {
+        let options = [DealiBottomSheetOptionData(optionName: "채팅방 나가기", testIdentifier: "chat_room__leave_button"),
+                       DealiBottomSheetOptionData(optionName: "신고하기", isSelected: true)]
+        let sheet = try self.presentSystemSheet {
+            DealiBottomSheet.showSingleSelectionType(testIdentifier: "chat_room_menu", option: options,
+                                                     popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+
+        var firstCell = try self.optionCell(in: sheet, item: 0)
+        var secondCell = try self.optionCell(in: sheet, item: 1)
+        XCTAssertEqual(firstCell.accessibilityIdentifier, "chat_room__leave_button")
+        XCTAssertEqual(secondCell.accessibilityIdentifier, "chat_room_menu__item")
+        XCTAssertFalse(firstCell.accessibilityTraits.contains(.selected))
+        XCTAssertTrue(secondCell.accessibilityTraits.contains(.selected))
+
+        sheet.selectOnlyOption(at: 0)
+
+        firstCell = try self.optionCell(in: sheet, item: 0)
+        secondCell = try self.optionCell(in: sheet, item: 1)
+        XCTAssertEqual(firstCell.accessibilityIdentifier, "chat_room__leave_button")
+        XCTAssertEqual(secondCell.accessibilityIdentifier, "chat_room_menu__item")
+        XCTAssertTrue(firstCell.accessibilityTraits.contains(.selected))
+        XCTAssertFalse(secondCell.accessibilityTraits.contains(.selected))
+    }
+
+    func testSystemSheetItemWithoutRootOrValueStaysNil() throws {
+        let sheet = try self.presentSystemSheet {
+            DealiBottomSheet.showMultiSelectionType(option: [DealiBottomSheetOptionData(optionName: "전체", isSelected: true)],
+                                                    popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+
+        let cell = try self.optionCell(in: sheet, item: 0)
+        XCTAssertNil(cell.accessibilityIdentifier)
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(cell.accessibilityTraits.contains(.selected))
+    }
+
+    func testBottomSheetOptionCellResetsOnReuse() {
+        let cell = DealiBottomSheetSingleSelectCell(frame: .zero)
+        cell.configure(with: DealiBottomSheetSingleSelectCellUIModel(optionName: "최신순", isSelected: true, testIdentifier: "sort__item"))
+        XCTAssertEqual(cell.accessibilityIdentifier, "sort__item")
+        XCTAssertTrue(cell.accessibilityTraits.contains(.selected))
+
+        cell.prepareForReuse()
+
+        XCTAssertNil(cell.accessibilityIdentifier)
+        XCTAssertFalse(cell.accessibilityTraits.contains(.selected))
+    }
 }

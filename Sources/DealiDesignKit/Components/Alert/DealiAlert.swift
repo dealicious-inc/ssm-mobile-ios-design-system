@@ -39,13 +39,14 @@ public class DealiAlert: NSObject {
     
     // 1버튼 확인 버튼
     @discardableResult
-    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showConfirm(title: String? = nil, message: String, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, testIdentifier: String? = nil, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         return self.show(title: title,
                          message: message,
                          cancelButtonTitle: nil,
                          confirmButtonTitle: confirmButtonTitle,
                          buttonStyle: buttonStyle,
+                         testIdentifier: testIdentifier,
                          closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                          cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                          alertPresentingViewController: alertPresentingViewController,
@@ -55,7 +56,7 @@ public class DealiAlert: NSObject {
     
     // 체크박스가 포함된 alert case
     @discardableResult
-    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: ((Bool) -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showCheckBox(title: String? = nil, message: String, checkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, testIdentifier: String? = nil, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: ((Bool) -> Swift.Void)?, confirmAction: ((Bool) -> Swift.Void)?) -> DealiAlertViewController {
         
         let checkBoxContainerView = UIView()
         
@@ -69,13 +70,14 @@ public class DealiAlert: NSObject {
             $0.top.left.right.bottom.equalToSuperview()
         }
         
-        return self.show(
+        let alertViewController = self.show(
             title: title,
             message: message,
             insertCustomView: checkBoxContainerView,
             cancelButtonTitle: cancelButtonTitle,
             confirmButtonTitle: confirmButtonTitle,
             buttonStyle: buttonStyle,
+            testIdentifier: testIdentifier,
             closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
             cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
             alertPresentingViewController: alertPresentingViewController,
@@ -88,11 +90,14 @@ public class DealiAlert: NSObject {
                 action(checkBoxView.isSelected)
             }
         )
+        alertViewController.testIdentifierCheckbox = checkBoxView
+        
+        return alertViewController
     }
     
     // textLinkButton이 포함된 alert case
     @discardableResult
-    public class func showTextLink(title: String? = nil, message: String, textLinkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?, textLinkAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showTextLink(title: String? = nil, message: String, textLinkButtonTitle: String, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, testIdentifier: String? = nil, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?, textLinkAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         let textLinkContainerView = UIView()
         
@@ -110,6 +115,7 @@ public class DealiAlert: NSObject {
                                             cancelButtonTitle: cancelButtonTitle,
                                             confirmButtonTitle: confirmButtonTitle,
                                             buttonStyle: buttonStyle,
+                                            testIdentifier: testIdentifier,
                                             closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                                             cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                                             alertPresentingViewController: alertPresentingViewController,
@@ -122,13 +128,14 @@ public class DealiAlert: NSObject {
                 action()
             })
         }, for: .touchUpInside)
+        alertViewController.testIdentifierLinkButton = textLinkButton
         
         return alertViewController
         
     }
     
     @discardableResult
-    public class func show(title: String? = nil, message: String? = nil, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func show(title: String? = nil, message: String? = nil, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, testIdentifier: String? = nil, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         var messageAttString: NSMutableAttributedString?
         if let message = message, message.trimming().isEmpty == false {
@@ -145,6 +152,7 @@ public class DealiAlert: NSObject {
                                           cancelButtonTitle: cancelButtonTitle,
                                           confirmButtonTitle: confirmButtonTitle,
                                           buttonStyle: buttonStyle,
+                                          testIdentifier: testIdentifier,
                                           closeAlertOnOutsideTouch: closeAlertOnOutsideTouch,
                                           cancelActionOnOutsideTouch: cancelActionOnOutsideTouch,
                                           audoDismissDuration: audoDismissDuration,
@@ -156,7 +164,7 @@ public class DealiAlert: NSObject {
     }
     
     @discardableResult
-    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
+    public class func showAttributedMessage(title: String? = nil, message: NSMutableAttributedString?, insertCustomView: UIView? = nil, cancelButtonTitle: String?, confirmButtonTitle: String?, buttonStyle: DealiAlertButtonStyle = .default, testIdentifier: String? = nil, closeAlertOnOutsideTouch: Bool = true, cancelActionOnOutsideTouch: Bool = false, audoDismissDuration: CGFloat? = nil, heightRatio: CGFloat = 0.7, alertPresentingViewController: UIViewController, cancelAction: (() -> Swift.Void)?, confirmAction: (() -> Swift.Void)?) -> DealiAlertViewController {
         
         let alertViewController = DealiAlertViewController()
         if let title = title {
@@ -177,6 +185,7 @@ public class DealiAlert: NSObject {
         alertViewController.cancelAction = cancelAction
         alertViewController.confirmAction = confirmAction
         alertViewController.heightRatio = heightRatio
+        alertViewController.testIdentifier = testIdentifier
         alertPresentingViewController.present(alertViewController, animated: true)
         
         if let audoDismissDuration, audoDismissDuration > 0.0 {
@@ -205,6 +214,26 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
     private let messageLabel = UILabel()
     
     private let buttonStackView = UIStackView()
+    
+    private var titleLabel: UILabel?
+    private var cancelButton: UIView?
+    private var confirmButton: UIView?
+    /// 테스트 식별자를 한 번이라도 넣었는지. 넣은 적이 없으면 앱이 버튼에 직접 넣은 값을 건드리지 않는다
+    private var hasAppliedTestIdentifier = false
+    
+    /// 정적 함수가 만든 체크박스. 테스트 식별자를 붙이려고 참조만 둔다
+    var testIdentifierCheckbox: UIView? {
+        didSet { self.applyTestIdentifiers() }
+    }
+    /// 정적 함수가 만든 링크 버튼. 테스트 식별자를 붙이려고 참조만 둔다
+    var testIdentifierLinkButton: UIView? {
+        didSet { self.applyTestIdentifiers() }
+    }
+    
+    /// E2E 테스트 루트 식별자. 넣으면 view와 안쪽 요소(제목, 문구, 버튼)에 붙고, nil을 넣으면 DS가 붙인 값을 지운다
+    public var testIdentifier: String? {
+        didSet { self.applyTestIdentifiers() }
+    }
     
     /// 타이틀 영역 노출여부
     public var shouldExposeTitle: Bool = false
@@ -241,6 +270,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
         
         if self.shouldExposeTitle {
             let titleLabel = UILabel()
+            self.titleLabel = titleLabel
             self.contentStackView.addArrangedSubview(titleLabel)
             titleLabel.then {
                 $0.numberOfLines = 0
@@ -301,6 +331,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             
             if self.shouldExposeCancelButton {
                 let cancelButton = self.buttonStyle.makeCancelButton()
+                self.cancelButton = cancelButton
                 self.buttonStackView.addArrangedSubview(cancelButton)
                 cancelButton.then {
                     $0.title = self.cancelButtonTitle
@@ -313,6 +344,7 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
             
             if self.shouldExposeConfirmButton {
                 let confirmButton = self.buttonStyle.makeConfirmButton()
+                self.confirmButton = confirmButton
                 self.buttonStackView.addArrangedSubview(confirmButton)
                 confirmButton.then {
                     $0.title = self.confirmButtonTitle
@@ -323,6 +355,25 @@ open class DealiAlertViewController: DealiAlertBaseViewController {
                 }
             }
         }
+        
+        self.applyTestIdentifiers()
+    }
+    
+    /// 루트 식별자를 view와 안쪽 요소에 붙인다. loadView 전이면 만들어진 요소에만 붙이고, loadView 끝에서 다시 부른다
+    private func applyTestIdentifiers() {
+        guard self.testIdentifier != nil || self.hasAppliedTestIdentifier else { return }
+        self.hasAppliedTestIdentifier = true
+        
+        let root = self.testIdentifier
+        if self.isViewLoaded {
+            self.view.accessibilityIdentifier = root
+        }
+        self.titleLabel?.accessibilityIdentifier = root.map { "\($0)__title_text" }
+        self.messageLabel.accessibilityIdentifier = self.shouldExposeMessage ? root.map { "\($0)__message_text" } : nil
+        self.cancelButton?.accessibilityIdentifier = root.map { "\($0)__cancel_button" }
+        self.confirmButton?.accessibilityIdentifier = root.map { "\($0)__confirm_button" }
+        self.testIdentifierCheckbox?.accessibilityIdentifier = root.map { "\($0)__checkbox" }
+        self.testIdentifierLinkButton?.accessibilityIdentifier = root.map { "\($0)__link_button" }
     }
     
     @objc func cancelButtonAction() {

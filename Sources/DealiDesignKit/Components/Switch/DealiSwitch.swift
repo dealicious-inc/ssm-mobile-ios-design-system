@@ -49,12 +49,15 @@ public class DealiSwitch: UIControl {
     
     private var backgroundView = UIView()
     private var thumbView = UIView()
-    public var isOn = false
+    public var isOn = false {
+        didSet { self.updateAccessibilityState() }
+    }
     
     public override var isEnabled: Bool {
         didSet {
             let backgroundColor: UIColor = self.isOn ? (self.isEnabled == true ? .primary01 : .primary01.withAlphaComponent(0.5)) : (self.isEnabled == true ? .g30 : .g30.withAlphaComponent(0.5))
             self.backgroundView.backgroundColor = backgroundColor
+            self.updateAccessibilityState()
         }
     }
     
@@ -68,11 +71,13 @@ public class DealiSwitch: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupViews()
+        self.updateAccessibilityState()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setupViews()
+        self.updateAccessibilityState()
     }
     
     // 뷰 및 레이아웃 설정
@@ -115,6 +120,12 @@ public class DealiSwitch: UIControl {
             $0.top.bottom.equalToSuperview().inset(2.0)
             $0.left.equalToSuperview().offset(2.0)
         }
+    }
+    
+    /// 켜짐은 `.selected`, 비활성은 `.notEnabled`로 드러낸다. VoiceOver는 "선택됨"으로 읽는다
+    private func updateAccessibilityState() {
+        self.setAccessibilityTrait(.selected, isOn: self.isOn)
+        self.setAccessibilityTrait(.notEnabled, isOn: self.isEnabled == false)
     }
     
     // 스위치의 On/Off 상태를 토글하는 메서드

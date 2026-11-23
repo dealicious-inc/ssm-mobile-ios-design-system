@@ -33,6 +33,8 @@ public final class DealiSheetState: ObservableObject {
 public struct DealiSheetView<Content: View>: View {
     @EnvironmentObject var sheetState: DealiSheetState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    /// E2E 테스트 루트 식별자. `dealiTestIdentifier(_:)`로 받는다
+    @Environment(\.dealiTestIdentifier) private var testIdentifier
     var title: String?
     var showCloseButton: Bool
     var heightRatio: CGFloat
@@ -81,7 +83,9 @@ public struct DealiSheetView<Content: View>: View {
                             titleView()
                         }
                         
+                        // 앱이 넣는 콘텐츠에는 시트 루트를 넘기지 않는다
                         content
+                            .dealiTestIdentifierBoundary()
                             .padding(.bottom, geo.safeAreaInsets.bottom)
                     }
                     .padding(.leading, useFixedWidth ? 0 : geo.safeAreaInsets.leading)
@@ -91,6 +95,7 @@ public struct DealiSheetView<Content: View>: View {
                     .fixedSize()
                     .background(Color.primary04)
                     .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
+                    .dealiTestContainer(testIdentifier)
                     .transition(.move(edge: .bottom))
                     .shadow(color: .black.opacity(0.12), radius: 8, y: -2)
                 }
@@ -111,6 +116,7 @@ private extension DealiSheetView {
             if let title {
                 Text(title)
                     .font(.sh2sb18)
+                    .dealiTestIdentifier(testIdentifier, suffix: "__title_text")
             }
             Spacer()
             if showCloseButton {
@@ -120,6 +126,7 @@ private extension DealiSheetView {
                     Image(systemName: "xmark")
                         .padding(8)
                 }
+                .dealiTestIdentifier(testIdentifier, suffix: "__close_button")
             }
         }
         .foregroundStyle(Color.g100)

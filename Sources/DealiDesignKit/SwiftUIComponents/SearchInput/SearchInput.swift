@@ -31,6 +31,8 @@ public final class SearchInputViewModel: ObservableObject {
 public struct SearchInput: View {
     @ObservedObject public var viewModel: SearchInputViewModel
     @FocusState private var internalFocus: Bool
+    /// E2E 테스트 루트 식별자. `dealiTestIdentifier(_:)`로 받는다
+    @Environment(\.dealiTestIdentifier) private var testIdentifier
     
     public var onClear: () -> Void
     public var onSearch: (String) -> Void
@@ -75,6 +77,7 @@ public struct SearchInput: View {
             .background(Color(uiColor: .g10))
             .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
         }
+        .dealiTestContainer(testIdentifier)
         .focused($internalFocus)
         .onSubmit {
             viewModel.isFocused = false
@@ -106,6 +109,7 @@ public struct SearchInput: View {
         .font(Font(UIFont.b2r14))
         .foregroundStyle(Color(uiColor: .g100))
         .disableAutocorrection(true)
+        .dealiTestIdentifier(testIdentifier, suffix: "_input")
     }
 
     private var buttonContainerView: some View {
@@ -136,6 +140,7 @@ public struct SearchInput: View {
                 .foregroundStyle(Color(.g50))
                 .padding(4.0)
         }
+        .dealiTestIdentifier(testIdentifier, suffix: "_clear_button")
     }
 
     private var searchButton: some View {

@@ -102,6 +102,14 @@ open class DealiBottomSheetBaseViewController: UIViewController {
             $0.addTarget(self, action: #selector(closeButtonButtonAction), for: .touchUpInside)
         }
     }()
+    
+    /// E2E 테스트 루트 식별자. 넣으면 contentView와 제목(`__title_text`), 닫기 버튼(`__close_button`)에 붙고, nil을 넣으면 DS가 붙인 값을 지운다
+    public var testIdentifier: String? {
+        didSet { self.applyTestIdentifiers() }
+    }
+    
+    /// 테스트 식별자를 한 번이라도 넣었는지. 넣은 적이 없으면 앱이 contentView에 직접 넣은 값을 건드리지 않는다
+    private(set) var hasAppliedTestIdentifier = false
 
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -268,6 +276,17 @@ open class DealiBottomSheetBaseViewController: UIViewController {
                 handler()
             }
         }
+    }
+    
+    /// 루트 식별자를 contentView와 제목·닫기 버튼에 붙인다. 같은 모듈의 하위 시트는 override 해서 자기 요소를 더 붙인다(super 먼저 호출)
+    func applyTestIdentifiers() {
+        guard self.testIdentifier != nil || self.hasAppliedTestIdentifier else { return }
+        self.hasAppliedTestIdentifier = true
+        
+        let root = self.testIdentifier
+        self.contentView.accessibilityIdentifier = root
+        self.titleLabel.accessibilityIdentifier = root.map { "\($0)__title_text" }
+        self.closeButton.accessibilityIdentifier = root.map { "\($0)__close_button" }
     }
     
     // MARK: Setting UI

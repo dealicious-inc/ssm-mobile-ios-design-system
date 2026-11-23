@@ -22,6 +22,15 @@ public class DealiDropdown: UIView {
         }
     }
     
+    /// 받은 식별자에 `__select_button`(누르는 영역), `__value_text`(고른 값)를 붙인다. nil이면 안쪽도 nil.
+    public override var accessibilityIdentifier: String? {
+        didSet {
+            let root = self.accessibilityIdentifier
+            self.dropdown.accessibilityIdentifier = root.map { "\($0)__select_button" }
+            self.contentLabel.accessibilityIdentifier = root.map { "\($0)__value_text" }
+        }
+    }
+    
     /// 필수입력값인지 나타내는 변수. 기본값은 false.
     public var isMandatory: Bool = false {
         didSet {
@@ -122,12 +131,14 @@ public class DealiDropdown: UIView {
             self.dropdown.backgroundColor = .primary04
             self.contentLabel.textColor = .g100
             self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(.g100)
+            self.dropdown.setAccessibilityTrait(.notEnabled, isOn: false)
 
         case .disabled:
             self.dropdown.isUserInteractionEnabled = false
             self.dropdown.backgroundColor = .g10
             self.contentLabel.textColor = .g50
             self.arrowIconImageView.image = self.arrowIconImageView.image?.withTintColor(.g50)
+            self.dropdown.setAccessibilityTrait(.notEnabled, isOn: true)
         }
     }
     

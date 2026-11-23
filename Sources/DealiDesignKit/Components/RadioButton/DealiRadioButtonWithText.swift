@@ -110,6 +110,8 @@ open class DealiRadioButtonWithText: UIControl {
             }
         }
         self.titleLabel.textColor = self.textColor
+        self.setAccessibilityTrait(.selected, isOn: self.isSelected)
+        self.setAccessibilityTrait(.notEnabled, isOn: self.isEnabled == false)
     }
     
     private let titleLabel = UILabel()

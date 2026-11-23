@@ -201,6 +201,7 @@ extension AlertTestViewController {
         DealiAlert.showConfirm(title: "1버튼 Alert",
                                message: "확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.\n확인버튼만 있는 팝업입니다.",
                                confirmButtonTitle: "확인\n확인\n확인",
+                               testIdentifier: "sample_confirm_alert",
                                alertPresentingViewController: self) {
             
         }
@@ -226,6 +227,7 @@ extension AlertTestViewController {
                                 checkButtonTitle: "장바구니 다시담기",
                                 cancelButtonTitle: "취소",
                                 confirmButtonTitle: "확인",
+                                testIdentifier: "sample_check_alert",
                                 alertPresentingViewController: self,
                                 cancelAction: { [weak self] isCheckSelected in
             guard let _ = self else { return }
@@ -244,6 +246,7 @@ extension AlertTestViewController {
                                 textLinkButtonTitle: "자세히 보기",
                                 cancelButtonTitle: "취소",
                                 confirmButtonTitle: "전송",
+                                testIdentifier: "sample_link_alert",
                                 alertPresentingViewController: self,
                                 cancelAction: nil) {
             print("전송버튼 클릭")

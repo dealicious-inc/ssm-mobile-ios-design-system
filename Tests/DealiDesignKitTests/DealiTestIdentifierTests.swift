@@ -216,14 +216,308 @@ final class DealiTestIdentifierTests: XCTestCase {
     func testSearchInputAppliesInputAndClearIdentifiersOnly() {
         let searchInput = DealiSearchInput(delegate: nil)
 
-        searchInput.accessibilityIdentifier = "store_search__search"
+        searchInput.accessibilityIdentifier = "store_search__query"
 
-        XCTAssertTrue(self.subview(identifier: "store_search__search__input", in: searchInput) is UITextField)
-        XCTAssertTrue(self.subview(identifier: "store_search__search__clear_button", in: searchInput) is UIImageView)
+        XCTAssertTrue(self.subview(identifier: "store_search__query_input", in: searchInput) is UITextField)
+        XCTAssertTrue(self.subview(identifier: "store_search__query_clear_button", in: searchInput) is UIImageView)
         XCTAssertEqual(self.identifiers(in: searchInput).count, 2, "검색 아이콘에는 식별자를 붙이지 않는다")
 
         searchInput.accessibilityIdentifier = nil
 
         XCTAssertTrue(self.identifiers(in: searchInput).isEmpty)
+    }
+
+    // MARK: - Alert
+
+    /// present는 window가 없어 일어나지 않지만, 정적 함수가 VC를 만들고 값을 넣는 경로는 그대로 탄다
+    private func makeAlert(_ show: (UIViewController) -> DealiAlertViewController) -> DealiAlertViewController {
+        let alertViewController = show(UIViewController())
+        alertViewController.loadViewIfNeeded()
+        return alertViewController
+    }
+
+    func testAlertWithoutRootKeepsTreeAndAppButtonIdentifiers() {
+        let buttonStyle = DealiAlertButtonStyle(makeConfirmButton: {
+            let button = DealiControl.btnFilledMedium01()
+            button.accessibilityIdentifier = "app_confirm_button"
+            return button
+        })
+        let alertViewController = self.makeAlert {
+            DealiAlert.show(title: "제목", message: "문구", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                            buttonStyle: buttonStyle, alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+
+        XCTAssertNil(alertViewController.view.accessibilityIdentifier)
+        XCTAssertEqual(self.identifiers(in: alertViewController.view), ["app_confirm_button"])
+    }
+
+    func testAlertRootSetAfterLoadViewAppliesChildIdentifiers() {
+        let alertViewController = self.makeAlert {
+            DealiAlert.show(title: "제목", message: "문구", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                            alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+
+        alertViewController.testIdentifier = "cart_delete_confirm"
+
+        let view = alertViewController.view!
+        XCTAssertEqual(view.accessibilityIdentifier, "cart_delete_confirm")
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__title_text", in: view) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__message_text", in: view) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__cancel_button", in: view) is ClickableUnitButtonComponent)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__confirm_button", in: view) is ClickableUnitButtonComponent)
+    }
+
+    func testAlertSkipsMissingTitleAndCancelButton() {
+        let alertViewController = self.makeAlert {
+            DealiAlert.showConfirm(message: "문구", confirmButtonTitle: "확인", testIdentifier: "order_done",
+                                   alertPresentingViewController: $0, confirmAction: nil)
+        }
+
+        let identifiers = self.identifiers(in: alertViewController.view)
+        XCTAssertEqual(alertViewController.view.accessibilityIdentifier, "order_done")
+        XCTAssertEqual(Set(identifiers), ["order_done__message_text", "order_done__confirm_button"])
+    }
+
+    func testAlertCheckBoxAndTextLinkVariantsAndNilReset() {
+        let checkAlert = self.makeAlert {
+            DealiAlert.showCheckBox(message: "문구", checkButtonTitle: "다시 보지 않기", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                                    testIdentifier: "cart_reorder", alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+        XCTAssertTrue(self.subview(identifier: "cart_reorder__checkbox", in: checkAlert.view) is DealiCheckboxWithText)
+
+        let linkAlert = self.makeAlert {
+            DealiAlert.showTextLink(message: "문구", textLinkButtonTitle: "자세히 보기", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                                    testIdentifier: "chat_send", alertPresentingViewController: $0,
+                                    cancelAction: nil, confirmAction: nil, textLinkAction: nil)
+        }
+        XCTAssertNotNil(self.subview(identifier: "chat_send__link_button", in: linkAlert.view))
+
+        checkAlert.testIdentifier = nil
+        linkAlert.testIdentifier = nil
+
+        XCTAssertNil(checkAlert.view.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: checkAlert.view).isEmpty)
+        XCTAssertTrue(self.identifiers(in: linkAlert.view).isEmpty)
+    }
+
+    // MARK: - BottomSheet
+
+    /// 정적 show 함수는 VC를 돌려주지 않아서 window에 띄운 뒤 presentedViewController로 꺼낸다
+    private func presentSystemSheet(_ show: (UIViewController) -> Void) throws -> DealiBottomSheetSystemViewController {
+        let presenter = UIViewController()
+        let window = UIWindow(frame: CGRect(x: 0.0, y: 0.0, width: 390.0, height: 844.0))
+        window.rootViewController = presenter
+        window.makeKeyAndVisible()
+        self.addTeardownBlock { window.isHidden = true }
+
+        show(presenter)
+
+        let sheet = try XCTUnwrap(presenter.presentedViewController as? DealiBottomSheetSystemViewController)
+        sheet.loadViewIfNeeded()
+        sheet.view.layoutIfNeeded()
+        return sheet
+    }
+
+    private func optionCell(in sheet: DealiBottomSheetSystemViewController, item: Int) throws -> UICollectionViewCell {
+        let collectionView = try XCTUnwrap(self.allSubviews(of: sheet.contentView).compactMap { $0 as? UICollectionView }.first)
+        return try self.cell(in: collectionView, item: item)
+    }
+
+    func testBottomSheetBaseAppliesRootTitleAndCloseIdentifiers() {
+        let sheet = DealiBottomSheetBaseViewController()
+        sheet.titleType = .titleCloseButton(title: "제목")
+        sheet.loadViewIfNeeded()
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: sheet.contentView).isEmpty)
+
+        sheet.testIdentifier = "goods_option"
+
+        XCTAssertEqual(sheet.contentView.accessibilityIdentifier, "goods_option")
+        XCTAssertTrue(self.subview(identifier: "goods_option__title_text", in: sheet.contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "goods_option__close_button", in: sheet.contentView) is UIButton)
+
+        sheet.testIdentifier = nil
+
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: sheet.contentView).isEmpty)
+    }
+
+    func testBottomSheetBaseWithoutRootKeepsAppContentViewIdentifier() {
+        let sheet = DealiBottomSheetBaseViewController()
+        sheet.contentView.accessibilityIdentifier = "app_sheet"
+        sheet.loadViewIfNeeded()
+
+        XCTAssertEqual(sheet.contentView.accessibilityIdentifier, "app_sheet")
+    }
+
+    func testSystemSheetButtonIdentifiers() throws {
+        let oneButtonSheet = try self.presentSystemSheet {
+            DealiBottomSheet.showSingleSelectionType(buttonType: .oneButton(buttonTitle: "확인"), testIdentifier: "sort",
+                                                     option: [DealiBottomSheetOptionData(optionName: "최신순")],
+                                                     popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+        XCTAssertEqual(oneButtonSheet.contentView.accessibilityIdentifier, "sort")
+        XCTAssertNotNil(self.subview(identifier: "sort__confirm_button", in: oneButtonSheet.contentView))
+        XCTAssertNil(self.subview(identifier: "sort__cancel_button", in: oneButtonSheet.contentView))
+
+        let twoButtonSheet = try self.presentSystemSheet {
+            DealiBottomSheet.showTextOnly(titleType: .title(title: "안내"), message: "문구",
+                                          buttonType: .twoButton(confirmTitle: "확인", cancelTitle: "취소"), testIdentifier: "notice",
+                                          popupPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+        let contentView = twoButtonSheet.contentView
+        XCTAssertTrue(self.subview(identifier: "notice__title_text", in: contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "notice__message_text", in: contentView) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "notice__confirm_button", in: contentView) is ClickableUnitButtonComponent)
+        XCTAssertTrue(self.subview(identifier: "notice__cancel_button", in: contentView) is ClickableUnitButtonComponent)
+    }
+
+    func testSystemSheetItemIdentifiersSurviveReselect() throws {
+        let options = [DealiBottomSheetOptionData(optionName: "채팅방 나가기", testIdentifier: "chat_room__leave_button"),
+                       DealiBottomSheetOptionData(optionName: "신고하기", isSelected: true)]
+        let sheet = try self.presentSystemSheet {
+            DealiBottomSheet.showSingleSelectionType(testIdentifier: "chat_room_menu", option: options,
+                                                     popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+
+        var firstCell = try self.optionCell(in: sheet, item: 0)
+        var secondCell = try self.optionCell(in: sheet, item: 1)
+        XCTAssertEqual(firstCell.accessibilityIdentifier, "chat_room__leave_button")
+        XCTAssertEqual(secondCell.accessibilityIdentifier, "chat_room_menu__item")
+        XCTAssertFalse(firstCell.accessibilityTraits.contains(.selected))
+        XCTAssertTrue(secondCell.accessibilityTraits.contains(.selected))
+
+        sheet.selectOnlyOption(at: 0)
+
+        firstCell = try self.optionCell(in: sheet, item: 0)
+        secondCell = try self.optionCell(in: sheet, item: 1)
+        XCTAssertEqual(firstCell.accessibilityIdentifier, "chat_room__leave_button")
+        XCTAssertEqual(secondCell.accessibilityIdentifier, "chat_room_menu__item")
+        XCTAssertTrue(firstCell.accessibilityTraits.contains(.selected))
+        XCTAssertFalse(secondCell.accessibilityTraits.contains(.selected))
+    }
+
+    func testSystemSheetItemWithoutRootOrValueStaysNil() throws {
+        let sheet = try self.presentSystemSheet {
+            DealiBottomSheet.showMultiSelectionType(option: [DealiBottomSheetOptionData(optionName: "전체", isSelected: true)],
+                                                    popupPresentingViewController: $0, selectAction: nil, cancelAction: nil, confirmAction: nil)
+        }
+
+        let cell = try self.optionCell(in: sheet, item: 0)
+        XCTAssertNil(cell.accessibilityIdentifier)
+        XCTAssertNil(sheet.contentView.accessibilityIdentifier)
+        XCTAssertTrue(cell.accessibilityTraits.contains(.selected))
+    }
+
+    func testBottomSheetOptionCellResetsOnReuse() {
+        let cell = DealiBottomSheetSingleSelectCell(frame: .zero)
+        cell.configure(with: DealiBottomSheetSingleSelectCellUIModel(optionName: "최신순", isSelected: true, testIdentifier: "sort__item"))
+        XCTAssertEqual(cell.accessibilityIdentifier, "sort__item")
+        XCTAssertTrue(cell.accessibilityTraits.contains(.selected))
+
+        cell.prepareForReuse()
+
+        XCTAssertNil(cell.accessibilityIdentifier)
+        XCTAssertFalse(cell.accessibilityTraits.contains(.selected))
+    }
+
+    // MARK: - Checkcircle · Checkline · RadioButton · Switch
+
+    private func assertSelectionTraits(_ view: UIView, setSelected: (Bool) -> Void, setEnabled: (Bool) -> Void,
+                                       file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertFalse(view.accessibilityTraits.contains(.selected), file: file, line: line)
+        XCTAssertFalse(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+
+        setSelected(true)
+        XCTAssertTrue(view.accessibilityTraits.contains(.selected), file: file, line: line)
+
+        setEnabled(false)
+        XCTAssertTrue(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+        XCTAssertTrue(view.accessibilityTraits.contains(.selected), file: file, line: line)
+
+        setSelected(false)
+        setEnabled(true)
+        XCTAssertFalse(view.accessibilityTraits.contains(.selected), file: file, line: line)
+        XCTAssertFalse(view.accessibilityTraits.contains(.notEnabled), file: file, line: line)
+
+        XCTAssertNil(view.accessibilityValue, file: file, line: line)
+        XCTAssertNil(view.accessibilityLabel, file: file, line: line)
+    }
+
+    func testCheckcircleAndChecklineExposeSelectionTraits() {
+        let checkcircle = DealiCheckcircle()
+        self.assertSelectionTraits(checkcircle, setSelected: { checkcircle.isSelected = $0 }, setEnabled: { checkcircle.isEnabled = $0 })
+
+        let checkline = DealiCheckline()
+        self.assertSelectionTraits(checkline, setSelected: { checkline.isSelected = $0 }, setEnabled: { checkline.isEnabled = $0 })
+    }
+
+    func testWithTextVariantsExposeSelectionTraitsOnOuterView() {
+        let checkcircleWithText = DealiCheckcircleWithText()
+        self.assertSelectionTraits(checkcircleWithText, setSelected: { checkcircleWithText.isSelected = $0 }, setEnabled: { checkcircleWithText.isEnabled = $0 })
+
+        let checklineWithText = DealiChecklineWithText()
+        self.assertSelectionTraits(checklineWithText, setSelected: { checklineWithText.isSelected = $0 }, setEnabled: { checklineWithText.isEnabled = $0 })
+    }
+
+    func testRadioButtonsExposeSelectionTraits() {
+        let radioButton = DealiRadioButton()
+        self.assertSelectionTraits(radioButton, setSelected: { radioButton.isSelected = $0 }, setEnabled: { radioButton.isEnabled = $0 })
+
+        let radioButtonWithText = DealiRadioButtonWithText()
+        self.assertSelectionTraits(radioButtonWithText, setSelected: { radioButtonWithText.isSelected = $0 }, setEnabled: { radioButtonWithText.isEnabled = $0 })
+    }
+
+    func testSwitchExposesOnStateAsSelectedTrait() {
+        let animatedSwitch = DealiSwitch(size: .large)
+        self.assertSelectionTraits(animatedSwitch, setSelected: { animatedSwitch.setOn($0, animated: false) }, setEnabled: { animatedSwitch.isEnabled = $0 })
+
+        let plainSwitch = DealiSwitch()
+        plainSwitch.isOn = true
+        XCTAssertTrue(plainSwitch.accessibilityTraits.contains(.selected))
+    }
+
+    // MARK: - Dropdown · TextInput
+
+    func testDropdownAppliesChildIdentifiersAndDisabledTrait() {
+        let dropdown = DealiDropdown()
+        dropdown.contentText = "옵션별 단가 선택"
+
+        dropdown.accessibilityIdentifier = "goods_option__price_option"
+
+        let selectButton = self.subview(identifier: "goods_option__price_option__select_button", in: dropdown)
+        XCTAssertTrue(selectButton is UIStackView)
+        XCTAssertTrue(self.subview(identifier: "goods_option__price_option__value_text", in: dropdown) is UILabel)
+        XCTAssertFalse(selectButton?.accessibilityTraits.contains(.notEnabled) ?? true)
+
+        dropdown.status = .disabled
+        XCTAssertTrue(selectButton?.accessibilityTraits.contains(.notEnabled) ?? false)
+
+        dropdown.status = .default
+        XCTAssertFalse(selectButton?.accessibilityTraits.contains(.notEnabled) ?? true)
+
+        dropdown.accessibilityIdentifier = nil
+        XCTAssertTrue(self.identifiers(in: dropdown).isEmpty)
+    }
+
+    func testTextInputAppliesChildIdentifiersWithSingleUnderscore() {
+        let textInput = DealiTextInput()
+
+        textInput.accessibilityIdentifier = "coupon__code"
+
+        XCTAssertTrue(self.subview(identifier: "coupon__code_input", in: textInput) is UITextField)
+        XCTAssertTrue(self.subview(identifier: "coupon__code_clear_button", in: textInput) is UIButton)
+
+        textInput.accessibilityIdentifier = nil
+        XCTAssertTrue(self.identifiers(in: textInput).isEmpty)
+    }
+
+    func testTextInputKeepsIdentifierSetDirectlyOnTextField() {
+        let textInput = DealiTextInput()
+
+        textInput.textField.accessibilityIdentifier = "login__id_input"
+
+        XCTAssertEqual(textInput.textField.accessibilityIdentifier, "login__id_input")
+        XCTAssertEqual(self.identifiers(in: textInput), ["login__id_input"])
     }
 }

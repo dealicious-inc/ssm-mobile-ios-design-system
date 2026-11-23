@@ -73,6 +73,7 @@ final class TextInputViewController: UIViewController {
         
         contentStackView.addArrangedSubview(self.textInput)
         self.textInput.then {
+            $0.accessibilityIdentifier = "sample__name"
             $0.title = "일반 텍스트 입력"
             $0.placeholder = "Text Input"
             $0.keyboardCloseButtonString = "닫기"

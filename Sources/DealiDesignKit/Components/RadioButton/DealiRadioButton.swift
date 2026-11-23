@@ -39,6 +39,8 @@ public class DealiRadioButton: UIControl {
     
     private func setupView() {
         self.imageView.image = UIImage(named: self.imageName, in: Bundle.module, compatibleWith: nil)
+        self.setAccessibilityTrait(.selected, isOn: self.isSelected)
+        self.setAccessibilityTrait(.notEnabled, isOn: self.isEnabled == false)
     }
    
     private let imageView = UIImageView()

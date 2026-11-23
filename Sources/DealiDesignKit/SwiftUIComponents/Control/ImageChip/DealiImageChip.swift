@@ -137,13 +137,17 @@ public struct DealiImageChip<Content: View>: View {
 public struct DealiImageChipTabBarItem {
     let viewModel: DealiImageChipViewModel
     let content: () -> AnyView
+    /// E2E 테스트 식별자. 탭 버튼에 그대로 붙는다
+    public let testIdentifier: String?
     
     public init(
         viewModel: DealiImageChipViewModel,
-        content: @escaping () -> AnyView = { AnyView(EmptyView()) }
+        content: @escaping () -> AnyView = { AnyView(EmptyView()) },
+        testIdentifier: String? = nil
     ) {
         self.viewModel = viewModel
         self.content = content
+        self.testIdentifier = testIdentifier
     }
 }
 

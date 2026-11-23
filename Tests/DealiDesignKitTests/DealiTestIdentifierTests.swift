@@ -226,4 +226,77 @@ final class DealiTestIdentifierTests: XCTestCase {
 
         XCTAssertTrue(self.identifiers(in: searchInput).isEmpty)
     }
+
+    // MARK: - Alert
+
+    /// present는 window가 없어 일어나지 않지만, 정적 함수가 VC를 만들고 값을 넣는 경로는 그대로 탄다
+    private func makeAlert(_ show: (UIViewController) -> DealiAlertViewController) -> DealiAlertViewController {
+        let alertViewController = show(UIViewController())
+        alertViewController.loadViewIfNeeded()
+        return alertViewController
+    }
+
+    func testAlertWithoutRootKeepsTreeAndAppButtonIdentifiers() {
+        let buttonStyle = DealiAlertButtonStyle(makeConfirmButton: {
+            let button = DealiControl.btnFilledMedium01()
+            button.accessibilityIdentifier = "app_confirm_button"
+            return button
+        })
+        let alertViewController = self.makeAlert {
+            DealiAlert.show(title: "제목", message: "문구", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                            buttonStyle: buttonStyle, alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+
+        XCTAssertNil(alertViewController.view.accessibilityIdentifier)
+        XCTAssertEqual(self.identifiers(in: alertViewController.view), ["app_confirm_button"])
+    }
+
+    func testAlertRootSetAfterLoadViewAppliesChildIdentifiers() {
+        let alertViewController = self.makeAlert {
+            DealiAlert.show(title: "제목", message: "문구", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                            alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+
+        alertViewController.testIdentifier = "cart_delete_confirm"
+
+        let view = alertViewController.view!
+        XCTAssertEqual(view.accessibilityIdentifier, "cart_delete_confirm")
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__title_text", in: view) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__message_text", in: view) is UILabel)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__cancel_button", in: view) is ClickableUnitButtonComponent)
+        XCTAssertTrue(self.subview(identifier: "cart_delete_confirm__confirm_button", in: view) is ClickableUnitButtonComponent)
+    }
+
+    func testAlertSkipsMissingTitleAndCancelButton() {
+        let alertViewController = self.makeAlert {
+            DealiAlert.showConfirm(message: "문구", confirmButtonTitle: "확인", testIdentifier: "order_done",
+                                   alertPresentingViewController: $0, confirmAction: nil)
+        }
+
+        let identifiers = self.identifiers(in: alertViewController.view)
+        XCTAssertEqual(alertViewController.view.accessibilityIdentifier, "order_done")
+        XCTAssertEqual(Set(identifiers), ["order_done__message_text", "order_done__confirm_button"])
+    }
+
+    func testAlertCheckBoxAndTextLinkVariantsAndNilReset() {
+        let checkAlert = self.makeAlert {
+            DealiAlert.showCheckBox(message: "문구", checkButtonTitle: "다시 보지 않기", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                                    testIdentifier: "cart_reorder", alertPresentingViewController: $0, cancelAction: nil, confirmAction: nil)
+        }
+        XCTAssertTrue(self.subview(identifier: "cart_reorder__checkbox", in: checkAlert.view) is DealiCheckboxWithText)
+
+        let linkAlert = self.makeAlert {
+            DealiAlert.showTextLink(message: "문구", textLinkButtonTitle: "자세히 보기", cancelButtonTitle: "취소", confirmButtonTitle: "확인",
+                                    testIdentifier: "chat_send", alertPresentingViewController: $0,
+                                    cancelAction: nil, confirmAction: nil, textLinkAction: nil)
+        }
+        XCTAssertNotNil(self.subview(identifier: "chat_send__link_button", in: linkAlert.view))
+
+        checkAlert.testIdentifier = nil
+        linkAlert.testIdentifier = nil
+
+        XCTAssertNil(checkAlert.view.accessibilityIdentifier)
+        XCTAssertTrue(self.identifiers(in: checkAlert.view).isEmpty)
+        XCTAssertTrue(self.identifiers(in: linkAlert.view).isEmpty)
+    }
 }

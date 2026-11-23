@@ -128,6 +128,7 @@ public struct ChipView: View {
             )
         }
         .disabled(viewModel.status == .disabled)
+        .accessibilityAddTraits(viewModel.isSelected ? .isSelected : [])
         .frame(height: viewModel.type.config.height.chip)
     }
 }

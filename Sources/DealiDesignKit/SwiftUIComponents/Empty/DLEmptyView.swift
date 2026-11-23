@@ -10,6 +10,8 @@ import SwiftUI
 public struct DLEmptyView: View {
 
     @ObservedObject public var viewModel: DLEmptyViewModel
+    /// E2E 테스트 루트 식별자. `dealiTestIdentifier(_:)`로 받는다
+    @Environment(\.dealiTestIdentifier) private var testIdentifier
     
     public init(viewModel: DLEmptyViewModel = DLEmptyViewModel(), action: @escaping @MainActor () -> Void = {}) {
         self.viewModel = viewModel
@@ -24,6 +26,7 @@ public struct DLEmptyView: View {
             self.textContentView
             self.buttonView
         }
+        .dealiTestContainer(testIdentifier)
     }
 
     @ViewBuilder var iconImageView: some View {
@@ -42,6 +45,7 @@ public struct DLEmptyView: View {
                 Text(title)
                     .font(Font(UIFont.sh3sb16))
                     .foregroundColor(Color(.g100))
+                    .dealiTestIdentifier(testIdentifier, suffix: "__title_text")
             }
 
             if let subtitle = self.viewModel.subtitle {
@@ -49,6 +53,7 @@ public struct DLEmptyView: View {
                     .font(Font(UIFont.b2r14))
                     .foregroundColor(Color(.g60))
                     .multilineTextAlignment(.center)
+                    .dealiTestIdentifier(testIdentifier, suffix: "__message_text")
             }
         }
     }
@@ -59,6 +64,7 @@ public struct DLEmptyView: View {
                        title: buttonTitle) {
                 self.action()
             }
+            .dealiTestIdentifier(testIdentifier, suffix: "__action_button")
             .frame(minWidth: 170.0)
             .fixedSize()
             .padding(.top, 12.0)

@@ -43,6 +43,7 @@ public final class DealiCheckcircleWithText: UIView {
             self.checkcircle.isSelected
         } set {
             self.checkcircle.isSelected = newValue
+            self.updateAccessibilityState()
         }
     }
     
@@ -52,6 +53,7 @@ public final class DealiCheckcircleWithText: UIView {
         } set {
             self.checkcircle.isEnabled = newValue
             self.updateTitleAppearance()
+            self.updateAccessibilityState()
         }
     }
     
@@ -85,6 +87,7 @@ public final class DealiCheckcircleWithText: UIView {
         }
         
         self.updateTitleAppearance()
+        self.updateAccessibilityState()
         
         self.rx.tapGestureOnTop()
             .when(.recognized)
@@ -98,6 +101,12 @@ public final class DealiCheckcircleWithText: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    /// 바깥 뷰에 선택·비활성 상태를 드러낸다. 테스트 식별자도 바깥 뷰에 붙는다
+    private func updateAccessibilityState() {
+        self.setAccessibilityTrait(.selected, isOn: self.isSelected)
+        self.setAccessibilityTrait(.notEnabled, isOn: self.isEnabled == false)
     }
     
     private func updateTitleAppearance() {

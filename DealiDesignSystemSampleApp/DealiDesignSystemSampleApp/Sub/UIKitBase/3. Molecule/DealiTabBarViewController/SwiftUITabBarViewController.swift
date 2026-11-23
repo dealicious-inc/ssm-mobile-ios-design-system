@@ -83,6 +83,10 @@ final class SwiftUITabBarViewController: UIViewController {
         self.tabBarViewModel.action = {
             self.didSelectTabBar(selectedIndex: self.tabBarView?.selectedIndex ?? 0, showScrollAnimation: true)
         }
+        // 탭 식별자 예시. 탭마다 전체 문자열을 넣는다
+        self.tabBarViewModel.items.enumerated().forEach { index, item in
+            item.testIdentifier = "sample__tab_\(index + 1)"
+        }
         self.tabBarView = TabBarView(viewModel: self.tabBarViewModel)
         
         let tabBarUIKit = self.tabBarView.UIKit()

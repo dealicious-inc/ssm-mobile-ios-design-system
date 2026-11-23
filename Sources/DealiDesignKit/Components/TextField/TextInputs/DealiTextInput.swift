@@ -15,6 +15,16 @@ open class DealiTextInput: UIView, DealiTextField {
     
     public private(set) var textField = UITextField()
     
+    /// 받은 식별자에 `_input`(입력 칸), `_clear_button`(지우기 버튼)을 밑줄 하나로 붙인다. nil이면 안쪽도 nil.
+    /// 바깥에 넣지 않고 `textField`에 바로 넣은 값은 건드리지 않는다.
+    public override var accessibilityIdentifier: String? {
+        didSet {
+            let root = self.accessibilityIdentifier
+            self.textField.accessibilityIdentifier = root.map { "\($0)_input" }
+            self.clearButton.accessibilityIdentifier = root.map { "\($0)_clear_button" }
+        }
+    }
+    
     // MARK: - PUBLIC
     public init() {
         super.init(frame: .zero)

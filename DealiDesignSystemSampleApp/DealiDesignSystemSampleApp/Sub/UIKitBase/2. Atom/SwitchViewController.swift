@@ -30,6 +30,7 @@ final class SwitchViewController: UIViewController {
         let enableOnLargeSwitch = DealiSwitch(size: .large)
         contentStackView.addArrangedSubview(enableOnLargeSwitch)
         enableOnLargeSwitch.do {
+            $0.accessibilityIdentifier = "sample__notice_switch"
             $0.setOn(true, animated: true)
         }
         

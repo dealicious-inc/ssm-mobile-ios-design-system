@@ -17,6 +17,7 @@ struct SearchInputTestView: View {
         SearchInput(
             viewModel: .init(text: text, isFocused: isFocused)
         )
+        .dealiTestIdentifier("sample__query")
         .previewDisplayName("입력 중")
     }
 }

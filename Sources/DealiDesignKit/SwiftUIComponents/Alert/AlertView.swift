@@ -68,6 +68,8 @@ public struct AlertViewModel {
 public struct AlertView: View {
     /// For UIKit Base
     @Environment(\.dismiss) private var dismiss
+    /// E2E 테스트 루트 식별자. `dealiTestIdentifier(_:)`로 받는다
+    @Environment(\.dealiTestIdentifier) private var testIdentifier
     /// For Full SwiftUI Base
     @Binding var isPresented: Bool
     
@@ -135,6 +137,7 @@ public struct AlertView: View {
         .padding(.horizontal, 20.0)
         .background(Color.white).opacity(opacity)
         .cornerRadius(10.0)
+        .dealiTestContainer(testIdentifier)
     }
     
     @ViewBuilder
@@ -144,6 +147,7 @@ public struct AlertView: View {
                 .font(Font(UIFont.sh2sb18))
                 .foregroundStyle(Color(UIColor.g100))
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .dealiTestIdentifier(testIdentifier, suffix: "__title_text")
             
             Spacer().frame(height: 10.0)
         }
@@ -157,6 +161,7 @@ public struct AlertView: View {
                 .font(Font(UIFont.sh3r16))
                 .foregroundStyle(Color(UIColor.g80))
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .dealiTestIdentifier(testIdentifier, suffix: "__message_text")
         }
     }
     
@@ -179,6 +184,7 @@ public struct AlertView: View {
                     cancel.action()
                     dismissAlert()
                 }
+                .dealiTestIdentifier(testIdentifier, suffix: "__cancel_button")
             }
             
             if let confirm = viewModel.confirm {
@@ -187,6 +193,7 @@ public struct AlertView: View {
                     confirm.action()
                     dismissAlert()
                 }
+                .dealiTestIdentifier(testIdentifier, suffix: "__confirm_button")
             }
         }
     }

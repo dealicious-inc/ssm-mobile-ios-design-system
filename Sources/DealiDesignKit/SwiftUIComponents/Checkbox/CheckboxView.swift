@@ -36,6 +36,7 @@ public struct CheckboxView: View {
         }
         .buttonStyle(NoHighlightButtonStyle())
         .disabled(!self.viewModel.isEnabled)
+        .accessibilityAddTraits(self.viewModel.isSelected ? .isSelected : [])
     }
 }
 

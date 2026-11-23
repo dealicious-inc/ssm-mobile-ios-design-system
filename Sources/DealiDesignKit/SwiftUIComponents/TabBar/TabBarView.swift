@@ -13,15 +13,19 @@ public final class TabBarItemViewModel: ObservableObject {
     @Published public var isHidden: Bool
     @Published public var showBadge: Bool
     @Published public var icon: DealiTabBarIcon?
+    /// E2E 테스트 식별자. 탭 버튼에 그대로 붙는다(예: `order_list__store_order_tab`)
+    @Published public var testIdentifier: String?
 
     public init(title: String?,
                 isHidden: Bool = false,
                 showBadge: Bool = false,
-                icon: DealiTabBarIcon? = nil) {
+                icon: DealiTabBarIcon? = nil,
+                testIdentifier: String? = nil) {
         self.title = title
         self.isHidden = isHidden
         self.showBadge = showBadge
         self.icon = icon
+        self.testIdentifier = testIdentifier
     }
 }
 
@@ -205,6 +209,7 @@ public struct TabBarView: View {
             .padding(.horizontal, type.itemHorizontalPadding)
             .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
         }
+        .tabTestAccessibility(item.testIdentifier, isSelected: viewModel.selectedIndex == index)
     }
 
     @ViewBuilder
@@ -229,6 +234,7 @@ public struct TabBarView: View {
                 selectTabItem(index)
             }
         )
+        .tabTestAccessibility(item.testIdentifier, isSelected: viewModel.selectedIndex == index)
         .padding(.horizontal, viewModel.type.itemHorizontalPadding)
         .frame(height: viewModel.type.tabBarContentHeight - 2)
         .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
@@ -256,6 +262,7 @@ public struct TabBarView: View {
                 item.content()
             }, preset: presentType
         )
+        .tabTestAccessibility(item.testIdentifier, isSelected: viewModel.selectedIndex == index)
         .padding(.horizontal, viewModel.type.itemHorizontalPadding)
         .frame(height: viewModel.type.tabBarContentHeight - 2)
         .fixedSize(horizontal: viewModel.isScrollable, vertical: false)
@@ -276,6 +283,14 @@ public struct TabBarView: View {
         } else {
             ImageHelper.kfImage(url: icon.url, size: icon.size)
         }
+    }
+}
+
+private extension View {
+    /// 탭 버튼에 앱이 넘긴 식별자를 그대로 붙이고, 고른 탭은 `.isSelected`로 드러낸다
+    func tabTestAccessibility(_ identifier: String?, isSelected: Bool) -> some View {
+        self.dealiTestIdentifier(identifier, suffix: "")
+            .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 
